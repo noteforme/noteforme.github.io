@@ -29,5 +29,4 @@ tags:
        5)点击Preview on your site instantly－> 点击Overview(显示Ａctive即可)－>点击Crypto(选择Ｆlexible)
 
 
-       
-       参考：http://www.jianshu.com/p/92b6d4a6ecd5
+   参考：http://www.jianshu.com/p/92b6d4a6ecd5
