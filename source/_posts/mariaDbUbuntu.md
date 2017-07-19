@@ -3,7 +3,7 @@ title: mariaDb使用
 date: 2017-07-18 15:31:21
 tags:
 ---
-一、#   数据库安装
+# 一、  数据库安装
   更新系统
  
     $ sudo apt update
@@ -29,7 +29,7 @@ tags:
    
 _ _ _
 
-二、#    数据库操作
+# 二、  数据库操作
 1.  登录 ：mysql -u root -p  
 _ _ _
     
@@ -64,7 +64,7 @@ root是用户名 ， person是数据库，>后面是存放位置 ，标准格式
   
 _ _ _
 
- 三、MariaDB 配置远程访问
+#  三、MariaDB 配置远程访问
        有时候在家也要整整这些玩意儿，代码可以用github同步，每次数据库数据还倒腾来倒腾去的 ，如果在vps直接访问就最好了
        
 1.    找到默认配置文件 : 目的是要找到 my.cnf  ， 可以先 " cd /" ，到根目录下  ，输入下面命令
@@ -80,22 +80,17 @@ _ _ _
        GRANT ALL PRIVILEGES ON *.* TO 'root'@'183.129.133.%' IDENTIFIED BY '123456' WITH GRANT OPTION;
         
  4   给远程主机给予连接用户，查询已经存在的远程用户
-       
-          ==   
           
-            SELECT User, Host FROM mysql.user WHERE Host <> 'localhost';
-          
-
-             
-             
+           SELECT User, Host FROM mysql.user WHERE Host <> 'localhost';
+                                 
                 | User      | Host               |
-               +-----------+--------------------+
+                +-----------+--------------------+
                 | user_name | %                  |
                 | root      | 127.0.0.1          |
                 | root      | 183.129.133.%      |
                 | root      | ::1                |
                 | root      | trustingdevoted-vm |
-              +-----------+--------------------+
+                +-----------+--------------------+
              
 
  "user_name" 是给的所有用户授予的 ,"root  暂时不知道怎么删除，     | 183.129.133.%"是刚才添加的，然后 sudo reboot 重启下
