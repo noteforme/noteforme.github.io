@@ -3,7 +3,36 @@ title: mariaDb使用
 date: 2017-07-18 15:31:21
 tags:
 ---
-# 一、  数据库安装
+
+#  、 数据库常用用法
+1、创建/删除 数据库：CREATE  DATABASE  数据库名 / drop database 数据库名;
+2、建表/删除表 ： h_id为主键   /DROP TABLE  table_name ;
+       
+    MariaDB [person]> CREATE TABLE home_recycler(
+      h_id INT NOT NULL AUTO_INCREMENT,
+      h_title VARCHAR(100) NOT NULL,
+      h_describe VARCHAR(100) NOT NULL,
+      h_imgurl VARCHAR(40) NOT NULL,
+      PRIMARY KEY(h_id)
+     );
+    Query OK, 0 rows affected (0.29 sec)
+3、 插入数据
+
+    MariaDB [person]> INSERT INTO home_recycler(h_title,h_describable,h_imgurl) VALUES('1','D','m');
+
+   删除数据,删除全部表的数据就不需要条件了
+      
+      DELETE FROM home_recycler WHERE product_id=133;
+
+   
+注意：插入数据乱码： 在命令行也是插入数据也是中文乱码，解决方法
+          https://my.oschina.net/u/1011130/blog/864540
+          重启数据库：http://www.cnblogs.com/anseey/archive/2013/04/28/3049785.html
+          
+
+
+
+# 、  Ubuntu数据库安装
   更新系统
  
     $ sudo apt update
@@ -29,7 +58,7 @@ tags:
    
 _ _ _
 
-# 二、  数据库操作
+# 、  数据库操作
 1.  登录 ：mysql -u root -p  
 _ _ _
     
@@ -64,7 +93,7 @@ root是用户名 ， person是数据库，>后面是存放位置 ，标准格式
   
 _ _ _
 
-#  三、MariaDB 配置远程访问
+#  、MariaDB 配置远程访问
        有时候在家也要整整这些玩意儿，代码可以用github同步，每次数据库数据还倒腾来倒腾去的 ，如果在vps直接访问就最好了
        
 1.    找到默认配置文件 : 目的是要找到 my.cnf  ， 可以先 " cd /" ，到根目录下  ，输入下面命令

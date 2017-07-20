@@ -1,12 +1,13 @@
 ---
-title: ubuntu 安装 shadowsocks 
+title: ubuntu 安装 shadowsocks  ssr
 date: 2017-07-18 14:34:53
 tags:
 ---
 
-自从shadowsocks出来，我们的上网问题算是解决了，通过google查资料确实更便利
+  自从shadowsocks出来，我们的上网问题算是解决了，通过google查资料确实更便利
 
-一、对于新手 作者建议安装在ubuntu上，那就用他开始吧
+# 一、shadowsocks安装
+   对于新手 作者建议安装在ubuntu上，那就用他开始吧
 1.  安装软件
   
          sudo apt-get install python-pip
@@ -70,3 +71,54 @@ Successfully installed shadowsocks-2.8.2
         ssserver -c /etc/shadowsocks.json -d stop 
 
 接着就可以愉快的玩耍了
+
+_ _ _
+ # 二、SSR配置
+
+刚写完上面没多久  有消息说深圳启动了ss检测系统，为了避免tea，还是换了算了，现在都是用别人的，有时间也看看是咋回事
+  
+  开始吧
+  
+ 1.   获取源代码
+  
+              git clone -b manyuser https://github.com/shadowsocksr/shadowsocksr.git
+   
+       在当前位置 ls ,可以看到 shadowsocksr目录,使用下面的任务
+      
+
+            cd ~/shadowsocksr
+            bash initcfg.sh
+
+    
+2.  然后ls 又可以看到 shadowsocks,接着执行
+      
+         python server.py -p 8888 -k 111111 -m aes-256-cfb -O auth_sha1_v4 -o tls1.2_ticket_auth 
+  注意： 上面端口如果用443，貌似连不上，我的是这样的
+
+     客户端按照这个配置就可以了
+     ,后台运行
+     
+         python server.py -p 8888 -k 111111 -m aes-256-cfb -O auth_sha1_v4 -o tls1.2_ticket_auth  -d start
+    停止或重启
+       
+         python server.py -d stop/restart
+查看日志：
+              
+         tail -f /var/log/shadowsocksr.log
+3 . 使用配置文件运行 在shadowsocksr目录下,修改user-config.json,这五项就可以了，其他是拓展用的
+      "server_port":8388,        //端口
+     "password":"password",     //密码
+      "protocol":"origin",       //协议插件
+      "obfs":"http_simple",      //混淆插件
+      "method":"aes-256-cfb",    //加密方式
+  然后cd  shadowsocnk 进入该目录后
+    
+          python server.py
+  如果要在后台运行：
+  
+          python server.py -d start
+
+  如果要停止/重启：
+
+    
+         python server.py -d stop/restart
