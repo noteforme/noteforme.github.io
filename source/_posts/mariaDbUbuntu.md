@@ -5,6 +5,7 @@ tags:
 ---
 
 #  、 数据库常用用法
+W3C教程 :   https://www.w3cschool.cn/mariadb/
 1、创建/删除 数据库：CREATE  DATABASE  数据库名 / drop database 数据库名;
 2、建表/删除表 ： h_id为主键   /DROP TABLE  table_name ;
        
