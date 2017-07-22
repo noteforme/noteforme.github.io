@@ -2,6 +2,8 @@
 title: String 字符串连接
 date: 2017-07-21 14:54:53
 tags:
+categories: "JAVA"
+
 ---
 # 一、命令行运行java
 平常用开发工具习惯了，都忘了怎么用命令行运行，特此记录下

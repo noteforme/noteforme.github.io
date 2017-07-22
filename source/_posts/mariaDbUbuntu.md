@@ -2,6 +2,8 @@
 title: mariaDb使用
 date: 2017-07-18 15:31:21
 tags:
+categories: "LINUX"
+
 ---
 
 #  、 数据库常用用法

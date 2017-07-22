@@ -2,6 +2,8 @@
 title: github build blog 
 date: 2017-07-17 15:05:03
 tags:
+type: "BLOG搭建"
+
 ---
 
 一、搭建完博客后很重要的一点是图片的处理问题

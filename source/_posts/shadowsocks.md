@@ -2,6 +2,8 @@
 title: ubuntu 安装 shadowsocks  ssr
 date: 2017-07-18 14:34:53
 tags:
+categories: "LINUX"
+
 ---
 
   自从shadowsocks出来，我们的上网问题算是解决了，通过google查资料确实更便利
