@@ -2,11 +2,11 @@
 title: EclipseDWeb
 comments: true
 date: 2017-07-23 19:16:39
-tags:
+tags: [Eclipse, web项目]
 categories: "工具"
 
 ---
-Eclipse导入web项目
+# Eclipse导入web项目
 
 1、src并入包
 导入项目后可以看这种情况　![src被当作包名](EclipseDWeb/DS712.png)
