@@ -1,5 +1,5 @@
 ---
-title: HexoFunction
+title: Hexo NEXT
 comments: true
 date: 2017-08-01 14:03:52
 tags:
@@ -29,3 +29,18 @@ categories: BLOG
 
 
 参考：https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/
+二、next 添加头像
+
+- 新建uploads文件夹，放入图片
+
+
+-  找到themes/next 下的 -config.yml,修改如下图所示
+
+       # Sidebar Avatar
+       # in theme directory(source/images): /images/avatar.jpg
+       # in site  directory(source/uploads): /uploads/avatar.jpg
+        avatar: /uploads/author.png
+参考：https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F
+
+三、添加浏览数
+https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud
