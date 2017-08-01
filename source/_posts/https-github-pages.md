@@ -1,5 +1,5 @@
 ---
-title: github build blog
+title: github创建HEXO
 date: 2017-07-17 15:05:03
 tags: [多设备同步hexo,图片显示，https认证]
 categories: "BLOG"
@@ -89,17 +89,8 @@ categories: "BLOG"
 四、修改主题　分类和评论
 １、主题两步就修改好了，在hexo s本地显示没问题，但是部署后网页显示错乱，问题是缓存，清下浏览器缓存就好了
 　参考：http://jinyanhuan.github.io/2015/03/16/hexo-bulid-three/
-２、分类
-只要在　博客头部加　categories: "BLOG"　　就会自动展示分类了，如果觉得每次添加麻烦的话，修改scaffolds/post.md　模板
 
-    title: {{ title }}
-    date: {{ date }}
-    tags:
-    categories:
-    comments: true
-
-然后hexo n "yourblog",就会有这些了
-４评论　：
+2.评论　：
 
 - 　修改themes下的_config.yml  disqus_shortname: your-disqus-shortname，your-disqus-shortname　参考：　http://www.jianshu.com/p/c4f65ebe23ad
 
