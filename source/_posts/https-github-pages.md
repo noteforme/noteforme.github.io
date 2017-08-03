@@ -92,6 +92,6 @@ categories: "BLOG"
 
 2.评论　：
 
-- 　修改themes下的_config.yml  disqus_shortname: your-disqus-shortname，your-disqus-shortname　参考：　http://www.jianshu.com/p/c4f65ebe23ad
+- 　修改themes下的_config.yml  disqus_shortname: your-disqus-shortname，　参考：　http://theme-next.iissnan.com/third-party-services.html
 
 -   formatter添加　comments: true
