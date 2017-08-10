@@ -61,7 +61,8 @@ categories: "BLOG"
 
 
 二、搭建完博客后很重要的一点是图片的处理问题
-1  .  我们生成的路径是以public目录的路径为相对路径，所以要看public下面有没有生成图片![图片](/2017/07/17/https-github-pages/img_generate20170717152203.png)
+1  .  我们生成的路径是以public目录的路径为相对路径，所以要看public下面有没有生成图片
+ ![图片](/2017/07/17/https-github-pages/img_generate20170717152203.png)
 
      所以我的写法是
      “  ![描述](/2017/07/17/https-github-pages/img_generate20170717152203.png)  ”
