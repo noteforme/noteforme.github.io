@@ -9,7 +9,7 @@ categories: DesignPatterns
 
 设计模式：做到高内聚　低耦合
 
- # 1.单例模式
+ # 单例模式
 　作用：一个类只有一个实例，减少内存开销
   ```
    public class Singleton{
@@ -28,7 +28,7 @@ categories: DesignPatterns
    }
 
 ```
-## 二. Factory（工厂模式）
+#  Factory（工厂模式）
 　　# １、工厂类　对实例类进行管理和创建
 
 

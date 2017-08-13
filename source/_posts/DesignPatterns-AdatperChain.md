@@ -7,9 +7,8 @@ categories: DesignPatterns
 
 ---
 
-##适配器模式
-　  
-    
+##  　适配器模式
+
      //需要适配的类
     public class Adaptee {
       public  void specificRequest(){
@@ -21,8 +20,8 @@ categories: DesignPatterns
     public interface Target {
      void request();
     }
-  #对象适配器（采用对象组合方式实现）
-  
+#  　对象适配器（采用对象组合方式实现）
+
     public class Adapter implements Target {
         //直接关联被适配类
         private Adaptee adaptee;
@@ -43,8 +42,8 @@ categories: DesignPatterns
         }
     }
 
-#类适配器模式(采用继承实现)
-   
+# 　类适配器模式(采用继承实现)
+
     public class CAdapter extends Adaptee implements Target {
         @Override
         public void request() {
@@ -57,8 +56,9 @@ categories: DesignPatterns
             adapter.request();
         }
     }
-##责任链模式
-##Observer观察者模式/订阅模式
+## 　   责任链模式
+
+##    　Observer观察者模式/订阅模式
   主题对象变化，通知所有的观察者
      //抽象观察者
     public interface Observer{
@@ -122,5 +122,5 @@ categories: DesignPatterns
         }
     }
 
-##Builder模式
+##　Builder模式
 参考　：https://github.com/helen-x/AndroidInterview/blob/master/android/Android%20%E6%BA%90%E7%A0%81%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%A8%E5%9C%A8%E8%BF%99%E9%87%8C).md
