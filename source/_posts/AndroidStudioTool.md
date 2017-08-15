@@ -3,9 +3,10 @@ title: AndroidStudioTool
 comments: true
 date: 2017-08-13 18:20:17
 tags:
-categories:　工具
+categories: "工具"
 
 ---
+
 >  1.Ctrl＋E，可以显示最近编辑的文件列表
 2.Shift＋Click可以关闭文件
 3.Ctrl＋[或]可以跳到大括号的开头结尾
