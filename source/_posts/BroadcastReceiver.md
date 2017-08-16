@@ -6,14 +6,14 @@ tags:
 categories:  ANDROID
 
 ---
-## 介绍
+# 介绍
 　广播使应用程序间传输传输信息的机制，主要用来监听系统或者应用发出的广播信息。
- 
+
 # BroadcastReceiver使用注意
    当系统或应用发出广播时，扫描系统所有广播接收者(无论时静态注册还是动态注册方式)，通过action匹配將广播发给相应接收者，接收者收到
    广播后会产生一个广播实例，执行onReceiver()，这个实例生命周期只有10秒,10秒内没执行结束onReceiver，系统会报错,所以不能再onReceiver()执行耗时操作,onReceiver结束后，实例被销毁.
 
-#BroadcastReceiver注册
+# BroadcastReceiver注册
  优两种方式
  - 静态注册 (推荐使用)
    在AndroidManifest.xml设置receiver并接收action在应用·安装应用后无论是否处于运行状态，广播接收器已经常驻系统中，要销毁静态注册广播接收者，可以通过PackageManager將Ｒeceiver禁用.
@@ -28,7 +28,7 @@ categories:  ANDROID
             super.onResume();
 	   }
 
-#区别
+# 区别
  
  1.静态注册的广播接收者已经安装旧常驻在系统中，不需要重新启动唤醒接收者
   在lern注册了MyBroadcastReceiver,然后在Rxlean中发送广播也可以看到接收到的数据

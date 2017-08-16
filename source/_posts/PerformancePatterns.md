@@ -1,0 +1,21 @@
+---
+title: PerformancePatterns
+comments: true
+date: 2017-08-16 09:56:08
+tags:
+categories: ANDROID
+---
+#　性能优化
+
+# ANR
+  全称 Application Nor Responding,在debug的时候经常会出现的一个框框，询问关闭或等待，在正常环境下出现的情况
+  *　主线程IO 操作
+  *　主线程耗时任务
+  *　主线程错误的操作 Thread.wait或Thread.sleep
+  Android系统监控程序的响应状况，出现下面两种情况弹出ANR对话框
+  *应用在5秒内未响应用户的输入事件(按键或者触摸)
+  *BroadcastReceiver未在　10秒内完成相关的处理
+  
+# 避免ANR
+  就是把ＩＯ等耗时任务放入子线程
+
