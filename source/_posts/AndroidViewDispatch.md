@@ -6,35 +6,35 @@ tags:
 categories: ANDROID
 
 ---
- ###Android事件分发机制
+## Android事件分发机制
  事件分发其实就是对MotionEvent事件得分发过程,当MotionEvet产生后，系统需要把这个事件传递给一个具体得View,而这个传递得过程就是分发过程
 事件分发机制事由　Activity -> ViewGroup -> View　方向上得传递
 通过三个很重要得方法共同完成 dispatchTouchEvent、onInterceptTouchEvent、onTouchEvent
 
 1.dispatchTouchEvent()
- 属性   |   介绍
---------|--------
- 使用对象 | Activity、ViewGroup、View
-作用|分发点击事件
 
+| 属性 | 介绍 |
+|--------|--------|
+|   使用对象 | Activity、ViewGroup、View     |
+|作用|分发点击事件|
 ２.onTouchEvent()
-   属性|介绍
- ------|------
- 使用对象|Activity、ViewGroup、View
- 作用 | 处理点击事件
-调用时刻|在dispatchTouchEvent()内部调用
+
+| 属性 | 介绍 |
+|--------|--------|
+|    使用对象    |  Activity、ViewGroup、View      |
+|作用 |处理点击事件|
+|调用时刻   |在dispatchTouchEvent()内部调用|
+
 
 3、onInterceptTouchEvent()
-  属性|介绍
------|-----
-作用 | 拦截事件，即自己处理该事件
-调用时刻|在ViewGroup的dispatchTouchEvent()内部调用
+
+| 属性 | 介绍 |
+|--------|--------|
+|    作用    |  拦截事件，即自己处理该事件   |
+|调用时刻 |在ViewGroup的dispatchTouchEvent()内部调用|
 
 
-
-
-
-##案例分析
+## 案例分析
 # onTouch返回false
       button2.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -56,7 +56,7 @@ categories: ANDROID
  D/DispatchActivity: 执行 button2 onTouch() 动作1
  D/DispatchActivity: you clicked button2
 
-#onTouch返回true
+# onTouch返回true
 Log打印结果:
 > D/DispatchActivity: 执行 button2 onTouch() 动作0
  D/DispatchActivity: 执行 button2 onTouch() 动作1
@@ -64,6 +64,8 @@ Log打印结果:
 不同得返回值,得到不同得结果　看下为什么
 
 看下　View的dispatchTouchEvent（）　25得源码的事件分发流程
+ (点击Button后就会找 dispatchTouchEvent方法，Button没有，然后就去父类TextView还是没找到，最后在View立马找到了) !!
+
 
       /**
      * Pass the touch screen motion event down to the target view, or this
@@ -269,4 +271,7 @@ Log打印结果:
 * 如果onTouch返回false,View的dispatchTouchEvent方法里面的onTouchEvent(event))就会得到执行,继而执行onclick事件，
 * 反之onTouch返回true(该事件被onTouch消费掉) ,就不会走onTouchEvent方法
 
+参考：
 http://blog.csdn.net/carson_ho/article/details/54136311#t28
+http://blog.csdn.net/guolin_blog/article/details/9097463
+

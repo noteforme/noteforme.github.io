@@ -1,5 +1,5 @@
 ---
-title: DesignPatterns -Singleton Factory
+title: DesignPatterns  Factory
 comments: true
 date: 2017-08-10 08:36:29
 tags:
@@ -28,6 +28,11 @@ categories: DesignPatterns
    }
 
 ```
+源码有类似的　InputMethodManager，当然我们常用的方式是要传个Context上下文对象给单例类，记得有次面试的时候面试官说单例里面使用弱引用，如果是是为了避免内存泄漏我觉得是可以的，但是我觉得用这种方式更好　`Context applicationContext = context.getApplicationContext();`　刚无意中发现Glide单例也是这样使用的。
+
+
+
+
 #  Factory（工厂模式）
 　　# １、工厂类　对实例类进行管理和创建
 
@@ -53,9 +58,10 @@ categories: DesignPatterns
         }`
 　　[code地址](https://github.com/BlogForMe/JAVA/blob/master/DesignPatterns/src/com/designparrerns/factory/Standard/Factory.java)
 　　假如我要实例化一个pig对象,那么肯定是要在Factory做添加的，接下来看看可以不修改其他类实现需求
-　 # ２、Abstract Factory(抽象工厂)
- 
-   
+
+# Abstract Factory(抽象工厂)
+
+
      public interface Provider {
       Animal produce();
      }

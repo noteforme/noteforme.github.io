@@ -7,6 +7,8 @@ categories: "工具"
 
 ---
 
+# 快捷键
+
 >  1.Ctrl＋E，可以显示最近编辑的文件列表
 2.Shift＋Click可以关闭文件
 3.Ctrl＋[或]可以跳到大括号的开头结尾
@@ -28,3 +30,16 @@ categories: "工具"
 
 
 参考：https://github.com/1sters/Android-Studio-Guide/blob/master/tips-shortcuts.md
+
+# 降低　compileSdkVersion　版本
+ 　有时候需要看低版本的源码，就要修改compileSdkVersion版本
+
+1. 修改编译版本
+   ![图片](AndroidStudioTool/DeepinScrot_compile.png)
+2. targetSdkVersion版本修改成　21   然后   compile 'com.android.support:appcompat-v7:21.+' 继承的AppCompatActivity改成Activity
+
+3. 编译后报错　Error:(11) No resource identifier found for attribute 'roundIcon' in package 'android'
+  根据错误删除　android:roundIcon ,然后编译
+
+
+  参考：http://blog.csdn.net/hyr83960944/article/details/39941683

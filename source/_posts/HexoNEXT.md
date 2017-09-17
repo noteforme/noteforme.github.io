@@ -7,8 +7,9 @@ categories: BLOG
 
 ---
 
-一、hexo next主题添加分类
-1、分类
+# hexo next主题添加分类
+
+
 只要在　博客头部加　categories: "BLOG"　　就会自动展示分类了，如果觉得每次添加麻烦的话，修改scaffolds/post.md　模板
 
     title: {{ title }}
@@ -19,7 +20,7 @@ categories: BLOG
 
  然后hexo n "yourblog",就会有这些了，接下里就是在首页分类进行关联了
  
- 2、生成 分类（默认已有分类）
+# 生成 分类（默认已有分类）
     
        hexo new page "categories"
 
@@ -29,7 +30,8 @@ categories: BLOG
 
 
 参考：https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/
-二、next 添加头像
+
+#  next 添加头像
 
 - 新建uploads文件夹，放入图片
 
@@ -42,5 +44,6 @@ categories: BLOG
         avatar: /uploads/author.png
 参考：https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F
 
-三、添加浏览数
+# 添加浏览数
+
 https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud
