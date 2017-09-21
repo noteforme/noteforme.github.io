@@ -31,7 +31,7 @@ git push -u origin master
 
 *添加另一个远程仓库
 
- `$ git fetch origin `
+  `$ git fetch origin `
 
   
 * Git分支切换
