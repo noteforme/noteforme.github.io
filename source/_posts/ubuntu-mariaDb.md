@@ -1,12 +1,12 @@
 ---
-title: mariaDb使用
+title: ubuntu-mariaDb
 date: 2017-07-18 15:31:21
 tags:
 categories: "LINUX"
 
 ---
 
-#  、 数据库常用用法
+#   数据库常用用法
 W3C教程 :   https://www.w3cschool.cn/mariadb/
 1、创建/删除 数据库：CREATE  DATABASE  数据库名 / drop database 数据库名;
 2、建表/删除表 ： h_id为主键   /DROP TABLE  table_name ;
