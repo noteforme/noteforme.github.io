@@ -3,11 +3,9 @@ title: Git_Branch
 comments: true
 date: 2017-09-16 14:52:41
 tags:
-<<<<<<< HEAD
+
 categories:  Git
-=======
-categories: Git
->>>>>>> 2912127c99b6d2d8ff21b897405bf30acee204f3
+
 ---
 #svn项目修改为Git 
 
@@ -15,30 +13,24 @@ categories: Git
 
 # github上传项目 
 
-<<<<<<< HEAD
 * 分支创建
   `$ git branch testing `
-=======
 ```
 git init
 git remote add origin git@github.com:BlogForMe/fff.git
 git add .
 git commit -m "initialization"
 git push -u origin master
- 
+
 ```
 
-# Git分支操作
+##  Git分支操作
 
 
 * 分支创建
 
   `$ git branch testing`
 
-
-* 添加另一个远程仓库
-
-  `$ git fetch origin `
 
 * Git分支切换
 
@@ -56,8 +48,15 @@ git push -u origin master
   
 * Git分支切换
     ` $ git checkout testing`
-  
 
-    
  [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
 http://blog.csdn.net/hyr83960944/article/details/36185231
+
+## 远程仓库更新到本地
+
+```
+$ git fetch origin
+$ git merge origin/next
+```
+http://www.ruanyifeng.com/blog/2014/06/git_remote.html
+    
