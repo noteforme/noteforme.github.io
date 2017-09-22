@@ -8,9 +8,9 @@ categories: "LINUX"
 
   自从shadowsocks出来，我们的上网问题算是解决了，通过google查资料确实更便利
 
-# 一、shadowsocks安装
+# shadowsocks安装
    对于新手 作者建议安装在ubuntu上，那就用他开始吧
-1.  安装软件
+##  安装软件
   
          sudo apt-get install python-pip
          pip install shadowsocks
@@ -40,13 +40,14 @@ Installing collected packages: shadowsocks
 Successfully installed shadowsocks-2.8.2
 
      
-2.软件安装好了，现在可以配置了，先在前台跑下 
+## 前台运行
+ 软件安装好了，现在可以配置了，先在前台跑下
 
      
             ssserver -p 8388 -k 123456 -m aes-256-cfb
     
  
- 然后手机或电脑同样配置看下代理是否有用，Ok的话，新建一个文件替代命令  
+ 然后手机或电脑同样配置看下代理是否有用，Ok的话，新建一个文件替代命令
    
   
       vi  /etc/shadowsocks.json 
@@ -75,39 +76,43 @@ Successfully installed shadowsocks-2.8.2
 接着就可以愉快的玩耍了
 
 _ _ _
- # 二、SSR配置
+
+ # SSR配置
 
 刚写完上面没多久  有消息说深圳启动了ss检测系统，为了避免tea，还是换了算了，现在都是用别人的，有时间也看看是咋回事
   
   开始吧
   
- 1.   获取源代码
+##  获取源代码
   
               git clone -b manyuser https://github.com/shadowsocksr/shadowsocksr.git
-   
+
        在当前位置 ls ,可以看到 shadowsocksr目录,使用下面的任务
-      
+
 
             cd ~/shadowsocksr
             bash initcfg.sh
 
-    
-2.  然后ls 又可以看到 shadowsocks,接着执行
-      
-         python server.py -p 8888 -k 111111 -m aes-256-cfb -O auth_sha1_v4 -o tls1.2_ticket_auth 
+
+ 然后ls 又可以看到 shadowsocks,接着执行
+
+         python server.py -p 8888 -k 111111 -m aes-256-cfb -O auth_sha1_v4 -o tls1.2_ticket_auth
   注意： 上面端口如果用443，貌似连不上，我的是这样的
 
-     客户端按照这个配置就可以了
-     ,后台运行
-     
+     客户端按照这个配置就可以了 ,后台运行
+```
          python server.py -p 8888 -k 111111 -m aes-256-cfb -O auth_sha1_v4 -o tls1.2_ticket_auth  -d start
-    停止或重启
-       
+```
+
+停止或重启
+
+
          python server.py -d stop/restart
-查看日志：
-              
-         tail -f /var/log/shadowsocksr.log
-3 . 使用配置文件运行 在shadowsocksr目录下,修改user-config.json,这五项就可以了，其他是拓展用的
+         tail -f /var/log/shadowsocksr.log  //查看日志
+
+## 配置参数
+  使用配置文件运行 在shadowsocksr目录下,修改user-config.json,这五项就可以了，其他是拓展用的
+
       "server_port":8388,        //端口
      "password":"password",     //密码
       "protocol":"origin",       //协议插件
@@ -122,5 +127,16 @@ _ _ _
 
   如果要停止/重启：
 
-    
          python server.py -d stop/restart
+
+## 开机启动
+  新建 run_server.sh
+　
+ 添加 #!/bin/bash
+ ```
+ cd /home/jon/shadowsocksr/shadowsocks
+ python local.py -c /etc/shadowsocks.json
+```
+
+
+[^]: http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
