@@ -4,7 +4,7 @@ comments: true
 date: 2017-09-16 14:52:41
 tags:
 
-categories:  Git
+categories:  GIT
 
 ---
 #svn项目修改为Git 
