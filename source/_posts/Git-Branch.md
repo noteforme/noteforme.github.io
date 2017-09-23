@@ -3,11 +3,9 @@ title: Git_Branch
 comments: true
 date: 2017-09-16 14:52:41
 tags:
-<<<<<<< HEAD
-categories:  Git
+categories:  GIT
 =======
-categories: Git
->>>>>>> 2912127c99b6d2d8ff21b897405bf30acee204f3
+
 ---
 #svn项目修改为Git 
 
@@ -15,7 +13,7 @@ categories: Git
 
 # github上传项目 
 
-<<<<<<< HEAD
+
 * 分支创建
   `$ git branch testing `
 =======
