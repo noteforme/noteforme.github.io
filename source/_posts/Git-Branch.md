@@ -55,7 +55,7 @@ http://blog.csdn.net/hyr83960944/article/details/36185231
 
 ```
 $ git fetch origin
-$ git merge origin/next
+$ git merge origin/hexo
 ```
 
 或者合并
