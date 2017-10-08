@@ -14,11 +14,16 @@ categories:  GIT
 
 * 分支创建
   `$ git branch testing `
+  
+  * 下面是对已有项目的提交
 ```
+mkdir EffectiveJava
+cd EffectiveJava
 git init
-git remote add origin git@github.com:BlogForMe/fff.git
-git add .
-git commit -m "initialization"
+touch README.md
+git add README.md
+git commit -m "first commit"
+git remote add origin git@gitee.com:huaiyi/EffectiveJava.git
 git push -u origin master
 
 ```

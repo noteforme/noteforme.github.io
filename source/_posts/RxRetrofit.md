@@ -17,6 +17,6 @@ http://www.jianshu.com/p/308f3c54abdd
 
 简单使用
 http://www.jianshu.com/p/56f15db86ed3
-https://github.com/wzgiceman/RxjavaRetrofitDemo-string-master
+
 
 

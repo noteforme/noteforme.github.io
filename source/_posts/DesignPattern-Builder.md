@@ -8,11 +8,13 @@ categories:  DesignPatterns
 
 # Builder模式
 
+不直接生成想要的对象，而是让客户端利用所有必要的参数调用构造器（或者静态工厂），得到一个builder对象，然后客户端在builder对象上调用类似于setter的方法，来设置每个相关的可选参数
+
 ##　描述　
 
 既能保证像重叠构造器模式那样的安全性，也能保证像JavaBeans模式那么好的可读性
 
-不直接生成想要的对象，而是让客户端利用所有必要的参数调用构造器（或者静态工厂），得到一个builder对象，然后客户端在builder对象上调用类似于setter的方法，来设置每个相关的可选参数
+
 
 
 ```
@@ -78,6 +80,6 @@ public class NutritionFacts_03_Builder {
 
 ```
 
-## 疑惑 
+##  疑惑 
 
  返回的this时怎么替代对象的
