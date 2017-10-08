@@ -1,13 +1,19 @@
 ---
-title: String 字符串连接
+title: String 字符串
 date: 2017-07-21 14:54:53
 tags:
 categories: "JAVA"
 
 ---
-# 一、命令行运行java
+
+#　String字符串连接
+ 　字符串连接有两种方式，一种时  " +  ",另一种是 StringBuilder方式
+
+# # 命令行运行java
+
 平常用开发工具习惯了，都忘了怎么用命令行运行，特此记录下
-1、新建 Concatenation.java文件，cmd到该目录下，写入代码
+
+### 新建 Concatenation.java文件，cmd到该目录下，写入代码
      
      public class Concatenation{
         public static void main(String[] args){
@@ -16,16 +22,17 @@ categories: "JAVA"
          System.out.print(s);	
         }
      }
- 2、生成 Concatenation.calss 文件
+### 生成 Concatenation.calss 文件
 
       D:\DemoExo>javac Concatenation.java
 
-3、运行Concatenation.class文件,后面是运行结果
+### 运行Concatenation.class文件,后面是运行结果
 
        D:\DemoExo>java Concatenation
        abcmangodef47
-#二、String字符串连接方式
-1、回到主题：查看JDK文档（不知道在哪），String 类中每一个看起来会修改String值的方法，实际上都是创建了一个全新的String对象,以包含修改后的字符串内容.
+##  String字符串连接方式
+
+### 回到主题：查看JDK文档（不知道在哪），String 类中每一个看起来会修改String值的方法，实际上都是创建了一个全新的String对象,以包含修改后的字符串内容.
        
     public class Immutable{
          public static String upcase(String s){
@@ -49,7 +56,7 @@ HOWDY
 howdy
 当把q传给upcase()时，实际传递的是引用的拷贝
 
-2、编译器运行过程
+### 编译器运行过程
 反编译Concatenation,生成JVM字节码
        
        javap -c Concatenation.class
@@ -89,7 +96,7 @@ howdy
 可以看到，编译器创建了一个StringBuilder对象,用以构造最终的String，并四次调用了append(),最后使用命令astore_2生成 s对象。
 这样来看，使用 “+” 连接符，是不会影响性能的咯，接着往下
 
-3、“+”连接符 和 StringBuilder对比
+### “+”连接符 和 StringBuilder对比
 运行javap -c WhitherStringBuilder.class 看到两个方法对象的字节码，先看前半部分implicit()
 
     public class WhitherStringBuilder {
@@ -156,3 +163,48 @@ howdy
 如果在循环中，那么自己创建一个StringBuilder对象
 
 参考：摘自ThinkInJava4  P286
+
+# 避免创建不必要的对象
+
+##创建　String对象
+
+ 最好能重用对象而不是每次需要的时候就创建一个功能相同的新对象，重用方式即快速
+又流行。如果对象是不可变的，它始终可以被重用。
+
+极端的反面例子　｀Ｓtring s = new String("stringette");  //DON'T DO THIS ! ｀
+该语句每次被执行的时候都创建一个新的String实例，传递给String构造器的参数"stringette'本身就是一个String实例，如果这种用法在一个循环中，或者在一个频繁
+调用的方法中，就会创建出成千上万不必要的String  实例。
+
+改进后的版本如下所示
+
+```
+String s  = "stringette';
+```
+这个版本只用了一个String实例，而且它可以保证，对于所有的同一台虚拟机中运行的代码
+，只要包含相同的字符串字面常量，该对象就会被重用.
+
+##　返回数据处理
+
+对于同时提供静态工厂方法和构造器的不可变类，通常可以使用静态工厂方法，而不是构造器
+以避免创建不必要的对象，例如，静态工厂方法Boolean.valueof(String)由于构造器Boolean(String),构造器每次调用的时候都会创建一个新的对象，而静态工厂方法则不会
+
+我们平常解析回来后非String类型的数据，需要转换成String对象　
+看到这里后就需要使用`String.valueof(String)` 
+
+
+```
+  /**
+     * Returns the string representation of the {@code Object} argument.
+     *
+     * @param   obj   an {@code Object}.
+     * @return  if the argument is {@code null}, then a string equal to
+     *          {@code "null"}; otherwise, the value of
+     *          {@code obj.toString()} is returned.
+     * @see     java.lang.Object#toString()
+     */
+    public static String valueOf(Object obj) {
+        return (obj == null) ? "null" : obj.toString();
+    }
+```
+从源码中看到对形参　做了　null判断，所以用这种方式页不用担心闪退的情况了
+参考 Effective Java　page17

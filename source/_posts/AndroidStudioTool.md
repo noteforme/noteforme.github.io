@@ -49,3 +49,15 @@ categories: "工具"
 平常github下载项目导入AndroidStudio直接卡死，心里真不是...., 目前实验一种方式应该会快点
 修改 gradle\wrapper\gradle-wrapper.properties下的 distributionUrl=https\://services.gradle.org/distributions/gradle-3.3-all.zip， 我的AndroidStudio默认是这个 所以就修改成这样的.
 
+## Gradle:Resolve dependecies 'app_XXAPk
+
+修改Gradle配置文件后就一直卡在那，在　build.gradle值修改下面
+
+```
+allprojects {
+    repositories {
+//        jcenter()
+        mavenCentral()
+    }
+}
+```
