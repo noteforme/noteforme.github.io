@@ -8,7 +8,9 @@ comments: true
 ---
 
 # 先来介绍官方的Demo
-          https://github.com/googlesamples/android-RecyclerView
+
+ https://github.com/googlesamples/android-RecyclerView
+    
 
 和LIstView其他类似
 主要是可以设置横竖屏　        mLayoutManager = new LinearLayoutManager(this);
