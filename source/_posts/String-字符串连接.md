@@ -9,7 +9,7 @@ categories: "JAVA"
 #　String字符串连接
  　字符串连接有两种方式，一种时  " +  ",另一种是 StringBuilder方式
 
-# # 命令行运行java
+## 命令行运行java
 
 平常用开发工具习惯了，都忘了怎么用命令行运行，特此记录下
 
@@ -22,6 +22,7 @@ categories: "JAVA"
          System.out.print(s);	
         }
      }
+
 ### 生成 Concatenation.calss 文件
 
       D:\DemoExo>javac Concatenation.java
@@ -30,9 +31,12 @@ categories: "JAVA"
 
        D:\DemoExo>java Concatenation
        abcmangodef47
+
 ##  String字符串连接方式
 
-### 回到主题：查看JDK文档（不知道在哪），String 类中每一个看起来会修改String值的方法，实际上都是创建了一个全新的String对象,以包含修改后的字符串内容.
+### 回到主题
+
+  查看JDK文档（不知道在哪），String 类中每一个看起来会修改String值的方法，实际上都是创建了一个全新的String对象,以包含修改后的字符串内容.
        
     public class Immutable{
          public static String upcase(String s){
@@ -57,6 +61,7 @@ howdy
 当把q传给upcase()时，实际传递的是引用的拷贝
 
 ### 编译器运行过程
+
 反编译Concatenation,生成JVM字节码
        
        javap -c Concatenation.class
@@ -96,7 +101,8 @@ howdy
 可以看到，编译器创建了一个StringBuilder对象,用以构造最终的String，并四次调用了append(),最后使用命令astore_2生成 s对象。
 这样来看，使用 “+” 连接符，是不会影响性能的咯，接着往下
 
-### “+”连接符 和 StringBuilder对比
+###  “+”连接符 和 StringBuilder对比
+
 运行javap -c WhitherStringBuilder.class 看到两个方法对象的字节码，先看前半部分implicit()
 
     public class WhitherStringBuilder {

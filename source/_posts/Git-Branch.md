@@ -6,7 +6,8 @@ tags:
 categories:  GIT
 
 ---
-#svn项目修改为Git 
+
+# svn项目修改为Git 
 
  在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
 
