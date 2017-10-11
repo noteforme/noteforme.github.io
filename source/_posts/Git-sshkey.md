@@ -3,7 +3,7 @@ title: Git-sshkey
 comments: true
 date: 2017-09-14 18:20:17
 tags:
-categories: "GIT"
+categories: GIT
 
 ---
 # 原理
