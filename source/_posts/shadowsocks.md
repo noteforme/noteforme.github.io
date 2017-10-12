@@ -1,5 +1,5 @@
 ---
-title: ubuntu 安装 shadowsocks  ssr
+title: ubuntu 安装 sy
 date: 2017-07-18 14:34:53
 tags:
 categories: "LINUX"
