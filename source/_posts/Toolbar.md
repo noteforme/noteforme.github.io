@@ -28,6 +28,8 @@ public class MyActivity extends AppCompatActivity {
 
 http://yifeng.studio/2016/10/12/android-toolbar/
 
+还有一种方式是在application设置，这样就不用集成baseActivity
+https://www.diycode.cc/topics/783
 
 
 
