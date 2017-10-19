@@ -68,3 +68,4 @@ android studio log默认都是白色的，在 setting -> Android Log下去掉Use
 
 我的颜色按照这个修改的
 http://www.jianshu.com/p/e3f8f7383c3d
+
