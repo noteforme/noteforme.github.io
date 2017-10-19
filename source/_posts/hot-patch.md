@@ -82,4 +82,7 @@ https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix-demo/
 
 
 
- 
+ 参考 ：
+  https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix/
+  https://github.com/Tencent/tinker
+  https://github.com/BuglyDevTeam/Bugly-Android-Demo
