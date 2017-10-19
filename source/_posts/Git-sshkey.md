@@ -1,11 +1,12 @@
 ---
-title: Git-sshkey
+title: GIT_sshkey
 comments: true
-date: 2017-09-14 18:20:17
+date: 2017-10-19 09:28:15
 tags:
-categories:  GIT
-
+categories: GIT
 ---
+
+
 # 原理
 
 http://skypegnu1.blog.51cto.com/8991766/1641064
@@ -88,6 +89,3 @@ authentication id_rsaOschina　using key failed报错
 方法: AndroidStudio -> File -> Settings ->Git -> SSH executable : built-in 改成Native
 
 参考:https://stackoverflow.com/questions/24688700/android-studio-push-failed-fatal-could-not-read-from-remote-repository
-
-
-

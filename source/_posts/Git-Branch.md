@@ -1,11 +1,11 @@
 ---
-title: Git_Branch
+title: GIT_branch
 comments: true
-date: 2017-09-16 14:52:41
+date: 2017-10-19 09:24:09
 tags:
-categories:  GIT
-
+categories: GIT
 ---
+
 
 # svn项目修改为Git 
 
