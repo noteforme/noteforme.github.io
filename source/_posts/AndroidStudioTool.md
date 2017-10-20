@@ -4,7 +4,6 @@ comments: true
 date: 2017-08-13 18:20:17
 tags:
 categories: "工具"
-
 ---
 
 ## 快捷键
@@ -49,18 +48,18 @@ categories: "工具"
 平常github下载项目导入AndroidStudio直接卡死，心里真不是...., 目前实验一种方式应该会快点
 修改 gradle\wrapper\gradle-wrapper.properties下的 distributionUrl=https\://services.gradle.org/distributions/gradle-3.3-all.zip， 我的AndroidStudio默认是这个 所以就修改成这样的.
 
-## Gradle:Resolve dependecies 'app_XXAPk
+## android studio gradle编译问题
 
 修改Gradle配置文件后就一直卡在那，在　build.gradle值修改下面
 
-```
-allprojects {
-    repositories {
-//        jcenter()
-        mavenCentral()
-    }
-}
-```
+如果用了ss代理，在ubuntu设置http没用，可以在gradle-wrapper.properties 添加
+
+`
+org.gradle.jvmargs=-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=1080
+`
+
+参考: https://www.zhihu.com/question/37810416
+
 
 ## 修改Log颜色
 
@@ -69,7 +68,3 @@ android studio log默认都是白色的，在 setting -> Android Log下去掉Use
 我的颜色按照这个修改的
 http://www.jianshu.com/p/e3f8f7383c3d
 
-## Android Studio https代理
-
-systemProp.https.proxyHost=127.0.0.1
-systemProp.https.proxyPort=1080

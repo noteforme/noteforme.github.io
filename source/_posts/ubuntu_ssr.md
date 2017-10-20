@@ -130,7 +130,7 @@ _ _ _
          python server.py -d stop/restart
 
 ## 开机启动
-  新建 run_server.sh
+  home下　新建 run_server.sh
 　
  添加 #!/bin/bash
  ```
@@ -138,5 +138,4 @@ _ _ _
  python local.py -c /etc/shadowsocks.json
 ```
 
-
-[^]: http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
+http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
