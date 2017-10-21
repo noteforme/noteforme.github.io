@@ -13,3 +13,7 @@ http://blog.chengyunfeng.com/?p=1030
 
 对chain讲解详细
 http://blog.csdn.net/zxt0601/article/details/72683379
+
+
+https://developer.android.com/training/constraint-layout/index.html
+https://developer.android.com/reference/android/support/constraint/ConstraintLayout.html
