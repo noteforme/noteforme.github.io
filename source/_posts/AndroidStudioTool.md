@@ -6,7 +6,7 @@ tags:
 categories: "工具"
 ---
 
-## 快捷键
+# 快捷键
 
 >  1.Ctrl＋E，可以显示最近编辑的文件列表
 2.Shift＋Click可以关闭文件
@@ -30,7 +30,7 @@ categories: "工具"
 
 参考：https://github.com/1sters/Android-Studio-Guide/blob/master/tips-shortcuts.md
 
-## 降低　compileSdkVersion　版本
+# 降低　compileSdkVersion　版本
  　有时候需要看低版本的源码，就要修改compileSdkVersion版本
 
 1. 修改编译版本
@@ -43,12 +43,14 @@ categories: "工具"
 
   参考：http://blog.csdn.net/hyr83960944/article/details/39941683
 
+
+
+# android studio gradle编译问题
+   
+  编译也根据不同情况做不同处理
+
+
 ## 导入项目
-
-平常github下载项目导入AndroidStudio直接卡死，心里真不是...., 目前实验一种方式应该会快点
-修改 gradle\wrapper\gradle-wrapper.properties下的 distributionUrl=https\://services.gradle.org/distributions/gradle-3.3-all.zip， 我的AndroidStudio默认是这个 所以就修改成这样的.
-
-## android studio gradle编译问题
 
 修改Gradle配置文件后就一直卡在那，在　build.gradle值修改下面
 
@@ -59,6 +61,18 @@ org.gradle.jvmargs=-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=1080
 `
 
 参考: https://www.zhihu.com/question/37810416
+
+
+平常github下载项目导入AndroidStudio直接卡死，心里真不是...., 目前实验一种方式应该会快点
+修改 gradle\wrapper\gradle-wrapper.properties下的 distributionUrl=https\://services.gradle.org/distributions/gradle-3.3-all.zip， 我的AndroidStudio默认是这个 所以就修改成这样的.
+
+
+## 下载gradle
+
+  有时候想用新的的gradle，但是新的更新几十M的文件，一天都不一定能下下来
+   直接去官网下载 https://gradle.org/releases/  ，对应版本的zip文件，放到相应目录
+  比如我的就是 C:\Users\Administrator\.gradle\wrapper\dists\gradle-3.3-all\55gk2rcmfc6p2dg9u9ohc3hw9\
+
 
 
 ## 修改Log颜色

@@ -19,4 +19,18 @@ http://www.jianshu.com/p/308f3c54abdd
 http://www.jianshu.com/p/56f15db86ed3
 
 
+# Android architecture
 
+Android架构
+
+https://github.com/googlesamples/android-architecture
+https://developer.android.com/topic/libraries/architecture/index.html
+
+
+## android-architecture  todo-mvp-rxjava新版导入后会报错
+
+Error:This Gradle plugin requires Studio 3.0 minimum
+
+gradle.properties中：android.injected.build.model.only.versioned = 3
+
+http://blog.csdn.net/suwenlai/article/details/78211563
