@@ -6,6 +6,23 @@ tags:
 categories: ANDROID
 ---
 
+# Android architecture
+
+Android架构
+
+https://github.com/googlesamples/android-architecture
+https://developer.android.com/topic/libraries/architecture/index.html
+
+
+## android-architecture  todo-mvp-rxjava新版导入后会报错
+
+Error:This Gradle plugin requires Studio 3.0 minimum
+
+gradle.properties中：android.injected.build.model.only.versioned = 3
+
+http://blog.csdn.net/suwenlai/article/details/78211563
+
+
 # 　Retrofit使用 
 
 http://www.jianshu.com/p/308f3c54abdd
@@ -32,22 +49,9 @@ Demo在　AndroidDemo -> RXLeran->RX基础->Rx线程切换
 参考: http://www.jianshu.com/p/8818b98c44e2
 
 
+* Scheduler.io()
 
 
 
 
-# Android architecture
 
-Android架构
-
-https://github.com/googlesamples/android-architecture
-https://developer.android.com/topic/libraries/architecture/index.html
-
-
-## android-architecture  todo-mvp-rxjava新版导入后会报错
-
-Error:This Gradle plugin requires Studio 3.0 minimum
-
-gradle.properties中：android.injected.build.model.only.versioned = 3
-
-http://blog.csdn.net/suwenlai/article/details/78211563
