@@ -92,3 +92,21 @@ http://blog.csdn.net/qibin0506/article/details/49716795
 
 参考: http://blog.csdn.net/weixiao_812/article/details/78138075
 https://allen218.github.io/2016/06/02/RecyclerView%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0%E6%97%B6%E5%BF%AB%E9%80%9F%E6%BB%91%E5%8A%A8%E5%B4%A9%E6%BA%83%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/
+
+# 　Item分类
+
+前面添加header, footer就用到了item分类
+reclverview也有很多分类方式
+
+[多adapter分类](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0810/3282.html) 
+使用adapter　组合设计模式，进行组装，代码简洁，比较好操作
+
+
+这种对用到的页面操作比较简单，super里面想放哪些就可以，就是itemviewtype方法实现比较复杂，判断容易出错
+https://github.com/luizgrp/SectionedRecyclerViewAdapter
+
+
+
+
+
+
