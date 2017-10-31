@@ -82,3 +82,11 @@ android studio log默认都是白色的，在 setting -> Android Log下去掉Use
 我的颜色按照这个修改的
 http://www.jianshu.com/p/e3f8f7383c3d
 
+
+## 自动生成 findViewById
+
+可以使用 butterknife,但是我在7升级到8时就麻烦了
+
+也可以使用 BorePlugin代码生成插件
+https://github.com/boredream/BorePlugin
+

@@ -18,12 +18,14 @@ https://developer.android.com/training/basics/supporting-devices/index.html
 　　
 　　![公式](supporting-devices/caculate_dpi.png)
 　　
-　　它的dpi 就是　√(750²+1334²)/4.7 =  325
+　 iphone6是4.7寸的 分辨率 750 * 1334,　它的dpi 就是　√(750²+1334²)/4.7 =  325
 　　和drawable-xhdpi 320接近
 　　
-　　drawable-xhdpi　480上做的图就是大概1.5倍的样子
+　　drawable-xhdpi　480上做的图就是大概是1.5倍的样子 ,分辨率在1920 *1080上的也是一样的
+  
 　　
-　　10 *1.5/2.6
+  
+
 　　
 　　
 　　
