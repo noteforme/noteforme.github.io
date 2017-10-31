@@ -9,6 +9,11 @@ Android屏幕的一些技巧
 
 # 官网适配方案
 https://developer.android.com/training/basics/supporting-devices/index.html
+https://developer.android.com/training/multiscreen/screensizes.html?hl=zh-cn
+
+## PX转 dp
+
+http://blog.csdn.net/u010983881/article/details/51993157
 
 #　生成Values
 　　生成主流屏幕的values，安宽分成320份,高400份
@@ -23,11 +28,16 @@ https://developer.android.com/training/basics/supporting-devices/index.html
 　　
 　　drawable-xhdpi　480上做的图就是大概1.5倍的样子
 　　
-　　10 *1.5/2.6
+ 
+##　开发中实际转化　
+
+　　http://www.bijishequ.com/detail/513426?p=
+　　http://blog.csdn.net/zengd0/article/details/52464627
+　　所以说　给的1334 * 750 　图就是
+　　10px  我们写5dp
 　　
 　　
-　　
-　http://www.jianshu.com/p/ec5a1a30694b
+参考:　http://www.jianshu.com/p/ec5a1a30694b
 　http://blog.csdn.net/lmj623565791/article/details/45460089
 　
 # percent-support-lib
