@@ -24,12 +24,16 @@ public class MyActivity extends AppCompatActivity {
 ```
 
 
+
 # 项目中导航栏 
 
 http://yifeng.studio/2016/10/12/android-toolbar/
+http://www.bijishequ.com/detail/239876
+
 
 还有一种方式是在application设置，这样就不用集成baseActivity
 https://www.diycode.cc/topics/783
+
 
 
 
