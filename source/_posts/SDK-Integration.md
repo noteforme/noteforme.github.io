@@ -1,5 +1,5 @@
 ---
-title: SDK-Integration
+title: SDK-Integration(微信分享集成)
 comments: true
 date: 2017-09-19 14:44:01
 tags:
