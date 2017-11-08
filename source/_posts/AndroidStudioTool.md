@@ -54,7 +54,7 @@ categories: "工具"
 
 修改Gradle配置文件后就一直卡在那，在　build.gradle值修改下面
 
-如果用了ss代理，在ubuntu设置http没用，可以在gradle-wrapper.properties 添加
+如果用了ss代理，在ubuntu设置http没用，可以在 工程根目录下 gradle.properties  添加
 
 `
 org.gradle.jvmargs=-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=1080
@@ -78,7 +78,7 @@ org.gradle.jvmargs=-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=1080
 ## 修改Log颜色
 
 android studio log默认都是白色的，在 setting -> Android Log下去掉Use inherited attributes
-
+.gradle/gradle.properties 
 我的颜色按照这个修改的
 http://www.jianshu.com/p/e3f8f7383c3d
 
