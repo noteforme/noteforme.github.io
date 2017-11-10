@@ -1,5 +1,5 @@
 ---
-title: GIT_branch
+title: GIT_branch(git 操作)
 comments: true
 date: 2017-10-19 09:24:09
 tags:
@@ -70,6 +70,15 @@ $ git merge origin/hexo
 $ git pull origin hexo 
 ```
 
-
 http://www.ruanyifeng.com/blog/2014/06/git_remote.html
+  
+  # 忽略文件已提交的文件
+  
+  假如要忽略 .idea/misc.xml文件，　主要是　`git rm --cached　.idea/misc.xml ` 然后提交修改
+  
+  
+  
+  
+  
     
+ 
