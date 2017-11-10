@@ -6,8 +6,14 @@ tags:
 categories: ANDROID
 ---
 
-官网教程
-https://developer.android.com/training/appbar/setting-up.html?hl=zh-cn
+# 官网教程
+ 
+ https://developer.android.com/training/appbar/setting-up.html?hl=zh-cn
+在Best Practices for User Interface -> Adding the App Bar 
+
+
+
+
 
 # Acitivty中添加工具栏配置
 
