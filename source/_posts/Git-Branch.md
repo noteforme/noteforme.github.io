@@ -1,5 +1,5 @@
 ---
-title: GIT_branch(git 操作)
+title: GIT_branch (git 操作)
 comments: true
 date: 2017-10-19 09:24:09
 tags:

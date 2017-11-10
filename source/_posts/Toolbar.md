@@ -41,6 +41,11 @@ http://www.bijishequ.com/detail/239876
 https://www.diycode.cc/topics/783
 
 
+#toolbar整体设置
+
+ ![tool设置](Toolbar/tool_color.png)
+
+ 参考:http://blog.csdn.net/a553181867/article/details/51336899
 
 
 
