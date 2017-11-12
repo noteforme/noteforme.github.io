@@ -1,5 +1,5 @@
 ---
-title: GIT_sshkey
+title: GIT_SSHKEY
 comments: true
 date: 2017-10-19 09:28:15
 tags:
@@ -11,9 +11,14 @@ categories: GIT
 
 http://skypegnu1.blog.51cto.com/8991766/1641064
 
+
 #  多平台配置SSH
 
-1.  用户信息:在config后加上 --global 即可全局设置用户名和邮箱，否则就是局部的。
+正常情况会哟几个平台的配置情况,ssh操作方式
+ 
+##  用户信息设置
+
+在config后加上 --global 即可全局设置用户名和邮箱，否则就是局部的。
 
 >  $ git config --global user.name "John Doe"
 $ git config --global user.email johndoe@example.com
@@ -21,14 +26,15 @@ $ git config --global user.email johndoe@example.com
 　　检查配置信息　`git config --list`
 
 
-2. 生成sshkey,如果视其他平台生成时就要修改名称了
+##  生成sshkey
+如果视其他平台生成时就要修改名称了
 
 >ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 > Enter file in which to save the key (/home/jon/.ssh/id_rsa): /home/jon/.ssh/id_rsa.Oschina
 >cat ~/.ssh/id_rsa.li | clip
 
 
-3.  Adding your SSH key to the ssh-agent
+##  Adding your SSH key to the ssh-agent
   
 
 #  start the ssh-agent in the background
@@ -37,30 +43,28 @@ $ git config --global user.email johndoe@example.com
         Agent pid 59566
       $ ssh-add ~/.ssh/id_rsa.li
       
-4.  gitbash下把生成的id_rsa.pub 添加到sshkey
- oschina验证ssh
-　` 　　　
-　　　　$ ssh -T git@git.oschina.net
-`
+##  gitbash下把生成的id_rsa.pub 添加到sshkey
 
-　　github 测试连接
-  
-       $ ssh -T git@github.com
-
-　      然后就可以使用ssh了
-　　然后出现:
+*  oschina 测试连接：`$ ssh -T git@git.oschina.net`　　
+*  github 测试连接:    ` $ ssh -T git@github.com`
+   如果出现:
   >Hi username! You've successfully authenticated, but GitHub does not
   provide shell access.
-
-　配置基本成功了，我前面的key重新命名，clone项目还是有问题
+  配置成功
+　
+## 不同平台　不同的rsa.key
+　
+　我前面的key重新命名，clone项目还是有问题
   
   解决方法: 在 .ssh目录下　新建config文件 添加
-  
->   Host github
+  >   Host github
     HostName github.com
     User Jon
     IdentityFile ~/.ssh/id_rsa.li
 
+## 不同的平台，相同的rsa.key (推荐)
+复制id_rsa.pub填入
+>xclip -sel clip < ~/.ssh/id_rsa.pub
 
 参考：
 github生成方式
@@ -72,7 +76,7 @@ https://gitlab.com/help/ssh/README
 oschina方式:
 http://git.mydoc.io/?t=154712
 
-# 　问题
+## 　问题
 
 1.  类似下面错误使用　git push -u origin master
 
