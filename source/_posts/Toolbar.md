@@ -22,6 +22,26 @@ public class MyActivity extends AppCompatActivity {
 }
 
 ```
+##  颜色设置
+
+* Toolbar颜色:
+`<item name="colorPrimary">@color/toolbar_color</item>`
+* 状态栏设置 : 
+`<item name="android:windowTranslucentStatus">true</item>`
+ 在 API 19 及更高版本上，Toolbar 内容延伸至状态栏上去了, statebar把toolbar给覆盖了
+ 要解决这个问题就需要下面的属性
+ *  android:fitsSystemWindows ="true"
+  这个属性能保持与statebar一定 的padding,能解决上面windowTranslucentStatus的重叠问题
+ 
+ 参考: [亦枫](http://yifeng.studio/2017/02/19/android-statusbar/) 
+ 
+  
+ 
+ 
+ 
+ 
+
+
 
 
 
