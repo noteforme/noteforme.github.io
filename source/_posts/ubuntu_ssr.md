@@ -263,6 +263,14 @@ http://ask.xmodulo.com/fix-failed-to-run-aclocal.html
 
 from:https://teddysun.com/511.html
 
+* 参数: 
+
+```
+  插件：obfs-local
+
+  插件选项：obfs=http;obfs-host=www.baidu.com
+```
+
 
 参考:https://github.com/shadowsocks/simple-obfs
 https://blog.phpgao.com/shadowsocks_on_linux.html
