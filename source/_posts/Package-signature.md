@@ -17,9 +17,20 @@ categories: ANDROID
 
 虽然生成了了新的签名但是会覆盖
 
-##打包
+## 打包
 
 android studio更新了新版本 打包的时候v1和v2都需要勾选才能安装
 
 http://blog.h5min.cn/daihuimaozideren/article/details/77842549
 
+
+## walle打包
+
+生成渠道包
+
+* 生成渠道包 ./gradlew clean assembleReleaseChannels 
+* 支持 productFlavors ./gradlew clean 
+    assembleMeituanReleaseChannels
+
+
+https://github.com/Meituan-Dianping/walle

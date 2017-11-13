@@ -12,23 +12,27 @@ categories: ANDROID
 在Best Practices for User Interface -> Adding the App Bar 
 
 
+# toolbar整体设置
+
+ ![tool设置](Toolbar/tool_color.png)
+
+ 参考:http://blog.csdn.net/a553181867/article/details/51336899
 
 
-
-# Acitivty中添加工具栏配置
-
-使用Toolbar方式的配置
-
-* 使用库 v7 appcompat
-* 确保Acitivty继承 AppCompatActivity
-
-```
-public class MyActivity extends AppCompatActivity {
-  // ...
-}
-
-```
 ##  颜色设置
+   
+  AppTheme下的设置
+
+```
+  <application
+        android:name=".application.NBBApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+```
 
 * Toolbar颜色:
 `<item name="colorPrimary">@color/toolbar_color</item>`
@@ -42,16 +46,17 @@ public class MyActivity extends AppCompatActivity {
  参考: [亦枫](http://yifeng.studio/2017/02/19/android-statusbar/) 
  
   
+
+## 自定义返回键
+
+` mToolbar.setNavigationIcon(R.mipmap.ic_back);//自定义返回键`
+
+或者这样设置 
+ `app:navigationIcon="@mipmap/ic_back"`
+
  
- 
- 
- 
 
-
-
-
-
-# 项目中导航栏 
+## 项目中导航栏 
 
 http://yifeng.studio/2016/10/12/android-toolbar/
 http://www.bijishequ.com/detail/239876
@@ -61,14 +66,36 @@ http://www.bijishequ.com/detail/239876
 https://www.diycode.cc/topics/783
 
 
-#toolbar整体设置
-
- ![tool设置](Toolbar/tool_color.png)
-
- 参考:http://blog.csdn.net/a553181867/article/details/51336899
 
 
 
+# menu设置
 
+AppBarLayout下的 `app:theme="@style/toolbar_menu"`用于设置menu
+
+## menu字体颜色
+
+需要设置 app:theme ,用 android:theme不起作用.
+ 
+`<item name="android:actionMenuTextColor">@color/text_my_black</item>`
+
+## menu事件
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        menu.findItem(R.id.item_right_text).setTitle("注册"); //设置文字
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
