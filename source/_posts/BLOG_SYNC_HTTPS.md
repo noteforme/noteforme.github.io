@@ -1,5 +1,5 @@
 ---
-title: https-github-pages
+title:  BLOG_SYNC_HTTPS
 date: 2017-07-17 15:05:03
 tags: [多设备同步hexo,图片显示，https认证]
 categories: "BLOG"
@@ -84,40 +84,40 @@ npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@
 ## 博客嵌入图片
 
 -  我们生成的路径是以public目录的路径为相对路径，所以要看public下面有没有生成图片
- ![图片](/2017/07/17/https-github-pages/img_generate20170717152203.png)
+ ![图片](/2017/07/17/BLOG_SYNC_HTTPS/img_generate20170717152203.png)
 
      所以我的写法是
-     “  ![描述](/2017/07/17/https-github-pages/img_generate20170717152203.png)  ”
+     “  ![描述](/2017/07/17/BLOG_SYNC_HTTPS/img_generate20170717152203.png)  ”
      别忘了2017前面的 “/”，否则文章页面不显示图片
 
   参考： http://www.jianshu.com/p/950f8f13a36c
   
 - 之前用上面的方式比较麻烦，有时候还有问题
->      ![描述](https-github-pages/img_generate20170717152203.png)
+>      ![描述](BLOG_SYNC_HTTPS/img_generate20170717152203.png)
 
  竟然也是可以的，可以看下效果
 
- ![图片](https-github-pages/img_generate20170717152203.png)
+ ![图片](BLOG_SYNC_HTTPS/img_generate20170717152203.png)
 
 奇怪了　这里又不显示了,明明　AndroidStudioTool这篇博客可以显示的,看来还得摸索
 
 ## https认证:Cloudflare免费的ssl
 
-　　１、创建账户
-　　　　1)注册　　https://www.cloudflare.com/a/sign-up
-       
-　　　　２）登录后输入域名,点击扫描
+* 创建账户
+　　　注册　　https://www.cloudflare.com/a/sign-up
+        
+* 登录后输入域名,点击扫描
 　　　　　　如图
                    ![描述](/2017/07/17/https-github-pages/img.png)
   
 
 
-　　　　3)　一直continue，到了Selet a Cloudflare Plan 选择Free Website
-　　　　４）解析域名的地方，修改域名服务器,我这里是在godaddy修改，然后continue
-       5)点击Preview on your site instantly－> 点击Overview(显示Ａctive即可)－>点击Crypto(选择Ｆlexible)
-
+* 　一直continue，到了Selet a Cloudflare Plan 选择Free Website
+*  解析域名的地方，修改域名服务器,我这里是在godaddy修改，然后continue
+* 点击Preview on your site instantly－> 点击Overview(显示Ａctive即可)－>点击Crypto(选择Ｆlexible)
 
    参考：http://www.jianshu.com/p/92b6d4a6ecd5
+
 ##　修改主题　分类和评论
 
 - 主题两步就修改好了，在hexo s本地显示没问题，但是部署后网页显示错乱，问题是缓存，清下浏览器缓存就好了

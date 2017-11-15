@@ -7,7 +7,7 @@ comments: true
 
 ---
 
-# 先来介绍官方的Demo
+#  先来介绍官方的Demo
 
  https://github.com/googlesamples/android-RecyclerView
     
@@ -22,28 +22,25 @@ comments: true
 早一点搜就好了，浪费半小时，找问题
 https://stackoverflow.com/questions/15191092/android-content-res-resourcesnotfoundexception-string-resource-id-fatal-except
 
+[官方培训](https://developer.android.com/training/material/lists-cards.html) 
 
-#常用方式
+# 常用方式
 
 ## 下拉刷新和加载更多
+
   这个是我们最常见的使用方式，可以根据getItemViewType判断item类型来添加头和尾
   例如这个类  FundSerialsActivityNew
+  
 ##  使用　装饰器模式
  
-
- 
-
-
-
 http://blog.csdn.net/lmj623565791/article/details/51854533
 http://blog.csdn.net/qibin0506/article/details/49716795
 
-
-
-#问题
+# 问题
 使用recycleView中会遇到一些问题,总结一下
 
-## 下拉刷新 滑动列表 crash
+##  问题1
+下拉刷新 滑动列表 crash
  
 使用下拉刷新的时候 往上滑动item会出现这样的错误
 
@@ -78,8 +75,6 @@ http://blog.csdn.net/qibin0506/article/details/49716795
         start = 0;
         loadData();
     }
-
-
 //拿到数据后
 
  public void onSuccess(List<Project> projects) {
@@ -90,8 +85,17 @@ http://blog.csdn.net/qibin0506/article/details/49716795
 
 ```
 
-参考: http://blog.csdn.net/weixiao_812/article/details/78138075
+参考:  http://blog.csdn.net/weixiao_812/article/details/78138075
 https://allen218.github.io/2016/06/02/RecyclerView%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0%E6%97%B6%E5%BF%AB%E9%80%9F%E6%BB%91%E5%8A%A8%E5%B4%A9%E6%BA%83%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/
+
+##  问题2
+
+界面不能展示 ,和ListView  不同的是RecyclerView不同
+```
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        rcvRrecord.setLayoutManager(mLayoutManager);
+```
+
 
 # 　Item分类
 
