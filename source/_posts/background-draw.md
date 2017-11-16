@@ -8,6 +8,8 @@ categories:  ANDROID
 
 为了App性能，经常会用到代码写背景
 
+代码里设置颜色  `Color.parseColor("#fa6d62")`
+
 #  layer-list  
 
 LayerDrawable 是管理其他可绘制对象阵列的可绘制对象。列表中的每个可绘制对象按照列表的顺序绘制，列表中的最后一个可绘制对象绘于顶部。每个可绘制对象由单一 元素内的 元素表示。我们需要注意的是layer-list中有item的先后顺序会影响展示效果，不同顺序的效果可能大相径庭，因为，后面的item总是在之前的item之上并覆盖显示。

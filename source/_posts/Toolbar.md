@@ -99,3 +99,25 @@ AppBarLayout下的 `app:theme="@style/toolbar_menu"`用于设置menu
     }
 
 
+
+# 问题
+ 
+使用toolbar过程中遇到了一些问题
+
+## 问题 1
+
+弹出键盘后 editext不见了，应该是toolbar被拉伸了
+![toolbar拉伸](Toolbar/toolbar_issue1.png)
+
+暂时解决方式:
+
+
+         <activity
+            android:name=".activity.WebActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+https://github.com/CoolThink/StatusBarAdapt/issues/2
+ 
+
+
