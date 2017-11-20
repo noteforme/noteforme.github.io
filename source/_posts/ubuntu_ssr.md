@@ -241,7 +241,7 @@ http://ask.xmodulo.com/fix-failed-to-run-aclocal.html
 
 * server端: `ss-server -c  /etc/shadowsocks-libev/config.json  --plugin obfs-server --plugin-opts "obfs=http"`
 
-* clinet 端:`ss-local -c config.json --plugin obfs-local --plugin-opts "obfs=http;obfs-host=www.bing.com"
+* clinet 端:`ss-local -c config.json --plugin obfs-local --plugin-opts "obfs=http;obfs-host=www.baidu.com"
 `
 也可以都放在配置文件中
 
@@ -270,6 +270,11 @@ from:https://teddysun.com/511.html
 
   插件选项：obfs=http;obfs-host=www.baidu.com
 ```
+
+* 客户端连接
+　client也按照 simple-obfs  服务端安装方式安装
+　连接命令 ` ss-local -c /etc/shadowsocks-libev/config.json --plugin obfs-local --plugin-opts "obfs=http;obfs-host=www.biadu.com"`
+　
 
 
 参考:https://github.com/shadowsocks/simple-obfs

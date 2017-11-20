@@ -71,11 +71,12 @@ $ git pull origin hexo
 
 http://www.ruanyifeng.com/blog/2014/06/git_remote.html
   
-  # 忽略文件已提交的文件
+# 忽略文件已提交的文件
   
   假如要忽略 .idea/misc.xml文件，　主要是　`git rm --cached　.idea/misc.xml ` 然后提交修改
-  
-  
+
+#  fork后的项目处理
+  https://gaohaoyang.github.io/2015/04/12/Syncing-a-fork/
   
   
   

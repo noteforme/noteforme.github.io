@@ -23,18 +23,18 @@ categories: "JAVA"
         }
      }
 
-### 生成 Concatenation.calss 文件
+###  生成 Concatenation.calss 文件
 
       D:\DemoExo>javac Concatenation.java
 
-### 运行Concatenation.class文件,后面是运行结果
+###  运行Concatenation.class文件,后面是运行结果
 
        D:\DemoExo>java Concatenation
        abcmangodef47
 
 ##  String字符串连接方式
 
-### 回到主题
+###  回到主题
 
   查看JDK文档（不知道在哪），String 类中每一个看起来会修改String值的方法，实际上都是创建了一个全新的String对象,以包含修改后的字符串内容.
        
@@ -168,7 +168,7 @@ howdy
 总结： 由此来看，如果字符串操作比较简单，就可以用“+”连接让编译器处理字符串
 如果在循环中，那么自己创建一个StringBuilder对象
 
-参考：摘自ThinkInJava4  P286
+参考：*摘自ThinkInJava4   P286*
 
 # 避免创建不必要的对象
 

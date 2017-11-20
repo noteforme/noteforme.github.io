@@ -90,11 +90,13 @@ https://allen218.github.io/2016/06/02/RecyclerView%E4%B8%8B%E6%8B%89%E5%88%B7%E6
 
 ##  问题2
 
-界面不能展示 ,和ListView  不同的是RecyclerView不同
+界面不能展示 ,和ListView  不同的是RecyclerView不同,没设置下面的参数是不显示的
 ```
         mLayoutManager = new LinearLayoutManager(getActivity());
         rcvRrecord.setLayoutManager(mLayoutManager);
 ```
+如果还是没有就看看 recycleview布局是否显示
+
 
 
 # 　Item分类
