@@ -7,12 +7,13 @@ categories: GIT
 
 ---
 
+# Git基本操作
 
-#  svn项目修改为Git 
+##  svn项目修改为Git 
 
  在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
 
-#  github上传项目 
+##  github上传项目 
 
 * 分支创建
   `$ git branch testing `
@@ -29,7 +30,7 @@ git push -u origin master
 
 ```
 
-#  Git分支操作
+##  Git分支操作
 
 
 * 分支创建
@@ -56,7 +57,7 @@ $ git merge hotfix
 [合并分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6) 
 
 
-# 远程仓库更新到本地
+## 远程仓库更新到本地
 
 ```
 $ git fetch origin
@@ -71,13 +72,47 @@ $ git pull origin hexo
 
 http://www.ruanyifeng.com/blog/2014/06/git_remote.html
   
-  # 忽略文件已提交的文件
+## 忽略文件已提交的文件
   
-  假如要忽略 .idea/misc.xml文件，　主要是　`git rm --cached　.idea/misc.xml ` 然后提交修改
+  假如要忽略 .idea/misc.xml文件，.gitignore可以添加 `/.idea/* `把.idea文件过滤
+
+ 　主要是　`git rm --cached　.idea/misc.xml ` 然后提交修改
   
-  
-  
-  
+
+# Git仓库迁移
+
+## 迁移git仓库
+
+* 原来托管于github,clone一份裸版本库
+ 
+      `git clone --bare git@gitee.com:huaiyi/CQJ.git`
+
+* 在新的版本库(gitlab)里面创建一个新的项目，例如 cqianjia
+
+* 推送刚才clone的镜像到gitlab服务器
+
+```  
+
+     cd CQJ.git/
+     git push --mirror git@45.77.22.97:root/cqianjia.git
+```  
+
+   mirror 克隆出来的裸版本对上游版本库进行了注册，这样可以在裸版本库中使用git fetch命令和上游版本库进行持续同步
+
+*  删除本地代码
+
+```
+
+      cd ..
+      rm -rf project.git
+```
+
+
+ * 到新的服务器clone到本地就Ok了
+ 
+  `  git clone git@45.77.22.97:root/cqianjia.git` 
+ 
+  参考: https://my.oschina.net/kind790/blog/510601
   
     
  

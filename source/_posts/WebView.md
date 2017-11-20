@@ -100,3 +100,6 @@ webView.addJavascriptInterface(new WebAppInterface(this), "Android");
 ```
 https://developer.android.com/guide/webapps/webview.html
 http://www.jianshu.com/p/3c94ae673e2a
+
+# localstorge
+
