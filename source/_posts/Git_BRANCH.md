@@ -129,6 +129,32 @@ git pull --all
 
 参考: http://blog.csdn.net/allangold/article/details/78028709
   
-  
-    
+
+# GIT打标签
  
+## 查看所有的版本  `git tag`
+
+* 创建标签 `git tag -a v1.0.2 -m "my version 1.0.2"  `
+  -m 选项指定了一条将会存储在标签中的信息
+ 
+## 修复已发布版本bug
+修复bug主要以下几步:
+
+* 使用git reset --hard <commit id>命令退回到发布标签对应的版本
+* 使用git checkout -b BugFix新建一个BugFix的分支，原分支前进到最新提交版本
+* 使用git checkout BugFix切换到BugFix分支，修改bug，重新发布并使用git tag打标签
+* 使用git merge合并BugFix分支到主分支
+
+
+
+* 标签是一个别名，并不是真拉出一份代码放在了那里
+
+```
+D:\Project\ASProjects\cqianjia>git tag
+v1.0.2
+```
+
+参考: http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
+ 
+
+
