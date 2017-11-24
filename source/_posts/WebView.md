@@ -103,3 +103,5 @@ http://www.jianshu.com/p/3c94ae673e2a
 
 # localstorge
 
+# 传参给h5
+http://www.jianshu.com/p/c20513cad758

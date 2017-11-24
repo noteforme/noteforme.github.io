@@ -120,4 +120,5 @@ AppBarLayout下的 `app:theme="@style/toolbar_menu"`用于设置menu
 https://github.com/CoolThink/StatusBarAdapt/issues/2
  
 
-
+# fragment使用toolbar
+http://wuxiaolong.me/2015/12/21/fragmentToolbar/
