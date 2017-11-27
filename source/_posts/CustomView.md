@@ -12,3 +12,6 @@ http://blog.csdn.net/yissan/article/details/51136088
 
 画进度条　
 https://github.com/zhouzhuo810/ZzHorizontalProgressBar
+
+画圆
+http://www.jianshu.com/p/d891fe636898
