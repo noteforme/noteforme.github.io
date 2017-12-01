@@ -83,3 +83,44 @@ categories: ANDROID
 就会报错　
 
 看来一个页面多个地方共用还是不好用merge,id不好区分
+
+# ViewStub使用
+
+```
+
+              <ViewStub
+                android:id="@+id/vs_isnew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dimen_12"
+                android:layout="@layout/vs_project_newleader" />
+
+
+```
+
+vs_project_newleader.xml
+
+```
+
+      <?xml version="1.0" encoding="utf-8"?>
+       <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+         android:id="@+id/tv_novice"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:background="@drawable/bg_bt_red"
+         android:padding="8dp"
+         android:text="新手专享"
+         android:textColor="@color/white"
+         android:textSize="@dimen/dimen_12" />
+```
+
+       View   viewProgress = v.findViewById(R.id.view_progress);
+       ViewGroup.LayoutParams vlParam = viewProgress.getLayoutParams();
+        if ("100.0".equals(String.valueOf(mProcess))) {
+            vlParam.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        } else {
+            vlParam.width = mWidth;
+        }
+        viewProgress.setLayoutParams(vlParam);

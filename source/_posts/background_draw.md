@@ -41,3 +41,6 @@ http://blog.csdn.net/xiehuimx/article/details/70242676
 https://developer.android.com/training/material/shadows-clipping.html
 
 
+# 画线
+
+https://lianyuchen.github.io/2017/05/09/%E5%85%B3%E4%BA%8Eshape%E7%94%BB%E8%99%9A%E7%BA%BF/

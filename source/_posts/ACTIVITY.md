@@ -45,3 +45,5 @@ Followed by onResume() if the activity comes to the foreground, or onStop() if i
 - singleInstance :全局单例
    如果要启动的Activity不存在，参考SingleTask
    如果将要启动的Activity已经存在，无论它位于哪个应用程序，哪个Task,系统都会把Activity所在的Task转到前台,使　Ａctivity显示.
+
+http://blog.csdn.net/mynameishuangshuai/article/details/51491074

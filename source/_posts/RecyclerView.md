@@ -7,6 +7,15 @@ comments: true
 
 ---
 
+# ListView使用
+
+ListView添加header后，postion位置会变，点击item的话，获取的数据也会变,
+正确的方式应该这样 `   ReadPacket readPacket = (ReadPacket) parent.getAdapter().getItem(position);`
+
+https://blog.chengbo.net/2012/03/09/onitemclick-return-wrong-position-when-listview-has-headerview.html
+
+
+
 #  先来介绍官方的Demo
 
  https://github.com/googlesamples/android-RecyclerView
