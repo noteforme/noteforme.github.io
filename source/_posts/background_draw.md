@@ -44,3 +44,9 @@ https://developer.android.com/training/material/shadows-clipping.html
 # 画线
 
 https://lianyuchen.github.io/2017/05/09/%E5%85%B3%E4%BA%8Eshape%E7%94%BB%E8%99%9A%E7%BA%BF/
+
+http://www.jianshu.com/p/75cc93195f7a?from=jiantop.com
+
+# TextView不同内容
+
+http://www.jianshu.com/p/f6cef78e8652
