@@ -11,3 +11,5 @@ http://blog.csdn.net/huaiyiheyuan/article/details/52473984
 
 
 https://developer.android.com/training/permissions/requesting.html
+
+先使用android-RuntimePermissionsBasic跑起来

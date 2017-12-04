@@ -156,7 +156,9 @@ v1.0.2
 
 参考: http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
  
+
 ##　获取本地没有的远程分支
+
 
 目前暂时使用了 `git pull` 然后 `git checkout IssPwd`
 
@@ -164,4 +166,12 @@ v1.0.2
 http://zhangbuhuai.com/git-branching-and-remoting/
 http://taozh.net.cn/2017/05/08/git%E8%8E%B7%E5%8F%96%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%88%B0%E6%9C%AC%E5%9C%B0/
 
+## 删除本地分支
+
+```
+git branch -d v1.0.0
+git push origin :foo
+```
+但是发现问题:error: dst refspec v1.0.0 matches more than one
+然后`git push origin :refs/remotes/origin/v1.0.0`就可以了
 
