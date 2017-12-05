@@ -66,11 +66,24 @@ $ git merge hotfix
 ```
 [合并分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6) 
 
-## 删除分支
-
-* git branch -d v1.0.0  不能删除当前分支
+##　获取本地没有的远程分支
 
 
+目前暂时使用了 `git pull` 然后 `git checkout IssPwd`
+
+还有下面方式待确认
+http://zhangbuhuai.com/git-branching-and-remoting/
+http://taozh.net.cn/2017/05/08/git%E8%8E%B7%E5%8F%96%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%88%B0%E6%9C%AC%E5%9C%B0/
+
+## 删除本地分支
+
+```
+git branch -d v1.0.0
+git push origin :foo
+```
+版本重复的话问题:error: dst refspec v1.0.0 matches more than one
+然后`git push origin :refs/heads/v1.0.0`就可以了
+[参考](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF) 
 
 https://qiita.com/hudichao/items/d665cd769ed1d2ce832a
 
@@ -174,6 +187,7 @@ v1.0.2
 
 参考: http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
  
+
 * 创建Tag
 
 ```
@@ -197,12 +211,5 @@ v1.0.2
 
 ```
 
-##　获取本地没有的远程分支
-
-目前暂时使用了 `git pull` 然后 `git checkout IssPwd`
-
-还有下面方式待确认
-http://zhangbuhuai.com/git-branching-and-remoting/
-http://taozh.net.cn/2017/05/08/git%E8%8E%B7%E5%8F%96%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%88%B0%E6%9C%AC%E5%9C%B0/
 
 
