@@ -6,12 +6,12 @@ tags:
 categories:  ANDROID
 ---
 
-为了App性能，经常会用到代码写背景
+ ** 为了App性能，经常会用到代码写背景 **
+ 
+   代码里设置颜色  `Color.parseColor("#fa6d62")`
 
-代码里设置颜色  `Color.parseColor("#fa6d62")`
 
-
-#　设置Button按钮背景
+# 设置Button按钮背景 #
 
 ![登录背景](background_draw/bg_login.png)
 
@@ -28,25 +28,90 @@ categories:  ANDROID
 </shape>
 ```
 
-#  layer-list  
 
+
+
+## 图层
+
+
+##  shape
+
+        <shape android:shape="rectangle"> 
+            <solid android:color="#2e97f3" />       //填充颜色
+            <stroke
+                android:width="2dp"                 //描边宽度
+                android:color="#2e97f3" />          //描边颜色
+        </shape>
+
+## layer-list 
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+     <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#2e97f3" />
+            <stroke
+                android:width="2dp"
+                android:color="#2e97f3" />
+            <padding android:bottom="50dp" />
+        </shape>
+     </item>
+    
+     <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/holo_green_dark" />
+            <padding android:bottom="50dp" />
+        </shape>
+     </item>
+
+     <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/holo_orange_light" />
+        </shape>
+     </item>
+
+    </layer-list>
+
+![图层显示](background_draw/bg_layer.png)
+ 
 LayerDrawable 是管理其他可绘制对象阵列的可绘制对象。列表中的每个可绘制对象按照列表的顺序绘制，列表中的最后一个可绘制对象绘于顶部。每个可绘制对象由单一 元素内的 元素表示。我们需要注意的是layer-list中有item的先后顺序会影响展示效果，不同顺序的效果可能大相径庭，因为，后面的item总是在之前的item之上并覆盖显示。
+
+**后面的item在之前的item上显示，所有前面设置的padding,后面叠加形成图层**
 
 http://blog.csdn.net/xiehuimx/article/details/70242676
 
 
-# 阴影效果
+# 首页阴影效果
 
 前端时间一直找这种资料，效果一直不如意，不得已用了图片，真是　踏破铁鞋无觅处
 https://developer.android.com/training/material/shadows-clipping.html
 
 
-# 画线
+# 画虚线
 
-https://lianyuchen.github.io/2017/05/09/%E5%85%B3%E4%BA%8Eshape%E7%94%BB%E8%99%9A%E7%BA%BF/
 
-http://www.jianshu.com/p/75cc93195f7a?from=jiantop.com
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <shape xmlns:android="http://schemas.android.com/apk/res/android"
+     android:shape="line">
+    <!-- jon  虚线-->
+    <size android:height="1dp" />
+    <stroke
+        android:width="1dp"
+        android:color="@color/white"
+        android:dashGap="2dp"
+        android:dashWidth="4dp" />
+
+    <!-- dashwidth是指- - -中每一个-的宽度-->
+    <!-- dashGap是指虚线中每一个间隔的宽度 -->
+</shape>
+
+参考：
+  https://lianyuchen.github.io/2017/05/09/%E5%85%B3%E4%BA%8Eshape%E7%94%BB%E8%99%9A%E7%BA%BF/
+  http://www.jianshu.com/p/75cc93195f7a?from=jiantop.com
 
 # TextView不同内容
 
 http://www.jianshu.com/p/f6cef78e8652
+SpannableStringBuilder 

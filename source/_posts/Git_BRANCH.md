@@ -1,5 +1,5 @@
 ---
-title: GIT_BRANCH(git和分支操作)
+title: GIT_BRANCH(git操作)
 comments: true
 date: 2017-10-19 09:24:09
 tags:
@@ -38,32 +38,63 @@ git push -u origin master
 
 ```
 
-##  Git分支操作
+## 分支操作
 
+* git branch    查看本地分支
+  git branch -r 查看远程分支 
 
 * 分支创建
-  `$ git branch testing`
+```
+ git branch v1.0.0
+
+  
+```
 * Git分支切换
-   `$ git checkout testing`
+   `$ git checkout v1.0.0`
 * 分支提交到远程仓库
-   `$ git push origin testing `
+   `$ git push origin v1.0.0 `
 
 * [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
  `$ git remote show origin `
 
-* Git分支切换
-    ` $ git checkout testing`
+
 
  [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
 http://blog.csdn.net/hyr83960944/article/details/36185231
 
+* 分支删除
+  `git branch -d <branchname>`
+
 *  合并分支
+ 
+ 合并hotfix到dev
+
 ```
-$ git checkout master
+$ git checkout            // 先切换到dev 
 $ git merge hotfix
 ```
 [合并分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6) 
 
+## 　获取本地没有的远程分支
+
+* 获取一个远程分支
+ `git checkout --track origin/Dev1.10`
+[官方](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF "官方参考")
+
+
+
+
+## 删除本地分支
+
+```
+git branch -d v1.0.0
+git push origin :foo
+```
+版本重复的话问题:error: dst refspec v1.0.0 matches more than one
+然后`git push origin :refs/heads/v1.0.0`就可以了
+[参考](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF) 
+
+https://qiita.com/hudichao/items/d665cd769ed1d2ce832a
 
 ## 远程仓库更新到本地
 
@@ -133,13 +164,14 @@ git fetch --all
 git pull --all
 ```
 
-
 参考: http://blog.csdn.net/allangold/article/details/78028709
   
 
-# GIT打标签
+# GIT标签
  
 ## 查看所有的版本  `git tag`
+
+* 查看远程分支  `git ls-remote --tags`
 
 * 创建标签 `git tag -a v1.0.2 -m "my version 1.0.2"  `
   -m 选项指定了一条将会存储在标签中的信息
@@ -164,21 +196,28 @@ v1.0.2
 参考: http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
  
 
-##　获取本地没有的远程分支
-
-
-目前暂时使用了 `git pull` 然后 `git checkout IssPwd`
-
-还有下面方式待确认
-http://zhangbuhuai.com/git-branching-and-remoting/
-http://taozh.net.cn/2017/05/08/git%E8%8E%B7%E5%8F%96%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%88%B0%E6%9C%AC%E5%9C%B0/
-
-## 删除本地分支
+* 创建Tag
 
 ```
-git branch -d v1.0.0
-git push origin :foo
+   git tag -a v1.0.0 -m "my version 1.0.0"
+   git push origin v1.0.0    //推送到远程分支
+   git push origin --tags       //推送所有的标签
+
 ```
-版本重复的话问题:error: dst refspec v1.0.0 matches more than one
-然后`git push origin :refs/heads/v1.0.0`就可以了
-[参考](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF) 
+
+* 删除tag 
+
+``` 
+   git tag -d <tagname> 
+   git push origin :refs/tags/<tagname>
+
+  例如
+   git push origin :refs/tags/v1.0.2
+   git tag -d  v1.0.2
+
+
+
+```
+
+
+

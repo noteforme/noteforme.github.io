@@ -7,12 +7,14 @@ categories: ANDROID
 
 ---
 
-##Activity了解
+# Activity了解
+
 An activity is a single, focused thing that the user can do. Almost all activities interact with the user, so the Activity class takes care of creating a window for you in which you can place your UI with setContentView(View).
 Acitivty和用户交互，所以也是用的最多的
 
-#1.想到一个问题:界面Ａ　到界面Ｂ，是Ａ的onStop()先执行　还是Ｂ的onResume()先走
- 先用事实说话吧
+#  想到一个问题:界面Ａ　到界面Ｂ，是Ａ的onStop()先执行　还是Ｂ的onResume()先走
+ 
+先用事实说话吧
   
      I/BaseActivity: MainActivity -- onCreate() -- 
      I/BaseActivity: MainActivity -- onStart() -- 
@@ -35,7 +37,8 @@ Followed by onResume() if the activity comes to the foreground, or onStop() if i
 
 参考：https://developer.android.com/reference/android/app/Activity.html
 
-＃Ａctivity四种启动模式
+# Ａctivity四种启动模式
+
 - standard:这种方式总会为目标Ａctivity创建一个新实例，并將Activity添加当前Task中
 - singleTop: 和 standard基本一致，如果将要被启动的Activity已经位于栈顶，系统不会创建目
 　　　标Activity而是复用栈顶的Activity.
@@ -45,5 +48,21 @@ Followed by onResume() if the activity comes to the foreground, or onStop() if i
 - singleInstance :全局单例
    如果要启动的Activity不存在，参考SingleTask
    如果将要启动的Activity已经存在，无论它位于哪个应用程序，哪个Task,系统都会把Activity所在的Task转到前台,使　Ａctivity显示.
+
+
+
+
+可以在AndroidManifest.xml设置 ,也可以在Intent启动地方设置
+
+```
+
+        Intent intent = new Intent(context, SuccessInvestActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+```
+
+http://www.jianshu.com/p/2a9fcf3c11e4
+
+
+
 
 http://blog.csdn.net/mynameishuangshuai/article/details/51491074
