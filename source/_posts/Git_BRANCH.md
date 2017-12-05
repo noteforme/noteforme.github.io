@@ -16,7 +16,14 @@ categories: GIT
 ##  github上传项目 
 
 *  分支创建
-`$ git branch testing `
+
+```
+ git branch Dev1.10 
+ git push origin Dev1.10 　　　// 提交该分支到远程仓库
+ git pull origin dev                         //从远程获取分支
+       
+```
+
 *  下面是对已有项目的提交
 
 ```
