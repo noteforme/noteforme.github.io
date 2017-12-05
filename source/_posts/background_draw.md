@@ -10,8 +10,9 @@ categories:  ANDROID
  
    代码里设置颜色  `Color.parseColor("#fa6d62")`
 
+# shape  layer-list    selector
 
-# 设置Button按钮背景 #
+## 设置Button按钮背景 #
 
 ![登录背景](background_draw/bg_login.png)
 
@@ -27,12 +28,6 @@ categories:  ANDROID
     <solid android:color="@android:color/transparent" />
 </shape>
 ```
-
-
-
-
-## 图层
-
 
 ##  shape
 
@@ -77,20 +72,46 @@ categories:  ANDROID
  
 LayerDrawable 是管理其他可绘制对象阵列的可绘制对象。列表中的每个可绘制对象按照列表的顺序绘制，列表中的最后一个可绘制对象绘于顶部。每个可绘制对象由单一 元素内的 元素表示。我们需要注意的是layer-list中有item的先后顺序会影响展示效果，不同顺序的效果可能大相径庭，因为，后面的item总是在之前的item之上并覆盖显示。
 
+##  selector 底部选择器
+
+```
+    <?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <layer-list>
+            <item>
+                <color android:color="#2e97f3" />
+            </item>
+
+            <item android:bottom="5dp" android:drawable="@color/white" />
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item>
+                <color android:color="#2e97f3" />
+            </item>
+
+            <item android:drawable="@color/white" />
+        </layer-list>
+    </item>
+</selector>
+```
+参考 https://keeganlee.me/post/android/20150909
+
+
 **后面的item在之前的item上显示，所有前面设置的padding,后面叠加形成图层**
 
 http://blog.csdn.net/xiehuimx/article/details/70242676
 
 
-# 首页阴影效果
+#  首页阴影效果
 
 前端时间一直找这种资料，效果一直不如意，不得已用了图片，真是　踏破铁鞋无觅处
 https://developer.android.com/training/material/shadows-clipping.html
 
 
-# 画虚线
-
-
+#  画虚线
 
     <?xml version="1.0" encoding="utf-8"?>
     <shape xmlns:android="http://schemas.android.com/apk/res/android"
@@ -105,7 +126,7 @@ https://developer.android.com/training/material/shadows-clipping.html
 
     <!-- dashwidth是指- - -中每一个-的宽度-->
     <!-- dashGap是指虚线中每一个间隔的宽度 -->
-</shape>
+   </shape>
 
 参考：
   https://lianyuchen.github.io/2017/05/09/%E5%85%B3%E4%BA%8Eshape%E7%94%BB%E8%99%9A%E7%BA%BF/

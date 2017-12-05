@@ -11,7 +11,27 @@ Android屏幕的一些技巧
 https://developer.android.com/training/basics/supporting-devices/index.html
 https://developer.android.com/training/multiscreen/screensizes.html?hl=zh-cn
 
-## PX转 dp
+## 资源图片适配
+> xhdpi: 2.0
+hdpi: 1.5
+mdpi: 1.0 (baseline)
+ldpi: 0.75
+This means that if you generate a 200x200 image for xhdpi devices, you should generate the same resource in 150x150 for hdpi, 100x100 for mdpi, and 75x75 for ldpi devices.
+
+而UI问我们需要多少大小的图，如果效果图根据750*1334的话，可以告诉他，不过PS有个叫
+cutman的工具可以自动生成不同分辨率的图片
+
+
+
+
+##  PX转 dp
+
+以5x为例: 5X的dpi =ro.sf.lcd_density=420,   PPI = 420/160 = 2.625
+设置view的宽度我们用　match_parent,那么在5X上，他是多少dp呢？
+
+5X : width = 1080 px
+dp = 1080 / PPI = 411.428571429,
+所以411dp就是5X的match_parent
 
 http://blog.csdn.net/u010983881/article/details/51993157
 
@@ -28,8 +48,6 @@ http://blog.csdn.net/u010983881/article/details/51993157
 　　
 　　drawable-xhdpi　480上做的图就是大概是1.5倍的样子 ,分辨率在1920 *1080上的也是一样的
   
-　　
-
 ##　开发中实际转化　
 
 　　http://www.bijishequ.com/detail/513426?p=
