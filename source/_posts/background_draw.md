@@ -50,3 +50,4 @@ http://www.jianshu.com/p/75cc93195f7a?from=jiantop.com
 # TextView不同内容
 
 http://www.jianshu.com/p/f6cef78e8652
+SpannableStringBuilder 
