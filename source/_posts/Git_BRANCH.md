@@ -66,14 +66,14 @@ $ git merge hotfix
 ```
 [合并分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6) 
 
-##　获取本地没有的远程分支
+## 　获取本地没有的远程分支
+
+* 获取一个远程分支
+ `git checkout --track origin/Dev1.10`
+[官方](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF "官方参考")
 
 
-目前暂时使用了 `git pull` 然后 `git checkout IssPwd`
 
-还有下面方式待确认
-http://zhangbuhuai.com/git-branching-and-remoting/
-http://taozh.net.cn/2017/05/08/git%E8%8E%B7%E5%8F%96%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%88%B0%E6%9C%AC%E5%9C%B0/
 
 ## 删除本地分支
 
@@ -154,7 +154,6 @@ git branch -r | grep -v '\->' | while read remote; do git branch --track "${remo
 git fetch --all
 git pull --all
 ```
-
 
 参考: http://blog.csdn.net/allangold/article/details/78028709
   
