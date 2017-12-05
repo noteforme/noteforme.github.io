@@ -1,5 +1,5 @@
 ---
-title: GIT_BRANCH(git和分支操作)
+title: GIT_BRANCH(git操作)
 comments: true
 date: 2017-10-19 09:24:09
 tags:
@@ -59,9 +59,11 @@ http://blog.csdn.net/hyr83960944/article/details/36185231
   `git branch -d <branchname>`
 
 *  合并分支
+ 
+ 合并hotfix到dev
 
 ```
-$ git checkout master
+$ git checkout            // 先切换到dev 
 $ git merge hotfix
 ```
 [合并分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6) 
