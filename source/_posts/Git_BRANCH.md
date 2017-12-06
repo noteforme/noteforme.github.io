@@ -16,7 +16,14 @@ categories: GIT
 ##  github上传项目 
 
 *  分支创建
-`$ git branch testing `
+
+```
+ git branch Dev1.10 
+ git push origin Dev1.10 　　　// 提交该分支到远程仓库
+ git pull origin dev                         //从远程获取分支
+       
+```
+
 *  下面是对已有项目的提交
 
 ```
@@ -39,7 +46,6 @@ git push -u origin master
 * 分支创建
 ```
  git branch v1.0.0
-
   
 ```
 * Git分支切换
@@ -55,8 +61,6 @@ git push -u origin master
  [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
 http://blog.csdn.net/hyr83960944/article/details/36185231
 
-* 分支删除
-  `git branch -d <branchname>`
 
 *  合并分支
  
@@ -195,7 +199,6 @@ v1.0.2
    git tag -a v1.0.0 -m "my version 1.0.0"
    git push origin v1.0.0    //推送到远程分支
    git push origin --tags       //推送所有的标签
-
 ```
 
 * 删除tag 
@@ -207,8 +210,6 @@ v1.0.2
   例如
    git push origin :refs/tags/v1.0.2
    git tag -d  v1.0.2
-
-
 
 ```
 
