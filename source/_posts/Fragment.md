@@ -50,3 +50,14 @@ compile 'com.android.support:appcompat-v7:21.0.3'
 
 Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragment的生命周期方法
 前半段先执行，然后执行自身的生命周期方法
+
+在项目终从其他页面回到MainAcitivty的时候，三个页面的生命周期方法都跑了一遍
+
+```
+　D/FinanceFragment         Test: onStart()
+　D/WealthFragment         Test: onStart()
+ D/MineFragment         Test: onStart()
+ D/FinanceFragment         Test: onResume()
+ D/WealthFragment         Test: onResume()
+ D/MineFragment         Test: onResume()
+```
