@@ -44,35 +44,32 @@ categories:  ANDROID
         </shape>
 
 ## layer-list 
-
+      
     <?xml version="1.0" encoding="utf-8"?>
     <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
      <item>
         <shape android:shape="rectangle">
             <solid android:color="#2e97f3" />
             <stroke
                 android:width="2dp"
                 android:color="#2e97f3" />
-            <padding android:bottom="50dp" />
         </shape>
-     </item>
-    
-     <item>
+    </item>
+
+    <item android:top="50dp">
         <shape android:shape="rectangle">
             <solid android:color="@android:color/holo_green_dark" />
-            <padding android:bottom="50dp" />
+            <padding android:left="50dp"/>
         </shape>
-     </item>
+    </item>
 
-     <item>
+    <item android:top="100dp">
         <shape android:shape="rectangle">
             <solid android:color="@android:color/holo_orange_light" />
         </shape>
-     </item>
-
+    </item>
     </layer-list>
-
+    
 ![图层显示](background_draw/bg_layer.png)
  
 LayerDrawable 是管理其他可绘制对象阵列的可绘制对象。列表中的每个可绘制对象按照列表的顺序绘制，列表中的最后一个可绘制对象绘于顶部。每个可绘制对象由单一 元素内的 元素表示。我们需要注意的是layer-list中有item的先后顺序会影响展示效果，不同顺序的效果可能大相径庭，因为，后面的item总是在之前的item之上并覆盖显示。
@@ -80,7 +77,7 @@ LayerDrawable 是管理其他可绘制对象阵列的可绘制对象。列表中
 **后面的item在之前的item上显示，所有前面设置的padding,后面叠加形成图层**
 
 http://blog.csdn.net/xiehuimx/article/details/70242676
-
+https://developer.android.com/guide/topics/resources/drawable-resource.html#Transition
 
 # 首页阴影效果
 
@@ -110,6 +107,8 @@ https://developer.android.com/training/material/shadows-clipping.html
 参考：
   https://lianyuchen.github.io/2017/05/09/%E5%85%B3%E4%BA%8Eshape%E7%94%BB%E8%99%9A%E7%BA%BF/
   http://www.jianshu.com/p/75cc93195f7a?from=jiantop.com
+
+  https://keeganlee.me/post/android/20150909
 
 # TextView不同内容
 
