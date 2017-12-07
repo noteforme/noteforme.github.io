@@ -50,6 +50,7 @@ Followed by onResume() if the activity comes to the foreground, or onStop() if i
    如果将要启动的Activity已经存在，无论它位于哪个应用程序，哪个Task,系统都会把Activity所在的Task转到前台,使　Ａctivity显示.
 
 
+这里跳转就要用到 onNewIntent()
 
 
 可以在AndroidManifest.xml设置 ,也可以在Intent启动地方设置
