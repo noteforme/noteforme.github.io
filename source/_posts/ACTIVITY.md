@@ -61,6 +61,9 @@ Followed by onResume() if the activity comes to the foreground, or onStop() if i
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 ```
 
+## 然而 ANDROID 4.4 启动模式会出现问题
+
+
 http://www.jianshu.com/p/2a9fcf3c11e4
 
 

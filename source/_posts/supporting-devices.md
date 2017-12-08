@@ -19,7 +19,7 @@ ldpi: 0.75
 This means that if you generate a 200x200 image for xhdpi devices, you should generate the same resource in 150x150 for hdpi, 100x100 for mdpi, and 75x75 for ldpi devices.
 
 而UI问我们需要多少大小的图，如果效果图根据750*1334的话，可以告诉他，不过PS有个叫
-cutman的工具可以自动生成不同分辨率的图片
+cutterman的工具可以自动生成不同分辨率的图片
 
 
 
