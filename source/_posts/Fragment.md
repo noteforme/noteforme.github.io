@@ -11,7 +11,7 @@ https://developer.android.com/reference/android/app/Fragment.html
 https://wizardforcel.gitbooks.io/w3school-android/content/77.html
 https://juejin.im/post/5901b564570c35005804424b
 
-# Fragment区别
+#  Fragment包的区别
 
 fragment有两种继承方式
 android.support.v4.app.Fragment和android.app.Fragment
@@ -46,3 +46,18 @@ compile 'com.android.support:appcompat-v7:21.0.3'
 作者：天天想念
 链接：http://www.jianshu.com/p/db28adde1c39
 
+#  Fragment懒加载
+
+Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragment的生命周期方法
+前半段先执行，然后执行自身的生命周期方法
+
+在项目终从其他页面回到MainAcitivty的时候，三个页面的生命周期方法都跑了一遍
+
+```
+　D/FinanceFragment         Test: onStart()
+　D/WealthFragment         Test: onStart()
+ D/MineFragment         Test: onStart()
+ D/FinanceFragment         Test: onResume()
+ D/WealthFragment         Test: onResume()
+ D/MineFragment         Test: onResume()
+```
