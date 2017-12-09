@@ -51,6 +51,12 @@ Demo在　AndroidDemo -> RXLeran->RX基础->Rx线程切换
 
 * Scheduler.io()
 
+#  RxJava2学习
+
+##　 系列教程
+
+来自[鸿洋公众号的教程](http://www.10tiao.com/html/169/201709/2650823932/1.html) 
+
 
 
 
