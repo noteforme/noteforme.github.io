@@ -35,6 +35,20 @@ categories: ANDROID
 *注意*:onActivityResult方法用的算比较普遍，刚好有个困惑，回传数据时`intent.putExtra("text",122);`  使用 `  String couponId = data.getStringExtra("text");` 接收时为null,里面跳转和回传,存的值是int类型，获取string类型
 
 
+# Fragment接收onActivityResult
+
+**必须使用Fragment 的 startActivityForResult()**
+
+```
+ public static void startForResult(Activity activity, Fragment fragment) {
+        Intent intent = new Intent(activity, LoginActivity.class);
+        fragment.startActivityForResult(intent, REQUEST_CODE_MINE_FRAGMENT);
+    }
+
+```
+
+
+
 
 # 跳转多个页面 回来
 

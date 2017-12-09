@@ -181,6 +181,7 @@ git pull --all
 * 使用git checkout BugFix切换到BugFix分支，修改bug，重新发布并使用git tag打标签
 * 使用git merge合并BugFix分支到主分支
 
+参考: https://thekingofworld.github.io/Git-tags.html
 
 
 * 标签是一个别名，并不是真拉出一份代码放在了那里
@@ -212,6 +213,8 @@ v1.0.2
    git tag -d  v1.0.2
 
 ```
+
+
 
 
 
