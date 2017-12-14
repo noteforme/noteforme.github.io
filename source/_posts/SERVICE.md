@@ -36,3 +36,4 @@ categories: ANDROID
 08-12 13:38:26.601 30532-30655/com.hyhy.lern I/MyIntentService: do task1
 08-12 13:38:26.617 30532-30532/com.hyhy.lern I/MyIntentService: -- onDestroy() --
 
+https://developer.android.com/training/run-background-service/create-service.html
