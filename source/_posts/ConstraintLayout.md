@@ -2,7 +2,7 @@
 title: ConstraintLayout
 comments: true
 date: 2017-10-15 10:37:39
-tags:
+tags: ConstraintLayout
 categories: "ANDROID"
 ---
 
@@ -67,9 +67,12 @@ A useful aspect of ConstraintLayout is in how it deals with "impossible" constra
          
 ```
 
+##  Guideline使用
+
+https://developer.android.com/reference/android/support/constraint/Guideline.html
 
 
-#  常用布局方式
+#  应用
 
 ##   居中显示 : 四个方向添加约束
 		 
@@ -95,17 +98,139 @@ A useful aspect of ConstraintLayout is in how it deals with "impossible" constra
 
 ```
 
+#  chain
+
+ 3个Button 两两依赖,相当于组成了一个链
+
+##　Button均分 width = match_constraint (0dp)
+
+ ![图](ConstraintLayout/ConstraintLayout_000.png)
 
 
+```
+ <Button
+        android:id="@+id/bt_00"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Button_00"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/bt_01" />
+
+    <Button
+        android:id="@+id/bt_01"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Button_01"
+        app:layout_constraintLeft_toRightOf="@+id/bt_00"
+        app:layout_constraintRight_toLeftOf="@+id/bt_02" />
+
+    <Button
+        android:id="@+id/bt_02"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Button_02"
+        app:layout_constraintLeft_toRightOf="@+id/bt_01"
+        app:layout_constraintRight_toRightOf="parent" />
+```
+
+## `  app:layout_constraintHorizontal_weight="2"`　
+看属性也可以猜到是干嘛用的了.
+![宽度为wrap_content](ConstraintLayout/ConstraintLayout_001.png)
 
 
-先看下大牛的　讲解[讲解](https://mp.weixin.qq.com/s?__biz=MzAxMTI4MTkwNQ==&mid=2650824132&idx=1&sn=1cf09caa325d83de12b73c615fc9613e&chksm=80b7895ab7c0004c5cbb2175a3da302fc13d612762f56094f13b80e1334e7655dde1ad00083c&mpshare=1&scene=1&srcid=101591mRGp1DVSC425V6ZFCi&pass_ticket=ehu4gU6NQfzUXExFFvUCdyIfM4JyImAZha6dn4BZggZKAmpjNtpcb6XZgWicVQ7V#rd) 
+##  Button均份　宽度不为match_constraint
+![宽度为wrap_content](ConstraintLayout/ConstraintLayout_10.png)
 
-这篇文章　图文并茂挺不错的
+
+```
+ <Button
+            android:id="@+id/bt_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button_00"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/bt_11" />
+
+        <Button
+            android:id="@+id/bt_11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button_01"
+            app:layout_constraintLeft_toRightOf="@+id/bt_10"
+            app:layout_constraintRight_toLeftOf="@+id/bt_12" />
+
+        <Button
+            android:id="@+id/bt_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button_02"
+            app:layout_constraintLeft_toRightOf="@+id/bt_11"
+            app:layout_constraintRight_toRightOf="parent" />
+```
+##   layout_constraintHorizontal_chainStyle
+    这个属性默认是　spread，还有另外两种方式 packed 和spread_inside
+
+* packed
+
+
+```
+  <Button
+            android:id="@+id/bt_20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button_20"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/bt_21" />
+
+        <Button
+            android:id="@+id/bt_21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button_21"
+            app:layout_constraintLeft_toRightOf="@+id/bt_20"
+            app:layout_constraintRight_toLeftOf="@+id/bt_22" />
+
+        <Button
+            android:id="@+id/bt_22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button_22"
+            app:layout_constraintLeft_toRightOf="@+id/bt_21"
+            app:layout_constraintRight_toRightOf="parent" />
+``` 
+      
+    
+![宽度为wrap_content](ConstraintLayout/ConstraintLayout_20.png)
+
+*  spread_inside     :  width = wrap_content
+![宽度为wrap_content](ConstraintLayout/ConstraintLayout_300.png)
+
+*  spread_inside     :  width = 0dp
+![宽度为wrap_content](ConstraintLayout/ConstraintLayout_301.png)
+
+[代码](http://45.77.222.97:3000/root/MineUtils/src/master/app/src/main/java/com/jonzhou/mineutils/layout) 
+
+##  概述
+经过上面的实践，再来张官方的图就好理解了
+![宽度为wrap_content](ConstraintLayout/constraint-chain-styles_2x.png)
+
+> 1、 Spread: The views are evenly distributed (after margins are accounted for). This is the default.
+2 、 Spread inside: The first and last view are affixed to the constraints on each end of the chain and the rest are evenly distributed.
+３、Weighted: When the chain is set to either spread or spread inside, you can fill the remaining space by setting one or more views to "match constraints" (0dp). By default, the space is evenly distributed between each view that's set to "match constraints," but you can assign a weight of importance to each view using the layout_constraintHorizontal_weight and layout_constraintVertical_weight attributes. If you're familiar with layout_weight in a linear layout, this works the same way. So the view with the highest weight value gets the most amount of space; views that have the same weight get the same amount of space.
+４、Packed: The views are packed together (after margins are accounted for). You can then adjust the whole chain's bias (left/right or up/down) by changing the chain's head view bias.
+
+
+参考:https://developer.android.com/training/constraint-layout/index.html
+最后就是边应用边理解了
+
+
+[讲解](https://mp.weixin.qq.com/s?__biz=MzAxMTI4MTkwNQ==&mid=2650824132&idx=1&sn=1cf09caa325d83de12b73c615fc9613e&chksm=80b7895ab7c0004c5cbb2175a3da302fc13d612762f56094f13b80e1334e7655dde1ad00083c&mpshare=1&scene=1&srcid=101591mRGp1DVSC425V6ZFCi&pass_ticket=ehu4gU6NQfzUXExFFvUCdyIfM4JyImAZha6dn4BZggZKAmpjNtpcb6XZgWicVQ7V#rd) 
+
 http://blog.chengyunfeng.com/?p=1030
 
 对chain讲解详细
 http://blog.csdn.net/zxt0601/article/details/72683379
 
 
-https://developer.android.com/training/constraint-layout/index.html
+

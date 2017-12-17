@@ -10,6 +10,11 @@ categories: ANDROID
 
 # 　Retrofit
 
+要实现类似这样的请求,用post方式怎么也不行
+https://newsapi.org/v2/top-headlines?sources=financial-times&apiKey=e4f505f73a9f4ee99119ab33a19ab05e
+最后还是感谢这位哥们http://wuxiaolong.me/2016/06/18/retrofits/
+
+
 ##  OFFICE 
 
 http://square.github.io/retrofit/
