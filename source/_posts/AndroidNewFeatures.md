@@ -6,4 +6,82 @@ tags:  NewFeatures
 categories:  ANDROID
 ---
 
+ ANDROID新特性
 
+# Nougat(7.0)
+
+## 安装apk
+ 
+  	 StrictMode API政策
+
+  
+* 在AndroidManifest.xml添加
+
+```
+   <provider
+            android:name="android.support.v4.content.FileProvider"   
+            android:authorities="com.cqian.fileProvider"         // com.cqian是包名
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_install"/>
+        </provider>
+```
+
+* xml指定共享目录
+
+	有下面几种存储方式
+
+```
+<files-path name="name" path="path" /> 物理路径相当于Context.getFilesDir() + /path/  
+  
+<cache-path name="name" path="path" /> 物理路径相当于Context.getCacheDir() + /path/  
+  
+<external-path name="name" path="path" /> 物理路径相当于Environment.getExternalStorageDirectory() + /path/  
+  
+<external-files-path name="name" path="path" /> 物理路径相当于Context.getExternalFilesDir(String) + /path/  
+  
+<external-cache-path name="name" path="path" /> 物理路径相当于Context.getExternalCacheDir() + /path/  
+
+```
+
+ 由于我的存储目录用这个 `String downFile = context.getExternalCacheDir() + "apkCacheFile"`
+ 所以我的写法是这样的
+```
+   <external-cache-path
+        name="name"
+        path="apkCacheFile" />
+```
+
+* 安装APK
+
+  就这个安装方法
+
+```
+  private static void installApk(Context context, File apkFile) {
+        Intent intent = new Intent();
+        // 由于没有在Activity环境下启动Activity,设置下面的标签
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction(Intent.ACTION_VIEW);
+        String type = "application/vnd.android.package-archive";
+
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= 24) {
+            // 参数2 清单文件中provider节点里面的authorities ; 参数3  共享的文件,即apk包的file类
+            uri = FileProvider.getUriForFile(context, "com.cqian.fileProvider", apkFile);
+            //对目标应用临时授权该Uri所代表的文件
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            uri = Uri.fromFile(apkFile);
+        }
+        intent.setDataAndType(uri, type);
+        context.startActivity(intent);
+    }
+```
+
+
+
+
+https://developer.android.google.cn/about/versions/nougat/android-7.0-changes.html
+
+http://blog.csdn.net/github_2011/article/details/74297460
