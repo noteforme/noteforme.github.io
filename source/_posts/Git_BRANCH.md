@@ -58,8 +58,9 @@ git push -u origin master
 
 
 
- [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
+  [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
 http://blog.csdn.net/hyr83960944/article/details/36185231
+
 
 
 *  合并分支
@@ -146,7 +147,7 @@ rm -rf project.git
 ```
 
 
- *  到新的服务器clone到本地就Ok了
+*  到新的服务器clone到本地就Ok了
  
   `  git clone git@45.77.22.97:root/cqianjia.git` 
  
@@ -163,6 +164,15 @@ git pull --all
 
 参考: http://blog.csdn.net/allangold/article/details/78028709
   
+
+## 修改远程仓库地址 
+
+* github创建 New项目，项目地址是 git@github.com:BlogForMe/News.git
+* 修改远程服务器地址 ：`git remote set-url origin git@github.com:BlogForMe/News.git`
+* 推送到远程服务器 : `git push origin `
+
+
+http://jcpplus.github.io/2015/07/23/modify-remote-url/
 
 # GIT标签
  
