@@ -53,6 +53,8 @@ Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragme
 
 在项目终从其他页面回到MainAcitivty的时候，三个页面的生命周期方法都跑了一遍
 
+## Test
+
 ```
 　D/FinanceFragment         Test: onStart()
 　D/WealthFragment         Test: onStart()
@@ -60,4 +62,81 @@ Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragme
  D/FinanceFragment         Test: onResume()
  D/WealthFragment         Test: onResume()
  D/MineFragment         Test: onResume()
+```
+## 实例
+
+```
+	  @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        isPrepared = true;
+        lazyLoad();
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+//        Log.d(TAG + "         Test", " onCreateView()");
+
+        if (rootView == null) {
+            int view = setLayoutId();
+            if (view != 0) {
+                rootView = inflater.inflate(view, container, false);
+            }
+        } else {
+            ViewGroup parent = (ViewGroup) rootView.getParent();
+            if (parent != null) {
+                parent.removeView(rootView);
+            }
+        }
+        initView(rootView);
+        return rootView;
+    }
+
+    //  http://www.10tiao.com/html/565/201702/2247483988/1.html
+    // 标志位，标志已经初始化完成，因为setUserVisibleHint是在onCreateView之前调用的，
+    // 在视图未初始化的时候，在lazyLoad当中就使用的话，就会有空指针的异常
+    private boolean isPrepared;
+    //标志当前页面是否可见
+    private boolean isVisible;
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+//        Log.d(TAG + "         Test", " setUserVisibleHint() is Visible : ?  " + isVisibleToUser);
+
+        if (getUserVisibleHint()) {
+            isVisible = true;
+            onVisible();
+        } else {
+            isVisible = false;
+            onInvisible();
+        }
+    }
+
+    protected void onInvisible() {
+
+    }
+
+    protected void onVisible() {
+        lazyLoad();
+    }
+
+    private void lazyLoad() {
+        if (!isVisible || !isPrepared) {
+            return;
+        }
+        requestData();
+    }
+
+    /**
+     * 请求数据
+     */
+    protected void requestData() {
+        Log.d(TAG + "         Test", " requestData ");
+    }
+
+
+
 ```
