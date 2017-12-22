@@ -98,6 +98,45 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
 
 ```
 
+## 相对邻里控件 居中
+ 
+```
+	   <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/dimen_16"
+        android:paddingRight="@dimen/dimen_16">
+
+        <TextView
+            android:id="@+id/tv_calculate_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rectangle_blue"
+            android:paddingBottom="4dp"
+            android:paddingLeft="@dimen/dimen_16"
+            android:paddingRight="@dimen/dimen_16"
+            android:paddingTop="4dp"
+            android:text="三个月"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_12"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_calculate_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_16"
+            android:text="￥ 2000"
+            android:textColor="#0097fc"
+            android:textSize="@dimen/text_size_12"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_calculate_date"
+            app:layout_constraintTop_toTopOf="@+id/tv_calculate_date" />
+
+    </android.support.constraint.ConstraintLayout>
+
+``` 
+
+
 #  chain
 
  3个Button 两两依赖,相当于组成了一个链
@@ -133,7 +172,7 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
         app:layout_constraintRight_toRightOf="parent" />
 ```
 
-## `  app:layout_constraintHorizontal_weight="2"`　
+##  `  app:layout_constraintHorizontal_weight="2"`　
 看属性也可以猜到是干嘛用的了.
 ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_001.png)
 

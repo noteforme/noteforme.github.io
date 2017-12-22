@@ -105,3 +105,7 @@ http://www.jianshu.com/p/3c94ae673e2a
 
 # 传参给h5
 http://www.jianshu.com/p/c20513cad758
+
+
+[美团点评](https://tech.meituan.com/WebViewPerf.html)
+[腾讯](https://mp.weixin.qq.com/s/evzDnTsHrAr2b9jcevwBzA)
