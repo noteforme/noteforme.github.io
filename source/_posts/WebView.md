@@ -7,20 +7,19 @@ categories: ANDROID
 
 ---
 
-#　加载网页
+#　基本使用
 
-```
-//方式1. 加载一个网页：
-  webView.loadUrl("http://www.google.com/");
+##  加载资源
+-  加载一个网页：
+  `webView.loadUrl("http://www.google.com/");`
 
-  //方式2：加载apk包中的html页面
-  webView.loadUrl("file:///android_asset/java.html");
-
-```
+-  加载apk包中的html页面
+  ` webView.loadUrl("file:///android_asset/java.html");`
 
 
 
-# Enabling JavaScript
+
+##  Enabling JavaScript
 
 ```
 WebView myWebView = (WebView) findViewById(R.id.webview);
@@ -48,12 +47,12 @@ WebSettings webSettings = myWebView.getSettings();
 ```
 上面是一些常用的操作
 
-# Binding JavaScript code to Android code(JS交互)
+##  Binding JavaScript code to Android code(JS交互)
 When developing a web application that's designed specifically for the WebView in your Android application, you can create interfaces between your JavaScript code and client-side Android code. For example, your JavaScript code can call a method in your Android code to display a Dialog, instead of using JavaScript's alert() function.
 
 To bind a new interface between your JavaScript and Android code, call addJavascriptInterface(), passing it a class instance to bind to your JavaScript and an interface name that your JavaScript can call to access the class.
 
-1. 然后上例子了
+* office Demo
 
 ```
 public class WebAppInterface {
@@ -71,17 +70,13 @@ public class WebAppInterface {
     }
 }
 ```
-
-
-
-
 注意
 > Caution: If you've set your targetSdkVersion to 17 or higher, you must add the @JavascriptInterface annotation to any method that you want available to your JavaScript (the method must also be public). If you do not provide the annotation, the method is not accessible by your web page when running on Android 4.2 or higher.
 
 
 
 
-2.html小例子
+ html小例子
 ```
 <input type="button" value="Say hello" onClick="showAndroidToast('Hello Android!')" />
 
@@ -101,11 +96,37 @@ webView.addJavascriptInterface(new WebAppInterface(this), "Android");
 https://developer.android.com/guide/webapps/webview.html
 http://www.jianshu.com/p/3c94ae673e2a
 
-# localstorge
+##  localstorge
 
-# 传参给h5
+##  传参给h5
 http://www.jianshu.com/p/c20513cad758
 
+##  缓存方案
 
+### office (原生缓存)
+```
+	   
+	    WebSettings webSettings = wbNews.getSettings();
+        webSettings.setJavaScriptEnabled(true);// 启用支持javascript
+        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//缓存模式
+        webSettings.setDomStorageEnabled(true); // 开启DOM storage API 功能
+        // 开启database storage API功能
+        webSettings.setDatabaseEnabled(true);
+        webSettings.setAllowFileAccess(true);//可以访问文件
+        webSettings.setBuiltInZoomControls(true);//支持缩放
+
+        // 设置数据库缓存路径
+        String cacheDirPath = getFilesDir().getAbsolutePath() + APP_CACHE_DIRNAME;
+        webSettings.setAppCachePath(cacheDirPath);
+        webSettings.setAppCacheEnabled(true);
+```
+http://blog.csdn.net/coder_pig/article/details/48468969
+
+###  图片替换方式
+https://github.com/GcsSloop/diycode/blob/master/blog/journal-02.md
+
+
+
+[其他常用方式](https://github.com/yipianfengye/androidProject/blob/master/18%20android%E4%BA%A7%E5%93%81%E7%A0%94%E5%8F%91-webview%E9%97%AE%E9%A2%98%E9%9B%86%E9%94%A6.md) 
 [美团点评](https://tech.meituan.com/WebViewPerf.html)
 [腾讯](https://mp.weixin.qq.com/s/evzDnTsHrAr2b9jcevwBzA)
