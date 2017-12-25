@@ -56,16 +56,19 @@ Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragme
 ## Test
 
 ```
-　D/FinanceFragment         Test: onStart()
-　D/WealthFragment         Test: onStart()
- D/MineFragment         Test: onStart()
- D/FinanceFragment         Test: onResume()
- D/WealthFragment         Test: onResume()
- D/MineFragment         Test: onResume()
+　	D/FinanceFragment         Test: onStart()
+   　D/WealthFragment         Test: onStart()
+    D/MineFragment         Test: onStart()
+    D/FinanceFragment         Test: onResume()
+    D/WealthFragment         Test: onResume()
+    D/MineFragment         Test: onResume()
 ```
 ## 实例
 
 ```
+     
+    private boolean isPrepared;  //判断view是否加载完成,在视图未初始化的时候，在lazyLoad当中就使用的话，就会有空指针的异常
+    private boolean isVisible;  //判断当前Fragment是否可见状态,标志已经初始化完成，因为setUserVisibleHint是在onCreateView之前调用的
 	  @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -138,5 +141,29 @@ Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragme
     }
 
 
+```
+参考: http://www.10tiao.com/html/565/201702/2247483988/1.html
+
+#  Activity 的事件回调
+
 
 ```
+    interface OnSetdataListener {
+        void setDataMain(Project mProject);
+    }
+
+    OnSetdataListener mListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (OnSetdataListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + "must implement OnSetdataListener");
+        }
+    }	
+
+```
+
+https://developer.android.com/guide/components/fragments.html?hl=zh-cn

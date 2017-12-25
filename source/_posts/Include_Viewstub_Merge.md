@@ -86,5 +86,49 @@ categories: ANDROID
 
 # ViewStub使用
 
+```
+	  <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:background="@color/white"
+            android:paddingBottom="@dimen/dimen_15"
+            android:paddingTop="@dimen/dimen_15">
+
+            <TextView
+                android:id="@+id/tv_project_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dimen_12"
+                android:textColor="#212121"
+                android:textSize="@dimen/text_size_15" />
+
+            <ViewStub
+                android:id="@+id/vs_isnew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dimen_12"
+                android:layout="@layout/vs_project_newleader" />
+        </RelativeLayout>
+```
+
+```
+       try {
+            inflateView = vsIsnew.inflate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        if (1 == mProject.getIsnewlender()) {
+            inflateView.setVisibility(View.VISIBLE);
+        } else if (0 == mProject.getIsnewlender()) {
+            inflateView.setVisibility(View.INVISIBLE);
+        }
+```
+
 https://developer.android.com/reference/android/view/ViewStub.html
 https://developer.android.com/training/improving-layouts/loading-ondemand.html
