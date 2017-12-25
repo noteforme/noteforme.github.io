@@ -6,7 +6,11 @@ tags:
 categories:  ANDROID
 ---
 
- ** 为了App性能，经常会用到代码写背景 **
+ ** 为了提高App性能，经常会用到代码写背景 **
+ 
+#  基本属性
+ - solid : 　填充内容
+ - stroke:   绘制边框
  
    代码里设置颜色  `Color.parseColor("#fa6d62")`
 
@@ -106,6 +110,18 @@ https://developer.android.com/guide/topics/resources/drawable-resource.html#Tran
 
 前端时间一直找这种资料，效果一直不如意，不得已用了图片，真是　踏破铁鞋无觅处
 https://developer.android.com/training/material/shadows-clipping.html
+
+```
+	<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <stroke
+        android:width="1dp"
+        android:color="#f9fafc" />
+    <corners android:radius="2dp" />
+    <solid android:color="@color/white" />
+</shape>
+```
 
 
 #  画虚线
