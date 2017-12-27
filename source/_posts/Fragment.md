@@ -46,6 +46,22 @@ compile 'com.android.support:appcompat-v7:21.0.3'
 作者：天天想念
 链接：http://www.jianshu.com/p/db28adde1c39
 
+# 添加Fragment
+
+## xml设置
+
+```
+   <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent" android:layout_height="match_parent">
+     <fragment class="com.example.android.apis.app.FragmentLayout$TitlesFragment"
+            android:id="@+id/titles"
+            android:layout_width="match_parent" android:layout_height="match_parent" />
+</FrameLayout>
+```
+
+## 
+
+
 #  Fragment懒加载
 
 Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragment的生命周期方法

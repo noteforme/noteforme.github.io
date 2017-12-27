@@ -7,13 +7,18 @@ comments: true
 
 ---
 
-# ListView使用
+# ListView
+
+## item点击
 
 ListView添加header后，postion位置会变，点击item的话，获取的数据也会变,
 正确的方式应该这样 `   ReadPacket readPacket = (ReadPacket) parent.getAdapter().getItem(position);`
 
 https://blog.chengbo.net/2012/03/09/onitemclick-return-wrong-position-when-listview-has-headerview.html
 
+# listview 添加 head footer
+
+ https://github.com/liaoinstan/SpringView
 
 
 #  先来介绍官方的Demo
@@ -45,10 +50,10 @@ https://stackoverflow.com/questions/15191092/android-content-res-resourcesnotfou
 http://blog.csdn.net/lmj623565791/article/details/51854533
 http://blog.csdn.net/qibin0506/article/details/49716795
 
-# 问题
+## 问题
 使用recycleView中会遇到一些问题,总结一下
 
-##  问题1
+-  问题1
 下拉刷新 滑动列表 crash
  
 使用下拉刷新的时候 往上滑动item会出现这样的错误
@@ -95,9 +100,9 @@ http://blog.csdn.net/qibin0506/article/details/49716795
 ```
 
 参考:  http://blog.csdn.net/weixiao_812/article/details/78138075
-https://allen218.github.io/2016/06/02/RecyclerView%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0%E6%97%B6%E5%BF%AB%E9%80%9F%E6%BB%91%E5%8A%A8%E5%B4%A9%E6%BA%83%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/
+ [下拉刷新时快速滑动崩溃的问题解决](https://allen218.github.io/2016/06/02/RecyclerView%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0%E6%97%B6%E5%BF%AB%E9%80%9F%E6%BB%91%E5%8A%A8%E5%B4%A9%E6%BA%83%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/)  
 
-##  问题2
+-  问题2
 
 界面不能展示 ,和ListView  不同的是RecyclerView不同,没设置下面的参数是不显示的
 ```
@@ -113,18 +118,18 @@ https://allen218.github.io/2016/06/02/RecyclerView%E4%B8%8B%E6%8B%89%E5%88%B7%E6
 前面添加header, footer就用到了item分类
 reclverview也有很多分类方式
 
+
+- 使用adapter　组合设计模式，进行组装，代码简洁，比较好操作
 [多adapter分类](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0810/3282.html) 
-使用adapter　组合设计模式，进行组装，代码简洁，比较好操作
+
 
 
 这种对用到的页面操作比较简单，super里面想放哪些就可以，就是itemviewtype方法实现比较复杂，判断容易出错
 https://github.com/luizgrp/SectionedRecyclerViewAdapter
 
+ 
 
-# listview recleview通用
+- 功能全面
 
- listview recleview通用，并且添加头尾的开源项目
-
-https://github.com/liaoinstan/SpringView
-
+https://github.com/CymChad/BaseRecyclerViewAdapterHelper
 
