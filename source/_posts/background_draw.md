@@ -108,6 +108,7 @@ https://developer.android.com/guide/topics/resources/drawable-resource.html#Tran
 
 #  首页阴影效果
 
+##  office
 前端时间一直找这种资料，效果一直不如意，不得已用了图片，真是　踏破铁鞋无觅处
 https://developer.android.com/training/material/shadows-clipping.html
 
@@ -122,7 +123,12 @@ https://developer.android.com/training/material/shadows-clipping.html
     <solid android:color="@color/white" />
 </shape>
 ```
+ 不过这种方法还是差强人意
+##  another
 
+可以试试下面这种方式　
+http://blog.csdn.net/u011421608/article/details/51923812
+http://yifeng.studio/2017/02/26/android-elevation-and-shadow/
 
 #  画虚线
 
