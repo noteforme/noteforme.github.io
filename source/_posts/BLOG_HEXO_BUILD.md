@@ -11,9 +11,9 @@ categories: "BLOG"
 ## window环境
 
 * 下载Git 并配置环境变量
-*  安装Node.js 
+* 安装Node.js 
     下载[Node.js](https://nodejs.org/en/) ,我下载的是 node-v6.11.3-x64.msi ，一路安装下去自动配置好了环境变量
-   输入 `node -v` 测试
+       输入 `node -v` 测试
 
 # hexo多设备同步
 
@@ -32,7 +32,7 @@ categories: "BLOG"
       public/
       .deploy*/
 
- 
+
 ## 上传文件到分支
 
         // git初始化
@@ -53,7 +53,7 @@ categories: "BLOG"
    其他设备安装好环境(支持跨平台)，先clone　hexo分支到本地
 
     git clone -b hexo git@github.com:noteforme/noteforme.github.io.git
-    // 安装hexo
+    // 安装hexo , 下不下来就用privoxy
     npm install hexo
     // 注意这里不需要hexo初始化：hexo init；否则之前的hexo配置参数会重置
     // 安装依赖库
@@ -65,7 +65,7 @@ categories: "BLOG"
 
 如果有这些不用管了 
 >npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.0.0 (node_modules\chokidar\node_modules\fsevents):
-npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.1.2: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"
+>npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.1.2: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"
 
 
 问题:在ubuntu上，执行hexo d部署后每次都要输入github用户名和密码，在这里也找到了答案，就是根目录下的 _config.yml文件没有配置成ssh,之前是这样的     repository:https://github.com/noteforme/noteforme.github.io.git
@@ -84,14 +84,14 @@ npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@
 ## 博客嵌入图片
 
 -  我们生成的路径是以public目录的路径为相对路径，所以要看public下面有没有生成图片
- ![图片](/2017/07/17/BLOG_SYNC_HTTPS/img_generate20170717152203.png)
+   ![图片](/2017/07/17/BLOG_SYNC_HTTPS/img_generate20170717152203.png)
 
      所以我的写法是
      “  ![描述](/2017/07/17/BLOG_SYNC_HTTPS/img_generate20170717152203.png)  ”
      别忘了2017前面的 “/”，否则文章页面不显示图片
 
   参考： http://www.jianshu.com/p/950f8f13a36c
-  
+
 - 之前用上面的方式比较麻烦，有时候还有问题
 >      ![描述](BLOG_SYNC_HTTPS/img_generate20170717152203.png)
 
@@ -104,15 +104,15 @@ npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@
 ## https认证:Cloudflare免费的ssl
 
 * 创建账户
-　　　注册　　https://www.cloudflare.com/a/sign-up
-        
+     注册　　https://www.cloudflare.com/a/sign-up
+
 * 登录后输入域名,点击扫描
-　　　　　　如图
+    　　　　如图
                    ![描述](/2017/07/17/https-github-pages/img.png)
-  
 
 
-* 　一直continue，到了Selet a Cloudflare Plan 选择Free Website
+
+*  一直continue，到了Selet a Cloudflare Plan 选择Free Website
 *  解析域名的地方，修改域名服务器,我这里是在godaddy修改，然后continue
 * 点击Preview on your site instantly－> 点击Overview(显示Ａctive即可)－>点击Crypto(选择Ｆlexible)
 
@@ -121,10 +121,10 @@ npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@
 ##　修改主题　分类和评论
 
 - 主题两步就修改好了，在hexo s本地显示没问题，但是部署后网页显示错乱，问题是缓存，清下浏览器缓存就好了
-　参考：http://jinyanhuan.github.io/2015/03/16/hexo-bulid-three/
+   参考：http://jinyanhuan.github.io/2015/03/16/hexo-bulid-three/
 
 - 评论　：
 
-- 　修改themes下的_config.yml  disqus_shortname: your-disqus-shortname，　参考：　http://theme-next.iissnan.com/third-party-services.html
+- 修改themes下的_config.yml  disqus_shortname: your-disqus-shortname，　参考：　http://theme-next.iissnan.com/third-party-services.html
 
--   formatter添加　comments: true
+- formatter添加　comments: true
