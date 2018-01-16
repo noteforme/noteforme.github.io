@@ -2,8 +2,8 @@
 title: AndroidSource
 comments: true
 date: 2017-07-25 09:57:29
-tags:
-categories: AOSP
+tags: AOSP
+categories:  ANDROID
 
 ---
 

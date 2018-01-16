@@ -17,3 +17,7 @@ https://github.com/zhouzhuo810/ZzHorizontalProgressBar
 http://www.jianshu.com/p/d891fe636898
 
 自定义控件　最先执行哪个构造方法
+
+
+自定义view:
+http://www.gcssloop.com/customview/CustomViewIndex/

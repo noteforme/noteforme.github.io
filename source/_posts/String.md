@@ -7,6 +7,7 @@ categories: "JAVA"
 ---
 
 #　String字符串连接
+
  　字符串连接有两种方式，一种时  " +  ",另一种是 StringBuilder方式
 
 ## 命令行运行java

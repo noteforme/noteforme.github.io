@@ -5,9 +5,12 @@ date: 2017-08-16 09:56:08
 tags:
 categories: ANDROID
 ---
-#　性能优化
+ 性能优化
 
-# ANR
+# 内存处理
+
+##   ANR
+
   全称 Application Nor Responding,在debug的时候经常会出现的一个框框，询问关闭或等待，在正常环境下出现的情况
   *　主线程IO 操作
   *　主线程耗时任务
@@ -16,6 +19,15 @@ categories: ANDROID
   *应用在5秒内未响应用户的输入事件(按键或者触摸)
   *BroadcastReceiver未在　10秒内完成相关的处理
   
-# 避免ANR
-  就是把ＩＯ等耗时任务放入子线程
+##   AndroidStudio Profiler工具
 
+[这个视频](https://www.youtube.com/watch?v=qJ1QLgiL24o) 讲解了找出内存泄漏的步骤　
+还有AndroidStudio3.0的[图文方法](https://www.jianshu.com/p/bdfd2a6b2681) 
+
+##　leakcanary
+
+https://github.com/square/leakcanary
+
+#  图片处理
+https://developer.android.com/topic/performance/graphics/index.html
+https://developer.android.com/topic/performance/graphics/load-bitmap.html#read-bitmap

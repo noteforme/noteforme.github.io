@@ -156,4 +156,4 @@ http://yifeng.studio/2017/02/26/android-elevation-and-shadow/
 # TextView不同内容
 
 http://www.jianshu.com/p/f6cef78e8652
-SpannableStringBuilder 
+https://github.com/liqy/TextViewDemo

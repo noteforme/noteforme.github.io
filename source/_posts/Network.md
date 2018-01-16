@@ -3,7 +3,7 @@ title: Network
 comments: true
 date: 2017-08-03 09:27:38
 tags:
-categories: NETWORK
+categories:  JAVA
 
 ---
  因为各种不为人知的原因，没有上计算机网络的课，一直想看下这本书，可惜在家静不下心来，趁现在使用wifeshak把这里面的脉络了解一下。
