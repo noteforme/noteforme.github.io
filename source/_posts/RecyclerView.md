@@ -9,25 +9,24 @@ comments: true
 
 # ListView
 
-## item点击
+ item点击
 
 ListView添加header后，postion位置会变，点击item的话，获取的数据也会变,
 正确的方式应该这样 `   ReadPacket readPacket = (ReadPacket) parent.getAdapter().getItem(position);`
 
 https://blog.chengbo.net/2012/03/09/onitemclick-return-wrong-position-when-listview-has-headerview.html
 
-# listview 添加 head footer
+ listview 添加 head footer
 
  https://github.com/liaoinstan/SpringView
 
+#  RecyclerView
 
-#  先来介绍官方的Demo
+##  基本使用
 
- https://github.com/googlesamples/android-RecyclerView
-    
+ 先来介绍官方的Demo https://github.com/googlesamples/android-RecyclerView
 
-和LIstView其他类似
-主要是可以设置横竖屏　        mLayoutManager = new LinearLayoutManager(this);
+  和LIstView其他类似 主要是可以设置横竖屏　        mLayoutManager = new LinearLayoutManager(this);
 
 **注意**：如果收到的字段是 int类型的　直接setText()会闪退
 并爆出类似这种错误
@@ -36,17 +35,17 @@ https://blog.chengbo.net/2012/03/09/onitemclick-return-wrong-position-when-listv
 早一点搜就好了，浪费半小时，找问题
 https://stackoverflow.com/questions/15191092/android-content-res-resourcesnotfoundexception-string-resource-id-fatal-except
 
-[官方培训](https://developer.android.com/training/material/lists-cards.html) 
+[官方培训](https://developer.android.com/training/material/lists-cards.html)  添加item卡片
 
-# 常用方式
+## 常用方式
 
-## 下拉刷新和加载更多
+* 下拉刷新和加载更多
 
   这个是我们最常见的使用方式，可以根据getItemViewType判断item类型来添加头和尾
   例如这个类  FundSerialsActivityNew
-  
+
 ##  使用　装饰器模式
- 
+
 http://blog.csdn.net/lmj623565791/article/details/51854533
 http://blog.csdn.net/qibin0506/article/details/49716795
 
@@ -54,8 +53,8 @@ http://blog.csdn.net/qibin0506/article/details/49716795
 使用recycleView中会遇到一些问题,总结一下
 
 -  问题1
-下拉刷新 滑动列表 crash
- 
+  下拉刷新 滑动列表 crash
+
 使用下拉刷新的时候 往上滑动item会出现这样的错误
 
 ```
@@ -111,16 +110,14 @@ http://blog.csdn.net/qibin0506/article/details/49716795
 ```
 如果还是没有就看看 recycleview布局是否显示
 
-
-
-# 　Item分类
+## Item分类
 
 前面添加header, footer就用到了item分类
 reclverview也有很多分类方式
 
 
 - 使用adapter　组合设计模式，进行组装，代码简洁，比较好操作
-[多adapter分类](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0810/3282.html) 
+  [多adapter分类](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0810/3282.html) 
 
 
 
