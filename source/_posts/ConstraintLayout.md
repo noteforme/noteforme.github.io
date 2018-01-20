@@ -33,6 +33,8 @@ They all take a reference id to another widget, or the parent (which will refere
                  app:layout_constraintLeft_toLeftOf="parent" />
 ```
 
+layout_constraintBaseline_toBaselineOf : 表示此控件与某个空间水平对齐
+
 ##  Margins
 
 If side margins are set, they will be applied to the corresponding constraints (if they exist) (Fig. 3), enforcing the margin as a space between the target and the source side. The usual layout margin attributes can be used to this effect:
@@ -75,7 +77,7 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
 #  应用
 
 ##   居中显示 : 四个方向添加约束
-		 
+
 ```
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -99,7 +101,7 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
 ```
 
 ## 相对邻里控件 居中
- 
+
 ```
 	   <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -134,7 +136,7 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
 
     </android.support.constraint.ConstraintLayout>
 
-``` 
+```
 
 
 #  chain
@@ -237,16 +239,16 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
             android:text="Button_22"
             app:layout_constraintLeft_toRightOf="@+id/bt_21"
             app:layout_constraintRight_toRightOf="parent" />
-``` 
-      
-    
+```
+
+
 ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_20.png)
 
 *  spread_inside     :  width = wrap_content
-![宽度为wrap_content](ConstraintLayout/ConstraintLayout_300.png)
+  ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_300.png)
 
 *  spread_inside     :  width = 0dp
-![宽度为wrap_content](ConstraintLayout/ConstraintLayout_301.png)
+  ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_301.png)
 
 [代码](http://45.77.222.97:3000/root/MineUtils/src/master/app/src/main/java/com/jonzhou/mineutils/layout) 
 
@@ -255,9 +257,9 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
 ![宽度为wrap_content](ConstraintLayout/constraint-chain-styles_2x.png)
 
 > 1、 Spread: The views are evenly distributed (after margins are accounted for). This is the default.
-2 、 Spread inside: The first and last view are affixed to the constraints on each end of the chain and the rest are evenly distributed.
-３、Weighted: When the chain is set to either spread or spread inside, you can fill the remaining space by setting one or more views to "match constraints" (0dp). By default, the space is evenly distributed between each view that's set to "match constraints," but you can assign a weight of importance to each view using the layout_constraintHorizontal_weight and layout_constraintVertical_weight attributes. If you're familiar with layout_weight in a linear layout, this works the same way. So the view with the highest weight value gets the most amount of space; views that have the same weight get the same amount of space.
-４、Packed: The views are packed together (after margins are accounted for). You can then adjust the whole chain's bias (left/right or up/down) by changing the chain's head view bias.
+> 2 、 Spread inside: The first and last view are affixed to the constraints on each end of the chain and the rest are evenly distributed.
+> ３、Weighted: When the chain is set to either spread or spread inside, you can fill the remaining space by setting one or more views to "match constraints" (0dp). By default, the space is evenly distributed between each view that's set to "match constraints," but you can assign a weight of importance to each view using the layout_constraintHorizontal_weight and layout_constraintVertical_weight attributes. If you're familiar with layout_weight in a linear layout, this works the same way. So the view with the highest weight value gets the most amount of space; views that have the same weight get the same amount of space.
+> ４、Packed: The views are packed together (after margins are accounted for). You can then adjust the whole chain's bias (left/right or up/down) by changing the chain's head view bias.
 
 
 参考:https://developer.android.com/training/constraint-layout/index.html
