@@ -120,13 +120,15 @@ reclverview也有很多分类方式
   [多adapter分类](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0810/3282.html) 
 
 
-
 这种对用到的页面操作比较简单，super里面想放哪些就可以，就是itemviewtype方法实现比较复杂，判断容易出错
-https://github.com/luizgrp/SectionedRecyclerViewAdapter
-
- 
 
 - 功能全面
+文集　https://github.com/CymChad/CymChad.github.io
 
-https://github.com/CymChad/BaseRecyclerViewAdapterHelper
+https://github.com/luizgrp/SectionedRecyclerViewAdapter
+http://blog.csdn.net/wzlyd1/article/details/52292548
+https://github.com/luizgrp/SectionedRecyclerViewAdapter
+ 复杂布局: https://github.com/385841539/RecycleviewStaggered
+ 
+ 竖直嵌套水平:https://github.com/drakeet/MultiType/issues/67
 

@@ -6,11 +6,20 @@ tags:
 categories: BLOG
 
 ---
-**  HEXO配置
+**  HEXO Themes
 **
-#  hexo next主题添加分类
 
-1、分类
+
+
+##  hexo next主题添加分类
+
+- 修改主题
+
+    `git clone git@github.com:ppoffice/hexo-theme-icarus.git themes/icarus`
+   里面都有介绍，主要石npm安装不了插件
+   就需要[这篇文章](http://blog.csdn.net/huaiyiheyuan/article/details/53026243) 的polipo工具，最有名的Privoxy反而不起作用
+
+- 分类
 只要在　博客头部加　categories: "BLOG"　　就会自动展示分类了，如果觉得每次添加麻烦的话，修改scaffolds/post.md　模板
 
     title: {{ title }}
@@ -21,7 +30,7 @@ categories: BLOG
 
  然后hexo n "yourblog",就会有这些了，接下里就是在首页分类进行关联了
  
- 2、生成 分类（默认已有分类）
+- 生成 分类（默认已有分类）
     
        hexo new page "categories"
 
@@ -32,7 +41,7 @@ categories: BLOG
 
 参考：https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/
 
-#  next 添加头像
+##  next 添加头像
 
 - 新建uploads文件夹，放入图片
 
