@@ -6,18 +6,18 @@ tags:
 categories: "工具"
 ---
 
-# 快捷键
+## 快捷键
 
 >
- Ctrl＋F12，可以显示当前文件的结构
- Ctrl＋Shift＋F7 可以高亮当前元素在当前文件中的使用 
-  Ctrl＋E，可以显示最近编辑的文件列表
-  Alt＋Up 和 Alt＋Down可在方法间快速移动
-  Shift＋Click可以关闭文件
-  Ctrl+ H 查看类的继承关系
-  Ctrl＋Alt＋B可以跳转到抽象方法的实现
-  Ctrl＋Q可以看JavaDoc
- 
+> Ctrl＋F12，可以显示当前文件的结构
+> Ctrl＋Shift＋F7 可以高亮当前元素在当前文件中的使用 
+>  Ctrl＋E，可以显示最近编辑的文件列表
+>  Alt＋Up 和 Alt＋Down可在方法间快速移动
+>  Shift＋Click可以关闭文件
+>  Ctrl+ H 查看类的继承关系
+>  Ctrl＋Alt＋B可以跳转到抽象方法的实现
+>  Ctrl＋Q可以看JavaDoc
+
 3.Ctrl＋[或]可以跳到大括号的开头结尾
 4.Ctrl＋Shift＋Backspace可以跳转到上次编辑的地方
 5.
@@ -46,10 +46,10 @@ categories: "工具"
 32.Alt＋F8是计算变量值
 
 
-
 参考：https://github.com/1sters/Android-Studio-Guide/blob/master/tips-shortcuts.md
 
-# 降低　compileSdkVersion　版本
+
+## 降低　compileSdkVersion　版本
  　有时候需要看低版本的源码，就要修改compileSdkVersion版本
 
 1. 修改编译版本
@@ -61,12 +61,6 @@ categories: "工具"
 
 
   参考：http://blog.csdn.net/hyr83960944/article/details/39941683
-
-
-
-# android studio gradle编译问题
-   
-  编译也根据不同情况做不同处理
 
 
 ## 导入项目
@@ -100,6 +94,7 @@ android studio log默认都是白色的，在 setting -> Android Log下去掉Use
 .gradle/gradle.properties 
 我的颜色按照这个修改的
 http://www.jianshu.com/p/e3f8f7383c3d
+
 
 
 ## 自动生成 findViewById
