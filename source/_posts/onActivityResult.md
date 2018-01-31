@@ -12,8 +12,8 @@ categories: ANDROID
 
  主要有三个方法实现
 *  startActivityForResult(@RequiresPermission Intent intent, int requestCode)
-*   setResult(int resultCode, Intent data)
-*   onActivityResult(int requestCode, int resultCode, Intent data)
+*  setResult(int resultCode, Intent data)
+*  onActivityResult(int requestCode, int resultCode, Intent data)
 
 下面是简单例子
 跳转MainActivity
@@ -24,11 +24,11 @@ categories: ANDROID
 其中数据传递很简单,特别注意requestCode，resultCode不同的区分的区别
 
 * requestCode：假设  MainActivity　button1 button2到SecondAcitivty,回来的在onActivityResult就需要
-                         判断是哪个button点击的
+         判断是哪个button点击的
 
 * resultCode: 假设MainActivity　button1跳转到SecondAcitivty,  button2到ThirdActiivty,回来后onActivityResult
-                   就需要判断是哪个Activity回来的
-参考:http://blog.csdn.net/jiangwei0910410003/article/details/16983049
+         就需要判断是哪个Activity回来的
+     参考:http://blog.csdn.net/jiangwei0910410003/article/details/16983049
 
 
 
@@ -56,3 +56,5 @@ categories: ANDROID
 
 http://blog.csdn.net/lanyachuanshu/article/details/52172143
 https://developer.android.com/training/basics/intents/result.html
+
+http://45.77.222.97:3000/root/MineUtils/src/master/app/src/main/java/com/jonzhou/mineutils/result/FirstResultActivity.java
