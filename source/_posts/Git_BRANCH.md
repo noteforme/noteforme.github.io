@@ -2,10 +2,17 @@
 title: GIT_BRANCH(git操作)
 comments: true
 date: 2017-10-19 09:24:09
-tags:
+tags: 
 categories: GIT
 
 ---
+
+官方文档
+https://git-scm.com/book/zh/v2
+http://iissnan.com/progit/
+
+Git 如何 clone 非 master 分支的代码
+https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/
 
 # Git基本操作
 
@@ -41,7 +48,7 @@ git push -u origin master
 ## 分支操作
 
 * git branch    查看本地分支
-  git branch -r 查看远程分支 
+   git branch -r 查看远程分支 
 
 * 分支创建
 ```
@@ -109,16 +116,18 @@ $ git pull origin hexo
 http://www.ruanyifeng.com/blog/2014/06/git_remote.html
 
 
-#  fork后的项目处理
+##  fork后的项目处理
   https://gaohaoyang.github.io/2015/04/12/Syncing-a-fork/
 
 ## 忽略文件已提交的文件
-
  
+ 对于单个文件处理
   假如要忽略 .idea/misc.xml文件，.gitignore可以添加 `/.idea/* `把.idea文件过滤
-
  主要是　`git rm --cached　.idea/misc.xml ` 然后提交修改,每次手输入才有用?
-  
+ 
+ 对文件夹的处理,比如common-bankcard
+  `git rm -r --cached common-bankcard`
+   
 
 #  Git仓库迁移
 
@@ -176,14 +185,14 @@ http://jcpplus.github.io/2015/07/23/modify-remote-url/
 
 # GIT标签
  
-## 查看所有的版本  `git tag`
+##  查看所有的版本  `git tag`
 
 * 查看远程分支  `git ls-remote --tags`
 
 * 创建标签 `git tag -a v1.0.2 -m "my version 1.0.2"  `
   -m 选项指定了一条将会存储在标签中的信息
  
-## 修复已发布版本bug
+##  修复已发布版本bug
 修复bug主要以下几步:
 
 * 使用git reset --hard <commit id>命令退回到发布标签对应的版本
