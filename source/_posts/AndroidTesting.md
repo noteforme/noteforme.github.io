@@ -17,3 +17,10 @@ categories:
 http://blog.csdn.net/qq_17766199/article/details/78450007
 
 http://chriszou.com/2016/05/10/android-unit-testing-di-dagger.html
+
+
+
+## mvp生成模板
+
+https://www.diycode.cc/topics/309
+

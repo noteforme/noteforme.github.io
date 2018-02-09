@@ -1,5 +1,5 @@
 ---
-title: GIT_BRANCH(git操作)
+title: GIT_BRANCH(分支操作)
 comments: true
 date: 2017-10-19 09:24:09
 tags: 
@@ -61,7 +61,7 @@ git push -u origin master
    `$ git push origin v1.0.0 `
 
 * [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
- `$ git remote show origin `
+   `$ git remote show origin `
 
 
 
@@ -71,7 +71,7 @@ http://blog.csdn.net/hyr83960944/article/details/36185231
 
 
 *  合并分支
- 
+
  合并hotfix到dev
 
 ```
@@ -83,8 +83,8 @@ $ git merge hotfix
 ## 　获取本地没有的远程分支
 
 * 获取一个远程分支
- `git checkout --track origin/Dev1.10`
-[官方](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF "官方参考")
+   `git checkout --track origin/Dev1.10`
+   [官方](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF "官方参考")
 
 
 
@@ -120,21 +120,21 @@ http://www.ruanyifeng.com/blog/2014/06/git_remote.html
   https://gaohaoyang.github.io/2015/04/12/Syncing-a-fork/
 
 ## 忽略文件已提交的文件
- 
+
  对于单个文件处理
   假如要忽略 .idea/misc.xml文件，.gitignore可以添加 `/.idea/* `把.idea文件过滤
  主要是　`git rm --cached　.idea/misc.xml ` 然后提交修改,每次手输入才有用?
- 
+
  对文件夹的处理,比如common-bankcard
   `git rm -r --cached common-bankcard`
-   
+
 
 #  Git仓库迁移
 
 ##  迁移git仓库
 
 * 原来托管于github,clone一份裸版本库
- 
+
       `git clone --bare git@gitee.com:huaiyi/CQJ.git`
 
 * 在新的版本库(gitlab)里面创建一个新的项目，例如 cqianjia
@@ -157,14 +157,14 @@ rm -rf project.git
 
 
 *  到新的服务器clone到本地就Ok了
- 
+
   `  git clone git@45.77.22.97:root/cqianjia.git` 
- 
+
   参考: https://my.oschina.net/kind790/blog/510601
-  
+
   *   git clone 所有分支
-  这种方式有一个弊端，切换分支后　工程名没了， 还是慢慢摸索吧　!
-  
+    这种方式有一个弊端，切换分支后　工程名没了， 还是慢慢摸索吧　!
+
 ```
 git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
 git fetch --all
@@ -172,7 +172,7 @@ git pull --all
 ```
 
 参考: http://blog.csdn.net/allangold/article/details/78028709
-  
+
 
 ## 修改远程仓库地址 
 
@@ -184,14 +184,14 @@ git pull --all
 http://jcpplus.github.io/2015/07/23/modify-remote-url/
 
 # GIT标签
- 
+
 ##  查看所有的版本  `git tag`
 
 * 查看远程分支  `git ls-remote --tags`
 
 * 创建标签 `git tag -a v1.0.2 -m "my version 1.0.2"  `
   -m 选项指定了一条将会存储在标签中的信息
- 
+
 ##  修复已发布版本bug
 修复bug主要以下几步:
 
@@ -211,7 +211,7 @@ v1.0.2
 ```
 
 参考: http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
- 
+
 
 * 创建Tag
 
