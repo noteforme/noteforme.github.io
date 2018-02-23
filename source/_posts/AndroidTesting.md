@@ -18,4 +18,13 @@ http://blog.csdn.net/qq_17766199/article/details/78450007
 
 http://chriszou.com/2016/05/10/android-unit-testing-di-dagger.html
 
+<<<<<<< HEAD
 https://github.com/googlesamples/android-testing
+=======
+
+
+## mvp生成模板
+
+https://www.diycode.cc/topics/309
+
+>>>>>>> f0e5e443b1e25ab8d7f6a8e0932a50c96ae2a4a3
