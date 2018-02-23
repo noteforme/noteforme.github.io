@@ -14,17 +14,19 @@ categories: ANDROID
 https://newsapi.org/v2/top-headlines?sources=financial-times&apiKey=e4f505f73a9f4ee99119ab33a19ab05e
 最后还是感谢这位哥们http://wuxiaolong.me/2016/06/18/retrofits/
 
-
 ##  OFFICE 
 
 http://square.github.io/retrofit/
 https://github.com/square/retrofit
 
-##  another
+##  Demo
 
 http://www.jianshu.com/p/308f3c54abdd
 这篇文章不错，深入浅出
 我还加了了提交Map参数的[Demo](https://gitee.com/huaiyi/RetrofitDemo.git) Demo
+
+上传图片: http://www.10tiao.com/html/227/201701/2650238307/1.html
+                 http://blog.csdn.net/itjianghuxiaoxiong/article/details/52135748
 
 
 # 　RxJava2 Retorift2实例
