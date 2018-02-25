@@ -9,33 +9,17 @@ categories:
 ## 　官方教程
 
  官方基础
-
 https://www.jianshu.com/p/03118c11c199
-
+https://github.com/googlesamples/android-testing
 实例讲解
-
 https://www.jianshu.com/p/0a8bbfe6cba2
 
-
-
-
-
-[官方操作](https://codelabs.developers.google.com/codelabs/build-app-with-arch-components/index.html?index=..%2F..%2Findex#0) 
-
 [google sample/androidTesting]: https://github.com/googlesamples/android-testing/tree/master/ui/espresso/BasicSample
+ http://blog.csdn.net/qq_17766199/article/details/78450007
+ 
+小创作 https://github.com/ChrisZou/android-unit-testing-tutorial
 
-
-
-http://blog.csdn.net/qq_17766199/article/details/78450007
-
-http://chriszou.com/2016/05/10/android-unit-testing-di-dagger.html
-
-
-https://github.com/googlesamples/android-testing
-=======
-
-
-## mvp生成模板
-
+## 一个Android项目搞定所有主流架 mvp生成模板
 https://www.diycode.cc/topics/309
+https://github.com/boredream/DesignResCollection
 
