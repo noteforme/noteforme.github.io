@@ -12,6 +12,8 @@ categories: ANDROID
 An activity is a single, focused thing that the user can do. Almost all activities interact with the user, so the Activity class takes care of creating a window for you in which you can place your UI with setContentView(View).
 Acitivty和用户交互，所以也是用的最多的
 
+![生命周期](https://developer.android.com/images/activity_lifecycle.png) 
+
 #  想到一个问题:界面Ａ　到界面Ｂ，是Ａ的onStop()先执行　还是Ｂ的onResume()先走
  
 先用事实说话吧
