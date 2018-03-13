@@ -28,7 +28,8 @@ categories:  ANDROID
         </provider>
 ```
 
-* xml指定共享目录
+* 编写provider_install.xml文件　
+　新建xml指定共享目录
 
 	有下面几种存储方式
 
