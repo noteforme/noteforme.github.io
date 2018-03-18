@@ -180,8 +180,8 @@ http://jcpplus.github.io/2015/07/23/modify-remote-url/
 
 # GIT标签
 
-##  查看所有的版本  `git tag`
-
+  查看所有的版本 
+    `git tag`
 * 查看远程分支  `git ls-remote --tags`
 
 * 创建标签 `git tag -a v1.0.2 -m "my version 1.0.2"  `
@@ -197,14 +197,12 @@ http://jcpplus.github.io/2015/07/23/modify-remote-url/
 
 参考: https://thekingofworld.github.io/Git-tags.html
 
-
-* 标签是一个别名，并不是真拉出一份代码放在了那里
+* 标签是一个文件快照，并不是真拉出一份代码放在了那里
 
 ```
 D:\Project\ASProjects\cqianjia>git tag
 v1.0.2
 ```
-
 参考: http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 
 
@@ -227,8 +225,17 @@ v1.0.2
    git tag -d  v1.0.2
 
 ```
+[检出标签](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%89%93%E6%A0%87%E7%AD%BE) 检出标签
+在 Git 中你并不能真的检出一个标签，因为它们并不能像分支一样来回移动。 如果你想要工作目录与仓库中特定的标签版本完全一样，可以使用 git checkout -b [branchname] [tagname] 在特定的标签上创建一个新分支：
+
+		$ git checkout -b version2 v2.0.0
+Switched to a new branch 'version2'
+
+当然，如果在这之后又进行了一次提交，version2 分支会因为改动向前移动了，那么 version2 分支就会和 v2.0.0 标签稍微有些不同，这时就应该当心了。
 
 
+修复已发布版本Bug
+http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 
 
 
