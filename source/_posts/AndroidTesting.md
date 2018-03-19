@@ -20,6 +20,7 @@ https://developer.android.com/training/testing/espresso/basics.html
 [google sample/androidTesting]: https://github.com/googlesamples/android-testing/tree/master/ui/espresso/BasicSample
  http://blog.csdn.net/qq_17766199/article/details/78450007
  小创作 https://github.com/ChrisZou/android-unit-testing-tutorial
+https://github.com/qingmei2/Sample_AndroidTest
 
 一个Android项目搞定所有主流架 mvp生成模板
 https://www.diycode.cc/topics/309
