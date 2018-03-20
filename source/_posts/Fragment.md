@@ -8,6 +8,8 @@ categories:  ANDROID
 
 https://developer.android.com/reference/android/app/Fragment.html
 
+https://developer.android.com/guide/components/fragments.html?hl=zh-cn
+
 https://wizardforcel.gitbooks.io/w3school-android/content/77.html
 https://juejin.im/post/5901b564570c35005804424b
 
@@ -19,10 +21,10 @@ android.support.v4.app.Fragment和android.app.Fragment
 下面作者　总结的不错　干脆直接用了
 
 > android.app.Fragment 兼容的最低版本是android:minSdkVersion="11" 即3.0版
-android.support.v4.app.Fragment 兼容的最低版本是android:minSdkVersion="4" 即1.6版
+> android.support.v4.app.Fragment 兼容的最低版本是android:minSdkVersion="4" 即1.6版
 
 > android.app.Fragment使用 (ListFragment)getFragmentManager().findFragmentById(R.id.userList) 获得 ，继承Activity
-android.support.v4.app.Fragment使用 (ListFragment)getSupportFragmentManager().findFragmentById(R.id.userList) 获得 ，需要继承android.support.v4.app.FragmentActivity
+> android.support.v4.app.Fragment使用 (ListFragment)getSupportFragmentManager().findFragmentById(R.id.userList) 获得 ，需要继承android.support.v4.app.FragmentActivity
 
 
 Android Support兼容包
@@ -72,8 +74,8 @@ Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragme
 ## Test
 
 ```
-　	D/FinanceFragment         Test: onStart()
-   　D/WealthFragment         Test: onStart()
+　  D/FinanceFragment         Test: onStart()
+    D/WealthFragment         Test: onStart()
     D/MineFragment         Test: onStart()
     D/FinanceFragment         Test: onResume()
     D/WealthFragment         Test: onResume()

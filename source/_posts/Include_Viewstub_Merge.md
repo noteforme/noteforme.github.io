@@ -9,7 +9,7 @@ categories: ANDROID
 
 #  Include 用于解决重复的问题　
 
-
+AndroidStudio 选择Tools -> Android -> Layout Inspector 可以查看层级
 
 
 # Merge
@@ -47,7 +47,7 @@ categories: ANDROID
 
 
 ```
- 
+
 
 ```
         <LinearLayout
@@ -116,19 +116,39 @@ categories: ANDROID
 ```
 
 ```
-       try {
-            inflateView = vsIsnew.inflate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        if (1 == mProject.getIsnewlender()) {
-            inflateView.setVisibility(View.VISIBLE);
-        } else if (0 == mProject.getIsnewlender()) {
-            inflateView.setVisibility(View.INVISIBLE);
-        }
+      		ViewStub vsEmpty = findViewById(R.id.vs_isnew);
+       
 ```
+
+- visible 
+
+  调用ViewStub 的setVisibility() 方法来显示这个View
+
+  ```
+  vsEmpty.setVisible(View.Gone);
+  ```
+
+  inflate
+
+  通过ViewStub 的inflate() 方法来显示这个View,可以获取到inflate 进去的View
+
+  ```
+       View view = vsEmpty.inflate();
+       TextView text = view.findViewById(R.id.tv_txt);
+       text.setText("测试");
+  ```
+
+  判断ViewStub 是否inflate()
+
+  http://blog.csdn.net/qq_35956194/article/details/79080703
+
+  参考
 
 https://developer.android.com/reference/android/view/ViewStub.html
 https://developer.android.com/training/improving-layouts/loading-ondemand.html
+
+https://droidyue.com/blog/2016/09/11/using-viewstub-in-android-to-improve-layout-performance/
+
+https://jaysdev.github.io/2017/07/09/ViewStub%E4%BD%BF%E7%94%A8/
+
+* ​
