@@ -1,7 +1,7 @@
 ---
 title: AndroidViewDispatch02
 comments: true
-date: 2018-01-08 21:18:55
+date:  2018-01-08 21:18:55
 tags: EventDispatch
 categories: ANDROID
 ---
