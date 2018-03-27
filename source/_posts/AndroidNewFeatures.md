@@ -11,16 +11,16 @@ categories:  ANDROID
 # Nougat(7.0)
 
 ## 安装apk
- 
+
   	 StrictMode API政策
 
-  
+
 * 在AndroidManifest.xml添加
 
 ```
    <provider
             android:name="android.support.v4.content.FileProvider"   
-            android:authorities="com.cqian.fileProvider"         // com.cqian是包名
+            android:authorities="${applicationId}.fileProvider"         // com.cqian是包名
             android:grantUriPermissions="true"
             android:exported="false">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
@@ -29,9 +29,9 @@ categories:  ANDROID
 ```
 
 * 编写provider_install.xml文件　
-　新建xml指定共享目录
+   新建xml指定共享目录
 
-	有下面几种存储方式
+   有下面几种存储方式, name不变，path就是下面得apkCacheFile
 
 ```
 <files-path name="name" path="path" /> 物理路径相当于Context.getFilesDir() + /path/  
@@ -46,8 +46,12 @@ categories:  ANDROID
 
 ```
 
- 由于我的存储目录用这个 `String downFile = context.getExternalCacheDir() + "apkCacheFile"`
- 所以我的写法是这样的
+ 由于我的存储目录用这个，apkCacheFile是SDk卡上得目录名称
+
+ `String downFile = context.getExternalCacheDir() + "apkCacheFile"` 
+
+
+
 ```
    <external-cache-path
         name="name"
@@ -69,7 +73,7 @@ categories:  ANDROID
         Uri uri;
         if (Build.VERSION.SDK_INT >= 24) {
             // 参数2 清单文件中provider节点里面的authorities ; 参数3  共享的文件,即apk包的file类
-            uri = FileProvider.getUriForFile(context, "com.cqian.fileProvider", apkFile);
+            uri = FileProvider.getUriForFile(context, "getPackageName().fileProvider", apkFile);
             //对目标应用临时授权该Uri所代表的文件
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {

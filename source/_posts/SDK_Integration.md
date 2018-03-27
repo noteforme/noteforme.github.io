@@ -23,3 +23,16 @@ categories: 工具
 ## 友盟Demo
 
  注意要打包才能运行
+
+
+
+
+
+##  商汤认证
+
+###   身份证认证
+
+[文档](https://v2-devcenter.visioncloudapi.com/#!/home/doc/ocr/android/online/idcardrecognition)
+
+
+
