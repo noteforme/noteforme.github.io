@@ -30,9 +30,33 @@ categories: 工具
 
 ##  商汤认证
 
+[文档](https://v2-devcenter.visioncloudapi.com/#!/home/doc/ocr/android/online/useguide)
+
 ###   身份证认证
 
-[文档](https://v2-devcenter.visioncloudapi.com/#!/home/doc/ocr/android/online/idcardrecognition)
+* 在common-idcard包中的assets目录下添加 SenseID_OCR.lic文件就可以了
+
+* 在androidmanifest.xml注册activity
+
+  ​
+
+
+### 活体认证
+
+最终调用onDetectOver
+
+```
+  public void onDetectOver(ResultCode code, String id, List imageData)
+```
+
+会返回id,然后把id,身份证number,name传给商汤对比
+
+
+
+
+
+
+
 
 
 
