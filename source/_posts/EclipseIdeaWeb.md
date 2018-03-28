@@ -23,7 +23,6 @@ http://justcode.ikeepstudying.com/2017/12/%E6%9B%B4%E6%96%B0-intellij-idea-2017-
 
 http://idea.lanyus.com/
 
-建J2EE工程
 https://www.jetbrains.com/help/idea/developing-a-java-ee-application.html
 
 
