@@ -76,3 +76,9 @@ api.register(new RegisterRequest())            //发起注册请求
 参考: https://www.jianshu.com/p/128e662906af
 
 源码 : https://github.com/ssseasonnn/RxJava2Demo
+
+
+
+* retryWhen
+
+ [[泽毛](https://www.jianshu.com/u/37baa8a86582)]  https://www.jianshu.com/p/fa1828d70192

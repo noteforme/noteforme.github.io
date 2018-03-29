@@ -7,7 +7,13 @@ categories: ANDROID
 ---
  性能优化
 
-# 内存处理
+
+
+## 布局优化
+
+https://www.jianshu.com/p/ee9e4b8cb95f
+
+
 
 ##   ANR
 
@@ -15,10 +21,10 @@ categories: ANDROID
   *　主线程IO 操作
   *　主线程耗时任务
   *　主线程错误的操作 Thread.wait或Thread.sleep
-  Android系统监控程序的响应状况，出现下面两种情况弹出ANR对话框
-  *应用在5秒内未响应用户的输入事件(按键或者触摸)
-  *BroadcastReceiver未在　10秒内完成相关的处理
-  
+    Android系统监控程序的响应状况，出现下面两种情况弹出ANR对话框
+    *应用在5秒内未响应用户的输入事件(按键或者触摸)
+    *BroadcastReceiver未在　10秒内完成相关的处理
+
 ##   AndroidStudio Profiler工具
 
 [这个视频](https://www.youtube.com/watch?v=qJ1QLgiL24o) 讲解了找出内存泄漏的步骤　
