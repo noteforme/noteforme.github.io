@@ -11,7 +11,7 @@ categories: ANDROID
 -  业务
 
 ```
-	private void initView() {
+private void initView() {
         mPlanetTitles = getResources().getStringArray(R.array.recycle_array);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerList = findViewById(R.id.left_drawer);
@@ -83,5 +83,6 @@ categories: ANDROID
 
 ```
  
+https://developer.android.com/reference/android/support/v4/widget/DrawerLayout.html
 
 https://developer.android.com/training/implementing-navigation/nav-drawer.html?hl=zh-cn
