@@ -136,3 +136,7 @@ _ _ _
  参考：https://mariadb.com/kb/zh-cn/configuring-mariadb-for-remote-client-access/
        http://blog.csdn.net/ithomer/article/details/6976148
        http://www.jianshu.com/p/9c175e9293e2
+       
+       
+## 　安装Navicat
+https://www.jianshu.com/p/42a33b0dda9c

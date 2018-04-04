@@ -46,6 +46,7 @@ git push -u origin master
 
 ## 分支操作
 
+
 *  查看本地分支
 
    ` git branch `
@@ -58,6 +59,13 @@ git push -u origin master
    `$ git checkout v1.0.0`
 * 分支提交到远程仓库
    `$ git push origin v1.0.0 `
+   
+  *  删除本地分支
+` git branch -d v1.0.0 `
+
+*  删除远程分支
+ `git push origin :foo`
+
 
 * ​
 
@@ -66,19 +74,20 @@ http://blog.csdn.net/hyr83960944/article/details/36185231
 
 
 *  合并分支
-
  合并hotfix到dev
-
 ```
 $ git checkout            // 先切换到dev 
 $ git merge hotfix
 ```
 [合并分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6) 
 
-## 　获取本地没有的远程分支
+* 　获取本地没有的远程分支
+
 
 * [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
    `$ git remote show origin `
+
+
 
 * 获取一个远程分支
 
@@ -94,12 +103,6 @@ $ git merge hotfix
 
 
 
-## 删除本地分支
-
-```
-git branch -d v1.0.0
-git push origin :foo
-```
 版本重复的话问题:error: dst refspec v1.0.0 matches more than one
 然后`git push origin :refs/heads/v1.0.0`就可以了
 [参考](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF) 
