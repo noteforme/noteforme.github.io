@@ -38,7 +38,8 @@ private void initView() {
         Fragment fragment = new PullToRefreshFragment();
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment);
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment)
+        .commit();
         setTitle(mPlanetTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
@@ -82,7 +83,7 @@ private void initView() {
 
 
 ```
- 
+
 https://developer.android.com/reference/android/support/v4/widget/DrawerLayout.html
 
 https://developer.android.com/training/implementing-navigation/nav-drawer.html?hl=zh-cn
