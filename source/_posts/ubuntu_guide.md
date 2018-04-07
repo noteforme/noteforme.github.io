@@ -1,5 +1,5 @@
 ---
-title: ubuntu-error
+title: ubuntu_guide
 comments: true
 date: 2017-09-20 21:42:17
 tags:
@@ -30,8 +30,27 @@ type reboot
 
   https://askubuntu.com/questions/875862/kernel-panic-unable-to-mount-root-in-ubuntu-16-04/875868
 
+## 解压乱码
 
-　
+在windows上压缩的文件，是以系统默认编码中文来压缩文件。由于zip文件中没有声明其编码，所以linux上的unzip一般以默认编码解压，中文文件名会出现乱码。
+可以使用终端zip文件进行解压并指定解压的编码
+　`unzip -O GBK   xxx.zip`
+解压后的文件的路径为当前终端所在的路径
+
+参考：　[Eric Chan](http://hareric.com/2016/07/26/%E7%AE%80%E6%98%93%E6%96%B9%E6%B3%95%E8%A7%A3%E5%86%B3ubuntu%E4%B8%8B%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/) 
+
+## 安装Gnome　shell
+
+```
+		sudo apt-get install ubuntu-tweak
+
+		 sudo apt-get install chrome-gnome-shell
+```
+打开tweak可以看到按钮
+
+浏览点击 ||| off按钮系统就会安装
+写代码时很有用的插件
+https://extensions.gnome.org/extension/545/hide-top-bar/
 　
 　
 　

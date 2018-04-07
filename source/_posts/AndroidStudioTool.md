@@ -98,9 +98,10 @@ http://www.jianshu.com/p/e3f8f7383c3d
 
 
 ## 自动生成 findViewById
-
 可以使用 butterknife,但是我在7升级到8时就麻烦了
-
 也可以使用 BorePlugin代码生成插件
 https://github.com/boredream/BorePlugin
+
+## Android Stuido卡頓
+修改配置文件
 
