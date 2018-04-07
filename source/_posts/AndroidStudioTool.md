@@ -6,6 +6,70 @@ tags:
 categories: "工具"
 ---
 
+
+
+## 降低　compileSdkVersion　版本
+ 　有时候需要看低版本的源码，就要修改compileSdkVersion版本
+
+1. 修改编译版本
+   ![图片](AndroidStudioTool/DeepinScrot_compile.png)
+2. targetSdkVersion版本修改成　21   然后   compile 'com.android.support:appcompat-v7:21.+' 继承的AppCompatActivity改成Activity
+
+3. 编译后报错　Error:(11) No resource identifier found for attribute 'roundIcon' in package 'android'
+  根据错误删除　android:roundIcon ,然后编译
+
+  参考：http://blog.csdn.net/hyr83960944/article/details/39941683
+
+
+## 　android stuido代理
+
+*  普通代理
+修改Gradle配置文件后就一直卡在那，在　build.gradle值修改下面
+如果用了ss代理，在ubuntu设置http没用，可以在 工程根目录下 gradle.properties  添加
+
+`org.gradle.jvmargs=-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=1080
+`
+参考: https://www.zhihu.com/question/37810416
+
+
+平常github下载项目导入AndroidStudio直接卡死，心里真不是...., 目前实验一种方式应该会快点
+修改 gradle\wrapper\gradle-wrapper.properties下的 distributionUrl=https\://services.gradle.org/distributions/gradle-3.3-all.zip， 我的AndroidStudio默认是这个 所以就修改成这样的.
+
+*  jcenter库代理　(这几句话花了关键得一天时间)
+
+前天升级了系统，之前下得Demo一直跑不起来，'https://jitpack.io'得文件一直下载不下来　
+　＞错误：　jcenter.bintray.com:443 failed to respond
+　折腾了一天终于弄好了,需要设置proxy代理,把socket流量转为http
+　然后在　Ｍanual proxy configuration下面选择HTTP 填上
+　 ` 127.0.0.1 　 8118
+　 `
+　 就可以下载jitpack里面得文件了
+
+
+## 下载gradle
+
+  有时候想用新的的gradle，但是新的更新几十M的文件，一天都不一定能下下来
+   直接去官网下载 https://gradle.org/releases/  ，对应版本的zip文件，放到相应目录
+  比如我的就是 C:\Users\Administrator\.gradle\wrapper\dists\gradle-3.3-all\55gk2rcmfc6p2dg9u9ohc3hw9\
+
+还一个是在${home}/.gradle目录下得gradle.properties文件配置应该也是可以的
+
+
+## 修改Log颜色
+
+android studio log默认都是白色的，在 setting -> Android Log下去掉Use inherited attributes
+.gradle/gradle.properties 
+我的颜色按照这个修改的
+http://www.jianshu.com/p/e3f8f7383c3d
+
+
+
+## 自动生成 findViewById
+可以使用 butterknife,但是我在7升级到8时就麻烦了
+也可以使用 BorePlugin代码生成插件
+https://github.com/boredream/BorePlugin
+
+
 ## 快捷键
 
 >
@@ -47,61 +111,3 @@ categories: "工具"
 
 
 参考：https://github.com/1sters/Android-Studio-Guide/blob/master/tips-shortcuts.md
-
-
-## 降低　compileSdkVersion　版本
- 　有时候需要看低版本的源码，就要修改compileSdkVersion版本
-
-1. 修改编译版本
-   ![图片](AndroidStudioTool/DeepinScrot_compile.png)
-2. targetSdkVersion版本修改成　21   然后   compile 'com.android.support:appcompat-v7:21.+' 继承的AppCompatActivity改成Activity
-
-3. 编译后报错　Error:(11) No resource identifier found for attribute 'roundIcon' in package 'android'
-  根据错误删除　android:roundIcon ,然后编译
-
-
-  参考：http://blog.csdn.net/hyr83960944/article/details/39941683
-
-
-## 导入项目
-
-修改Gradle配置文件后就一直卡在那，在　build.gradle值修改下面
-
-如果用了ss代理，在ubuntu设置http没用，可以在 工程根目录下 gradle.properties  添加
-
-`
-org.gradle.jvmargs=-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=1080
-`
-
-参考: https://www.zhihu.com/question/37810416
-
-
-平常github下载项目导入AndroidStudio直接卡死，心里真不是...., 目前实验一种方式应该会快点
-修改 gradle\wrapper\gradle-wrapper.properties下的 distributionUrl=https\://services.gradle.org/distributions/gradle-3.3-all.zip， 我的AndroidStudio默认是这个 所以就修改成这样的.
-
-
-## 下载gradle
-
-  有时候想用新的的gradle，但是新的更新几十M的文件，一天都不一定能下下来
-   直接去官网下载 https://gradle.org/releases/  ，对应版本的zip文件，放到相应目录
-  比如我的就是 C:\Users\Administrator\.gradle\wrapper\dists\gradle-3.3-all\55gk2rcmfc6p2dg9u9ohc3hw9\
-
-
-
-## 修改Log颜色
-
-android studio log默认都是白色的，在 setting -> Android Log下去掉Use inherited attributes
-.gradle/gradle.properties 
-我的颜色按照这个修改的
-http://www.jianshu.com/p/e3f8f7383c3d
-
-
-
-## 自动生成 findViewById
-可以使用 butterknife,但是我在7升级到8时就麻烦了
-也可以使用 BorePlugin代码生成插件
-https://github.com/boredream/BorePlugin
-
-## Android Stuido卡頓
-修改配置文件
-

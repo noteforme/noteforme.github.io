@@ -232,6 +232,9 @@ $ sudo update-rc.d run_server.sh defaults 90
 
 http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
   
+ ## 设置系统全局代理
+ 
+ https://blog.csdn.net/u012810317/article/details/52139361
  
   
   
