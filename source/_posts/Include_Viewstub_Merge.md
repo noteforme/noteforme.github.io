@@ -7,19 +7,18 @@ categories: ANDROID
 
 ---
 
-#  Include 用于解决重复的问题　
+##  Include 用于解决重复的问题　
 
 AndroidStudio 选择Tools -> Android -> Layout Inspector 可以查看层级
 
 
-# Merge
+## Merge
 
 解决多层布局嵌套的问题
 
+* include_invest.xml
 ```
-
-  
-    <?xml version="1.0" encoding="utf-8"?>
+     <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -44,10 +43,7 @@ AndroidStudio 选择Tools -> Android -> Layout Inspector 可以查看层级
         android:textColor="#2c97f4"
         android:textSize="@dimen/text_size_14" />
 </merge>
-
-
 ```
-
 
 ```
         <LinearLayout
@@ -73,18 +69,16 @@ AndroidStudio 选择Tools -> Android -> Layout Inspector 可以查看层级
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent"
-                android:background="@color/line_color" />
-        
-        </LinearLayout>
-       
-
+                android:background="@color/line_color" /> 
+        </LinearLayout>  
 ```
+
 上面这种方式通过　　`findVIewById(R.id.ic_project_progress).findViewById(R.id.tv_top_title);`
 就会报错　
-
+ merge标签相当于没有，直接融入父布局
 看来一个页面多个地方共用还是不好用merge,id不好区分
 
-# ViewStub使用
+##  ViewStub使用
 
 ```
 	  <RelativeLayout
@@ -114,40 +108,51 @@ AndroidStudio 选择Tools -> Android -> Layout Inspector 可以查看层级
                 android:layout="@layout/vs_project_newleader" />
         </RelativeLayout>
 ```
+* 使用
 
-```
-      		ViewStub vsEmpty = findViewById(R.id.vs_isnew);
+      ViewStub vsEmpty = findViewById(R.id.vs_isnew);
        
-```
+-  visible 
 
-- visible 
+  调用ViewStub 的setVisibility() 方法来显示这个View,这样的话这个被加载的view应该是固定的
 
-  调用ViewStub 的setVisibility() 方法来显示这个View
-
-  ```
-  vsEmpty.setVisible(View.Gone);
-  ```
-
+  
+  vsEmpty.setVisible(View.Gone)
+  
   inflate
 
-  通过ViewStub 的inflate() 方法来显示这个View,可以获取到inflate 进去的View
+  通过ViewStub 的inflate() 方法来显示这个View,可以获取到inflate 进去的View，这样可以动态加载view不同的内容
 
   ```
        View view = vsEmpty.inflate();
+       
        TextView text = view.findViewById(R.id.tv_txt);
        text.setText("测试");
   ```
 
   判断ViewStub 是否inflate()
-
-  http://blog.csdn.net/qq_35956194/article/details/79080703
+  
+ * 方法1 :
+ 
+ 		ViewStub viewStub=  (ViewStub) findViewById(R.id.viewstub);
+		if(viewStub!=null){
+  		　  viewStub.inflate();
+		}
+* 方法2（推荐）: 
+		//初始化，不必每次都调用
+		ViewStub viewStub=  (ViewStub) findViewById(R.id.viewstub);
+          
+if(viewStub.getParent() !=null){
+    viewStub.inflate();
+}
+ 
+    http://blog.csdn.net/qq_35956194/article/details/79080703
+    https://droidyue.com/blog/2016/09/11/using-viewstub-in-android-to-improve-layout-performance/
 
   参考
-
 https://developer.android.com/reference/android/view/ViewStub.html
 https://developer.android.com/training/improving-layouts/loading-ondemand.html
 
-https://droidyue.com/blog/2016/09/11/using-viewstub-in-android-to-improve-layout-performance/
 
 https://jaysdev.github.io/2017/07/09/ViewStub%E4%BD%BF%E7%94%A8/
 

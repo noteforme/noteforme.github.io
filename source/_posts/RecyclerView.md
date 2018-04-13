@@ -13,11 +13,8 @@ comments: true
 
 ListView添加header后，postion位置会变，点击item的话，获取的数据也会变,
 正确的方式应该这样 `   ReadPacket readPacket = (ReadPacket) parent.getAdapter().getItem(position);`
-
 https://blog.chengbo.net/2012/03/09/onitemclick-return-wrong-position-when-listview-has-headerview.html
-
  listview 添加 head footer
-
  https://github.com/liaoinstan/SpringView
 
 #  RecyclerView
@@ -123,7 +120,7 @@ reclverview也有很多分类方式
 这种对用到的页面操作比较简单，super里面想放哪些就可以，就是itemviewtype方法实现比较复杂，判断容易出错
 
 - 功能全面
-文集　https://github.com/CymChad/CymChad.github.io
+http://www.recyclerview.org/
 
 https://github.com/luizgrp/SectionedRecyclerViewAdapter
 http://blog.csdn.net/wzlyd1/article/details/52292548

@@ -16,9 +16,6 @@ https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/
 
 # Git基本操作
 
-  svn项目修改为Git 
-  在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
-
 ##  github上传项目 
 
 *  分支创建
@@ -44,17 +41,15 @@ git push -u origin master
 
 ```
 
-## 分支操作
-
+##  本地分支操作
 
 *  查看本地分支
 
    ` git branch `
 
 * 分支创建
-```
- git branch v1.0.0
-```
+ ` git branch v1.0.0`
+
 * Git分支切换
    `$ git checkout v1.0.0`
 * 分支提交到远程仓库
@@ -67,9 +62,7 @@ git push -u origin master
  `git push origin :foo`
 
 
-* ​
-
-  [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
+* ​  [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
 http://blog.csdn.net/hyr83960944/article/details/36185231
 
 
@@ -81,15 +74,12 @@ $ git merge hotfix
 ```
 [合并分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6) 
 
-* 　获取本地没有的远程分支
+##　 远程分支
 
-
-* [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
+*  [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
    `$ git remote show origin `
 
-
-
-* 获取一个远程分支
+*  获取一个远程分支
 
    ```
    git fetch origin step1 命令来把远程分支拉到本地
@@ -250,5 +240,7 @@ Switched to a new branch 'version2'
 修复已发布版本Bug
 http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 
+  * svn项目修改为Git 
+  在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
 
 

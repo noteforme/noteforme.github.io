@@ -39,6 +39,21 @@ type reboot
 
 参考：　[Eric Chan](http://hareric.com/2016/07/26/%E7%AE%80%E6%98%93%E6%96%B9%E6%B3%95%E8%A7%A3%E5%86%B3ubuntu%E4%B8%8B%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/) 
 
+
+** 17.10的问题　**
+
+*  Android studio3.1无法输入中文
+  　使用 fcitx 选择sunpingying  也可以选择 google pinyin
+  　然后输入这两行命令
+		
+			pidof fcitx | xargs kill  #找到原有的fcitx端口并kill掉
+			fcitx                     #开启fcitx
+
+参考： 　https://blog.csdn.net/he729164860/article/details/78484713
+  　
+  　
+  　
+
 ## 安装Gnome　shell
 
 ```
