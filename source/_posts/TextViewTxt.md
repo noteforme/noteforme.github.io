@@ -6,7 +6,10 @@ tags:
 categories: ANDROID
 ---
 
+
 TextView使用
+
+## SpannableString
 https://juejin.im/entry/5729d28f1ea49300606854c9
 SpannableString有一个不方便的地方是截取字符串
 
@@ -30,3 +33,13 @@ SpannableString有一个不方便的地方是截取字符串
         }, 5, 15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spanTxt;
      }
+  
+##     Html标签方式
+
+    		TextView textView = (TextView) findViewById(R.id.text_for_test);
+		String textSource = "修改TextView中部分文字的<font color='#ff0000'><big>大</big><small>小</small></font>和<font color='#00ff00'>颜色</font>，展示多彩效果！";
+		textView.setText(Html.fromHtml(textSource));
+  
+     
+    http://www.jianshu.com/p/f6cef78e8652
+https://github.com/liqy/TextViewDemo

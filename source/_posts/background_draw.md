@@ -153,7 +153,3 @@ http://yifeng.studio/2017/02/26/android-elevation-and-shadow/
 
   https://keeganlee.me/post/android/20150909
 
-# TextView不同内容
-
-http://www.jianshu.com/p/f6cef78e8652
-https://github.com/liqy/TextViewDemo
