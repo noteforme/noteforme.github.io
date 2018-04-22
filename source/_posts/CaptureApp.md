@@ -1,0 +1,21 @@
+---
+title: CaptureApp
+comments: true
+date: 2018-04-21 13:24:41
+tags: 
+categories: 工具
+---
+
+##  Fiddler
+
+https://www.jianshu.com/p/4a8dae519efe
+https://www.jianshu.com/p/99b6b4cd273c
+
+##  WireShark
+
+* 安装
+https://www.linuxidc.com/Linux/2016-08/134526.htm
+
+http://www.cnblogs.com/wangqiguo/p/4529250.html
+http://www.cnblogs.com/TankXiao/archive/2012/10/10/2711777.html
+
