@@ -74,12 +74,12 @@ $ git merge hotfix
 ```
 [合并分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6) 
 
-##　 远程分支
+##　  远程分支
 
 *  [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
    `$ git remote show origin `
 
-*  获取一个远程分支
+*  获取本地没有的远程分支
 
    ```
    git fetch origin step1 命令来把远程分支拉到本地
@@ -241,6 +241,13 @@ Switched to a new branch 'version2'
 http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 
   * svn项目修改为Git 
-  在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
+    在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
 
+
+## 合并分支
+
+```
+$ git checkout master
+$ git merge hotfix
+```
 
