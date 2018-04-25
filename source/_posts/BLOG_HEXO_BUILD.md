@@ -6,34 +6,21 @@ categories: "BLOG"
 
 ---
 
-#  github创建HEXO
 
-## window环境
+
+##  软件下载
 
 * 下载Git 并配置环境变量
 * 安装Node.js 
     下载[Node.js](https://nodejs.org/en/) ,我下载的是 node-v6.11.3-x64.msi ，一路安装下去自动配置好了环境变量
        输入 `node -v` 测试
 
-# hexo多设备同步
-
  搭建好hexo后，由于他是本地生成的，那么就要考虑同步的问题了，目前解决在github建一个分支hexo，然后把本地资源用git分支管理
 
-## 在github创建hexo分支
-
-- 在本地博客根目录上传资源文件，由于有些文件是hexo d后自动生成的不必上传，在　.gitignore，有下面这些不用上传，
-- 可以Google这些文件各自作用
-- 
-     .DS_Store
-      Thumbs.db
-      db.json
-      *.log
-      node_modules/
-      public/
-      .deploy*/
+- ​
 
 
-## 上传文件到分支
+##  上传文件到分支
 
         // git初始化
          git init
@@ -48,7 +35,7 @@ categories: "BLOG"
         // 文件推送到hexo分支
         git push origin hexo
 
-## 博客同步
+## 
 
    其他设备安装好环境(支持跨平台)，先clone　hexo分支到本地
 
@@ -118,13 +105,3 @@ categories: "BLOG"
 
    参考：http://www.jianshu.com/p/92b6d4a6ecd5
 
-##　修改主题　分类和评论
-
-- 主题两步就修改好了，在hexo s本地显示没问题，但是部署后网页显示错乱，问题是缓存，清下浏览器缓存就好了
-   参考：http://jinyanhuan.github.io/2015/03/16/hexo-bulid-three/
-
-- 评论　：
-
-- 修改themes下的_config.yml  disqus_shortname: your-disqus-shortname，　参考：　http://theme-next.iissnan.com/third-party-services.html
-
-- formatter添加　comments: true
