@@ -117,4 +117,13 @@ public class SyncObject {
 # 线程间的协作
 
 - wait()
- : 在wait期间　对象锁是释放的,而Sleep期间是没有的
+   : 在wait期间　对象锁是释放的,而Sleep期间是没有的
+
+##  
+
+# CountDownLatch
+
+https://www.jianshu.com/p/cef6243cdfd9
+
+latch.countDown();//完成一个任务就调用一次
+
