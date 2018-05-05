@@ -11,46 +11,48 @@ categories: "LINUX"
 ##  shadowsocks安装
 
    对于新手 作者建议安装在ubuntu上，那就用他开始吧
-   
+
 *   安装软件
 
     	 sudo apt-get install python-pip
          pip install shadowsocks
-  
+
   然而我遇到了这样的问题
   Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-build-Mlx8an/shadowsocks/
 You are using pip version 8.1.1, however version 9.0.1 is available.
 You should consider upgrading via the 'pip install --upgrade pip' command.
 接着按照他的指示来
-  
+
     pip install --upgrade pip
 
   然而又出问题了，这次是这个 Could not import setuptools which is required to install from a source distribution.
 Please install setuptools.
   这时候Google派上用场了，解决方案是 
-  
-  
+
+
      sudo pip install -U setuptools
- 
+
   
+
   参考：https://github.com/fredley/play-pi/issues/22
-  
+
   然后执行 pip install shadowsocks ，终于OK，Collecting shadowsocks
   Using cached shadowsocks-2.8.2.tar.gz
 Installing collected packages: shadowsocks
   Running setup.py install for shadowsocks ... done
 Successfully installed shadowsocks-2.8.2
 
-     
+
 ### 前台运行
 
  软件安装好了，现在可以配置了，先在前台跑下
 
         ssserver -p 8388 -k 123456 -m aes-256-cfb
-    
+
  
+
  然后手机或电脑同样配置看下代理是否有用，Ok的话，新建一个文件替代命令
-   
+
         vi  /etc/shadowsocks.json 
       {
       "server":"my_server_ip",
@@ -65,9 +67,9 @@ Successfully installed shadowsocks-2.8.2
 
 
    前台执行 :   
-   
+
         ssserver -c /etc/shadowsocks.json
- 
+
  后台执行:
      
         ssserver -c /etc/shadowsocks.json -d start    
@@ -76,7 +78,7 @@ Successfully installed shadowsocks-2.8.2
 接着就可以愉快的玩耍了
 
 *  卸载shadowsocks
-　
+
 　先停掉服务 `sudo ssserver -d stop`
 　然后　      `pip uninstall shadowsocks`
 　
@@ -115,25 +117,26 @@ For Unix-like systems, especially Debian-based systems, e.g. Ubuntu, Debian or L
 * Debian / Ubuntu　环境配置
 `sudo apt-get install --no-install-recommends build-essential autoconf libtool libssl-dev libpcre3-dev libc-ares-dev libev-dev asciidoc xmlto automake `
 
-*  下载simple-obfs
-	
-			//Debian / Ubuntu
-		sudo apt-get install --no-install-recommends build-essential autoconf libtool 			libssl-dev libpcre3-dev libev-dev asciidoc xmlto automake
- 			//CentOS / Fedora / RHEL
-			sudo yum install gcc autoconf libtool automake make zlib-devel openssl-devel asciidoc xmlto
-			// Arch
-		sudo pacman -Syu gcc autoconf libtool automake make zlib openssl asciidoc xmlto
-		 //Alpine
-		apk add gcc autoconf make libtool automake zlib-devel openssl asciidoc xmlto libpcre32 libev-dev g++ linux-headers
+* 下载simple-obfs
 
-		git clone https://github.com/shadowsocks/simple-obfs.git
-		cd simple-obfs
-		git submodule update --init --recursive
-		./autogen.sh
-		./configure && make
-		sudo make install
-			
-		 
+    //Debian / Ubuntu
+    	sudo apt-get install --no-install-recommends build-essential autoconf libtool 			libssl-dev libpcre3-dev libev-dev asciidoc xmlto automake
+    			//CentOS / Fedora / RHEL
+    		sudo yum install gcc autoconf libtool automake make zlib-devel openssl-devel asciidoc xmlto
+    		// Arch
+    	sudo pacman -Syu gcc autoconf libtool automake make zlib openssl asciidoc xmlto
+    	 //Alpine
+    	apk add gcc autoconf make libtool automake zlib-devel openssl asciidoc xmlto libpcre32 libev-dev g++ linux-headers
+
+    	git clone https://github.com/shadowsocks/simple-obfs.git
+    	cd simple-obfs
+    	git submodule update --init --recursive
+    	./autogen.sh
+    	./configure && make
+    	sudo make install
+
+
+    ​	 
 
 ##  注意:
 * 问题1
@@ -192,14 +195,14 @@ from:https://teddysun.com/511.html
 * 客户端连接
 　client也按照 simple-obfs  服务端安装方式安装
 　连接命令 ` ss-local -c /etc/shadowsocks-libev/config.json --plugin obfs-local --plugin-opts "obfs=http;obfs-host=www.biadu.com"`
-　
+
 
 参考:https://github.com/shadowsocks/simple-obfs
 https://blog.phpgao.com/shadowsocks_on_linux.html
 https://softwaredownload.gitbooks.io/openwrt-fanqiang/content/ebook/03.2.html
 
 
-   
+
 ## 配置ubuntu开机启动
 *  home下　新建 run_server.sh
 输入
@@ -228,16 +231,23 @@ $ sudo update-rc.d run_server.sh defaults 90
 * 如何移除该脚本
 很简单，执行如下指令：
 ` sudo update-rc.d -f run_server.sh remove`
- 
+
 
 http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
-  
+
  ## 设置系统全局代理
- 
+
  https://blog.csdn.net/u012810317/article/details/52139361
- 
+
+* terminal代理
+
+  ```
+  export http_proxy=http://127.0.0.1:8118
+  export https_proxy=http://127.0.0.1:8118
+  ```
+
   
-  
+
   
 
 

@@ -1,5 +1,5 @@
 ---
-title:  BLOG_SYNC_HTTPS
+title:  Hexo_Install
 date: 2017-07-17 15:05:03
 tags: [多设备同步hexo,图片显示，https认证]
 categories: "BLOG"
@@ -8,16 +8,29 @@ categories: "BLOG"
 
 
 
-##  软件下载
+##  基本配置
+
+​    官方文档:https://hexo.io/zh-cn/docs/index.html
 
 * 下载Git 并配置环境变量
+
 * 安装Node.js 
     下载[Node.js](https://nodejs.org/en/) ,我下载的是 node-v6.11.3-x64.msi ，一路安装下去自动配置好了环境变量
        输入 `node -v` 测试
 
+      注意： 安装Node.js最佳方式使用nvm，使用master分支不起作用,需要github推荐的分支
+
+     接着安装node.js
+
+    ```
+    
+    ```
+
+    
+
  搭建好hexo后，由于他是本地生成的，那么就要考虑同步的问题了，目前解决在github建一个分支hexo，然后把本地资源用git分支管理
 
-- ​
+- 
 
 
 ##  上传文件到分支
@@ -47,8 +60,11 @@ categories: "BLOG"
     npm install
     // 安装部署相关配置
     npm install hexo-deployer-git
+    
+    //如果出错执行下面的
+    npm install -g hexo-cli
 
-这要就完成同步了
+这要就完成同步了(上面的流程还不是很规范，不过执行上面几个命令基本都能解决)
 
 如果有这些不用管了 
 >npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.0.0 (node_modules\chokidar\node_modules\fsevents):
