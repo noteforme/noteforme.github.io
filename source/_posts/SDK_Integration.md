@@ -47,10 +47,39 @@ categories: 工具
 
 ##  极光推送
 
-* 推送给全部人很简单
+* 集成过程
+
+  按照文档，主要是要注意这个广播接收器就可以了
+
+  ```
+    <receiver
+              android:name=".jpush.MyReceiver"
+              android:enabled="true">
+              <intent-filter>
+                  <!--Required 用户注册SDK的intent-->
+                  <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                  <!--Required 用户接收SDK消息的intent-->
+                  <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                  <!--Required 用户接收SDK通知栏信息的intent-->
+                  <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                  <!--Required 用户打开自定义通知栏的intent-->
+                  <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                  <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                  <action android:name="cn.jpush.android.intent.CONNECTION" />
+                  <category android:name="com.zhujia.land" />
+              </intent-filter>
+          </receiver>
+  ```
+
+  
+
 * 有点疑惑的是推送给特定的APP
 
-http://blog.jiguang.cn/push_audience_tech-2/
+  目前获取RegistrationID，登陆接口把 RegistrationID传给服务端, 然后Server推送过来就可以了
+
+  http://blog.jiguang.cn/push_audience_tech-2/
+
+   暂时别试用Jcenter集成,会出现各种问题
 
 
 

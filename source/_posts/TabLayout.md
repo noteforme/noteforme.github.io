@@ -57,8 +57,11 @@ https://developer.android.com/reference/android/support/design/widget/TabLayout.
 
 
 
+* 默认设置
 
+  ```
+  mTabLayout.getTabAt(roomType).select();
+  viewpager.setCurrentItem(1);
+  ```
 
-
-
-# 选择TAB
+  https://segmentfault.com/a/1190000008753052
