@@ -44,7 +44,7 @@ type reboot
 
 *  Android studio3.1无法输入中文
   　使用 fcitx 选择sunpingying  也可以选择 google pinyin
-  　然后输入这两行命令
+    　然后输入这两行命令
 		
 			pidof fcitx | xargs kill  #找到原有的fcitx端口并kill掉
 			fcitx                     #开启fcitx
@@ -57,15 +57,33 @@ type reboot
 ## 安装Gnome　shell
 
 ```
-		sudo apt-get install ubuntu-tweak
-
-		 sudo apt-get install chrome-gnome-shell
+		sudo apt-get install gnome-tweak-tool
+		sudo apt-get install chrome-gnome-shell
 ```
 打开tweak可以看到按钮
 
 浏览点击 ||| off按钮系统就会安装
-写代码时很有用的插件
+
+开源chromium加载有问题，使用firefox
+
+很有用的插件
+
 https://extensions.gnome.org/extension/545/hide-top-bar/
+
+参考:https://www.mobibrw.com/2017/9342
+
 　
-　
-　
+
+##  ctrl + alt + left （Intellij idea shortcut conflict）
+
+* install <u>Dconf Editor</u>   in ubuntu software
+
+* launch <u>Dconf Editor</u>, go to    /org/gnome/desktop/wm/keybindings/switch-to-workspace-left  
+
+  double click like below
+
+  ![df](ubuntu_guide/ubuntu_guide_01.png)
+
+ use default value(click Off) -> Custom value(like me or else)
+
+* you could use it in intellij idea now .
