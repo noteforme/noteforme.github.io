@@ -16,5 +16,8 @@ http://alighters.com/blog/2016/08/22/rxjava-plus-retrofitshi-xian-zhi-demo/
 
 https://blog.csdn.net/bestlbw/article/details/53984647
 
-
 https://www.jianshu.com/p/c325f5c32709
+
+
+
+[最流行的网络请求框架Rxjava2+Retrofit之Token处理](https://blog.csdn.net/qq_20521573/article/details/76100558)
