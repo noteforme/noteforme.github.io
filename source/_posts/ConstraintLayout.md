@@ -20,7 +20,7 @@ layout_constraintTop_toTopOf
 layout_constraintTop_toBottomOf
 layout_constraintBottom_toTopOf
 layout_constraintBottom_toBottomOf
-layout_constraintBaseline_toBaselineOf
+layout_constraintBaseline_toBaselineOf    	 //元素对齐 
 layout_constraintStart_toEndOf
 layout_constraintStart_toStartOf
 layout_constraintEnd_toStartOf
