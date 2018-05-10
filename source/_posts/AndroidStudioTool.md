@@ -109,5 +109,30 @@ https://github.com/boredream/BorePlugin
 31.Ctrl＋Shift＋J可以整合两行
 32.Alt＋F8是计算变量值
 
-
 参考：https://github.com/1sters/Android-Studio-Guide/blob/master/tips-shortcuts.md
+
+
+
+
+
+## debug问题
+
+> 15:40	Error running 'app'
+> 		Cannot debug application from module app on device huawei-pra_al00-HMKNW17A12007001.
+> 		This application does not have the debuggable attribute enabled in its manifest.
+> 		If you have manually set it in the manifest, then remove it and let the IDE automatically assign it.
+> 		If you are using Gradle, make sure that your current variant is debuggable.
+
+
+
+* Build Variants 设置成debug
+
+*   ```
+   debug {
+              debuggable false
+              minifyEnabled false
+              signingConfig signingConfigs.debug
+          }
+    ```
+
+   debuggable设置成 true
