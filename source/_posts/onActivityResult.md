@@ -47,7 +47,9 @@ categories: ANDROID
 
 ```
 
+setResult(RESULT_OK, result); ,finish()后 onActivityResult 返回 resultCode 
 
+ 
 
 
 # 跳转多个页面 回来

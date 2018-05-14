@@ -11,6 +11,55 @@ categories: ANDROID
 
 AndroidStudio 选择Tools -> Android -> Layout Inspector 可以查看层级
 
+例如：
+
+```
+  <RelativeLayout
+            android:id="@+id/rl_repair"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <include layout="@layout/item_service" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_advice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <include layout="@layout/item_service" />
+        </RelativeLayout>
+```
+
+分别给include内控件赋值
+
+```
+  int[] intRelative = ItemUtil.getServiceRelativeLayout();
+        int[] iconInt = ItemUtil.getServiceIcon();
+        String[] title = ItemUtil.getServiceTitle();
+        String[] describe = ItemUtil.getServiceDescribe();
+        for (int i = 0; i < intRelative.length; i++) {
+            RelativeLayout rlView = view.findViewById(intRelative[i]);
+            ImageView ivIcon = rlView.findViewById(R.id.iv_finance);
+            ivIcon.setImageResource(iconInt[i]);
+            TextView tvTitle = rlView.findViewById(R.id.tv_title);
+            TextView tvDescribe = rlView.findViewById(R.id.tv_describe);
+            tvTitle.setText(title[i]);
+            tvDescribe.setText(describe[i]);
+            rlView.setOnClickListener(this);
+        }
+```
+
+
+
+
+
+
+
+
+
 
 ## Merge
 
@@ -78,6 +127,8 @@ AndroidStudio 选择Tools -> Android -> Layout Inspector 可以查看层级
  merge标签相当于没有，直接融入父布局
 看来一个页面多个地方共用还是不好用merge,id不好区分
 
+
+
 ##  ViewStub使用
 
 ```
@@ -111,7 +162,7 @@ AndroidStudio 选择Tools -> Android -> Layout Inspector 可以查看层级
 * 使用
 
       ViewStub vsEmpty = findViewById(R.id.vs_isnew);
-       
+  
 -  visible 
 
   调用ViewStub 的setVisibility() 方法来显示这个View,这样的话这个被加载的view应该是固定的
@@ -133,8 +184,8 @@ AndroidStudio 选择Tools -> Android -> Layout Inspector 可以查看层级
   判断ViewStub 是否inflate()
   
  * 方法1 :
- 
- 		ViewStub viewStub=  (ViewStub) findViewById(R.id.viewstub);
+
+			ViewStub viewStub=  (ViewStub) findViewById(R.id.viewstub);
 		if(viewStub!=null){
   		　  viewStub.inflate();
 		}
@@ -145,7 +196,7 @@ AndroidStudio 选择Tools -> Android -> Layout Inspector 可以查看层级
 if(viewStub.getParent() !=null){
     viewStub.inflate();
 }
- 
+
     http://blog.csdn.net/qq_35956194/article/details/79080703
     https://droidyue.com/blog/2016/09/11/using-viewstub-in-android-to-improve-layout-performance/
 
