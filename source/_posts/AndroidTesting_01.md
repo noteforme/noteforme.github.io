@@ -47,7 +47,66 @@ public class CalculatorTest {
 
 Espresso测试
 
-https://developer.android.com/training/testing/espresso/setup.html#add-espresso-dependencieshttps://developer.android.com/training/testing/espresso/basics.html
+使用方式：https://developer.android.com/training/testing/espresso/setup.html#add-espresso-dependencieshttps://developer.android.com/training/testing/espresso/basics.html
+
+```
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".test.InstrumentActivity">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:hint="输入姓名"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:onClick="sayClick"
+        android:text="Say HELLO"
+        app:layout_constraintTop_toBottomOf="@+id/et_name" />
+</android.support.constraint.ConstraintLayout>
+```
+
+```
+    public void sayClick(View v) {
+        TextView textView = findViewById(R.id.tv_name);
+        EditText editText = findViewById(R.id.et_name);
+        textView.setText("Say HELLO!" + editText.getText().toString() + "!");
+    }
+```
+
+```
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class InstrumentActivityTest {
+    private static final String STRING_TO_BE_TYPED = "Jon";
+    @Rule
+    public ActivityTestRule<InstrumentActivity> instrumentActivityTestRule = new ActivityTestRule<>(InstrumentActivity.class);
+
+    @Test
+    public void sayHelloTest() {
+        Espresso.onView(ViewMatchers.withId(R.id.et_name)).perform(ViewActions.typeText(STRING_TO_BE_TYPED), closeSoftKeyboard());
+        Espresso.onView(ViewMatchers.withText("Say HELLO")).perform(click());
+
+
+        String expectedText = "Say HELLO!" + STRING_TO_BE_TYPED + "!";
+        Espresso.onView(ViewMatchers.withId(R.id.tv_name)).check(ViewAssertions.matches(ViewMatchers.withText(expectedText)));
+    }
+}
+```
 
 
 
