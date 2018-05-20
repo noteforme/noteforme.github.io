@@ -87,3 +87,17 @@ https://extensions.gnome.org/extension/545/hide-top-bar/
  use default value(click Off) -> Custom value(like me or else)
 
 * you could use it in intellij idea now .
+
+####  genymotion安装
+
+* 下载Virtualbox
+* 下载genymotion
+* 下载Android stuido genymotion插件
+
+```
+chmod +x genymotion-2.6.0-linux_x64.bin      
+./genymotion-2.6.0-linux_x64.bin -d /home/qiu/Work/genymotion  
+```
+
+//注意： chmod +x 有空格
+
