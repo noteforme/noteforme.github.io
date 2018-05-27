@@ -101,3 +101,6 @@ chmod +x genymotion-2.6.0-linux_x64.bin
 
 //注意： chmod +x 有空格
 
+#### 输入法设置
+
+ubuntu 18.04 intellij 输入法选择有问题，可以用命令行安装 ibus-pinyin，然后input souce选择拼音输入法
