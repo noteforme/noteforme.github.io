@@ -24,3 +24,8 @@ https://www.jianshu.com/p/ac00e370f83d
 
 * 性能优化
 
+
+
+
+
+https://developer.android.com/studio/profile/memory-profiler
