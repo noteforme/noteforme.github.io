@@ -12,7 +12,7 @@ categories: ANDROID
   6.0后最大的改变
 
 ## 危险权限:
-https://developer.android.com/guide/topics/permissions/requesting.html#normal-dangerous
+
 
 
 ##  文件存储文章
@@ -112,3 +112,6 @@ public boolean shouldShowRequestPermissionRationale(permission)
 这个 看情况选用
 
 参考 https://juejin.im/entry/58b2e490ac502e0069d9ae62
+
+https://developer.android.com/guide/topics/security/permissions?hl=zh-cn#normal-dangerous
+

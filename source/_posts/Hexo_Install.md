@@ -12,25 +12,38 @@ categories: "BLOG"
 
 ​    官方文档:https://hexo.io/zh-cn/docs/index.html
 
-* 下载Git 并配置环境变量
+下载
 
-* 安装Node.js 
-    下载[Node.js](https://nodejs.org/en/) ,我下载的是 node-v6.11.3-x64.msi ，一路安装下去自动配置好了环境变量
-       输入 `node -v` 测试
+1. 下载 [Node.js ](https://nodejs.org/en/))
 
-      注意： 安装Node.js最佳方式使用nvm，使用master分支不起作用,需要github推荐的分支
+2. Git
 
-     接着安装node.js
+     下载的是 node-v6.11.3-x64.msi ，一路安装下去自动配置好了环境变量
+      输入 `node -v` 测试
 
-    ```
-    
-    ```
+3. npm  
 
-    
+      `npm install -g hexo-cli  `
 
- 搭建好hexo后，由于他是本地生成的，那么就要考虑同步的问题了，目前解决在github建一个分支hexo，然后把本地资源用git分支管理
+     注意： 安装Node.js最佳方式使用nvm，使用master分支不起作用,需要github推荐的分支
 
-- 
+    接着安装node.js
+
+    搭建好hexo后，由于他是本地生成的，那么就要考虑同步的问题了，目前解决在github建一个分支 hexo，然后把本地资源用git分支管理
+
+4. 安装 npm install
+
+   
+
+
+
+
+
+
+
+
+
+
 
 
 ##  上传文件到分支
@@ -48,7 +61,7 @@ categories: "BLOG"
         // 文件推送到hexo分支
         git push origin hexo
 
-## 
+## #  
 
    其他设备安装好环境(支持跨平台)，先clone　hexo分支到本地
 
