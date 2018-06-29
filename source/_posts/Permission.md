@@ -115,3 +115,12 @@ public boolean shouldShowRequestPermissionRationale(permission)
 
 https://developer.android.com/guide/topics/security/permissions?hl=zh-cn#normal-dangerous
 
+
+
+####  多权限申请
+
+
+
+https://github.com/googlesamples/android-RuntimePermissions
+
+https://www.jianshu.com/p/a51593817825

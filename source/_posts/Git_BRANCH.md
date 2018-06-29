@@ -124,7 +124,13 @@ http://www.ruanyifeng.com/blog/2014/06/git_remote.html
  主要是　`git rm --cached　.idea/misc.xml ` 然后提交修改,每次手输入才有用?
 
  对文件夹的处理,比如common-bankcard
-  `git rm -r --cached common-bankcard`
+
+```
+git rm -r --cached common-bankcard
+git rm --cached  *idea/*
+```
+
+
 
 
 #  Git仓库迁移
