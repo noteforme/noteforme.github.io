@@ -95,6 +95,9 @@ http://www.loverobots.cn/the-analysis-is-simple-compared-with-the-classic-blueto
             Log.e(TAG,"onScanResult :"+result.getScanRecord().toString());
             BluetoothDevice device = result.getDevice();
             blueAdapter.addDevice(device);
+            
+            ScanRecord scanRecord = result.getScanRecord();
+            int rssi = result.getRssi();
         }
 
         @Override
@@ -173,6 +176,20 @@ private BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
     }
 };
 ```
+
+![](E:\noteforme.github.io\source\_posts\Bluetooth03\Android-BLE-in-Action.026.jpeg)
+
+
+
+
+
+##### Android 中 GATT 操作的流程 
+
+![droid-BLE-in-Acti](Bluetooth03\Android-BLE-in-Action.028.jpeg)
+
+
+
+ Android 中 GATT 操作的流程。右边这个图，APP 是我们的应用，右边蓝牙服务端，从左向右箭头是 APP 发起的请求，从右向左的箭头是回调。我们看到所有的操作都是异步的完成的。连接过程是，首先使用 gattConnect 发起连接，收到 onConnectionStateChange() 通知连接是否成功，若成功，则进行下一步的 discoverService()，这一步就是发现设备所有的 GATT Service，若发现成功，通过 onServiceDiscovered() 回调，这时才算真正的连接成功。然后可以通过 BluetoothGatt 的 getService() 来获得BluetoothGattService，进而获得BluetoothGattCharacteristic 等，然后对 Characteristic 进行读写。 
 
 
 
