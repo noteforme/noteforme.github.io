@@ -24,7 +24,7 @@ categories: BLE
 
 #### Controller 
 
-* PhysicalLayer: 蓝牙是工作在 2.4GHz 附近，这是工业、科学、医疗 ISM 频段。可以看到它和 WiFi 工作在同一个频段。蓝牙把频段切分为 40 个通道，3 个广播通道，37 个数据通道，按照一定规律跳频通信（高斯频移键控 GFSK）。 
+* PhysicalLayer(物理层 ): 蓝牙是工作在 2.4GHz 附近，这是工业、科学、医疗 ISM 频段。可以看到它和 WiFi 工作在同一个频段。蓝牙把频段切分为 40 个通道，3 个广播通道，37 个数据通道，按照一定规律跳频通信（高斯频移键控 GFSK）。 
 
 * HCI   : 在 Host 层和 Controller 之间有一个接口层 :主机和控制器之间就是通过 HCI 命令和事件交互的。HCI 这一层是协议栈中是可选的，例如在一些简单小型的设备上可能就没有，但是所有的 Android 设备上肯定是有。这是蓝牙上层应用和芯片的交互的必经之路。后面我们会讲到，这一层的 log，能够很好的帮助我们分析和调试问题。 
 
@@ -42,6 +42,14 @@ categories: BLE
 
 ![Bluetooth02_20180706102358](Bluetooth02\bluetooth_20180706102358.png)
 
+Service、Characteristic相当于标签（Service相当于他的类别，Characteristic相当于它的名字），而value才真正的包含数据，Descriptor是对这个value进行的说明和描述，当然我们可以从不同角度来描述和说明，因此可以有多个Descriptor. 
+
+* 例如: 
+
+常见的小米手环是一个BLE设备，（假设）它包含三个Service,分别是提供设备信息的Service、提供步数的Service、检测心率的Service; 而设备信息的service中包含的characteristic包括厂商信息、硬件信息、版本信息等；而心率Service则包括心率characteristic等，而心率characteristic中的value则真正的包含心率的数据，而descriptor则是对该value的描述说明，比如value的单位啊，描述啊，权限啊等。 
+
+
+
 ##### GAP(Generic Access Profile) 
 
 它定义了 BLE 整个通信过程中的流程，例如广播、扫描、连接等流程。还定义了参与通信的设备角色，以及他们各自的职能，例如广播数据的 Broadcaster，接收广播的 Observer，还有被连接的“外设” Peripheral 和发起连接的“中心设备” Central。可以看到，参与交互的设备角色都不是对等 
@@ -56,7 +64,7 @@ categories: BLE
 
 #### BLE on Android
 
-* Central mode :  Android 4.3 Jelly Bean，也就是 API 18 才开始支持低功耗蓝牙(蓝牙4.0)。这时支持 BLE 的 Central 模式，也就是我们在上面 GAP 中说的，Android 设备只能作为中心设备去连接其他设备。
+* Central mode :  从Android 4.3 Jelly Bean，也就是 API 18 才开始支持低功耗蓝牙(蓝牙4.0)。这时支持 BLE 的 Central 模式，也就是我们在上面 GAP 中说的，Android 设备只能作为中心设备去连接其他设备。
 
 * Peripheral mode:从 Android 5.0 开始才支持外设模式(蓝牙4.1)。Android 设备现在可以发挥蓝牙 LE *外围设备*的作用。应用可以利用此功能让附近设备发现它。例如，您可以开发这样的应用：让设备发挥计步器或健康监测仪的作用，并与其他蓝牙 LE 设备进行数据通信。
 
@@ -80,7 +88,7 @@ Android 提供支持经典蓝牙和蓝牙低功耗的默认蓝牙堆栈。借助
 
 在 Android 4.3 及更高版本中，Android 蓝牙堆栈可提供实现蓝牙低功耗 (BLE) 的功能。要充分利用 BLE API，请遵循 [Android 蓝牙 HCI 要求](https://source.android.com/devices/bluetooth/hci_requirements.html?hl=zh-cn)。具有合格芯片组的 Android 设备可以实现经典蓝牙或同时实现经典蓝牙和 BLE。BLE 不能向后兼容较旧版本的蓝牙芯片组。
 
-在 Android 8.0 中，原生蓝牙堆栈完全符合蓝牙 5 的要求。要使用可用的蓝牙 5 功能，该设备需要具有符合蓝牙 5 要求的芯片组。
+在 Android 8.0 中，原生蓝牙堆栈完全符合蓝牙 5.0 的要求。要使用可用的蓝牙 5.0 功能，该设备需要具有符合蓝牙 5 要求的芯片组。
 
 **注意**：Android 8.0 及以前版本之间的原生蓝牙堆栈的最大变化是使用[高音](https://source.android.com/devices/architecture/treble.html?hl=zh-cn)。Android 8.0 中的供应商实现必须使用 HIDL 而不是 `libbt-vendor`。
 
@@ -154,15 +162,15 @@ BLE 应用可以分为两大类：基于非连接的和连接的。
 
 ​	广播数据其实包含两部分：Advertising Data（广播数据） 和 Scan Response Data（扫描响应数据）。通常	情况下，广播的一方，按照一定的间隔，往空中广播 Advertising Data，当某个监听设备监听到这个广播数据时	候，会通过发送 Scan Response Request，请求广播方发送扫描响应数据数据。这两部分数据的长度都是固定的 31 字节。在 Android 中，系统会把这两个数据拼接在一起，返回一个 62 字节的数组。
 
-广播数据包的结构如这个图所示。广播包中是包含一个一个的小 AD structure，每个 AD structure 是一个完整的数据，它的结构是：第一个字节表示长度 n，后面紧接 n 个字节的数据。数据部分第一个字节表示数据类型，也就是后面的数据含义，后面 n - 1 个字节表示真实数据。例如 0x08 是设备的名字，后面的数据就是设备名字的 UTF-8 编码。
+广播数据包的结构如这个图所示。广播包中是包含一个一个的小 AD structure，每个 AD structure 是一个完整的数据，它的结构是：第一个字节表示长度 n，后面紧接 n 个字节的数据。数据部分第一个字节表示数据类型，也就是后面的数据含义，后面 n - 1 个字节表示真实数据.
+
+![Android-BLE-in-Action](Bluetooth02\Android-BLE-in-Action.019.jpeg)
 
 这些广播数据可以自己手动去解析，在 Android 5.0 也提供 ScanRecord 帮你解析，直接可以通过这个类获得有意义的数据。
 
 * 广播数据类型：设备连接属性，标识设备支持的 BLE 模式，这个是必须的。设备名字，设备包含的关键 GATT service，或者 Service data，厂商自定义数据等等。  
 
 * RSSI （信号强度 ）：RSSI 单位是 dB，通过 RSSI 能够大致推测出距离的远近。但是这个在 Android 设备上非常不靠谱，RSSI 的值波动很大，跟环境和手机的角度关系很大。 
-
-  ![Android-BLE-in-Action](Bluetooth02\Android-BLE-in-Action.019.jpeg)
 
   ​	 Android 作为接收者怎么接收广播数据，扫描设备。代码其实很简单，首先创建一个 LeScanCallback，用来接收收到广播以后，回调上报数据。然后会用 BluetoothAdapter 的 startLeScan 来开始扫描，需要停止扫描的时候，使用 stopLeScan 来停止。 有 BluetoothDevice 这个参数，代表扫描到的设备，关键是设备的的 MAC 地址信息。然后就是 RSSI，表示扫描到的设备的信号强度，接下来 scanRecord 就是我们前面介绍的广播数据，这个数据的长度是62字节。值得提的一点是，BLE 所有回调函数都不是在主线程中的。
 
@@ -200,6 +208,12 @@ BLE 连接的建立是通过 GAP 来协商和创建连接。Central 设备发起
 
 前面我们介绍了 GATT，GATT 核心内容就是 Service、Characteristic 以及 Descriptor。每个 BLE 外设，根据自己的功能，向外暴露 Service 等。其实最重要的获取 Service 中的 Characteristic，Characteristic 可以被读、写、还有变化的时候有通知，这样就实现了双向的通信。
 
+ ![bluetooth_2018-02-02.png](Bluetooth02\bluetooth_2018-02-02.png)
+
+​			连接到GATT服务器（发送数据的BLE设备）
+
+
+
 
 
 
@@ -208,5 +222,5 @@ https://blog.csdn.net/Roshen_android/article/details/76916111
 
 https://www.race604.com/android-ble-in-action/
 
-  
+ http://yannischeng.com/Android%20BLE%20%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91/
 

@@ -1,7 +1,7 @@
 ---
 title: Singleton
 comments: true
-date: 2018-07-06 15:43:06
+date: 2018-06-06 15:43:06
 tags:
 categories: DesignPatterns
 ---

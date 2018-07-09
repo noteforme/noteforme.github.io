@@ -68,6 +68,18 @@ categories: BLE
 
  一台装配有蓝牙4.0双模模块的手机，当其配对连接的是蓝牙3.0设备时，其耗电量就会相对较高。若其配对的设备是智能手环等采用低功耗蓝牙模块的设备时，其功耗就非常低。针对一对一连接优化，并支持星形拓扑的一对多连接； https://www.jianshu.com/p/c96e0006b34d
 
+* ​	单模蓝牙
+
+![bluetooth_4ddf2](E:\noteforme.github.io\source\_posts\Bluetooth01\bluetooth_4ddf2.jpg)
+
+​						
+
+
+
+*  	双模蓝牙 			
+
+  ![blue_b4316d821](Bluetooth01\blue_b4316d821.jpg)
+
 #####  V 4.1 
 
 * 提升数据传输率
