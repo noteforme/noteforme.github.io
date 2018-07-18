@@ -117,7 +117,21 @@ http://www.loverobots.cn/the-analysis-is-simple-compared-with-the-classic-blueto
 
 ##### 连接设备
 
+蓝牙设备经常处于关机状态，先调用下面方法
 
+```
+BluetoothDevice remoteDevice = adapter.getRemoteDevice(address);
+```
+
+ ```
+remoteDevice.connectGatt(context, true, mGattCallback);//参数1：上下文。
+                                                       //参数2：是否自动连接（当设备可以用时）
+                                                       //参数3：连接回调。
+ ```
+
+
+
+回调
 
 ```
 private BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
@@ -191,8 +205,6 @@ private BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
 
  Android 中 GATT 操作的流程。右边这个图，APP 是我们的应用，右边蓝牙服务端，从左向右箭头是 APP 发起的请求，从右向左的箭头是回调。我们看到所有的操作都是异步的完成的。连接过程是，首先使用 gattConnect 发起连接，收到 onConnectionStateChange() 通知连接是否成功，若成功，则进行下一步的 discoverService()，这一步就是发现设备所有的 GATT Service，若发现成功，通过 onServiceDiscovered() 回调，这时才算真正的连接成功。然后可以通过 BluetoothGatt 的 getService() 来获得BluetoothGattService，进而获得BluetoothGattCharacteristic 等，然后对 Characteristic 进行读写。 
 
-
-
 * office
 
   https://developer.android.com/guide/topics/connectivity/bluetooth?hl=zh-cn
@@ -210,4 +222,10 @@ private BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
   https://www.jianshu.com/p/29a730795294
 
   https://www.jianshu.com/p/046c1f5a7163
+
+####  设备通知手机
+
+5 当你从文档看到遍历出来的UUID有接送通知的功能。这时你就可以设置可以接收通知。通过拿到对应通知UUID的BluetoothGattCharacteristic，调用setCharacteristicNotification().其中00002902-0000-1000-8000-00805f9b34fb是系统提供接受通知自带的UUID，通过设置BluetoothGattDescriptor相当于设置BluetoothGattCharacteristic的Descriptor属性来实现通知，这样只要蓝牙设备发送通知信号，就会回调onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) 方法，这你就可以在这方法做相应的逻辑处理。 
+
+https://juejin.im/entry/58c74fc42f301e006bce23fb
 

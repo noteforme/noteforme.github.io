@@ -32,7 +32,7 @@ categories: BLE
 
 #### Host
 
-#####  ATT (Attibute Protocol) 
+#####  ATT (Attribute Protocol) 
 
 它是 BLE 通信的基础。ATT 把数据封装，向外暴露为“属性”，提供“属性”的为服务端，获取“属性”的为客户端。ATT 是专门为低功耗蓝牙设计的，结构非常简单，数据长度很短 .
 
@@ -110,6 +110,10 @@ Android 提供支持经典蓝牙和蓝牙低功耗的默认蓝牙堆栈。借助
 
   供应商设备使用硬件接口设计语言 (HIDL) 与蓝牙堆栈交互。
 
+  
+
+![android-stack_2x](Bluetooth02\android-stack_2x.png)
+
 #### HIDL
 
 [HIDL](https://source.android.com/devices/architecture/hidl.html?hl=zh-cn) 定义了蓝牙堆栈和供应商实现之间的接口。要生成蓝牙 HIDL 文件，请将蓝牙接口文件传递到 HIDL 生成工具中。接口文件位于 `hardware/interfaces/bluetooth` 下。
@@ -140,7 +144,7 @@ https://source.android.com/devices/bluetooth/?hl=zh-cn
 
 BLE 应用可以分为两大类：基于非连接的和连接的。
 
-* 基于非连接的，这种应用就是依赖 BLE 的广播，也叫作 Beacon。这里有两个角色，发送广播的一方叫做 Broadcaster，监听广播的一方叫 Observer。
+* Beacon 基于非连接的，这种应用就是依赖 BLE 的广播，也叫作 Beacon。这里有两个角色，发送广播的一方叫做 Broadcaster，监听广播的一方叫 Observer。
 
 * 基于连接的，就是通过建立 GATT 连接，收发数据。这里也有两个角色，发起连接的一方，叫做中心设备—Central，被连接的设备，叫做外设—Peripheral。
 
@@ -224,3 +228,8 @@ https://www.race604.com/android-ble-in-action/
 
  http://yannischeng.com/Android%20BLE%20%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91/
 
+???  基于非连接的beacon和连接的区别,我们的设备是吗?
+
+beacon	ble	ibeacon区别
+
+ 

@@ -10,7 +10,7 @@ TabLayout属于 Material Design
 
 https://developer.android.com/reference/android/support/design/widget/TabLayout.html
 
-# 滑动TAB
+### 滑动TAB
 
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -65,3 +65,62 @@ https://developer.android.com/reference/android/support/design/widget/TabLayout.
   ```
 
   https://segmentfault.com/a/1190000008753052
+
+  
+
+###  自定义TabItem
+
+* tab_item.xml
+
+  ```
+  <?xml version="1.0" encoding="utf-8"?>
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+  
+      <TextView
+          android:id="@+id/tv_item_title"
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:layout_gravity="center_horizontal"
+          android:background="@drawable/bg_tab_item_select"
+          android:gravity="center"
+          android:textColor="@drawable/bg_tab_item_select_txt"
+          android:textSize="@dimen/text_size_14" />
+  
+      <View
+          android:id="@+id/view_line"
+          android:layout_width="0dp"
+          android:layout_height="1dp"
+          android:layout_gravity="center_vertical"
+          android:layout_marginLeft="@dimen/dimen_10"
+          android:layout_weight="1"
+          android:background="@android:color/darker_gray" />
+  </LinearLayout>
+  
+  ```
+
+  
+
+```
+   tabLayout = findViewById(R.id.tb_layout);
+        for (int i = 0; i < tabTitles.length; i++) {
+            tabLayout.addTab(tabLayout.newTab());
+        }
+
+        for (int i = 0; i < tabTitles.length; i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            tab.setCustomView(R.layout.tab_item);
+            TextView tvItemTitle = tab.getCustomView().findViewById(R.id.tv_item_title);
+            tvItemTitle.setText(tabTitles[i]);
+            if (i == tabTitles.length - 1) {
+                tab.getCustomView().findViewById(R.id.view_line).setVisibility(View.GONE);
+            }
+        }
+```
+
+
+
+https://www.jianshu.com/p/ed129686f2cc
+
+https://blog.csdn.net/android_zhengyongbo/article/details/74726176

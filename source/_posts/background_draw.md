@@ -7,16 +7,16 @@ categories:  ANDROID
 ---
 
  ** 为了提高App性能，经常会用到代码写背景 **
- 
-#  基本属性
+
+####  基本属性
  - solid : 　填充内容
  - stroke:   绘制边框
- 
+
    代码里设置颜色  `Color.parseColor("#fa6d62")`
 
 # shape  layer-list    selector
 
-## 设置Button按钮背景 #
+##### 设置Button按钮背景 #####
 
 ![登录背景](background_draw/bg_login.png)
 
@@ -33,7 +33,7 @@ categories:  ANDROID
 </shape>
 ```
 
-##  shape
+#####  shape
 
         <shape android:shape="rectangle"> 
             <solid android:color="#2e97f3" />       //填充颜色
@@ -42,8 +42,8 @@ categories:  ANDROID
                 android:color="#2e97f3" />          //描边颜色
         </shape>
 
-## layer-list 
-      
+##### layer-list 
+
     <?xml version="1.0" encoding="utf-8"?>
     <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
      <item>
@@ -54,26 +54,28 @@ categories:  ANDROID
                 android:color="#2e97f3" />
         </shape>
     </item>
-
+    
     <item android:top="50dp">
         <shape android:shape="rectangle">
             <solid android:color="@android:color/holo_green_dark" />
             <padding android:left="50dp"/>
         </shape>
     </item>
-
+    
     <item android:top="100dp">
         <shape android:shape="rectangle">
             <solid android:color="@android:color/holo_orange_light" />
         </shape>
     </item>
     </layer-list>
-    
+
 ![图层显示](background_draw/bg_layer.png)
- 
+
 LayerDrawable 是管理其他可绘制对象阵列的可绘制对象。列表中的每个可绘制对象按照列表的顺序绘制，列表中的最后一个可绘制对象绘于顶部。每个可绘制对象由单一 元素内的 元素表示。我们需要注意的是layer-list中有item的先后顺序会影响展示效果，不同顺序的效果可能大相径庭，因为，后面的item总是在之前的item之上并覆盖显示。
 
-##  selector 底部选择器
+####  selector 
+
+* 底部选择器
 
 ```
     <?xml version="1.0" encoding="utf-8"?>
@@ -99,6 +101,28 @@ LayerDrawable 是管理其他可绘制对象阵列的可绘制对象。列表中
 </selector>
 ```
 参考 https://keeganlee.me/post/android/20150909
+
+* 背景选择器
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/bg_circle_tab_yellow" android:state_selected="true" />
+    <item android:drawable="@drawable/bg_circle_tab_gray" />
+</selector>
+```
+
+* 字体颜色选择器
+
+  ```
+  <?xml version="1.0" encoding="utf-8"?>
+  <selector xmlns:android="http://schemas.android.com/apk/res/android">
+      <item android:color="@color/white" android:state_selected="true" />
+      <item android:color="#999999" />
+  </selector>
+  ```
+
+  
 
 
 **后面的item在之前的item上显示，所有前面设置的padding,后面叠加形成图层**
@@ -142,7 +166,7 @@ http://yifeng.studio/2017/02/26/android-elevation-and-shadow/
         android:color="@color/white"
         android:dashGap="2dp"
         android:dashWidth="4dp" />
-
+    
     <!-- dashwidth是指- - -中每一个-的宽度-->
     <!-- dashGap是指虚线中每一个间隔的宽度 -->
    </shape>

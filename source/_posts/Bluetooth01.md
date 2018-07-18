@@ -70,7 +70,7 @@ categories: BLE
 
 * ​	单模蓝牙
 
-![bluetooth_4ddf2](E:\noteforme.github.io\source\_posts\Bluetooth01\bluetooth_4ddf2.jpg)
+![bluetooth_4ddf2](Bluetooth01\bluetooth_4ddf2.jpg)
 
 ​						
 
