@@ -10,9 +10,31 @@ categories:  ANDROID
 
 ####  基本属性
  - solid : 　填充内容
+
  - stroke:   绘制边框
 
    代码里设置颜色  `Color.parseColor("#fa6d62")`
+
+
+
+#####  点击选中状态
+
+* android:state_pressed 是否按下，如一个按钮触摸或者点击。
+* android:state_focused 是否取得焦点，比如用户选择了一个文本框。
+*  android:state_hovered 光标是否悬停，通常与focused state相同，它是4.0的新特性 
+* android:state_selected 被选中，它与focus state并不完全一样，如一个list view 被选中的时候，它里面的各个子组件可能通过方向键，被选中了。 
+* android:state_checkable 组件是否能被check。如：RadioButton是可以被check的。 android:state_checked 被checked了，如：一个RadioButton可以被check了。
+*  android:state_enabled 能够接受触摸或者点击事件 android:state_activated 被激活(这个麻烦举个例子，不是特明白) android:state_window_focused 应用程序是否在前台，当有通知栏被拉下来或者一个对话框弹出的时候应用程序就不在前台了 
+
+注意:如果有多个item，那么程序将自动从上到下进行匹配，最先匹配的将得到应用。（不是通过最佳匹配） 如果一个item没有任何的状态说明，那么它将可以被任何一个状态匹配。 
+
+https://blog.csdn.net/yinbucheng/article/details/52922759
+
+seleced用于单选，checked用于多选,
+
+selected是选择很多项，但是只取当前的项，即最后一个选中的
+
+checked是选中很多项，都选中。
 
 # shape  layer-list    selector
 

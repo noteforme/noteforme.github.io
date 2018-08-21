@@ -229,3 +229,7 @@ private BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
 
 https://juejin.im/entry/58c74fc42f301e006bce23fb
 
+#### 经典蓝牙开发
+
+https://www.jianshu.com/p/453a5cda5646
+

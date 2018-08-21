@@ -19,7 +19,7 @@ https://github.com/bumptech/glide
 
 ## 加载占位符
 
-
+https://muyangmin.github.io/glide-docs-cn/doc/generatedapi.html
 
 ```
 implementation 'com.github.bumptech.glide:glide:4.6.1'

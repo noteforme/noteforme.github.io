@@ -124,3 +124,7 @@ https://developer.android.com/reference/android/support/design/widget/TabLayout.
 https://www.jianshu.com/p/ed129686f2cc
 
 https://blog.csdn.net/android_zhengyongbo/article/details/74726176
+
+###  修改指示器颜色
+
+https://codeday.me/bug/20170629/35704.html

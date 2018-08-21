@@ -16,7 +16,7 @@ categories: "工具"
 2. targetSdkVersion版本修改成　21   然后   compile 'com.android.support:appcompat-v7:21.+' 继承的AppCompatActivity改成Activity
 
 3. 编译后报错　Error:(11) No resource identifier found for attribute 'roundIcon' in package 'android'
-  根据错误删除　android:roundIcon ,然后编译
+    根据错误删除　android:roundIcon ,然后编译
 
   参考：http://blog.csdn.net/hyr83960944/article/details/39941683
 
@@ -111,7 +111,7 @@ https://github.com/boredream/BorePlugin
 
 参考：https://github.com/1sters/Android-Studio-Guide/blob/master/tips-shortcuts.md
 
-
+常用快捷键:https://mp.weixin.qq.com/s/lYBHtg342-t3NkPPY9E-YQ
 
 
 
@@ -128,7 +128,7 @@ https://github.com/boredream/BorePlugin
 * Build Variants 设置成debug
 
 *   ```
-   debug {
+      debug {
               debuggable false
               minifyEnabled false
               signingConfig signingConfigs.debug

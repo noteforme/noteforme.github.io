@@ -33,6 +33,32 @@ public class Singleton{
 
 源码有类似的　InputMethodManager，当然我们常用的方式是要传个Context上下文对象给单例类，记得有次面试的时候面试官说单例里面使用弱引用，如果是是为了避免内存泄漏我觉得是可以的，但是我觉得用这种方式更好　`Context applicationContext = context.getApplicationContext();`　刚无意中发现Glide单例也是这样使用的。
 
+* 双重检查模式 
+
+  
+
+  
+
+```
+public class Singleton {  
+      private volatile static Singleton singleton;  
+      private Singleton (){
+      }   
+      public static Singleton getInstance() {  
+      if (instance== null) {  
+          synchronized (Singleton.class) {  
+          if (instance== null) {  
+              instance= new Singleton();  
+          }  
+         }  
+     }  
+     return singleton;  
+     }  
+ }  
+```
+
+
+
 ## Enum方式
 
 和公有域方法在功能上相近，但是更简洁，无偿提供了序列化机制，绝对的防止多次实例化，可以面对复杂的序列化或者反射攻击，虽然没有广泛采用，但是　单元素的枚举类型
