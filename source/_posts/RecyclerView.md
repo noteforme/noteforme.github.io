@@ -103,3 +103,12 @@ https://github.com/luizgrp/SectionedRecyclerViewAdapter
 
 ##### 分割线
 
+https://www.jianshu.com/p/4eff036360da
+
+https://www.jianshu.com/p/b2ef4f8e859f
+
+
+
+#### 字符排序
+
+https://github.com/YoKeyword/IndexableRecyclerView

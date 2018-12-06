@@ -1,5 +1,5 @@
 ---
-title: AndroidNewFeatures
+title: NewFeatures7.0
 comments: true
 date: 2017-12-17 22:26:11
 tags:  NewFeatures
@@ -8,9 +8,7 @@ categories:  ANDROID
 
  ANDROID新特性
 
-# Nougat(7.0)
-
-## 安装apk
+##### apk安装
 
   	 StrictMode API政策
 
@@ -90,3 +88,8 @@ categories:  ANDROID
 https://developer.android.google.cn/about/versions/nougat/android-7.0-changes.html
 
 http://blog.csdn.net/github_2011/article/details/74297460
+
+#####  图片拍照
+
+
+

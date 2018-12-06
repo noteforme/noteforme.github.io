@@ -136,3 +136,17 @@ https://github.com/boredream/BorePlugin
     ```
 
    debuggable设置成 true
+
+
+
+#####  SVN分支合并 主干,主干新增文件被删除
+
+弄了两个多小时，说多了都是泪
+
+https://www.jianshu.com/p/e50af339259f
+
+
+
+##### android命名规范
+
+https://juejin.im/entry/5b6a4ca9f265da0f4c6fe566

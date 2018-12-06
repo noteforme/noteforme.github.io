@@ -8,6 +8,8 @@ categories: ANDROID
 
 自定义view: http://www.gcssloop.com/customview/CustomViewIndex
 
+https://developer.android.com/guide/topics/ui/custom-components
+
 * 表单输入
 
   ![CustomView2018-05-12 09-42-16](CustomView/CustomView2018-05-12 09-42-16.png)
@@ -64,8 +66,6 @@ categories: ANDROID
           android:layout_height="wrap_content"
           mineutils:textright="幢" />
   ```
-
-  
 
 * 自定义属性不提示   按照如图两名称一致，重启AndroidStudio
 

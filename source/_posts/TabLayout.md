@@ -10,7 +10,39 @@ TabLayout属于 Material Design
 
 https://developer.android.com/reference/android/support/design/widget/TabLayout.html
 
-### 滑动TAB
+####  TabLayout方式
+
+* 动态
+
+```
+TabLayout tabLayout = ...;
+ tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
+ tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
+ tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
+```
+
+* 静态
+
+  ```
+   <android.support.design.widget.TabLayout
+           android:layout_height="wrap_content"
+           android:layout_width="match_parent">
+  
+       <android.support.design.widget.TabItem
+               android:text="@string/tab_text"/>
+  
+       <android.support.design.widget.TabItem
+               android:icon="@drawable/ic_android"/>
+  
+   </android.support.design.widget.TabLayout>
+   
+  ```
+
+
+
+
+
+#### 滑动TAB
 
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -66,7 +98,6 @@ https://developer.android.com/reference/android/support/design/widget/TabLayout.
 
   https://segmentfault.com/a/1190000008753052
 
-  
 
 ###  自定义TabItem
 
@@ -100,7 +131,6 @@ https://developer.android.com/reference/android/support/design/widget/TabLayout.
   
   ```
 
-  
 
 ```
    tabLayout = findViewById(R.id.tb_layout);

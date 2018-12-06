@@ -6,11 +6,11 @@ tags: ConstraintLayout
 categories: "ANDROID"
 ---
 
-#  office
+##### introduce
 
 https://developer.android.com/reference/android/support/constraint/ConstraintLayout.html
 
-##  Here is the list of available constraints (Fig. 2):
+#####  Here is the list of available constraints (Fig. 2):
 
 layout_constraintLeft_toLeftOf
 layout_constraintLeft_toRightOf
@@ -35,7 +35,7 @@ They all take a reference id to another widget, or the parent (which will refere
 
 layout_constraintBaseline_toBaselineOf : 表示此控件与某个空间水平对齐
 
-##  Margins
+#####  Margins
 
 If side margins are set, they will be applied to the corresponding constraints (if they exist) (Fig. 3), enforcing the margin as a space between the target and the source side. The usual layout margin attributes can be used to this effect:
 
@@ -69,14 +69,45 @@ A useful aspect of ConstraintLayout is in how it deals with "impossible" constra
          
 ```
 
-##  Guideline使用
+#####  Guideline使用
 
 https://developer.android.com/reference/android/support/constraint/Guideline.html
 
+```
+app:layout_constraintGuide_percent="0.2"
+app:layout_constraintGuide_begin="100dp"
+```
 
-#  应用
+#####   特色属性
 
-##   居中显示 : 四个方向添加约束
+* layout_constraintDimensionRatio
+
+  指定高度，宽度随着宽高比自适应
+
+  ```
+  <ImageView
+      android:id="@+id/iv_img01"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:src="@mipmap/img_1"
+      app:layout_constraintDimensionRatio="1:1"
+      app:layout_constraintLeft_toLeftOf="parent" />
+  ```
+
+  <!--指定高度，宽度随着宽高比自适应 app:layout_constraintDimensionRatio="H,16:9"  H: 表示高宽比-->     
+
+* layout_constraintHorizontal_bias  先设置约束
+
+```
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent"
+```
+
+#####  然后是比例
+
+#####  应用
+
+* 居中显示 : 四个方向添加约束
 
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -100,7 +131,7 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
 
 ```
 
-## 相对邻里控件 居中
+* 相对邻里控件 居中
 
 ```
 	   <android.support.constraint.ConstraintLayout
@@ -139,11 +170,11 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
 ```
 
 
-#  chain
+#####  chain
 
  3个Button 两两依赖,相当于组成了一个链
 
-##　Button均分 width = match_constraint (0dp)
+* Button均分 width = match_constraint (0dp)
 
  ![图](ConstraintLayout/ConstraintLayout_000.png)
 
@@ -178,8 +209,8 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
 看属性也可以猜到是干嘛用的了.
 ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_001.png)
 
+* Button均份　宽度不为match_constraint
 
-##  Button均份　宽度不为match_constraint
 ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_10.png)
 
 
@@ -208,7 +239,8 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
             app:layout_constraintLeft_toRightOf="@+id/bt_11"
             app:layout_constraintRight_toRightOf="parent" />
 ```
-##   layout_constraintHorizontal_chainStyle
+* layout_constraintHorizontal_chainStyle
+
     这个属性默认是　spread，还有另外两种方式 packed 和spread_inside
 
 * packed
@@ -245,14 +277,15 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
 ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_20.png)
 
 *  spread_inside     :  width = wrap_content
-  ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_300.png)
+    ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_300.png)
 
 *  spread_inside     :  width = 0dp
-  ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_301.png)
+    ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_301.png)
 
 [代码](http://45.77.222.97:3000/root/MineUtils/src/master/app/src/main/java/com/jonzhou/mineutils/layout) 
 
-##  概述
+* 概述
+
 经过上面的实践，再来张官方的图就好理解了
 ![宽度为wrap_content](ConstraintLayout/constraint-chain-styles_2x.png)
 
@@ -266,12 +299,13 @@ https://developer.android.com/reference/android/support/constraint/Guideline.htm
 最后就是边应用边理解了
 
 
-[讲解](https://mp.weixin.qq.com/s?__biz=MzAxMTI4MTkwNQ==&mid=2650824132&idx=1&sn=1cf09caa325d83de12b73c615fc9613e&chksm=80b7895ab7c0004c5cbb2175a3da302fc13d612762f56094f13b80e1334e7655dde1ad00083c&mpshare=1&scene=1&srcid=101591mRGp1DVSC425V6ZFCi&pass_ticket=ehu4gU6NQfzUXExFFvUCdyIfM4JyImAZha6dn4BZggZKAmpjNtpcb6XZgWicVQ7V#rd) 
 
 http://blog.chengyunfeng.com/?p=1030
 
 对chain讲解详细
 http://blog.csdn.net/zxt0601/article/details/72683379
+
+https://blog.csdn.net/lmj623565791/article/details/78011599
 
 
 

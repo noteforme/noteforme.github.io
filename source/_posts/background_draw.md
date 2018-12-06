@@ -144,7 +144,6 @@ LayerDrawable 是管理其他可绘制对象阵列的可绘制对象。列表中
   </selector>
   ```
 
-  
 
 
 **后面的item在之前的item上显示，所有前面设置的padding,后面叠加形成图层**
@@ -198,4 +197,23 @@ http://yifeng.studio/2017/02/26/android-elevation-and-shadow/
   http://www.jianshu.com/p/75cc93195f7a?from=jiantop.com
 
   https://keeganlee.me/post/android/20150909
+
+####  LinearLayout默认横线
+
+* ```
+  android:divider="@drawable/shape_line
+  android:dividerPadding="@dimen/dimen_15"
+  
+  ```
+
+* shape_line.xml
+
+  ```
+  <shape xmlns:android="http://schemas.android.com/apk/res/android">
+      <solid android:color="@color/line_color" />
+      <size android:height="0.5dp" />
+  </shape>
+  ```
+
+https://blog.csdn.net/BingShuShu/article/details/51444206
 

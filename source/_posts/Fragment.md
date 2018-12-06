@@ -205,13 +205,13 @@ https://developer.android.com/guide/components/fragments.html?hl=zh-cn
 > 07-18 15:53:25.148 7758-7758/com.mineutils D/SecondFragment:  onViewCreated
 >   															  onActivityCreated()
 >   															  onStart()
->     															  onResume()
+> ​    															  onResume()
 >
 > 07-18 15:53:34.200 7758-7758/com.mineutils D/SecondFragment: onHiddenChanged hidden   true
 > 07-18 15:53:34.207 7758-7758/com.mineutils D/FirstFragment:    onCreateView()
 > 07-18 15:53:34.208 7758-7758/com.mineutils D/FirstFragment:    onViewCreated
 >   												 		   onActivityCreated()
-> 														   onStart()
+> ​														   onStart()
 >
 > 07-18 15:53:53.968 7758-7758/com.mineutils D/FirstFragment: onHiddenChanged hidden   true
 > 07-18 15:53:53.968 7758-7758/com.mineutils D/SecondFragment: onHiddenChanged hidden   false
@@ -219,3 +219,22 @@ https://developer.android.com/guide/components/fragments.html?hl=zh-cn
 
 
 https://blog.csdn.net/cml_blog/article/details/41411451
+
+
+
+#### fragment常用特性
+
+##### commitAllowingStateLoss VS  commit()区别
+
+https://huxian99.github.io/2016/08/28/cj3qymo360000owxk9zp17alo/
+
+##### fragment回退栈
+
+tx.addToBackStack(null); 添加回退功能，类似Activity压栈的过程
+
+
+
+* Fragment控制父Fragment展示
+
+  https://blog.csdn.net/u011481547/article/details/71552720
+

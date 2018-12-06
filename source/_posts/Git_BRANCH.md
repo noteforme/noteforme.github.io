@@ -43,31 +43,31 @@ git push -u origin master
 
 ##  本地分支操作
 
-*  查看本地分支
+ 查看本地分支
 
-   ` git branch `
+` git branch `
 
-* 分支创建
- ` git branch v1.0.0`
+分支创建
+` git branch v1.0.0`
 
-* Git分支切换
-   `$ git checkout v1.0.0`
-* 分支提交到远程仓库
-   `$ git push origin v1.0.0 `
-   
-  *  删除本地分支
+Git分支切换
+`$ git checkout v1.0.0`
+
+分支提交到远程仓库
+`$ git push origin v1.0.0 `
+
+删除本地分支
 ` git branch -d v1.0.0 `
 
-*  删除远程分支
- `git push origin :foo`
+删除远程分支
+`git push origin :foo`
 
-
-* ​  [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
+​  [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
 http://blog.csdn.net/hyr83960944/article/details/36185231
 
+合并分支
+合并hotfix到dev
 
-*  合并分支
- 合并hotfix到dev
 ```
 $ git checkout            // 先切换到dev 
 $ git merge hotfix
@@ -76,20 +76,22 @@ $ git merge hotfix
 
 ##　  远程分支
 
-*  [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
-   `$ git remote show origin `
-
-*  获取本地没有的远程分支
+* 获取本地没有的远程分支
 
    ```
    git fetch origin step1 命令来把远程分支拉到本地
-
+   
    git checkout -b step1 origin/step1在本地创建分支step1并切换到该分支
-
+   
    git pull origin step1就可以把某个分支上的内容都拉取到本地了   //这个方法有空再实践下
    ```
 
    [官方](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF "官方参考")
+
+*  [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
+   `$ git remote show origin `
+
+*  
 
 
 
