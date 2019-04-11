@@ -59,6 +59,12 @@ https://github.com/boredream/DesignResCollection
 
 
 
+#### powermock
+
+https://blog.csdn.net/qq_17766199/article/details/78573390
+
+
+
 ####  Robolectric
 
 http://robolectric.org/getting-started/

@@ -23,8 +23,6 @@ categories: ANDROID
           }, mPaint);
   ```
 
-  
-
 * 位移(translate)
 
   ```
@@ -36,8 +34,6 @@ categories: ANDROID
           canvas.translate(200, 200);
           canvas.drawCircle(0, 0, 100, mPaint);
   ```
-
-  
 
 * 缩放(scale)
 
@@ -59,8 +55,6 @@ categories: ANDROID
               canvas.drawRect(rect, mPaint);
           }
   ```
-
-  
 
 * 旋转(rotate)
 
@@ -99,3 +93,48 @@ categories: ANDROID
 
 
 参考：http://www.gcssloop.com/customview/Canvas_Convert
+
+
+
+#### Rect RectF区别
+
+ Rect是使用int类型作为数值，RectF是使用float类型作为数值。
+
+#### 画线
+
+```
+       Path path = new Path();
+       path.moveTo(100, 100);
+       path.rLineTo(100, 200);
+       canvas.drawPath(path, mPaint);
+```
+
+#### 画圆
+
+* 画笔
+
+  ```
+  mPaint = new Paint();
+  mPaint.setColor(Color.BLUE);
+  mPaint.setStyle(Paint.Style.FILL); // Fill是空心圆 ，STROKE实心圆,
+  空心圆就需要设置setStrokeWidth这个属性
+  ```
+
+* ```
+  canvas.drawCircle(getWidth()/2,getHeight()/2,getWidth()/2,mPaint);
+  ```
+
+* ```
+  public void drawArc(RectF oval, float startAngle, float sweepAngle, boolean useCenter, Paint paint)
+  ```
+
+  oval :指定圆弧的外轮廓矩形区域。
+  startAngle: 圆弧起始角度，单位为度。
+  sweepAngle: 圆弧扫过的角度(起始位置 X轴)，顺时针方向，单位为度,从右中间开始为零度。
+  useCenter: 如果为True时，在绘制圆弧时将圆心包括在内，通常用来绘制扇形
+
+
+
+
+
+  https://www.jianshu.com/p/0bd672626c8d

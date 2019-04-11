@@ -7,19 +7,19 @@ categories: ANDROID
 
 ---
 
-#　基本使用
+####　基本使用
 
-##  加载资源
+#####  加载资源
 -  加载一个网页：
-  `webView.loadUrl("http://www.google.com/");`
+    `webView.loadUrl("http://www.google.com/");`
 
 -  加载apk包中的html页面
-  ` webView.loadUrl("file:///android_asset/java.html");`
+    ` webView.loadUrl("file:///android_asset/java.html");`
 
 
 
 
-##  Enabling JavaScript
+#####  Enabling JavaScript
 
 ```
 WebView myWebView = (WebView) findViewById(R.id.webview);
@@ -96,14 +96,11 @@ webView.addJavascriptInterface(new WebAppInterface(this), "Android");
 https://developer.android.com/guide/webapps/webview.html
 http://www.jianshu.com/p/3c94ae673e2a
 
-##  localstorge
-
-##  传参给h5
 http://www.jianshu.com/p/c20513cad758
 
-##  缓存方案
+#####  缓存方案
 
-### office (原生缓存)
+##### office (原生缓存)
 ```
 	   
 	    WebSettings webSettings = wbNews.getSettings();
@@ -122,7 +119,7 @@ http://www.jianshu.com/p/c20513cad758
 ```
 http://blog.csdn.net/coder_pig/article/details/48468969
 
-###  图片替换方式
+#####  图片替换方式
 https://github.com/GcsSloop/diycode/blob/master/blog/journal-02.md
 
 

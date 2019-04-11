@@ -294,11 +294,16 @@ app:layout_constraintRight_toRightOf="parent"
 > ３、Weighted: When the chain is set to either spread or spread inside, you can fill the remaining space by setting one or more views to "match constraints" (0dp). By default, the space is evenly distributed between each view that's set to "match constraints," but you can assign a weight of importance to each view using the layout_constraintHorizontal_weight and layout_constraintVertical_weight attributes. If you're familiar with layout_weight in a linear layout, this works the same way. So the view with the highest weight value gets the most amount of space; views that have the same weight get the same amount of space.
 > ４、Packed: The views are packed together (after margins are accounted for). You can then adjust the whole chain's bias (left/right or up/down) by changing the chain's head view bias.
 
-
 参考:https://developer.android.com/training/constraint-layout/index.html
 最后就是边应用边理解了
 
+* Barrier
 
+  用了输入信息挺有用的 
+
+  https://mp.weixin.qq.com/s/QIuww9b0TsNjajEUS8c2fg
+
+  
 
 http://blog.chengyunfeng.com/?p=1030
 
@@ -306,6 +311,8 @@ http://blog.chengyunfeng.com/?p=1030
 http://blog.csdn.net/zxt0601/article/details/72683379
 
 https://blog.csdn.net/lmj623565791/article/details/78011599
+
+
 
 
 

@@ -171,7 +171,7 @@ ObjectAnimator传入参数是根据Ｖiew的属性进行操作的，如setRotati
 - after(long　delay)   : 將现有动画延迟　"delay" 后执行
 - before(Animator anim) :参考楼上
 - with(Animator anim)  :　现有动画盒传入动画同时执行  
-　
+
  示例
  　　
     　　
@@ -186,17 +186,17 @@ ObjectAnimator传入参数是根据Ｖiew的属性进行操作的，如setRotati
             public void onAnimationStart(Animator animation) {
                 Log.d(TAG, "  onAnimationStart ");
             }
-
+    
             @Override
             public void onAnimationEnd(Animator animation) {
                 Log.d(TAG, "  onAnimationEnd ");
             }
-
+    
             @Override
             public void onAnimationCancel(Animator animation) {
                 Log.d(TAG, "  onAnimationCancel ");
             }
-
+    
             @Override
             public void onAnimationRepeat(Animator animation) {
                 Log.d(TAG, "  onAnimationRepeat ");
@@ -229,6 +229,27 @@ Animator anim = AnimatorInflater.loadAnimator(this, R.animator.propery_first);
 ```
 根据官方例子,也可以强转ValueAnimator，添加监听器,其他形式的xml文件也类似
 
+* 设置动画参数
 
+  ```
+  // ValueAnimator采用<animator>  标签
+  <animator xmlns:android="http://schemas.android.com/apk/res/android"  
+      android:valueFrom="0"   // 初始值
+      android:valueTo="100"  // 结束值
+      android:valueType="intType" // 变化值类型 ：floatType & intType
+  
+      android:duration="3000" // 动画持续时间（ms），必须设置，动画才有效果
+      android:startOffset ="1000" // 动画延迟开始时间（ms）
+      android:fillBefore = “true” // 动画播放完后，视图是否会停留在动画开始的状态，默认为true
+      android:fillAfter = “false” // 动画播放完后，视图是否会停留在动画结束的状态，优先于fillBefore值，默认为false
+      android:fillEnabled= “true” // 是否应用fillBefore值，对fillAfter值无影响，默认为true
+      android:repeatMode= “restart” // 选择重复播放动画模式，restart代表正序重放，reverse代表倒序回放，默认为restart|
+      android:repeatCount = “0” // 重放次数（所以动画的播放次数=重放次数+1），为infinite时无限重复
+      android:interpolator = @[package:]anim/interpolator_resource // 插值器，即影响动画的播放速度,下面会详细讲
+  
+  /> 
+  ```
+
+  https://blog.csdn.net/carson_ho/article/details/72909894 
 
 参考：http://blog.csdn.net/guolin_blog/article/details/43536355

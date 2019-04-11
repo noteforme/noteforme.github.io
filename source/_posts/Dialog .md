@@ -1,5 +1,5 @@
 ---
-title: Dialog_Popupwindow
+title: Dialog
 comments: true
 date: 2017-12-11 10:15:44
 tags:
@@ -8,11 +8,11 @@ categories: ANDROID
 
 
 
-# Dialog
+#### Dialog
 https://developer.android.com/guide/topics/ui/dialogs.html?hl=zh-cn
 https://developer.android.com/reference/android/app/DialogFragment.html
 
-## 　中间弹出
+##### 　中间弹出
 
 ```
 public class UpdateDialogFragment extends DialogFragment implements View.OnClickListener {
@@ -93,11 +93,9 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
 
 ```
 
-## 底部弹出
+##### 底部弹出
 
 https://github.com/umano/AndroidSlidingUpPanel
 https://material.io/guidelines/components/dialogs.html#dialogs-specs
 
 http://www.jianshu.com/p/0a7383e0ad0f
-
-# Popupwindow

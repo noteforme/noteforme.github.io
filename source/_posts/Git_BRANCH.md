@@ -169,6 +169,7 @@ rm -rf project.git
   参考: https://my.oschina.net/kind790/blog/510601
 
   *   git clone 所有分支
+
     这种方式有一个弊端，切换分支后　工程名没了， 还是慢慢摸索吧　!
 
 ```
@@ -192,7 +193,7 @@ http://jcpplus.github.io/2015/07/23/modify-remote-url/
 # GIT标签
 
   查看所有的版本 
-    `git tag`
+​    `git tag`
 * 查看远程分支  `git ls-remote --tags`
 
 * 创建标签 `git tag -a v1.0.2 -m "my version 1.0.2"  `
@@ -259,3 +260,6 @@ $ git checkout master
 $ git merge hotfix
 ```
 
+
+
+* SVN不能添加文件:https://blog.csdn.net/yujiayinshi/article/details/51381942

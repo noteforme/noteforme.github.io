@@ -18,7 +18,7 @@ categories: ANDROID
         canvas.drawPath(path, mPaint);
 ```
 
-![customview](/home/think/noteforme.github.io/source/_posts/CustomView02/custoview_02.jpg)
+![customview](CustomView02/custoview_02.jpg)
 
 从字面意思 lineto,顾名思义肯定就有from的坐标点，再看这个借的图，第一条线是从原点开始的，第二条线是从A开始的，
 
@@ -26,3 +26,10 @@ categories: ANDROID
 path.close();  //形成封闭的图形
 ```
 
+
+
+绘制心电图
+
+<https://github.com/SeekerFighter/LuckyEcgDemo>
+
+<https://www.jianshu.com/p/16301de41a18>

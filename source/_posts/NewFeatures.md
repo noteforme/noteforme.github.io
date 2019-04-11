@@ -1,8 +1,8 @@
 ---
-title: NewFeatures7.0
+title: NewFeatures
 comments: true
 date: 2017-12-17 22:26:11
-tags:  NewFeatures
+tags:  AndroidNewFeatures
 categories:  ANDROID
 ---
 
@@ -91,5 +91,21 @@ http://blog.csdn.net/github_2011/article/details/74297460
 
 #####  图片拍照
 
+#### Android P veridex工具使用
 
+#### win10安装ubuntu
+
+<https://www.linuxidc.com/Linux/2018-03/151256.htm>
+
+#####  对test.apk进行扫描
+
+> ./appcompat.sh –dex-file=test.apk
+
+* 在cmd里敲bash，找到/mnt，你会发现下面有c d e f ，这些就是你win下的硬盘，你可以直接对win下的文件进行操作，包括执行一些linux指令或者编译Linux程序
+
+* 用mv /mnt/x/a/b-c.zip /home/user/b.zip这类命令
+
+  示例:
+
+  <http://www.10tiao.com/html/227/201812/2650244825/1.html>
 

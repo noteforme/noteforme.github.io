@@ -6,7 +6,9 @@ tags:
 categories: ANDROID
 ---
 
+https://developer.android.com/samples/?language=kotlin
 
+https://developer.android.com/kotlin/get-started
 
 https://www.jianshu.com/p/9fb9a1ab6c31
 

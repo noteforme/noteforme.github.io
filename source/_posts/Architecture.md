@@ -87,3 +87,7 @@ gradlew app:dependencies
 https://developer.android.com/studio/build/dependencies#duplicate_classes
 
 https://developer.android.com/studio/build/manifest-merge?hl=zh-cn
+
+#### 合并清单文件
+
+<https://developer.android.com/studio/build/manifest-merge?hl=zh-cn>

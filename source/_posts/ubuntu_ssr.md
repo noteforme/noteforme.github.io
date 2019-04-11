@@ -15,7 +15,7 @@ categories: "LINUX"
 *   安装软件
 
     	 sudo apt-get install python-pip
-         pip install shadowsocks
+    	 pip install shadowsocks
 
   然而我遇到了这样的问题
   Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-build-Mlx8an/shadowsocks/
@@ -34,6 +34,9 @@ Please install setuptools.
 
   
 
+
+
+
   参考：https://github.com/fredley/play-pi/issues/22
 
   然后执行 pip install shadowsocks ，终于OK，Collecting shadowsocks
@@ -50,6 +53,9 @@ Successfully installed shadowsocks-2.8.2
         ssserver -p 8388 -k 123456 -m aes-256-cfb
 
  
+
+
+
 
  然后手机或电脑同样配置看下代理是否有用，Ok的话，新建一个文件替代命令
 
@@ -71,9 +77,9 @@ Successfully installed shadowsocks-2.8.2
         ssserver -c /etc/shadowsocks.json
 
  后台执行:
-     
-        ssserver -c /etc/shadowsocks.json -d start    
-        ssserver -c /etc/shadowsocks.json -d stop 
+​     
+​        ssserver -c /etc/shadowsocks.json -d start    
+​        ssserver -c /etc/shadowsocks.json -d stop 
 
 接着就可以愉快的玩耍了
 
@@ -120,13 +126,13 @@ For Unix-like systems, especially Debian-based systems, e.g. Ubuntu, Debian or L
 * 下载simple-obfs
 
     //Debian / Ubuntu
-    	sudo apt-get install --no-install-recommends build-essential autoconf libtool 			libssl-dev libpcre3-dev libev-dev asciidoc xmlto automake
-    			//CentOS / Fedora / RHEL
-    		sudo yum install gcc autoconf libtool automake make zlib-devel openssl-devel asciidoc xmlto
-    		// Arch
-    	sudo pacman -Syu gcc autoconf libtool automake make zlib openssl asciidoc xmlto
-    	 //Alpine
-    	apk add gcc autoconf make libtool automake zlib-devel openssl asciidoc xmlto libpcre32 libev-dev g++ linux-headers
+    ​	sudo apt-get install --no-install-recommends build-essential autoconf libtool 			libssl-dev libpcre3-dev libev-dev asciidoc xmlto automake
+    ​			//CentOS / Fedora / RHEL
+    ​		sudo yum install gcc autoconf libtool automake make zlib-devel openssl-devel asciidoc xmlto
+    ​		// Arch
+    ​	sudo pacman -Syu gcc autoconf libtool automake make zlib openssl asciidoc xmlto
+    ​	 //Alpine
+    ​	apk add gcc autoconf make libtool automake zlib-devel openssl asciidoc xmlto libpcre32 libev-dev g++ linux-headers
 
     	git clone https://github.com/shadowsocks/simple-obfs.git
     	cd simple-obfs
@@ -246,11 +252,31 @@ http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
   export https_proxy=http://127.0.0.1:8118
   ```
 
+  或者
+
+  git config --global http.proxy "localhost:1080"
+
+  git config --global http.proxy "localhost:1080"
+
+
+
+   git clone --recurse-submodules git@github.com:shadowsocks/shadowsocks-android.git
+
+
+
+##### 修改包名
+
+* 把apk改成 shadowsocks.apk
+
+  ```
+  java -jar apktool.jar d shadowsocks.apk      //解包
+  											//中间做修改
+  java -jar apktool.jar b shadowsocks			//打成apk再dist目录下
   
-
+  jarsigner -verbose -keystore androidTest.jks -signedjar signed.apk AndroidTest.apk test  //生成签名
   
+  jarsigner -verbose -keystore androidTest.jks -signedjar signed.apk shadowsockstt.apk test
+  ```
 
-
-
-
+  https://blog.csdn.net/huaiyiheyuan/article/details/53114490
 

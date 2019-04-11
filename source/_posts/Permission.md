@@ -24,6 +24,7 @@ https://developer.android.com/training/permissions/requesting.html
 
         // Here, thisActivity is the current activity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        		//则每次执行需要这一权限的操作时您都必须检查自己是否具有该权限
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 // Should we show an explanation?
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -115,12 +116,50 @@ public boolean shouldShowRequestPermissionRationale(permission)
 
 https://developer.android.com/guide/topics/security/permissions?hl=zh-cn#normal-dangerous
 
+http://www.10tiao.com/html/227/201610/2650237473/1.html
+
+####  PERMISSION
+
+​      
+
+```
+  <!-- 这个权限用于进行网络定位-->
+    <permission android:name="android.permission.ACCESS_COARSE_LOCATION"></permission>
+    <!-- 这个权限用于访问GPS定位-->
+    <permission android:name="android.permission.ACCESS_FINE_LOCATION"></permission>
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <permission android:name="android.permission.ACCESS_WIFI_STATE"></permission>
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <permission android:name="android.permission.ACCESS_NETWORK_STATE"></permission>
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <permission android:name="android.permission.CHANGE_WIFI_STATE"></permission>
+    <!-- 用于读取手机当前的状态-->
+    <permission android:name="android.permission.READ_PHONE_STATE"></permission>
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据-->
+    <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></permission>
+    <!-- 访问网络，网络定位需要上网-->
+    <permission android:name="android.permission.INTERNET" />
+    <!-- SD卡读取权限，用户写入离线定位数据-->
+    <permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></permission>
+--------------------- 
+作者：lasebella 
+来源：CSDN 
+原文：https://blog.csdn.net/lasebella/article/details/73867331 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+```
+
 
 
 ####  多权限申请
 
-
+https://github.com/permissions-dispatcher/PermissionsDispatcher
 
 https://github.com/googlesamples/android-RuntimePermissions
 
 https://www.jianshu.com/p/a51593817825
+
+
+
+
+
+https://developer.android.com/training/permissions/requesting?hl=zh-cn

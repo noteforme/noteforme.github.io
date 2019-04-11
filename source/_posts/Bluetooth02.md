@@ -228,8 +228,6 @@ https://www.race604.com/android-ble-in-action/
 
  http://yannischeng.com/Android%20BLE%20%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91/
 
-???  基于非连接的beacon和连接的区别,我们的设备是吗?
 
-beacon	ble	ibeacon区别
 
  

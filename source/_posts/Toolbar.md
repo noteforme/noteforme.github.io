@@ -6,20 +6,20 @@ tags:
 categories: ANDROID
 ---
 
-# 官网教程
+#### 官网教程
 
  https://developer.android.com/training/appbar/setting-up.html?hl=zh-cn
 
 
 
-# toolbar整体设置
+##### toolbar整体设置
 
  ![tool设置](Toolbar/tool_color.png)
 
  参考:http://blog.csdn.net/a553181867/article/details/51336899
 
 
-##  颜色设置
+#####  颜色设置
 
   AppTheme下的设置
 
@@ -53,7 +53,7 @@ categories: ANDROID
 
 
 
-## 自定义返回键
+##### 自定义返回键
 
 ` mToolbar.setNavigationIcon(R.mipmap.ic_back);//自定义返回键`
 
@@ -62,7 +62,7 @@ categories: ANDROID
 
  
 
-## toolbar.xml解读
+##### toolbar.xml解读
 
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -104,17 +104,17 @@ categories: ANDROID
 还有一种方式是在application设置，这样就不用集成baseActivity
 https://www.diycode.cc/topics/783
 
-# menu设置
+#### menu设置
 
 AppBarLayout下的 `app:theme="@style/toolbar_menu"`用于设置menu
 
-## menu字体颜色
+##### menu字体颜色
 
 需要设置 app:theme ,用 android:theme不起作用.
 
 `<item name="android:actionMenuTextColor">@color/text_my_black</item>`
 
-## menu事件
+##### menu事件
 
 
     @Override
@@ -133,11 +133,13 @@ AppBarLayout下的 `app:theme="@style/toolbar_menu"`用于设置menu
         return super.onOptionsItemSelected(item);
     }
 
-# 问题
+<https://blog.csdn.net/guyuealian/article/details/51721167>
+
+#### 问题
 
 使用toolbar过程中遇到了一些问题
 
-## 问题 1
+* 问题 1
 
 弹出键盘后 editext不见了，应该是toolbar被拉伸了
 
@@ -153,10 +155,10 @@ AppBarLayout下的 `app:theme="@style/toolbar_menu"`用于设置menu
 https://github.com/CoolThink/StatusBarAdapt/issues/2
 
 
-# fragment使用toolbar
+##### fragment使用toolbar
 http://wuxiaolong.me/2015/12/21/fragmentToolbar/
 
-## 参考
+##### 参考
 
 郭霖公号:http://blog.csdn.net/james_shu/article/details/61661217
 
@@ -175,3 +177,23 @@ http://www.bijishequ.com/detail/239876
     <item name="color">@android:color/white</item>
 </style>
 ```
+
+具体可以查看mineutil:PopupWindowActivity
+
+* 溢出菜单三个点离右边的距离
+
+ AppTheme中设置
+
+```
+ <item name="android:actionOverflowButtonStyle">@style/OverflowMenuStyle</item>
+
+  <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>  <!--把该属性改为false即可使menu位置位于toolbar之下-->
+        <item name="android:src">@mipmap/doc_ic_new_patient</item>
+        <item name="android:paddingRight">15dp</item>
+   </style>
+```
+
+
+
+<https://blog.csdn.net/hard_working1/article/details/77333893>

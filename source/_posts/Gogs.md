@@ -10,7 +10,8 @@ ubuntu 17.04  Gogs搭建git服务器
 
 
 
-#创建git用户
+#####  创建git用户
+
 ```
 sudo apt-get update
 
@@ -62,7 +63,7 @@ tar zxvf  go1.9.2.linux-amd64.tar.gz
 mv go $GOROOT  //这一步有点问题，已存在文件
 go env //测试这个一步　倒是没问题
 ```
-# 安装Gogs 
+##### 安装Gogs 
 
 ```
 su git 
@@ -73,13 +74,14 @@ tar zxvf  linux_amd64.tar.gz   //解压后会右gogs文件
  ./gogs web
 ```
 
-# 安装配置
+##### 安装配置
+
 浏览器输入  http://yourip:3000/install  进行配置
- 
+
  如图　把localhost改成yourip
 ![安装图](Gogs/Gogs-install.png)
 
-## 　后台运行　
+##### 后台运行　
 
 ```
 
@@ -90,7 +92,15 @@ nohup ./gogs web&
 参考：
 [雨巷前端](http://www.yuxang.com/%E4%BD%BF%E7%94%A8-gogs-%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84-git-%E6%9C%8D%E5%8A%A1%E5%99%A8/) 雨巷前端
 
-[ehlxn](https://ehlxr.me/2016/09/06/5-%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA-Git-%E6%9C%8D%E5%8A%A1%E5%99%A8-Gogs/) ehlxn
+##### 重启
+
+查找gogs目录 	`find / -name 'gogs' `
+
+然后按照后台运行
+
+
+
+
 
 
 

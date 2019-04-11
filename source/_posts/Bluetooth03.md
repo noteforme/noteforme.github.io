@@ -233,3 +233,35 @@ https://juejin.im/entry/58c74fc42f301e006bce23fb
 
 https://www.jianshu.com/p/453a5cda5646
 
+* 设置 00002902-0000-1000-8000-00805f9b34fb
+
+  ```
+  /* 设置特征信息推送 */
+  ··· BluetoothGattCharacteristic characteristic;
+      mGatt.setCharacteristicNotification(characteristic,true);
+  
+  /* CCCD 的UUID */
+  private UUID ID_CCCD = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");  
+  
+  /* 获取CCCD */
+  BluetoothGattDescriptor cccd = characteristic.getDescriptor(ID_CCCD);
+  
+  /* 设置推送通知，参考值为：
+   * BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE:   通知
+   * BluetoothGattDescriptor.ENABLE_INDICATION_VALUE:     指示
+   * BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE:  关闭
+   */  
+  cccd.setValue(参考值);
+  /* 写入CCCD */
+  mGatt.writeDescriptor(descriptor)
+  ```
+
+  https://www.jianshu.com/p/43b1956d9f5c
+
+  官方三个蓝牙示例 :<https://github.com/googlesamples?utf8=%E2%9C%93&q=bluetooth&type=&language=>
+
+  #### 问题
+
+  扫描不到任何设备
+
+  <https://stackoverflow.com/questions/39646253/android-stops-finding-ble-devices-onclientregistered-status-133-clientif-0>
