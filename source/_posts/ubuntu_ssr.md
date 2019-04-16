@@ -37,6 +37,8 @@ Please install setuptools.
 
 
 
+
+
   参考：https://github.com/fredley/play-pi/issues/22
 
   然后执行 pip install shadowsocks ，终于OK，Collecting shadowsocks
@@ -53,6 +55,8 @@ Successfully installed shadowsocks-2.8.2
         ssserver -p 8388 -k 123456 -m aes-256-cfb
 
  
+
+
 
 
 
@@ -142,7 +146,7 @@ For Unix-like systems, especially Debian-based systems, e.g. Ubuntu, Debian or L
     	sudo make install
 
 
-    ​	 
+​    	 
 
 ##  注意:
 * 问题1
@@ -269,7 +273,7 @@ http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
 * 把apk改成 shadowsocks.apk
 
   ```
-  java -jar apktool.jar d shadowsocks.apk      //解包
+  ![SS_20190DD](E:\noteforme.github.io\source\_posts\ubuntu_ssr\SS_20190DD.png)java -jar apktool.jar d shadowsocks.apk      //解包
   											//中间做修改
   java -jar apktool.jar b shadowsocks			//打成apk再dist目录下
   
@@ -280,3 +284,10 @@ http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
 
   https://blog.csdn.net/huaiyiheyuan/article/details/53114490
 
+  
+
+##### windows全局代理
+
+<https://www.flyzy2005.com/fan-qiang/shadowsocks/proxifier-with-shadowsocks/>
+
+![autogen.sh](ubuntu_ssr/SS_20190DD.png)

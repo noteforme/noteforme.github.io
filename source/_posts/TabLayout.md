@@ -42,7 +42,7 @@ TabLayout tabLayout = ...;
 
 
 
-#### 滑动TAB
+##### 滑动TAB
 
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -99,7 +99,7 @@ TabLayout tabLayout = ...;
   https://segmentfault.com/a/1190000008753052
 
 
-###  自定义TabItem
+#####  自定义TabItem
 
 * tab_item.xml
 
@@ -155,6 +155,13 @@ https://www.jianshu.com/p/ed129686f2cc
 
 https://blog.csdn.net/android_zhengyongbo/article/details/74726176
 
-###  修改指示器颜色
+#####  修改指示器颜色
 
 https://codeday.me/bug/20170629/35704.html
+
+#####  设置背景
+
+<https://blog.csdn.net/jdsjlzx/article/details/52171075>
+
+
+
