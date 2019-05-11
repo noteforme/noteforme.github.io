@@ -14,9 +14,9 @@ http://iissnan.com/progit/
 Git 如何 clone 非 master 分支的代码
 https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/
 
-# Git基本操作
+#### Git基本操作
 
-##  github上传项目 
+#####  github上传项目 
 
 *  分支创建
 
@@ -41,7 +41,7 @@ git push -u origin master
 
 ```
 
-##  本地分支操作
+#####  本地分支操作
 
  查看本地分支
 
@@ -56,13 +56,33 @@ Git分支切换
 分支提交到远程仓库
 `$ git push origin v1.0.0 `
 
+* commit
+
+  Git撤销git commit 但是未git push的修改
+
+  1. 找到上次git commit的 id
+
+       git log 
+
+       找到你想撤销的commit_id
+
+  2. git reset --hard commit_id
+
+         完成撤销,同时将代码恢复到前一commit_id 对应的版本。
+
+  3. git reset commit_id 
+
+       完成Commit命令的撤销，但是不对代码修改进行撤销，可以直接通过git commit 重新提交对本地代码的修改。
+
+  
+
 删除本地分支
 ` git branch -d v1.0.0 `
 
 删除远程分支
 `git push origin :foo`
 
-​  [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
+  [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
 http://blog.csdn.net/hyr83960944/article/details/36185231
 
 合并分支
@@ -74,7 +94,7 @@ $ git merge hotfix
 ```
 [合并分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6) 
 
-##　  远程分支
+#####　  远程分支
 
 * 获取本地没有的远程分支
 
@@ -101,7 +121,7 @@ $ git merge hotfix
 
 https://qiita.com/hudichao/items/d665cd769ed1d2ce832a
 
-## 远程仓库更新到本地
+##### 远程仓库更新到本地
 
 ```
 $ git fetch origin
@@ -116,10 +136,10 @@ $ git pull origin hexo
 http://www.ruanyifeng.com/blog/2014/06/git_remote.html
 
 
-##  fork后的项目处理
+######  fork后的项目处理
   https://gaohaoyang.github.io/2015/04/12/Syncing-a-fork/
 
-## 忽略文件已提交的文件
+##### 忽略文件已提交的文件
 
  对于单个文件处理
   假如要忽略 .idea/misc.xml文件，.gitignore可以添加 `/.idea/* `把.idea文件过滤
@@ -135,9 +155,9 @@ git rm --cached  *idea/*
 
 
 
-#  Git仓库迁移
+####  Git仓库迁移
 
-##  迁移git仓库
+#####  迁移git仓库
 
 * 原来托管于github,clone一份裸版本库
 
@@ -181,7 +201,7 @@ git pull --all
 参考: http://blog.csdn.net/allangold/article/details/78028709
 
 
-## 修改远程仓库地址 
+##### 修改远程仓库地址 
 
 * github创建 New项目，项目地址是 git@github.com:BlogForMe/News.git
 * 修改远程服务器地址 ：`git remote set-url origin git@github.com:BlogForMe/News.git`
@@ -190,7 +210,7 @@ git pull --all
 
 http://jcpplus.github.io/2015/07/23/modify-remote-url/
 
-# GIT标签
+##### GIT标签
 
   查看所有的版本 
 ​    `git tag`
@@ -199,7 +219,7 @@ http://jcpplus.github.io/2015/07/23/modify-remote-url/
 * 创建标签 `git tag -a v1.0.2 -m "my version 1.0.2"  `
   -m 选项指定了一条将会存储在标签中的信息
 
-##  修复已发布版本bug
+#####  修复已发布版本bug
 修复bug主要以下几步:
 
 * 使用git reset --hard <commit id>命令退回到发布标签对应的版本
@@ -253,7 +273,7 @@ http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
     在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
 
 
-## 合并分支
+##### 合并分支
 
 ```
 $ git checkout master

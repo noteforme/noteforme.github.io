@@ -3,7 +3,7 @@ title: CustomView
 comments: true
 date: 2019-01-01 22:44:09
 tags: VIEW
-categories: ANDROID
+categories: VIEW
 ---
 
 ##### 官方方式

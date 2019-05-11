@@ -3,7 +3,7 @@ title: CustomView01
 comments: true
 date: 2017-11-12 21:24:33
 tags:
-categories: ANDROID
+categories: VIEW
 ---
 
 
