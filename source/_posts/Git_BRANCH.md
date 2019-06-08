@@ -283,3 +283,16 @@ $ git merge hotfix
 
 
 * SVN不能添加文件:https://blog.csdn.net/yujiayinshi/article/details/51381942
+
+  ##### 如何在 GitHub 下载某个程序的特定版本
+
+  git clone 下载源码
+
+  git tag　列出所有版本号
+
+  git checkout　+某版本号　
+
+  git checkout 1.1 (如果提示需要回退那么输入 git checkout -b 1.1
+
+  
+    

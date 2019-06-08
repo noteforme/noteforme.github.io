@@ -10,7 +10,7 @@ TabLayout属于 Material Design
 
 https://developer.android.com/reference/android/support/design/widget/TabLayout.html
 
-####  TabLayout方式
+#####  TabLayout方式
 
 * 动态
 
@@ -159,9 +159,70 @@ https://blog.csdn.net/android_zhengyongbo/article/details/74726176
 
 https://codeday.me/bug/20170629/35704.html
 
-#####  设置背景
+#####  设置Tab选择背景
+
+
 
 <https://blog.csdn.net/jdsjlzx/article/details/52171075>
+
+ ![tabLayout_20190603110418](TabLayout\tabLayout_20190603110418.png)
+
+首先设置 
+
+* tabGravity fill模式 center是居中
+
+* 通过layer-list设置间距
+
+  ```
+  <?xml version="1.0" encoding="utf-8"?>
+  <selector xmlns:android="http://schemas.android.com/apk/res/android">
+      <item android:state_selected="true">
+          <layer-list>
+              <item>
+                  <shape>
+                      <solid android:color="@android:color/transparent" />
+                  </shape>
+  
+              </item>
+              <item android:left="@dimen/dimen_10" android:right="@dimen/dimen_10">
+                  <shape android:shape="rectangle">
+                      <corners android:radius="3dp" />
+                      <solid android:color="#ffa2cb79" />
+                  </shape>
+              </item>
+          </layer-list>
+  
+      </item>
+  
+      <item >
+          <layer-list>
+              <item>
+                  <shape>
+                      <solid android:color="@android:color/transparent"></solid>
+                  </shape>
+              </item>
+  
+              <item android:left="@dimen/dimen_10" android:right="@dimen/dimen_10">
+                  <shape android:shape="rectangle">
+                      <corners android:radius="3dp" />
+                      <solid android:color="#ffdddddd" />
+                  </shape>
+              </item>
+          </layer-list>
+  
+  
+      </item>
+  
+  </selector>
+  ```
+
+  
+
+
+
+
+
+
 
 
 

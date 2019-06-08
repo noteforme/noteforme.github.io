@@ -21,7 +21,7 @@ layout_constraintTop_toBottomOf
 layout_constraintBottom_toTopOf
 layout_constraintBottom_toBottomOf
 layout_constraintBaseline_toBaselineOf    	 //元素对齐 
-layout_constraintStart_toEndOf
+layout_constraintStart_toEndOf		控件开始位置 相对另一控件的结束位置
 layout_constraintStart_toStartOf
 layout_constraintEnd_toStartOf
 layout_constraintEnd_toEndOf
@@ -68,6 +68,60 @@ A useful aspect of ConstraintLayout is in how it deals with "impossible" constra
            </>
          
 ```
+
+ 
+
+##### Start_End
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    //全局居中
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="button1"
+        app:layout_constraintBottom_toBottomOf="parent" //底部以父布局的底部为约束
+        app:layout_constraintEnd_toEndOf="parent" //右侧结束以父布局的右侧为约束
+        app:layout_constraintStart_toStartOf="parent" //左侧起始以父布局的左侧为约束
+        app:layout_constraintTop_toTopOf="parent"/> //顶部以父布局的顶部为约束
+
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:text="button2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    // 以 button2 为约束的纵向居中
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="button3"
+        app:layout_constraintBottom_toBottomOf="@id/button2" //底部以button2的底部为约束
+        app:layout_constraintStart_toEndOf="@id/button2" 
+        app:layout_constraintTop_toTopOf="@id/button2"/>  //顶部以button2的顶部为约束
+
+
+</android.support.constraint.ConstraintLayout>
+
+```
+
+
+
+
 
 #####  Guideline使用
 
@@ -297,15 +351,95 @@ app:layout_constraintRight_toRightOf="parent"
 参考:https://developer.android.com/training/constraint-layout/index.html
 最后就是边应用边理解了
 
-* Barrier
+* Barrier 
 
-  用了输入信息挺有用的 
+  让内容 右侧对其 app:barrierDirection="right"
+
+  输入信息挺有用的 
+
+  <http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2017/1017/8601.html>
 
   https://mp.weixin.qq.com/s/QIuww9b0TsNjajEUS8c2fg
 
+  ```
+    <android.support.constraint.ConstraintLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/dimen_11">
   
+          <TextView
+              android:id="@+id/tv_order_num"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="订单编号：10002220000001234"
+              android:textColor="#ff999999"
+              android:textSize="19sp"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintStart_toStartOf="parent" />
+  
+          <TextView
+              android:id="@+id/tv_order_pro"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/dimen_11"
+              android:text="订购产品：爱达康高血压监护服务"
+              android:textColor="#ff666666"
+              android:textSize="21sp"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/tv_order_num" />
+  
+          <TextView
+              android:id="@+id/tv_service_team"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="服务团队：爱达康远程监护团队"
+              android:textColor="#ff666666"
+              android:textSize="21sp"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/tv_order_pro" />
+  
+          <TextView
+              android:id="@+id/tv_period_valid"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="有效期：2019-03-01至2019-12-31"
+              android:textColor="#ff999999"
+              android:textSize="19sp"
+              app:layout_constraintStart_toEndOf="@+id/barrier" />
+  
+          <TextView
+              android:id="@+id/tv_order_time"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/dimen_11"
+              android:text="订购时间：2019-03-11 12:00:00"
+              android:textColor="#ff666666"
+              android:textSize="21sp"
+              app:layout_constraintStart_toEndOf="@+id/barrier"
+              app:layout_constraintTop_toBottomOf="@+id/tv_period_valid" />
+  
+          <TextView
+              android:id="@+id/tv_order_count"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="订购数量：500次"
+              android:textColor="#ff666666"
+              android:textSize="21sp"
+              app:layout_constraintStart_toEndOf="@+id/barrier"
+              app:layout_constraintTop_toBottomOf="@+id/tv_order_time" />
+  
+  
+          <android.support.constraint.Barrier
+              android:id="@+id/barrier"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:barrierDirection="right"
+              app:constraint_referenced_ids="tv_order_num,tv_order_pro,tv_service_team" />
+  
+      </android.support.constraint.ConstraintLayout>
+  ```
 
-http://blog.chengyunfeng.com/?p=1030
+  
 
 对chain讲解详细
 http://blog.csdn.net/zxt0601/article/details/72683379

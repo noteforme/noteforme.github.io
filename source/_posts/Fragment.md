@@ -238,3 +238,7 @@ tx.addToBackStack(null); 添加回退功能，类似Activity压栈的过程
 
   https://blog.csdn.net/u011481547/article/details/71552720
 
+Fragmet全局流程图
+
+<https://kotlintc.com/articles/5693>
+

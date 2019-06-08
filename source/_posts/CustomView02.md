@@ -33,3 +33,60 @@ path.close();  //形成封闭的图形
 <https://github.com/SeekerFighter/LuckyEcgDemo>
 
 <https://www.jianshu.com/p/16301de41a18>
+
+
+
+##### 表单输入
+
+![CustomView2018-05-12 09-42-16](E:/noteforme.github.io/source/_posts/CustomView/CustomView2018-05-12%2009-42-16.png)
+
+
+
+```
+/**
+ * EditText文字固定在右边
+ */
+public class EditTextRight extends AppCompatEditText {
+    private String txtRight;
+    private Paint mPaint;
+
+    public EditTextRight(Context context) {
+        super(context);
+    }
+
+    public EditTextRight(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
+        initAttrs(context, attrs);
+
+    }
+
+    private void initAttrs(Context context, AttributeSet attrs) {
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.EditTextRight);
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        txtRight = ta.getString(R.styleable.EditTextRight_textright);
+//        Timber.d("text" + txtRight);
+        ta.recycle();
+    }
+
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        float txtSize = getTextSize();
+        if (!TextUtils.isEmpty(txtRight)) {
+            float yrig = getWidth() - txtSize * txtRight.length() - 10; //getWidth() 控件宽度
+            Timber.d("txt " + txtRight + "   getRight " + yrig);
+            canvas.drawText(txtRight, yrig, getBaseline(), getPaint());
+        }
+    }
+}
+```
+
+```
+  <com.jonzhou.mineutils.ui.customview.EditTextRight
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        mineutils:textright="幢" />
+```
+

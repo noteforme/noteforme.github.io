@@ -10,10 +10,6 @@ categories: VIEW
 
 https://developer.android.com/training/custom-views/custom-drawing
 
-https://blog.csdn.net/yissan/article/details/51136088
-
-
-
 绘图
 http://blog.csdn.net/huaiyiheyuan/article/details/52205969
 
@@ -119,59 +115,9 @@ public class MyView extends View {
 
   原文：https://blog.csdn.net/yissan/article/details/51136088 
 
-##### 表单输入
+##### 自定义属性不提示 
 
-![CustomView2018-05-12 09-42-16](E:/noteforme.github.io/source/_posts/CustomView/CustomView2018-05-12%2009-42-16.png)
-
-```/**
-/**
- * EditText文字固定在右边
- */
-public class EditTextRight extends AppCompatEditText {
-    private String txtRight;
-    private Paint mPaint;
-
-    public EditTextRight(Context context) {
-        super(context);
-    }
-
-    public EditTextRight(Context context, AttributeSet attrs) {
-        super(context, attrs);
-
-        initAttrs(context, attrs);
-
-    }
-
-    private void initAttrs(Context context, AttributeSet attrs) {
-        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.EditTextRight);
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        txtRight = ta.getString(R.styleable.EditTextRight_textright);
-//        Timber.d("text" + txtRight);
-        ta.recycle();
-    }
-
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        float txtSize = getTextSize();
-        if (!TextUtils.isEmpty(txtRight)) {
-            float yrig = getWidth() - txtSize * txtRight.length() - 10; //getWidth() 控件宽度
-            Timber.d("txt " + txtRight + "   getRight " + yrig);
-            canvas.drawText(txtRight, yrig, getBaseline(), getPaint());
-        }
-    }
-}
-```
-
-```
-  <com.jonzhou.mineutils.ui.customview.EditTextRight
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        mineutils:textright="幢" />
-```
-
-自定义属性不提示   按照如图两名称一致，重启AndroidStudio
+  按照如图两名称一致，重启AndroidStudio
 
 ![customview_2018-05-17_01](CustomView/customview_2018-05-17_01.png)
 
@@ -181,7 +127,7 @@ public class EditTextRight extends AppCompatEditText {
 
 
 
-​    https://blog.csdn.net/skysmile_/article/details/78833438
+ https://blog.csdn.net/skysmile_/article/details/78833438
 
 http://gcssloop.github.io/customview/CustomViewIndex
 

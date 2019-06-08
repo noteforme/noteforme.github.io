@@ -114,6 +114,6 @@ public class InstrumentActivityTest {
 
 https://testing.googleblog.com/2008/12/static-methods-are-death-to-testability.html
 
-
+<https://www.jianshu.com/p/dc30338a3e84>
 
 
