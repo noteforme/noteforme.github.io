@@ -1,12 +1,10 @@
 ---
-title: CustomView_03
+title: CustomView03
 comments: true
 date: 2019-01-01 22:44:09
 tags: VIEW
 categories: VIEW
 ---
-
-
 
 自定义控件　最先执行构造方法
 
@@ -109,9 +107,9 @@ public class MyView extends View {
 
   按照如图两名称一致，重启AndroidStudio
 
-![customview_2018-05-17_01](CustomView/customview_2018-05-17_01.png)
+![customview_2018-05-17_01](CustomView03/customview_2018-05-17_01.png)
 
-![customview_2018-05-17_02](CustomView\customview_2018-05-17_02.png)
+![customview_2018-05-17_02](CustomView03\customview_2018-05-17_02.png)
 
 
 

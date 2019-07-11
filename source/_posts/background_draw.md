@@ -192,6 +192,16 @@ http://yifeng.studio/2017/02/26/android-elevation-and-shadow/
     <!-- dashGap是指虚线中每一个间隔的宽度 -->
    </shape>
 
+* height比height高  关闭硬件加速   android:layerType="software"
+
+```
+<View
+    android:layout_width="match_parent"
+    android:layout_height="10dp"
+    android:layout_below="@+id/rl_time_day"
+    android:background="@drawable/bg_dash_line" />
+```
+
 参考：
   https://lianyuchen.github.io/2017/05/09/%E5%85%B3%E4%BA%8Eshape%E7%94%BB%E8%99%9A%E7%BA%BF/
   http://www.jianshu.com/p/75cc93195f7a?from=jiantop.com

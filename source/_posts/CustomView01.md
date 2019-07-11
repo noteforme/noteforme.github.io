@@ -6,7 +6,11 @@ tags: VIEW
 categories: VIEW
 ---
 
+##### 自定义View函数调用流程 
 
+ ![流程](CustomView01\2019-04-29-71649.jpg)
+
+> 出自:<http://gcssloop.github.io/customview/CustomViewProcess>
 
 #### Canvas基本操作
 
