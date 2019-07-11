@@ -2,7 +2,7 @@
 title: CustomView01
 comments: true
 date: 2017-11-12 21:24:33
-tags:
+tags: VIEW
 categories: VIEW
 ---
 
@@ -11,6 +11,53 @@ categories: VIEW
 #### Canvas基本操作
 
    这些操作都可以叠加
+
+
+
+#### Rect RectF区别
+
+ Rect是使用int类型作为数值，RectF是使用float类型作为数值。
+
+四个参数是 矩形左上角和右下角两个点的坐标
+
+#### 画线
+
+```
+       Path path = new Path();
+       path.moveTo(100, 100);
+       path.rLineTo(100, 200);
+       canvas.drawPath(path, mPaint);
+```
+
+#### 画圆
+
+- 画笔
+
+  ```
+  mPaint = new Paint();
+  mPaint.setColor(Color.BLUE);
+  mPaint.setStyle(Paint.Style.FILL); // Fill是空心圆 ，STROKE实心圆,
+  空心圆就需要设置setStrokeWidth这个属性
+  ```
+
+- ```
+  canvas.drawCircle(getWidth()/2,getHeight()/2,getWidth()/2,mPaint);
+  ```
+
+- ```
+  public void drawArc(RectF oval, float startAngle, float sweepAngle, boolean useCenter, Paint paint)
+  ```
+
+  oval :指定圆弧的外轮廓矩形区域。
+  startAngle: 圆弧起始角度，单位为度。
+  sweepAngle: 圆弧扫过的角度(起始位置 X轴)，顺时针方向，单位为度,从右中间开始为零度。
+  useCenter: 如果为True时，在绘制圆弧时将圆心包括在内，通常用来绘制扇形
+
+RectF是矩形的内接圆
+
+
+
+
 
 * 绘制形状文本
 
@@ -93,45 +140,6 @@ categories: VIEW
 
 
 参考：http://www.gcssloop.com/customview/Canvas_Convert
-
-
-
-#### Rect RectF区别
-
- Rect是使用int类型作为数值，RectF是使用float类型作为数值。
-
-#### 画线
-
-```
-       Path path = new Path();
-       path.moveTo(100, 100);
-       path.rLineTo(100, 200);
-       canvas.drawPath(path, mPaint);
-```
-
-#### 画圆
-
-* 画笔
-
-  ```
-  mPaint = new Paint();
-  mPaint.setColor(Color.BLUE);
-  mPaint.setStyle(Paint.Style.FILL); // Fill是空心圆 ，STROKE实心圆,
-  空心圆就需要设置setStrokeWidth这个属性
-  ```
-
-* ```
-  canvas.drawCircle(getWidth()/2,getHeight()/2,getWidth()/2,mPaint);
-  ```
-
-* ```
-  public void drawArc(RectF oval, float startAngle, float sweepAngle, boolean useCenter, Paint paint)
-  ```
-
-  oval :指定圆弧的外轮廓矩形区域。
-  startAngle: 圆弧起始角度，单位为度。
-  sweepAngle: 圆弧扫过的角度(起始位置 X轴)，顺时针方向，单位为度,从右中间开始为零度。
-  useCenter: 如果为True时，在绘制圆弧时将圆心包括在内，通常用来绘制扇形
 
 
 

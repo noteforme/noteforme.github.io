@@ -1,5 +1,5 @@
 ---
-title: AndroidTesting_02
+title: AndroidTesting_Mockito
 comments: true
 date: 2018-01-22 18:04:40
 tags:

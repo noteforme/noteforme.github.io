@@ -1,5 +1,5 @@
 ---
-title: AndroidTesting_01
+title: AndroidTesting_Espresso
 comments: true
 date: 2018-01-22 21:58:05
 tags: test
@@ -10,6 +10,10 @@ categories: ANDROID
 
 https://www.jianshu.com/p/03118c11c199
 https://github.com/googlesamples/android-testing
+
+<https://developer.android.com/training/testing>
+
+
 
 #### junit
 

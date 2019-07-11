@@ -11,9 +11,6 @@ categories: GIT
 https://git-scm.com/book/zh/v2
 http://iissnan.com/progit/
 
-Git 如何 clone 非 master 分支的代码
-https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/
-
 #### Git基本操作
 
 #####  github上传项目 
@@ -41,17 +38,7 @@ git push -u origin master
 
 ```
 
-#####  本地分支操作
-
- 查看本地分支
-
-` git branch `
-
-分支创建
-` git branch v1.0.0`
-
-Git分支切换
-`$ git checkout v1.0.0`
+#####  分支操作
 
 分支提交到远程仓库
 `$ git push origin v1.0.0 `
@@ -108,18 +95,48 @@ $ git merge hotfix
 
    [官方](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF "官方参考")
 
-*  [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
+* [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
    `$ git remote show origin `
 
-*  
+   
 
 
+##### 修复已发布版本bug
 
-版本重复的话问题:error: dst refspec v1.0.0 matches more than one
-然后`git push origin :refs/heads/v1.0.0`就可以了
-[参考](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF) 
+修复bug主要以下几步:
 
-https://qiita.com/hudichao/items/d665cd769ed1d2ce832a
+- 使用git reset --hard <commit id>命令退回到发布标签对应的版本
+
+- 使用git checkout -b BugFix新建一个BugFix的分支，原分支前进到最新提交版本
+
+- 使用git checkout BugFix切换到BugFix分支，修改bug，重新发布并使用git tag打标签
+
+- git reaset --hard <head commit id> 切换主干最新的分支
+
+- 使用git merge合并BugFix分支到主分支
+
+  参考:<https://blog.masterliu.net/git-retag/>
+
+  
+
+  标签是一个文件快照，并不是真拉出一份代码放在了那里
+
+```
+D:\Project\ASProjects\cqianjia>git tag
+v1.0.2
+```
+
+参考: http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
+
+还有一种情况是在最新提交版本修复bug
+
+* git stash
+
+  <https://www.jianshu.com/p/54b8ea4317cc>
+
+  
+
+  https://qiita.com/hudichao/items/d665cd769ed1d2ce832a
 
 ##### 远程仓库更新到本地
 
@@ -153,11 +170,9 @@ git rm --cached  *idea/*
 ```
 
 
-
-
 ####  Git仓库迁移
 
-#####  迁移git仓库
+ 迁移git仓库
 
 * 原来托管于github,clone一份裸版本库
 
@@ -210,32 +225,16 @@ git pull --all
 
 http://jcpplus.github.io/2015/07/23/modify-remote-url/
 
+
+
 ##### GIT标签
 
   查看所有的版本 
 ​    `git tag`
-* 查看远程分支  `git ls-remote --tags`
 
-* 创建标签 `git tag -a v1.0.2 -m "my version 1.0.2"  `
+- 查看远程分支  `git ls-remote --tags`
+- 创建标签 `git tag -a v1.0.2 -m "my version 1.0.2"  `
   -m 选项指定了一条将会存储在标签中的信息
-
-#####  修复已发布版本bug
-修复bug主要以下几步:
-
-* 使用git reset --hard <commit id>命令退回到发布标签对应的版本
-* 使用git checkout -b BugFix新建一个BugFix的分支，原分支前进到最新提交版本
-* 使用git checkout BugFix切换到BugFix分支，修改bug，重新发布并使用git tag打标签
-* 使用git merge合并BugFix分支到主分支
-
-参考: https://thekingofworld.github.io/Git-tags.html
-
-* 标签是一个文件快照，并不是真拉出一份代码放在了那里
-
-```
-D:\Project\ASProjects\cqianjia>git tag
-v1.0.2
-```
-参考: http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 
 
 * 创建Tag
@@ -265,22 +264,8 @@ Switched to a new branch 'version2'
 
 当然，如果在这之后又进行了一次提交，version2 分支会因为改动向前移动了，那么 version2 分支就会和 v2.0.0 标签稍微有些不同，这时就应该当心了。
 
-
 修复已发布版本Bug
 http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
-
-  * svn项目修改为Git 
-    在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
-
-
-##### 合并分支
-
-```
-$ git checkout master
-$ git merge hotfix
-```
-
-
 
 * SVN不能添加文件:https://blog.csdn.net/yujiayinshi/article/details/51381942
 
@@ -294,5 +279,16 @@ $ git merge hotfix
 
   git checkout 1.1 (如果提示需要回退那么输入 git checkout -b 1.1
 
+  * 问题
+
+    版本重复的话问题:error: dst refspec v1.0.0 matches more than one
+    然后`git push origin :refs/heads/v1.0.0`就可以了
+    [参考](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF) 
+
+  * Git  clone 非 master 分支的代码
+    https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/
+
+  * svn项目修改为Git 
+    在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
+
   
-    

@@ -232,7 +232,9 @@ https://huxian99.github.io/2016/08/28/cj3qymo360000owxk9zp17alo/
 
 tx.addToBackStack(null); 添加回退功能，类似Activity压栈的过程
 
+<https://www.jianshu.com/p/fe16553ca2ca>
 
+<https://blog.csdn.net/zhiyuan0932/article/details/52593039>
 
 * Fragment控制父Fragment展示
 
@@ -242,3 +244,8 @@ Fragmet全局流程图
 
 <https://kotlintc.com/articles/5693>
 
+
+
+* 模拟系统内存不足
+
+  <http://yifeng.studio/2016/12/15/android-fragment-attentions/>

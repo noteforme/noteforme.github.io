@@ -6,7 +6,7 @@ categories: "ANDROID"
 
 ---
 
-# $Gson$Types理解 
+##### $Gson$Types理解 
 
  官方教程 [https://github.com/google/gson/blob/master/UserGuide.md](https://github.com/google/gson/blob/master/UserGuide.md "官方教程")
 
@@ -14,11 +14,8 @@ categories: "ANDROID"
 http://www.jianshu.com/p/89c314ae8c0b
 
 
-2、测试
 
-
-
-##  Gson转map
+#####  Gson转map
 
 * Gson可以直接把json转为map,但是在转成map时，默认將int long型的数字,转换成doublel类型
 
@@ -47,8 +44,7 @@ http://www.jianshu.com/p/89c314ae8c0b
 ```
 [参考](http://blog.csdn.net/liangrui_cust/article/details/51197974) 
 
-
-# map to json(生成json数据)
+* map to json(生成json数据)
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("key", "real_name");
@@ -61,9 +57,15 @@ http://www.jianshu.com/p/89c314ae8c0b
         list.add(map);
         userInfo.data = new Gson().toJson(list);
 
-# json to object
+
+
+* kotlin  json to object
+
+```
+val type = object : TypeToken<BaseCount<List<Site>>>() {}.type
+var response = gson.fromJson<BaseCount<List<Site>>>(json, type)
+```
+
+
 
 https://ask.helplib.com/java/post_498433
-
-
-

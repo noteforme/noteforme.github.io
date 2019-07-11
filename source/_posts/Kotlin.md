@@ -18,7 +18,7 @@ Kotlin不用findViewById
 
 
 
-* ?
+* ?  
 
 ```
 //kotlin:
@@ -27,6 +27,8 @@ a?.foo()
 //相当于java:
 if(a!=null){
   a.foo();
+}else{
+   null 
 }
 ```
 
@@ -54,4 +56,9 @@ https://www.jianshu.com/p/9fb9a1ab6c31
 
 https://juejin.im/post/5aa64556f265da238c3a51d3
 
-##### 
+
+
+#### 高级用法
+
+<https://www.cnblogs.com/Jetictors/p/9225557.html>
+

@@ -150,3 +150,23 @@ https://www.jianshu.com/p/e50af339259f
 ##### android命名规范
 
 https://juejin.im/entry/5b6a4ca9f265da0f4c6fe566
+
+* 无线调试
+
+  <https://juejin.im/entry/5a6a7e69518825733b0f1635>
+
+  设置侦听断开 :
+
+  ```
+  adb tcpip 8888
+  
+  adb connect 192.168.31.76:8888
+  ```
+
+  
+
+  
+
+  
+
+  

@@ -2,7 +2,7 @@
 title: CustomView02
 comments: true
 date: 2017-11-12 12:34:50
-tags:
+tags: VIEW
 categories: VIEW
 ---
 

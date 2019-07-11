@@ -353,11 +353,9 @@ app:layout_constraintRight_toRightOf="parent"
 
 * Barrier 
 
-  让内容 右侧对其 app:barrierDirection="right"
+  用于控制 Barrier 相对于给定的 View 的位置， app:barrierDirection="right",表示barrier在constraint_referenced_ids给定ID的右侧,constraint_referenced_ids的id就是左侧的这些控件
 
   输入信息挺有用的 
-
-  <http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2017/1017/8601.html>
 
   https://mp.weixin.qq.com/s/QIuww9b0TsNjajEUS8c2fg
 
