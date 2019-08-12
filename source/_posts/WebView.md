@@ -127,3 +127,5 @@ https://github.com/GcsSloop/diycode/blob/master/blog/journal-02.md
 [其他常用方式](https://github.com/yipianfengye/androidProject/blob/master/18%20android%E4%BA%A7%E5%93%81%E7%A0%94%E5%8F%91-webview%E9%97%AE%E9%A2%98%E9%9B%86%E9%94%A6.md) 
 [美团点评](https://tech.meituan.com/WebViewPerf.html)
 [腾讯](https://mp.weixin.qq.com/s/evzDnTsHrAr2b9jcevwBzA)
+
+<https://juejin.im/post/5a94f9d15188257a63113a74>

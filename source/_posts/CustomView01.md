@@ -12,19 +12,48 @@ categories: VIEW
 
 > 出自:<http://gcssloop.github.io/customview/CustomViewProcess>
 
+
+
+* View OnMeasure()方法
+
+  ```
+  val widthMode = MeasureSpec.getMode(widthMeasureSpec);
+  val widthSize = MeasureSpec.getSize(widthMeasureSpec); widthSize父控件留个子空间的最大宽度
+  
+  val heightMode = MeasureSpec.getMode(heightMeasureSpec);
+  val heightSize = MeasureSpec.getSize(heightMeasureSpec);
+  
+  var width = 10
+  var height = 10
+  if (widthMode == MeasureSpec.EXACTLY) {   //如果match_parent或者具体的值，直接赋值
+      width = widthSize
+  } else if (widthMode == MeasureSpec.AT_MOST) { //如果是wrap_content，我们要得到控件需要多大的尺寸
+      width = paddingLeft + mBound.width() + paddingRight
+  }
+  //高度跟宽度处理方式一样
+  if (heightMode == MeasureSpec.EXACTLY) {
+      height = heightSize
+  } else if (widthMode == MeasureSpec.AT_MOST) {
+      height = paddingTop + mBound.height() + paddingBottom
+  }
+  setMeasuredDimension(width, height)
+  ```
+
+理解onMeasure <https://blog.csdn.net/tuke_tuke/article/details/73302595>
+
+* 加载布局
+
+![图](CustomView01\4131410-a0f7a6a89a5509ac.webp)
+
 #### Canvas基本操作
 
    这些操作都可以叠加
 
+* Rect RectF区别: Rect是使用int类型作为数值，RectF是使用float类型作为数值。
 
+   四个参数是 矩形左上角和右下角两个点的坐标
 
-#### Rect RectF区别
-
- Rect是使用int类型作为数值，RectF是使用float类型作为数值。
-
-四个参数是 矩形左上角和右下角两个点的坐标
-
-#### 画线
+* 画线
 
 ```
        Path path = new Path();
@@ -149,4 +178,7 @@ RectF是矩形的内接圆
 
 
 
-  https://www.jianshu.com/p/0bd672626c8d
+ https://www.jianshu.com/p/0bd672626c8d
+
+ http://gcssloop.github.io/customview/CustomViewIndex
+

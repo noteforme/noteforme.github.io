@@ -163,7 +163,9 @@ https://juejin.im/entry/5b6a4ca9f265da0f4c6fe566
   adb connect 192.168.31.76:8888
   ```
 
-  
+  ##### win10 jdk环境变量设置
+
+  在系统变量中设置 ,注意要点开编辑文本是不是之前输入的有 ""
 
   
 
