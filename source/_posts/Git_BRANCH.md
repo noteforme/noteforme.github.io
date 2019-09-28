@@ -35,7 +35,6 @@ git add README.md
 git commit -m "first commit"
 git remote add origin git@gitee.com:huaiyi/EffectiveJava.git
 git push -u origin master
-
 ```
 
 #####  分支操作
@@ -61,13 +60,8 @@ git push -u origin master
 
        完成Commit命令的撤销，但是不对代码修改进行撤销，可以直接通过git commit 重新提交对本地代码的修改。
 
-  
 
-删除本地分支
-` git branch -d v1.0.0 `
 
-删除远程分支
-`git push origin :foo`
 
   [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
 http://blog.csdn.net/hyr83960944/article/details/36185231
@@ -79,9 +73,7 @@ http://blog.csdn.net/hyr83960944/article/details/36185231
 $ git checkout            // 先切换到dev 
 $ git merge hotfix
 ```
-[合并分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6) 
-
-#####　  远程分支
+[合并分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6)
 
 * 获取本地没有的远程分支
 
@@ -98,8 +90,27 @@ $ git merge hotfix
 * [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
    `$ git remote show origin `
 
+   **1. 本地分支重命名(还没有推送到远程)**
    
-
+   ```
+   git branch -m oldName newName
+   ```
+   
+   **2. 远程分支重命名 (已经推送远程-假设本地分支和远程对应分支名称相同)**
+    a. 重命名远程分支对应的本地分支
+   
+   ```
+   git branch -m oldName newName
+   ```
+   
+   b. 删除远程分支
+   
+   ```
+   git push --delete origin oldName
+   ```
+   
+   c. 删除本地分支
+         	`	git branch -d v1.0.0	`
 
 ##### 修复已发布版本bug
 
@@ -133,8 +144,6 @@ v1.0.2
 * git stash
 
   <https://www.jianshu.com/p/54b8ea4317cc>
-
-  
 
   https://qiita.com/hudichao/items/d665cd769ed1d2ce832a
 
@@ -290,5 +299,38 @@ http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 
   * svn项目修改为Git 
     在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
+  
+    
+  
+
+##### git stash
+
+经常有这样的事情发生，当你正在进行项目中某一部分的工作，里面的东西处于一个比较杂乱的状态，而你想转到其他分支上进行一些工作。问题是，你不想提交进行了一半的工作，否则以后你无法回到这个工作点。解决这个问题的办法就是`git stash`命令。
+
+1. ` git stash `    //进入暂存状态,此时执行 git status 已经没有要提交的了
+
+2. git checkout  切换到要修改的分支上 ,修改完
+
+3.   完成后回到原来的开发分支上，git stash apply 获取最近暂存内容
+
+4. `git stash drop  stash@{1} `
+
+   > apply 选项只尝试应用储藏的工作——储藏的内容仍然在栈上。要移除它，你可以运行 `git stash drop`，加上你希望移除的储藏的名字：
+
+   
+
+* git stash 可以进行多次暂存,多次存后 git stash list长下面这样,可以用 · git stash apply stash@{1}· 获取某次暂存的内容
+
+  > stash@{0}: WIP on dev: 21bc09d ces
+  > stash@{1}: WIP on dev: 21bc09d ces
+  > stash@{2}: WIP on dev: 21bc09d ces
+
+* 取消储藏  `git stash show -p stash@{0} | git apply -R`  如果没指定具体的标签 取消最近的
+
+  这个和`git stash drop`的区别是 取消的是文件内容，stash标签还在
 
   
+
+* 基于历史版本打分支
+
+  git branch 分支名 hash(历史版本)

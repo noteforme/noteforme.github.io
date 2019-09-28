@@ -8,7 +8,7 @@ categories: "工具"
 
 
 
-## 降低　compileSdkVersion　版本
+##### 降低　compileSdkVersion　版本
  　有时候需要看低版本的源码，就要修改compileSdkVersion版本
 
 1. 修改编译版本
@@ -21,7 +21,7 @@ categories: "工具"
   参考：http://blog.csdn.net/hyr83960944/article/details/39941683
 
 
-## 　android stuido代理
+##### 　android stuido代理
 
 *  普通代理
 修改Gradle配置文件后就一直卡在那，在　build.gradle值修改下面
@@ -46,7 +46,7 @@ categories: "工具"
 　 就可以下载jitpack里面得文件了
 
 
-## 下载gradle
+##### 下载gradle
 
   有时候想用新的的gradle，但是新的更新几十M的文件，一天都不一定能下下来
    直接去官网下载 https://gradle.org/releases/  ，对应版本的zip文件，放到相应目录
@@ -55,7 +55,7 @@ categories: "工具"
 还一个是在${home}/.gradle目录下得gradle.properties文件配置应该也是可以的
 
 
-## 修改Log颜色
+##### 修改Log颜色
 
 android studio log默认都是白色的，在 setting -> Android Log下去掉Use inherited attributes
 .gradle/gradle.properties 
@@ -64,13 +64,10 @@ http://www.jianshu.com/p/e3f8f7383c3d
 
 
 
-## 自动生成 findViewById
-可以使用 butterknife,但是我在7升级到8时就麻烦了
-也可以使用 BorePlugin代码生成插件
-https://github.com/boredream/BorePlugin
 
 
-## 快捷键
+
+##### 快捷键
 
 >
 > Ctrl＋F12，可以显示当前文件的结构
@@ -115,7 +112,7 @@ https://github.com/boredream/BorePlugin
 
 
 
-## debug问题
+###### debug问题
 
 > 15:40	Error running 'app'
 > 		Cannot debug application from module app on device huawei-pra_al00-HMKNW17A12007001.
@@ -163,12 +160,43 @@ https://juejin.im/entry/5b6a4ca9f265da0f4c6fe566
   adb connect 192.168.31.76:8888
   ```
 
+  安装包安装
+
+  `adb -s acac34d7 install /e/JYWORK/`
+
   ##### win10 jdk环境变量设置
 
   在系统变量中设置 ,注意要点开编辑文本是不是之前输入的有 ""
 
   
-
+  
+  ##### Android studio修改包名
+  
+  Compat middle package 去掉勾 ->shift f6 输入名称后-》Refactoring preview很多关联文件-》下面有个Do Refactor 执行 也可以取消
+  
+  ![androidstuidiorename](AndroidStudioTool\androidstuidiorename.png)
+  
+  ##### Android stuido发布项目Jcenter
+  
   
 
-  
+```
+gradlew clean build bintrayUpload  -PbintrayUser=blogforme  -PbintrayKey=4c7511bba437157d77baeb5c17d339ce92c2bee7  -PdryRun=false
+
+```
+
+https://github.com/novoda/bintray-release
+
+https://www.jianshu.com/p/9f81d5b5a451
+
+https://blog.csdn.net/qq_32452623/article/details/79282605
+
+
+
+* Apk瘦身
+
+  https://blog.csdn.net/qq_32175491/article/details/80071987
+
+  也有不建议删SO库的说法
+
+  http://kaedea.com/2016/06/04/android-dynamical-loading-04-so-problems/

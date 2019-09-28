@@ -263,6 +263,46 @@ app:layout_constraintRight_toRightOf="parent"
 看属性也可以猜到是干嘛用的了.
 ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_001.png)
 
+```
+ <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_00"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/bt_00"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Button_00"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/bt_01" />
+
+        <Button
+            android:id="@+id/bt_01"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Button_01"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@+id/bt_00"
+            app:layout_constraintRight_toLeftOf="@+id/bt_02" />
+
+        <Button
+            android:id="@+id/bt_02"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_weight="1"
+            android:text="Button_02"
+            app:layout_constraintLeft_toRightOf="@+id/bt_01"
+            app:layout_constraintRight_toRightOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+
+
+
+
+
+
 * Button均份　宽度不为match_constraint
 
 ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_10.png)

@@ -28,10 +28,24 @@ categories: ANDROID
 
 
 
-   
+https://www.jianshu.com/p/6a07046e65f4
 
 http://blog.csdn.net/guolin_blog/article/details/50451259
 https://developer.android.com/studio/build/shrink-code.html?hl=zh-cn
 
 https://mp.weixin.qq.com/s/WmJyiA3fDNriw5qXuoA9MA
+
+##### apktool 判断是否混淆
+
+* 最快的方式
+
+  把Apk后缀改成 zip ,解压后把 classes.dex 文件拖到 jadx里面
+
+https://blog.csdn.net/xiaohai695943820/article/details/72367896
+
+https://www.itread01.com/content/1548717866.html
+
+* 反编译工具介绍
+
+https://www.cnblogs.com/zhen-android/p/7830249.html
 

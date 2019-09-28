@@ -88,3 +88,9 @@ public class SampleActivity extends Activity {
   https://www.jianshu.com/p/bdfd2a6b2681
 
 ​    https://developer.android.com/studio/profile/memory-profiler
+
+* leakcanary
+
+  https://square.github.io/leakcanary/recipes/
+
+  https://juejin.im/post/5d617d6851882575e8054fab

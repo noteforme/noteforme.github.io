@@ -7,10 +7,8 @@ categories: ANDROID
 
 ---
 
-####　基本使用
-
 #####  加载资源
--  加载一个网页：
+-  加载一个网页
     `webView.loadUrl("http://www.google.com/");`
 
 -  加载apk包中的html页面
@@ -129,3 +127,64 @@ https://github.com/GcsSloop/diycode/blob/master/blog/journal-02.md
 [腾讯](https://mp.weixin.qq.com/s/evzDnTsHrAr2b9jcevwBzA)
 
 <https://juejin.im/post/5a94f9d15188257a63113a74>
+
+#####   页面白屏
+
+```
+webSettings.setDomStorageEnabled(true); // 开启DOM storage API 功能
+```
+
+​	   设置重定向
+
+```
+
+```
+
+https://blog.csdn.net/ONLYMETAGAIN/article/details/78390643
+
+https://iluhcm.com/2017/12/10/design-an-elegant-and-powerful-android-webview-part-one/
+
+* 不显示图片的问题
+
+  ```
+          webSettings.setBlockNetworkImage(false);
+          if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+              webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+          }
+  ```
+
+  但是我的还是不显示
+
+```
+android:hardwareAccelerated="false"
+```
+
+
+
+WebView缓存功能
+
+https://github.com/yale8848/CacheWebView
+
+[http://blog.leanote.com/post/zbyzhlsp/%E6%BC%AB%E8%B0%88Android-Webview%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95](http://blog.leanote.com/post/zbyzhlsp/漫谈Android-Webview（二）：场景与基本用法)
+
+https://www.zybuluo.com/zyl06/note/737188
+
+https://juejin.im/post/5b94ca52e51d450e7d097f38
+
+
+
+**2、缓存模式(5种)**
+
+**LOAD_CACHE_ONLY:**  不使用网络，只读取本地缓存数据
+
+**LOAD_DEFAULT:**  根据cache-control决定是否从网络上取数据。
+
+**LOAD_CACHE_NORMAL: API level 17**中已经废弃, 从**API level 11**开始作用同LOAD_DEFAULT模式
+
+**LOAD_NO_CACHE:** 不使用缓存，只从网络获取数据.
+
+**LOAD_CACHE_ELSE_NETWORK**，只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。
+如：www.taobao.com的cache-control为no-cache，在模式LOAD_DEFAULT下，无论如何都会从网络上取数据，如果没有网络，就会出现错误页面；在LOAD_CACHE_ELSE_NETWORK模式下，无论是否有网络，只要本地有缓存，都使用缓存。本地没有缓存时才从网络上获取。
+www.360.com.cn的cache-control为max-age=60，在两种模式下都使用本地缓存数据。
+
+https://juejin.im/entry/5ad70987f265da239148a614

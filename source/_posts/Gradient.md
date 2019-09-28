@@ -3,7 +3,7 @@ title: Gradient
 comments: true
 date: 2019-07-22 17:41:27
 tags:
-categories: View
+categories: VIEW
 ---
 
 ##### LinearGradient

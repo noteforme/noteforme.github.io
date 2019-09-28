@@ -37,3 +37,57 @@ b1 & 0xff
 1位16进制数最大是15（用二进制表示是xxxx ）（即对应16进制的0xF 1111 4位），要表示到255,就还需要4位。
 
 * 位运算符基本操作
+
+
+
+<https://blog.csdn.net/qiantudou/article/details/49928423>
+
+<https://www.orchome.com/1190>
+
+###### 取一个字节 某几位
+
+```
+/**
+ * 取一个字节高几位
+ *
+ * @param b
+ * @param length
+ * @return
+ */
+public static int getLeftNum(byte b, int length) {
+    return b >> (8 - length);
+}
+
+
+/**
+ * 取一个字节低几位bit
+ *
+ * @param b
+ * @param length
+ * @return
+ */
+public static int getRightNum(byte b, int length) {
+    byte mv = (byte) (0xff >> (8 - length));
+    return b & mv;
+}
+
+/**
+ * https://blog.csdn.net/bluestarjava/article/details/83446129
+ *
+ * @param b
+ * @param startIndex 高位从0开始
+ * @param endIndex
+ * @return
+ */
+public static int getMidNum(byte b, int startIndex, int endIndex) {
+    byte i = (byte) getLeftNum(b, endIndex + 1);//先取高几位
+    return getRightNum(i, endIndex - startIndex + 1);//再取低几位
+}
+```
+
+
+
+
+
+<https://bbs.csdn.net/topics/310178646>
+
