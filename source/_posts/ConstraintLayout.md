@@ -1,5 +1,6 @@
 ---
-title: ConstraintLayout
+
+bbbtitle: ConstraintLayout
 comments: true
 date: 2017-10-15 10:37:39
 tags: ConstraintLayout
@@ -391,100 +392,116 @@ app:layout_constraintRight_toRightOf="parent"
 参考:https://developer.android.com/training/constraint-layout/index.html
 最后就是边应用边理解了
 
-* Barrier 
+##### Barrier 
 
-  用于控制 Barrier 相对于给定的 View 的位置， app:barrierDirection="right",表示barrier在constraint_referenced_ids给定ID的右侧,constraint_referenced_ids的id就是左侧的这些控件
+用于控制 Barrier 相对于给定的 View 的位置， app:barrierDirection="right",表示barrier在constraint_referenced_ids给定ID的右侧,constraint_referenced_ids的id就是左侧的这些控件
 
-  输入信息挺有用的 
+输入信息挺有用的 
 
-  https://mp.weixin.qq.com/s/QIuww9b0TsNjajEUS8c2fg
+https://mp.weixin.qq.com/s/QIuww9b0TsNjajEUS8c2fg
 
-  ```
-    <android.support.constraint.ConstraintLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_margin="@dimen/dimen_11">
-  
-          <TextView
-              android:id="@+id/tv_order_num"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="订单编号：10002220000001234"
-              android:textColor="#ff999999"
-              android:textSize="19sp"
-              app:layout_constraintTop_toTopOf="parent"
-              app:layout_constraintStart_toStartOf="parent" />
-  
-          <TextView
-              android:id="@+id/tv_order_pro"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/dimen_11"
-              android:text="订购产品：爱达康高血压监护服务"
-              android:textColor="#ff666666"
-              android:textSize="21sp"
-              app:layout_constraintLeft_toLeftOf="parent"
-              app:layout_constraintTop_toBottomOf="@+id/tv_order_num" />
-  
-          <TextView
-              android:id="@+id/tv_service_team"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="服务团队：爱达康远程监护团队"
-              android:textColor="#ff666666"
-              android:textSize="21sp"
-              app:layout_constraintLeft_toLeftOf="parent"
-              app:layout_constraintTop_toBottomOf="@+id/tv_order_pro" />
-  
-          <TextView
-              android:id="@+id/tv_period_valid"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="有效期：2019-03-01至2019-12-31"
-              android:textColor="#ff999999"
-              android:textSize="19sp"
-              app:layout_constraintStart_toEndOf="@+id/barrier" />
-  
-          <TextView
-              android:id="@+id/tv_order_time"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/dimen_11"
-              android:text="订购时间：2019-03-11 12:00:00"
-              android:textColor="#ff666666"
-              android:textSize="21sp"
-              app:layout_constraintStart_toEndOf="@+id/barrier"
-              app:layout_constraintTop_toBottomOf="@+id/tv_period_valid" />
-  
-          <TextView
-              android:id="@+id/tv_order_count"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="订购数量：500次"
-              android:textColor="#ff666666"
-              android:textSize="21sp"
-              app:layout_constraintStart_toEndOf="@+id/barrier"
-              app:layout_constraintTop_toBottomOf="@+id/tv_order_time" />
-  
-  
-          <android.support.constraint.Barrier
-              android:id="@+id/barrier"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              app:barrierDirection="right"
-              app:constraint_referenced_ids="tv_order_num,tv_order_pro,tv_service_team" />
-  
-      </android.support.constraint.ConstraintLayout>
-  ```
+```
+  <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_11">
 
-  
+        <TextView
+            android:id="@+id/tv_order_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单编号：10002220000001234"
+            android:textColor="#ff999999"
+            android:textSize="19sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_order_pro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_11"
+            android:text="订购产品：爱达康高血压监护服务"
+            android:textColor="#ff666666"
+            android:textSize="21sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_order_num" />
+
+        <TextView
+            android:id="@+id/tv_service_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="服务团队：爱达康远程监护团队"
+            android:textColor="#ff666666"
+            android:textSize="21sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_order_pro" />
+
+        <TextView
+            android:id="@+id/tv_period_valid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="有效期：2019-03-01至2019-12-31"
+            android:textColor="#ff999999"
+            android:textSize="19sp"
+            app:layout_constraintStart_toEndOf="@+id/barrier" />
+
+        <TextView
+            android:id="@+id/tv_order_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_11"
+            android:text="订购时间：2019-03-11 12:00:00"
+            android:textColor="#ff666666"
+            android:textSize="21sp"
+            app:layout_constraintStart_toEndOf="@+id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/tv_period_valid" />
+
+        <TextView
+            android:id="@+id/tv_order_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订购数量：500次"
+            android:textColor="#ff666666"
+            android:textSize="21sp"
+            app:layout_constraintStart_toEndOf="@+id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/tv_order_time" />
+
+
+        <android.support.constraint.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="right"
+            app:constraint_referenced_ids="tv_order_num,tv_order_pro,tv_service_team" />
+
+    </android.support.constraint.ConstraintLayout>
+```
+
+
 
 对chain讲解详细
 http://blog.csdn.net/zxt0601/article/details/72683379
 
 https://blog.csdn.net/lmj623565791/article/details/78011599
 
+##### Group
 
+​		
 
+```
+  <androidx.constraintlayout.widget.Group
+        android:id="@+id/gp_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="cl_h4,cl_h2" />
+     
+```
 
+```
+((Group)findViewById(R.id.gp_1)).setVisibility(View.GONE);
+```
+
+​	`findViewById(R.id.gp_2).setVisibility(View.INVISIBLE);  doesnt not work`
 

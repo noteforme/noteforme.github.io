@@ -249,3 +249,5 @@ Fragmet全局流程图
 * 模拟系统内存不足
 
   <http://yifeng.studio/2016/12/15/android-fragment-attentions/>
+  
+* [Communication between nested fragments in Android](https://stackoverflow.com/questions/39491655/communication-between-nested-fragments-in-android)
