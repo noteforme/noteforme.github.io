@@ -334,3 +334,7 @@ http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 * 基于历史版本打分支
 
   git branch 分支名 hash(历史版本)
+  
+* update forked project
+
+   https://blog.csdn.net/qq1332479771/article/details/56087333 
