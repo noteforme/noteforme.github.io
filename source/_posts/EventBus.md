@@ -6,11 +6,7 @@ tags:
 categories: ANDROID
 ---
 
-https://github.com/greenrobot/EventBus
 
-
-
-##### 基础用法
 
 1. 定义事件类
 
@@ -30,16 +26,28 @@ https://github.com/greenrobot/EventBus
 
    
 
-2.  EventBusActivity接受事件
+2.  EventBusActivity
 
 ```
 @Subscribe(threadMode = ThreadMode.MAIN)
 public  void  onMessageEvent(MessageEvent messageEvent){
     btEventRecieve.setText(messageEvent.getMessage());
 }
+
+@Override
+ public void onStart() {
+     super.onStart();
+     EventBus.getDefault().register(this);
+ }
+
+ @Override
+ public void onStop() {
+     super.onStop();
+     EventBus.getDefault().unregister(this);
+ }
 ```
 
-3. GoalEventActivity发送事件
+3. GoalEventActivity 
 
 ```
 findViewById(R.id.bt_message_send).setOnClickListener(v->{
@@ -48,6 +56,8 @@ findViewById(R.id.bt_message_send).setOnClickListener(v->{
     }).start();
 });
 ```
+
+
 
 
 
@@ -62,11 +72,7 @@ findViewById(R.id.bt_message_send).setOnClickListener(v->{
 
   
 
- 
-
- 
-
-参考: 
+ https://github.com/greenrobot/EventBus
 
 https://www.jianshu.com/p/a040955194fc
 

@@ -16,6 +16,10 @@ Kotlin不用findViewById
 
 <https://blog.csdn.net/hust_twj/article/details/80290362>
 
+* The reason why we ignore findviewbyId
+
+   https://antonioleiva.com/kotlin-android-extensions/ 
+
 
 
 * ?  

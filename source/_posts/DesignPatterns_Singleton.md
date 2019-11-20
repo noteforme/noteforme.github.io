@@ -6,12 +6,12 @@ tags:
 categories: DesignPatterns
 ---
 
-# 单例模式
+##### 单例模式
 
 　作用：一个类只有一个实例，减少内存开销
 　
 
-## 常用方式
+###### 常用方式
 
 ```
 public class Singleton{
@@ -59,7 +59,7 @@ public class Singleton {
 
 
 
-## Enum方式
+###### Enum方式
 
 和公有域方法在功能上相近，但是更简洁，无偿提供了序列化机制，绝对的防止多次实例化，可以面对复杂的序列化或者反射攻击，虽然没有广泛采用，但是　单元素的枚举类型
 已经成为实现　Singleton的最佳方法.
@@ -86,7 +86,7 @@ enum Elvis {
 
 
 
-
+######  嵌套类 
 
 ```
 public class Singleton3 {

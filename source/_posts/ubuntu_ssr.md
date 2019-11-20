@@ -40,6 +40,7 @@ Please install setuptools.
 
 
 
+
   参考：https://github.com/fredley/play-pi/issues/22
 
   然后执行 pip install shadowsocks ，终于OK，Collecting shadowsocks
@@ -56,6 +57,7 @@ Successfully installed shadowsocks-2.8.2
         ssserver -p 8388 -k 123456 -m aes-256-cfb
 
  
+
 
 
 
@@ -299,3 +301,6 @@ http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
 1. 首先下载 Microsoft .NET Framework 4.6.2，但是win7系统不支持安装
 2. 下载 **需要升级为Windows 7 SP1** 需要去官网下载 Windows 7 SP1
 
+
+
+* [vr使用](https://github.com/233boy/v2ray/wiki/V2Ray%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B)

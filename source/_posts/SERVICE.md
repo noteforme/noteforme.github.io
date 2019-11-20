@@ -161,3 +161,73 @@ https://developer.android.com/training/run-background-service/create-service.htm
  如果返回START_REDELIVER_INTENT，表示Service运行的进程被Android系统强制杀掉之后，与返回START_STICKY的情况类似，Android系统会将再次重新创建该Service，并执行onStartCommand回调方法，但是不同的是，Android系统会再次将Service在被杀掉之前最后一次传入onStartCommand方法中的Intent再次保留下来并再次传入到重新创建后的Service的onStartCommand方法中，这样我们就能读取到intent参数。只要返回START_REDELIVER_INTENT，那么onStartCommand重的intent一定不是null。如果我们的Service需要依赖具体的Intent才能运行（需要从Intent中读取相关数据信息等），并且在强制销毁后有必要重新创建运行，那么这样的Service就适合返回START_REDELIVER_INTENT。
 
 https://juejin.im/post/5b1747e5e51d45069a39ef45
+
+ https://developer.android.com/guide/components/bound-services#kotlin 
+
+* bindService callback
+
+  ```
+  class BindingActivity : Activity() {
+      private lateinit var mService: LocalService
+      private var mBound: Boolean = false
+  
+      /** Defines callbacks for service binding, passed to bindService()  */
+      private val connection = object : ServiceConnection {
+  
+          override fun onServiceConnected(className: ComponentName, service: IBinder) {
+              // We've bound to LocalService, cast the IBinder and get LocalService instance
+              val binder = service as LocalService.LocalBinder
+              mService = binder.getService()
+              mBound = true
+          }
+  
+          override fun onServiceDisconnected(arg0: ComponentName) {
+              mBound = false
+          }
+      }
+  
+      override fun onCreate(savedInstanceState: Bundle?) {
+          super.onCreate(savedInstanceState)
+          setContentView(R.layout.main)
+      }
+  
+      override fun onStart() {
+          super.onStart()
+          // Bind to LocalService
+          Intent(this, LocalService::class.java).also { intent ->
+              bindService(intent, connection, Context.BIND_AUTO_CREATE)
+          }
+      }
+  
+      override fun onStop() {
+          super.onStop()
+          unbindService(connection)
+          mBound = false
+      }
+  
+      /** Called when a button is clicked (the button in the layout file attaches to
+       * this method with the android:onClick attribute)  */
+      fun onButtonClick(v: View) {
+          if (mBound) {
+              // Call a method from the LocalService.
+              // However, if this call were something that might hang, then this request should
+              // occur in a separate thread to avoid slowing down the activity performance.
+              val num: Int = mService.randomNumber
+              Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()
+          }
+      }
+  }
+  ```
+
+  get Service object in this place 
+
+  ```
+  val binder = service as LocalService.LocalBinder
+      mService = binder.getService()
+  ```
+
+  ##### Using a Messenger
+
+   If you need your service to communicate with remote processes, then you can use a `Messenger` to provide the interface for your service. 
+  
+  
