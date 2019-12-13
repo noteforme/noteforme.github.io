@@ -1,8 +1,8 @@
 ---
-title: glide加载图片
+title: glide
 date: 2017-07-21 14:03:20
 tags:
-categories: "ANDROID"
+categories: ANDROID
 
 ---
 https://github.com/bumptech/glide

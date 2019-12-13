@@ -3,7 +3,7 @@ title: SDK_Integration
 comments: true
 date: 2017-09-19 14:44:01
 tags:
-categories: 工具
+categories: TOOL
 
 ---
 
@@ -30,7 +30,7 @@ categories: 工具
 
 * 在androidmanifest.xml注册activity
 
-  ​
+  
 
 
 ### 活体认证

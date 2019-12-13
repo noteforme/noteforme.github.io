@@ -2,7 +2,7 @@
 title: RecyclerView使用
 date: 2017-07-17 11:30:18
 tags:
-categories: "ANDROID"
+categories: ANDROID
 comments: true
 
 ---

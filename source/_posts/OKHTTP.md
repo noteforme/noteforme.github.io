@@ -3,7 +3,7 @@ title: OKHTTP
 comments: true
 date: 2017-08-07 10:04:29
 tags:
-categories:
+categories: ANDROID
 
 ---
 不管写的怎么样，先把东西弄出来，然后参考别人的写法，做对比
@@ -34,7 +34,7 @@ http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0106/2275.html
     }
 
 
-```
+ ```
 
 http://blog.csdn.net/briblue/article/details/52920531
 http://mushuichuan.com/2016/03/01/okhttpcache/

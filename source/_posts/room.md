@@ -3,7 +3,7 @@ title: room
 comments: true
 date: 2019-09-20 10:22:52
 tags: db
-categories: Android
+categories: ANDROID
 ---
 
 #####  数据库基本操作

@@ -3,7 +3,7 @@ title: Kotlin
 comments: true
 date: 2019-05-15 15:32:51
 tags:
-categories: ANDROID
+categories: Kotlin
 ---
 
 

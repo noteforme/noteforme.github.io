@@ -1,5 +1,5 @@
 ---
-title: linux命令
+title: linux
 date: 2017-07-19 15:03:07
 tags:
 categories: "LINUX"

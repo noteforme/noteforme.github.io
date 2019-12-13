@@ -3,7 +3,7 @@ title: MediaPlayer
 comments: true
 date: 2018-11-18 09:05:11
 tags:
-categories:
+categories: ANDROID
 ---
 
 https://developer.android.com/reference/android/media/MediaPlayer

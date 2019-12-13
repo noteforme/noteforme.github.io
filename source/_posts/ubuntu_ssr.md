@@ -2,7 +2,7 @@
 title: ubuntu 安装 ssr
 date: 2017-07-18 14:34:53
 tags:
-categories: "LINUX"
+categories: LINUX
 
 ---
 
@@ -41,6 +41,7 @@ Please install setuptools.
 
 
 
+
   参考：https://github.com/fredley/play-pi/issues/22
 
   然后执行 pip install shadowsocks ，终于OK，Collecting shadowsocks
@@ -57,6 +58,7 @@ Successfully installed shadowsocks-2.8.2
         ssserver -p 8388 -k 123456 -m aes-256-cfb
 
  
+
 
 
 

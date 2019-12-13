@@ -4,7 +4,7 @@ bbbtitle: ConstraintLayout
 comments: true
 date: 2017-10-15 10:37:39
 tags: ConstraintLayout
-categories: "ANDROID"
+categories: ANDROID
 ---
 
 ##### introduce

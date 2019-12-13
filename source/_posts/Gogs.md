@@ -10,6 +10,8 @@ ubuntu 17.04  Gogs搭建git服务器
 
 
 
+#### gogs Install
+
 #####  创建git用户
 
 ```
@@ -86,7 +88,7 @@ tar zxvf  linux_amd64.tar.gz   //解压后会右gogs文件
 ```
 
 su git
-cd gogs 
+cd /home/git/gogs 
 nohup ./gogs web&
 ```
 参考：
@@ -100,7 +102,30 @@ nohup ./gogs web&
 
 
 
+#### Gogs upgrade
+
+> sudo su - git
+>
+> cd ~
+>
+> pwd
+>
+> ls
+>
+> mv gogs gogs_old
+>
+> wget https://dl.gogs.io/0.11.91/gogs_0.11.91_linux_amd64.tar.gz
+>
+> tar -zxvf gogs_0.11.91_linux_amd64.tar.gz 
+>
+> ls
+>
+> cp -R gogs_old/{custom,data,log} gogs
+>
+> cd gogs
+>
+> ./gogs web
 
 
 
-
+https://gogs.io/docs/upgrade/upgrade_from_binary

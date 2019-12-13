@@ -3,7 +3,7 @@ title: ContentProvider
 comments: true
 date: 2017-07-31 09:35:40
 tags:
-categories:
+categories: TOOL
 
 ---
 https://developer.android.com/guide/topics/providers/content-provider-basics.html?hl=zh-cn
@@ -30,24 +30,24 @@ https://developer.android.com/guide/topics/providers/content-provider-basics.htm
              */
             public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.com.hyhy.article";
             private static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.com.hyhy.article";
-
+    
             static {
                 uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
                 uriMatcher.addURI(AUTHORITY, TABLE_NAME, ARTICLE_ALL);          //匹配记录集合
                 uriMatcher.addURI(AUTHORITY, TABLE_NAME + "/#", ARTICLE_SINGLE);    //匹配单条记录
             }
-
+    
             private ArticleDbHelper helper;
             private SQLiteDatabase db;
             private ContentResolver resolver;
-
+    
             @Override
             public boolean onCreate() {
                 resolver = getContext().getContentResolver();
                 helper = new ArticleDbHelper(getContext());
                 return false;
             }
-
+    
             @Nullable
             @Override
             public String getType(@NonNull Uri uri) {
@@ -61,7 +61,7 @@ https://developer.android.com/guide/topics/providers/content-provider-basics.htm
                         throw new IllegalArgumentException("Unknown URI: " + uri);
                 }
             }
-
+    
             @Override
             public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
                 db = helper.getReadableDatabase();
@@ -101,12 +101,12 @@ https://developer.android.com/guide/topics/providers/content-provider-basics.htm
             public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
                 return 0;
             }
-
+    
             @Override
             public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
                 return 0;
             }
-
+    
              private void notifyDataChanged() {
                 getContext().getContentResolver().notifyChange(NOTIFY_URI, null);
              }
@@ -124,7 +124,7 @@ https://developer.android.com/guide/topics/providers/content-provider-basics.htm
         private static final String AUTHORITY = "com.hyhy.contenttest.db.ArticlesProvider";
         private static final Uri ARTICLE_ALL_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
         private ContentResolver resolver;
-
+    
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -144,7 +144,7 @@ https://developer.android.com/guide/topics/providers/content-provider-basics.htm
             }
             Toast.makeText(MainActivity.this, "插入成功", Toast.LENGTH_SHORT).show();
         }
-
+    
         public void btQueryAll(View v) {
             Cursor c = resolver.query(ARTICLE_ALL_URI, null, null, null, null);
             while (c.moveToNext()) {
@@ -152,8 +152,9 @@ https://developer.android.com/guide/topics/providers/content-provider-basics.htm
             }
         }
     }
+
    
-   
-   
+
+
    参考 ： http://blog.csdn.net/liuhe688/article/details/7050868
    这一块还不熟悉

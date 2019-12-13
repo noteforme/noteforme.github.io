@@ -1,12 +1,10 @@
 ---
-title: String 字符串
+title: String
 date: 2017-07-21 14:54:53
 tags:
-categories: "JAVA"
+categories: JAVA
 
 ---
-
-#　String字符串连接
 
  　字符串连接有两种方式，一种时  " +  ",另一种是 StringBuilder方式
 
@@ -15,10 +13,10 @@ categories: "JAVA"
 平常用开发工具习惯了，都忘了怎么用命令行运行，特此记录下
 
 ### 新建 Concatenation.java文件，cmd到该目录下，写入代码
-     
+
      public class Concatenation{
         public static void main(String[] args){
-	     String mango = "mango";
+         String mango = "mango";
          String s = "abc" + mango + "def" + 47;
          System.out.print(s);	
         }
@@ -44,15 +42,15 @@ categories: "JAVA"
            return s.toUpperCase();
          }
          public static void println(String q){
-	       System.out.println(q);
+           System.out.println(q);
          }
- 
+     
         public static void main(String[] args){
-	        String q = "howdy";
-	        print(q);            // howdy
+            String q = "howdy";
+            print(q);            // howdy
     	   String qq= upcase(q);
-	       print(qq);            //HOWDY
-	       print(q);             //howdy
+           print(qq);            //HOWDY
+           print(q);             //howdy
         }
     }
 运行结果：
@@ -67,7 +65,7 @@ howdy
        
        javap -c Concatenation.class
 字节码是这样的
-   
+
     C:\DemoExo>javap -c Concatenation.class
      Compiled from "Concatenation.java"
     public class Concatenation {
@@ -76,7 +74,7 @@ howdy
            0: aload_0
            1: invokespecial #1                  // Method java/lang/Object."<init>":()V
            4: return
-
+    
       public static void main(java.lang.String[]);
         Code:
            0: ldc           #2                  // String mango
@@ -112,7 +110,7 @@ howdy
            0: aload_0
            1: invokespecial #1                  // Method java/lang/Object."<init>":()V
            4: return
-
+    
       public java.lang.String implicit(java.lang.String[]);
         Code:
            0: ldc           #2                  // String
@@ -215,3 +213,27 @@ String s  = "stringette';
 ```
 从源码中看到对形参　做了　null判断，所以用这种方式页不用担心闪退的情况了
 参考 Effective Java　page17
+
+
+
+
+
+* java 8 获取对象数据
+
+  ```
+  private WchatMobile decodeMobile(String encryptedData, String iv, String unionid) {
+    WchatMiniAppSession miniAppSession = getWchatMiniAppSession(unionid);
+    String sessionKey = Optional.ofNullable(miniAppSession)
+      .orElseThrow(() -> new ServiceExecutionException("用户小程序登录信息为空"))
+      .getSessionKey();
+    
+    return Optional.ofNullable(wchatMiniAppService)
+     .map(as -> as.getWxMaService())
+     .map(s -> s.getUserService())
+     .map(se -> se.getPhoneNoInfo(sessionKey, encryptedData, iv))
+     .map(num -> WchatMobile.from(num))
+     .orElse(null);
+   }
+  ```
+
+  

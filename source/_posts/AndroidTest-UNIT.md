@@ -3,7 +3,7 @@ title: AndroidTest_UNIT
 comments: true
 date: 2019-11-17 20:49:14
 tags: Test
-categories: Android
+categories: ANDROID
 ---
 
 

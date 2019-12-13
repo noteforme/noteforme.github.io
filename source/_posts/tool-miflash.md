@@ -3,7 +3,7 @@ title: tool_pc_phone
 comments: true
 date: 2017-10-13 23:22:47
 tags:
-categories:  工具
+categories: TOOL  
 ---
 
 ##  mi救砖
@@ -55,6 +55,6 @@ https://blog.csdn.net/dkh_321/article/details/79304377
 
 
 
-　　
+
 　　
 

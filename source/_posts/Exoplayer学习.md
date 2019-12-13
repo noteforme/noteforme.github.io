@@ -1,8 +1,8 @@
 ---
-title: Exoplayer学习
+title: Exoplayer
 date: 2017-07-14 16:50:09
 tags:
-categories: "ANDROID"
+categories: ANDROID
 
 ---
 先安装codelabs把整个流程走一便，对库的使用有了整体的认识，

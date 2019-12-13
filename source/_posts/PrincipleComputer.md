@@ -3,7 +3,7 @@ title: PrincipleComputer
 comments: true
 date: 2019-04-08 15:52:07
 tags:
-categories: 计算机组成原理
+categories: 组成原理
 ---
 
 

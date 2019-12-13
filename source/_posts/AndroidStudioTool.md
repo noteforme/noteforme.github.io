@@ -3,7 +3,7 @@ title: AndroidStudioTool
 comments: true
 date: 2017-08-13 18:20:17
 tags:
-categories: "工具"
+categories: "TOOL"
 ---
 
 
