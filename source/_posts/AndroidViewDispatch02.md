@@ -3,7 +3,7 @@ title: AndroidViewDispatch02
 comments: true
 date:  2018-01-08 21:18:55
 tags: EventDispatch
-categories: ANDROID
+categories: VIEW
 ---
 
 **Android事件分发机制 实际应用**

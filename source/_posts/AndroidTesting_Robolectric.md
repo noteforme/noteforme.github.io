@@ -3,7 +3,7 @@ title: AndroidTesting_Robolectric
 comments: true
 date: 2019-06-13 09:42:52
 tags: Test
-categories: ANDROID
+categories: TEST
 ---
 
 robolectric

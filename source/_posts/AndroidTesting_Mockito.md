@@ -3,7 +3,7 @@ title: AndroidTesting_Mockito
 comments: true
 date: 2018-01-22 18:04:40
 tags: Test
-categories: ANDROID
+categories: TEST
 ---
 
 

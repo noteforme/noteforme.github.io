@@ -3,7 +3,7 @@ title: TextView
 comments: true
 date: 2018-03-04 21:16:56
 tags: 
-categories: ANDROID
+categories: VIEW
 ---
 
 ## TextView颜色变化
@@ -17,10 +17,10 @@ SpannableString有一个不方便的地方是截取字符串
 	    TextView tvRegister = findViewById(R.id.tv_register);
 
 ​	    //将TextView的显示文字设置为SpannableString
-	    tvRegister.setText(getClickableSpan());
-	    //设置该句使文本的超连接起作用
-	    tvRegister.setMovementMethod(LinkMovementMethod.getInstance());
-	    
+​	    tvRegister.setText(getClickableSpan());
+​	    //设置该句使文本的超连接起作用
+​	    tvRegister.setMovementMethod(LinkMovementMethod.getInstance());
+​	    
 	   private SpannableString getClickableSpan() {
 	    SpannableString spanTxt = new SpannableString("阅读并同意<<用户注册协议>>");
 	    //设置文字的前景色
@@ -39,10 +39,10 @@ SpannableString有一个不方便的地方是截取字符串
 
 
 ​        //将TextView的显示文字设置为SpannableString
-        tvRegister.setText(getClickableSpan());
-        //设置该句使文本的超连接起作用
-        tvRegister.setMovementMethod(LinkMovementMethod.getInstance());
-        
+​        tvRegister.setText(getClickableSpan());
+​        //设置该句使文本的超连接起作用
+​        tvRegister.setMovementMethod(LinkMovementMethod.getInstance());
+​        
        private SpannableString getClickableSpan() {
         SpannableString spanTxt = new SpannableString("阅读并同意<<用户注册协议>>");
         //设置文字的前景色

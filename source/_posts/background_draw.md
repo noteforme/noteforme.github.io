@@ -3,7 +3,7 @@ title: background_draw (背景图形绘制)
 comments: true
 date: 2017-11-03 09:59:57
 tags:
-categories:  ANDROID
+categories:  VIEW
 ---
 
  ** 为了提高App性能，经常会用到代码写背景 **
