@@ -1,5 +1,5 @@
 ---
-title: ubuntu 安装 ssr
+title: ubuntu_vr
 date: 2017-07-18 14:34:53
 tags:
 categories: LINUX
@@ -8,7 +8,7 @@ categories: LINUX
 
   自从shadowsocks出来，我们的上网问题算是解决了，通过google查资料确实更便利
 
-##  shadowsocks安装
+#####  shadowsocks安装
 
    对于新手 作者建议安装在ubuntu上，那就用他开始吧
 
@@ -42,6 +42,7 @@ Please install setuptools.
 
 
 
+
   参考：https://github.com/fredley/play-pi/issues/22
 
   然后执行 pip install shadowsocks ，终于OK，Collecting shadowsocks
@@ -51,13 +52,14 @@ Installing collected packages: shadowsocks
 Successfully installed shadowsocks-2.8.2
 
 
-### 前台运行
+##### 前台运行
 
  软件安装好了，现在可以配置了，先在前台跑下
 
         ssserver -p 8388 -k 123456 -m aes-256-cfb
 
  
+
 
 
 
@@ -102,7 +104,7 @@ Successfully installed shadowsocks-2.8.2
 _ _ _
 
 
-##  shadowsocks-libev安装
+#####  shadowsocks-libev安装
 
 ubuntu 17
 
@@ -113,7 +115,7 @@ sudo apt install shadowsocks-libev
 如果是其他版本可以看下面　参考
 from :https://github.com/shadowsocks/shadowsocks-libev#install-from-repository
 
-##  启动测试连接
+1. 启动测试连接
 
 和shadowsocks启动类似 ssserver 换成了 ss-server
 
@@ -125,7 +127,7 @@ from :https://github.com/shadowsocks/shadowsocks-libev#install-from-repository
   ｀nohup ss-server -c /etc/shadowsocks-libev/config.json｀
 * 停止运行: `sudo ss-server -d stop`
 
-##  simple-obfs(混淆工具)安装
+2. simple-obfs(混淆工具)安装
 
 Build
 For Unix-like systems, especially Debian-based systems, e.g. Ubuntu, Debian or Linux Mint, you can build the binary like this:
@@ -154,7 +156,10 @@ For Unix-like systems, especially Debian-based systems, e.g. Ubuntu, Debian or L
 
 ​    	 
 
-##  注意:
+#####  注意:
+
+1. Question
+
 * 问题1
 `autoconf --version`
 需要安装 `sudo apt install autoconf`
@@ -176,7 +181,7 @@ autoreconf: /usr/bin/autoconf failed with exit status: 1
 `sudo apt-get install automake`
 http://ask.xmodulo.com/fix-failed-to-run-aclocal.html
 
-## 混淆
+2. 混淆
 
 * server端: `ss-server -c  /etc/shadowsocks-libev/config.json  --plugin obfs-server --plugin-opts "obfs=http"`
 
@@ -219,7 +224,7 @@ https://softwaredownload.gitbooks.io/openwrt-fanqiang/content/ebook/03.2.html
 
 
 
-## 配置ubuntu开机启动
+##### 配置ubuntu开机启动
 *  home下　新建 run_server.sh
 输入
 
@@ -251,7 +256,7 @@ $ sudo update-rc.d run_server.sh defaults 90
 
 http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
 
- ## 设置系统全局代理
+ ##### 设置系统全局代理
 
  https://blog.csdn.net/u012810317/article/details/52139361
 
@@ -305,4 +310,35 @@ http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
 
 
 
-* [vr使用](https://github.com/233boy/v2ray/wiki/V2Ray%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B)
+##### VR  INSTALL
+
+https://toutyrater.github.io/prep/install.html
+
+1. Install
+
+1. > ```
+   > wget https://install.direct/go.sh
+   > 
+   > sudo bash go.sh
+   > ```
+
+2. check
+
+   > cat /etc/v2ray/config.json
+
+  you will see the config,I won't be  change it
+
+3. ff
+
+   >```
+   >$ sudo systemctl start v2ray
+   >```
+
+   sudo: unable to resolve host vm8l
+
+4. $ cat /etc/hostname
+
+   vm8lcxg8.hostflyte.com
+
+  or you  could use this[vr使用](https://github.com/233boy/v2ray/wiki/V2Ray%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B)
+
