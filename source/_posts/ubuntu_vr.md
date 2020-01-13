@@ -43,6 +43,7 @@ Please install setuptools.
 
 
 
+
   参考：https://github.com/fredley/play-pi/issues/22
 
   然后执行 pip install shadowsocks ，终于OK，Collecting shadowsocks
@@ -59,6 +60,7 @@ Successfully installed shadowsocks-2.8.2
         ssserver -p 8388 -k 123456 -m aes-256-cfb
 
  
+
 
 
 
@@ -341,4 +343,10 @@ https://toutyrater.github.io/prep/install.html
    vm8lcxg8.hostflyte.com
 
   or you  could use this[vr使用](https://github.com/233boy/v2ray/wiki/V2Ray%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B)
+
+
+
+##### macOS use
+
+> proxy
 

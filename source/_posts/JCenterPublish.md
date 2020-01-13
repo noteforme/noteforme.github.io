@@ -6,7 +6,7 @@ tags:
 categories: TOOL
 ---
 
-https://android.jlelse.eu/publishing-your-android-kotlin-or-java-library-to-jcenter-from-android-studio-1b24977fe450
+
 
 
 
@@ -28,3 +28,22 @@ https://android.jlelse.eu/publishing-your-android-kotlin-or-java-library-to-jcen
 > export JAVA_HOME=$(/usr/libexec/java_home)
 > source ~/.bash_profile
 > ```
+
+
+
+https://android.jlelse.eu/publishing-your-android-kotlin-or-java-library-to-jcenter-from-android-studio-1b24977fe450
+
+##### maven center
+
+按照这个教程参考**[TestMavenUp](git@121.41.17.19:library/TestMavenUp.git)*  就差不多了
+
+https://www.jianshu.com/p/6c1d2688ed2d/
+
+https://www.jianshu.com/p/0629548ab5a4
+
+
+
+可以把项目和jar放到同一个目录
+
+
+

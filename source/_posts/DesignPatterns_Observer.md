@@ -74,3 +74,7 @@ public class Test {
     }
 }
 ```
+
+https://juejin.im/post/5bc96afff265da0aa94a4493
+
+https://www.tutorialspoint.com/design_pattern/bridge_pattern.htm

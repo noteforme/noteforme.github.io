@@ -69,3 +69,43 @@ var response = gson.fromJson<BaseCount<List<Site>>>(json, type)
 
 
 https://ask.helplib.com/java/post_498433
+
+##### java parse
+
+```
+ public static List<RecipeBean> analysisChild(String receps) throws JSONException {
+        List<RecipeBean> list = new ArrayList<>();
+//        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray(receps);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject object = jsonArray.getJSONObject(i);
+            RecipeBean mPatient = new RecipeBean(TYPE_ITEM);
+            if (object.has("drug_name")){
+                mPatient.setDrug_name(object.getString("drug_name"));
+            }
+            if (object.has("drug_num")){
+               mPatient.setDrug_num(object.getString("drug_num"));
+            }
+            if (object.has("frequency")){
+             mPatient.setFrequency(object.getString("frequency"));
+            }
+            if (object.has("num")){
+               mPatient.setNum(object.getString("num"));
+            }
+            if (object.has("drug_num")){
+               mPatient.setDrug_num(object.getString("drug_num"));
+            }
+            if (object.has("pharmacy_type")){
+               mPatient.setPharmacy_type(object.getString("pharmacy_type"));
+            }
+            if (object.has("medicine_num")){
+             mPatient.setMedicine_num(object.getString("medicine_num"));
+            }
+            if (object.has("medicine_unit")){
+              mPatient.setMedicine_unit(object.getString("medicine_unit"));
+            }
+            list.add(mPatient);
+        }
+        return list;
+    }
+```

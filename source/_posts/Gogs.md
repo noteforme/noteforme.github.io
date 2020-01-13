@@ -15,11 +15,10 @@ ubuntu 17.04  Gogs搭建git服务器
 #####  创建git用户
 
 ```
-sudo apt-get update
 
 sudo apt-get upgrade
 
-sudo adduser git //创建用户  密码 *******
+sudo adduser git //创建用户  密码 ******* (1234)
 
 su git//切换到git用户
 
@@ -129,3 +128,7 @@ nohup ./gogs web&
 
 
 https://gogs.io/docs/upgrade/upgrade_from_binary
+
+####   clone地址为 localhost问题
+
+ /home/git/gogs/custom/conf下把app.ini，DOMAIN   ROOT_URL 改成主机ip

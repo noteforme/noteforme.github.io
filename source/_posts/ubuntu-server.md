@@ -3,7 +3,7 @@ title: ubuntu_server
 comments: true
 date: 2017-11-20 21:11:58
 tags:
-categories:  LINUX
+categories:  TOOL
 ---
 
 

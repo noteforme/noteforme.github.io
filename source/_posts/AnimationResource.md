@@ -1,16 +1,21 @@
 ---
-title: animation
+title: 	AnimationResource
 comments: true
 date: 2017-08-16 11:22:57
 tags:
-categories: ANDROID
+categories: anim
 
 ---
+https://developer.android.com/guide/topics/resources/animation-resource.html
+
+
+
 Android动画简介,直接copy了
+
 >The Android framework provides two animation systems: property animation and view animation. Both animation systems are viable options, but the property animation system, in general, is the preferred method to use, because it is more flexible and offers more features. In addition to these two systems, you can utilize Drawable animation, which allows you to load drawable resources and display them one frame after another.
 
 可以看出官方更推崇 Property Animiation,更灵活而且提供更多的功能,看下３种动画方式
-https://developer.android.com/guide/topics/graphics/overview.html
+
 
 
 - Drawable Animation (Frame动画，帧动画)
@@ -24,49 +29,7 @@ https://developer.android.com/guide/topics/graphics/overview.html
 - Property Animation
  > Introduced in Android 3.0 (API level 11), the property animation system lets you animate properties of any object, including ones that are not rendered to the screen. The system is extensible and lets you animate properties of custom types as well.
 
-# View Animation
-第一种就pass了，看下View Animation:
->You can use the view animation system to perform tweened animation on Views. Tween animation calculates the animation with information such as the start point, end point, size, rotation, and other common aspects of an animation.
-
-这种动画可以在一个视图容器执行　位置、大小、旋转、透明度的变化，使用XML定义更具可读性
-
->-set
-    |-android:interpolator -> 插值器，影响动画的速度
-        |-默认值 -> @android:anim/accelerate_decelerate_interpolator
-    |-android:shareInterpolator -> 集合所有动画是否使用同一插值器
-    |-android:fillAfter -> 动画结束后View是否停留在结束的位置
-    |-android:startOffset -> 动画多少秒之后执行
-    |-android:repeatMode -> 重复的模式,默认为restart,即重头开始重新运行,reverse即从结束开始向前重新运行
--TranslateAnimation -> 移动View
-    |-<translate>
-        |-android:fillAfter ->
-        |-android:duration -> 表示动画持续的时间
-        |-android:fromXDelta -> 表示 x 的起始值
-        |-android:toXDelta -> 表示 x 的结束值
-        |-android:fromYDelta -> 表示 y 的起始值
-        |-android:toYDelta -> 表示 y 的结束值
--scaleAnimation -> 放大或者缩小View
-    |-<scale>
-        |-android:duration -> 表示动画持续的时间
-        |-android:fromXScale -> 表示水平方向缩放的起始值
-        |-android:fromYScale -> 表示竖直方向缩放的起始值
-        |-android:pivotX -> 表示缩放中心点的 X 坐标
-        |-android:pivotY -> 表示缩放中心点的 Y 坐标
-        |-android:toXScale -> 表示水平方向缩放的结束值
-        |-android:toYScale -> 表示竖直方向缩放的结束值
--RotateAnimation -> 旋转View
-    |-<rotate>
-        |-android:duration -> 表示动画持续的时间
-        |-android:fromDegrees -> 旋转开始的角度
-        |-android:toDegrees -> 旋转结束的角度
-        |-android:pivotX -> 旋转中心点的 X 坐标
-        |-android:pivotY -> 旋转中心点的 Y 坐标
--AlphaAnimation -> 改变View的透明度
-    |-<alpha>
-        |-android:duration -> 表示动画持续的时间
-        |-android:fromAlpha -> 透明度的起始值
-        |-android:toAlpha -> 透明度的结束值
--自定义View动画 -> (不会,待实践中学习)
+>
 
 
 view动画示例:　文件位置放哪呢？　在官网确认了了位置

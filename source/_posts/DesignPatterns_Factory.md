@@ -54,6 +54,7 @@ categories: DesignPatterns
 
  
 
+
     public class CatFactory implements Provider {
         @Override
         public Animal produce() {
@@ -67,5 +68,9 @@ categories: DesignPatterns
     Provider provider = new CatFactory();
         Animal cat = provider.produce();
         cat.move();
-  `如果要实例化Pig，添加一个PigFactory 就可以了
+  如果要实例化Pig，添加一个PigFactory 就可以了
+
+
+
+
 

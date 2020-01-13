@@ -10,7 +10,7 @@ categories: BLE
 
 #### BLE stack(蓝牙协议栈)
 
-![bluetooth_20180706093223](Bluetooth02\bluetooth_20180706093223.png)
+<img src="Bluetooth02\bluetooth_20180706093223.png" alt="bluetooth_20180706093223" style="zoom: 80%;" />
 
 
 
@@ -80,7 +80,9 @@ Service、Characteristic相当于标签（Service相当于他的类别，Charact
 
   
 
-  
+##### Android 7.0 蓝牙架构 
+
+![v2-8bf93957bb78f938894bec7749a0433b_hd](Bluetooth02/v2-8bf93957bb78f938894bec7749a0433b_hd.jpg)
 
 ##### Android 8.0 蓝牙架构 
 
@@ -92,7 +94,7 @@ Android 提供支持经典蓝牙和蓝牙低功耗的默认蓝牙堆栈。借助
 
 **注意**：Android 8.0 及以前版本之间的原生蓝牙堆栈的最大变化是使用[高音](https://source.android.com/devices/architecture/treble.html?hl=zh-cn)。Android 8.0 中的供应商实现必须使用 HIDL 而不是 `libbt-vendor`。
 
-   ![fluoride_archite](Bluetooth02\bluetooth_fluoride_architecture.png)
+   <img src="Bluetooth02\bluetooth_fluoride_architecture.png" alt="fluoride_archite"  />
 
 - 蓝牙系统服务
 
@@ -112,7 +114,7 @@ Android 提供支持经典蓝牙和蓝牙低功耗的默认蓝牙堆栈。借助
 
   
 
-![android-stack_2x](Bluetooth02\android-stack_2x.png)
+<img src="Bluetooth02\android-stack_2x.png" alt="android-stack_2x" style="zoom:67%;" />
 
 #### HIDL
 

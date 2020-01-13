@@ -3,7 +3,7 @@ title: AndroidStudioTool
 comments: true
 date: 2017-08-13 18:20:17
 tags:
-categories: "TOOL"
+categories: TOOL
 ---
 
 
@@ -200,3 +200,17 @@ https://blog.csdn.net/qq_32452623/article/details/79282605
   也有不建议删SO库的说法
 
   http://kaedea.com/2016/06/04/android-dynamical-loading-04-so-problems/
+
+
+
+##### android studio proxy
+
+` vi  /Users/john/.gradle/gradle.properties`
+
+> systemProp.http.proxyHost=127.0.0.1
+>
+> systemProp.https.proxyPort=8001
+>
+> systemProp.https.proxyHost=127.0.0.1
+>
+> systemProp.http.proxyPort=8001
