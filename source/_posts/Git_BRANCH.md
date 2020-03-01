@@ -1,14 +1,14 @@
 ---
-title: GIT_BRANCH(分支操作)
+title: GIT_BRANCH
 comments: true
 date: 2017-10-19 09:24:09
-tags: 
-categories: GIT
+tags: Git
+categories:
 
 ---
 
 官方文档
-https://git-scm.com/book/zh/v2
+https://git-scm.com/book/en/v2
 http://iissnan.com/progit/
 
 #### Git基本操作
@@ -110,7 +110,31 @@ $ git merge hotfix
    ```
    
    c. 删除本地分支
-         	`	git branch -d v1.0.0	`
+         `	git branch -d v1.0.0	`
+   
+   
+
+* Checkout Remote Branch
+
+  > Below is a couple of examples of checking out remote branches with Git.
+  >
+  > In this one, we’re simply checking out a remote branch called xyz:
+  >
+  > ***git fetch***
+  >
+  > ***git checkout xyz***
+  >
+  > That’s fine as long as we don’t have a local branch that’s also called “xyz.” In that event, we’d confuse Git with the “git checkout xyz” command. We need to specify that we’re referring to the remote branch like this:
+  >
+  > ***git fetch origin***
+  >
+  > ***git checkout –track origin/xyz***
+  >
+  > If we’ve got multiple remotes, we need to use:
+  >
+  > ***Git checkout -b xyz /xyz***
+
+​     
 
 ##### 修复已发布版本bug
 
@@ -185,7 +209,7 @@ git rm --cached  *idea/*
 
 * 原来托管于github,clone一份裸版本库
 
-      `git clone --bare git@gitee.com:huaiyi/CQJ.git`
+      git clone --bare git@gitee.com:huaiyi/CQJ.git
 
 * 在新的版本库(gitlab)里面创建一个新的项目，例如 cqianjia
 
@@ -266,6 +290,20 @@ http://jcpplus.github.io/2015/07/23/modify-remote-url/
 
 ```
 [检出标签](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%89%93%E6%A0%87%E7%AD%BE) 检出标签
+
+* Checkout Git Tags 
+
+  https://devconnected.com/how-to-checkout-git-tags/
+
+  > ```
+  >  git fetch --all --tags
+  >  git checkout tags/v1.0 -b v1.0-branch	//git checkout tags/v2.1.1 -b v2.1.1-branch
+  >  
+  >  git log --oneline --graph		//You can inspect the state of your branch by using the “git log” command. Make sure that the HEAD pointer (the latest commit) is pointing to your annotated tag.
+  > ```
+
+
+
 在 Git 中你并不能真的检出一个标签，因为它们并不能像分支一样来回移动。 如果你想要工作目录与仓库中特定的标签版本完全一样，可以使用 git checkout -b [branchname] [tagname] 在特定的标签上创建一个新分支：
 
 		$ git checkout -b version2 v2.0.0
@@ -276,31 +314,28 @@ Switched to a new branch 'version2'
 修复已发布版本Bug
 http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 
-* SVN不能添加文件:https://blog.csdn.net/yujiayinshi/article/details/51381942
+##### 如何在 GitHub 下载某个程序的特定版本
 
-  ##### 如何在 GitHub 下载某个程序的特定版本
+git clone 下载源码
 
-  git clone 下载源码
+git tag　列出所有版本号
 
-  git tag　列出所有版本号
+git checkout　+某版本号　
 
-  git checkout　+某版本号　
+git checkout 1.1 (如果提示需要回退那么输入 git checkout -b 1.1
 
-  git checkout 1.1 (如果提示需要回退那么输入 git checkout -b 1.1
+* 问题
 
-  * 问题
+  版本重复的话问题:error: dst refspec v1.0.0 matches more than one
+  然后`git push origin :refs/heads/v1.0.0`就可以了
+  [参考](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF) 
 
-    版本重复的话问题:error: dst refspec v1.0.0 matches more than one
-    然后`git push origin :refs/heads/v1.0.0`就可以了
-    [参考](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF) 
+* Git  clone 非 master 分支的代码
+  https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/
 
-  * Git  clone 非 master 分支的代码
-    https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/
+* svn项目修改为Git 
+  在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
 
-  * svn项目修改为Git 
-    在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
-  
-    
   
 
 ##### git stash
@@ -338,3 +373,11 @@ http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 * update forked project
 
    https://blog.csdn.net/qq1332479771/article/details/56087333 
+
+
+
+##### SVN
+
+* SVN不能添加文件:https://blog.csdn.net/yujiayinshi/article/details/51381942
+
+  ##### 

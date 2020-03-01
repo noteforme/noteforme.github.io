@@ -6,12 +6,56 @@ tags: Test
 categories: TEST
 ---
 
-### 　官方教程
+### 　reference
 
-https://www.jianshu.com/p/03118c11c199
-https://github.com/googlesamples/android-testing
+https://developer.android.com/training/testing/espresso/setup
 
-<https://developer.android.com/training/testing>
+1. dependencies
+
+   ```
+   		androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+       androidTestImplementation 'androidx.test:runner:1.1.0'
+       androidTestImplementation 'androidx.test:rules:1.1.0'
+       androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+   ```
+
+2. practice
+
+```
+@Rule
+@JvmField
+val rule = ActivityTestRule(TestActivity::class.java)
+
+
+@Test
+fun useAppContext() {
+    val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    assertEquals("com.john.kot", appContext.packageName)
+}
+
+
+@Test
+fun user_can_enter_first_name(){
+    onView(withId(R.id.firstName)).perform(typeText("Daniel"))
+}
+
+
+@Test
+fun user_can_enter_last_name(){
+    onView(withId(R.id.lastName)).perform(typeText("Malone"))
+}
+
+
+@Test
+fun when_user_enters_first_and_last_name_check_to_confirm_that_message_is_correct(){
+    onView(withId(R.id.firstName)).perform(typeText("Jake"))
+    onView(withId(R.id.lastName)).perform(typeText("Smith"))
+    onView(withId(R.id.button)).perform(click())
+    onView(withId(R.id.message)).check(matches(withText("Welcome,Jake Smith")))
+}
+```
+
+
 
 
 
@@ -114,10 +158,27 @@ public class InstrumentActivityTest {
 
 
 
-
-
 https://testing.googleblog.com/2008/12/static-methods-are-death-to-testability.html
 
 <https://www.jianshu.com/p/dc30338a3e84>
 
+https://www.jianshu.com/p/03118c11c199
+https://github.com/googlesamples/android-testing
 
+<https://developer.android.com/training/testing>
+
+
+
+
+
+
+
+##### 问题
+
+*  class not found 
+
+  <img src="AndroidTesting_Espresso/Screen Shot 2020-02-25 at 11.14.07 PM.png" alt="问题1" style="zoom: 33%;" />
+
+  
+
+  https://blog.csdn.net/xiaoluoli88/article/details/78657364

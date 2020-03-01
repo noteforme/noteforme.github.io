@@ -7,20 +7,30 @@ categories:  ANDROID
 ---
 Android屏幕的一些技巧
 
-#### 官网适配方案
+##### 官网适配方案
 
 https://developer.android.com/training/basics/supporting-devices/index.html
-https://developer.android.com/training/multiscreen/screensizes.html?hl=zh-cn
+https://developer.android.com/training/multiscreen/screensizes.html
 
-#### 资源图片适配
+##### 资源图片适配
 
-> xhdpi: 2.0
-> hdpi: 1.5
-> mdpi: 1.0 (baseline)
-> ldpi: 0.75
-> This means that if you generate a 200x200 image for xhdpi devices, you should generate the same resource in 150x150 for hdpi, 100x100 for mdpi, and 75x75 for ldpi devices.
-> 而UI问我们需要多少大小的图，如果效果图根据750*1334的话，可以告诉他，不过PS有个叫
-> cutterman的工具可以自动生成不同分辨率的图片
+**Table 1.** Configuration qualifiers for different pixel densities.
+
+| Density qualifier | Description                                                  |
+| :---------------- | :----------------------------------------------------------- |
+| `ldpi`            | Resources for low-density (*ldpi*) screens (~120dpi).        |
+| `mdpi`            | Resources for medium-density (*mdpi*) screens (~160dpi). (This is the baseline density.) |
+| `hdpi`            | Resources for high-density (*hdpi*) screens (~240dpi).       |
+| `xhdpi`           | Resources for extra-high-density (*xhdpi*) screens (~320dpi). |
+| `xxhdpi`          | Resources for extra-extra-high-density (*xxhdpi*) screens (~480dpi). |
+| `xxxhdpi`         | Resources for extra-extra-extra-high-density (*xxxhdpi*) uses (~640dpi). |
+| `nodpi`           | Resources for all densities. These are density-independent resources. The system does not scale resources tagged with this qualifier, regardless of the current screen's density. |
+| `tvdpi`           | Resources for screens somewhere between mdpi and hdpi; approximately 213dpi. This is not considered a "primary" density group. It is mostly intended for televisions and most apps shouldn't need it—providing mdpi and hdpi resources is sufficient for most apps and the system will scale them as appropriate. If you find it necessary to provide tvdpi resources, you should size them at a factor of 1.33*mdpi. For example, a 100px x 100px image for mdpi screens should be 133px x 133px for tvdpi. |
+
+
+This means that if you generate a 200x200 image for xhdpi devices, you should generate the same resource in 150x150 for hdpi, 100x100 for mdpi, and 75x75 for ldpi devices.
+而UI问我们需要多少大小的图，如果效果图根据750*1334的话，可以告诉他，不过PS有个叫
+cutterman的工具可以自动生成不同分辨率的图片
 
 - PX转 dp
 
@@ -33,7 +43,7 @@ dp = 1080 / PPI = 411.428571429,
 
 http://blog.csdn.net/u010983881/article/details/51993157
 
-####  实际应用
+##### 实际应用
 
 * 开发中的实际转化
 
@@ -58,14 +68,17 @@ http://blog.csdn.net/u010983881/article/details/51993157
 
 * DPI参考
 
-自己计算按照上面的公式很简单，最棘手的还是手机尺寸
-给出一个手机dpi网站 get what you want 
+自己计算按照上面的公式很简单，最棘手的还是手机尺寸给出一个手机dpi网站 get what you want 
 http://dpi.lv/
 
-
+2.75625
 
 https://mp.weixin.qq.com/s/v_aauFjx-f91WrpCAaNMVQ)
 
-
-
 https://developer.android.com/guide/practices/screens_support
+
+今日头条适配 
+
+https://www.jianshu.com/p/55e0fca23b4f
+
+https://github.com/JessYanCoding/AndroidAutoSize

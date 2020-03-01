@@ -2,8 +2,8 @@
 title: GIT_SSHKEY
 comments: true
 date: 2017-10-19 09:28:15
-tags:
-categories: GIT
+tags: Git
+categories:
 ---
 
 

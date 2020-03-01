@@ -3,7 +3,7 @@ title: TextView
 comments: true
 date: 2018-03-04 21:16:56
 tags: 
-categories: VIEW
+categories: ANDROID
 ---
 
 ## TextView颜色变化

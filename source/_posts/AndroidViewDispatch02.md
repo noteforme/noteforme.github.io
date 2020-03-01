@@ -25,7 +25,7 @@ afterDescendants：viewgroup 只有当其子类控件不需要获取焦点时才
 blocksDescendants：viewgroup 会覆盖子类控件而直接获得焦点
 
 - 原因 : 在View `onTouchEvent(MotionEvent event) `中,只要view可点击就返回true,事件就被消费掉了,
-                 
+                 set isClickable = true  才可以收到 action move up事件
 
 https://www.diycode.cc/topics/352
 

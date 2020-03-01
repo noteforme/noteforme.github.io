@@ -10,9 +10,7 @@ categories: Kotlin
 
 ##### FindViewById
 
-Kotlin不用findViewById 
-
-注意在Fragmet中 需要在onViewCreated后使用
+Kotlin不用findViewById 注意在Fragmet中 需要在onViewCreated后使用
 
 <https://blog.csdn.net/hust_twj/article/details/80290362>
 
@@ -22,7 +20,7 @@ Kotlin不用findViewById
 
 
 
-* ?  
+?  
 
 ```
 //kotlin:
@@ -36,19 +34,32 @@ if(a!=null){
 }
 ```
 
--  !!
+!!
 
-  ```
-  //kotlin:
-  a!!.foo()
-  
-  //相当于java:  
-  if(a!=null){
-    a.foo();
-  }else{
-    throw new KotlinNullPointException();
-  }
-  ```
+```
+//kotlin:
+a!!.foo()
+
+//相当于java:  
+if(a!=null){
+  a.foo();
+}else{
+  throw new KotlinNullPointException();
+}
+```
+
+
+
+##### null or empty
+
+```
+    data = " " // this is a text with blank space 
+
+    println(data.isNullOrBlank()?.toString())  //true
+    println(data.isNullOrEmpty()?.toString())  //false
+```
+
+
 
 
 

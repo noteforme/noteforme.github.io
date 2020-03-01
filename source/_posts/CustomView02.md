@@ -43,7 +43,7 @@ categories: VIEW
         canvas.drawPath(path, mPaint);
 ```
 
-![customview](/Users/john/Desktop/C/noteforme/source/_posts/CustomView02/custoview_02.jpg)
+<img src="CustomView02/custoview_02.jpg" alt="customview" style="zoom: 25%;" />
 
 从字面意思 lineto,顾名思义肯定就有from的坐标点，再看这个借的图，第一条线是从原点开始的，第二条线是从A开始的，
 
@@ -92,7 +92,7 @@ path.close();  //形成封闭的图形
   sweepAngle: 圆弧扫过的角度(起始位置 X轴)，顺时针方向，单位为度,从右中间开始为零度。
   useCenter: 如果为True时，在绘制圆弧时将圆心包括在内，通常用来绘制扇形
 
-RectF是矩形的内接圆
+RectF是矩形的内接圆,left top right bottom分别对象 左上角和右下角 坐标
 
 
 
@@ -100,7 +100,7 @@ RectF是矩形的内接圆
 
 ##### drawText
 
-(0,0)位于左下角
+坐标(0,0)位于左下角
 
 ```
 canvas?.drawText("测试文字",0f,0f,mPaint)
@@ -109,6 +109,8 @@ canvas?.drawText("测试文字",0f,0f,mPaint)
 measure textSize 
 
 ```
+
+val kgRect = Rect()
 var kgText = "hello world"
 mDialPaint.getTextBounds(kgText,0,kgText.length,kgRect)
 var txtHeight = kgRect.height()
@@ -201,9 +203,55 @@ var txtWidth = kgRect.width()
 
 **在默认的屏幕坐标系中角度增大方向为顺时针。**
 
+
+
+sweepAngle扫过的角度
+
+```
+drawArc(@NonNull RectF oval, float startAngle, float sweepAngle, boolean useCenter,
+        @NonNull Paint paint)
+```
+
 > ```
 > canvas?.drawArc(rectF,0f,145f,false,mDialPaint)
 > ```
+
+
+
+
+
+##### save restore
+
+SaveRestoreView
+
+```
+   canvas?.drawLine(0f,200f,700f,200f,linePaint)
+//        canvas?.save()  //将画布状态保存
+
+        canvas?.rotate(90f, px / 2, py / 2);
+//        canvas?.restore();//恢复画布状态
+        canvas?.drawLine(0f,400f,700f,400f,bgPaint)
+```
+
+运行效果：
+
+<img src="CustomView02/Screen_Shot_2020-02-25_0.44.15.png" style="zoom: 50%;" />
+
+
+
+打开注视后的运行效果
+
+<img src="CustomView02/Screen_Shot_2020-02-25_10.46.05.png" alt="Screen_Shot_2020-02-25_10.46.05" style="zoom:50%;" />
+
+
+
+
+
+#### saveslayer 图层
+
+https://blog.csdn.net/cquwentao/article/details/51423371
+
+
 
 
 

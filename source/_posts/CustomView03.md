@@ -18,7 +18,7 @@ categories: VIEW
 
 ##### 表单输入
 
-![CustomView2018-05-12 09-42-16](E:/noteforme.github.io/source/_posts/CustomView/CustomView2018-05-12%2009-42-16.png)
+![CustomView2018-05-12 09-42-16](CustomView03/CustomView2018-05-12_09-42-16.png)
 
 
 
