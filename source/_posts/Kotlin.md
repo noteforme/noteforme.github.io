@@ -10,15 +10,13 @@ categories: Kotlin
 
 ##### FindViewById
 
-Kotlin不用findViewById 注意在Fragmet中 需要在onViewCreated后使用
+​	Kotlin不用findViewById 注意在Fragmet中 需要在onViewCreated后使用
 
-<https://blog.csdn.net/hust_twj/article/details/80290362>
+​	 https://blog.csdn.net/hust_twj/article/details/80290362 
 
 * The reason why we ignore findviewbyId
 
    https://antonioleiva.com/kotlin-android-extensions/ 
-
-
 
 ?  
 
@@ -57,6 +55,21 @@ if(a!=null){
 
     println(data.isNullOrBlank()?.toString())  //true
     println(data.isNullOrEmpty()?.toString())  //false
+```
+
+
+
+##### Fragment
+
+```
+override fun onAttach(context: Context) {
+    super.onAttach(context)
+    if (context is IPatientListener) {
+        mListener = context
+    } else {
+        throw RuntimeException(context!!.toString() + " must implement IServiceListener")
+    }
+}
 ```
 
 

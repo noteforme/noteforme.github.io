@@ -9,7 +9,7 @@ categories: ANDROID
 
 
 #### Dialog
-https://developer.android.com/guide/topics/ui/dialogs.html?hl=zh-cn
+https://developer.android.com/guide/topics/ui/dialogs.html
 https://developer.android.com/reference/android/app/DialogFragment.html
 
 ##### 　中间弹出

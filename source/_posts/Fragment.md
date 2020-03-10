@@ -8,7 +8,7 @@ categories:  ANDROID
 
 https://developer.android.com/reference/android/app/Fragment.html
 
-https://developer.android.com/guide/components/fragments.html?hl=zh-cn
+https://developer.android.com/guide/components/fragments.html
 
 https://wizardforcel.gitbooks.io/w3school-android/content/77.html
 https://juejin.im/post/5901b564570c35005804424b
@@ -169,29 +169,30 @@ Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragme
 ```
 参考: http://www.10tiao.com/html/565/201702/2247483988/1.html
 
-####  Activity 的事件回调
+####  Activity  dialogFragment 的事件回调
 
 
 ```
-    interface OnSetdataListener {
-        void setDataMain(Project mProject);
+
+    interface ISelectListener {
+        fun getItemPosition(position: Int)
     }
 
-    OnSetdataListener mListener;
+    var mListener: ISelectListener? = null
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mListener = (OnSetdataListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement OnSetdataListener");
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (parentFragment is ISelectListener){
+            mListener = parentFragment  as ISelectListener
+        }else if (context is ISelectListener) {
+            mListener = context
+        } else {
+            throw RuntimeException(context!!.toString() + " must implement ISelectListener")
         }
-    }	
-
+    }
 ```
 
-https://developer.android.com/guide/components/fragments.html?hl=zh-cn
+https://developer.android.com/guide/components/fragments.html
 
 ####  onHiddenChanged
 

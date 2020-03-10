@@ -1,5 +1,5 @@
 ---
-title: RecyclerView使用
+title: RecyclerViewUse
 date: 2017-07-17 11:30:18
 tags:
 categories: ANDROID
@@ -19,9 +19,9 @@ layoutManager.setOrientation(LinearLayoutManager.VERTICAL); //默认竖直布局
 mRecyclerView.setLayoutManager(layoutManager);
 ```
 
- 先来介绍官方的Demo https://github.com/googlesamples/android-RecyclerView
+ Officer Demo https://github.com/googlesamples/android-RecyclerView
 
-  http://blog.csdn.net/lmj623565791/article/details/51854533
+ http://blog.csdn.net/lmj623565791/article/details/51854533
 http://blog.csdn.net/qibin0506/article/details/49716795
 
 ##### 问题
