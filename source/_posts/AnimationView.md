@@ -241,7 +241,7 @@ private fun  anim(resAnim:Int){
    // 3. 但是由于此处rotate旋转动画里已设置repeatCount为infinite，所以动画不会结束，也就看不到重播和回复原位
    </set>
    
-    ```
+   ```
 
      它是一个接一个播放，可以通过设置repeatCount 达到同时播放的目的
 
@@ -285,3 +285,5 @@ private fun  anim(resAnim:Int){
 ##### 插值器
 
 https://www.jianshu.com/p/2f19fe1e3ca1
+
+https://blog.csdn.net/carson_ho/article/details/72827747

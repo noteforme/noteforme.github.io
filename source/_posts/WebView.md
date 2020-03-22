@@ -188,3 +188,9 @@ https://juejin.im/post/5b94ca52e51d450e7d097f38
 www.360.com.cn的cache-control为max-age=60，在两种模式下都使用本地缓存数据。
 
 https://juejin.im/entry/5ad70987f265da239148a614
+
+
+
+zip离线缓存
+
+https://mp.weixin.qq.com/s/AV2SwFfwwJH7xyrIBJemgw

@@ -8,7 +8,9 @@ categories: DesignPatterns
 
 
 
-## 　Observer观察者模式/订阅模式
+##### Observer观察者模式/订阅模式
+
+* PUSH 模式
 
 主题对象变化，通知所有的观察者
 //抽象观察者
@@ -78,3 +80,9 @@ public class Test {
 https://juejin.im/post/5bc96afff265da0aa94a4493
 
 https://www.tutorialspoint.com/design_pattern/bridge_pattern.htm
+
+* PULL模式
+
+  而拉模型是主题对象不知道观察者具体需要什么数据，没有办法的情况下，干脆把自身传递给观察者，让观察者自己去按需要取值。
+
+  
