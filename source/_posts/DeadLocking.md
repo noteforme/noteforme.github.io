@@ -2,7 +2,7 @@
 title: DeadLocking
 comments: true
 date: 2018-05-24 22:31:57
-tags: 并发
+tags: concurrency
 categories: JAVA
 ---
 

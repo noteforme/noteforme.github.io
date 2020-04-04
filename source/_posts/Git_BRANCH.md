@@ -20,7 +20,7 @@ http://iissnan.com/progit/
 ```
  git branch Dev1.10 
  git push origin Dev1.10 　　　// 提交该分支到远程仓库
- git pull origin dev                         //从远程获取分支
+ git pull origin dev          //从远程获取分支
        
 ```
 
@@ -36,8 +36,6 @@ git commit -m "first commit"
 git remote add origin git@gitee.com:huaiyi/EffectiveJava.git
 git push -u origin master
 ```
-
-#####  分支操作
 
 分支提交到远程仓库
 `$ git push origin v1.0.0 `
@@ -60,11 +58,8 @@ git push -u origin master
 
        完成Commit命令的撤销，但是不对代码修改进行撤销，可以直接通过git commit 重新提交对本地代码的修改。
 
-
-
-
-  [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
-http://blog.csdn.net/hyr83960944/article/details/36185231
+ [git分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
+ http://blog.csdn.net/hyr83960944/article/details/36185231
 
 合并分支
 合并hotfix到dev
@@ -78,12 +73,28 @@ $ git merge hotfix
 * 获取本地没有的远程分支
 
    ```
-   git fetch origin step1 命令来把远程分支拉到本地
-   
-   git checkout -b step1 origin/step1在本地创建分支step1并切换到该分支
-   
-   git pull origin step1就可以把某个分支上的内容都拉取到本地了   //这个方法有空再实践下
+   git branch -r #查看远程分支  或 git branch -a #查看所有分支
    ```
+
+   会显示
+
+   ```
+   origin/HEAD -> origin/master
+   origin/daily/1.2.2
+   origin/daily/1.3.0
+   origin/daily/1.4.1
+   origin/develop
+   origin/feature/daily-1.0.0
+   origin/master
+   ```
+
+   然后直接 
+
+   ```
+   git checkout origin/daily/1.4.1
+   ```
+
+   https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/
 
    [官方](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF "官方参考")
 
@@ -114,25 +125,7 @@ $ git merge hotfix
    
    
 
-* Checkout Remote Branch
-
-  > Below is a couple of examples of checking out remote branches with Git.
-  >
-  > In this one, we’re simply checking out a remote branch called xyz:
-  >
-  > ***git fetch***
-  >
-  > ***git checkout xyz***
-  >
-  > That’s fine as long as we don’t have a local branch that’s also called “xyz.” In that event, we’d confuse Git with the “git checkout xyz” command. We need to specify that we’re referring to the remote branch like this:
-  >
-  > ***git fetch origin***
-  >
-  > ***git checkout –track origin/xyz***
-  >
-  > If we’ve got multiple remotes, we need to use:
-  >
-  > ***Git checkout -b xyz /xyz***
+* > 获取远程其他分支
 
 ​     
 
@@ -314,30 +307,6 @@ Switched to a new branch 'version2'
 修复已发布版本Bug
 http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 
-##### 如何在 GitHub 下载某个程序的特定版本
-
-git clone 下载源码
-
-git tag　列出所有版本号
-
-git checkout　+某版本号　
-
-git checkout 1.1 (如果提示需要回退那么输入 git checkout -b 1.1
-
-* 问题
-
-  版本重复的话问题:error: dst refspec v1.0.0 matches more than one
-  然后`git push origin :refs/heads/v1.0.0`就可以了
-  [参考](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF) 
-
-* Git  clone 非 master 分支的代码
-  https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/
-
-* svn项目修改为Git 
-  在 .idea/vcs.xml 修改<mapping directory="" vcs="Git" />  
-
-  
-
 ##### git stash
 
 经常有这样的事情发生，当你正在进行项目中某一部分的工作，里面的东西处于一个比较杂乱的状态，而你想转到其他分支上进行一些工作。问题是，你不想提交进行了一半的工作，否则以后你无法回到这个工作点。解决这个问题的办法就是`git stash`命令。
@@ -380,4 +349,4 @@ git checkout 1.1 (如果提示需要回退那么输入 git checkout -b 1.1
 
 * SVN不能添加文件:https://blog.csdn.net/yujiayinshi/article/details/51381942
 
-  ##### 
+  

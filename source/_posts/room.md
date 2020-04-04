@@ -6,6 +6,8 @@ tags: db
 categories: ANDROID
 ---
 
+https://developer.android.com/training/data-storage/room
+
 #####  数据库基本操作
 
 * 主键
@@ -33,6 +35,14 @@ categories: ANDROID
 
 https://developer.android.com/topic/libraries/architecture/room
 
+https://github.com/googlecodelabs/android-room-with-a-view
+
+https://codelabs.developers.google.com/codelabs/android-room-with-a-view/#0
+
+https://github.com/googlecodelabs/android-room-with-a-view/tree/kotlin
+
+
+
 https://blog.skymxc.com/2018/04/15/Room/
 
 https://www.jianshu.com/p/0ed8b17a199e
@@ -46,3 +56,4 @@ https://www.jianshu.com/p/72eeaded8913
 https://blog.csdn.net/a254837127/article/details/84564545
 
 https://developer.android.com/training/data-storage/room#java
+

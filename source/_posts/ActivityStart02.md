@@ -368,13 +368,79 @@ public void handleMessage(Message msg) {
 
 ```
 private void handleLaunchActivity(ActivityClientRecord r, Intent customIntent, String reason) {
-  Activity a = performLaunchActivity(r, customIntent);
+  //通过Activity所在的应用程序信息及该Activity对应的CompatibilityInfo信息从PMS服务中查询当前Activity的包信息  
+    ActivityInfo aInfo = r.activityInfo;
+    if (r.packageInfo == null) {
+        r.packageInfo = getPackageInfo(aInfo.applicationInfo, r.compatInfo,
+                Context.CONTEXT_INCLUDE_CODE);
+    }
+    //获取当前Activity的组件信息  
+    ComponentName component = r.intent.getComponent();
+    if (component == null) {
+        component = r.intent.resolveActivity(
+            mInitialApplication.getPackageManager());
+        r.intent.setComponent(component);
+    }
+    //packageName为启动Activity的包名，targetActivity为Activity的类名  
+    if (r.activityInfo.targetActivity != null) {
+        component = new ComponentName(r.activityInfo.packageName,
+                r.activityInfo.targetActivity);
+    }
+    //通过类反射方式加载即将启动的Activity
+    Activity activity = null;
+    try {
+        java.lang.ClassLoader cl = r.packageInfo.getClassLoader();
+        activity = mInstrumentation.newActivity(
+                cl, component.getClassName(), r.intent);
+        StrictMode.incrementExpectedActivityCount(activity.getClass());
+        r.intent.setExtrasClassLoader(cl);
+        r.intent.prepareToEnterProcess();
+        if (r.state != null) {
+            r.state.setClassLoader(cl);
+        }
+    } ......
+    try {
+        //通过单例模式为应用程序进程创建Application对象  
+        Application app = r.packageInfo.makeApplication(false, mInstrumentation);
 
+       ......
+        if (activity != null) {
+            //为当前Activity创建上下文对象ContextImpl  
+            Context appContext = createBaseContextForActivity(r, activity);
+            ......
+            //将当前启动的Activity和上下文ContextImpl、Application绑定
+            activity.attach(appContext, this, getInstrumentation(), r.token,
+                    r.ident, app, r.intent, r.activityInfo, title, r.parent,
+                    r.embeddedID, r.lastNonConfigurationInstances, config,
+                    r.referrer, r.voiceInteractor, window);
+
+            ......
+            //将Activity保存到ActivityClientRecord中，ActivityClientRecord为Activity在应用程序进程中的描述符  
+            r.activity = activity;
+            activity.mCalled = false;
+            if (r.isPersistable()) {
+                mInstrumentation.callActivityOnCreate(activity, r.state, r.persistentState);
+            } else {
+                mInstrumentation.callActivityOnCreate(activity, r.state);
+            }
+            ......
+            //生命周期onStart、onresume
+            if (!r.activity.mFinished) {
+                activity.performStart();
+                r.stopped = false;
+            }
+
+            //ActivityThread的成员变量mActivities保存了当前应用程序进程中的所有Activity的描述符
+            mActivities.put(r.token, r);
+            ......
+    return activity;
 }
 
 ```
 
 在上述方法中将调用performLaunchActivity来启动Activity，如下
+
+应用程序进程通过performLaunchActivity函数将即将要启动的Activity加载到当前进程空间来，同时为启动Activity做准备。 [ActivityThread.java #performLaunchActivity()]
 
 ```
 private Activity performLaunchActivity(ActivityClientRecord r, Intent customIntent) {
@@ -400,3 +466,7 @@ private Activity performLaunchActivity(ActivityClientRecord r, Intent customInte
 Application Activity创建流程 
 
 Launch app启动问题 
+
+
+
+https://juejin.im/post/5baf275f5188255c9a7740ba
