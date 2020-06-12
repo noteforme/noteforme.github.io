@@ -7,12 +7,10 @@ categories: ANDROID
 
 ---
 
-#####  加载资源
--  加载一个网页
-    `webView.loadUrl("http://www.google.com/");`
 
--  加载apk包中的html页面
-    ` webView.loadUrl("file:///android_asset/java.html");`
+
+##### 加载apk包中的html页面
+` webView.loadUrl("file:///android_asset/java.html");`
 
 
 
@@ -45,7 +43,8 @@ WebSettings webSettings = myWebView.getSettings();
 ```
 上面是一些常用的操作
 
-##  Binding JavaScript code to Android code(JS交互)
+##### Binding JavaScript code to Android code(JS交互)
+
 When developing a web application that's designed specifically for the WebView in your Android application, you can create interfaces between your JavaScript code and client-side Android code. For example, your JavaScript code can call a method in your Android code to display a Dialog, instead of using JavaScript's alert() function.
 
 To bind a new interface between your JavaScript and Android code, call addJavascriptInterface(), passing it a class instance to bind to your JavaScript and an interface name that your JavaScript can call to access the class.
@@ -53,20 +52,19 @@ To bind a new interface between your JavaScript and Android code, call addJavasc
 * office Demo
 
 ```
-public class WebAppInterface {
-    Context mContext;
-
-    /** Instantiate the interface and set the context */
-    WebAppInterface(Context c) {
-        mContext = c;
+   inner class WebLoginInterface(context: Context?) {
+        @JavascriptInterface
+        fun appLogin() {
+            Timber.i("appLogin")
+                mWebView?.post {
+                    val mSessionId = SharedPreferencesUtils.getParam(AppCtxUtil.getApp(), GsonUtil.SHARE_TOKEN_KEY, "") as String
+                    Timber.i("mSessionId ${mSessionId}")
+                    val jsMethodName = "javascript:appLoginCallBack('$mSessionId','4')"; //需要参数的JS函数名
+                    Timber.i("jsMethodName $jsMethodName")
+                    mWebView?.loadUrl(jsMethodName)
+                }
+        }
     }
-
-    /** Show a toast from the web page */
-    @JavascriptInterface
-    public void showToast(String toast) {
-        Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
-    }
-}
 ```
 注意
 > Caution: If you've set your targetSdkVersion to 17 or higher, you must add the @JavascriptInterface annotation to any method that you want available to your JavaScript (the method must also be public). If you do not provide the annotation, the method is not accessible by your web page when running on Android 4.2 or higher.
@@ -134,11 +132,7 @@ https://github.com/GcsSloop/diycode/blob/master/blog/journal-02.md
 webSettings.setDomStorageEnabled(true); // 开启DOM storage API 功能
 ```
 
-​	   设置重定向
-
-```
-
-```
+​	  
 
 https://blog.csdn.net/ONLYMETAGAIN/article/details/78390643
 

@@ -2,7 +2,7 @@
 title: ACTIVITY
 comments: true
 date: 2017-08-11 10:14:11
-tags:
+tags: Activity
 categories: ANDROID
 
 ---
@@ -74,6 +74,8 @@ added in [API level 1](https://developer.android.com/guide/topics/manifest/uses-
 void onNewIntent (Intent intent)
 ```
 
+if the Activity was already created and a new Intent is being delivered to `onNewIntent(android.content.Intent)`
+
 This is called for activities that set launchMode to "singleTop" in their package, or if a client used the `FLAG_ACTIVITY_SINGLE_TOP` flag when calling `startActivity(Intent)`. In either case, when the activity is re-launched while at the top of the activity stack instead of a new instance of the activity being started, onNewIntent() will be called on the existing instance with the Intent that was used to re-launch it.
 
 An activity will always be paused before receiving a new intent, so you can count on `onResume()` being called after this method.
@@ -133,8 +135,6 @@ Note that `getIntent()` still returns the original Intent. You can use `setInten
 http://yhz61010.iteye.com/blog/2389877
 
 https://blog.csdn.net/qq_16628781/article/details/51539715
-
-
 
 
 

@@ -2,11 +2,21 @@
 title: room
 comments: true
 date: 2019-09-20 10:22:52
-tags: db
+tags: DB
 categories: ANDROID
 ---
 
 https://developer.android.com/training/data-storage/room
+
+
+
+##### Room
+
+ https://codelabs.developers.google.com/codelabs/android-room-with-a-view/#0
+
+https://codelabs.developers.google.com/codelabs/android-room-with-a-view-kotlin/#0
+
+kotlin need familiar [basic coroutines](
 
 #####  数据库基本操作
 
@@ -32,6 +42,8 @@ https://developer.android.com/training/data-storage/room
 * Dao
 
   
+  
+  
 
 https://developer.android.com/topic/libraries/architecture/room
 
@@ -56,4 +68,8 @@ https://www.jianshu.com/p/72eeaded8913
 https://blog.csdn.net/a254837127/article/details/84564545
 
 https://developer.android.com/training/data-storage/room#java
+
+
+
+https://codelabs.developers.google.com/codelabs/kotlin-coroutines/#0)
 

@@ -70,33 +70,33 @@ $ git merge hotfix
 ```
 [合并分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6)
 
-* 获取本地没有的远程分支
+##### 获取本地没有的远程分支
 
-   ```
-   git branch -r #查看远程分支  或 git branch -a #查看所有分支
-   ```
+```
+git branch -r #查看远程分支  或 git branch -a #查看所有分支
+```
 
-   会显示
+会显示
 
-   ```
-   origin/HEAD -> origin/master
-   origin/daily/1.2.2
-   origin/daily/1.3.0
-   origin/daily/1.4.1
-   origin/develop
-   origin/feature/daily-1.0.0
-   origin/master
-   ```
+```
+origin/HEAD -> origin/master
+origin/daily/1.2.2
+origin/daily/1.3.0
+origin/daily/1.4.1
+origin/develop
+origin/feature/daily-1.0.0
+origin/master
+```
 
-   然后直接 
+然后直接 
 
-   ```
-   git checkout origin/daily/1.4.1
-   ```
+```
+git checkout origin/daily/1.4.1
+```
 
-   https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/
+https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/
 
-   [官方](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF "官方参考")
+[官方](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF "官方参考")
 
 * [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
    `$ git remote show origin `
@@ -253,7 +253,7 @@ http://jcpplus.github.io/2015/07/23/modify-remote-url/
 
 
 
-##### GIT标签
+#### GIT标签
 
   查看所有的版本 
 ​    `git tag`
@@ -295,7 +295,23 @@ http://jcpplus.github.io/2015/07/23/modify-remote-url/
   >  git log --oneline --graph		//You can inspect the state of your branch by using the “git log” command. Make sure that the HEAD pointer (the latest commit) is pointing to your annotated tag.
   > ```
 
+* checkout remote tag
 
+  ```
+  git fetch --all --tags
+  
+  git ls-remote --tags
+   
+    refs/tags/v2.5.8^{}
+    refs/tags/v2.5.9
+    refs/tags/v2.5.9^{}
+  
+  git checkout  refs/tags/v2.5.9 -branch v2.5.9-branch
+   																				这个自定义
+  
+  ```
+
+  
 
 在 Git 中你并不能真的检出一个标签，因为它们并不能像分支一样来回移动。 如果你想要工作目录与仓库中特定的标签版本完全一样，可以使用 git checkout -b [branchname] [tagname] 在特定的标签上创建一个新分支：
 
@@ -311,7 +327,7 @@ http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 
 经常有这样的事情发生，当你正在进行项目中某一部分的工作，里面的东西处于一个比较杂乱的状态，而你想转到其他分支上进行一些工作。问题是，你不想提交进行了一半的工作，否则以后你无法回到这个工作点。解决这个问题的办法就是`git stash`命令。
 
-1. ` git stash `    //进入暂存状态,此时执行 git status 已经没有要提交的了
+1. ` git stash  save  '暂存备注信息'  ` //进入暂存状态,此时执行 git status 已经没有要提交的了
 
 2. git checkout  切换到要修改的分支上 ,修改完
 
@@ -325,25 +341,34 @@ http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 
 * git stash 可以进行多次暂存,多次存后 git stash list长下面这样,可以用 · git stash apply stash@{1}· 获取某次暂存的内容
 
-  > stash@{0}: WIP on dev: 21bc09d ces
-  > stash@{1}: WIP on dev: 21bc09d ces
-  > stash@{2}: WIP on dev: 21bc09d ces
-
+  > stash@{0}: WIP on dev: 3d01a6c Patient Entity数据库删除
+  > stash@{1}: WIP on dev: b6a688e 跑起来提交
+  
 * 取消储藏  `git stash show -p stash@{0} | git apply -R`  如果没指定具体的标签 取消最近的
 
   这个和`git stash drop`的区别是 取消的是文件内容，stash标签还在
 
+  https://git-scm.com/docs/git-stash
+
+  >  注意是 stash@{0}  不是  3d01a6c
+
   
 
-* 基于历史版本打分支
+  
+
+  
 
   git branch 分支名 hash(历史版本)
-  
+
 * update forked project
 
    https://blog.csdn.net/qq1332479771/article/details/56087333 
 
+* 获取暂存
 
+  > git stash apply stash@{0}   // don‘t remove stash
+  >
+  > git stash pop stash@{0}
 
 ##### SVN
 

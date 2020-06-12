@@ -253,14 +253,6 @@ https://blog.csdn.net/cquwentao/article/details/51423371
 
 
 
-
-
-http://www.gcssloop.com/customview/Canvas_Convert
-
-有图 https://github.com/GcsSloop/AndroidNote/tree/master/CustomView
-
-
-
  https://www.jianshu.com/p/0bd672626c8d
 
 * Canvas demo

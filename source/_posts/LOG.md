@@ -1,22 +1,21 @@
 ---
-title: Timber
+title: LOG
 comments: true
 date: 2017-12-09 16:41:05
 tags:
 categories: ANDROID
 ---
 
-Timber是JakeWharton　开源的日志系统
 
 
+##### Timber
 
-## 添加库
+1. 添加库
 
 `    implementation 'com.jakewharton.timber:timber:4.6.0'
 `
 
 
-##  [MyApplication](http://45.77.222.97:3000/root/NyTimes/src/master/app/src/main/java/com/jonzhou/nytime/MyApplication.java)  如下
 
 **注意 **:  一开始日志打印不了还以为 okhttplogger冲突，BuildConfig需要导入项目的包`import com.jonzhou.nytime.BuildConfig;，而不是Timber或其他的包
 `
@@ -58,7 +57,8 @@ public class MyApplication extends Application {
     }
 }
 ```
-##  使用
+2. 使用
+
 jake的例子
 
 [LintActivity](https://github.com/JakeWharton/timber/blob/master/timber-sample/src/main/java/com/example/timber/ui/LintActivity.java) 
@@ -104,6 +104,24 @@ jake的例子
     return "foo";
   }
 ```
+
+
+
+##### Xlog
+
+1 . 环境配置 
+
+ 安装 pyelliptic1.5.7  ` sudo python setup.py install`
+
+
+
+2. 解码日志 
+
+ `python mars/log/crypt/decode_mars_nocrypt_log_file.py  MarsSample_20200417.xlog`
+
+但是现在碰到了问题
+
+mq初始化有日志，接收消息没有日志，可能在不同的线程里，需要做处理
 
 
 

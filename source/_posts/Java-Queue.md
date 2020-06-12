@@ -32,7 +32,7 @@ https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentLinkedD
 
 * ConcurrentLinkedDeque
 
-  
+  https://blog.csdn.net/hello_worldee/article/details/77880532
 
 
 
@@ -45,4 +45,8 @@ https://www.liaoxuefeng.com/wiki/1252599548343744/1265122668445536
 https://www.geeksforgeeks.org/deque-interface-java-example/
 
 
+
+* LinkedList 线程安全处理
+
+https://blog.csdn.net/d380025303/article/details/81010980
 

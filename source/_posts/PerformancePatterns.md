@@ -34,6 +34,19 @@ https://www.jianshu.com/p/ee9e4b8cb95f
 
 https://github.com/square/leakcanary
 
-#  图片处理
+图片处理
+
 https://developer.android.com/topic/performance/graphics/index.html
 https://developer.android.com/topic/performance/graphics/load-bitmap.html#read-bitmap
+
+
+
+* apk size
+
+  https://mp.weixin.qq.com/s/jnZpgaRFQT5ULk9tHWMAGg
+
+https://www.jianshu.com/p/fba7b43bdc9c
+
+性能优化
+
+https://mp.weixin.qq.com/s/ceXsH06fUFa7y4lzi4uXzw

@@ -6,9 +6,9 @@ tags:
 categories: ANDROID
 ---
 
-# 为了预防项目紧急问题，使用热更新比发版要好点 #
+为了预防项目紧急问题，使用热更新比发版要好点
 
-# 热更新选择
+##### 热更新选择
 
 
 
@@ -21,12 +21,11 @@ categories: ANDROID
 
 所以先选择Tinker-Bugly
 
-# 接入
-  
+##### 接入
+
  按照[接入文档](https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix/ "bugly") 配合Demo接入配置，然后就开始做自己的app 定义
 
-
-## 修改appid 
+1. 修改appid 
 
  bugly平台申请后的 AppId
 
@@ -37,8 +36,8 @@ categories: ANDROID
 ```
  第三个参数设置  log是否展示
 
-## tinkerId
-  
+2. tinkerId
+
 每次修改 基线版本和 补丁版本都要修改 tinkerId
 
 ```
@@ -46,8 +45,7 @@ categories: ANDROID
 
 ```
 
-
-## 点击 assembleDebug
+3. 点击 assembleDebug
 
 生成 基线版本
 
@@ -57,19 +55,17 @@ https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix-demo/
 实际应用中，请注意保存线上发布版本的基准apk包、mapping文件、R.txt文件，如果线上版本有bug，就可以借助我们tinker-support插件进行补丁包的生成。
 ```
 
-
-## 修改 def baseApkDir , 修改 tinkerId
+4. 修改 def baseApkDir , 修改 tinkerId
 
 * 修改bug
 * baseApkDir是根据基线版本生成的目录
 * 修改tinkerId
 
-
-## 编译patch包 
+5. 编译patch包 
 
   点击 buildTinkerPatchRelease，生成patch_signed_7zip.apk上传,然后重启就可以了
 
-## 对于开发设备和全量设备
+6. 对于开发设备和全量设备
 
 修改
 
@@ -80,9 +76,13 @@ https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix-demo/
 
    
 
-
-
  参考 ：
   https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix/
   https://github.com/Tencent/tinker
   https://github.com/BuglyDevTeam/Bugly-Android-Demo
+
+
+
+##### UncaughtExceptionHandler Bugly冲突 不上报日志
+
+https://blog.csdn.net/ZPCrobot/article/details/97390156

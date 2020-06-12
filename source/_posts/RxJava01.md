@@ -21,36 +21,62 @@ Demo在　AndroidDemo -> RXLeran->RX基础->Rx线程切换
 ###### 链式调用
 
 ```
-  Observable<BaseCount<List<ConfigEnv>>> envApi = RetrofitFactory.configRetrofitService(IApiStores.class).getUnitList();
-        RetrofitFactory.configRetrofitService(IApiStores.class).getAppConfig(GsonUtil.loginnoDoctorIdBody(configMap))
+  RetrofitFactory.create(ICommonApis.class)
+                .imgUpServer(part)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())  //回到主线程去处理请求注册结果
-                .doOnNext(new Consumer<BaseCount<SigleField>>() {
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<PictureUp>() {
                     @Override
-                    public void accept(BaseCount<SigleField> sigleFieldBaseCount) throws Exception {
-
+                    public void accept(PictureUp pictureUp) throws Exception {
+                        List<PictureUp.ModelListBean> picList = pictureUp.getModel_list();
+                        if (picList != null && !picList.isEmpty()) {
+                            String feet_id = picList.get(0).getFile_group_id();
+                            //上传成功
+                            if (!isEmpty(feet_id) && mvpView != null) {
+                                mvpView.upFeetId(feet_id);
+                            }
+                        }
                     }
                 })
                 .observeOn(Schedulers.io())
-                .flatMap(new Function<BaseCount<SigleField>, ObservableSource<BaseCount<List<ConfigEnv>>>>() {
+                .flatMap(new Function<PictureUp, ObservableSource<BaseCount>>() {
                     @Override
-                    public ObservableSource<BaseCount<List<ConfigEnv>>> apply(BaseCount<SigleField> sigleFieldBaseCount) throws Exception {
-                        if (sigleFieldBaseCount.getMeta().getStatusCode()==0){
-//                            return Observable.error(new Exception());
+                    public ObservableSource<BaseCount> apply(PictureUp pictureUp) throws Exception {
+                        List<PictureUp.ModelListBean> picList = pictureUp.getModel_list();
+                        if (picList != null && !picList.isEmpty()) {
+                            String feet_id = picList.get(0).getFile_group_id();
+                            //上传成功
+                            if (!isEmpty(feet_id) && mvpView != null) {
+                                mvpView.upFeetId(feet_id);
+                            }else {
+                                return  Observable.error(new Exception());
+                            }
                         }
-                        return envApi;
+                        return RetrofitFactory.create(ICommonApis.class).offlineBoxInfo(requestBody);
                     }
                 })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<BaseCount<List<ConfigEnv>>>() {
+                .subscribe(new Consumer<BaseCount>() {
                     @Override
-                    public void accept(BaseCount<List<ConfigEnv>> listBaseCount) throws Exception {
-                        Timber.i(" " + listBaseCount.getCount());
+                    public void accept(BaseCount baseCount) throws Exception {
+                        if (mvpView == null) {
+                            return;
+                        }
+                        if (baseCount.getMeta().getStatusCode() == AUTH_FAILED) {
+                            mvpView.unOfficeEquip(baseCount);
+                        } else if (baseCount.getMeta().getStatusCode() == 0) {
+                            mvpView.upSuccess();
+                        } else {
+                            if (baseCount.getMeta() != null && !isEmpty(baseCount.getMeta().getDescribe())) {
+                                ToastUtil.showBiggerText(baseCount.getMeta().getDescribe());
+                            }
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Timber.i(throwable.getMessage());
+                        if (mvpView != null) {
+                            mvpView.upUserInfoFailed();
+                        }
                     }
                 });
 ```
@@ -87,3 +113,6 @@ https://juejin.im/post/5b8f536c5188255c352d3528
 
 使用MVP Dagger2 https://juejin.im/post/5d5ce44d5188252231108e68
 
+
+
+https://juejin.im/user/590210f4ac502e0063d338f5/posts

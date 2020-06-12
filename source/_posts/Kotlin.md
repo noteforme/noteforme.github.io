@@ -90,3 +90,20 @@ https://juejin.im/post/5aa64556f265da238c3a51d3
 
 <https://www.cnblogs.com/Jetictors/p/9225557.html>
 
+
+
+#####  coroutines
+
+https://www.kotlincn.net/docs/reference/coroutines/coroutines-guide.html
+
+
+
+##### by
+
+https://blog.csdn.net/wzgiceman/article/details/82689135
+
+
+
+oprator
+
+https://zhuanlan.zhihu.com/p/26546977

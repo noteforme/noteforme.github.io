@@ -11,7 +11,30 @@ categories: DesignPatterns
 　作用：一个类只有一个实例，减少内存开销
 　
 
+
+
+##### kotlin
+
+```
+class Singleton private constructor() {
+    
+    private object HOLDER {
+        val INSTANCE = Singleton()
+    }
+
+    companion object {
+        val instance: Singleton by lazy { HOLDER.INSTANCE }
+    }
+}
+```
+
+
+
+https://medium.com/swlh/singleton-class-in-kotlin-c3398e7fd76b
+
 ###### 常用方式
+
+
 
 ```
 public class Singleton{
@@ -20,8 +43,10 @@ public class Singleton{
      //私有构造方法，防止被实例化
      private Singleton(){}
      public static Singleton getInstance(){
-       synonzied(Singleton.class){
-         if(singleton==null){
+     if(singleton==null){           
+     								 							//多个线程在这里聚集就会产生多个对象
+           synonzied(Singleton.class){
+           Thread.sleel(1)
           singleton = new Singleton();
          }
        }
@@ -30,6 +55,30 @@ public class Singleton{
    }
 
 ```
+
+
+
+```
+public class Singleton{
+     // 持有私有静态实例，防止被引用，此处赋值为null，目的是实现延迟加载
+     private static Singleton singleton=null;
+     //私有构造方法，防止被实例化
+     private Singleton(){}
+     public static Singleton getInstance(){  //这里加锁 粒度有问题
+      synonzied(Singleton.class){ //这样会产生效率问题，多个线程在这空转等待获得锁
+     if(singleton==null){           
+           Thread.sleel(1)
+          singleton = new Singleton();
+         }
+       }
+       return singleton;
+     }
+   }
+```
+
+
+
+
 
 源码有类似的　InputMethodManager，当然我们常用的方式是要传个Context上下文对象给单例类，记得有次面试的时候面试官说单例里面使用弱引用，如果是是为了避免内存泄漏我觉得是可以的，但是我觉得用这种方式更好　`Context applicationContext = context.getApplicationContext();`　刚无意中发现Glide单例也是这样使用的。
 
@@ -41,7 +90,7 @@ public class Singleton{
 
 ```
 public class Singleton {  
-      private volatile static Singleton singleton;  
+      private volatile static Singleton singleton;   //volatile 防止指令重排序,指令半初始化，CPU执行指令顺序可能不同
       private Singleton (){
       }   
       public static Singleton getInstance() {  

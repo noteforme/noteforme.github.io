@@ -9,7 +9,7 @@ categories: TOOL
 
 平常集成SDK虽然简单，但是过了半年就全忘了，又得重新来过
 
-## 友盟分享
+#### 友盟分享
 
 [微信开发者平台](https://open.weixin.qq.com/)
 创建应用需要 **应用签名**
@@ -18,13 +18,11 @@ categories: TOOL
 
  注意要打包才能运行
 
-
-
-##  商汤认证
+####  商汤认证
 
 [文档](https://v2-devcenter.visioncloudapi.com/#!/home/doc/ocr/android/online/useguide)
 
-###  身份证认证
+身份证认证
 
 * 在common-idcard包中的assets目录下添加 SenseID_OCR.lic文件就可以了
 
@@ -32,8 +30,7 @@ categories: TOOL
 
   
 
-
-### 活体认证
+活体认证
 
 最终调用onDetectOver
 
@@ -43,9 +40,7 @@ categories: TOOL
 
 会返回id,然后把id,身份证number,name传给商汤对比
 
-
-
-##  极光推送
+#### 极光推送
 
 * 集成过程
 
@@ -83,6 +78,93 @@ categories: TOOL
 
 
 
+#### 微信登陆
+
+https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html
+
+1. 问题1
+
+`E/MtaSDK: [pool-4-thread-1(320): null:705] - Server response error code:404, error:{"ret":-1, "msg":"invalid appkey"}`
+
+Demo里的wechat-sdk-android-with-mta 换成     api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'  这个弄了一上午
+
+2. 问题2  
+
+    ` No value for openid.` WXEntryActivity {"errcode":40029,"errmsg":"invalid code"}   WXEntryActivity
+
+   ```
+   if (resp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
+      SendAuth.Resp authResp = (SendAuth.Resp)resp;
+      final String code = authResp.code;
+      NetworkUtil.sendWxAPI(handler, String.format("https://api.weixin.qq.com/sns/oauth2/access_token?" +
+                  "appid=%s&secret=%s&code=%s&grant_type=authorization_code", "wxd930ea5d5a258f4f",
+            "1d6d1d57a3dd063b36d917bc0b44d964", code), NetworkUtil.GET_TOKEN);
+   }
+   ```
+
+   ```text
+   GET https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+   ```
+
+   demo中 
+
+   appid wxd930ea5d5a258f4f要换成自己的
+
+   secret 1d6d1d57a3dd063b36d917bc0b44d964也要换成自己的
+
+   3. 问题3  需要注册，否则WXEntryActivity不能收到回调
+
+      ```java
+      private static final String APP_ID = "wx88888888";
+      
+      // IWXAPI 是第三方app和微信通信的openApi接口
+      private IWXAPI api;
+      
+      private regToWx() {
+          // 通过WXAPIFactory工厂，获取IWXAPI的实例
+          api = WXAPIFactory.createWXAPI(this, APP_ID, true);
+      
+          // 将应用的appId注册到微信
+          api.registerApp(APP_ID);
+      
+         //建议动态监听微信启动广播进行注册到微信
+        registerReceiver(new BroadcastReceiver() {
+         @Override
+         public void onReceive(Context context, Intent intent) {
+      
+           // 将该app注册到微信
+          api.registerApp(Constants.APP_ID);
+         }
+        }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
+      
+      }
+      ```
+
+   
+
+   
+
+##### app分享拉新规则
+
+https://mp.weixin.qq.com/s/3bsmiv78yJ4XKwd8iu-0Ig
+
+
+
+##### Wechat Pay
+
+https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_5
+
+##### Alipay
+
+https://opendocs.alipay.com/open/204/105296
+
+orderInfo订单信息 由接口拼接就可以了
+
+
+
+https://mp.weixin.qq.com/s/wWB5ENo3eQJH03OXvoup8w
+
+https://mp.weixin.qq.com/s?__biz=MzUxODg0MzU2OQ==&mid=2247485318&idx=1&sn=174338566ad8c0426c95815c4f4aee5a&scene=21#wechat_redirect
 
 
 

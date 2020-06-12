@@ -1,14 +1,14 @@
 ---
-title: TabLayout
+title: TAB_VIEWPAGER
 comments: true
 date: 2017-12-26 15:32:39
 tags: TabLayout
 categories: ANDROID
 ---
 
-TabLayout属于 Material Design
+https://developer.android.com/reference/com/google/android/material/tabs/TabLayout
 
-https://developer.android.com/reference/android/support/design/widget/TabLayout.html
+####  ViewPager
 
 #####  TabLayout方式
 
@@ -218,7 +218,15 @@ https://codeday.me/bug/20170629/35704.html
 
   
 
+#### ViewPager2
 
+#####  migration
+
+https://developer.android.com/training/animation/screen-slide-2#kotlin
+
+https://developer.android.com/training/animation/vp2-migration
+
+https://github.com/android/views-widgets-samples/tree/master/ViewPager2
 
 
 

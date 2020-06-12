@@ -7,6 +7,8 @@ tags:
 categories: Architecture
 ---
 
+
+
 #####  Jetpack
 
 It helps to be familiar with software architectural patterns that separate data from the user interface, such as MVP or MVC
@@ -29,13 +31,15 @@ It starts by observing the database for the resource. When the entry is loaded f
 
 
 
-[googlesamples](https://github.com/googlesamples/android-architecture-components)
+
+
+
 
 https://developer.android.com/topic/libraries/architecture
 
-https://codelabs.developers.google.com/codelabs/android-lifecycles/#1
-
 架构学习从codelab开始吧!
+
+ https://www.jianshu.com/p/19f97654c451
 
 https://github.com/qingmei2/MVVM-Architecture
 
@@ -45,37 +49,74 @@ https://juejin.im/post/5d2be05ff265da1bd605d49a
 
 
 
-* DataBinding learn
+###### **LifecycleOwner**
 
-https://developer.android.com/topic/libraries/data-binding
+[`LifecycleOwner` is an interface ](https://developer.android.com/reference/androidx/lifecycle/LifecycleOwner.html)implemented by the [`AppCompatActivity`](https://developer.android.com/reference/androidx/appcompat/app/AppCompatActivity) and [`Fragment`](https://developer.android.com/reference/androidx/fragment/app/Fragment) classes. You can subscribe other components to owner objects which implement this interface, to observe changes to the lifecycle of the owner.
 
-googlecodelabs/[android-databinding](https://github.com/googlecodelabs/android-databinding)
+To read an introductory guide to this topic, see [Handling Lifecycles](https://developer.android.com/topic/libraries/architecture/lifecycle.html).
 
+https://codelabs.developers.google.com/codelabs/android-lifecycles/#1
 
+https://mp.weixin.qq.com/s/gQhBeKA2vGAkh3Tbqn0tEA
 
-##### Room
+###### ViewModel
 
- https://codelabs.developers.google.com/codelabs/android-room-with-a-view/#0
+https://noteforme.github.io/2020/04/06/viewmodel/
 
-kotlin need familiar [basic coroutines](https://codelabs.developers.google.com/codelabs/kotlin-coroutines/#0)
+https://www.jianshu.com/p/731ca42823ee
 
-
-
-
-
-https://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg==&mid=2652046992&idx=1&sn=b8b4c47537be1227eecd01c1eaee2550&chksm=808ca6d5b7fb2fc32d9ec361c91a2958e51a2db1c6b20370e7ef6493bb5cb20314cda6ab059c&scene=38#wechat_redirect
-
-https://juejin.im/post/5d2be05ff265da1bd605d49a
-
-https://mp.weixin.qq.com/s/4UP-pDs0FK66g1QUQvRN6A
+viewmodelstoreowner
 
 
+
+###### navigation
+
+https://developer.android.com/guide/navigation/
+
+https://developer.android.com/guide/navigation/navigation-getting-started
+
+https://codelabs.developers.google.com/codelabs/android-navigation/index.html?index=..%2F..%2Findex#0
+
+Codelab 抽屉图标不显示
+
+
+
+* BottomNavigationView 导航栏优化  recarete fragment
+
+  https://medium.com/@freedom.chuks7/how-to-use-jet-pack-components-bottomnavigationview-with-navigation-ui-19fb120e3fb9
+
+
+**NOTICE** :  NavigationView each item ID is matching with fragment ID in navigation
+
+ https://jiangjiwei.site/post/navigation-zhi-fragment-qie-huan/
+
+
+
+Bottom tab定位
+
+https://stackoverflow.com/questions/50577356/android-jetpack-navigation-bottomnavigationview-with-youtube-or-instagram-like
+
+
+
+数据倒灌
+
+ singleLiveEvent
+
+Hook
+
+全局共享
+
+
+
+[googlesamples](https://github.com/googlesamples/android-architecture-components)
+
+
+
+##### previously architecture
 
 MVC MVP. MVVM三种架构介绍
 
 http://www.jcodecraeer.com/a/anzhuokaifa/2017/1024/8636.html
-
-
 
 https://mp.weixin.qq.com/s/Kc1826MQ3ReMkoIWlsQGVw
 
@@ -87,11 +128,13 @@ https://juejin.im/entry/5955e7166fb9a06bc23a8598
 
 https://github.com/yaozs/YzsBaseActivity
 
-##### 多个activity对p的复用
+多个activity对p的复用
 
 https://juejin.im/post/599ce8016fb9a0247e4255f4
 
-#### Component
+
+
+* Component
 
 https://mp.weixin.qq.com/s/8_8gGpkpO2QFNkWgSRBwIg
 
@@ -103,6 +146,19 @@ https://developer.android.com/studio/build/dependencies#duplicate_classes
 
 https://developer.android.com/studio/build/manifest-merge?hl=zh-cn
 
-#### merge androidmanifest
+
+
+merge androidmanifest
 
 <https://developer.android.com/studio/build/manifest-merge?hl=zh-cn>
+
+
+
+compose
+
+https://mp.weixin.qq.com/s/0mAbKEuBH5HHYa23EcWalg
+
+
+
+
+

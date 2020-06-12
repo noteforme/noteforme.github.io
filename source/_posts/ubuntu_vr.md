@@ -32,11 +32,7 @@ Please install setuptools.
 
      sudo pip install -U setuptools
 
-  
-
-
-
-
+ 
 
 
 
@@ -60,10 +56,6 @@ Successfully installed shadowsocks-2.8.2
         ssserver -p 8388 -k 123456 -m aes-256-cfb
 
  
-
-
-
-
 
 
 
@@ -177,11 +169,11 @@ autoreconf: /usr/bin/autoconf failed with exit status: 1
 ```
 `sudo apt-get install libtool`
 
-*  问题3
-![autogen.sh](ubuntu_ssr/shadowsocklib_autogen.png)
+* 问题3
+  `sudo apt-get install automake`
+  http://ask.xmodulo.com/fix-failed-to-run-aclocal.html
 
-`sudo apt-get install automake`
-http://ask.xmodulo.com/fix-failed-to-run-aclocal.html
+  ![shadowsocklib_autogen](ubuntu_vr/shadowsocklib_autogen.png)
 
 2. 混淆
 
@@ -303,7 +295,7 @@ http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
 
 <https://www.flyzy2005.com/fan-qiang/shadowsocks/proxifier-with-shadowsocks/>
 
-![autogen.sh](ubuntu_ssr/SS_20190DD.png)
+![SS_20190DD](ubuntu_vr/SS_20190DD.png)
 
 ##### win7下使用
 
@@ -313,6 +305,8 @@ http://jackqdyulei.github.io/2016/03/06/linux-auto-script/
 
 
 ##### VR  INSTALL
+
+* 安装
 
 https://toutyrater.github.io/prep/install.html
 
@@ -346,7 +340,67 @@ https://toutyrater.github.io/prep/install.html
 
 
 
-##### macOS use
+*  macOS use
 
 > proxy
+
+
+
+Github slowly
+
+```
+git config --global http.proxy socks5://127.0.0.1:1081
+
+git config --global https.proxy socks5://127.0.0.1:1081
+```
+
+
+
+```
+git config --global --unset http.proxy 
+git config --global --unset https.proxy
+```
+
+https://www.jianshu.com/p/5e74b1042b70
+
+GitHub 镜像 
+
+https://github.com/Zenquan/quickgitclone
+
+git clone  https://github.com.cnpmjs.org/android/media-samples.git
+
+
+
+```
+sudo dscacheutil -flushcache
+```
+
+
+
+Terminal
+
+```cpp
+export http_proxy="http://127.0.0.1:1081"
+export https_proxy="http://127.0.0.1:1081"
+```
+
+* google 搭建vr
+
+  按照这个教程 https://zelikk.blogspot.com/2019/01/gcp-v2ray-firewall.html
+
+  网络标记就选了全部实例
+
+  <img src="ubuntu_vr/veray_go_engile_1.png" alt="veray_go_engile_1" style="zoom:67%;" />
+
+
+
+  	注意复制的端口号 带上了逗号
+
+* -bash: sudo: command not found
+
+  ```
+  dpkg -l|grep sudo
+  apt-get install sudo
+  sudo apt-get install wget
+  ```
 

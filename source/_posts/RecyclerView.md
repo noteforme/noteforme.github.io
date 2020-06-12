@@ -97,6 +97,13 @@ reclverview也有很多分类方式
 https://github.com/luizgrp/SectionedRecyclerViewAdapter
 http://blog.csdn.net/wzlyd1/article/details/52292548
 https://github.com/luizgrp/SectionedRecyclerViewAdapter
+
+https://github.com/donkingliang/GroupedRecyclerViewAdapter
+
+https://mp.weixin.qq.com/s/oCl4BQ8uB9ZDSOEKESM7hA
+
+
+
  复杂布局: https://github.com/385841539/RecycleviewStaggered
 
  竖直嵌套水平:https://github.com/drakeet/MultiType/issues/67
@@ -112,3 +119,26 @@ https://www.jianshu.com/p/b2ef4f8e859f
 #### 字符排序
 
 https://github.com/YoKeyword/IndexableRecyclerView
+
+https://juejin.im/post/5eae33a26fb9a043586c7f19
+
+
+
+
+
+##### Reycleview preview
+
+https://medium.com/aubergine-solutions/creating-recyclerview-layout-in-android-no-pain-only-gain-404280471003
+
+
+
+```
+tools:itemCount="5"
+tools:listitem="@layout/adapter_red_pack"
+```
+
+
+
+```
+tools:src="@sample/RedPack.json/dataList/redEnvelopeMoney"
+```

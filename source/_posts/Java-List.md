@@ -144,3 +144,77 @@ private static class Node<E> {
 ```
 
 ![linkedlist](Java-List/linkedlist.png)
+
+
+
+
+
+##### List iterator
+
+  List<String> crunchifyList = **new** ArrayList<String>();
+
+​    // add 4 different values to list
+
+​    crunchifyList.add("Facebook");
+
+​    crunchifyList.add("Paypal");
+
+​    crunchifyList.add("Google");
+
+​    crunchifyList.add("Yahoo");
+
+ 
+
+​    // Other way to define list is - we will not use this list :)
+
+​    List<String> crunchifyListNew = Arrays.asList("Facebook", "Paypal", "Google", "Yahoo");
+
+ 
+
+* ​      Iterator - Returns an iterator over the elements in this list in proper sequence.
+
+  ```
+   Iterator<String> crunchifyIterator = crunchifyList.iterator();
+  
+    while(crunchifyIterator.hasNext()) {
+  
+      System.out.println(crunchifyIterator.next());
+  
+    }
+  ```
+
+*  // ListIterator - traverse a list of elements in either forward or backward order
+
+  ​    // An iterator for lists that allows the programmer to traverse the list in either direction, modify the list during iteration,
+
+  ​    // and obtain the iterator's current position in the list.
+
+  ```
+    ListIterator<String> crunchifyListIterator = crunchifyList.listIterator();
+          while (crunchifyListIterator.hasNext()) {
+              System.out.println(crunchifyListIterator.next());
+          }
+  ```
+
+  
+
+* Iterable.forEach() util: Returns a sequential Stream with this collection as its source
+
+  ```
+    crunchifyList.forEach((temp) -> {
+  
+      System.out.println(temp);
+  
+    });
+  ```
+
+  
+
+*  collection Stream.forEach() util: Returns a sequential Stream with this collection as its source
+
+  ```
+   crunchifyList.stream().forEach((crunchifyTemp) -> System.out.println(crunchifyTemp));
+  ```
+
+  
+

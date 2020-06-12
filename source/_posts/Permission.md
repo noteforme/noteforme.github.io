@@ -163,3 +163,11 @@ https://www.jianshu.com/p/a51593817825
 
 
 https://developer.android.com/training/permissions/requesting?hl=zh-cn
+
+
+
+livedata
+
+https://mp.weixin.qq.com/s/Hw_FI0GRpUDWJ1NwjK652w
+
+https://mp.weixin.qq.com/s/7RpGzTjXo9rnHRCVEnrYWQ

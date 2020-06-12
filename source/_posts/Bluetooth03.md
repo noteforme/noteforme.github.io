@@ -129,6 +129,16 @@ remoteDevice.connectGatt(context, true, mGattCallback);//参数1：上下文。
                                                        //参数3：连接回调。
  ```
 
+https://www.cnblogs.com/Free-Thinker/p/11507349.html
+
+
+
+**6、关于autoConnect参数为true的意义？**
+
+在蓝牙核心文档Vol3: Core System Package[Host volume]->Part C: Generic  Access Profile的Connection Modes and Procedures章节中有涉及到自动连接建立规程(Auto  Connection Establishment Procedure)的定义。
+
+自动连接建立规程用来向多个设备同时发起连接。一个中央设备的主机与多个外围设备绑定，只要它们开始广播，便立刻与其建立连接。跟多细节请参考蓝牙核心文档和协议栈源码。
+
 
 
 回调

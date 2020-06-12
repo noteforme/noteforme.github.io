@@ -99,3 +99,9 @@ https://github.com/umano/AndroidSlidingUpPanel
 https://material.io/guidelines/components/dialogs.html#dialogs-specs
 
 http://www.jianshu.com/p/0a7383e0ad0f
+
+
+
+#### guide use
+
+https://blog.csdn.net/u014626094/article/details/105430981

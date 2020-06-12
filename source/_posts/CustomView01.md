@@ -50,4 +50,84 @@ categories: VIEW
 
 
 
+##### Paint
+
+为了展示方便，容易看出效果，之前使用的模式一直为填充模式，实际上画笔有三种模式，如下：
+
+```
+STROKE                //描边
+FILL                  //填充
+FILL_AND_STROKE       //描边加填充
+```
+
+为了区分三者效果我们做如下实验：
+
+```
+        Paint paint = new Paint();
+        paint.setColor(Color.BLUE);
+        paint.setStrokeWidth(40);     //为了实验效果明显，特地设置描边宽度非常大
+
+        // 描边
+        paint.setStyle(Paint.Style.STROKE);
+        canvas.drawCircle(200,200,100,paint);
+
+        // 填充
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(200,500,100,paint);
+
+        // 描边加填充
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        canvas.drawCircle(200, 800, 100, paint);
+```
+
+<img src="https://camo.githubusercontent.com/cb4ff7eb6df1e98d082a48ceaf4c29370e236103/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f30303558746469326a77316632373467366c7862706a3330753031686371336e2e6a7067" alt="显示图" style="zoom:25%;" />
+
+
+
+##### 画布
+
+坐标操作
+
+```
+        canvas.scale(1,-1);                 // 翻转Y轴
+```
+
+
+
+
+
+##### 自定义属性类别
+
+> boolean     表示attr取值为true或者false
+> color         表示attr取值是颜色类型，例如#ff3344,或者是一个指向color的资源id，例如R.color.colorAccent.
+> dimension 表示 attr 取值是尺寸类型，例如例如取值16sp、16dp，也可以是一个指向dimen的资源id，例		  如R.dimen.dp_16
+> float 	 表示attr取值是整形或者浮点型
+> fraction     表示 attr取值是百分数类型，只能以%结尾，例如30%
+> integer      表示attr取值是整型
+> string        表示attr取值是String类型，或者一个指向String的资源id，例如R.string.testString
+> reference   表示attr取值只能是一个指向资源的id。
+> enum 	表示attr取值只能是枚举类型。
+
+
+
+**refrence , 表示attr取值只能是一个指向资源的id。**
+
+<attr name="color" format="refrence"/>
+
+注意  dimension
+
+```
+line1Size = a.getDimensionPixelSize(R.styleable.StackedTextView_line1_textSize, 0);
+```
+
+
+
+
+
+
+
+ https://github.com/GcsSloop/AndroidNote/tree/master/CustomView
+
+
+
 https://www.sunzn.com/2017/08/21/%E8%87%AA%E5%AE%9A%E4%B9%89-View-%E5%9F%BA%E7%A1%80-%E8%A7%92%E5%BA%A6%E4%B8%8E%E5%BC%A7%E5%BA%A6/

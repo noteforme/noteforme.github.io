@@ -19,3 +19,12 @@ https://www.linuxidc.com/Linux/2016-08/134526.htm
 http://www.cnblogs.com/wangqiguo/p/4529250.html
 http://www.cnblogs.com/TankXiao/archive/2012/10/10/2711777.html
 
+
+
+https://juejin.im/post/5cc313755188252d6f11b463
+
+
+
+Mobile capture
+
+https://juejin.im/post/5ddddd2a6fb9a07161483fb2

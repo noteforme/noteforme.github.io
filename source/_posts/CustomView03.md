@@ -179,24 +179,6 @@ public class MyView extends View {
 
 ![customview_2018-05-17_02](CustomView03\customview_2018-05-17_02.png)
 
-##### 自定义属性类别
-
-> boolean     表示attr取值为true或者false
-> color         表示attr取值是颜色类型，例如#ff3344,或者是一个指向color的资源id，例如R.color.colorAccent.
-> dimension 表示 attr 取值是尺寸类型，例如例如取值16sp、16dp，也可以是一个指向dimen的资源id，例		  如R.dimen.dp_16
-> float 	 表示attr取值是整形或者浮点型
-> fraction     表示 attr取值是百分数类型，只能以%结尾，例如30%
-> integer      表示attr取值是整型
-> string        表示attr取值是String类型，或者一个指向String的资源id，例如R.string.testString
-> reference   表示attr取值只能是一个指向资源的id。
-> enum 	表示attr取值只能是枚举类型。
-
-
-
-**refrence , 表示attr取值只能是一个指向资源的id。**
-
-<attr name="color" format="refrence"/>
-
 
 
  https://blog.csdn.net/skysmile_/article/details/78833438

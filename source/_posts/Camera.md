@@ -146,3 +146,10 @@ https://my.oschina.net/u/2008084/blog/524937
 7.0 
 https://blog.csdn.net/u011418943/article/details/77712662
 
+Android 10
+
+https://mp.weixin.qq.com/s/31esIqMudRRDBY8JDs8D4A
+
+
+
+https://juejin.im/post/5a33a5106fb9a04525782db5

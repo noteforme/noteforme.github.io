@@ -252,3 +252,11 @@ Fragmet全局流程图
   <http://yifeng.studio/2016/12/15/android-fragment-attentions/>
   
 * [Communication between nested fragments in Android](https://stackoverflow.com/questions/39491655/communication-between-nested-fragments-in-android)
+
+
+
+Fragment   viewpager
+
+https://mp.weixin.qq.com/s/MOWdbI5IREjQP1Px-WJY1Q
+
+https://juejin.im/post/5bcd58b6e51d45404c71d23f
