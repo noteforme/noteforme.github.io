@@ -218,3 +218,18 @@ private static class Node<E> {
 
   
 
+
+
+##### List use in kotlin
+
+```
+var mPatientList = patientList.filter { it.patientCode == patientCode }
+```
+
+
+
+```
+return mQnList?.let { it ->
+    it.filter { it.type == type }.map { it.value }
+}
+```

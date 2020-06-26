@@ -34,7 +34,7 @@ categories: VIEW
   //高度跟宽度处理方式一样
   if (heightMode == MeasureSpec.EXACTLY) {
       height = heightSize
-  } else if (widthMode == MeasureSpec.AT_MOST) {
+  } else if (heightMode == MeasureSpec.AT_MOST) {
       height = paddingTop + mBound.height() + paddingBottom
   }
   setMeasuredDimension(width, height)
@@ -114,10 +114,14 @@ FILL_AND_STROKE       //描边加填充
 
 <attr name="color" format="refrence"/>
 
-注意  dimension
+注意  dimension ,
 
 ```
-line1Size = a.getDimensionPixelSize(R.styleable.StackedTextView_line1_textSize, 0);
+   val a = context!!.obtainStyledAttributes(attrs, R.styleable.ViewBodySleep , defStyleAttr, 0)
+        linePaint.textSize   = a.getDimensionPixelSize(R.styleable.ViewBodySleep_vbltextsize,21).toFloat()
+        indexPaint.textSize   = a.getDimensionPixelSize(R.styleable.ViewBodySleep_vbltextsize,21).toFloat()
+
+        a.recycle()
 ```
 
 
@@ -131,3 +135,33 @@ line1Size = a.getDimensionPixelSize(R.styleable.StackedTextView_line1_textSize, 
 
 
 https://www.sunzn.com/2017/08/21/%E8%87%AA%E5%AE%9A%E4%B9%89-View-%E5%9F%BA%E7%A1%80-%E8%A7%92%E5%BA%A6%E4%B8%8E%E5%BC%A7%E5%BA%A6/
+
+
+
+
+
+##### setWillNotDraw
+
+ViewGroup默认情况下，出于性能考虑，会被设置成WILL_NOT_DROW，这样，ondraw就不会被执行了。
+
+如果我们想重写一个viewgroup的ondraw方法，有两种方法：
+
+1，构造函数中，给viewgroup设置一个颜色。
+
+2，构造函数中，调用setWillNotDraw（false），去掉其WILL_NOT_DRAW flag。
+
+在viewgroup初始化的时候，它调用了一个私有方法：initViewGroup，它里面会有一句setFlags（WILLL_NOT_DRAW,DRAW_MASK）;相当于调用了setWillNotDraw（true），所以说，对于ViewGroup，他就认为是透明的了，如果我们想要重写onDraw，就要调用setWillNotDraw（false）。
+
+
+
+https://www.jianshu.com/p/7df7e8a0b1a6
+
+https://juejin.im/post/5e6e0b91f265da5716712288
+
+RelativeLayout就是拓扑排序，用到了不光是树，还有图。所以数据结构与算法真的非常重要，他会让你的学习不会再那么枯燥。
+
+
+
+childview
+
+https://www.jianshu.com/p/c84693096e41

@@ -230,7 +230,17 @@ https://developer.android.com/topic/libraries/data-binding/expressions#expressio
 
 [Work with observable data objects](https://developer.android.com/topic/libraries/data-binding/observability)
 
-* DataBinding learn
+
+
+
+
+* isNull
+
+  ```
+  android:text='@{viewModel.patientInfo.remoteCheckReceiveName??""}'
+  ```
+
+
 
 [android-databinding](https://github.com/googlecodelabs/android-databinding)
 
@@ -245,3 +255,7 @@ https://mp.weixin.qq.com/s/4UP-pDs0FK66g1QUQvRN6A
 定义xml背景
 
 https://juejin.im/post/5b95c6a0e51d450e664b0aa0
+
+
+
+https://www.jianshu.com/p/741103ba2ff1

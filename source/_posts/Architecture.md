@@ -92,17 +92,19 @@ Codelab 抽屉图标不显示
 
 
 
+https://github.com/lwj1994/navigation-keep-state-fragment
+
+https://github.com/STAR-ZERO/navigation-keep-fragment-sample
+
+
+
 Bottom tab定位
 
 https://stackoverflow.com/questions/50577356/android-jetpack-navigation-bottomnavigationview-with-youtube-or-instagram-like
 
 
 
-数据倒灌
 
- singleLiveEvent
-
-Hook
 
 全局共享
 

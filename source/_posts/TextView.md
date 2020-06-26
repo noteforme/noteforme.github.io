@@ -33,28 +33,11 @@ SpannableString有一个不方便的地方是截取字符串
 	​	    }, 5, 15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 	​	    return spanTxt;
 	​	 }
-	
-	
-	​        //将TextView的显示文字设置为SpannableString
-	        tvRegister.setText(getClickableSpan());
-	​        //设置该句使文本的超连接起作用
-	​        tvRegister.setMovementMethod(LinkMovementMethod.getInstance());
-	​        
-	​       private SpannableString getClickableSpan() {
-	​        SpannableString spanTxt = new SpannableString("阅读并同意<<用户注册协议>>");
-	​        //设置文字的前景色
-	​        spanTxt.setSpan(new ForegroundColorSpan(Color.GREEN), 5, 15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-	​        spanTxt.setSpan(new ClickableSpan() {
-	​            @Override
-	​            public void onClick(View widget) {
-	​                Intent intent = new Intent(TextViewActivity.this, FirstActivity.class);
-	​                startActivity(intent);
-	​            }
-	​        }, 5, 15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-	​        return spanTxt;
-	​     }
 
-​	  
+
+​	
+
+​	 
 
 
 

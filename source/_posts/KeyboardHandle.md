@@ -32,3 +32,7 @@ https://developer.android.com/training/keyboard-input/style.html
 ```
 
 http://www.jianshu.com/p/215b388a6e7d
+
+
+
+https://juejin.im/post/5eddf8456fb9a04804041738

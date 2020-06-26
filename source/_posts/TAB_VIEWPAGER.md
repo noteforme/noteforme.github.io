@@ -24,17 +24,17 @@ TabLayout tabLayout = ...;
 * 静态
 
   ```
-   <android.support.design.widget.TabLayout
+   <com.google.android.material.tabs.TabLayout
            android:layout_height="wrap_content"
            android:layout_width="match_parent">
   
-       <android.support.design.widget.TabItem
+       <com.google.android.material.tabs.TabItem
                android:text="@string/tab_text"/>
   
-       <android.support.design.widget.TabItem
+       <com.google.android.material.tabs.TabItem
                android:icon="@drawable/ic_android"/>
   
-   </android.support.design.widget.TabLayout>
+   </com.google.android.material.tabs.TabLayout>
    
   ```
 
@@ -45,28 +45,16 @@ TabLayout tabLayout = ...;
 ##### 滑动TAB
 
 ```
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<androidx.viewpager.widget.ViewPager
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_vp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="#2e97f3"
-        app:tabTextColor="#2e97f3" />
+     <com.google.android.material.tabs.TabLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_gravity="top" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</LinearLayout>
-
+ </androidx.viewpager.widget.ViewPager>
 ```
 
 设置Tab
@@ -165,7 +153,7 @@ https://codeday.me/bug/20170629/35704.html
 
 <https://blog.csdn.net/jdsjlzx/article/details/52171075>
 
- ![tabLayout_20190603110418](TabLayout\tabLayout_20190603110418.png)
+ ![tabLayout_20190603110418](TAB_VIEWPAGER\tabLayout_20190603110418.png)
 
 首先设置 
 
@@ -230,7 +218,28 @@ https://github.com/android/views-widgets-samples/tree/master/ViewPager2
 
 
 
+```
+<androidx.viewpager2.widget.ViewPager2
+    android:id="@+id/view_pater2"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginTop="27dp"
+    app:layout_constraintBottom_toBottomOf="parent" />
+```
 
+```
+view_pater2.adapter = ScreenSlidePagerAdapter(this)
+```
 
-
-
+```
+private inner class ScreenSlidePagerAdapter(fa: Fragment) : FragmentStateAdapter(fa) {
+    override fun getItemCount(): Int = 2
+    override fun createFragment(position: Int): Fragment{
+        return if (position==1){
+            BodyDataFragment.newInstance()
+        }else{
+            SleepFragment.newInstance()
+        }
+    }
+}
+```
