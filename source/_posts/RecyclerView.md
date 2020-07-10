@@ -142,3 +142,13 @@ tools:listitem="@layout/adapter_red_pack"
 ```
 tools:src="@sample/RedPack.json/dataList/redEnvelopeMoney"
 ```
+
+
+
+#####   Jectpack Paging
+
+https://developer.android.com/topic/libraries/architecture/paging
+
+https://www.youtube.com/watch?v=BE5bsyGGLf4&t=841s
+
+https://codelabs.developers.google.com/codelabs/android-paging/index.html?index=..%2F..%2Findex#1

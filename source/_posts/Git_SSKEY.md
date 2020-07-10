@@ -48,6 +48,7 @@ http://skypegnu1.blog.51cto.com/8991766/1641064
 *  oschina 测试连接：`$ ssh -T git@git.oschina.net`　　
 *  github 测试连接:    ` $ ssh -T git@github.com`
    如果出现:
+  
   >Hi username! You've successfully authenticated, but GitHub does not
   >  provide shell access.
   >  配置成功
@@ -92,8 +93,8 @@ gogs:参考github,配置sskey后还需要用账号登陆
 参考：https://stackoverflow.com/questions/20939648/issue-pushing-new-code-in-github
 
 2.  生成key时，我改成了　id_rsaOschina
-  android studio 最后push 时
-  authentication id_rsaOschina　using key failed报错
-  方法: AndroidStudio -> File -> Settings ->Git -> SSH executable : built-in 改成Native
+    android studio 最后push 时
+    authentication id_rsaOschina　using key failed报错
+    方法: AndroidStudio -> File -> Settings ->Git -> SSH executable : built-in 改成Native
 
 参考:https://stackoverflow.com/questions/24688700/android-studio-push-failed-fatal-could-not-read-from-remote-repository

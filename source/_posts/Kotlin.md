@@ -107,3 +107,20 @@ https://blog.csdn.net/wzgiceman/article/details/82689135
 oprator
 
 https://zhuanlan.zhihu.com/p/26546977
+
+
+
+####  kotlin细节
+
+https://juejin.im/post/5eeffd73f265da02ec0bc42e
+
+1. apply 
+
+   ```
+   val mDialPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+   mDialPaint.apply {
+               color = Color.parseColor("#333333")
+               strokeWidth = arcWidth*8
+               textSize = 65f
+           }
+   ```

@@ -145,5 +145,12 @@ https://blog.csdn.net/qq_16628781/article/details/51539715
 
 http://www.jianshu.com/p/2a9fcf3c11e4
 
-
 http://blog.csdn.net/mynameishuangshuai/article/details/51491074
+
+
+
+
+
+##### **LifecycleOwner** 处理Activity栈
+
+https://mp.weixin.qq.com/s/ZXqrrX2HdcodIc5r0sf7tA

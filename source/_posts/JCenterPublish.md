@@ -35,15 +35,15 @@ categories: TOOL
    ./nexus run
    ```
 
+   
+
    当然，Nexus 还有很多其他命令(例如:停止、重启、查看状态等)：
 
    ```
    ./nexus {start|stop|run|run-redirect|status|restart|force-reload}
    ```
 
-5. 
-
-   打包
+   注意:windows启动是这样的 `.\nexus.exe /run`
 
 5. 打包
 

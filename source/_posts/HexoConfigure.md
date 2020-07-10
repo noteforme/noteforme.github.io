@@ -2,15 +2,13 @@
 title: HexoConfigure
 comments: true
 date: 2017-08-01 14:03:52
-tags:
-categories: BLOG
+tags: BLOG
+categories: 
 
 ---
 ##  基本配置
 
 ​    官方文档:https://hexo.io/zh-cn/docs/index.html
-
-下载
 
 1. 下载 [Node.js ](https://nodejs.org/en/))
 
@@ -29,9 +27,13 @@ categories: BLOG
 
    搭建好hexo后，由于他是本地生成的，那么就要考虑同步的问题了，目前解决在github建一个分支 hexo，然后把本地资源用git分支管理
 
-4. 安装 npm install
+4. 安装 npm install hexo 
 
 
+
+安装出问题 更换镜像源
+
+[https://www.lemonneko.cn/win10%E6%90%AD%E5%BB%BAhexo%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/](https://www.lemonneko.cn/win10搭建hexo及遇到的坑/)
 
 
 ##  上传文件到分支
@@ -189,6 +191,12 @@ theme didn't commit to GitHub ,so you could clone theme
 
 # 添加浏览数
 https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud
+
+
+
+
+
+
 
 
 

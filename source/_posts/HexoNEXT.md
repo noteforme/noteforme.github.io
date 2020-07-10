@@ -2,8 +2,8 @@
 title: Hexo NEXT
 comments: true
 date: 2017-08-01 14:03:52
-tags:
-categories: BLOG
+tags: BLOG	
+categories: 
 
 ---
 
@@ -19,9 +19,9 @@ categories: BLOG
     comments: true
 
  然后hexo n "yourblog",就会有这些了，接下里就是在首页分类进行关联了
- 
+
 # 生成 分类（默认已有分类）
-    
+
        hexo new page "categories"
 
  1. 新建page: $ hexo new page “categories” ，在 hexo > source 文件夹中会出现一个categories文件夹
