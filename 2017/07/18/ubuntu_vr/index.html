@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="default"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><link rel="stylesheet" type="text/css" href="//fonts.loli.net/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.5"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.5"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><title>ubuntu_vr | Jon's Blog</title></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">ubuntu_vr</h1><a id="logo" href="/.">Jon's Blog</a><p class="description">Cease to struggle and you cease to live. - Thomas Carlyle</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">ubuntu_vr</h1><div class="post-meta"><a href="/2017/07/18/ubuntu_vr/#comments" class="comment-count"></a><p><span class="date">Jul 18, 2017</span><span><a href="/categories/LINUX/" class="category">LINUX</a></span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>Schlägt</i></i></span></p></div><div class="post-content"><p>  自从shadowsocks出来，我们的上网问题算是解决了，通过google查资料确实更便利</p>
+<h5 id="shadowsocks安装"><a href="#shadowsocks安装" class="headerlink" title="shadowsocks安装"></a>shadowsocks安装</h5><p>   对于新手 作者建议安装在ubuntu上，那就用他开始吧</p>
+<ul>
+<li><p>安装软件</p>
+<pre><code>sudo apt-get install python-pip
+pip install shadowsocks
+</code></pre><p>然而我遇到了这样的问题<br>Command “python setup.py egg_info” failed with error code 1 in /tmp/pip-build-Mlx8an/shadowsocks/<br>You are using pip version 8.1.1, however version 9.0.1 is available.<br>You should consider upgrading via the ‘pip install –upgrade pip’ command.<br>接着按照他的指示来</p>
+<p>pip install –upgrade pip</p>
+<p>然而又出问题了，这次是这个 Could not import setuptools which is required to install from a source distribution.<br>Please install setuptools.<br>这时候Google派上用场了，解决方案是 </p>
+</li>
+</ul>
+<pre><code>sudo pip install -U setuptools
+</code></pre><p>  参考：<a href="https://github.com/fredley/play-pi/issues/22" target="_blank" rel="noopener">https://github.com/fredley/play-pi/issues/22</a></p>
+<p>  然后执行 pip install shadowsocks ，终于OK，Collecting shadowsocks<br>  Using cached shadowsocks-2.8.2.tar.gz<br>Installing collected packages: shadowsocks<br>  Running setup.py install for shadowsocks … done<br>Successfully installed shadowsocks-2.8.2</p>
+<h5 id="前台运行"><a href="#前台运行" class="headerlink" title="前台运行"></a>前台运行</h5><p> 软件安装好了，现在可以配置了，先在前台跑下</p>
+<pre><code>ssserver -p 8388 -k 123456 -m aes-256-cfb
+</code></pre><p> 然后手机或电脑同样配置看下代理是否有用，Ok的话，新建一个文件替代命令</p>
+<pre><code>   vi  /etc/shadowsocks.json 
+ {
+ &quot;server&quot;:&quot;my_server_ip&quot;,
+ &quot;server_port&quot;:8388,
+ &quot;local_address&quot;: &quot;127.0.0.1&quot;,
+ &quot;local_port&quot;:1080,
+ &quot;password&quot;:&quot;123456&quot;,
+ &quot;timeout&quot;:300,
+ &quot;method&quot;:&quot;aes-256-cfb&quot;,
+ &quot;fast_open&quot;: false
+}
+</code></pre><p>   前台执行 :   </p>
+<pre><code>ssserver -c /etc/shadowsocks.json
+</code></pre><p> 后台执行:<br>​<br>​        ssserver -c /etc/shadowsocks.json -d start<br>​        ssserver -c /etc/shadowsocks.json -d stop </p>
+<p>接着就可以愉快的玩耍了</p>
+<ul>
+<li>卸载shadowsocks</li>
+</ul>
+<p>　先停掉服务 <code>sudo ssserver -d stop</code><br>　然后　      <code>pip uninstall shadowsocks</code>
+　
+　</p>
+<hr>
+<h5 id="shadowsocks-libev安装"><a href="#shadowsocks-libev安装" class="headerlink" title="shadowsocks-libev安装"></a>shadowsocks-libev安装</h5><p>ubuntu 17</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt <span class="keyword">update</span></span><br><span class="line">sudo apt <span class="keyword">install</span> shadowsocks-libev</span><br></pre></td></tr></table></figure>
+<p>如果是其他版本可以看下面　参考<br>from :<a href="https://github.com/shadowsocks/shadowsocks-libev#install-from-repository" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks-libev#install-from-repository</a></p>
+<ol>
+<li>启动测试连接</li>
+</ol>
+<p>和shadowsocks启动类似 ssserver 换成了 ss-server</p>
+<ul>
+<li>启动测试 : <code>ss-server -s 0.0.0.0 -p 8388 -k 123456 -m aes-256-cfb</code>　　没有 <code>-d start</code><br>可能会占用端口</li>
+<li>配置文件启动<br>To run in the foreground: <code>ss-server -c /etc/shadowsocks-libev/config.json</code></li>
+<li>To run in the background:　<br>｀nohup ss-server -c /etc/shadowsocks-libev/config.json｀</li>
+<li>停止运行: <code>sudo ss-server -d stop</code></li>
+</ul>
+<ol start="2">
+<li>simple-obfs(混淆工具)安装</li>
+</ol>
+<p>Build<br>For Unix-like systems, especially Debian-based systems, e.g. Ubuntu, Debian or Linux Mint, you can build the binary like this:</p>
+<ul>
+<li><p>Debian / Ubuntu　环境配置<br><code>sudo apt-get install --no-install-recommends build-essential autoconf libtool libssl-dev libpcre3-dev libc-ares-dev libev-dev asciidoc xmlto automake</code></p>
+</li>
+<li><p>下载simple-obfs</p>
+<p>  //Debian / Ubuntu<br>  ​    sudo apt-get install –no-install-recommends build-essential autoconf libtool             libssl-dev libpcre3-dev libev-dev asciidoc xmlto automake<br>  ​            //CentOS / Fedora / RHEL<br>  ​        sudo yum install gcc autoconf libtool automake make zlib-devel openssl-devel asciidoc xmlto<br>  ​        // Arch<br>  ​    sudo pacman -Syu gcc autoconf libtool automake make zlib openssl asciidoc xmlto<br>  ​     //Alpine<br>  ​    apk add gcc autoconf make libtool automake zlib-devel openssl asciidoc xmlto libpcre32 libev-dev g++ linux-headers</p>
+<pre><code>git clone https://github.com/shadowsocks/simple-obfs.git
+cd simple-obfs
+git submodule update --init --recursive
+./autogen.sh
+./configure &amp;&amp; make
+sudo make install
+</code></pre></li>
+</ul>
+<p>​         </p>
+<h5 id="注意"><a href="#注意" class="headerlink" title="注意:"></a>注意:</h5><ol>
+<li>Question</li>
+</ol>
+<ul>
+<li><p>问题1<br><code>autoconf --version</code><br>需要安装 <code>sudo apt install autoconf</code></p>
+</li>
+<li><p>问题2</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">configure.<span class="symbol">ac:</span><span class="number">19</span>: <span class="symbol">error:</span> possibly undefined <span class="function"><span class="keyword">macro</span>: <span class="title">AC_DISABLE_STATIC</span></span></span><br><span class="line">      If this token and others are legitimate, please use m4_pattern_allow.</span><br><span class="line">      See the Autoconf documentation.</span><br><span class="line">configure.<span class="symbol">ac:</span><span class="number">20</span>: <span class="symbol">error:</span> possibly undefined <span class="function"><span class="keyword">macro</span>: <span class="title">AC_DISABLE_SHARED</span></span></span><br><span class="line">configure.<span class="symbol">ac:</span><span class="number">44</span>: <span class="symbol">error:</span> possibly undefined <span class="function"><span class="keyword">macro</span>: <span class="title">AC_PROG_LIBTOOL</span></span></span><br><span class="line"><span class="symbol">autoreconf:</span> /usr/bin/autoconf failed <span class="keyword">with</span> exit <span class="symbol">status:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>sudo apt-get install libtool</code></p>
+<ul>
+<li><p>问题3<br><code>sudo apt-get install automake</code><br><a href="http://ask.xmodulo.com/fix-failed-to-run-aclocal.html" target="_blank" rel="noopener">http://ask.xmodulo.com/fix-failed-to-run-aclocal.html</a></p>
+<p><img src="/2017/07/18/ubuntu_vr/shadowsocklib_autogen.png" alt="shadowsocklib_autogen"></p>
+</li>
+</ul>
+<ol start="2">
+<li>混淆</li>
+</ol>
+<ul>
+<li><p>server端: <code>ss-server -c  /etc/shadowsocks-libev/config.json  --plugin obfs-server --plugin-opts &quot;obfs=http&quot;</code></p>
+</li>
+<li><p>clinet 端:<code>ss-local -c config.json --plugin obfs-local --plugin-opts &quot;obfs=http;obfs-host=www.baidu.com&quot;</code><br>也可以都放在配置文件中</p>
+</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"server"</span>:<span class="string">"0.0.0.0"</span>,</span><br><span class="line">    <span class="attr">"server_port"</span>:your_server_port,</span><br><span class="line">    <span class="attr">"local_address"</span>:<span class="string">"127.0.0.1"</span>,</span><br><span class="line">    <span class="attr">"local_port"</span>:<span class="number">1080</span>,</span><br><span class="line">    <span class="attr">"password"</span>:<span class="string">"your_password"</span>,</span><br><span class="line">    <span class="attr">"timeout"</span>:<span class="number">300</span>,</span><br><span class="line">    <span class="attr">"method"</span>:<span class="string">"your_encryption_method"</span>,</span><br><span class="line">    <span class="attr">"plugin"</span>:<span class="string">"/usr/local/bin/obfs-server --obfs http"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么服务端直接运行<code></code>ss-server -c /etc/shadowsocks-libev/config.json `就可以了</p>
+<p>后台运行就是前面的测试连接 nohup命令　</p>
+<p>from:<a href="https://teddysun.com/511.html" target="_blank" rel="noopener">https://teddysun.com/511.html</a></p>
+<ul>
+<li><p>参数: </p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">插件：obfs-<span class="built_in">local</span></span><br><span class="line">插件选项：obfs=<span class="keyword">http</span>;obfs-host=www.baidu.com</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>客户端连接<br>　client也按照 simple-obfs  服务端安装方式安装<br>　连接命令 <code>ss-local -c /etc/shadowsocks-libev/config.json --plugin obfs-local --plugin-opts &quot;obfs=http;obfs-host=www.biadu.com&quot;</code></p>
+</li>
+</ul>
+<p>参考:<a href="https://github.com/shadowsocks/simple-obfs" target="_blank" rel="noopener">https://github.com/shadowsocks/simple-obfs</a><br><a href="https://blog.phpgao.com/shadowsocks_on_linux.html" target="_blank" rel="noopener">https://blog.phpgao.com/shadowsocks_on_linux.html</a><br><a href="https://softwaredownload.gitbooks.io/openwrt-fanqiang/content/ebook/03.2.html" target="_blank" rel="noopener">https://softwaredownload.gitbooks.io/openwrt-fanqiang/content/ebook/03.2.html</a></p>
+<h5 id="配置ubuntu开机启动"><a href="#配置ubuntu开机启动" class="headerlink" title="配置ubuntu开机启动"></a>配置ubuntu开机启动</h5><ul>
+<li>home下　新建 run_server.sh<br>输入</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">cd</span> /home/jon/shadowsocksr/shadowsocks</span><br><span class="line">python local.py -c /etc/shadowsocks.json</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改脚本权限<br>一定要让脚本具备可执行权限，可以执行如下指令：<br><code>$ sudo chmod 755 run_server.sh</code></li>
+</ul>
+<ul>
+<li><p>将脚本放置在启动路径下<br>将run_server.sh移动到/etc/init.d路径下，可以直接拷贝，也可以链接过去<br><code>$ sudo cp run_server.sh /etc/init.d/</code></p>
+</li>
+<li><p>将脚本添加到启动脚本。<br>执行如下指令，在这里90表明一个优先级，越高表示执行的越晚</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> /etc/init.d/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo update-rc.d run_server.sh defaults 90</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>如何移除该脚本<br>很简单，执行如下指令：<br><code>sudo update-rc.d -f run_server.sh remove</code></li>
+</ul>
+<p><a href="http://jackqdyulei.github.io/2016/03/06/linux-auto-script/" target="_blank" rel="noopener">http://jackqdyulei.github.io/2016/03/06/linux-auto-script/</a></p>
+<h5 id="设置系统全局代理"><a href="#设置系统全局代理" class="headerlink" title="设置系统全局代理"></a>设置系统全局代理</h5><p> <a href="https://blog.csdn.net/u012810317/article/details/52139361" target="_blank" rel="noopener">https://blog.csdn.net/u012810317/article/details/52139361</a></p>
+<ul>
+<li><p>terminal代理</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">export</span> <span class="attribute">http_proxy</span>=http://127.0.0.1:8118</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">https_proxy</span>=http://127.0.0.1:8118</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<p>git config –global http.proxy “localhost:1080”</p>
+<p>git config –global http.proxy “localhost:1080”</p>
+</li>
+</ul>
+<p>   git clone –recurse-submodules <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:shadowsocks/shadowsocks-android.git</p>
+<h5 id="修改包名"><a href="#修改包名" class="headerlink" title="修改包名"></a>修改包名</h5><ul>
+<li><p>把apk改成 shadowsocks.apk</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">![SS_20190DD](E:\noteforme<span class="selector-class">.github</span><span class="selector-class">.io</span>\source\_posts\ubuntu_ssr\SS_20190DD.png)java -jar apktool<span class="selector-class">.jar</span> d shadowsocks<span class="selector-class">.apk</span>      <span class="comment">//解包</span></span><br><span class="line">											<span class="comment">//中间做修改</span></span><br><span class="line">java -jar apktool<span class="selector-class">.jar</span> <span class="selector-tag">b</span> shadowsocks			<span class="comment">//打成apk再dist目录下</span></span><br><span class="line"></span><br><span class="line">jarsigner -verbose -keystore androidTest<span class="selector-class">.jks</span> -signedjar signed<span class="selector-class">.apk</span> AndroidTest<span class="selector-class">.apk</span> test  <span class="comment">//生成签名</span></span><br><span class="line"></span><br><span class="line">jarsigner -verbose -keystore androidTest<span class="selector-class">.jks</span> -signedjar signed<span class="selector-class">.apk</span> shadowsockstt<span class="selector-class">.apk</span> test</span><br></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/huaiyiheyuan/article/details/53114490" target="_blank" rel="noopener">https://blog.csdn.net/huaiyiheyuan/article/details/53114490</a></p>
+</li>
+</ul>
+<h5 id="windows全局代理"><a href="#windows全局代理" class="headerlink" title="windows全局代理"></a>windows全局代理</h5><p><a href="https://www.flyzy2005.com/fan-qiang/shadowsocks/proxifier-with-shadowsocks/" target="_blank" rel="noopener">https://www.flyzy2005.com/fan-qiang/shadowsocks/proxifier-with-shadowsocks/</a></p>
+<p><img src="/2017/07/18/ubuntu_vr/SS_20190DD.png" alt="SS_20190DD"></p>
+<h5 id="win7下使用"><a href="#win7下使用" class="headerlink" title="win7下使用"></a>win7下使用</h5><ol>
+<li>首先下载 Microsoft .NET Framework 4.6.2，但是win7系统不支持安装</li>
+<li>下载 <strong>需要升级为Windows 7 SP1</strong> 需要去官网下载 Windows 7 SP1</li>
+</ol>
+<h5 id="VR-INSTALL"><a href="#VR-INSTALL" class="headerlink" title="VR  INSTALL"></a>VR  INSTALL</h5><ul>
+<li>安装</li>
+</ul>
+<p><a href="https://toutyrater.github.io/prep/install.html" target="_blank" rel="noopener">https://toutyrater.github.io/prep/install.html</a></p>
+<ol>
+<li><p>Install</p>
+</li>
+<li><blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> wget https://install.direct/go.sh</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> sudo bash go.sh</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>check</p>
+<blockquote>
+<p>cat /etc/v2ray/config.json</p>
+</blockquote>
+<p>you will see the config,I won’t be  change it</p>
+</li>
+<li><p>ff</p>
+<blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">$ sudo systemctl start v2ray</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>sudo: unable to resolve host vm8l</p>
+</li>
+<li><p>$ cat /etc/hostname</p>
+<p>vm8lcxg8.hostflyte.com</p>
+<p>or you  could use this<a href="https://github.com/233boy/v2ray/wiki/V2Ray%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B" target="_blank" rel="noopener">vr使用</a></p>
+</li>
+</ol>
+<ul>
+<li>macOS use</li>
+</ul>
+<blockquote>
+<p>proxy</p>
+</blockquote>
+<p>Github slowly</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global http<span class="selector-class">.proxy</span> socks5:<span class="comment">//127.0.0.1:1081</span></span><br><span class="line"></span><br><span class="line">git config --global https<span class="selector-class">.proxy</span> socks5:<span class="comment">//127.0.0.1:1081</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git<span class="built_in"> config </span>--global --unset http.proxy </span><br><span class="line">git<span class="built_in"> config </span>--global --unset https.proxy</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.jianshu.com/p/5e74b1042b70" target="_blank" rel="noopener">https://www.jianshu.com/p/5e74b1042b70</a></p>
+<p>GitHub 镜像 </p>
+<p><a href="https://github.com/Zenquan/quickgitclone" target="_blank" rel="noopener">https://github.com/Zenquan/quickgitclone</a></p>
+<p>git clone  <a href="https://github.com.cnpmjs.org/android/media-samples.git" target="_blank" rel="noopener">https://github.com.cnpmjs.org/android/media-samples.git</a></p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo dscacheutil -flushcache</span></span><br></pre></td></tr></table></figure>
+<p>Terminal</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> http_proxy=<span class="string">"http://127.0.0.1:1081"</span></span><br><span class="line"><span class="keyword">export</span> https_proxy=<span class="string">"http://127.0.0.1:1081"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>google 搭建vr</p>
+<p>按照这个教程 <a href="https://zelikk.blogspot.com/2019/01/gcp-v2ray-firewall.html" target="_blank" rel="noopener">https://zelikk.blogspot.com/2019/01/gcp-v2ray-firewall.html</a></p>
+<p>网络标记就选了全部实例</p>
+<p><img src="/2017/07/18/ubuntu_vr/veray_go_engile_1.png" alt="veray_go_engile_1" style="zoom:67%;"></p>
+</li>
+</ul>
+<pre><code>注意复制的端口号 带上了逗号
+</code></pre><ul>
+<li><p>-bash: sudo: command not found</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dpkg -l|grep sudo</span><br><span class="line">apt-<span class="builtin-name">get</span> install sudo</span><br><span class="line">sudo apt-<span class="builtin-name">get</span> install wget</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置mac终端走ssr或者是v2ray代理</p>
+</li>
+</ul>
+<p><a href="http://www.xiaosuiyin.com/2020/02/15/设置mac终端走ssr或者是v2ray代理/" target="_blank" rel="noopener">http://www.xiaosuiyin.com/2020/02/15/%E8%AE%BE%E7%BD%AEmac%E7%BB%88%E7%AB%AF%E8%B5%B0ssr%E6%88%96%E8%80%85%E6%98%AFv2ray%E4%BB%A3%E7%90%86/</a></p>
+</div><div class="post-copyright"><blockquote><p>Ursprünglicher Autor: Jon</p><p>Ursprünglicher Link: <a href="http://yoursite.com/2017/07/18/ubuntu_vr/">http://yoursite.com/2017/07/18/ubuntu_vr/</a></p><p>Copyright-Erklärung: Bitte geben Sie die Quelle des Nachdrucks an.</p></blockquote></div><div class="tags"></div><div class="post-share"><div class="social-share"><span>Aktie:</span></div></div><div class="post-nav"><a href="/2017/07/18/ubuntu-mariaDb/" class="pre">ubuntu-mariaDb</a><a href="/2017/07/17/RecyclerView/" class="next">RecyclerViewUse</a></div><div id="comments"></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">Inhalte</i></div><ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#shadowsocks安装"><span class="toc-text">shadowsocks安装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#前台运行"><span class="toc-text">前台运行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#shadowsocks-libev安装"><span class="toc-text">shadowsocks-libev安装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#注意"><span class="toc-text">注意:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#配置ubuntu开机启动"><span class="toc-text">配置ubuntu开机启动</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#设置系统全局代理"><span class="toc-text">设置系统全局代理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#修改包名"><span class="toc-text">修改包名</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#windows全局代理"><span class="toc-text">windows全局代理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#win7下使用"><span class="toc-text">win7下使用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VR-INSTALL"><span class="toc-text">VR  INSTALL</span></a></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/06/15/LiveData/">LiveData</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/19/THINKING/">THINKING</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/14/INTERVIEW-ANDROID/">INTERVIEW_ANDROID</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/08/ActivityLayout/">ActivityLayout</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/06/DataStructure/">DataStructure</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/DeliverValue/">DeliverValue</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/26/Bluetooth04/">Bluetooth04</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/25/annotation/">annotation</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/JVM/">JVM</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/16/TypeInfo/">TypeInfo</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-gui"> Kategorien</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/AOSP/">AOSP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/INTERVIEW/">INTERVIEW</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/组成原理/">组成原理</a><span class="category-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> Tags</i></div><div class="tagcloud"><a href="/tags/Activity/" style="font-size: 15px;">Activity</a> <a href="/tags/AOSP/" style="font-size: 15px;">AOSP</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/EventDispatch/" style="font-size: 15px;">EventDispatch</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/ConstraintLayout/" style="font-size: 15px;">ConstraintLayout</a> <a href="/tags/VIEW/" style="font-size: 15px;">VIEW</a> <a href="/tags/DataStructure/" style="font-size: 15px;">DataStructure</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/DB/" style="font-size: 15px;">DB</a> <a href="/tags/BLOG/" style="font-size: 15px;">BLOG</a> <a href="/tags/keyboard/" style="font-size: 15px;">keyboard</a> <a href="/tags/NDK/" style="font-size: 15px;">NDK</a> <a href="/tags/Drawer/" style="font-size: 15px;">Drawer</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 15px;">AndroidNewFeatures</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/http/" style="font-size: 15px;">http</a> <a href="/tags/TabLayout/" style="font-size: 15px;">TabLayout</a> <a href="/tags/THINK/" style="font-size: 15px;">THINK</a> <a href="/tags/operators/" style="font-size: 15px;">operators</a> <a href="/tags/proguard/" style="font-size: 15px;">proguard</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> Archiv</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">22</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">59</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-you"> Blogroll</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">Sitemap</a> |  <a href="/atom.xml">Abonnieren Sie diese Site</a> |  <a href="/about/">Kontaktieren Sie den Blogger</a></p><p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次，本站总访客数:<i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>人</p><p><span> Copyright &copy;<a href="/." rel="nofollow">Jon.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake.</a></span><span> Count by<a href="http://busuanzi.ibruce.info/"> busuanzi.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script type="text/javascript" src="/js/search.json.js?v=2.0.5"></script><div id="fullscreen-img" class="hide"><span class="close"></span></div><script type="text/javascript" src="/js/imgview.js?v=2.0.5" async></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.5" async></script><link rel="stylesheet" type="text/css" href="/share/css/share.css"><script type="text/javascript" src="/share/js/social-share.js" charset="utf-8"></script><script type="text/javascript" src="/share/js/qrcode.js" charset="utf-8"></script></body></html>

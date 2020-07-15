@@ -1,0 +1,197 @@
+<!DOCTYPE html><html lang="default"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><link rel="stylesheet" type="text/css" href="//fonts.loli.net/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.5"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.5"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><title>GIT_BRANCH | Jon's Blog</title></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">GIT_BRANCH</h1><a id="logo" href="/.">Jon's Blog</a><p class="description">Cease to struggle and you cease to live. - Thomas Carlyle</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">GIT_BRANCH</h1><div class="post-meta"><a href="/2017/10/19/Git_BRANCH/#comments" class="comment-count"></a><p><span class="date">Oct 19, 2017</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>Schlägt</i></i></span></p></div><div class="post-content"><p>官方文档<br><a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener">https://git-scm.com/book/en/v2</a><br><a href="http://iissnan.com/progit/" target="_blank" rel="noopener">http://iissnan.com/progit/</a></p>
+<h4 id="Git基本操作"><a href="#Git基本操作" class="headerlink" title="Git基本操作"></a>Git基本操作</h4><h5 id="github上传项目"><a href="#github上传项目" class="headerlink" title="github上传项目"></a>github上传项目</h5><ul>
+<li>分支创建</li>
+</ul>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git branch Dev1<span class="number">.10</span> </span><br><span class="line">git push origin Dev1<span class="number">.10</span> 　　　<span class="comment">// 提交该分支到远程仓库</span></span><br><span class="line">git pull origin dev          <span class="comment">//从远程获取分支</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>下面是对已有项目的提交</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir EffectiveJava</span><br><span class="line">cd EffectiveJava</span><br><span class="line">git init</span><br><span class="line">touch README.md</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m <span class="string">"first commit"</span></span><br><span class="line">git remote add origin git@gitee<span class="selector-class">.com</span>:huaiyi/EffectiveJava.git</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<p>分支提交到远程仓库<br><code>$ git push origin v1.0.0</code></p>
+<ul>
+<li><p>commit</p>
+<p>Git撤销git commit 但是未git push的修改</p>
+<ol>
+<li><p>找到上次git commit的 id</p>
+<p>  git log </p>
+<p>  找到你想撤销的commit_id</p>
+</li>
+<li><p>git reset –hard commit_id</p>
+<pre><code>完成撤销,同时将代码恢复到前一commit_id 对应的版本。
+</code></pre></li>
+<li><p>git reset commit_id </p>
+<p>  完成Commit命令的撤销，但是不对代码修改进行撤销，可以直接通过git commit 重新提交对本地代码的修改。</p>
+</li>
+</ol>
+<p><a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B" target="_blank" rel="noopener">git分支简介</a><br><a href="http://blog.csdn.net/hyr83960944/article/details/36185231" target="_blank" rel="noopener">http://blog.csdn.net/hyr83960944/article/details/36185231</a></p>
+</li>
+</ul>
+<p>合并分支<br>合并hotfix到dev</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout            // 先切换到dev </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git merge hotfix</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6" target="_blank" rel="noopener">合并分支</a></p>
+<h5 id="获取本地没有的远程分支"><a href="#获取本地没有的远程分支" class="headerlink" title="获取本地没有的远程分支"></a>获取本地没有的远程分支</h5><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">branch </span>-r <span class="comment">#查看远程分支  或 git branch -a #查看所有分支</span></span><br></pre></td></tr></table></figure>
+<p>会显示</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">origin</span>/HEAD -&gt; <span class="built_in">origin</span>/master</span><br><span class="line"><span class="built_in">origin</span>/daily/<span class="number">1.2</span>.2</span><br><span class="line"><span class="built_in">origin</span>/daily/<span class="number">1.3</span>.0</span><br><span class="line"><span class="built_in">origin</span>/daily/<span class="number">1.4</span>.1</span><br><span class="line"><span class="built_in">origin</span>/develop</span><br><span class="line"><span class="built_in">origin</span>/<span class="built_in">feature</span>/daily-<span class="number">1.0</span>.0</span><br><span class="line"><span class="built_in">origin</span>/master</span><br></pre></td></tr></table></figure>
+<p>然后直接 </p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout origin/daily/<span class="number">1.4</span><span class="number">.1</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/" target="_blank" rel="noopener">https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/</a></p>
+<p><a href="https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF" title="官方参考" target="_blank" rel="noopener">官方</a></p>
+<ul>
+<li><p><a href="https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8" target="_blank" rel="noopener">显示远程仓库</a><br> <code>$ git remote show origin</code></p>
+<p> <strong>1. 本地分支重命名(还没有推送到远程)</strong></p>
+ <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">git</span> <span class="keyword">branch </span>-m oldName newName</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>   <strong>2. 远程分支重命名 (已经推送远程-假设本地分支和远程对应分支名称相同)</strong><br>    a. 重命名远程分支对应的本地分支</p>
+   <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">git</span> <span class="keyword">branch </span>-m oldName newName</span><br></pre></td></tr></table></figure>
+<p>   b. 删除远程分支</p>
+   <figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">push</span> --<span class="built_in">delete</span> <span class="built_in">origin</span> oldName</span><br></pre></td></tr></table></figure>
+<p>   c. 删除本地分支<br>         <code>git branch -d v1.0.0</code></p>
+<ul>
+<li><blockquote>
+<p>获取远程其他分支</p>
+</blockquote>
+</li>
+</ul>
+<p>​     </p>
+<h5 id="修复已发布版本bug"><a href="#修复已发布版本bug" class="headerlink" title="修复已发布版本bug"></a>修复已发布版本bug</h5><p>修复bug主要以下几步:</p>
+<ul>
+<li><p>使用git reset –hard <commit id="">命令退回到发布标签对应的版本</commit></p>
+</li>
+<li><p>使用git checkout -b BugFix新建一个BugFix的分支，原分支前进到最新提交版本</p>
+</li>
+<li><p>使用git checkout BugFix切换到BugFix分支，修改bug，重新发布并使用git tag打标签</p>
+</li>
+<li><p>git reaset –hard <head commit="" id=""><meta name="generator" content="Hexo 3.8.0"> 切换主干最新的分支</head></p>
+</li>
+<li><p>使用git merge合并BugFix分支到主分支</p>
+<p>参考:<a href="https://blog.masterliu.net/git-retag/" target="_blank" rel="noopener">https://blog.masterliu.net/git-retag/</a></p>
+</li>
+</ul>
+<p>  标签是一个文件快照，并不是真拉出一份代码放在了那里</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">D:\Project\ASProjects\cqianjia&gt;git <span class="keyword">tag</span></span><br><span class="line">v1.<span class="number">0.2</span></span><br></pre></td></tr></table></figure>
+<p>参考: <a href="http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/" target="_blank" rel="noopener">http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/</a></p>
+<p>还有一种情况是在最新提交版本修复bug</p>
+<ul>
+<li><p>git stash</p>
+<p><a href="https://www.jianshu.com/p/54b8ea4317cc" target="_blank" rel="noopener">https://www.jianshu.com/p/54b8ea4317cc</a></p>
+<p><a href="https://qiita.com/hudichao/items/d665cd769ed1d2ce832a" target="_blank" rel="noopener">https://qiita.com/hudichao/items/d665cd769ed1d2ce832a</a></p>
+</li>
+</ul>
+<h5 id="远程仓库更新到本地"><a href="#远程仓库更新到本地" class="headerlink" title="远程仓库更新到本地"></a>远程仓库更新到本地</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git fetch origin</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git merge origin/hexo</span></span><br></pre></td></tr></table></figure>
+<p>或者合并</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git pull origin hexo</span></span><br></pre></td></tr></table></figure>
+<p><a href="http://www.ruanyifeng.com/blog/2014/06/git_remote.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/06/git_remote.html</a></p>
+<h6 id="fork后的项目处理"><a href="#fork后的项目处理" class="headerlink" title="fork后的项目处理"></a>fork后的项目处理</h6><p>  <a href="https://gaohaoyang.github.io/2015/04/12/Syncing-a-fork/" target="_blank" rel="noopener">https://gaohaoyang.github.io/2015/04/12/Syncing-a-fork/</a></p>
+<h5 id="忽略文件已提交的文件"><a href="#忽略文件已提交的文件" class="headerlink" title="忽略文件已提交的文件"></a>忽略文件已提交的文件</h5><p> 对于单个文件处理<br>  假如要忽略 .idea/misc.xml文件，.gitignore可以添加 <code>/.idea/*</code>把.idea文件过滤<br> 主要是　<code>git rm --cached　.idea/misc.xml</code> 然后提交修改,每次手输入才有用?</p>
+<p> 对文件夹的处理,比如common-bankcard</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --<span class="keyword">cached </span>common-<span class="keyword">bankcard</span></span><br><span class="line"><span class="keyword">git </span>rm --<span class="keyword">cached </span> *idea<span class="comment">/*</span></span><br></pre></td></tr></table></figure>
+<h4 id="Git仓库迁移"><a href="#Git仓库迁移" class="headerlink" title="Git仓库迁移"></a>Git仓库迁移</h4><p> 迁移git仓库</p>
+<ul>
+<li><p>原来托管于github,clone一份裸版本库</p>
+<pre><code>git clone --bare git@gitee.com:huaiyi/CQJ.git
+</code></pre></li>
+<li><p>在新的版本库(gitlab)里面创建一个新的项目，例如 cqianjia</p>
+</li>
+<li><p>推送刚才clone的镜像到gitlab服务器</p>
+</li>
+</ul>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd CQJ.git/</span><br><span class="line">git push --mirror git<span class="variable">@45</span>.<span class="number">77.22</span>.<span class="number">97</span><span class="symbol">:root/cqianjia</span>.git</span><br></pre></td></tr></table></figure>
+<p> mirror 克隆出来的裸版本对上游版本库进行了注册，这样可以在裸版本库中使用git fetch命令和上游版本库进行持续同步</p>
+<ul>
+<li>删除本地代码</li>
+</ul>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">cd</span></span> ..</span><br><span class="line">rm -rf project.git</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>到新的服务器clone到本地就Ok了</p>
+<p><code>git clone git@45.77.22.97:root/cqianjia.git</code> </p>
+<p>参考: <a href="https://my.oschina.net/kind790/blog/510601" target="_blank" rel="noopener">https://my.oschina.net/kind790/blog/510601</a></p>
+<ul>
+<li><p>git clone 所有分支</p>
+<p>这种方式有一个弊端，切换分支后　工程名没了， 还是慢慢摸索吧　!</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git branch -r | grep -v <span class="string">'\-&gt;'</span> | <span class="keyword">while</span> <span class="built_in">read</span> remote; <span class="keyword">do</span> git branch --track <span class="string">"<span class="variable">$&#123;remote#origin/&#125;</span>"</span> <span class="string">"<span class="variable">$remote</span>"</span>; <span class="keyword">done</span></span><br><span class="line">git fetch --all</span><br><span class="line">git pull --all</span><br></pre></td></tr></table></figure>
+<p>参考: <a href="http://blog.csdn.net/allangold/article/details/78028709" target="_blank" rel="noopener">http://blog.csdn.net/allangold/article/details/78028709</a></p>
+<h5 id="修改远程仓库地址"><a href="#修改远程仓库地址" class="headerlink" title="修改远程仓库地址"></a>修改远程仓库地址</h5><ul>
+<li>github创建 New项目，项目地址是 <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:BlogForMe/News.git</li>
+<li>修改远程服务器地址 ：<code>git remote set-url origin git@github.com:BlogForMe/News.git</code></li>
+<li>推送到远程服务器 : <code>git push origin</code></li>
+</ul>
+<p><a href="http://jcpplus.github.io/2015/07/23/modify-remote-url/" target="_blank" rel="noopener">http://jcpplus.github.io/2015/07/23/modify-remote-url/</a></p>
+<h4 id="GIT标签"><a href="#GIT标签" class="headerlink" title="GIT标签"></a>GIT标签</h4><p>  查看所有的版本<br>​    <code>git tag</code></p>
+<ul>
+<li>查看远程分支  <code>git ls-remote --tags</code></li>
+<li>创建标签 <code>git tag -a v1.0.2 -m &quot;my version 1.0.2&quot;</code><br>-m 选项指定了一条将会存储在标签中的信息</li>
+</ul>
+<ul>
+<li>创建Tag</li>
+</ul>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git tag -a v1<span class="number">.0</span><span class="number">.0</span> -m <span class="string">"my version 1.0.0"</span></span><br><span class="line">git push origin v1<span class="number">.0</span><span class="number">.0</span>    <span class="comment">//推送到远程分支</span></span><br><span class="line">git push origin --tags       <span class="comment">//推送所有的标签</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除tag </li>
+</ul>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> git tag -d &lt;tagname&gt; </span><br><span class="line"> git push origin <span class="symbol">:refs/tags/&lt;tagname&gt;</span></span><br><span class="line"></span><br><span class="line">例如</span><br><span class="line"> git push origin <span class="symbol">:refs/tags/v1</span>.<span class="number">0</span>.<span class="number">2</span></span><br><span class="line"> git tag -d  v1.<span class="number">0</span>.<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%89%93%E6%A0%87%E7%AD%BE" target="_blank" rel="noopener">检出标签</a> 检出标签</p>
+<ul>
+<li><p>Checkout Git Tags </p>
+<p><a href="https://devconnected.com/how-to-checkout-git-tags/" target="_blank" rel="noopener">https://devconnected.com/how-to-checkout-git-tags/</a></p>
+<blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">  git fetch --all --tags</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">  git checkout tags/v1.0 -b v1.0-branch	//git checkout tags/v2.1.1 -b v2.1.1-branch</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">  </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">  git <span class="built_in">log</span> --oneline --graph		//You can inspect the state of your branch by using the “git <span class="built_in">log</span>” <span class="built_in">command</span>. Make sure that the HEAD pointer (the latest commit) is pointing to your annotated tag.</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>checkout remote tag</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git fetch --all --tags</span><br><span class="line"></span><br><span class="line">git ls-remote --tags</span><br><span class="line"> </span><br><span class="line">  refs/tags/v2<span class="number">.5</span><span class="number">.8</span>^&#123;&#125;</span><br><span class="line">  refs/tags/v2<span class="number">.5</span><span class="number">.9</span></span><br><span class="line">  refs/tags/v2<span class="number">.5</span><span class="number">.9</span>^&#123;&#125;</span><br><span class="line"></span><br><span class="line">git checkout  refs/tags/v2<span class="number">.5</span><span class="number">.9</span> -branch v2<span class="number">.5</span><span class="number">.9</span>-branch</span><br><span class="line"> 																				这个自定义</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在 Git 中你并不能真的检出一个标签，因为它们并不能像分支一样来回移动。 如果你想要工作目录与仓库中特定的标签版本完全一样，可以使用 git checkout -b [branchname] [tagname] 在特定的标签上创建一个新分支：</p>
+<pre><code>$ git checkout -b version2 v2.0.0
+</code></pre><p>Switched to a new branch ‘version2’</p>
+<p>当然，如果在这之后又进行了一次提交，version2 分支会因为改动向前移动了，那么 version2 分支就会和 v2.0.0 标签稍微有些不同，这时就应该当心了。</p>
+<p>修复已发布版本Bug<br><a href="http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/" target="_blank" rel="noopener">http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/</a></p>
+<h5 id="git-stash"><a href="#git-stash" class="headerlink" title="git stash"></a>git stash</h5><p>经常有这样的事情发生，当你正在进行项目中某一部分的工作，里面的东西处于一个比较杂乱的状态，而你想转到其他分支上进行一些工作。问题是，你不想提交进行了一半的工作，否则以后你无法回到这个工作点。解决这个问题的办法就是<code>git stash</code>命令。</p>
+<ol>
+<li><p><code>git stash  save  &#39;暂存备注信息&#39;</code> //进入暂存状态,此时执行 git status 已经没有要提交的了</p>
+</li>
+<li><p>git checkout  切换到要修改的分支上 ,修改完</p>
+</li>
+<li><p>完成后回到原来的开发分支上，git stash apply 获取最近暂存内容</p>
+</li>
+<li><p><code>git stash drop  stash@{1}</code></p>
+<blockquote>
+<p>apply 选项只尝试应用储藏的工作——储藏的内容仍然在栈上。要移除它，你可以运行 <code>git stash drop</code>，加上你希望移除的储藏的名字：</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li><p>git stash 可以进行多次暂存,多次存后 git stash list长下面这样,可以用 · git stash apply stash@{1}· 获取某次暂存的内容</p>
+<blockquote>
+<p>stash@{0}: WIP on dev: 3d01a6c Patient Entity数据库删除<br>stash@{1}: WIP on dev: b6a688e 跑起来提交</p>
+</blockquote>
+</li>
+<li><p>取消储藏  <code>git stash show -p stash@{0} | git apply -R</code>  如果没指定具体的标签 取消最近的</p>
+<p>这个和<code>git stash drop</code>的区别是 取消的是文件内容，stash标签还在</p>
+<p><a href="https://git-scm.com/docs/git-stash" target="_blank" rel="noopener">https://git-scm.com/docs/git-stash</a></p>
+<blockquote>
+<p> 注意是 stash@{0}  不是  3d01a6c</p>
+</blockquote>
+</li>
+</ul>
+<p>  git branch 分支名 hash(历史版本)</p>
+<ul>
+<li><p>update forked project</p>
+<p> <a href="https://blog.csdn.net/qq1332479771/article/details/56087333" target="_blank" rel="noopener">https://blog.csdn.net/qq1332479771/article/details/56087333</a> </p>
+</li>
+<li><p>获取暂存</p>
+<blockquote>
+<p>git stash apply stash@{0}   // don‘t remove stash</p>
+<p>git stash pop stash@{0}</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="SVN"><a href="#SVN" class="headerlink" title="SVN"></a>SVN</h5><ul>
+<li>SVN不能添加文件:<a href="https://blog.csdn.net/yujiayinshi/article/details/51381942" target="_blank" rel="noopener">https://blog.csdn.net/yujiayinshi/article/details/51381942</a></li>
+</ul>
+</div><div class="post-copyright"><blockquote><p>Ursprünglicher Autor: Jon</p><p>Ursprünglicher Link: <a href="http://yoursite.com/2017/10/19/Git_BRANCH/">http://yoursite.com/2017/10/19/Git_BRANCH/</a></p><p>Copyright-Erklärung: Bitte geben Sie die Quelle des Nachdrucks an.</p></blockquote></div><div class="tags"><a href="/tags/Git/">Git</a></div><div class="post-share"><div class="social-share"><span>Aktie:</span></div></div><div class="post-nav"><a href="/2017/10/19/Git_SSKEY/" class="pre">GIT_SSHKEY</a><a href="/2017/10/17/hot-patch/" class="next">hot_patch（热更新）</a></div><div id="comments"></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">Inhalte</i></div><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Git基本操作"><span class="toc-text">Git基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#github上传项目"><span class="toc-text">github上传项目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#获取本地没有的远程分支"><span class="toc-text">获取本地没有的远程分支</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#修复已发布版本bug"><span class="toc-text">修复已发布版本bug</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#远程仓库更新到本地"><span class="toc-text">远程仓库更新到本地</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#fork后的项目处理"><span class="toc-text">fork后的项目处理</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#忽略文件已提交的文件"><span class="toc-text">忽略文件已提交的文件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Git仓库迁移"><span class="toc-text">Git仓库迁移</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#修改远程仓库地址"><span class="toc-text">修改远程仓库地址</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GIT标签"><span class="toc-text">GIT标签</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#git-stash"><span class="toc-text">git stash</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#SVN"><span class="toc-text">SVN</span></a></li></ol></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/06/15/LiveData/">LiveData</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/19/THINKING/">THINKING</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/14/INTERVIEW-ANDROID/">INTERVIEW_ANDROID</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/08/ActivityLayout/">ActivityLayout</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/06/DataStructure/">DataStructure</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/DeliverValue/">DeliverValue</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/26/Bluetooth04/">Bluetooth04</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/25/annotation/">annotation</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/JVM/">JVM</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/16/TypeInfo/">TypeInfo</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-gui"> Kategorien</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/AOSP/">AOSP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/INTERVIEW/">INTERVIEW</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/组成原理/">组成原理</a><span class="category-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> Tags</i></div><div class="tagcloud"><a href="/tags/Activity/" style="font-size: 15px;">Activity</a> <a href="/tags/AOSP/" style="font-size: 15px;">AOSP</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/EventDispatch/" style="font-size: 15px;">EventDispatch</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/ConstraintLayout/" style="font-size: 15px;">ConstraintLayout</a> <a href="/tags/VIEW/" style="font-size: 15px;">VIEW</a> <a href="/tags/DataStructure/" style="font-size: 15px;">DataStructure</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/DB/" style="font-size: 15px;">DB</a> <a href="/tags/BLOG/" style="font-size: 15px;">BLOG</a> <a href="/tags/keyboard/" style="font-size: 15px;">keyboard</a> <a href="/tags/NDK/" style="font-size: 15px;">NDK</a> <a href="/tags/Drawer/" style="font-size: 15px;">Drawer</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 15px;">AndroidNewFeatures</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/http/" style="font-size: 15px;">http</a> <a href="/tags/TabLayout/" style="font-size: 15px;">TabLayout</a> <a href="/tags/THINK/" style="font-size: 15px;">THINK</a> <a href="/tags/operators/" style="font-size: 15px;">operators</a> <a href="/tags/proguard/" style="font-size: 15px;">proguard</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> Archiv</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">22</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">59</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-you"> Blogroll</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">Sitemap</a> |  <a href="/atom.xml">Abonnieren Sie diese Site</a> |  <a href="/about/">Kontaktieren Sie den Blogger</a></p><p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次，本站总访客数:<i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>人</p><p><span> Copyright &copy;<a href="/." rel="nofollow">Jon.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake.</a></span><span> Count by<a href="http://busuanzi.ibruce.info/"> busuanzi.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script type="text/javascript" src="/js/search.json.js?v=2.0.5"></script><div id="fullscreen-img" class="hide"><span class="close"></span></div><script type="text/javascript" src="/js/imgview.js?v=2.0.5" async></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.5" async></script><link rel="stylesheet" type="text/css" href="/share/css/share.css"><script type="text/javascript" src="/share/js/social-share.js" charset="utf-8"></script><script type="text/javascript" src="/share/js/qrcode.js" charset="utf-8"></script></body></html>
