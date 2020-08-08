@@ -25,3 +25,6 @@ https://muyangmin.github.io/glide-docs-cn/doc/generatedapi.html
 implementation 'com.github.bumptech.glide:glide:4.6.1'
 annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
 ```
+
+
+https://juejin.im/post/6844904136266219534

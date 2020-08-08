@@ -33,7 +33,7 @@ https://developer.android.com/topic/libraries/data-binding
 
 2. Convert to data binding layout
 
-   
+   打开布局文件，选中根布局的 **ViewGroup**，按住 **option + 回车键**，点击 “**Convert to data binding layout**”，就可以生成 DataBinding 需要的布局规则
 
 ```
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -238,6 +238,15 @@ https://developer.android.com/topic/libraries/data-binding/expressions#expressio
 
   ```
   android:text='@{viewModel.patientInfo.remoteCheckReceiveName??""}'
+  ```
+
+* visible
+
+  ```kotlin
+  @BindingAdapter("app:goneUnless")
+  fun goneUnless(view: View, visible: Boolean) {
+      view.visibility = if (visible) View.VISIBLE else View.GONE
+  }
   ```
 
 

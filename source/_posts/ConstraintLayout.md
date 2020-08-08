@@ -9,7 +9,7 @@ categories: ANDROID
 
 ##### introduce
 
-https://developer.android.com/reference/android/support/constraint/ConstraintLayout.html
+https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout
 
 #####  Here is the list of available constraints (Fig. 2):
 

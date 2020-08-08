@@ -86,3 +86,9 @@ https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix-demo/
 ##### UncaughtExceptionHandler Bugly冲突 不上报日志
 
 https://blog.csdn.net/ZPCrobot/article/details/97390156
+
+
+
+##### 从零开始实现一个插件化框架
+
+https://blog.csdn.net/qq_22090073/article/details/103946596

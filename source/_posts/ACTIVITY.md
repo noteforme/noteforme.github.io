@@ -41,26 +41,43 @@ Followed by onResume() if the activity comes to the foreground, or onStop() if i
 
 # Ａctivity四种启动模式
 
-- standard:这种方式总会为目标Ａctivity创建一个新实例，并將Activity添加当前Task中
-- singleTop: 和 standard基本一致，如果将要被启动的Activity已经位于栈顶，系统不会创建目
-　　　标Activity而是复用栈顶的Activity.
--  singleTask :在同一个Task只有一个实例，　如果要启动的Activity不存在，那么系统将会创建该实例   
-　  如果将要启动的Activity不存在，那么系统将会创建一个全新的TASK,再创建目标Activity实例并放入新的Ｔask.
-      如果将要启动的Ａctivity不在栈顶，系统会把位于该Activity上面的所有其他Activity全部移除Task,使该Activity位于栈顶
-- singleInstance :全局单例
-   如果要启动的Activity不存在，参考SingleTask
-   如果将要启动的Activity已经存在，无论它位于哪个应用程序，哪个Task,系统都会把Activity所在的Task转到前台,使　Ａctivity显示.
+https://developer.android.com/guide/components/activities/tasks-and-back-stack
 
 
-这里跳转就要用到 onNewIntent()
+
+- standard 
+
+   > Default. The system creates a new instance of the activity in the task from which it was started and routes the intent to it. The activity can be instantiated multiple times, each instance can belong to different tasks, and one task can have multiple instances. 
+
+- singleTop
+　　　
+　　　>If an instance of the activity already exists at the top of the current task, the system routes the intent to that instance through a call to its `onNewIntent()` method, rather than creating a new instance of the activity. The activity can be instantiated multiple times, each instance can belong to different tasks, and one task can have multiple instances (but only if the activity at the top of the back stack is *not* an existing instance of the activity).
+　　　>
+　　　>
+　　　>
+　　　>For example, suppose a task's back stack consists of root activity A with activities B, C, and D on top (the stack is A-B-C-D; D is on top). An intent arrives for an activity of type D. If D has the default `"standard"` launch mode, a new instance of the class is launched and the stack becomes A-B-C-D-D. However, if D's launch mode is `"singleTop"`, the existing instance of D receives the intent through `onNewIntent()`, because it's at the top of the stack—the stack remains A-B-C-D. However, if an intent arrives for an activity of type B, then a new instance of B is added to the stack, even if its launch mode is `"singleTop"`.
+　　　
+-  singleTask
+　  
+      > The system creates a new task and instantiates the activity at the root of the new task. However, if an instance of the activity already exists in a separate task, the system routes the intent to the existing instance through a call to its `onNewIntent()` method, rather than creating a new instance. Only one instance of the activity can exist at a time.
+      
+- singleInstance 
+   
+   > Same as `"singleTask"`, except that the system doesn't launch any other activities into the task holding the instance. The activity is always the single and only member of its task; any activities started by this one open in a separate task.
 
 
-可以在AndroidManifest.xml设置 ,也可以在Intent启动地方设置
+
+除了 singleInstance 不好验证 所在task是否只有唯一的activity ，其他的启动模式比较清晰
+
+查看运行的activity
 
 ```
-        Intent intent = new Intent(context, SuccessInvestActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+adb shell dumpsys activity activities | sed -En -e '/Running activities/,/Run #0/p'
 ```
+
+https://blog.csdn.net/mynameishuangshuai/article/details/51491074
+
+https://blog.csdn.net/zhangjg_blog/article/details/10923643
 
 
 
@@ -130,6 +147,14 @@ Note that `getIntent()` still returns the original Intent. You can use `setInten
 
 
 
+为什么要设置 setIntent(intent)
+
+> 我们在多次启动同一个栈唯一模式下的activity时，在onNewIntent()里面的getIntent()得到的intent感觉都是第一次的那个数据。对，这里就是这个陷阱。因为它就是会返回第一个intent的数据
+
+https://blog.csdn.net/qq_16628781/article/details/51539715
+
+
+
 * 生命周期视图
 
 http://yhz61010.iteye.com/blog/2389877
@@ -154,3 +179,4 @@ http://blog.csdn.net/mynameishuangshuai/article/details/51491074
 ##### **LifecycleOwner** 处理Activity栈
 
 https://mp.weixin.qq.com/s/ZXqrrX2HdcodIc5r0sf7tA
+

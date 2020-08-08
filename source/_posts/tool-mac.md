@@ -73,3 +73,16 @@ https://raw.githubusercontent.com/Homebrew/install/master/install.sh
    
    
 
+4. Ignore
+
+   `Command + Shift + .`
+
+5. Environment set
+
+   AppledeMacBook-Pro:~ apple$ cat ~/.bash_profile
+
+   export PATH="$PATH:/Users/john/development/flutter/bin"
+
+   export PUB_HOSTED_URL=https://pub.flutter-io.cn
+
+   export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn 

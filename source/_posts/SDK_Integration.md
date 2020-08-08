@@ -80,6 +80,8 @@ categories: TOOL
 
 #### 微信登陆
 
+#####  App登录
+
 https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html
 
 1. 问题1
@@ -91,14 +93,15 @@ Demo里的wechat-sdk-android-with-mta 换成     api 'com.tencent.mm.opensdk:wec
 2. 问题2  
 
     ` No value for openid.` WXEntryActivity {"errcode":40029,"errmsg":"invalid code"}   WXEntryActivity
+    appid secret错误
 
    ```
    if (resp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
       SendAuth.Resp authResp = (SendAuth.Resp)resp;
       final String code = authResp.code;
       NetworkUtil.sendWxAPI(handler, String.format("https://api.weixin.qq.com/sns/oauth2/access_token?" +
-                  "appid=%s&secret=%s&code=%s&grant_type=authorization_code", "wxd930ea5d5a258f4f",
-            "1d6d1d57a3dd063b36d917bc0b44d964", code), NetworkUtil.GET_TOKEN);
+                  "appid=%s&secret=%s&code=%s&grant_type=authorization_code", "wx930ea5d5a258f4f",
+            "1d6d1d57a3dd06336d917bc0b44d964", code), NetworkUtil.GET_TOKEN);
    }
    ```
 
@@ -108,9 +111,9 @@ Demo里的wechat-sdk-android-with-mta 换成     api 'com.tencent.mm.opensdk:wec
 
    demo中 
 
-   appid wxd930ea5d5a258f4f要换成自己的
+   appid wxd930ea5d5a2584f要换成自己的
 
-   secret 1d6d1d57a3dd063b36d917bc0b44d964也要换成自己的
+   secret 1d6d1d57a3dd063b36d91bc0b44d964也要换成自己的
 
    3. 问题3  需要注册，否则WXEntryActivity不能收到回调
 
@@ -142,19 +145,38 @@ Demo里的wechat-sdk-android-with-mta 换成     api 'com.tencent.mm.opensdk:wec
 
    
 
+   ##### 二维码扫码登录
    
+   https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/Login_via_Scan.html
+   
+   1. 登录公众平台 https://mp.weixin.qq.com/cgi-bin/home?t=home ,点击配置进入IP白名单
 
-##### app分享拉新规则
+      点击配置进入IP白名单设置页
+   
+      https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&key=1495617578&version=1&lang=zh_CN&platform=2&token=38764305
+   
+   2. 二维码扫码登录的appid secret key用开放平台的  https://open.weixin.qq.com/cgi-bin/index?t=home/index&lang=zh_CN
+   
+      
+      注意两个不同的平台配置
+
+
+
+二维码失效:  首先普及一下二维码是有失效时间以及失效状态的，一旦你扫过一次二维码或者在某段时间内没有扫描页面上的二维码，该二维码就失效了
+
+
+
+app分享拉新规则
 
 https://mp.weixin.qq.com/s/3bsmiv78yJ4XKwd8iu-0Ig
 
 
 
-##### Wechat Pay
+#### Wechat Pay
 
 https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_5
 
-##### Alipay
+#### Alipay
 
 https://opendocs.alipay.com/open/204/105296
 

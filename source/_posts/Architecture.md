@@ -124,6 +124,8 @@ https://mp.weixin.qq.com/s/Kc1826MQ3ReMkoIWlsQGVw
 
 https://juejin.im/post/5dafc49b6fb9a04e17209922
 
+https://juejin.im/post/5dafc49b6fb9a04e17209922#heading-13
+
 * MVP
 
 https://juejin.im/entry/5955e7166fb9a06bc23a8598
@@ -163,4 +165,8 @@ https://mp.weixin.qq.com/s/0mAbKEuBH5HHYa23EcWalg
 
 
 
+
+lifecycle
+
+https://juejin.im/post/6847902220755992589
 

@@ -41,6 +41,7 @@ Please install setuptools.
 
 
 
+
   参考：https://github.com/fredley/play-pi/issues/22
 
   然后执行 pip install shadowsocks ，终于OK，Collecting shadowsocks
@@ -57,6 +58,7 @@ Successfully installed shadowsocks-2.8.2
         ssserver -p 8388 -k 123456 -m aes-256-cfb
 
  
+
 
 
 
@@ -407,6 +409,12 @@ export https_proxy="http://127.0.0.1:1081"
   ```
 
 
+
+```
+wget https://install.direct/go.sh
+sudo bash go.sh
+sudo systemctl start v2ray
+```
 
 * 设置mac终端走ssr或者是v2ray代理
 

@@ -83,6 +83,49 @@ Demo在　AndroidDemo -> RXLeran->RX基础->Rx线程切换
 
 
 
+```
+fun getImgScan() {
+    val request = RetrofitWeChatFactory.create(IApiStore::class.java)
+    request.get_access_token()
+        .flatMap { request.getTicket(it.access_token, 2) }
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(object : Observer<WeChatSecond> {
+            override fun onComplete() {
+            }
+
+            override fun onSubscribe(d: Disposable) {
+            }
+
+            override fun onNext(t: WeChatSecond) {
+                val noncestr = LoginNewActivity.getRandomString(8)
+                val timeStamp =
+                    (System.currentTimeMillis() / 1000).toString()
+                t.ticket?.let {
+                    val string1 = String.format(
+                        "appid=%s&noncestr=%s&sdk_ticket=%s&timestamp=%s",
+                        WeChatAppID,
+                        noncestr,
+                        it,
+                        timeStamp
+                    )
+                    val sha = EncryptUtils.getSHA(string1)
+
+                    mvpView.sign(noncestr, timeStamp, sha)
+                }
+            }
+
+            override fun onError(e: Throwable) {
+            }
+
+        })
+}
+```
+
+[http://yamlee.me/2020/03/11/2020-03-11-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3RxJava%E4%B8%8ERxKotlin/](http://yamlee.me/2020/03/11/2020-03-11-深入理解RxJava与RxKotlin/)
+
+
+
 http://reactivex.io/documentation/operators.html
 
 https://www.jianshu.com/p/fa1828d70192
@@ -112,7 +155,5 @@ https://juejin.im/post/5b8f536c5188255c352d3528
 
 
 使用MVP Dagger2 https://juejin.im/post/5d5ce44d5188252231108e68
-
-
 
 https://juejin.im/user/590210f4ac502e0063d338f5/posts

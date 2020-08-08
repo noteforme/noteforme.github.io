@@ -200,3 +200,25 @@ http://www.jianshu.com/p/d891fe636898
 https://juejin.im/post/5c7f4f0351882562ed516ab6#heading-17
 
 https://blog.csdn.net/guolin_blog/article/details/48719871
+
+
+
+#### Kotlin
+
+```
+class TermRoundView @JvmOverloads constructor(
+        context: Context?, attrs: AttributeSet?,
+        defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
+	init{
+	  val a = context?.theme?.obtainStyledAttributes(attrs, R.styleable.TermRoundView, 0, 0)
+        try {
+            isRulerInput = a!!.getBoolean(R.styleable.TermRoundView_isRulerInput, false)
+        } finally {
+            a?.recycle()
+        }
+	}
+}
+```
+
+ 
