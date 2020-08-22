@@ -91,9 +91,9 @@ http://blog.csdn.net/github_2011/article/details/74297460
 
 #####  图片拍照
 
-#### Android P veridex工具使用
+Android P veridex工具使用
 
-#### win10安装ubuntu
+win10安装ubuntu
 
 <https://www.linuxidc.com/Linux/2018-03/151256.htm>
 
@@ -109,3 +109,6 @@ http://blog.csdn.net/github_2011/article/details/74297460
 
   <http://www.10tiao.com/html/227/201812/2650244825/1.html>
 
+#####  android 11适配
+
+https://juejin.im/post/6860370635664261128
