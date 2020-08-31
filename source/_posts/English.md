@@ -7,7 +7,21 @@ categories: ENGLISH
 
 ---
 
-英语语法
+#### Book
 
-旋元佑 语法俱乐部
 感谢楼主[楼主](http://cnbooks.org/m/article.php?id=330) 
+
+
+
+#### Dict
+
+https://forum.freemdict.com/
+
+https://mdx.mdict.org/
+
+[https://mdx.mdict.org/%E6%8C%89%E8%AF%8D%E5%85%B8%E8%AF%AD%E7%A7%8D%E6%9D%A5%E5%88%86%E7%B1%BB/](https://mdx.mdict.org/按词典语种来分类/)
+
+https://freemdict.com/
+
+https://mdict.org/
+

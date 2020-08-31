@@ -6,7 +6,9 @@ tags:
 categories: ANDROID
 ---
 
-## TextView颜色变化
+ 
+
+##### TextView颜色变化
 
 - SpannableString
 
@@ -23,7 +25,7 @@ SpannableString有一个不方便的地方是截取字符串
 	​	   private SpannableString getClickableSpan() {
 	​	    SpannableString spanTxt = new SpannableString("阅读并同意<<用户注册协议>>");
 	​	    //设置文字的前景色
-	​	    spanTxt.setSpan(new ForegroundColorSpan(Color.GREEN), 5, 15, 				  Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+	​	    spanTxt.setSpan(new ForegroundColorSpan(Color.GREEN),5, 15,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 	​	    spanTxt.setSpan(new ClickableSpan() {	
 	​	        @Override
 	​	        public void onClick(View widget) {
@@ -31,15 +33,12 @@ SpannableString有一个不方便的地方是截取字符串
 	​	            startActivity(intent);
 	​	        }
 	​	    }, 5, 15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-	​	    return spanTxt;
-	​	 }
+	​	  
 
 
 ​	
 
 ​	 
-
-
 
 - Html标签方式
 
@@ -59,18 +58,16 @@ https://github.com/liqy/TextViewDemo
 
 
 
+#####  EditText
 
-
-## EditText
-
- style里面的配置
+* style里面的配置
 
 ```
-	    <item name="android:focusable">true</item>
+	     <item name="android:focusable">true</item>
        <item name="android:focusableInTouchMode">true</item>
 ```
 
-https://blog.csdn.net/u011630575/article/details/50775639
+ https://blog.csdn.net/u011630575/article/details/50775639
 
 * 下划线颜色
 
@@ -79,4 +76,10 @@ https://blog.csdn.net/u011630575/article/details/50775639
 * 自定义解析器
 
   https://my.oschina.net/ososchina/blog/3018393
+  
+* 密码输入框
+
+  https://github.com/li504799868/ZEditText
+
+
 
