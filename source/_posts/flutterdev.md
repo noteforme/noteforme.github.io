@@ -60,3 +60,8 @@ https://flutter.dev/docs/development/ui/layout
 
 The screen forces the `UnconstrainedBox` to be exactly the same size as the screen. However, the `UnconstrainedBox` lets its child `Container` be any size it wants
 
+
+
+
+
+https://resocoder.com/2019/08/15/flutter-custom-icons-automatic-manual-way-icon-font-or-svg/
