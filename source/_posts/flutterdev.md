@@ -65,3 +65,67 @@ The screen forces the `UnconstrainedBox` to be exactly the same size as the scre
 
 
 https://resocoder.com/2019/08/15/flutter-custom-icons-automatic-manual-way-icon-font-or-svg/
+
+https://www.fluttericon.com/
+
+
+
+
+
+##### json and serializtion
+
+```
+dependencies:
+	json_annotation: ^2.2.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  build_runner: ^1.0.0
+  json_serializable: ^2.0.0
+  json_model:
+```
+
+> flutter packages pub run json_model
+
+```
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutteruse/models/user.dart';
+
+void main() {
+  final jsonString = File('jsons/user.json').readAsStringSync();
+  print(jsonString);
+
+  // var jsonString = '{"name": "John Smith","email": "john@example.com"}';
+  // Map<String, dynamic> user = jsonDecode(jsonString) as Map<String, dynamic>;
+  // print('Howdy, ${user['name']}!');
+  // print('We sent the verification link to ${user['email']}.');
+
+  Map userMap = jsonDecode(jsonString);
+  var user = User.fromJson(userMap);
+  print('Howdy, ${user.name}!');
+  print('We sent the verification link to ${user.email}.');
+
+  print(user.toJson());
+}
+```
+
+https://www.jianshu.com/p/f37d8546ab8f
+
+
+
+*  修改包名后 
+
+  >  target file "lib/main_dev.dart" not found
+
+```
+plugin:
+  platforms:
+    android:
+      package: com.casanube.flutter_ble //记得修改这个包名 要不然爆出上面的错误
+      pluginClass: FlutterBlePlugin
+```

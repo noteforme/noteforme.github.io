@@ -98,3 +98,4 @@ gogs:参考github,配置sskey后还需要用账号登陆
     方法: AndroidStudio -> File -> Settings ->Git -> SSH executable : built-in 改成Native
 
 参考:https://stackoverflow.com/questions/24688700/android-studio-push-failed-fatal-could-not-read-from-remote-repository
+

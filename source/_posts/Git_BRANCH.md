@@ -375,3 +375,12 @@ http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 * SVN不能添加文件:https://blog.csdn.net/yujiayinshi/article/details/51381942
 
   
+
+##### github提速
+
+[www.github.com](https://link.zhihu.com/?target=http%3A//www.github.com/) 替换为   www.github.com.cnpmjs.org
+
+>https://github.com/flutter/flutter.git
+>
+>git clone https://github.com.cnpmjs.org/love-flutter/flutter-column.git
+
