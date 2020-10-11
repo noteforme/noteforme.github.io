@@ -6,18 +6,21 @@ tags:
 categories: ANDROID
 ---
 
+https://developer.android.com/training/permissions/requesting
 
-#  权限管理 
-
-  6.0后最大的改变
-
-## 危险权限:
+https://developer.android.com/guide/topics/permissions/overview#normal-dangerous
 
 
 
-##  文件存储文章
-http://blog.csdn.net/huaiyiheyuan/article/details/52473984
-https://developer.android.com/training/permissions/requesting.html
+#### 权限管理 
+
+### Normal permissions
+
+
+
+### Dangerous permissions
+
+<img src="Permission/Screen Shot 2020-09-17 at 2.06.37 PM.png" alt="Screen Shot 2020-09-17 at 2.06.37 PM" style="zoom: 80%;" />
 
 ##   基本使用
 ```
@@ -64,11 +67,12 @@ https://developer.android.com/training/permissions/requesting.html
 
 
 
+> 注意:需要在androidmanifest.xml声明 否则一直返回false
 
-
-
-
-## 权限
+```
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+```
 
 1、检查权限是否授予。
 
@@ -141,12 +145,24 @@ http://www.10tiao.com/html/227/201610/2650237473/1.html
     <permission android:name="android.permission.INTERNET" />
     <!-- SD卡读取权限，用户写入离线定位数据-->
     <permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></permission>
---------------------- 
-作者：lasebella 
-来源：CSDN 
-原文：https://blog.csdn.net/lasebella/article/details/73867331 
-版权声明：本文为博主原创文章，转载请附上博文链接！
+
 ```
+
+
+
+## One-time permissions
+
+Starting in Android 11 (API level 30), whenever your app requests a permission related to location, microphone, or camera, the user-facing permissions dialog contains an option called **Only this time**. If the user selects this option in the dialog, your app is granted a temporary *one-time permission*.
+
+
+
+## Permission groups
+
+- If the app has already been granted another dangerous permission in the same permission group, the system immediately grants the permission without any interaction with the user. For example, if an app had previously requested and been granted the `READ_CONTACTS` permission, and it then requests `WRITE_CONTACTS`, the system immediately grants that permission without showing the permissions dialog to the user.
+
+- **Caution:** Future versions of the Android SDK might move a particular permission from one group to another. Therefore, don't base your app's logic on the structure of these permission groups.
+
+  For example, `READ_CONTACTS` is in the same permission group as `WRITE_CONTACTS` as of Android 8.1 (API level 27). If your app requests the `READ_CONTACTS` permission, and then requests the `WRITE_CONTACTS` permission, don't assume that the system can automatically grant the `WRITE_CONTACTS` permission.
 
 
 
@@ -158,11 +174,7 @@ https://github.com/googlesamples/android-RuntimePermissions
 
 https://www.jianshu.com/p/a51593817825
 
-
-
-
-
-https://developer.android.com/training/permissions/requesting?hl=zh-cn
+https://developer.android.com/training/permissions/requesting
 
 
 
@@ -172,10 +184,40 @@ https://mp.weixin.qq.com/s/Hw_FI0GRpUDWJ1NwjK652w
 
 https://mp.weixin.qq.com/s/7RpGzTjXo9rnHRCVEnrYWQ
 
-
-
 https://mp.weixin.qq.com/s/i8K-6CSxYuLanR4x1WNSGA
 
-
-
 https://mp.weixin.qq.com/s/gaSmpT5UQLqNa4Ck0r0eOg
+
+
+
+http://blog.csdn.net/huaiyiheyuan/article/details/52473984
+https://developer.android.com/training/permissions/requesting.html
+
+
+
+#### Android 10权限
+
+在后台运行时访问设备位置信息需要权限
+
+` <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>`		
+
+
+
+该权限允许应用程序在后台访问位置。如果请求此权限，则还必须请求`ACCESS_FINE_LOCATION` 或 `ACCESS_COARSE_LOCATION`权限。只请求此权限无效果
+
+在Android 10的设备上，如果你的应用的 `targetSdkVersion` < 29，则在请求`ACCESS_FINE_LOCATION` 或`ACCESS_COARSE_LOCATION`权限时，系统会自动同时请求`ACCESS_BACKGROUND_LOCATION`。在请求弹框中，选择“始终允许”表示同意后台获取位置信息，选择“仅在应用使用过程中允许”或"拒绝"选项表示拒绝授权。
+
+
+
+如果你的应用的 `targetSdkVersion` >= 29，则请求`ACCESS_FINE_LOCATION` 或 `ACCESS_COARSE_LOCATION`权限表示在前台时拥有访问设备位置信息的权限。在请求弹框中，选择“始终允许”表示前后台都可以获取位置信息，选择“仅在应用使用过程中允许”只表示拥有前台的权限。
+
+
+
+https://developer.android.com/about/versions/10/privacy/changes
+
+https://juejin.im/post/6844904073024503822#heading-5
+
+
+
+
+

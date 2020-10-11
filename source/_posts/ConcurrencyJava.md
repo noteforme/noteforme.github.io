@@ -230,3 +230,5 @@ CPU 的两级 Cache 内和主内存里面的 X 的值都是 l。
 Sychronized volatile区别？
 
 https://crowhawk.github.io/2018/02/10/volatile/ 
+
+https://juejin.im/post/6864252499466354701

@@ -22,6 +22,8 @@ https://wanandroid.com/blog/show/2754
 
 #### 设计模式:
 
+ Android 源码设计模式解析与实战
+
 谈谈设计模式，你了解多少，运用了多少？
 
 设计模式原则
@@ -50,9 +52,18 @@ https://juejin.im/post/6844903591686176776
 
 单例为什么使用volatile修饰 
 
-
-
 https://juejin.im/post/6844903605292498958
 
 http://static.kancloud.cn/alex_wsc/mianshi/1811436
 
+https://mp.weixin.qq.com/s/eCotdGOWvSMki062eLjS8g
+
+
+
+https://mp.weixin.qq.com/s/7DvReHYugl1KClKFGBwSfg
+
+
+
+包体积优化
+
+https://juejin.im/post/6864252499466354701

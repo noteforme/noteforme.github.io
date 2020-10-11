@@ -71,15 +71,20 @@ https://blog.csdn.net/m0_37796683/article/details/83657204
 
    https://blog.classycode.com/undocumented-android-7-ble-behavior-changes-d1a9bd87d983
 
-   
+
+* 蓝牙添加扫描间隔
+
+​	https://github.com/haodynasty/AndroidBleManager
+
+​	https://github.com/AltBeacon/android-beacon-library
+
+
 
 ### 应用如何做自动重连
 
 其实自动重连比想象的要简单许多，无论是android还是ios端，只需要在设备断开连接的委托方法中，重新调用gatt.connet或者是centralManager.connet方法就可以了，无论当时设备是否有点，是否在周围，当设备再次开会或者连接到可连接范围内，都会自动被连上，就是这么简单。
 
 http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html
-
-
 
 
 
@@ -93,8 +98,88 @@ mBluetoothAdapter.enable();
 mBluetoothAdapter.disable();
 ```
 
-
-
-
-
  https://blog.csdn.net/u014418171/article/details/81219297
+
+
+
+扫描
+
+过滤
+
+**Scanning by device name**
+
+Looking for a device by it’s name has 2 main use cases: to look for 1 specific device or to look for 1 specific device model. For example, my Polar H7 chest strap advertises itself as “Polar H7 391BB014”. The latter part (‘391BB014’) is a unique number (or serial number) and the first part is generic for all Polar H7 devices. This is very common practice. Unfortunately the device name scan filter can only be used to find specific devices as it does full string matching. If you want to find all Polar H7 devices you will need to do a ‘substring’ compare on ‘Polar H7', but you can’t do that with a filter. You just need to pass `null` as the filter and do the substring comparison yourself in `onScanResult`.
+
+So here is an example of how to scan for devices by **exact** name
+
+```
+String[] names = new String[]{"Polar H7 391BB014"};
+List<ScanFilter> filters = null;
+if(names != null) {
+    filters = new ArrayList<>();
+    for (String name : names) {
+        ScanFilter filter = new ScanFilter.Builder()
+                .setDeviceName(name)
+                .build();
+        filters.add(filter);
+    }
+}
+scanner.startScan(filters, scanSettings, scanCallback);
+```
+
+https://medium.com/@martijn.van.welie/making-android-ble-work-part-1-a736dcd53b02
+
+
+
+android蓝牙自动连接
+
+http://www.cocoachina.com/articles/83844
+
+
+
+##### Ble library
+
+[Android-BLE-Library](https://github.com/NordicSemiconductor/Android-BLE-Library)
+
+```
+ LoggableBleManager public void log(final int priority, @NonNull final String message)
+ 是日志打印出口
+ 是 BleManager public void log(final int priority, @NonNull final String message)的实现
+```
+
+[nRF-Logger-API](https://github.com/NordicSemiconductor/nRF-Logger-API)是手机日志查看工具
+
+```
+public abstract class LoggableBleManager<T extends BleManagerCallbacks> extends BleManager<T> {
+   private ILogSession logSession;
+
+   /**
+    * The manager constructor.
+    * <p>
+    * After constructing the manager, the callbacks object must be set with
+    * {@link #setManagerCallbacks(BleManagerCallbacks)}.
+    *
+    * @param context the context.
+    */
+   public LoggableBleManager(@NonNull final Context context) {
+      super(context);
+   }
+
+   /**
+    * Sets the log session to log into.
+    *
+    * @param session nRF Logger log session to log inti, or null, if nRF Logger is not installed.
+    */
+   public void setLogger(@Nullable final ILogSession session) {
+      logSession = session;
+   }
+
+   @Override
+   public void log(final int priority, @NonNull final String message) {
+      Logger.log(logSession, LogContract.Log.Level.fromPriority(priority), message);
+      Log.println(priority, "BleManager", message);
+//    Timber.i("BleManager   "+ message);
+   }
+}
+```
+
