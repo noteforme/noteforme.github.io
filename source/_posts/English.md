@@ -25,3 +25,12 @@ https://freemdict.com/
 
 https://mdict.org/
 
+
+
+#### 划词翻译
+
+https://www.bilibili.com/video/av16816801/
+
+https://www.youtube.com/watch?v=SIojtnMplHc
+
+https://www.bilibili.com/video/av455529337
