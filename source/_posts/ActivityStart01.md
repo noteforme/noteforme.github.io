@@ -1272,3 +1272,7 @@ https://juejin.im/post/5a936c5a6fb9a0633229ca74
 http://codemx.cn/2018/01/26/AndroidOS008-Activity/
 
 [Android系统启动流程（二）解析Zygote进程启动过程](http://liuwangshu.cn/framework/booting/2-zygote.html)
+
+
+
+https://juejin.im/post/6867744083809419277
