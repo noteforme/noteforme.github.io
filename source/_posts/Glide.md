@@ -1,5 +1,5 @@
 ---
-title: glide
+title: Glide
 date: 2017-07-21 14:03:20
 tags:
 categories: ANDROID
@@ -28,3 +28,7 @@ annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
 
 
 https://juejin.im/post/6844904136266219534
+
+
+
+https://www.jianshu.com/p/48d9e4d5d75d

@@ -1276,3 +1276,5 @@ http://codemx.cn/2018/01/26/AndroidOS008-Activity/
 
 
 https://juejin.im/post/6867744083809419277
+
+https://juejin.im/post/6887431834041483271
