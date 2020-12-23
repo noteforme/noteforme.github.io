@@ -152,9 +152,11 @@ https://developer.android.com/studio/build/manifest-merge?hl=zh-cn
 
 
 
-merge androidmanifest
+merge androidmanifest 合并
 
-<https://developer.android.com/studio/build/manifest-merge?hl=zh-cn>
+<https://developer.android.com/studio/build/manifest-merge
+
+https://www.jianshu.com/p/14a822e42151
 
 
 
@@ -175,3 +177,6 @@ https://juejin.im/post/6847902220755992589
 组件化 服务
 
 https://juejin.im/post/6884492604370026503
+
+
+

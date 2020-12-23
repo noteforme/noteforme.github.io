@@ -8,11 +8,11 @@ categories: JAVA
 
  　字符串连接有两种方式，一种时  " +  ",另一种是 StringBuilder方式
 
-## 命令行运行java
+命令行运行java
 
 平常用开发工具习惯了，都忘了怎么用命令行运行，特此记录下
 
-### 新建 Concatenation.java文件，cmd到该目录下，写入代码
+新建 Concatenation.java文件，cmd到该目录下，写入代码
 
      public class Concatenation{
         public static void main(String[] args){
@@ -22,18 +22,18 @@ categories: JAVA
         }
      }
 
-###  生成 Concatenation.calss 文件
+生成 Concatenation.calss 文件
 
       D:\DemoExo>javac Concatenation.java
 
-###  运行Concatenation.class文件,后面是运行结果
+运行Concatenation.class文件,后面是运行结果
 
        D:\DemoExo>java Concatenation
        abcmangodef47
 
-##  String字符串连接方式
+#### String字符串连接方式
 
-###  回到主题
+回到主题
 
   查看JDK文档（不知道在哪），String 类中每一个看起来会修改String值的方法，实际上都是创建了一个全新的String对象,以包含修改后的字符串内容.
        
@@ -59,7 +59,7 @@ HOWDY
 howdy
 当把q传给upcase()时，实际传递的是引用的拷贝
 
-### 编译器运行过程
+#### 编译器运行过程
 
 反编译Concatenation,生成JVM字节码
        
@@ -169,9 +169,9 @@ howdy
 
 参考：*摘自ThinkInJava4   P286*
 
-# 避免创建不必要的对象
+####  避免创建不必要的对象
 
-##创建　String对象
+创建　String对象
 
  最好能重用对象而不是每次需要的时候就创建一个功能相同的新对象，重用方式即快速
 又流行。如果对象是不可变的，它始终可以被重用。
@@ -237,3 +237,21 @@ String s  = "stringette';
   ```
 
   
+
+https://time.geekbang.org/column/article/209343
+
+#### 亨元模式
+
+    Integer a = 1;
+    Integer b = 2;
+    Integer c = 3;
+    Integer d = 3;
+    Integer e = 321;
+    Integer f = 321;
+    Long g = 3L;
+    System.out.println(c==d);
+    System.out.println(e==f);
+    System.out.println(c==(a+b));
+    System.out.println(c.equals(a+b));
+    System.out.println(g ==(a+b));
+    System.out.println(g.equals(a+b));

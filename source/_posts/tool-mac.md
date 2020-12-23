@@ -49,7 +49,7 @@ https://raw.githubusercontent.com/Homebrew/install/master/install.sh
 
    ##### set environment variable mac
 
-   for flutter 
+   1. Flutter
 
    ```
    vi ~/.bash_profile
@@ -58,19 +58,21 @@ https://raw.githubusercontent.com/Homebrew/install/master/install.sh
    which flutter
    
    ```
+
+   2. jdk 
+
+      https://docs.oracle.com/javase/10/install/installation-jdk-and-jre-macos.htm#JSJIG-GUID-F575EB4A-70D3-4AB4-A20E-DBE95171AB5F
+
    
-   
-   
-   
-   
+
    #####  mac terminal
-   
+
    1. download and install iterm2
    2. Download iterm2-finder-tools-1.0.0  open Open iTerm.workflow install
    3. file top 右键 customize toolbar then move opem iTerm into toolbar
+
    
-   
-   
+
    
 
 4. Ignore
@@ -86,3 +88,9 @@ https://raw.githubusercontent.com/Homebrew/install/master/install.sh
    export PUB_HOSTED_URL=https://pub.flutter-io.cn
 
    export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn 
+
+
+
+* gradle 阿里云镜像 
+
+  /Users/john/.gradle 目录添加 init.gradle

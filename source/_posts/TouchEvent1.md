@@ -2,7 +2,7 @@
 title: TouchEvent1
 comments: true
 date:  2018-01-08 21:18:55
-tags: EventDispatch
+tags: TouchEvent
 categories: VIEW
 ---
 
