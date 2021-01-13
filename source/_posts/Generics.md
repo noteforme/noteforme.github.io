@@ -6,7 +6,14 @@ tags:
 categories: JAVA
 ---
 
+
+
+![Screen Shot 2020-09-13 at 9.33.25 PM](Generics/Screen Shot 2020-09-13 at 9.33.25 PM.png)
+
 类型信息
+
+- 上界<? extends T>不能往里存，只能往外取，适合频繁往外面读取内容的场景。
+- 下界<? super T>不影响往里存，但往外取只能放在Object对象里，适合经常往里面插入数据的场景。
 
 
 
@@ -74,7 +81,7 @@ Plate< Fruit >和Plate< Apple > 是 Plate<? extend Fruit>的子类.
 Plate<? extends  Fruit> p = new Plate<Apple>(new Apple());
 ```
 
-![Screen Shot 2020-09-13 at 9.33.25 PM](Generics/Screen Shot 2020-09-13 at 9.33.25 PM.png)
+
 
 ```
 p.set(new Fruit());
@@ -118,8 +125,7 @@ p.set(new RedApple());
 
 
 
-- 上界<? extends T>不能往里存，只能往外取，适合频繁往外面读取内容的场景。
-- 下界<? super T>不影响往里存，但往外取只能放在Object对象里，适合经常往里面插入数据的场景。
+
 
 #### <?>无限通配符
 
@@ -128,3 +134,5 @@ p.set(new RedApple());
 https://juejin.im/post/5b614848e51d45355d51f792
 
 www.jianshu.com/p/dd34211f2565
+
+https://itimetraveler.github.io/2016/12/27/%E3%80%90Java%E3%80%91%E6%B3%9B%E5%9E%8B%E4%B8%AD%20extends%20%E5%92%8C%20super%20%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F/

@@ -2,7 +2,7 @@
 title: JVM
 comments: true
 date: 2020-04-18 22:19:42
-tags:
+tags: JVM
 categories: JAVA
 ---
 
@@ -17,3 +17,9 @@ categories: JAVA
 
 
 https://juejin.im/post/5f0376e3e51d45349b5c9d0c
+
+https://www.iteye.com/blog/rednaxelafx-656951
+
+
+
+https://www.bilibili.com/video/av75247289?p=2
