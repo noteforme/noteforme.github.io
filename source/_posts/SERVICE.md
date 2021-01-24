@@ -231,3 +231,9 @@ https://juejin.im/post/5b1747e5e51d45069a39ef45
    If you need your service to communicate with remote processes, then you can use a `Messenger` to provide the interface for your service. 
   
   
+
+
+
+多个acitivty与service通信
+
+https://www.jianshu.com/p/9885acf65405

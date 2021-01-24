@@ -1,5 +1,5 @@
 ---
-title: INTERVIEW
+title: INTERVIEW_JAVA
 comments: true
 date: 2021-01-07 17:12:08
 tags: resume
@@ -44,11 +44,23 @@ categories: ANDROID
 
 ​	Integer实际是对象的引用，int是直接存储数据值
 
-#### 谈谈对java多态(polymorphism)的理解
+#### 谈谈对java多态(polymorphism)的理解,Java中实现多态的机制是什么
 
-实现多态的技术，动态绑定：执行期间判断所引用对象的实际类型，根据其实际的类型调用相应的方法。
+ 实现的机制是，父类或者接口定义的引用变量指向子类或者子类的实现， 执行期间判断所引用对象的实际类型，根据其实际的类型调用相应的方法。
+
+1. 编译时多态(静态多态)
+
+2. 运行时多态（动态多态）
+
+   
+
+   无论哪种方法，核心之处在对父类方法的改写或对接口方法的实现，以取得运行时不同的执行效果.
 
 https://docs.oracle.com/javase/tutorial/java/IandI/polymorphism.html
+
+https://cloud.tencent.com/developer/article/1447574
+
+
 
 #### String、StringBuffer、StringBuilder区别
 
@@ -216,11 +228,17 @@ https://docs.oracle.com/javase/tutorial/java/IandI/polymorphism.html
 
   
 
-  #### Serializable 和Parcelable 的区别
+  #### Serializable 和Parcelable 的区别，如何将一个Java对象序列化到文件里？
 
-  1. `Parcelable` is faster than `Serializable` interface
+  1. `Parcelable` is faster than `Serializable` interface,ObjectOutputStream写入到文件中
 
   2. Serializable: interface creates a lot of temporary objects and causes quite a bit of garbage collection
+
+  3. > Parcel is **not** a general-purpose serialization mechanism.  This class (and the corresponding `Parcelable` API for placing arbitrary objects into a Parcel) is designed as a high-performance IPC transport.  As such, **it is not appropriate to place any Parcel data in to persistent storage**: changes in the underlying implementation of any of the data in the Parcel can render older data unreadable. 很难持久化对象
+   >
+     > https://developer.android.com/reference/android/os/Parcel
+
+     
 
      
 
@@ -231,11 +249,11 @@ https://docs.oracle.com/javase/tutorial/java/IandI/polymorphism.html
   它不能使用任何外围类的非static成员变量和方法.
 
   #### 成员内部类、局部内部类以及项目中的应用
-
+  
   成员内部类 : 普通的内部类，不能存在任何static的变量和方法；
-
+  
   局部内部类： 嵌套于方法和作用域内
-
+  
   ```java
   public class Parcel5 {
       public Destionation destionation(String str){
@@ -251,11 +269,11 @@ https://docs.oracle.com/javase/tutorial/java/IandI/polymorphism.html
           return new PDestionation(str);
       }
       
-      public static void main(String[] args) {
+    public static void main(String[] args) {
           Parcel5 parcel5 = new Parcel5();
-          Destionation d = parcel5.destionation("chenssy");
+        Destionation d = parcel5.destionation("chenssy");
       }
-  }
+}
   ```
 
   
@@ -275,10 +293,11 @@ https://docs.oracle.com/javase/tutorial/java/IandI/polymorphism.html
   
 
   #### 闭包和局部内部类的区别
+  
 
-  不知道有什么作用
+不知道有什么作用
 
-  #### string 转换成 integer的方式及原理
+#### string 转换成 integer的方式及原理
 
   1. 判断是否null或""
   2. 判断第一位正负数，逐位获取值 ?
@@ -320,17 +339,30 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 
 #### utf-8编码中的中文占几个字节；int型几个字节？
 
+   32位 64位代表寻址方式
+
 ​	少数是汉字每个占用3个字节，多数占用4个字节。
 
 ​	int类型 4个字节
 
-- 静态代理和动态代理的区别，什么场景使用？
-- Java的异常体系
-- 谈谈你对解析与分派的认识。
-- 修改对象A的equals方法的签名，那么使用HashMap存放这个对象实例的时候，会调用哪个equals方法？
-- Java中实现多态的机制是什么？
-- 如何将一个Java对象序列化到文件里？
-- 说说你对Java反射的理解
+#### 静态代理和动态代理的区别，什么场景使用？
+
+​	静态代理 :  编译的时候就已经存在，
+
+​	动态代理 ： 通过反射机制生成的代理对象
+
+​	https://noteforme.github.io/2021/01/14/DesignPattern-Proxy/
+
+#### Java的异常体系
+
+非运行时异常 :编译期间可以检查到的异常, 像IoException,DataFormatException,CertificateException
+
+运行时异常 : NullPointerException, ClassCastException,IndexOutOfBoundsException
+
+#### ? 谈谈你对解析与分派的认识。
+
+说说你对Java反射的理解
+
 - 说说你对Java注解的理解
 - 说说你对依赖注入的理解
 - 说一下泛型原理，并举例说明
@@ -341,37 +373,75 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 ##### （三） 数据结构
 
 - 常用数据结构简介
+
 - 并发集合了解哪些？
+
 - 列举java的集合以及集合之间的继承关系
+
 - 集合类以及集合框架
+
 - 容器类介绍以及之间的区别（容器类估计很多人没听这个词，Java容器主要可以划分为4个部分：List列表、Set集合、Map映射、工具类（Iterator迭代器、Enumeration枚举类、Arrays和Collections），具体的可以看看这篇博文 [Java容器类](http://alexyyek.github.io/2015/04/06/Collection/)）
+
+  
+
 - List,Set,Map的区别
+
 - List和Map的实现方式以及存储方式
+
+- 修改对象A的equals方法的签名，那么使用HashMap存放这个对象实例的时候，会调用哪个equals方法？
+
 - HashMap的实现原理
+
 - HashMap数据结构？
+
 - HashMap源码理解
+
 - HashMap如何put数据（从HashMap源码角度讲解）？
+
 - HashMap怎么手写实现？
+
+  https://www.jianshu.com/p/985534b21089
+
 - ConcurrentHashMap的实现原理
+
 - ArrayMap和HashMap的对比
+
 - HashTable实现原理
+
 - TreeMap具体实现
+
 - HashMap和HashTable的区别
+
 - HashMap与HashSet的区别
+
 - HashSet与HashMap怎么判断集合元素重复？
+
 - 集合Set实现Hash怎么防止碰撞
+
 - ArrayList和LinkedList的区别，以及应用场景
+
 - 数组和链表的区别
+
 - 二叉树的深度优先遍历和广度优先遍历的具体实现
+
 - 堆的结构
+
 - 堆和树的区别
+
 - 堆和栈在内存中的区别是什么(解答提示：可以从数据结构方面以及实际实现方面两个方面去回答)？
+
 - 什么是深拷贝和浅拷贝
+
 - 手写链表逆序代码
+
 - 讲一下对树，B+树的理解
+
 - 讲一下对图的理解
+
 - 判断单链表成环与否？
+
 - 链表翻转（即：翻转一个单项链表）
+
 - 合并多个单有序链表（假设都是递增的）
 
 ##### （四） 线程、多线程和线程池
@@ -419,153 +489,7 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 - 多线程断点续传原理
 - 断点续传的实现
 
-##### 一）Android基础知识点
 
-- 四大组件是什么
-- 四大组件的生命周期和简单用法
-- Activity之间的通信方式
-- Activity各种情况下的生命周期
-- 横竖屏切换的时候，Activity 各种情况下的生命周期
-- Activity与Fragment之间生命周期比较
-- Activity上有Dialog的时候按Home键时的生命周期
-- 两个Activity 之间跳转时必然会执行的是哪几个方法？
-- 前台切换到后台，然后再回到前台，Activity生命周期回调方法。弹出Dialog，生命值周期回调方法。
-- Activity的四种启动模式对比
-- Activity状态保存于恢复
-- fragment各种情况下的生命周期
-- Fragment状态保存startActivityForResult是哪个类的方法，在什么情况下使用？
-- 如何实现Fragment的滑动？
-- fragment之间传递数据的方式？
-- Activity 怎么和Service 绑定？
-- 怎么在Activity 中启动自己对应的Service？
-- service和activity怎么进行数据交互？
-- Service的开启方式
-- 请描述一下Service 的生命周期
-- 谈谈你对ContentProvider的理解
-- 说说ContentProvider、ContentResolver、ContentObserver 之间的关系
-- 请描述一下广播BroadcastReceiver的理解
-- 广播的分类
-- 广播使用的方式和场景
-- 在manifest 和代码中如何注册和使用BroadcastReceiver?
-- 本地广播和全局广播有什么差别？
-- BroadcastReceiver，LocalBroadcastReceiver 区别
-- AlertDialog,popupWindow,Activity区别
-- Application 和 Activity 的 Context 对象的区别
-- Android属性动画特性
-- 如何导入外部数据库?
-- LinearLayout、RelativeLayout、FrameLayout的特性及对比，并介绍使用场景。
-- 谈谈对接口与回调的理解
-- 回调的原理
-- 写一个回调demo
-- 介绍下SurfView
-- RecycleView的使用
-- 序列化的作用，以及Android两种序列化的区别
-- 差值器
-- 估值器
-- Android中数据存储方式
-
-##### （二）Android源码相关分析
-
-- Android动画框架实现原理
-- Android各个版本API的区别
-- Requestlayout，onlayout，onDraw，DrawChild区别与联系
-- invalidate和postInvalidate的区别及使用
-- Activity-Window-View三者的差别
-- 谈谈对Volley的理解
-- 如何优化自定义View
-- 低版本SDK如何实现高版本api？
-- 描述一次网络请求的流程
-- HttpUrlConnection 和 okhttp关系
-- Bitmap对象的理解
-- looper架构
-- ActivityThread，AMS，WMS的工作原理
-- 自定义View如何考虑机型适配
-- 自定义View的事件
-- AstncTask+HttpClient 与 AsyncHttpClient有什么区别？
-- LaunchMode应用场景
-- AsyncTask 如何使用?
-- SpareArray原理
-- 请介绍下ContentProvider 是如何实现数据共享的？
-- AndroidService与Activity之间通信的几种方式
-- IntentService原理及作用是什么？
-- 说说Activity、Intent、Service 是什么关系
-- ApplicationContext和ActivityContext的区别
-- SP是进程同步的吗?有什么方法做到同步？
-- 谈谈多线程在Android中的使用
-- 进程和 Application 的生命周期
-- 封装View的时候怎么知道view的大小
-- RecycleView原理
-- AndroidManifest的作用与理解
-
-##### （三）常见的一些原理性问题
-
-- Handler机制和底层实现
-- Handler、Thread和HandlerThread的差别
-- handler发消息给子线程，looper怎么启动？
-- 关于Handler，在任何地方new Handler 都是什么线程下?
-- ThreadLocal原理，实现及如何保证Local属性？
-- 请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系
-- 请描述一下View事件传递分发机制
-- Touch事件传递流程
-- 事件分发中的onTouch 和onTouchEvent 有什么区别，又该如何使用？
-- View和ViewGroup分别有哪些事件分发相关的回调方法
-- View刷新机制
-- View绘制流程
-- 自定义控件原理
-- 自定义View如何提供获取View属性的接口？
-- Android代码中实现WAP方式联网
-- AsyncTask机制
-- AsyncTask原理及不足
-- 如何取消AsyncTask？
-- 为什么不能在子线程更新UI？
-- ANR产生的原因是什么？
-- ANR定位和修正
-- oom是什么？
-- 什么情况导致oom？
-- 有什么解决方法可以避免OOM？
-- Oom 是否可以try catch？为什么？
-- 内存泄漏是什么？
-- 什么情况导致内存泄漏？
-- 如何防止线程的内存泄漏？
-- 内存泄露场的解决方法
-- 内存泄漏和内存溢出区别？
-- LruCache默认缓存大小
-- ContentProvider的权限管理(解答：读写分离，权限控制-精确到表级，URL控制)
-- 如何通过广播拦截和abort一条短信？
-- 广播是否可以请求网络？
-- 广播引起anr的时间限制是多少？
-- 计算一个view的嵌套层级
-- Activity栈
-- Android线程有没有上限？
-- 线程池有没有上限？
-- ListView重用的是什么？
-- Android为什么引入Parcelable？
-- 有没有尝试简化Parcelable的使用？
-
-##### （四）开发中常见的一些问题
-
-- ListView 中图片错位的问题是如何产生的?
-- 混合开发有了解吗？
-- 知道哪些混合开发的方式？说出它们的优缺点和各自使用场景？（解答：比如:RN，weex，H5，小程序，WPA等。做Android的了解一些前端js等还是很有好处的)；
-- 屏幕适配的处理技巧都有哪些?
-- 服务器只提供数据接收接口，在多线程或多进程条件下，如何保证数据的有序到达？
-- 动态布局的理解
-- 怎么去除重复代码？
-- 画出 Android 的大体架构图
-- Recycleview和ListView的区别
-- ListView图片加载错乱的原理和解决方案
-- 动态权限适配方案，权限组的概念
-- Android系统为什么会设计ContentProvider？
-- 下拉状态栏是不是影响activity的生命周期
-- 如果在onStop的时候做了网络请求，onResume的时候怎么恢复？
-- Bitmap 使用时候注意什么？
-- Bitmap的recycler()
-- Android中开启摄像头的主要步骤
-- ViewPager使用细节，如何设置成每次只初始化当前的Fragment，其他的不初始化？
-- 点击事件被拦截，但是想传到下面的View，如何操作？
-- 微信主页面的实现方式
-- 微信上消息小红点的原理
-- CAS介绍（这是阿里巴巴的面试题，我不是很了解，可以参考博客: [CAS简介](http://blog.csdn.net/jly4758/article/details/46673835)）
 
 ------
 
@@ -781,6 +705,8 @@ https://www.jianshu.com/p/45866c8415c8
 - 进程保活的方式
 - 如何保证一个后台服务不被杀死？（相同问题：如何保证service在后台不被kill？）比较省电的方式是什么？
 - App中唤醒其他进程的实现方式
+
+
 
 https://www.jianshu.com/p/c3965e82b164
 

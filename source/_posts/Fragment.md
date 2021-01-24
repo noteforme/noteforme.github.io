@@ -13,13 +13,21 @@ https://developer.android.com/guide/components/fragments.html
 https://wizardforcel.gitbooks.io/w3school-android/content/77.html
 https://juejin.im/post/5901b564570c35005804424b
 
+
+
+
+
 #### life
+
+https://developer.android.com/guide/fragments/lifecycle
 
 * onViewCreated(View view, Bundle savedInstanceState)
 
 Called immediately after `onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)` has returned, but before any saved state has been restored in to the view.
 
 
+
+![](Fragment/fragment-view-lifecycle.png)
 
 
 
@@ -40,7 +48,7 @@ override fun onAttach(context: Context) {
 }
 ```
 
-
+https://noteforme.github.io/2017/10/05/Fragment/
 
 #### 添加Fragment
 

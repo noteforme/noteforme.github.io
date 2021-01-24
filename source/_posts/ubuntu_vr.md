@@ -34,6 +34,7 @@ Please install setuptools.
 
  
 
+
   参考：https://github.com/fredley/play-pi/issues/22
 
   然后执行 pip install shadowsocks ，终于OK，Collecting shadowsocks
@@ -50,6 +51,7 @@ Successfully installed shadowsocks-2.8.2
         ssserver -p 8388 -k 123456 -m aes-256-cfb
 
  
+
 
 
 
@@ -376,25 +378,37 @@ export https_proxy="http://127.0.0.1:1081"
 
 * google 搭建vr
 
+  查看网络详情 -》防火墙
+
   按照这个教程 https://zelikk.blogspot.com/2019/01/gcp-v2ray-firewall.html
 
   网络标记就选了全部实例
-
+  
   <img src="ubuntu_vr/veray_go_engile_1.png" alt="veray_go_engile_1" style="zoom:67%;" />
 
 
 
   	注意复制的端口号 带上了逗号
 
-* -bash: sudo: command not found
+​	root身份运行	
 
-  ```
-  dpkg -l|grep sudo
-  apt-get install sudo
-  sudo apt-get install wget
-  ```
+-bash: sudo: command not found
+
+```
+dpkg -l|grep sudo
+apt-get install sudo
+sudo apt-get install wget
+```
+
+root运行
+
+```
+sudo -i
+```
 
 
+
+安装
 
 ```
 wget https://install.direct/go.sh
@@ -402,7 +416,9 @@ sudo bash go.sh
 sudo systemctl start v2ray
 ```
 
-* 设置mac终端走ssr或者是v2ray代理
+
+
+设置mac终端走ssr或者是v2ray代理
 
 [http://www.xiaosuiyin.com/2020/02/15/%E8%AE%BE%E7%BD%AEmac%E7%BB%88%E7%AB%AF%E8%B5%B0ssr%E6%88%96%E8%80%85%E6%98%AFv2ray%E4%BB%A3%E7%90%86/](http://www.xiaosuiyin.com/2020/02/15/设置mac终端走ssr或者是v2ray代理/)
 
