@@ -89,11 +89,15 @@ Activity ,Service ,BroadCastReceiver,ContentProvider
   
   https://blog.csdn.net/zivensonice/article/details/51569502
   
-  
-  
   https://ayusch.com/android-launch-modes-explained/
   
   https://noteforme.github.io/2021/01/16/Activity/
+  
+* 为什么 application.startActivity 要设置NEW_TASK
+
+  如果Activity是由一个已经启动的Activity发起的，那么把它放在这个已经启动的任务栈是合理的，Application本来没有任务栈，那么就新创建一个放起来.
+
+  https://www.wanandroid.com/wenda/show/8697
 
 任务栈的底层原理
 
@@ -105,45 +109,203 @@ Activity ,Service ,BroadCastReceiver,ContentProvider
 
 ​	onDestroyView() -> onDestroy() -> onDetach() 
 
-Fragment状态保存startActivityForResult是哪个类的方法，在什么情况下使用？
+#### Fragment状态保存startActivityForResult是哪个类的方法，在什么情况下使用？
 
-如何实现Fragment的滑动？
+* Fragment发起
 
-fragment之间传递数据的方式？
+   Fragment onActivityResult能接收。Activity onActivityResult能接收,但是requestCode不正确。
 
-Activity 怎么和Service 绑定？
+* Activity发起
 
-怎么在Activity 中启动自己对应的Service？
+   Fragment不能接收。 Activity onActivityResult能接收。
 
-service和activity怎么进行数据交互？
+#### fragment之间传递数据的方式？
 
-Service的开启方式
+1. Fragment.setArguments()方法传递bundle
 
-请描述一下Service 的生命周期
+2. findFragmentById()找到tag,然后直接操作Framgent
 
-谈谈你对ContentProvider的理解
+   ```java
+     public void onArticleSelected(int position) {
+           ArticleFragment articleFrag = (ArticleFragment)
+                   getSupportFragmentManager().findFragmentById(R.id.article_fragment);
+   
+           if (articleFrag != null) {
+               articleFrag.updateArticleView(position);
+           } else {
+               ArticleFragment newFragment = new ArticleFragment();
+               Bundle args = new Bundle();
+               args.putInt(ArticleFragment.ARG_POSITION, position);
+               newFragment.setArguments(args);
+   
+               FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+               transaction.replace(R.id.fragment_container, newFragment);
+               transaction.addToBackStack(null);
+               transaction.commit();
+           }
+       }
+   ```
 
-- 说说ContentProvider、ContentResolver、ContentObserver 之间的关系
-- 请描述一下广播BroadcastReceiver的理解
-- 广播的分类
-- 广播使用的方式和场景
-- 在manifest 和代码中如何注册和使用BroadcastReceiver?
-- 本地广播和全局广播有什么差别？
-- BroadcastReceiver，LocalBroadcastReceiver 区别
-- AlertDialog,popupWindow,Activity区别
-- Application 和 Activity 的 Context 对象的区别
-- Android属性动画特性
-- 如何导入外部数据库?
-- LinearLayout、RelativeLayout、FrameLayout的特性及对比，并介绍使用场景。
-- 谈谈对接口与回调的理解
-- 回调的原理
-- 写一个回调demo
-- 介绍下SurfView
-- RecycleView的使用
-- 序列化的作用，以及Android两种序列化的区别
-- 差值器
-- 估值器
-- Android中数据存储方式
+   
+
+3. 接口回调
+
+4. ViewModel Livedata ?
+
+   
+
+#### 请描述一下Service 的生命周期
+
+##### startService()
+
+​	启动:  onCreate() - onCommandStart()  - onDestory()
+
+​	继续startService : 只会执行 onCommandStart()  	
+
+##### bindService()
+
+​	onCreate() -   onBind() - onUnbind()-onDestory()
+
+#### service和activity怎么进行数据交互？
+
+1. bindService()
+
+   Service中定义接口，ServiceConnection中获取Service实例，调用响应接口
+
+2. 注册广播传递数据
+
+   http://wangbufan.cn/2019/09/17/Service%E5%8F%8AService%E4%B8%8EActivity%E9%80%9A%E4%BF%A1/
+
+#### 说说ContentProvider、ContentResolver、ContentObserver 之间的关系
+
+​	 把自己的程序数据提供给其他应用程序调用，提供香港的uri接口,没用过
+
+#### 请描述一下广播BroadcastReceiver的理解
+
+​	广播是可以作为应用全局监听器，可以实现应用中不同组件少量数据的通信！！！，更深研究后可以多说点.
+
+#### 广播的分类
+
+1. 无序广播
+2. 有序广播
+
+#### 广播使用的方式和场景
+
+app全局监听
+
+binder机制 https://www.jianshu.com/p/5a983578418e
+
+#### BroadcastReceiver，LocalBroadcastReceiver(本地广播) 区别
+
+BroadcastReceiver：针对应用间，系统和应用间通信。
+
+ LocalBroadcastReceiver： 只有自己应用内部才能收到,效率更高.
+
+#### AlertDialog,popupWindow,Toast区别 ？
+
+* AlertDialog : 拦截了屏幕上所有的TouchK/key
+
+* PopupWindow 
+
+    仅仅拦截自身区域touch/key
+
+    需要Activity类型的Context启动
+
+* Toast
+
+* 可以研究下 两者最根本的区别在于有没有新建一个 window，PopupWindow 没有新建，而是通过 WMS 将 View 加到 DecorView；Dialog 是新建了一个 window (PhoneWindow)，相当于走了一遍 Activity 中创建 window 的流程
+
+  https://www.jianshu.com/p/aed496937bd2
+
+#### Application 和 Activity 的 Context 对象的区别
+
+ApplicatioContext ：
+
+​	应用生命周期一样长,长生命周期对象就用ApplicationContext
+
+Activity的Context：
+
+​	 当前Activity的生命周期,和UI相关的都用Activity为Context来处理
+
+https://www.jianshu.com/p/e215c90a460e
+
+#### Android属性动画特性
+
+可以改变对象的属性。还需要说说什么吗?
+
+#### 如何导入外部数据库?
+
+把数据库文件防盗asserts目录下，然后写入databases目录下面, 然后通过数据库容器装载里面数据库里面的数据。
+
+https://blog.csdn.net/chaoyu168/article/details/50467913
+
+#### LinearLayout、RelativeLayout、FrameLayout的特性及对比，并介绍使用场景。
+
+1. LinearLayout ： 水平或垂直位置按照顺序来排列子元素.
+2. RelativeLayout:  有相对的参照物，进行布局.
+3. FrameLayout: 后面添加的会覆盖前面的布局。
+
+#### 谈谈对接口与回调的理解
+
+* 理解: A发送消息给B,B处理完后高速A处理结果.
+
+* 实现: 一般而言，处理消息的类是唯一的，发送消息的类却是各种各样的，将回调方法做成一个接口，不同的发送者实现该接口，并且把自己的接口实现类的对象在发送消息时，传递给消息处理者。
+
+注册之后不马上执行，而是某个时机再触发执行。
+
+#### 回调的原理
+
+#### 写一个回调demo
+
+```java
+public class MyTest {
+    public static void main(String[] args) {
+        ProcessClick process = new ProcessClick(new OnClickListener() {
+            @Override
+            public void onClick() {
+                System.out.println("已经点击");
+            }
+        });
+        process.click();
+    }
+}
+
+
+interface OnClickListener{
+    void  onClick();
+}
+
+class  ProcessClick {
+    OnClickListener listener;
+
+    public ProcessClick(OnClickListener listener) {
+        this.listener = listener;
+    }
+
+    void click(){
+        listener.onClick();
+    }
+}
+
+```
+
+https://developer.aliyun.com/article/614769
+
+#### 介绍下SurfaceView
+
+* SurfaceView使用双缓冲技术缓解，页面绘制频繁引起的卡顿。
+
+* SurfaceView可以在子线程更新 UI,不会阻塞主线程，提高响应速度。
+
+  https://noteforme.github.io/2019/11/05/SurfaceView/
+
+#### ? RecycleView的使用
+
+差值器
+
+估值器
+
+Android中数据存储方式
 
 ##### （二）Android源码相关分析
 
@@ -247,3 +409,156 @@ Service的开启方式
 - 微信主页面的实现方式
 - 微信上消息小红点的原理
 - CAS介绍（这是阿里巴巴的面试题，我不是很了解，可以参考博客: [CAS简介](http://blog.csdn.net/jly4758/article/details/46673835)）
+
+
+
+https://github.com/android-exchange/Android-Interview
+
+
+
+#### 我自己的面试经历
+
+#### 我的面试问题
+
+android多线程怎么处理的 ANR怎么避免
+
+android广播怎么处理的
+
+动画  怎么处理listview图片 缓存
+
+两个子线程间怎么通讯
+
+写一个方法可以调用本类的方法
+
+为什么非静态方法可以直接被调用
+
+1单例模式怎么理解的 2冒泡排序，插入排序 3四种启动模式 4sercice ALDL
+
+7、activity销毁后重新创建，怎么获取fragment
+
+写一个网络请求
+
+res里面的图片会不会转换成二进制格式
+
+listview怎么优化
+
+怎么让线程有序 :加入队列
+
+activity和service通信
+
+activity销毁线程会不会消
+
+防止应用被被杀死
+
+final特性
+
+Android启动模式 singleinstance. 和singletop区别应用场景
+
+wrap content 和martch content的绘制方法
+
+view的事件传递机制 context对象互相引用，对象回收 Android界面怎么回收的 生命周期 a界面到b的onresume在a的onstop之前还是之后
+
+内存溢出和内存泄露的区别
+
+Android加载动态库
+
+android怎么对内存进行分析
+
+线程怎么管理
+
+图片加载框架怎么处理oom问题
+
+两个线程池，想让来的一个插队怎么弄
+
+反射
+
+java内存回收机制 android管理机制 怎么处理内存泄露
+
+除了handler还有什么能传递数据
+
+后台图片更改，前台怎么处理
+
+activity fragment传
+
+activity每个方法处理的区别
+
+Fragment的生命周期和Activity的不同，handler启动一个线程和asnnaltask区别 单元测试
+
+1.自定义控件
+
+2.动画
+
+1. contentprovider
+2. 数据存储
+3. 图片加载库
+4. 怎么做性能优化
+5. 图片加载方法
+6. 截获通知
+
+
+
+2017.8.17
+
+　app怎么接收不到推送消息怎么办
+
+
+
+
+
+### 经历提问
+
+java Android加载机制
+
+AndroidManifest权限是怎么获取的，封装权限管理，为什么需要权限分组.
+
+listview内回收图片
+
+viewpager listview处理滑动冲突 批量网络请求
+
+broadcastreciever和 handler区别
+
+
+
+1. webview内泄漏,和安全问题  
+
+2. 提高sqlite的查询效率
+
+3. 多线程死锁(图片网络请求会出现的问题
+
+4. 减少布局嵌
+
+5. viewstub延迟加载
+
+6. 图片处理
+
+7. listview recycleview的选择
+
+8. overdraw过度绘制方法
+
+   https://www.jianshu.com/p/9e095bacf44a
+
+9. opengl
+
+10. oom是怎么处理的  anr
+
+11. 单元测试覆盖率
+
+12. 子线程创建Handler
+
+13. list遍历删除
+
+14. 生命周期
+
+15. fragment tage
+
+16. hashmap实现原理  实现有序
+
+17. android事件分发机制，请详细说下整个流程
+
+18. android view绘制机制和加载过程，请详细说下整个流程
+
+19. android四大组件的加载过程
+
+20. Activity的启动模式
+
+21. 怎么保证service不被杀死

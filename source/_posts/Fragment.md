@@ -226,6 +226,45 @@ https://blog.csdn.net/cml_blog/article/details/41411451
 
 https://huxian99.github.io/2016/08/28/cj3qymo360000owxk9zp17alo/
 
+
+
+##### Fragment之前传递数据
+
+1. Fragment.setArguments()方法传递bundle
+
+2. findFragmentById()找到tag,然后直接操作Framgent
+
+   ```java
+     public void onArticleSelected(int position) {
+           ArticleFragment articleFrag = (ArticleFragment)
+                   getSupportFragmentManager().findFragmentById(R.id.article_fragment);
+   
+           if (articleFrag != null) {
+               articleFrag.updateArticleView(position);
+           } else {
+               ArticleFragment newFragment = new ArticleFragment();
+               Bundle args = new Bundle();
+               args.putInt(ArticleFragment.ARG_POSITION, position);
+               newFragment.setArguments(args);
+   
+               FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+               transaction.replace(R.id.fragment_container, newFragment);
+               transaction.addToBackStack(null);
+               transaction.commit();
+           }
+       }
+   ```
+
+   
+
+3. 接口回调
+
+4. ViewModel Livedata
+
+
+
+
+
 ##### fragment回退栈
 
 tx.addToBackStack(null); 添加回退功能，类似Activity压栈的过程
@@ -234,9 +273,9 @@ tx.addToBackStack(null); 添加回退功能，类似Activity压栈的过程
 
 <https://blog.csdn.net/zhiyuan0932/article/details/52593039>
 
-* Fragment控制父Fragment展示
+Fragment控制父Fragment展示
 
-  https://blog.csdn.net/u011481547/article/details/71552720
+https://blog.csdn.net/u011481547/article/details/71552720
 
 Fragmet全局流程图
 
@@ -244,11 +283,11 @@ Fragmet全局流程图
 
 
 
-* 模拟系统内存不足
+模拟系统内存不足
 
-  <http://yifeng.studio/2016/12/15/android-fragment-attentions/>
-  
-* [Communication between nested fragments in Android](https://stackoverflow.com/questions/39491655/communication-between-nested-fragments-in-android)
+<http://yifeng.studio/2016/12/15/android-fragment-attentions/>
+
+[Communication between nested fragments in Android](https://stackoverflow.com/questions/39491655/communication-between-nested-fragments-in-android)
 
 
 

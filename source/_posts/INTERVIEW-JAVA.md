@@ -1675,7 +1675,6 @@ https://www.jianshu.com/p/c3965e82b164
 - [24.使用过那些自定义View](https://www.cnblogs.com/deman/p/5860976.html#_label23)
 - [25.自定义控件：绘制圆环的实现过程](https://www.cnblogs.com/deman/p/5860976.html#_label24)
 - [26.自定义控件：摩天轮的实现过程](https://www.cnblogs.com/deman/p/5860976.html#_label25)
-- [27.GridLayout的使用](https://www.cnblogs.com/deman/p/5860976.html#_label26)
 - [28.流式布局的实现过程](https://www.cnblogs.com/deman/p/5860976.html#_label27)
 - [29.第三方登陆](https://www.cnblogs.com/deman/p/5860976.html#_label28)
 - [30.第三方支付](https://www.cnblogs.com/deman/p/5860976.html#_label29)

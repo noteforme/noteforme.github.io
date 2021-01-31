@@ -92,7 +92,51 @@ adb shell dumpsys activity activities | sed -En -e '/Running activities/,/Run #0
 
  2优先级高于1级
 
- 
+
+
+##### SingleInstance 无taskAffinity
+
+SingleInstance会创建一个新的任务栈
+
+```xml
+<activity android:name=".component.launchmode.FirstActivity">
+    <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+
+        <category android:name="android.intent.category.LAUNCHER" />
+    </intent-filter>
+</activity>
+
+<activity
+    android:name=".component.launchmode.SecondActivity"
+    android:launchMode="singleInstance" />
+
+<activity android:name=".component.launchmode.ThirdActivity" />
+```
+
+ ```
+ D/FirstActivity LaunchModeActivity: onCreate() taskId  86
+ D/FirstActivity LaunchModeActivity: onStart()
+ D/FirstActivity LaunchModeActivity: onResume()
+ D/FirstActivity LaunchModeActivity: onPause()
+ D/SecondActivity LaunchModeActivity: onCreate() taskId  85
+ D/SecondActivity LaunchModeActivity: onStart()
+ D/SecondActivity LaunchModeActivity: onRestoreInstanceState()
+ D/SecondActivity LaunchModeActivity:  onNewIntent(Intent intent)
+ D/SecondActivity LaunchModeActivity: onResume()
+ D/FirstActivity LaunchModeActivity: onSaveInstanceState()
+ D/FirstActivity LaunchModeActivity: onStop()
+ D/SecondActivity LaunchModeActivity: onPause()
+ D/ThirdActivity LaunchModeActivity: onCreate() taskId  86
+ D/ThirdActivity LaunchModeActivity: onStart()
+ D/ThirdActivity LaunchModeActivity: onResume()
+ D/SecondActivity LaunchModeActivity: onSaveInstanceState()
+ D/SecondActivity LaunchModeActivity: onStop()
+ ```
+
+可以看到 FirstActivity 、ThirdActivity在同一个栈中，SecondActivity单独在一个栈中
+
+所以按返回键盘，先到 FirstActivity，然后到SecondActivity .
 
 ##### 栈内Activity查看
 
@@ -122,10 +166,6 @@ adb shell dumpsys activity activities | sed -En -e '/Running activities/,/Run #0
 
 * taskAffinity属性的值为字符串，且中间必须含有分隔符"."
 * standard模式，taskAffinity继承自Application的taskAffinity，而Application默认taskAffinity为包名，所以MainActivity的taskAffinity为包名。
-
-
-
-
 
 https://developer.android.com/guide/components/activities/tasks-and-back-stack
 

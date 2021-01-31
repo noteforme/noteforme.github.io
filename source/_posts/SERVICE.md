@@ -6,7 +6,9 @@ tags:
 categories: ANDROID
 
 ---
- Service使一个应用程序组件，再后台能执行一些耗时的操作，并且不提供用户界面，由于无法再不同的Activity对同一Thread进行控制 ，此时就要考虑服务
+https://developer.android.com/guide/components/services
+
+https://developer.android.com/reference/android/app/Service
 
 ##### Service启动服务两种方式
 
@@ -30,11 +32,9 @@ I/LearnService:  -- onCreate() --
 I/LearnService:  -- onBind() --
 　一个Service被某个Activity调用Context.bindService绑定启动，不管bindService调用几次，onCreate方法只会调用一次,onStart不会调用.
 
-
-
 1. service
 
-   ```
+   ```java
    public class BluetoothService extends Service {
    
    
@@ -96,15 +96,13 @@ I/LearnService:  -- onBind() --
    
    ```
 
-   
-
 2. 启动
 
 3. `bindService(intent,mServiceConnection,BIND_AUTO_CREATE);`
 
 3. 回调
 
-```
+```java
   ServiceConnection mServiceConnection = new ServiceConnection() {
          @Override
          public void onServiceConnected(ComponentName name, IBinder service) {
@@ -128,7 +126,9 @@ I/LearnService:  -- onBind() --
 ###### IntentService
    通过HandlerThread单独开启一个线程一次处理所有的任务
    不需要调用stopSelft()关闭服务，任务结束后自动关闭
- 08-12 13:38:26.601 30532-30532/com.hyhy.lern I/MyIntentService: -- onCreate() --
+
+```
+08-12 13:38:26.601 30532-30532/com.hyhy.lern I/MyIntentService: -- onCreate() --
 08-12 13:38:26.601 30532-30532/com.hyhy.lern I/MyIntentService: -- onStartCommand() --
 08-12 13:38:26.601 30532-30532/com.hyhy.lern I/MyIntentService: -- onStartCommand() --
 08-12 13:38:26.601 30532-30532/com.hyhy.lern I/MyIntentService: -- onStartCommand() --
@@ -136,6 +136,7 @@ I/LearnService:  -- onBind() --
 08-12 13:38:26.601 30532-30655/com.hyhy.lern I/MyIntentService: do task2
 08-12 13:38:26.601 30532-30655/com.hyhy.lern I/MyIntentService: do task1
 08-12 13:38:26.617 30532-30532/com.hyhy.lern I/MyIntentService: -- onDestroy() --
+```
 
 https://developer.android.com/training/run-background-service/create-service.html
 
@@ -166,7 +167,7 @@ https://juejin.im/post/5b1747e5e51d45069a39ef45
 
 * bindService callback
 
-  ```
+  ```java
   class BindingActivity : Activity() {
       private lateinit var mService: LocalService
       private var mBound: Boolean = false
@@ -221,9 +222,9 @@ https://juejin.im/post/5b1747e5e51d45069a39ef45
 
   get Service object in this place 
 
-  ```
+  ```java
   val binder = service as LocalService.LocalBinder
-      mService = binder.getService()
+  mService = binder.getService()
   ```
 
   ##### Using a Messenger
@@ -232,8 +233,38 @@ https://juejin.im/post/5b1747e5e51d45069a39ef45
   
   
 
+##### stopself()
+
+​	目前测试只有在onStartCommand()有效，多次点击startService(intent),startId持续递增.
 
 
-多个acitivty与service通信
+
+##### foreground service（前台服务）
+
+ 被用户所知道，系统内存不足时候不允许被系统杀死的服务，前台服务必须给通知了一个通知，放在正在运行的标题之下，一般用于应用保活。
+
+https://www.jianshu.com/p/5505390503fa
+
+
+
+
+
+##### onRebind()什么情况下执行
+
+![](SERVICE/service_binding_tree_lifecycle.png)
+
+
+
+验证方法: startService(intent) 启动Service - bindService() 绑定Service - unBindService()解绑-  bindService() 继续绑定 就会执行onRebind()
+
+
+
+##### 多个acitivty与service通信
 
 https://www.jianshu.com/p/9885acf65405
+
+
+
+
+
+https://blog.csdn.net/pihailailou/article/details/78588496
