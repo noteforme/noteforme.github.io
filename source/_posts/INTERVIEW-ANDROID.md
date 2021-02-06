@@ -6,7 +6,7 @@ tags: resume
 categories: ANDROID
 ---
 
-##### 一）Android基础知识点
+### 一）Android基础知识点
 
 #### 四大组件是什么
 
@@ -301,11 +301,173 @@ https://developer.aliyun.com/article/614769
 
 #### ? RecycleView的使用
 
-差值器
 
-估值器
 
-Android中数据存储方式
+####  插值器 估值器区别
+
+ 插值器: （`Interpolator`）决定 值 的变化模式（匀速、加速）
+
+估值器 : 	(`TypeEvaluator`)决定 值 的具体变化数值
+
+
+
+#### 我的面试问题
+
+activity销毁后重新创建，怎么获取fragment
+
+#### activity和service通信
+
+1. 通过bindService
+
+2. 通过广播
+
+   https://www.jianshu.com/p/6040dfa83594
+
+#### activity销毁线程会不会消失
+
+不会,  可以这样处理
+
+```java
+ /**
+   * 静态内部类将不会再隐式的持有外部类的引用，所以在配置改变时，你的Activity的实例在也不会
+   * 出现内存泄露
+   */
+  private static class MyThread extends Thread {
+    private boolean mRunning = false;
+
+    @Override
+    public void run() {
+      mRunning = true;
+      while (mRunning) {
+        SystemClock.sleep(1000);
+      }
+    }
+
+    public void close() {
+      mRunning = false;
+    }
+  }
+```
+
+activity每个方法处理的区别
+
+activity fragment传递数据方式
+
+android多线程怎么处理的 ，两个子线程间怎么通讯
+
+android广播怎么处理的
+
+动画  怎么处理,
+
+写一个方法可以调用本类的方法
+
+为什么非静态方法可以直接被调用
+
+单例模式怎么理解的
+
+写一个网络请求
+
+res里面的图片会不会转换成二进制格式
+
+线程怎么管理
+
+怎么让线程有序 :加入队列
+
+两个线程池，想让来的一个插队怎么弄
+
+批量网络请求
+
+防止应用被被杀死,怎么保证service不被杀死
+
+final特性
+
+Android启动模式 singleinstance. 和singletop区别应用场景
+
+wrap content 和martch content的绘制方法
+
+自定义控件
+
+context对象互相引用，对象回收 Android界面怎么回收的 生命周期 a界面到b的onresume在a的onstop之前还是之后
+
+android怎么对内存进行分析
+
+内存溢出和内存泄露的区别，oom是怎么处理的 ， ANR怎么避免
+
+java内存回收机制 android管理机制 怎么处理内存泄露
+
+后台图片更改，前台怎么处理
+
+反射机制
+
+除了handler还有什么能传递数据
+
+子线程创建Handler
+
+handler启动一个线程和asnnaltask区别 单元测试
+
+broadcastreciever和 handler区别
+
+图片加载库,图片加载方法
+
+图片加载框架怎么处理oom问题
+
+怎么做性能优化
+
+截获通知
+
+app怎么接收不到推送消息怎么办(2017.8.17)
+
+java Android加载机制
+
+Android加载动态库
+
+AndroidManifest权限是怎么获取的，封装权限管理，为什么需要权限分组.
+
+listview内回收图片
+
+listview图片 缓存，listview怎么优化
+
+viewpager listview处理滑动冲突 
+
+
+
+webview内泄漏,和安全问题  
+
+多线程死锁(图片网络请求会出现的问题
+
+viewstub延迟加载
+
+listview recycleview的选择
+
+overdraw过度绘制方法https://www.jianshu.com/p/9e095bacf44a
+
+opengl
+
+单元测试覆盖率
+
+list遍历删除
+
+fragment tag
+
+ **sercice ALDL** (后面再弄)
+
+hashmap实现原理  实现有序
+
+android事件分发机制，请详细说下整个流程
+
+android view绘制机制和加载过程，请详细说下整个流程
+
+android四大组件的加载过程
+
+提高sqlite的查询效率
+
+冒泡排序，插入排序 
+
+contentprovider
+
+
+
+
 
 ##### （二）Android源码相关分析
 
@@ -416,149 +578,3 @@ https://github.com/android-exchange/Android-Interview
 
 
 
-#### 我自己的面试经历
-
-#### 我的面试问题
-
-android多线程怎么处理的 ANR怎么避免
-
-android广播怎么处理的
-
-动画  怎么处理listview图片 缓存
-
-两个子线程间怎么通讯
-
-写一个方法可以调用本类的方法
-
-为什么非静态方法可以直接被调用
-
-1单例模式怎么理解的 2冒泡排序，插入排序 3四种启动模式 4sercice ALDL
-
-7、activity销毁后重新创建，怎么获取fragment
-
-写一个网络请求
-
-res里面的图片会不会转换成二进制格式
-
-listview怎么优化
-
-怎么让线程有序 :加入队列
-
-activity和service通信
-
-activity销毁线程会不会消
-
-防止应用被被杀死
-
-final特性
-
-Android启动模式 singleinstance. 和singletop区别应用场景
-
-wrap content 和martch content的绘制方法
-
-view的事件传递机制 context对象互相引用，对象回收 Android界面怎么回收的 生命周期 a界面到b的onresume在a的onstop之前还是之后
-
-内存溢出和内存泄露的区别
-
-Android加载动态库
-
-android怎么对内存进行分析
-
-线程怎么管理
-
-图片加载框架怎么处理oom问题
-
-两个线程池，想让来的一个插队怎么弄
-
-反射
-
-java内存回收机制 android管理机制 怎么处理内存泄露
-
-除了handler还有什么能传递数据
-
-后台图片更改，前台怎么处理
-
-activity fragment传
-
-activity每个方法处理的区别
-
-Fragment的生命周期和Activity的不同，handler启动一个线程和asnnaltask区别 单元测试
-
-1.自定义控件
-
-2.动画
-
-1. contentprovider
-2. 数据存储
-3. 图片加载库
-4. 怎么做性能优化
-5. 图片加载方法
-6. 截获通知
-
-
-
-2017.8.17
-
-　app怎么接收不到推送消息怎么办
-
-
-
-
-
-### 经历提问
-
-java Android加载机制
-
-AndroidManifest权限是怎么获取的，封装权限管理，为什么需要权限分组.
-
-listview内回收图片
-
-viewpager listview处理滑动冲突 批量网络请求
-
-broadcastreciever和 handler区别
-
-
-
-1. webview内泄漏,和安全问题  
-
-2. 提高sqlite的查询效率
-
-3. 多线程死锁(图片网络请求会出现的问题
-
-4. 减少布局嵌
-
-5. viewstub延迟加载
-
-6. 图片处理
-
-7. listview recycleview的选择
-
-8. overdraw过度绘制方法
-
-   https://www.jianshu.com/p/9e095bacf44a
-
-9. opengl
-
-10. oom是怎么处理的  anr
-
-11. 单元测试覆盖率
-
-12. 子线程创建Handler
-
-13. list遍历删除
-
-14. 生命周期
-
-15. fragment tage
-
-16. hashmap实现原理  实现有序
-
-17. android事件分发机制，请详细说下整个流程
-
-18. android view绘制机制和加载过程，请详细说下整个流程
-
-19. android四大组件的加载过程
-
-20. Activity的启动模式
-
-21. 怎么保证service不被杀死

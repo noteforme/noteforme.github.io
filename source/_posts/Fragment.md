@@ -15,9 +15,7 @@ https://juejin.im/post/5901b564570c35005804424b
 
 
 
-
-
-#### life
+#### Lifecycle
 
 https://developer.android.com/guide/fragments/lifecycle
 
@@ -50,23 +48,197 @@ override fun onAttach(context: Context) {
 
 https://noteforme.github.io/2017/10/05/Fragment/
 
-#### 添加Fragment
+
+
+#### Fragment重叠
 
 
 
-* xml设置
+ 横竖屏切换
+
+被系统回收（复现 进入开发者选项 -》不保留活动）
+
+https://www.jianshu.com/p/c12a98a36b2b
+
+#####  BottomNavigationView error
+
+使用BottomNavigationView出现很严重的问题,很久才找到原因
 
 ```
-   <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     android:layout_width="match_parent" android:layout_height="match_parent">
-     <fragment class="com.example.android.apis.app.FragmentLayout$TitlesFragment"
-            android:id="@+id/titles"
-            android:layout_width="match_parent" android:layout_height="match_parent" />
-</FrameLayout>
+ Caused by: android.view.InflateException: Binary XML file line #16: Binary XML file line #16: Error inflating class com.google.android.material.bottomnavigation.BottomNavigationView
+     Caused by: android.view.InflateException: Binary XML file line #16: Error inflating class com.google.android.material.bottomnavigation.BottomNavigationView
 ```
 
+因为 AndroidManifest.xml  application下的android:theme="@style/AppTheme"多出了,把下面的删除了就好了.
+
+```
+<item name="android:textColorSecondary">#ffffff</item>
+<item name="android:actionOverflowButtonStyle">@style/OverflowMenuStyle</item>
+<item name="android:listDivider">@drawable/divider</item>
+```
+
+#####   重叠原因 
+
+>  旋转屏幕时候，创建的homeFragment会被回收,在销毁前，执行了onSaveInstanceState(Bundle outState)这个方法。这个方法会保存activity的一些信息，其中就包括添加过的fragment，Activity重建后，再次初始化homeFragment，接着显示，导致了重叠的问题。
 
 
+
+##### 代码验证
+
+```
+private fun initFragment() {
+    if (homeFragment == null) {
+        homeFragment = HomeFragment()
+        addFragment(homeFragment!!)
+        showFragment(homeFragment)
+    }
+}
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    Timber.d("onCreate() $homeFragment")
+    initFragment()
+    Timber.d("initFragment() $homeFragment")   
+}
+
+ override fun onDestroy() {
+        super.onDestroy()
+        Timber.tag(TAG).d("onDestroy() homeFragment $homeFragment")
+ }
+
+```
+
+日志
+
+```
+ D/TabBottomActivity LaunchModeActivity: onCreate() taskId  641
+ D/TabBottomActivity LaunchModeActivity: onCreate() homeFragment null
+ D/TabBottomActivity LaunchModeActivity: initFragment() homeFragment HomeFragment{1adc3fa} (b0660244-39c4-4104-b558-f5384c7adb0d) id=0x7f09010e}
+ D/TabBottomActivity LaunchModeActivity: onStart()
+ D/TabBottomActivity LaunchModeActivity: onResume()
+ D/TabBottomActivity LaunchModeActivity: onPause()
+ D/TabBottomActivity LaunchModeActivity: onSaveInstanceState()
+ D/TabBottomActivity LaunchModeActivity: onStop()
+ D/TabBottomActivity LaunchModeActivity: onDestroy()
+ D/TabBottomActivity LaunchModeActivity: onDestroy() homeFragment HomeFragment{1adc3fa} (d84f5956-fa2c-4cd2-8397-0904040d2a6f)}
+ D/TabBottomActivity LaunchModeActivity: onCreate() taskId  641
+ D/TabBottomActivity LaunchModeActivity: onCreate() homeFragment null
+ D/TabBottomActivity LaunchModeActivity: initFragment() homeFragment HomeFragment{ac076db} (f8ee348b-6ff7-4b1e-ba27-6e47e848f623) id=0x7f09010e}
+ D/TabBottomActivity LaunchModeActivity: onStart()
+ D/TabBottomActivity LaunchModeActivity: onRestoreInstanceState()
+ D/TabBottomActivity LaunchModeActivity: onResume()
+```
+
+从 initFragment（） 1adc3fa , ac076db 可以看到，HomeFrgment重新创建了.
+
+##### 处理方法
+
+1. onSaveInstanceState 不保存信息
+
+   ```kotlin
+      override fun onSaveInstanceState(outState: Bundle) {
+   //        super.onSaveInstanceState(outState)
+       }
+   ```
+
+   这种方式的弊端就是，切换后总是回到首页.
+
+2. onSaveInstanceState() 保存Fragment
+
+   ```
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+   
+       if (savedInstanceState != null) {
+           /*获取保存的fragment  没有的话返回null*/
+           homeFragment = supportFragmentManager.getFragment(savedInstanceState, HOME_FRAGMENT_KEY) as HomeFragment?
+           healthFragment = supportFragmentManager.getFragment(savedInstanceState, DASHBOARD_FRAGMENT_KEY) as HealthFragment?
+           personFragment = supportFragmentManager.getFragment(savedInstanceState, NOTICE_FRAGMENT_KEY) as PersonFragment?
+           addToList(homeFragment)
+           addToList(healthFragment)
+           addToList(personFragment)
+       } else {
+           initFragment()
+       }
+    }
+    
+    override fun onSaveInstanceState(outState: Bundle) {
+           super.onSaveInstanceState(outState)
+           Timber.d("MainActivity onSaveInstanceState")
+           /*fragment不为空时 保存*/if (homeFragment != null) {
+               supportFragmentManager.putFragment(outState!!, HOME_FRAGMENT_KEY, homeFragment!!)
+           }
+           if (healthFragment != null) {
+               supportFragmentManager.putFragment(outState!!, DASHBOARD_FRAGMENT_KEY, healthFragment!!)
+           }
+           if (personFragment != null) {
+               supportFragmentManager.putFragment(outState!!, NOTICE_FRAGMENT_KEY, personFragment!!)
+           }
+      }
+    
+   ```
+
+
+
+​	这种方式，可以解决问题，但是打印的日志HomeFragment还是不一样，是什么情况？
+
+https://blog.csdn.net/yuzhiqiang_1993/article/details/75014591
+
+https://www.jianshu.com/p/78ec81b42f92
+
+
+
+#### 横竖屏切换，Fragment实例复用
+
+#####  setRetainInstance=true
+
+**retainInstance = true已经过期，改用ViewModel**
+
+LifeFragment
+
+```
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    retainInstance = true
+}
+```
+
+```
+private fun initFragment() {
+    var lifeFragment = supportFragmentManager.findFragmentById(R.id.fl_content)
+    if (lifeFragment == null) {
+        lifeFragment = LifeFragment()
+        supportFragmentManager.beginTransaction().add(R.id.fl_content, lifeFragment).commit()
+    }
+    Timber.d("LifeFragment $lifeFragment")
+}
+```
+
+切换屏幕后 LifeFragment,ondestroy()没志行,后面的Oncreate()也没有创建.
+
+```
+ D/LifeActivity LaunchModeActivity: onCreate() taskId  599
+ D/LifeActivity: LifeFragment LifeFragment{6a86311} (70133a14-6dcf-4f8b-beee-6cd31d6623ba) id=0x7f090109}
+ D/LifeFragment LaunchModeFragment: onAttach(Context context)
+ D/LifeFragment LaunchModeFragment: onCreate() savedInstanceState    null
+ D/LifeFragment LaunchModeFragment: onCreateView()
+ D/LifeFragment LaunchModeFragment: onActivityCreated()
+ D/LifeFragment LaunchModeFragment: onStart()
+ D/LifeFragment LaunchModeFragment: onResume()
+ D/LifeFragment LaunchModeFragment: onPause() 
+ D/LifeFragment LaunchModeFragment: onStop()
+ D/LifeFragment LaunchModeFragment: onDestroyView()
+ D/LifeFragment LaunchModeFragment: onDetach()
+ D/LifeFragment LaunchModeFragment: onAttach(Context context)
+ D/LifeActivity LaunchModeActivity: onCreate() taskId  599
+ D/LifeActivity: LifeFragment LifeFragment{6a86311} (70133a14-6dcf-4f8b-beee-6cd31d6623ba) id=0x7f090109}
+ D/LifeFragment LaunchModeFragment: onCreateView()
+ D/LifeFragment LaunchModeFragment: onActivityCreated()
+ D/LifeFragment LaunchModeFragment: onStart()
+ D/LifeFragment LaunchModeFragment: onResume()
+```
+
+ 
 
 ####  Fragment懒加载
 
@@ -74,8 +246,6 @@ Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragme
 前半段先执行，然后执行自身的生命周期方法
 
 在项目终从其他页面回到MainAcitivty的时候，三个页面的生命周期方法都跑了一遍
-
-
 
 ```
 　  D/FinanceFragment         Test: onStart()
@@ -191,7 +361,7 @@ Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragme
 
 https://developer.android.com/guide/components/fragments.html
 
-####  onHiddenChanged
+####  onHiddenChanged切换刷新
 
 使用hide()/show()发现生命周期基本不执行，不过可以用到这个onHiddenChanged();
 
@@ -220,6 +390,8 @@ https://blog.csdn.net/cml_blog/article/details/41411451
 
 
 
+
+
 #### fragment常用特性
 
 ##### commitAllowingStateLoss VS  commit()区别
@@ -228,7 +400,7 @@ https://huxian99.github.io/2016/08/28/cj3qymo360000owxk9zp17alo/
 
 
 
-##### Fragment之前传递数据
+##### Fragment之间传递数据
 
 1. Fragment.setArguments()方法传递bundle
 
@@ -263,6 +435,10 @@ https://huxian99.github.io/2016/08/28/cj3qymo360000owxk9zp17alo/
 
 
 
+##### 给已经创建frament传递数据
+
+也是直接 Fragment.refresh(),第一行代码第三版P227，也是这样做的。
+
 
 
 ##### fragment回退栈
@@ -275,6 +451,8 @@ tx.addToBackStack(null); 添加回退功能，类似Activity压栈的过程
 
 Fragment控制父Fragment展示
 
+[Communication between nested fragments in Android](https://stackoverflow.com/questions/39491655/communication-between-nested-fragments-in-android)
+
 https://blog.csdn.net/u011481547/article/details/71552720
 
 Fragmet全局流程图
@@ -282,12 +460,6 @@ Fragmet全局流程图
 <https://kotlintc.com/articles/5693>
 
 
-
-模拟系统内存不足
-
-<http://yifeng.studio/2016/12/15/android-fragment-attentions/>
-
-[Communication between nested fragments in Android](https://stackoverflow.com/questions/39491655/communication-between-nested-fragments-in-android)
 
 
 

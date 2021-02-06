@@ -7,7 +7,7 @@ categories: ANDROID
 
 ---
 
-
+https://developer.android.com/reference/android/app/Activity.html
 
 #### Activity
 
@@ -16,7 +16,18 @@ Acitivty和用户交互，所以也是用的最多的
 
 ![生命周期](https://developer.android.com/images/activity_lifecycle.png) 
 
-想到一个问题:界面Ａ　到界面Ｂ，是Ａ的onStop()先执行　还是Ｂ的onResume()先走
+##### lifecycle
+
+1. onCreate():  Activity创建的时候调用，绑定数据。
+2. onStart() : 当Activity对用户变得可见的时候调用.
+3. onResume() : activity开始和用户交互的时候调用，这时候activity处于栈顶，伴随着用户的输入.
+4. onPause() : 当activity失去前台状态，开始进入stopped/hidden or destroyed状态，不能再获取焦点，此时activity对用户可见，但是更新的UI的操作要快。
+5. onStop()  :  当activity不再可见，可能是新的activity来到栈顶，或者当前activity正在被destroy.
+6. onDestory(): 当前activity正在离开。
+
+
+
+#####  想到一个问题:界面Ａ到界面Ｂ，是Ａ的onStop()先执行　还是Ｂ的onResume()先走
 
 先用事实说话吧
 
@@ -30,17 +41,13 @@ Acitivty和用户交互，所以也是用的最多的
      I/BaseActivity: MainActivity -- onStop() -- 
 
 从打印结果可以看到StopResumeActivity.onResume()先执行,然后是MainActivity的onStop
-先看看
-onResume() : Called when the activity will start interacting with the user. At this point your activity is at the top of the activity stack, with user input going to it.
 
-onStop() : Called when the activity is no longer visible to the user, because another activity has been resumed and is covering this one. This may happen either because a new activity is being started, an existing one is being brought in front of this one, or this one is being destroyed.
-Followed by either onRestart() if this activity is coming back to interact with the user, or onDestroy() if this activity is going away.
-
+onStop() : 
 大概知道原因，但是还是不够说服力，因为onStart()方法已经对用户可见了，为什么MainActivity -- onStop()不在 StopResumeActivity -- onStart()后面呢？
-onStart：　Called when the activity is becoming visible to the user.
-Followed by onResume() if the activity comes to the foreground, or onStop() if it becomes hidden.
 
-参考：https://developer.android.com/reference/android/app/Activity.html
+可能是onResume()调用后，新activity位于栈顶，之前的再onStop()
+
+
 
 #### Activity luanch mode
 
@@ -94,7 +101,7 @@ adb shell dumpsys activity activities | sed -En -e '/Running activities/,/Run #0
 
 
 
-##### SingleInstance 无taskAffinity
+##### SingleInstance 不设置taskAffinity
 
 SingleInstance会创建一个新的任务栈
 
@@ -138,7 +145,7 @@ SingleInstance会创建一个新的任务栈
 
 所以按返回键盘，先到 FirstActivity，然后到SecondActivity .
 
-##### 栈内Activity查看
+##### 栈内Activity查看，设置taskAffinity
 
 ```xml
      <activity android:name=".component.launchmode.SerachActivity" />

@@ -21,9 +21,9 @@ categories: TOOL
   参考：http://blog.csdn.net/hyr83960944/article/details/39941683
 
 
-##### 　android stuido代理
+#### 　android stuido代理
 
-*  普通代理
+##### 普通代理
 修改Gradle配置文件后就一直卡在那，在　build.gradle值修改下面
 如果用了ss代理，在ubuntu设置http没用，可以在 工程根目录下 gradle.properties  添加
 
@@ -31,11 +31,10 @@ categories: TOOL
 `
 参考: https://www.zhihu.com/question/37810416
 
-
 平常github下载项目导入AndroidStudio直接卡死，心里真不是...., 目前实验一种方式应该会快点
 修改 gradle\wrapper\gradle-wrapper.properties下的 distributionUrl=https\://services.gradle.org/distributions/gradle-3.3-all.zip， 我的AndroidStudio默认是这个 所以就修改成这样的.
 
-*  jcenter库代理　(这几句话花了关键得一天时间)
+#####  jcenter库代理　(这几句话花了关键得一天时间)
 
 前天升级了系统，之前下得Demo一直跑不起来，'https://jitpack.io'得文件一直下载不下来　
 　＞错误：　jcenter.bintray.com:443 failed to respond
@@ -46,6 +45,14 @@ categories: TOOL
 　 就可以下载jitpack里面得文件了
 
 
+
+##### 阿里云镜像
+
+> /Users/john/.gradle/init.gradle
+
+
+
+
 ##### 下载gradle
 
   有时候想用新的的gradle，但是新的更新几十M的文件，一天都不一定能下下来
@@ -53,16 +60,6 @@ categories: TOOL
   比如我的就是 C:\Users\Administrator\.gradle\wrapper\dists\gradle-3.3-all\55gk2rcmfc6p2dg9u9ohc3hw9\
 
 还一个是在${home}/.gradle目录下得gradle.properties文件配置应该也是可以的
-
-
-##### 修改Log颜色
-
-android studio log默认都是白色的，在 setting -> Android Log下去掉Use inherited attributes
-.gradle/gradle.properties 
-我的颜色按照这个修改的
-http://www.jianshu.com/p/e3f8f7383c3d
-
-
 
 
 
@@ -84,7 +81,7 @@ http://www.jianshu.com/p/e3f8f7383c3d
 
 
 
-###### debug问题
+##### debug问题
 
 > 15:40	Error running 'app'
 > 		Cannot debug application from module app on device huawei-pra_al00-HMKNW17A12007001.
@@ -94,17 +91,19 @@ http://www.jianshu.com/p/e3f8f7383c3d
 
 
 
-* Build Variants 设置成debug
+Build Variants 设置成debug
 
-*   ```
-      debug {
-              debuggable false
-              minifyEnabled false
-              signingConfig signingConfigs.debug
-          }
-    ```
+```groovy
+  debug {
+          debuggable false
+          minifyEnabled false
+          signingConfig signingConfigs.debug
+      }
+```
 
-   debuggable设置成 true
+
+
+debuggable设置成 true
 
 
 
@@ -120,7 +119,7 @@ https://www.jianshu.com/p/e50af339259f
 
 https://juejin.im/entry/5b6a4ca9f265da0f4c6fe566
 
-无线调试
+##### 无线调试
 
 <https://juejin.im/entry/5a6a7e69518825733b0f1635>
 
@@ -167,27 +166,17 @@ http://kaedea.com/2016/06/04/android-dynamical-loading-04-so-problems/
 
 
 
-##### android studio proxy
-
-` vi  /Users/john/.gradle/gradle.properties`
-
-> systemProp.http.proxyHost=127.0.0.1
->
-> systemProp.https.proxyPort=8001
->
-> systemProp.https.proxyHost=127.0.0.1
->
-> systemProp.http.proxyPort=8001
 
 
-
-依赖其他moudle
+##### 依赖其他moudle
 
 https://mp.weixin.qq.com/s/trAxRzz573TFyJk2klKdag
 
 
 
-##### android stuido过滤不需要的日志
+##### android stuido 日志
+
+##### 过滤不需要的日志
 
 ```
 ^(?!.*(eglMakeCurrent|OpenGLRenderer)).*$
@@ -195,5 +184,8 @@ https://mp.weixin.qq.com/s/trAxRzz573TFyJk2klKdag
 eglMakeCurrent OpenGLRenderer两个包含需要过滤的字段
 ```
 
+##### 留下需要的日志
 
+<img src="AndroidStudioTool/Screen Shot 2021-02-06 at 11.57.50 AM.png" style="zoom: 80%;" />
 
+https://www.jianshu.com/p/11e56991ff28
