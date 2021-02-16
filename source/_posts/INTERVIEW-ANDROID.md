@@ -349,25 +349,148 @@ activity销毁后重新创建，怎么获取fragment
   }
 ```
 
-activity每个方法处理的区别
+#### activity每个方法处理的区别
 
-activity fragment传递数据方式
+1. onCreate():  Activity创建的时候调用，绑定数据。
 
-android多线程怎么处理的 ，两个子线程间怎么通讯
+2. onStart() : 当Activity对用户变得可见的时候调用.
 
-android广播怎么处理的
+3. onResume() : activity开始和用户交互的时候调用，这时候activity处于栈顶，伴随着用户的输入.
 
-动画  怎么处理,
+4. onPause() : 当activity失去前台状态，开始进入stopped/hidden or destroyed状态，不能再获取焦点，此时activity对用户可见，但是更新的UI的操作要快。
 
-写一个方法可以调用本类的方法
+5. onStop()  :  当activity不再可见，可能是新的activity来到栈顶，或者当前activity正在被destroy.
 
-为什么非静态方法可以直接被调用
+6. onDestory(): 当前activity正在离开。
 
-单例模式怎么理解的
+   
 
-写一个网络请求
+#### activity fragment传递数据方式
 
-res里面的图片会不会转换成二进制格式
+*  ViewModel
+
+* onTach() 回调
+
+  
+
+#### 单例模式怎么理解的
+
+  创建唯一的对象 
+
+* res/raw和assets 三者目录下的文件在打包后原封不动的保存在apk包中，不会被编译成二进制。
+* Res/raw文件会被映射到R.java文件中，访问的时候直接使用资源 R.id.filename;
+* res/raw不可以有目录结构，而asserts则可以有目录结构，也就是asserts目录下可以建立文件夹.
+
+https://www.jianshu.com/p/4c8bcb8c3717
+
+
+
+#### 截获通知
+
+新建一个服务MessageNotificationService实现 NotificationListenerService
+
+#### final特性
+
+1. final类不能被继承，没有子类
+2. 方法不能被子类的方法重写，但可以被继承
+3. 表示常量，只能被赋值一次，赋值后不再改变。
+
+
+
+#### android多线程怎么处理的 ，两个子线程间怎么通讯
+
+​	Android主线程和子线程之间的通信是通过消息循环机制，主线程中的handler把子线程的 message发送给主线程的Looper，那么子线程是如何通信的， 可以把looper绑定到子线程中，调用Looper.prepare()为改子线程生成Looper,然后调用Looper.loop()启动消息队列，并且在该子线程中创建一个Handler,在另一个子线程调用handler发送消息。这样实现通信.
+
+```kotlin
+val threadA = ThreadA()
+val threadB = ThreadB()
+Thread(threadA).start()
+if (threadA.getHandler() == null) {
+    Thread.sleep(1000)
+    handler = threadA.getHandler()
+}
+Thread(threadB).start()
+
+class ThreadA : Runnable {
+        var mHandler: Handler? = null
+
+
+        fun getHandler(): Handler? {
+            return mHandler
+        }
+
+        override fun run() {
+            Looper.prepare()
+            mHandler = object : Handler(Looper.myLooper()!!) {
+                override fun handleMessage(msg: Message) {
+                    super.handleMessage(msg)
+                    Timber.d("线程A: 线程B发过来消息了-- ${msg.obj} ")
+                }
+            }
+            Looper.loop()
+        }
+    }
+
+
+    inner class ThreadB : Runnable {
+        override fun run() {
+            val message = Message.obtain()
+            message.what = 1
+            message.obj = "线程B 发送消息" + System.currentTimeMillis()
+            handler?.sendMessage(message)
+        }
+    }
+```
+
+https://blog.csdn.net/pbm863521/article/details/103493708
+
+
+
+#### 防止应用被被杀死,怎么保证service不被杀死
+
+http://www.52im.net/thread-2881-1-1.html
+
+http://www.52im.net/thread-2893-1-1.html
+
+
+
+#### webview安全问题  
+
+WebView漏洞的根源在于强制其访问攻击者控制的网页。网页中含有攻击者可以控制的JS,因此可能钓鱼，窃取私有文件，甚至是 RCE,带来比较大的危害。
+
+下面主要是4.4系统以上的机型
+
+##### Webview密码明文存储漏洞
+
+WebView默认开启密码保存功能mWebView.setSavePassword(true),如果未关闭，用户输入密码时，会弹出提示框，询问用户是否保存密码，如果选是，密码会明文保存到 /data/data/com.package.name/databases/webview.db
+
+##### WebView域控制不严格漏洞
+
+setAllowFileAccess(true) : 窃取APP任意目录下的私有文件
+
+setAllowUniversalAccessFromFileURLs : 允许通过file域url中的 javascript访问其他的源。
+
+https://noteforme.github.io/2017/09/01/WebView/
+
+#### webview内存泄漏 Leakcanary 验证?
+
+android 5.0以下有内存泄漏问题
+
+
+
+https://juejin.cn/post/6901487965562732551
+
+
+
+android view绘制机制和加载过程，请详细说下整个流程
+
+wrap content 和martch content的绘制方法
+
+viewstub延迟加载原理
+
+overdraw过度绘制方法https://www.jianshu.com/p/9e095bacf44a
+
+
 
 线程怎么管理
 
@@ -375,29 +498,9 @@ res里面的图片会不会转换成二进制格式
 
 两个线程池，想让来的一个插队怎么弄
 
+多线程死锁(图片网络请求会出现的问题
+
 批量网络请求
-
-防止应用被被杀死,怎么保证service不被杀死
-
-final特性
-
-Android启动模式 singleinstance. 和singletop区别应用场景
-
-wrap content 和martch content的绘制方法
-
-自定义控件
-
-context对象互相引用，对象回收 Android界面怎么回收的 生命周期 a界面到b的onresume在a的onstop之前还是之后
-
-android怎么对内存进行分析
-
-内存溢出和内存泄露的区别，oom是怎么处理的 ， ANR怎么避免
-
-java内存回收机制 android管理机制 怎么处理内存泄露
-
-后台图片更改，前台怎么处理
-
-反射机制
 
 除了handler还有什么能传递数据
 
@@ -405,17 +508,43 @@ java内存回收机制 android管理机制 怎么处理内存泄露
 
 handler启动一个线程和asnnaltask区别 单元测试
 
-broadcastreciever和 handler区别
+
+
+
+
+
+
+
+
+context对象互相引用，对象回收 Android界面怎么回收的 生命周期 
+
+android怎么对内存进行分析
+
+内存溢出和内存泄露的区别，oom是怎么处理的 ， ANR怎么避免
+
+java内存回收机制 android管理机制 怎么处理内存泄露
+
+怎么做性能优化
+
+
+
+反射机制
+
+
+
+
+
+broadcastReciever和 handler区别
+
+
+
+后台图片更改，前台怎么处理
 
 图片加载库,图片加载方法
 
 图片加载框架怎么处理oom问题
 
-怎么做性能优化
 
-截获通知
-
-app怎么接收不到推送消息怎么办(2017.8.17)
 
 java Android加载机制
 
@@ -423,39 +552,29 @@ Android加载动态库
 
 AndroidManifest权限是怎么获取的，封装权限管理，为什么需要权限分组.
 
+
+
 listview内回收图片
 
 listview图片 缓存，listview怎么优化
 
 viewpager listview处理滑动冲突 
 
-
-
-webview内泄漏,和安全问题  
-
-多线程死锁(图片网络请求会出现的问题
-
-viewstub延迟加载
-
 listview recycleview的选择
 
-overdraw过度绘制方法https://www.jianshu.com/p/9e095bacf44a
+
 
 opengl
-
-单元测试覆盖率
 
 list遍历删除
 
 fragment tag
 
- **sercice ALDL** (后面再弄)
+**sercice ALDL** (后面再弄)
 
-hashmap实现原理  实现有序
+Hashmap实现原理  实现有序
 
 android事件分发机制，请详细说下整个流程
-
-android view绘制机制和加载过程，请详细说下整个流程
 
 android四大组件的加载过程
 

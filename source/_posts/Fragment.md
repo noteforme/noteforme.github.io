@@ -180,11 +180,49 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 
 
-​	这种方式，可以解决问题，但是打印的日志HomeFragment还是不一样，是什么情况？
+这种方式，可以解决问题，但是打印的日志HomeFragment还是不一样，是什么情况？
+
+```
+D/TabBottomActivity LaunchModeActivity: onCreate() taskId  4437
+ D/TabBottomActivity LaunchModeActivity: initFragment() homeFragment HomeFragment{dc2914d} (5f30b0dd-a8d2-4b3c-a27f-1d160a9da58e) id=0x7f09010e}
+ D/TabBottomActivity LaunchModeActivity: onStart()
+ D/TabBottomActivity LaunchModeActivity: onResume()
+ D/TabBottomActivity$onCreate: navigation_health
+ D/TabBottomActivity LaunchModeActivity: onPause()
+ D/TabBottomActivity LaunchModeActivity: onSaveInstanceState()
+ D/TabBottomActivity: MainActivity onSaveInstanceState
+ D/TabBottomActivity LaunchModeActivity: onStop()
+ D/TabBottomActivity LaunchModeActivity: onDestroy()
+ D/TabBottomActivity LaunchModeActivity: onDestroy() homeFragment HomeFragment{dc2914d} (ab276ea2-5fa2-4d79-b6a6-af7143b114e8)}
+ D/TabBottomActivity LaunchModeActivity: onCreate() taskId  4437
+ D/TabBottomActivity: fragmentList数量1
+ D/TabBottomActivity: fragmentList数量2
+ D/TabBottomActivity: fragmentList数量2
+ D/TabBottomActivity LaunchModeActivity: initFragment() homeFragment HomeFragment{9139494} (5f30b0dd-a8d2-4b3c-a27f-1d160a9da58e) id=0x7f09010e}
+ D/TabBottomActivity LaunchModeActivity: onStart()
+ D/TabBottomActivity LaunchModeActivity: onRestoreInstanceState()
+ D/TabBottomActivity LaunchModeActivity: onResume()
+ D/TabBottomActivity LaunchModeActivity: onPause()
+ D/TabBottomActivity LaunchModeActivity: onSaveInstanceState()
+ D/TabBottomActivity: MainActivity onSaveInstanceState
+ D/TabBottomActivity LaunchModeActivity: onStop()
+ D/TabBottomActivity LaunchModeActivity: onDestroy()
+ D/TabBottomActivity LaunchModeActivity: onDestroy() homeFragment HomeFragment{9139494} (cadcb63f-8516-4d44-8f3c-75b0c8e9f27f)}
+```
+
+
 
 https://blog.csdn.net/yuzhiqiang_1993/article/details/75014591
 
 https://www.jianshu.com/p/78ec81b42f92
+
+
+
+##### 下面这种方式没理解
+
+https://www.jianshu.com/p/d9143a92ad94
+
+https://www.jianshu.com/p/c12a98a36b2b
 
 
 
@@ -390,8 +428,6 @@ https://blog.csdn.net/cml_blog/article/details/41411451
 
 
 
-
-
 #### fragment常用特性
 
 ##### commitAllowingStateLoss VS  commit()区别
@@ -459,16 +495,8 @@ Fragmet全局流程图
 
 <https://kotlintc.com/articles/5693>
 
-
-
-
-
-Fragment   viewpager
-
 https://mp.weixin.qq.com/s/MOWdbI5IREjQP1Px-WJY1Q
 
 https://juejin.im/post/5bcd58b6e51d45404c71d23f
-
-
 
 https://mp.weixin.qq.com/s/_hdbMOA2TVvX4jFnMu15bg

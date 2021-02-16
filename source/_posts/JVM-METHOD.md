@@ -6,6 +6,17 @@ tags: JVM
 categories: JAVA
 ---
 
+#### 对象的访问定位
+
+![方法区](https://cdn.jsdelivr.net/gh/youthlql/lql_img_002/JVM/chapter_006/0002.png)
+
+
+
+1. Person类的.class信息存放在 方法区中
+2. person变量存放在Java栈的局部变量表中
+3. Person对象存放在Java堆中
+4. 在Person堆中，有个指针指向方法区的person类型数据,表示person对象是方法区中的Person类New出来的.
+
 
 
 **内存布局总结**

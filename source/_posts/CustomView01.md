@@ -7,7 +7,7 @@ tags: VIEW
 categories: VIEW
 ---
 
-##### 自定义View函数调用流程 
+自定义View函数调用流程 
 
  ![流程](CustomView01\2019-04-29-71649.jpg)
 
@@ -15,42 +15,58 @@ categories: VIEW
 
 
 
-* View OnMeasure()方法
+#### Measure
 
-  ```
-  val widthMode = MeasureSpec.getMode(widthMeasureSpec);
-  val widthSize = MeasureSpec.getSize(widthMeasureSpec); widthSize父控件留个子空间的最大宽度
-  
-  val heightMode = MeasureSpec.getMode(heightMeasureSpec);
-  val heightSize = MeasureSpec.getSize(heightMeasureSpec);
-  
-  var width = 10
-  var height = 10
-  if (widthMode == MeasureSpec.EXACTLY) {   //如果match_parent或者具体的值，直接赋值
-      width = widthSize
-  } else if (widthMode == MeasureSpec.AT_MOST) { //如果是wrap_content，我们要得到控件需要多大的尺寸
-      width = paddingLeft + mBound.width() + paddingRight
-  }
-  //高度跟宽度处理方式一样
-  if (heightMode == MeasureSpec.EXACTLY) {
-      height = heightSize
-  } else if (heightMode == MeasureSpec.AT_MOST) {
-      height = paddingTop + mBound.height() + paddingBottom
-  }
-  setMeasuredDimension(width, height)
-  ```
+##### View OnMeasure()方法
+
+```
+val widthMode = MeasureSpec.getMode(widthMeasureSpec);
+val widthSize = MeasureSpec.getSize(widthMeasureSpec); widthSize父控件留个子空间的最大宽度
+
+val heightMode = MeasureSpec.getMode(heightMeasureSpec);
+val heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+var width = 10
+var height = 10
+if (widthMode == MeasureSpec.EXACTLY) {   //如果match_parent或者具体的值，直接赋值
+    width = widthSize
+} else if (widthMode == MeasureSpec.AT_MOST) { //如果是wrap_content，我们要得到控件需要多大的尺寸
+    width = paddingLeft + mBound.width() + paddingRight
+}
+//高度跟宽度处理方式一样
+if (heightMode == MeasureSpec.EXACTLY) {
+    height = heightSize
+} else if (heightMode == MeasureSpec.AT_MOST) {
+    height = paddingTop + mBound.height() + paddingBottom
+}
+setMeasuredDimension(width, height)
+```
 
 理解onMeasure <https://blog.csdn.net/tuke_tuke/article/details/73302595>
 
-* 加载布局
+加载布局
 
-![图](CustomView01\4131410-a0f7a6a89a5509ac.webp)
-
-
+<img src="CustomView01\Screen Shot 2021-02-16 at 3.37.39 PM.png" alt="图" style="zoom:80%;" />
 
 
 
-##### Paint
+
+
+
+
+##### ViewGroup Measure
+
+*  ViewGroup 管理子View，其中就负责子View的显示大小,当ViewGroup的大小为 wrap_content时，ViewGroup就需要对子View进行遍历,以便获得所有子View的大小，从而决定自己的大小，而在其他模式下则会通过具体的指定值来设置自身的大小.
+
+* ViewGroup在测量时通过遍历所有的子View,从而调用子View的Measure方法获得每一个子View的测量结果，前面对View的测量，就是在这里进行的.
+
+
+
+#### Draw
+
+
+
+Paint
 
 为了展示方便，容易看出效果，之前使用的模式一直为填充模式，实际上画笔有三种模式，如下：
 

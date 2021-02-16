@@ -9,6 +9,8 @@ categories: ANDROID
 
 
 
+#### 使用
+
 ##### 加载apk包中的html页面
 ` webView.loadUrl("file:///android_asset/java.html");`
 
@@ -188,3 +190,55 @@ https://juejin.im/entry/5ad70987f265da239148a614
 zip离线缓存
 
 https://mp.weixin.qq.com/s/AV2SwFfwwJH7xyrIBJemgw
+
+
+
+#### 安全问题 
+
+WebView漏洞的根源在于强制其访问攻击者控制的网页。网页中含有攻击者可以控制的JS,因此可能钓鱼，窃取私有文件，甚至是 RCE,带来比较大的危害。
+
+下面主要是4.4系统以上的机型
+
+##### Webview密码明文存储漏洞
+
+WebView默认开启密码保存功能mWebView.setSavePassword(true),如果未关闭，用户输入密码时，会弹出提示框，询问用户是否保存密码，如果选是，密码会明文保存到 /data/data/com.package.name/databases/webview.db
+
+##### WebView域控制不严格漏洞
+
+setAllowFileAccess(true) : 窃取APP任意目录下的私有文件
+
+setAllowUniversalAccessFromFileURLs : 允许通过file域url中的 javascript访问其他的源。
+
+
+
+方案
+
+1. 通过以下设置，防止越权访问，跨域等安全问题
+
+   ```java
+   setAllowFileAccess(false)
+   
+   setAllowFileAccessFromFileURLs(false)
+   
+   setAllowUniversalAccessFromFileURLs(false)
+   ```
+
+2. WebSettings.setSavePassword(false)
+
+   关闭密码保存提醒功能
+
+3. 建议开发者通过以下方式移除该JavaScript接口
+
+   ```javascript
+   removeJavascriptInterface("searchBoxJavaBridge_")
+   
+   removeJavascriptInterface("accessibility")；
+   
+   removeJavascriptInterface("accessibilityTraversal")
+   ```
+
+   
+
+https://zhuanlan.zhihu.com/p/21787366
+
+https://zhuanlan.kanxue.com/article-14155.htm

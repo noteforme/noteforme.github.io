@@ -6,6 +6,16 @@ tags: JVM
 categories: JAVA
 ---
 
+
+
+
+
+[JVM方法区-第六章](https://noteforme.github.io/2020/01/04/JVM-METHOD/)
+
+
+
+
+
 ![Screen Shot 2020-04-16 at 8.22.33 PM](JVM/Screen Shot 2020-04-16 at 8.22.33 PM.png)
 
 ![Screen Shot 2020-04-16 at 8.29.39 PM](JVM/Screen Shot 2020-04-16 at 8.29.39 PM.png)
