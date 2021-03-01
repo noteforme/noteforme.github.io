@@ -1,5 +1,5 @@
 ---
-title: CustomView03
+title: View_Practice
 comments: true
 date: 2019-01-01 22:44:09
 tags: VIEW
@@ -18,7 +18,7 @@ categories: VIEW
 
 ##### 表单输入
 
-![CustomView2018-05-12 09-42-16](CustomView03/CustomView2018-05-12_09-42-16.png)
+![CustomView2018-05-12 09-42-16](View_Practice/CustomView2018-05-12_09-42-16.png)
 
 
 
@@ -175,9 +175,9 @@ public class MyView extends View {
 
   按照如图两名称一致，重启AndroidStudio
 
-![customview_2018-05-17_01](CustomView03/customview_2018-05-17_01.png)
+![customview_2018-05-17_01](View_Practice/customview_2018-05-17_01.png)
 
-![customview_2018-05-17_02](CustomView03\customview_2018-05-17_02.png)
+![customview_2018-05-17_02](View_Practice\customview_2018-05-17_02.png)
 
 
 

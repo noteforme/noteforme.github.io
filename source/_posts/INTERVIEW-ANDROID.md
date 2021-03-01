@@ -482,13 +482,65 @@ https://juejin.cn/post/6901487965562732551
 
 
 
-android view绘制机制和加载过程，请详细说下整个流程
+#### android view绘制机制和加载过程，请详细说下整个流程
 
-wrap content 和martch content的绘制方法
+每个Activity包含一个Window对象，Android中window对象由PhoneWindow实现，PhoneWindow将一个DecorView设置为整个应用窗口的根View,DecorView作为窗口界面的顶层视图，封装了窗口操作的通用方法，DecorView将要显示的具体内容显示在PhoneWindow上，这里所有的View监听事件通过WindowMangerService来接收,通过Activity对象来回调相应的onCLicklistener.显示是将屏幕分成两部分，一个TitleView，另一个是ContentView.
+
+ Measure
+
+如果是原始的 View,通过measure方法就完成了测量过程,如果是ViewGroup,除了完成自己的测量外，还需要遍历所有的子View,各个子元素再去递归执行这个流程.
+
+Layout 
+
+Draw
+
+#### wrap content 和MATCH_PARENT的测量方式
+
+
+
+WRAP_CONTENT : 最大模式，大小不定，但是不能超过窗口的大小. specMode是AT_MOST模式,这种模式下，它的宽，高等于specSize,								 这种情况下specSize是parentSize,而parentSize是父容器目前可以使用的大小,也就是父容器剩余的空间大小.
+
+MATCH_PARENT: 精确模式，大小就是窗口大小.
+
+https://noteforme.github.io/2017/11/12/View_OVER/
+
+
 
 viewstub延迟加载原理
 
-overdraw过度绘制方法https://www.jianshu.com/p/9e095bacf44a
+```
+   // 设置 ViewStub 不进行绘制
+     setWillNotDraw(true);
+     
+     
+private void replaceSelfWithView(View view, ViewGroup parent) {
+    final int index = parent.indexOfChild(this);
+    // 把 ViewStub 从控件层级中移除。
+    parent.removeViewInLayout(this);
+
+    // 把新创建的 View 对象加入控件层级结构中，并且位于 ViewStub 的位置，
+    // 并且在这个过程中，会使用 ViewStub 的布局参数，例如宽高等。
+    final ViewGroup.LayoutParams layoutParams = getLayoutParams();
+    if (layoutParams != null) {
+        parent.addView(view, index, layoutParams);
+    } else {
+        parent.addView(view, index);
+    }
+}
+
+```
+
+https://juejin.cn/post/6844903799337779214
+
+#### overdraw过度绘制优化方法
+
+移除默认和不必要背景
+
+https://jaeger.itscoder.com/android/2016/09/29/android-performance-overdraw.html
+
+https://www.jianshu.com/p/9e095bacf44a
+
+
 
 
 
@@ -507,8 +559,6 @@ overdraw过度绘制方法https://www.jianshu.com/p/9e095bacf44a
 子线程创建Handler
 
 handler启动一个线程和asnnaltask区别 单元测试
-
-
 
 
 
