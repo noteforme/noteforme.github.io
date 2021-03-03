@@ -1,5 +1,5 @@
 ---
-title: ConcurrencyJava
+title: ConcurrencyThreadPool
 comments: true
 date: 2017-08-27 10:40:55
 tags: concurrency
@@ -7,7 +7,7 @@ categories: JAVA
 
 ---
 
-<img src="ConcurrencyJava/Screen Shot 2020-08-19 at 10.07.23 AM.png" alt="Screen Shot 2020-08-19 at 10.07.23 AM" style="zoom:50%;" />
+<img src="ConcurrencyThreadPool/Screen Shot 2020-08-19 at 10.07.23 AM.png" alt="Screen Shot 2020-08-19 at 10.07.23 AM" style="zoom:50%;" />
 
 
 
@@ -36,6 +36,8 @@ categories: JAVA
 https://kaiwu.lagou.com/course/courseInfo.htm?courseId=16#/detail/pc?id=248
 
 ##### 6 种线程池
+
+![](ConcurrencyThreadPool/queueThreadWork.png)
 
 1. FixedThreadPool
 
@@ -85,7 +87,7 @@ https://kaiwu.lagou.com/course/courseInfo.htm?courseId=16#/detail/pc?id=254
 
 #### 阻塞队列
 
-<img src="ConcurrencyJava/blockQueue.png" alt="Screen Shot 2020-08-19 at 10.07.23 AM" style="zoom:50%;" />
+<img src="ConcurrencyThreadPool/blockQueue.png" alt="Screen Shot 2020-08-19 at 10.07.23 AM" style="zoom:50%;" />
 
 1. LinkedBlockingQueue (FixedThreadPool,SingleThreadExector)
 
@@ -287,7 +289,7 @@ resourceA .wait() ; //并释放获取到的 resourceA的锁? 为什么会释放
 
 #### 共享变量可见性问题
 
-<img src="ConcurrencyJava/Screen Shot 2020-08-19 at 3.54.13 PM.png" alt="Screen Shot 2020-08-19 at 3.54.13 PM" style="zoom:67%;" />
+<img src="ConcurrencyThreadPool/Screen Shot 2020-08-19 at 3.54.13 PM.png" alt="Screen Shot 2020-08-19 at 3.54.13 PM" style="zoom:67%;" />
 
 图中所示是一个双核 CPU系统架构，每个核有自己的控制器和运算器，其中控制器包含 一组寄 存器和操作控制 器，运算器执 行算术逻辅运算 。每 个核都有自己的 一 级缓存，在有些架构里面还有一个所有 CPU 都共享的二级缓存。 那么 Java 内存模型里面的工作内
 存，就对应这里的 Ll 或者 L2 缓存或者 CPU 的寄存器。

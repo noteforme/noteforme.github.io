@@ -8,6 +8,14 @@ categories: JAVA
 
 
 
+
+
+![](http://s0.lgstatic.com/i/image2/M01/A5/5E/CgotOV3DgLSAGmEWAADo6Lxf6ww652.png)
+
+
+
+
+
 #### 线程是如何在 6 种状态之间转换
 
 ##### 线程的6中状态
@@ -75,10 +83,9 @@ categories: JAVA
 ##### 注意
 
 1. 线程的状态是需要按照箭头方向来走的，比如线程从 New 状态是不可以直接进入 Blocked 状态的，它需要先经历 Runnable 状态。
-
 2. 线程生命周期不可逆：一旦进入 Runnable 状态就不能回到 New 状态；一旦被终止就不可能再有任何状态的变化。所以一个线程只能有一次 New 和 Terminated 状态，只有处于中间状态才可以相互转换。
 
-   
+
 
 
 
@@ -431,3 +438,41 @@ public class WrongWayVolatileFixed {
 ```
 
  producerThread.interrupt();去打断
+
+##### 线程池关闭方式
+
+```java
+public class ShutdownTest {
+    public static void main(String[] args) {
+        ExecutorService exec = Executors.newCachedThreadPool();
+        exec.submit(new ShutDownThread());
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        exec.shutdownNow();
+
+    }
+
+    static class ShutDownThread implements Runnable {
+        static int taskId = 0;
+
+        @Override
+        public void run() {
+            while (!Thread.currentThread().isInterrupted()){
+                try {
+                    Thread.sleep(5000);
+                    System.out.println();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                }
+                System.out.println("taskId Terminated" + taskId++);
+            }
+            System.out.println("");
+        }
+    }
+}
+```
+
