@@ -1,10 +1,13 @@
 ---
-title: INTERVIEW_JAVA
+title: INTERVIEW-JAVA
 comments: true
-date: 2021-01-07 17:12:08
-tags: resume
-categories: ANDROID
+date: 2018-05-24 22:31:57
+tags: concurrency
+categories: INTERVIEW
+
 ---
+
+
 
 [面试题含答案](https://www.cnblogs.com/huangjialin/p/12411842.html)
 
@@ -130,172 +133,31 @@ https://cloud.tencent.com/developer/article/1447574
 
     https://juejin.cn/post/6844903566293860366
 
-- 抽象类和接口区别
+####  抽象类和接口区别
 
-  | Abstract class                                               | Interface                                                    |
-  | ------------------------------------------------------------ | ------------------------------------------------------------ |
-  | 1) Abstract class can **have abstract and non-abstract** methods. | Interface can have **only abstract** methods. Since Java 8, it can have **default and static methods** also. |
-  | 2) Abstract class **doesn't support multiple inheritance**.  | Interface **supports multiple inheritance**.                 |
-  | 3) Abstract class **can have final, non-final, static and non-static variables**. | Interface has **only static and final variables**.           |
-  | 4) Abstract class **can provide the implementation of interface**. | Interface **can't provide the implementation of abstract class**. |
-  | 5) The **abstract keyword** is used to declare abstract class. | The **interface keyword** is used to declare interface.      |
-  | 6) An **abstract class** can extend another Java class and implement multiple Java interfaces. | An **interface** can extend another Java interface only.     |
-  | 7) An **abstract class** can be extended using keyword "extends". | An **interface** can be implemented using keyword "implements". |
-  | 8) A Java **abstract class** can have class members like private, protected, etc. | Members of a Java interface are public by default.           |
-  | 9)**Example:**  public abstract class Shape{ public abstract void draw(); } | **Example:**  public interface Drawable{ void draw(); }      |
+| Abstract class                                               | Interface                                                    |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 1) Abstract class can **have abstract and non-abstract** methods. | Interface can have **only abstract** methods. Since Java 8, it can have **default and static methods** also. |
+| 2) Abstract class **doesn't support multiple inheritance**.  | Interface **supports multiple inheritance**.                 |
+| 3) Abstract class **can have final, non-final, static and non-static variables**. | Interface has **only static and final variables**.           |
+| 4) Abstract class **can provide the implementation of interface**. | Interface **can't provide the implementation of abstract class**. |
+| 5) The **abstract keyword** is used to declare abstract class. | The **interface keyword** is used to declare interface.      |
+| 6) An **abstract class** can extend another Java class and implement multiple Java interfaces. | An **interface** can extend another Java interface only.     |
+| 7) An **abstract class** can be extended using keyword "extends". | An **interface** can be implemented using keyword "implements". |
+| 8) A Java **abstract class** can have class members like private, protected, etc. | Members of a Java interface are public by default.           |
+| 9)**Example:**  public abstract class Shape{ public abstract void draw(); } | **Example:**  public interface Drawable{ void draw(); }      |
 
-  https://www.javatpoint.com/difference-between-abstract-class-and-interface
+https://www.javatpoint.com/difference-between-abstract-class-and-interface
 
-  
+ 
 
-  #### ? 泛型中extends和super的区别
+#### ? 泛型中extends和super的区别
 
 - 上界<? extends T>不能往里存，只能往外取，适合频繁往外面读取内容的场景。
 
 - 下界<? super T>不影响往里存，但往外取只能放在Object对象里，适合经常往里面插入数据的场景
 
-  
-
   https://noteforme.github.io/2018/04/16/Generics/
-
-  
-
-  #### 父类的静态方法能否被子类重写
-
-  静态方法只和类有关,JVM加载后先初始化static相关属性方法,重写依赖于类的实例.
-
-  
-
-  > **Overriding:** Overriding in Java simply means that the particular method would be called based on the run time type of the object and  not on the compile time type of it (which is the case with overriden  static methods)
-  >
-  > Overriding depends on having an instance of a class. The point of  polymorphism is that you can subclass a class and the objects  implementing those subclasses will have different behaviors for the same methods defined in the superclass (and overridden in the subclasses). A static method is not associated with any instance of a class so the  concept is not applicable.
-
-  
-
-  #### ? 进程和线程的区别 协程呢
-
-  ##### 进程
-
-    是系统资源分配和调度的基本单位，每个进程都有唯一的地址空间，一个程序至少有一个进程，一个进程至少有一个线程.
-
-    进程在执行过程中拥有独立的内存单元，而多个线程共享内存，极大地提高了程序的运行效率.
-
-  线程
-
-    	线程是独立运行和独立调度的基本单位，JVM结构中共享 Method Area ,Heap Area
-
-  ​	
-
-  ​	https://blog.csdn.net/mxsgoden/article/details/8821936
-
-  ​	https://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html
-
-  
-
-  #### 进程线程区别
-
-  进程 : 有很大的独立性
-
-  线程 :  所有线程都有完全一样的地址空间,意味着它们也共享同样的全局变量。由于线程可以访问进程地址空间的每一个内存地址，所以一个线程可以读、写甚至清除另一个线程的堆栈。
-
-  
-
-  每个进程中的内容 : 地址空间  全局变量 打开文件 子进程	即将发生的定时器	信号与信号处理程序
-
-  每个线程中的内容：程序计数器、寄存器、堆栈、状态.
-
-  
-
-  协程
-
-  ​		协程拥有自己的寄存器上下文和栈，协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的	时候，恢复先前保存的寄存器上下文和栈，即所有局部状态的一个特定组合），每次过程重入时，就相当于进入上一次调用的状态，换种说法：进入上一次离开时所处逻辑流的位置。
-
-  协程的好处:
-
-  1. 无需线程上下文切换的开销 
-  2. 无需原子操作锁定及同步的开销
-  3. 方便切换控制流，简化编程模型
-
-  
-
-  #### final，finally，finalize的区别
-
-  Final : 用于申明属性，方法，类，表示属性不可变，方法不可以覆盖，类不能继承
-
-  Finally: 异常语句处理机构中，与try{}进行配合使用，不论try中的代码是否执行完，表示总是执行的部分
-
-  Finalize: Object类的一个方法，用于对象"消失"时，由JVM进行调用用于对对象进行垃圾回收，释放对象占用				的资源.
-
-  
-
-  #### Serializable 和Parcelable 的区别，如何将一个Java对象序列化到文件里？
-
-  1. `Parcelable` is faster than `Serializable` interface,ObjectOutputStream写入到文件中
-
-  2. Serializable: interface creates a lot of temporary objects and causes quite a bit of garbage collection
-
-  3. > Parcel is **not** a general-purpose serialization mechanism.  This class (and the corresponding `Parcelable` API for placing arbitrary objects into a Parcel) is designed as a high-performance IPC transport.  As such, **it is not appropriate to place any Parcel data in to persistent storage**: changes in the underlying implementation of any of the data in the Parcel can render older data unreadable. 很难持久化对象
-   >
-     > https://developer.android.com/reference/android/os/Parcel
-
-     
-
-     
-
-  #### 静态内部类的设计意图
-
-  非静态内部类编译后会隐含的保存着一个引用，改引用指向创建它的外围类，静态内部类没有，
-
-  它不能使用任何外围类的非static成员变量和方法.
-
-  #### 成员内部类、局部内部类以及项目中的应用
-  
-  成员内部类 : 普通的内部类，不能存在任何static的变量和方法；
-  
-  局部内部类： 嵌套于方法和作用域内
-  
-  ```java
-  public class Parcel5 {
-      public Destionation destionation(String str){
-          class PDestionation implements Destionation{
-              private String label;
-              private PDestionation(String whereTo){
-                  label = whereTo;
-              }
-              public String readLabel(){
-                  return label;
-              }
-          }
-          return new PDestionation(str);
-      }
-      
-    public static void main(String[] args) {
-          Parcel5 parcel5 = new Parcel5();
-        Destionation d = parcel5.destionation("chenssy");
-      }
-}
-  ```
-
-  
-
-  #### 谈谈对kotlin的理解
-
-  null处理
-
-  拓展函数
-
-  Findviewbyid
-
-  Class Map list 处理更加方便
-
-  Android 支持java8以后新特性支持, 配置比较麻烦。
-
-  
-
-  #### 闭包和局部内部类的区别
-  
-
-不知道有什么作用
 
 #### string 转换成 integer的方式及原理
 
@@ -304,7 +166,130 @@ https://cloud.tencent.com/developer/article/1447574
 
   https://blog.csdn.net/nobody_1/article/details/91488686
 
-  
+####   静态内部类的设计意图
+
+​	非静态内部类编译后会隐含的保存着一个引用，改引用指向创建它的外围类，静态内部类没有，
+
+​	它不能使用任何外围类的非static成员变量和方法.
+
+#### final，finally，finalize的区别
+
+Final : 用于申明属性，方法，类，表示属性不可变，方法不可以覆盖，类不能继承
+
+Finally: 异常语句处理机构中，与try{}进行配合使用，不论try中的代码是否执行完，表示总是执行的部分
+
+Finalize: Object类的一个方法，用于对象"消失"时，由JVM进行调用用于对对象进行垃圾回收，释放对象占用				的资源.
+
+
+
+#### ? 进程和线程的区别 协程呢
+
+* 进程  
+
+​	是系统给程序分配资源的基本单位，每个进程都有唯一的地址空间，一个程序至少有一个进程，一个进程至少有一个线程.
+
+* 线程
+
+  	线程是执行操作的基本单位，JVM结构中共享 Method Area ,Heap Area
+
+​	https://blog.csdn.net/mxsgoden/article/details/8821936
+
+​	https://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html
+
+进程 : 有很大的独立性
+
+线程 :  所有线程都有完全一样的地址空间,意味着它们也共享同样的全局变量。由于线程可以访问进程地址空间的每一个内存地址，所以一个线程可以读、写甚至清除另一个线程的堆栈。
+
+每个进程中的内容 : 地址空间  全局变量 打开文件 子进程	即将发生的定时器	信号与信号处理程序
+
+每个线程中的内容：程序计数器、寄存器、堆栈、状态.
+
+
+
+协程
+
+​		协程拥有自己的寄存器上下文和栈，协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的	时候，恢复先前保存的寄存器上下文和栈，即所有局部状态的一个特定组合），每次过程重入时，就相当于进入上一次调用的状态，换种说法：进入上一次离开时所处逻辑流的位置。
+
+协程的好处:
+
+1. 无需线程上下文切换的开销 
+2. 无需原子操作锁定及同步的开销
+3. 方便切换控制流，简化编程模型
+
+
+
+#### Serializable 和Parcelable 的区别，如何将一个Java对象序列化到文件里？
+
+1. `Parcelable` is faster than `Serializable` interface,ObjectOutputStream写入到文件中
+
+2. Serializable: interface creates a lot of temporary objects and causes quite a bit of garbage collection
+
+3. > Parcel is **not** a general-purpose serialization mechanism.  This class (and the corresponding `Parcelable` API for placing arbitrary objects into a Parcel) is designed as a high-performance IPC transport.  As such, **it is not appropriate to place any Parcel data in to persistent storage**: changes in the underlying implementation of any of the data in the Parcel can render older data unreadable. 很难持久化对象
+
+
+   https://developer.android.com/reference/android/os/Parcel
+
+   
+
+父类的静态方法能否被子类重写
+
+静态方法只和类有关,JVM加载后先初始化static相关属性方法,重写依赖于类的实例.
+
+> **Overriding:** Overriding in Java simply means that the particular method would be called based on the run time type of the object and  not on the compile time type of it (which is the case with overriden  static methods)
+>
+> Overriding depends on having an instance of a class. The point of  polymorphism is that you can subclass a class and the objects  implementing those subclasses will have different behaviors for the same methods defined in the superclass (and overridden in the subclasses). A static method is not associated with any instance of a class so the  concept is not applicable.
+
+   
+
+
+
+#### 成员内部类、局部内部类以及项目中的应用
+
+成员内部类 : 普通的内部类，不能存在任何static的变量和方法；
+
+局部内部类： 嵌套于方法和作用域内
+
+```java
+public class Parcel5 {
+    public Destionation destionation(String str){
+        class PDestionation implements Destionation{
+            private String label;
+            private PDestionation(String whereTo){
+                label = whereTo;
+            }
+            public String readLabel(){
+                return label;
+            }
+        }
+        return new PDestionation(str);
+    }
+    
+  public static void main(String[] args) {
+        Parcel5 parcel5 = new Parcel5();
+      Destionation d = parcel5.destionation("chenssy");
+    }
+}
+```
+
+
+
+#### 谈谈对kotlin的理解
+
+null处理
+
+拓展函数
+
+Findviewbyid
+
+Class Map list 处理更加方便
+
+Android 支持java8以后新特性支持, 配置比较麻烦。
+
+闭包和局部内部类的区别
+
+不知道有什么作用
+
+
 
 ### （二） java深入源码级的面试题（有难度）
 
@@ -370,7 +355,7 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 - String为什么要设计成不可变的？
 - Object类的equal和hashCode方法重写，为什么？
 
-##### （三） 数据结构
+### （三） 数据结构
 
 - 常用数据结构简介
 
@@ -444,7 +429,7 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 
 - 合并多个单有序链表（假设都是递增的）
 
-##### （四） 线程、多线程和线程池
+### （四） 线程、多线程和线程池
 
 - 开启线程的三种方式？
 - 线程和进程的区别？

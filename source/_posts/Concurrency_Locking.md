@@ -3,7 +3,7 @@ title: Concurrency_Locking
 comments: true
 date: 2018-05-24 22:31:57
 tags: concurrency
-categories: JAVA
+categories: INTERVIEW
 ---
 
 #### 锁的7大类
@@ -25,6 +25,50 @@ categories: JAVA
 ##### 可重入锁/非可重入锁；
 
 ​	可重入锁 ： 可重入锁指的是线程当前已经持有这把锁了，能在不释放这把锁的情况下，再次获取这把锁。	
+
+*  synchronized是可冲入锁
+
+   ```java
+  public class T {
+      synchronized void  m1(){
+          System.out.println("m1 start");
+          try {
+              TimeUnit.SECONDS.sleep(1);
+          } catch (InterruptedException e) {
+              e.printStackTrace();
+          }
+          m2();
+          System.out.println("m1 end");
+      }
+  
+      private void m2() {
+          try {
+              TimeUnit.SECONDS.sleep(2);
+          } catch (InterruptedException e) {
+              e.printStackTrace();
+          }
+          System.out.println("m2");
+      }
+  
+      public static void main(String[] args) {
+          new T().m1();
+      }
+  }
+  ```
+
+  运行结果
+
+  ```
+  m1 start
+  m2
+  m1 end
+  ```
+
+  如果synchronized不是可重入锁，执行m1()执行m2()会发生死锁,
+
+* 为什么synchronized必须是可重入锁呢?
+
+  如果父类m2()是synchronized方法,子类重写m2()方法，调用子类m2(),接着调用super.m2()就会发生死锁
 
 ##### 共享锁/独占锁；
 
@@ -58,12 +102,12 @@ categories: JAVA
    > 必须先拿到锁，以便达到“独占”的状态，当前线程在操作资源的时候，其他线程由于不能拿到锁.
    >
    > 它认为如果不锁住这个资源，别的线程就会来争抢，就会造成数据结果错误，所以悲观锁为了确保结果的正确性，会在每次获取并修改数据时，都把数据锁住，让其他线程无法访问该数据，这样就可以确保数据内容万无一失。
-
-   
+>
+   > 
+>
+   > Java 中悲观锁的实现包括 synchronized 关键字和 Lock 相关类等，我们以 Lock 接口为例，例如 Lock 的实现类 ReentrantLock，类中的 lock() 等方法就是执行加锁，而 unlock() 方法是执行解锁。处理资源之前必须要先加锁并拿到锁，等到处理完了之后再解开锁，这就是非常典型的悲观锁思想。
 
    synchronized 关键字和 Lock 接口
-
-   > Java 中悲观锁的实现包括 synchronized 关键字和 Lock 相关类等，我们以 Lock 接口为例，例如 Lock 的实现类 ReentrantLock，类中的 lock() 等方法就是执行加锁，而 unlock() 方法是执行解锁。处理资源之前必须要先加锁并拿到锁，等到处理完了之后再解开锁，这就是非常典型的悲观锁思想。
 
    
 
@@ -103,9 +147,13 @@ categories: JAVA
 
 
 
+##### 锁升级
+
 ![](https://s0.lgstatic.com/i/image3/M01/58/E4/CgpOIF35yCGAGFBbAAAO9n9VgTQ034.png)
 
+* synchronized锁升级
 
+  偏向锁： markword记录这个线程ID -》如果线程争用升级为自旋锁 -》10次以后升级为重量级锁
 
 #### synchronized的monitor 锁
 
@@ -564,6 +612,22 @@ Thread-3释放写锁
 
 
 
+#### volatile cpu一致性问题
+
+a primer on memory consistency and cache coherence
+
+第五章 Cache - 处理器的肚量(大话处理器-处理器基础知识读本)
+
+https://zhuanlan.zhihu.com/p/148772753
+
+https://www.bilibili.com/video/BV1pC4y1W7zS?from=search&seid=5878416608824303977
+
+https://www.cnblogs.com/yanlong300/p/8986041.html
+
+
+
+
+
 #### 死锁
 
 * 条件
@@ -572,12 +636,35 @@ Thread-3释放写锁
 2. 请求保持条件:   至少有一个任务必须持有跟一个资源且正在等待获取一个当前被别的任务持有的资源
 3. 不可剥夺条件:  资源不能被任务抢占
 4. 环路等待条件:  必须有循环等待。一个任务等待其他任务所持有的资源，后者又等待另一个任务所持有的资源,使得大家都被锁住.
+5. 银行家算法
 
 
 
-##### 银行家算法
+##### 死锁条件
+
+两个或两个以上的线程在执行过程中，因争夺资源而造成的相互等待的现象.
 
 
+
+那么为什么会产生死锁呢? 学过操作系统的朋友应该都知道，死锁的产生必须具备以
+下四个条件 。
+
+1. 互斥条件: 指线程对己经获取到的资源进行排它性使用 ，即该资源同时只由 一个线
+   程占用。如果 此时 还有其 他 线程请求获取该资源 ，则 请求者只能等待，直至占有资
+   源 的 线程释放该资源。
+2. .请求并持有条件 : 指一个线程己经持有了至少一个资源，但又提出了新的资源请求，
+   而新资源己被其 他 线程占有，所 以 当前线程会被阻塞 ，但 阻塞 的同时 并不释放自 己
+   己经获取的资源。
+3. 不可剥夺条件 : 指线程获取到的资源在自己使用完之前不能被其他线程抢占 ， 只有在自己使用完 毕后才 由 自 己释放该资源。
+4. 环路等待条件 : 指在发生死锁时 ，必然存在一个线程→资源的环形链 ，即线程集合
+   {TO,TLT2，...，Tn}中的TO正在等待一个Tl占用的资源， Tl正在等待T2占 用的资源，......Tn正在等待己被 TO 占用的资源。
+
+##### 避免死锁
+
+##### 要想避免死锁，只需要破坏掉至少一个构造死锁的必要条件即可， 但是学过操作系统
+
+的读者应该都知道，目前只有请求并持有和环路等待条件是可 以被破坏 的。
+造成死锁的原因其实和申请资源的顺序有很大关系 ，
 
 #### 经典的哲学家吃饭问题
 
@@ -585,7 +672,7 @@ Thread-3释放写锁
 
 * 筷子
 
-  ```
+  ```java
   public class Chopstick {
       private boolean taken = false;
   
@@ -620,7 +707,7 @@ Thread-3释放写锁
 
 * 哲学家 
 
-  ```
+  ```java
   public class Philosopher implements Runnable {
       private Chopstick left;
       private Chopstick right;
@@ -674,7 +761,7 @@ Thread-3释放写锁
 
 * 运行
 
-  ```
+  ```java
   public class DeadlockingDiningPhilosophers {
       public static void main(String[] args) throws Exception {
           int ponder = 5; //默认 Philosopher思考的时间

@@ -1,0 +1,318 @@
+---
+title: NDK
+comments: true
+date: 2018-06-14 09:21:28
+tags: VIDEO
+categories: ANDROID
+---
+
+
+
+#### 指针
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, const char * argv[]) {
+    // insert code here...
+    char* p = (char*)malloc(10);    //字符型指针 malloc堆空间分配内存
+    *p = 'a';
+    *(p+1) = 'b';
+    *(p+2) = 'c';
+    free(p);
+    // p = NULL;
+    printf("%s \n",p); 
+}
+
+```
+
+输出 abc
+
+
+
+##### 指针函数: 一个函数，返回指针
+
+ 函数的返回值为指针类型
+
+ 函数声明 : `int* func(int x,int y)`
+
+
+
+指针函数调用
+
+```c
+char *q;
+q = func(m);	// q与被调用的函数的返回类型一致
+```
+
+
+
+###### 示例1
+
+```c
+#include <stdio.h>
+
+char *getWord(char c){
+    switch (c) {
+        case 'A': return "Apple";
+        case 'B': return "Banana";
+        case 'C': return "Cat";
+        case 'D': return "Dog";
+        default:return "None";
+    }
+}
+
+int main(int argc, const char * argv[]) {
+    char input;
+    printf("please input a charactar:");
+    input = getchar();
+    printf("%c\n",input);
+    printf("%s\n",getWord(input));
+    getchar();
+    return 0;
+}
+
+```
+
+运行结果
+
+```
+please input a charactar:A
+A
+Apple
+```
+
+>  输入A ，getWord()返回值为 Apple的首地址,printf("%s\n),输出首地址所指向的值
+
+
+
+###### 示例2
+
+```c
+#include <stdio.h>
+
+char *getWord2(char c){
+    char str1[] = "Apple";
+    char str2[] = "Banana";
+    char str3[] = "Cat";
+    char str4[] = "Dog";
+    char str5[] = "None";
+
+    switch (c) {
+        case 'A': return str1;
+        case 'B': return str2;
+        case 'C': return str3;
+        case 'D': return str4;
+        default:return str5;
+    }
+}
+
+
+//#if (0)
+int main(int argc, const char * argv[]) {
+    char input;
+    printf("please input a charactar:");
+    input = getchar();
+    printf("%c\n",input);
+    printf("%s\n",getWord2(input));
+    getchar();
+    return 0;
+}
+//#endif
+
+```
+
+**注意: 不要返回局部变量的指针**
+
+例子2中,str1数组是局部变量，这个字符数组在子程序结束后，它对应的存储空间会被释放.
+
+
+
+##### 函数指针：一个指针，指向函数
+
+指向函数起始地址的指针
+
+###### 函数指针的定义
+
+* `int (*fptr)(int,int)`
+
+* 指针变量 :  *fptr , 
+
+* 如果*fptr变为函数名，整个就是一个函数
+
+###### 函数指针的使用
+
+` fptr = func;`
+
+int x = fptr(5,8);
+
+> "%x " 打印指针本身
+
+1. 示例
+
+```c
+#include <stdio.h>
+
+
+int square(int num){
+    return  num * num;
+}
+
+int main(int argc, const char * argv[]) {
+    int num;
+    int (*fp)(int); // fp是一个指针，指向返回类型为int，参数为int的函数.
+    printf("please input a number:");
+    scanf("%d",&num);
+    fp = square;	// 函数与指针的联系
+    printf("fp = 0x%x, %d\n",fp,(*fp)(num));	//'0x%x' 打印指针本身
+    
+    printf("fp = 0x%x, %d\n",fp,fp(num));		// fp直接调用也可以
+    return  0;
+     
+}
+
+```
+
+
+
+square内存中占据的位置，fp保存square指针的入口地址,fp指向square(),*fp代表 调用square().
+
+![](VideoNDK/Screen Shot 2021-03-06 at 9.54.34 PM.png)
+
+2. 用法
+
+```c
+#include <stdio.h>
+
+int add(int num1,int num2){
+    return num1+num2;
+}
+
+
+int sub(int num1,int num2){
+    return num1-num2;
+}
+
+int calculate(int (*fp)(int,int),int num1,int num2){	//通用功能的函数
+    return (*fp)(num1,num2);
+}
+
+int main(int argc, const char * argv[]) {
+    printf("3+5=%d\n",calculate(add,3,5));
+    printf("3-5=%d\n",calculate(sub,3,5));
+    return 0;
+}
+
+```
+
+
+
+3. 函数指针数组
+
+```c
+#include <stdio.h>
+
+void function1(int);
+void function2(int);
+void function3(int);
+
+void function1(int choice){
+    printf("input %d, run function1().\n ",choice);
+}
+
+
+void function2(int choice){
+    printf("input %d, run function2().\n ",choice);
+}
+
+
+void function3(int choice){
+    printf("input %d, run function3().\n ",choice);
+}
+
+#if(1)
+int main(int argc, const char * argv[]) {
+    void (*f[3])(int) = {function1,function2,function3};//f[3] f是有3个元素的数组，数组的每个元素是指针类型,每个指针指向 参数为(int)类型的函数
+    int choice;
+    printf("please enter a digit : [0-2]: ");
+    scanf("%d",&choice);
+    while (choice>0&&choice<3) {
+        (*f[choice])(choice);
+        printf("please enter a digit : [0-2]: ");
+        scanf("%d",&choice);
+    }
+    printf("run end");
+}
+#endif
+
+```
+
+![](VideoNDK/Screen Shot 2021-03-06 at 10.12.11 PM.png)
+
+https://www.bilibili.com/video/BV15J411Q7t9?from=search&seid=1110914330533311902
+
+#### 算法
+
+https://space.bilibili.com/501486236/video
+
+
+
+
+
+#### swift语法
+
+```swift
+var a = 10
+var b: Int = 20
+let aa = 40 //const
+
+if a<20{
+    print("a < 20 , true" )
+}else{
+    print("a >= 20")
+}
+
+switch a {
+    case 10:
+        print("a equals 10")
+case 20:
+        print("a equals 20")
+default :
+    print("other")
+}
+
+print("Hello, World!")
+
+for i in 25..<100{
+    print("aa,i=",i)
+}
+
+var list  = [1,2,3,4,5]
+for i in list{
+    print("aa, i=",i);
+}
+
+
+var loop = 0
+while loop<10 {
+    print("loop, xxx = ",loop)
+    loop = loop + 1
+}
+func myFunc(a : Int) -> Int{
+    print("this is a function",a)
+    return a
+}
+var mm  = myFunc(a: 10)
+
+print("Hello, World!",a,b,aa,mm)
+
+```
+
+
+
+environment
+https://juejin.im/post/5ad98412518825670960c13c
+
+https://developer.android.com/ndk/
+

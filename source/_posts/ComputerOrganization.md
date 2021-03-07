@@ -99,3 +99,11 @@ CPU
 
 
 ![](ComputerOrganization/computer_signal_02.png)
+
+#### 高速缓存
+
+命中率
+
+![](ComputerOrganization/Screen Shot 2021-03-03 at 10.10.02 PM.png)
+
+不在缓存的数据需要去主存拿
