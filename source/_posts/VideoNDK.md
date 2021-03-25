@@ -2,11 +2,13 @@
 title: NDK
 comments: true
 date: 2018-06-14 09:21:28
-tags: VIDEO
+tags: 
 categories: ANDROID
 ---
 
 
+
+![](VideoNDK/Screen Shot 2021-03-19 at 2.55.38 PM.png)
 
 #### 指针
 
@@ -251,6 +253,73 @@ int main(int argc, const char * argv[]) {
 ![](VideoNDK/Screen Shot 2021-03-06 at 10.12.11 PM.png)
 
 https://www.bilibili.com/video/BV15J411Q7t9?from=search&seid=1110914330533311902
+
+
+
+
+
+#### 结构
+
+##### 结构指针
+
+point
+
+```c
+ 		struct point  *pp;
+    struct point pt = {400,600};
+    pp = &pt;
+    
+    printf("pt  %d, %d   \n",pt.x, pt.y);//(*pp.x)中的圆括号是必须的，因为结构成员运算符的 "." 的优先级比先级高
+    printf("*pp %d, %d    \n",(*pp).x, (*pp).y);
+    printf("pp->  %d, %d  \n",pp->x, pp->y);
+```
+
+运行
+
+```
+pt  400, 600   
+*pp 400, 600    
+pp->  400, 600  
+
+```
+
+##### 
+
+结构指针的使用频度非常高，C语言提供了另一种简写方式，假定P指向一个结构的指针，可以用
+
+p-> 结构成员  ==  *p.结构成员
+
+代码表达式`printf("origin is (%d,%d)\n", pp->x, pp->y);`
+
+
+
+```c
+ 		struct rect r = {{200,300},{400,500}};
+    struct rect *rp = &r;
+    printf("pt1.x %d         \n",r.pt1.x);
+    printf("(*rp).pt1.x %d  \n",(*rp).pt1.x);
+    printf(" rp->pt1.x %d   \n",rp->pt1.x);
+    printf("r.pt1.x %d  \n",r.pt1.x);
+```
+
+运行结果
+
+```
+pt1.x 200         
+(*rp).pt1.x 200  
+ rp->pt1.x 200   
+r.pt1.x 200  
+```
+
+
+
+##### 运算符优先级
+
+
+
+* java运算符优先级
+
+  > !   &&	||
 
 #### 算法
 

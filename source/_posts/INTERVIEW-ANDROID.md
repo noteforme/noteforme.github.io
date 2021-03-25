@@ -6,6 +6,12 @@ tags: resume
 categories: ANDROID
 ---
 
+
+
+https://www.1point3acres.com/bbs/interview/airbnb(%E5%8C%97%E4%BA%AC)%E3%80%81%E5%BF%AB%E6%89%8B%E3%80%81%E5%B0%8F%E7%BA%A2%E4%B9%A6%E3%80%81%E7%8C%BF%E9%A2%98%E5%BA%93%E7%AD%8915%E5%AE%B6%E9%9D%A2%E7%BB%8F-mobile-ios-android-530393.html
+
+
+
 ### 一）Android基础知识点
 
 #### 四大组件是什么

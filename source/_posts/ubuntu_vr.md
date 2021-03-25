@@ -35,6 +35,7 @@ Please install setuptools.
  
 
 
+
   参考：https://github.com/fredley/play-pi/issues/22
 
   然后执行 pip install shadowsocks ，终于OK，Collecting shadowsocks
@@ -51,6 +52,7 @@ Successfully installed shadowsocks-2.8.2
         ssserver -p 8388 -k 123456 -m aes-256-cfb
 
  
+
 
 
 
@@ -429,3 +431,9 @@ https://github.com/233boy/v2ray/wiki/V2Ray%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E
 https://github.com/v2fly/fhs-install-v2ray/blob/master/README.zh-Hans-CN.md
 
 注意配置  tcp端口
+
+
+
+
+
+[https://justmysocks3.net](https://by.affpass.com/go/jms)

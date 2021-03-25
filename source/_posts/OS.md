@@ -130,3 +130,12 @@ Unix域套接字可以用于同一机器进程间通信
 
 
 
+1. 先学习(现代操作系统)
+
+   https://www.bilibili.com/video/BV1js411b7vg?from=search&seid=2361361014547524697
+
+2. 李治军
+
+   https://www.bilibili.com/video/BV1d4411v7u7?from=search&seid=123024139096267377
+
+ 

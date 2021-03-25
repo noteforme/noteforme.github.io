@@ -3,7 +3,7 @@ title: Concurrency_Locking
 comments: true
 date: 2018-05-24 22:31:57
 tags: concurrency
-categories: INTERVIEW
+categories: JAVA
 ---
 
 #### 锁的7大类
@@ -252,10 +252,12 @@ public synchronized void method() {
 ##### synchronized 和 Lock选择
 
 1. 如果能不用最好既不使用 Lock 也不使用 synchronized。因为在许多情况下你可以使用 java.util.concurrent 包中的机制，它会为你处理所有的加锁和解锁操作，也就是推荐优先使用工具类来加解锁。
+
 2. 如果 synchronized 关键字适合你的程序， 那么请尽量使用它，这样可以减少编写代码的数量，减少出错的概率。因为一旦忘记在 finally 里 unlock，代码可能会出很大的问题，而使用 synchronized 更安全。
+
 3. 如果特别需要 Lock 的特殊功能，比如尝试获取锁、可中断、超时功能等，才使用 Lock。
 
-
+   
 
 #### Lock
 
@@ -612,22 +614,6 @@ Thread-3释放写锁
 
 
 
-#### volatile cpu一致性问题
-
-a primer on memory consistency and cache coherence
-
-第五章 Cache - 处理器的肚量(大话处理器-处理器基础知识读本)
-
-https://zhuanlan.zhihu.com/p/148772753
-
-https://www.bilibili.com/video/BV1pC4y1W7zS?from=search&seid=5878416608824303977
-
-https://www.cnblogs.com/yanlong300/p/8986041.html
-
-
-
-
-
 #### 死锁
 
 * 条件
@@ -636,13 +622,10 @@ https://www.cnblogs.com/yanlong300/p/8986041.html
 2. 请求保持条件:   至少有一个任务必须持有跟一个资源且正在等待获取一个当前被别的任务持有的资源
 3. 不可剥夺条件:  资源不能被任务抢占
 4. 环路等待条件:  必须有循环等待。一个任务等待其他任务所持有的资源，后者又等待另一个任务所持有的资源,使得大家都被锁住.
-5. 银行家算法
 
+   
 
-
-##### 死锁条件
-
-两个或两个以上的线程在执行过程中，因争夺资源而造成的相互等待的现象.
+**当两个（或多个）线程（或进程）相互持有对方所需要的资源，却又都不主动释放自己手中所持有的资源，导致大家都获取不到自己想要的资源**
 
 
 
@@ -824,8 +807,116 @@ https://www.cnblogs.com/yanlong300/p/8986041.html
 
   
 
+  #### 银行转账问题
+
+  ```java
+  public class TransferMoney implements Runnable {
+      int flag;
+      static Account a = new Account(800);
+      static Account b = new Account(600);
   
+      static class Account {
+  
+          public Account(int balance) {
+              this.balance = balance;
+          }
+  
+          int balance;
+      }
+  
+      @Override
+      public void run() {
+          if (flag == 1) {
+              transferMoney(a, b, 200);
+          }
+          if (flag == 0) {
+              transferMoney(b, a, 200);
+          }
+      }
+  
+      public static void transferMoney(Account from, Account to, int amount) {
+          //先获取两把锁，然后开始转账
+          int fromHash = System.identityHashCode(from);
+          int toHash = System.identityHashCode(to);
+          System.out.println(Thread.currentThread().getName() +  "  fromHash < toHash "+(fromHash < toHash));
+          if (fromHash < toHash) {
+              synchronized (from) {
+                  System.out.println(Thread.currentThread().getName() + " 获得锁A    " + from.balance);
+                  try {
+                      Thread.sleep(5000);
+                  } catch (InterruptedException e) {
+                  }
+                  synchronized (to) {
+                      System.out.println(Thread.currentThread().getName() + " 获得锁B    " + to.balance);
+  
+                      if (from.balance - amount < 0) {
+                          System.out.println(Thread.currentThread().getName() + " 余额不足，转账失败。");
+                          return;
+                      }
+  //                    from.balance -= amount;
+  //                    to.balance += amount;
+                      System.out.println(Thread.currentThread().getName() + " 成功转账" + amount + "元");
+                  }
+              }
+          } else if (fromHash > toHash) {
+              synchronized (to) {
+                  System.out.println(Thread.currentThread().getName() + " 获得锁A    " + to.balance);
+                  try {
+                      Thread.sleep(5000);
+                  } catch (InterruptedException e) {
+                  }
+                  synchronized (from) {
+                      System.out.println(Thread.currentThread().getName() + " 获得锁B    " + from.balance);
+                      if (from.balance - amount < 0) {
+                          System.out.println(Thread.currentThread().getName() + "  余额不足，转账失败。");
+                          return;
+                      }
+  //                    from.balance -= amount;
+  //                    to.balance += amount;
+                      System.out.println(Thread.currentThread().getName() + "   成功转账" + amount + "元");
+                  }
+              }
+          }
+  
+      }
+  
+      public static void main(String[] args) throws InterruptedException {
+          TransferMoney r1 = new TransferMoney();
+          TransferMoney r2 = new TransferMoney();
+          r1.flag = 1;
+          r2.flag = 0;
+          Thread t1 = new Thread(r1, "t1");
+          Thread t2 = new Thread(r2, "t2");
+          t1.start();
+          t2.start();
+          t1.join();
+          t2.join();
+  //        System.out.println("a的余额" + a.balance);
+  //        System.out.println("b的余额" + b.balance);
+      }
+  }
+  
+  ```
+
+  打印结构
+
+  > t1 fromHash 1967932108 toHash 2072748565  fromHash < toHash true
+  > t2 fromHash 2072748565 toHash 1967932108  fromHash < toHash false
+  > t1 获得锁A
+  > t1 获得锁B
+  > t1 成功转账200元
+  > t2 获得锁B
+  > t2 获得锁A
+  > t2   成功转账200元
+  > a的余额500
+  > b的余额500
 
   
 
-  
+  1. **使用 HashCode 的值来决定顺序**
+
+     主要思想是，两个线程都先获取 锁A,再获取锁B,这样就不会有死锁了
+
+  2. **主键 ID 具有唯一、不重复的特点**
+
+     由主键 ID 大小来决定获取锁的顺序，就可以确保避免死锁。

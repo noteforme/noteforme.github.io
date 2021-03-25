@@ -30,8 +30,25 @@ categories: DataStructure
 
 ##### 时间复杂度
 
+* 对数阶
+
+  ```c
+  int count =1;
+  while(count < n){
+    count = count * 2;
+  }
+  ```
+
+  > 代码看到 2 * 2 * 2 ... 最终离n很近，最终退出循环，2^x =n ,得到 x = log2^n,所以这个循环时间复杂度为O(logn)
+
+
+
 
 
 ##### 空间复杂度
 
 空间方面主要体现在计算过程中,对于存储资源的消耗情况
+
+![](DataStructure/Screen Shot 2021-03-12 at 5.37.58 PM.png)
+
+![](DataStructure/Screen Shot 2021-03-12 at 5.38.08 PM.png)
