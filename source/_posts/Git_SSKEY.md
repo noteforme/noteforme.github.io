@@ -7,16 +7,16 @@ categories:
 ---
 
 
-# 原理
+### 原理
 
 http://skypegnu1.blog.51cto.com/8991766/1641064
 
 
-#  多平台配置SSH
+#####  多平台配置SSH
 
 正常情况会哟几个平台的配置情况,ssh操作方式
 
-##  用户信息设置
+#####  用户信息设置
 
 在config后加上 --global 即可全局设置用户名和邮箱，否则就是局部的。有时候用手输入才有用
 
@@ -99,3 +99,8 @@ gogs:参考github,配置sskey后还需要用账号登陆
 
 参考:https://stackoverflow.com/questions/24688700/android-studio-push-failed-fatal-could-not-read-from-remote-repository
 
+
+
+####  GitHub CLI  配置
+
+ 在windows平台 `git auth login` 授权	要用windows命令行工具。 

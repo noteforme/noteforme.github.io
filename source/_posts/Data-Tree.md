@@ -10,6 +10,8 @@ categories: DataStructure
 
 
 
+#### 树
+
 ##### AVL树
 
 通过左旋或者右旋(左旋右旋后一定不会破坏二叉搜索树的查找规则
@@ -39,19 +41,41 @@ categories: DataStructure
 
 
 
-2-3-4树与红黑树的等价关系
+##### 2-3树的生长
+
+和标准的二叉查找树由上向下生长不同，2-3树的生长是由下向上的。
+
+![](Data-Tree/2-3grow.png)
+
+
+
+#### 红黑二叉查找树
+
+##### 2-3-4树与红黑树的等价关系
 
 ![](Data-Tree/2-3-4树和红黑树等价关系.png)
 
+​	
+
+​		裂变状态 9先从黑节点(从4节点)变成红节点，10、12先从红节点变成黑节点。
 
 
-2-3-4 树
+
+
+
+##### 2-3-4 树
+
+新增操作，从叶子节点开始
 
 ![](Data-Tree/2-3-4树.png)
 
 
 
-红黑树
+##### 红黑树
+
+红黑树 新增都是红色节点
+
+
 
 ![](Data-Tree/转化为红黑树.png)
 
@@ -67,8 +91,107 @@ https://www.bilibili.com/video/BV135411h7wJ?p=4
 4. 每个红色节点必须有两个黑色的子节点。(从每个叶子到根的所有路径上不能有两个连续的红色节点。)
 5. 从任一节点到其每个叶子的所有简单路径都包含相同数目的黑色节点(黑色平衡)。// 2-3-4树层级相等.
 
-
-
-
-
 https://www.cs.usfca.edu/~galles/visualization/RedBlack.html
+
+
+
+#### 旋转
+
+
+
+![](Data-Tree/左旋.gif)
+
+
+
+```java
+  /**
+     * 围绕p左旋
+     *       pf                    pf
+     *      /                     /
+     *     p                     pr(r)
+     *    / \          ==>      / \
+     *  pl  pr(r)              p   rr
+     *     / \                / \
+     *    rl  rr             pl  rl
+     *
+     * @param p
+     */
+    private void leftRotate(RBNode p) {
+        if (p != null) {
+            RBNode r = p.right;
+            p.right = r.left;
+            if (r.left != null) {
+                r.left.parent = p;
+            }
+            r.parent = p.parent;
+            if (p.parent == null) {
+                root = r;
+            } else if (p.parent.left == p) {
+                p.parent.left = r;
+            } else {
+                p.parent.right = r;
+            }
+            r.left = p;
+            p.parent = r;
+        }
+    }
+```
+
+
+
+
+
+![](Data-Tree/右旋.gif)
+
+```java
+  /**
+     * 右旋
+     *    pf                pf
+     *     \                 \
+     *      p             (l)pl
+     *     / \      =>      /  \
+     *(l)pl  pr            ll   p
+     *   / \                   / \
+     *  ll lr                 lr  pr
+     *
+     * @param p
+     */
+    private void rightRotate(RBNode p) {
+        if (p != null) {
+            RBNode l = p.left;
+            p.left = l.right;
+            if (l.right != null) {
+                l.right.parent = p;
+            }
+            l.parent = p.parent;
+            if (p.parent == null) {
+                root = l;
+            } else if (p.parent.right == p) {
+                p.parent.right = l;
+            } else {
+                p.parent.left = l;
+            }
+            l.right = p;
+            p.parent = l;
+        }
+    }
+```
+
+
+
+#### 新增
+
+红黑树新增，第一个节点 是红节点
+
+![](Data-Tree/tree_insert_01.png)
+
+
+
+<img src="Data-Tree/tree_insert_02.png" style="zoom:150%;" />
+
+
+
+新增的节点都是红节点 
+
+#### 删除
+
