@@ -130,9 +130,11 @@ Unix域套接字可以用于同一机器进程间通信
 
 
 
-1. 先学习(现代操作系统)
+1. 先学习(现代操作系统) 陈渝 向勇
 
    https://www.bilibili.com/video/BV1js411b7vg?from=search&seid=2361361014547524697
+
+   配套书： 操作系统概念(第七版) ， 操作系统-精髓与设计原理（第七版）william stallings
 
 2. 李治军
 

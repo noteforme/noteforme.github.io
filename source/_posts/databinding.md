@@ -268,3 +268,9 @@ https://juejin.im/post/5b95c6a0e51d450e664b0aa0
 
 
 https://www.jianshu.com/p/741103ba2ff1
+
+
+
+
+
+https://www.cs.usfca.edu/~galles/visualization/RedBlack.html
