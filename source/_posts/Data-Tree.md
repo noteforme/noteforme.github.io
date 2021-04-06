@@ -71,9 +71,13 @@ categories: DataStructure
 
 
 
+ 
+
 ##### 红黑树
 
 红黑树 新增都是红色节点
+
+根据上面的等价关系，把2-3-4树转换成下面的红黑树。
 
 
 
@@ -192,6 +196,12 @@ https://www.cs.usfca.edu/~galles/visualization/RedBlack.html
 
 
 新增的节点都是红节点 
+
+
+
+红黑树形成过程，忘了怎么形成，包括旋转 ， 节点颜色是怎么变化的。
+
+
 
 #### 删除
 
