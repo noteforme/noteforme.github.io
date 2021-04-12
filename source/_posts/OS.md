@@ -82,6 +82,24 @@ https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html
 
 
 
+####  中断、异常和系统调用
+
+<img src="OS\Screenshot 2021-04-12 191642.png" style="zoom:75%;" />
+
+中断
+
+硬件设对操作系统备的处理请求（缓存区里有数据，需要内核读走。或者缓冲区里数据用完了，需要内核补充新的数据）
+
+异常
+
+非法指令或者其他原因导致当前指令执行失败（程序出错后的处理请求）
+
+系统调用
+
+应用程序主动向操作系统发出的服务请求
+
+
+
 
 
 linux启动 
