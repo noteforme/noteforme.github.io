@@ -1,12 +1,10 @@
----
-
+##### 
 
 title: Data_Tree
 comments: true
 date: 2021-03-24 21:46:39
 tags:
 categories: DataStructure
----
 
 
 
@@ -99,7 +97,7 @@ https://www.cs.usfca.edu/~galles/visualization/RedBlack.html
 
 
 
-#### 旋转
+##### 旋转
 
 
 
@@ -183,7 +181,7 @@ https://www.cs.usfca.edu/~galles/visualization/RedBlack.html
 
 
 
-#### 新增
+##### 新增
 
 红黑树新增，第一个节点 是红节点
 
@@ -203,5 +201,19 @@ https://www.cs.usfca.edu/~galles/visualization/RedBlack.html
 
 
 
-#### 删除
+##### 删除
+
+
+
+https://www.cs.usfca.edu/~galles/visualization/RedBlack.html
+
+
+
+#### 图
+
+找到最优路径
+
+
+
+
 

@@ -44,3 +44,9 @@ https://www.bilibili.com/video/av455529337
 https://dl.304304.xyz/uploads/Ludovicus/%E8%8B%B1%E8%AF%AD-%E6%90%AC%E8%BF%90/
 
 安装完air,然后从安装文件选择资源
+=======
+#### grammar in use
+
+右键选择 windows 7安装
+
+点击brower 选择安装的文件
