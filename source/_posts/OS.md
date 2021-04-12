@@ -8,6 +8,14 @@ categories: OS
 
 
 
+### 启动
+
+
+
+
+
+
+
 #### linux目录结构
 
 | 目录  | 描述                                                         |
@@ -139,3 +147,51 @@ Unix域套接字可以用于同一机器进程间通信
    https://www.bilibili.com/video/BV1d4411v7u7?from=search&seid=123024139096267377
 
  
+
+#### mooc-os-lab
+
+##### 实验环境配置
+
+http://os.cs.tsinghua.edu.cn/oscourse/OS2020spring
+
+[ucore实验基准源代码](https://github.com/LearningOS/ucore_os_lab)
+
+https://www.bilibili.com/s/video/BV1Zz4y1d7BK
+
+
+
+ubuntu窗口调整
+
+device -> Insert Guest addtions CD Image
+
+https://blog.csdn.net/u012631731/article/details/79548621
+
+
+
+修改Ubuntu硬盘大小
+
+https://my.oschina.net/u/4388335/blog/3321852
+
+
+
+ windows ubuntu文件夹共享
+
+https://www.jianshu.com/p/4e73fd1c0c74?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation
+
+
+
+并发 : 多个事件在分段被单个CPU分段执行。
+
+并行： 多个CPU同时处理多个任务。
+
+
+
+#### 汇编
+
+
+
+操作系统
+
+https://fishc.com.cn/forum-39-1.html
+
+https://www.bilibili.com/video/av22872043/?p=2&spm_id_from=pageDriver
