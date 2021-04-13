@@ -20,19 +20,22 @@ categories: OS
 
 简单来说 就是加电后，1。启动主板BIOS  》 2. BIOS初始化从磁盘中把加载程序bootloader 加载到内存中 》3.把磁盘镜像操作系统加载到内存中运行
 
-为什么不在第二步直接加载操作系统呢?  为了兼容不同的文件系统
+**为什么不在第二步直接加载操作系统呢?**  1. 为了兼容不同的文件系统  2. bootloader只能存 512字节，系统远大于它。 
 
 
 
 ##### BIOS初始化
 
-硬件自检POST,检测系统中内存和显卡等关键部件的存在和工作状态
+1. 硬件自检POST,检测系统中（内存和显卡，软盘 ，影片 光盘 USB)等关键部件的存在和工作状态查找并执行显卡等接口卡BIOS,并进行设备初始化；
+2. 加载上述设备的第一个扇区（主引导扇区，Master Boot Record,or MBR）的512字节的内容读到内存固定地址0x7c00，这个内容就是bootloader,等待对Ucore操作系统的加载.
 
-查找并执行显卡等接口卡BIOS,并进行设备初始化；
+##### bootloader做的事情
 
-执行系统BIOS,并进行系统监测
+1. 从实模式切换到保护模式(protection mdoe) ，为后续操作系统的执行做准备。
+2. 从硬盘上读取kernel in ELF格式的ucore kernel(就是系统代码，跟在MBR后面的扇区)并放到内存中固定位置。
+3. 跳转到ucore OS的入口点(entry point)执行，这时候控制器交给了 ucore.
 
-更新CMOS中的拓展系统配置数据的ESCD.
+
 
 
 
@@ -105,9 +108,6 @@ https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html
 linux启动 
 
 http://c.biancheng.net/view/1013.html
-
-https://www.cnblogs.com/liang-io/p/9651656.html
->>>>>>> c0ea03df0ed58ad36e43202c284e3f3fe7fe43d7
 
 #### linux目录结构
 
@@ -246,6 +246,10 @@ Unix域套接字可以用于同一机器进程间通信
 #### mooc-os-lab
 
 ##### 实验环境配置
+
+https://www.bilibili.com/video/BV1Zz4y1d7BK?from=search&seid=14777231705696776183
+
+
 
 http://os.cs.tsinghua.edu.cn/oscourse/OS2020spring
 
