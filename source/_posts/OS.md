@@ -10,8 +10,6 @@ categories: OS
 
 
 
-### 操作系统启动
-
 #### 启动概览
 
 ![](OS/Screen Shot 2021-04-12 at 1.36.29 PM.png)
@@ -22,7 +20,7 @@ categories: OS
 
 **为什么不在第二步直接加载操作系统呢?**  1. 为了兼容不同的文件系统  2. bootloader只能存 512字节，系统远大于它。 
 
-
+https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html
 
 ##### BIOS初始化
 
@@ -102,6 +100,66 @@ https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html
 应用程序主动向操作系统发出的服务请求
 
 
+
+
+
+#### 物理内存管理： 连续内存分配
+
+最先匹配（First Fit Allocation）：
+
+空闲分区列表按地址顺序排序
+
+分配过程时，搜索第一个合适的分区，如果有剩下的空闲分区，继续把空闲分区切割出来，所以会产生碎片。
+
+释放分区时，检查是否可与临近的空闲分区合并
+
+
+
+最佳匹配（Best Fit Allocation）
+
+空闲分区列表按照 小到大排序
+
+分配时，查找比需要分区大的最小的分区，可避免大的空闲分区被拆分，减少碎片大小。
+
+释放时，超找并且合并临近地址的空闲分区（如果找到）
+
+<img src="OS/Screenshot from 2021-04-15 14-27-29.png" style="zoom: 67%;" />
+
+最差匹配(WORST Fit Allocation)
+
+空闲分区列表按大到小排序
+
+分配时，选最大的分区，后续找大分区比较难。
+
+释放时，检查是否可与临近的空闲分区合并，进行可能的合并并调整空闲分区列表顺序。
+
+伙伴系统
+
+
+
+#### 非连续内存分配
+
+1. 虚拟地址和物理地址的转换
+
+   软件实现  硬件实现
+
+2. 非连续分配的硬件辅助记者
+
+   段式存储管理（segmentation）: 分的比较大
+
+   ![](OS/Screenshot from 2021-04-15 16-01-54.png)
+
+   
+
+   页式存储管理 （paging）
+
+   
+
+    把物理地址空间划分为大小相同的基本分配单位，2的n次方，如512,4096
+
+   
+
+3. 
 
 
 
@@ -287,10 +345,14 @@ https://www.jianshu.com/p/4e73fd1c0c74?utm_campaign=maleskine&utm_content=note&u
 
 #### 汇编
 
-
-
-操作系统
+##### 操作系统
 
 https://fishc.com.cn/forum-39-1.html
 
 https://www.bilibili.com/video/av22872043/?p=2&spm_id_from=pageDriver
+
+
+
+##### GCC内联汇编
+
+C语言中加入 汇编代码
