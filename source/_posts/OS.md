@@ -8,8 +8,6 @@ categories: OS
 
 
 
-
-
 #### 启动概览
 
 ![](OS/Screen Shot 2021-04-12 at 1.36.29 PM.png)
@@ -80,6 +78,26 @@ https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html
    以后的实验中会大量涉及各个函数直接的调用关系，以及由于中断处理导致的异步现象，可能对大家实现操作系统和改正其中的错误有很大影响。而理解好函数调用关系的建立机制和中断处理机制，对后续实验会有很大帮助。下面就练习5涉及的函数栈调用关系和练习6中的中断机制的建立进行阐述。
 
 https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html
+
+
+
+
+
+#### 系统调用
+
+##### POSIX 
+
+Portable Operating System Interface of Unix(IEEE制定的一个标准族)
+
+操作系统给上层提供的接口，macos,Linux都遵循这个接口。
+
+
+
+内核态 0 ， 用户态 3		 
+
+GDT表存了DPL为0，用户访问CPL为3， 3 > 0 没法访问。 
+
+0x80到内核中
 
 
 
@@ -157,9 +175,12 @@ https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html
 
     把物理地址空间划分为大小相同的基本分配单位，2的n次方，如512,4096
 
-   
 
-3. 
+
+
+
+
+
 
 
 
