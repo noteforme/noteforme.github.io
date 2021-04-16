@@ -33,13 +33,9 @@ https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html
 
 
 
-
-
-
-
 #####  第二部细节 加载程序
 
-![](OS\wechat_20210412172404.png)
+![](OS\Screen Shot 2021-04-13 at 1.36.29 PM.png)
 
 ​	计算机可能有不止一个分区，每个分区有不同的系统，主引导记录来确定去哪个文件系统读加载程序
 
@@ -81,8 +77,6 @@ https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html
 
 
 
-
-
 #### 系统调用
 
 ##### POSIX 
@@ -91,15 +85,11 @@ Portable Operating System Interface of Unix(IEEE制定的一个标准族)
 
 操作系统给上层提供的接口，macos,Linux都遵循这个接口。
 
-
-
 内核态 0 ， 用户态 3		 
 
 GDT表存了DPL为0，用户访问CPL为3， 3 > 0 没法访问。 
 
 0x80到内核中
-
-
 
 ####  中断、异常和系统调用
 
@@ -119,8 +109,6 @@ GDT表存了DPL为0，用户访问CPL为3， 3 > 0 没法访问。
 
 
 
-
-
 #### 物理内存管理： 连续内存分配
 
 最先匹配（First Fit Allocation）：
@@ -130,8 +118,6 @@ GDT表存了DPL为0，用户访问CPL为3， 3 > 0 没法访问。
 分配过程时，搜索第一个合适的分区，如果有剩下的空闲分区，继续把空闲分区切割出来，所以会产生碎片。
 
 释放分区时，检查是否可与临近的空闲分区合并
-
-
 
 最佳匹配（Best Fit Allocation）
 
@@ -171,15 +157,7 @@ GDT表存了DPL为0，用户访问CPL为3， 3 > 0 没法访问。
 
    页式存储管理 （paging）
 
-   
-
-    把物理地址空间划分为大小相同的基本分配单位，2的n次方，如512,4096
-
-
-
-
-
-
+   把物理地址空间划分为大小相同的基本分配单位，2的n次方，如512,4096
 
 
 
@@ -205,6 +183,96 @@ http://c.biancheng.net/view/1013.html
 | /boot | `存放用于系统引导时使用的各种文件 `                          |
 | /lib  | `存放跟文件系统中的程序运行所需要的共享库及内核模块 `        |
 | /var  | `用于存放运行时需要改变数据的文件 `                          |
+
+
+
+#### 进程
+
+进程调度 : FIFO , Priority
+
+##### 进程切换
+
+进程当前的状态存放到PCB(Process Control Block)中，获取下一个需要执行进程的PCB信息，切换进程。
+
+![](OS/Screenshot from 2021-04-16 12-09-25.png)
+
+
+
+##### 线程
+
+![](OS/Screenshot from 2021-04-16 12-16-25.png)
+
+线程 指令的切换，映射表不用切换	
+
+
+
+###### 2个线程用一个栈的情况
+
+
+
+![](OS/Screenshot from 2021-04-16 14-27-23.png)
+
+```
+//第一个Yield
+void Yield(){ 
+	找到300；
+	jmp 300;
+}
+//第二个Yield
+void Yield(){
+	找到 ? ; 204
+	jmp ? ;
+}
+
+```
+
+
+
+
+
+按照	(1)  -> (2) -> (3)的顺序执行，执行玩D()中的Yield()回到B()中，到了 右括号ret 出栈，出去的是404,正确的情况时时出204
+
+
+
+###### 两个线程 两个栈
+
+![](OS/Screenshot from 2021-04-16 15-11-08.png)
+
+jmp 204去掉：否则会执行两次
+
+
+
+###### 用户程序 内核程序调用
+
+
+
+
+
+
+
+<img src="OS/Screenshot from 2021-04-16 15-59-43.png" style="zoom:50%;" />
+
+###### 多核处理
+
+<img src="OS/Screenshot from 2021-04-16 16-01-19.png" style="zoom:80%;" />
+
+<img src="OS/Screenshot from 2021-04-16 16-01-07.png" style="zoom:50%;" />
+
+
+
+多核情况共用一个MMU,减少切换资源调用。
+
+
+
+进程线程区别
+
+进程 : 有很大的独立性
+
+线程 :  所有线程都有完全一样的地址空间,意味着它们也共享同样的全局变量。由于线程可以访问进程地址空间的每一个内存地址，所以一个线程可以读、写甚至清除另一个线程的堆栈。
+
+每个进程中的内容 : 地址空间  全局变量 打开文件 子进程	即将发生的定时器	信号与信号处理程序
+
+每个线程中的内容：程序计数器、寄存器、堆栈、状态.
 
 
 
@@ -254,8 +322,6 @@ http://c.biancheng.net/view/1013.html
 
 ​			当满足条件时，可以向该线程信号，通知唤醒
 
-
-
 #### 进程同步(通信)
 
 ##### 进程的实现
@@ -278,8 +344,6 @@ http://c.biancheng.net/view/1013.html
 
 共享内存未提供同步机制，需要借助其他机制管理访问
 
-
-
 **Unix域套接字**
 
 域套接字是一种高级的进程间通信的方法
@@ -288,47 +352,21 @@ Unix域套接字可以用于同一机器进程间通信
 
 
 
-#### 线程
 
 
-
-#### 进程线程区别
-
-进程 : 有很大的独立性
-
-线程 :  所有线程都有完全一样的地址空间,意味着它们也共享同样的全局变量。由于线程可以访问进程地址空间的每一个内存地址，所以一个线程可以读、写甚至清除另一个线程的堆栈。
-
-
-
-每个进程中的内容 : 地址空间  全局变量 打开文件 子进程	即将发生的定时器	信号与信号处理程序
-
-每个线程中的内容：程序计数器、寄存器、堆栈、状态.
-
-
+#### mooc-os-lab
 
 [现代操作系统] 示例 p55
 
+先学习(现代操作系统) 陈渝 向勇
 
+https://www.bilibili.com/video/BV1js411b7vg?from=search&seid=2361361014547524697
 
-1. 先学习(现代操作系统) 陈渝 向勇
-
-   https://www.bilibili.com/video/BV1js411b7vg?from=search&seid=2361361014547524697
-
-   配套书： 操作系统概念(第七版) ， 操作系统-精髓与设计原理（第七版）william stallings
-
-2. 李治军
-
-   https://www.bilibili.com/video/BV1d4411v7u7?from=search&seid=123024139096267377
-
- 
-
-#### mooc-os-lab
+配套书： 操作系统概念(第七版) ， 操作系统-精髓与设计原理（第七版）william stallings
 
 ##### 实验环境配置
 
 https://www.bilibili.com/video/BV1Zz4y1d7BK?from=search&seid=14777231705696776183
-
-
 
 http://os.cs.tsinghua.edu.cn/oscourse/OS2020spring
 
@@ -336,27 +374,19 @@ http://os.cs.tsinghua.edu.cn/oscourse/OS2020spring
 
 https://www.bilibili.com/s/video/BV1Zz4y1d7BK
 
-
-
 ubuntu窗口调整
 
 device -> Insert Guest addtions CD Image
 
 https://blog.csdn.net/u012631731/article/details/79548621
 
-
-
 修改Ubuntu硬盘大小
 
 https://my.oschina.net/u/4388335/blog/3321852
 
-
-
  windows ubuntu文件夹共享
 
 https://www.jianshu.com/p/4e73fd1c0c74?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation
-
-
 
 并发 : 多个事件在分段被单个CPU分段执行。
 
@@ -371,8 +401,6 @@ https://www.jianshu.com/p/4e73fd1c0c74?utm_campaign=maleskine&utm_content=note&u
 https://fishc.com.cn/forum-39-1.html
 
 https://www.bilibili.com/video/av22872043/?p=2&spm_id_from=pageDriver
-
-
 
 ##### GCC内联汇编
 
