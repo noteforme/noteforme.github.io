@@ -311,6 +311,38 @@ r.pt1.x 200
 
 
 
+#### 动态内存分配
+
+```c
+    int a[5] = {4,10,2,8,6};
+    int len;
+    printf("请输入你需要分配的数组的长度：len = ");
+    scanf("%d",&len);
+
+    /**
+     * sizeof(int) *len 分配len个int字节的长度，len =5时，就是20个字节
+     * malloc返回 指向 第一个字节的地址
+     * int * 第一个字节的地址，代表Int类型地址， pArr等价于a， pArr+1代表第二个Int地址
+     */
+    int *pArr = (int *)malloc(sizeof(int) *len);
+    *pArr = 5; //类似于 a[0] =4;
+     pArr[1] = 10; //类似于a[1]=10;
+//     printf("%d %d ",*pArr,pArr[1]);
+
+    for (int i = 0; i <len ; ++i) {
+        scanf("%d" , &pArr[i]);
+    }
+    for (int i = 0;  i<len ; ++i) {
+        printf("%d\n " , *(pArr+i));
+    }
+
+    free(pArr); //把pArr所代表的动态分配的20个字节的内存释放
+```
+
+![](VideoNDK/point_diagram.png)
+
+
+
 ##### 结构体变量(hao)
 
 ```c
@@ -362,6 +394,45 @@ void g(struct Student st) {
     printf("g  %d   %s   %d\n", st.sid, st.name, st.age);
 }
 ```
+
+
+
+##### 跨函数使用内存
+
+```
+#include <stdio.h>
+#include <malloc.h>
+
+
+struct Student{
+    int sid;
+    int age;
+};
+
+
+struct Student *createStudent(void);
+
+void showStudent(struct Student *pst);
+
+int main(){
+    struct  Student *ps;
+    ps = createStudent();
+    showStudent(ps);
+}
+
+void showStudent(struct Student *pst) {
+    printf("%d %d\n",pst->sid,pst->age);
+}
+
+struct Student *createStudent() {
+    struct  Student *p = malloc(sizeof(struct Student)); //表示   struct Student整体的数据类型代表的字节数
+            p->sid = 99;
+            p->age = 88;
+    return p;
+}
+```
+
+
 
 ##### 运算符优先级
 
