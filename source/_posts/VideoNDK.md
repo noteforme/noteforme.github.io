@@ -1,5 +1,5 @@
 ---
-title: NDK
+title: VideoNDK
 comments: true
 date: 2018-06-14 09:21:28
 tags: 
@@ -258,7 +258,7 @@ https://www.bilibili.com/video/BV15J411Q7t9?from=search&seid=1110914330533311902
 
 
 
-#### 结构
+#### 结构体
 
 ##### 结构指针
 
@@ -282,8 +282,6 @@ pt  400, 600
 pp->  400, 600  
 
 ```
-
-##### 
 
 结构指针的使用频度非常高，C语言提供了另一种简写方式，假定P指向一个结构的指针，可以用
 
@@ -313,9 +311,59 @@ r.pt1.x 200
 
 
 
+##### 结构体变量(hao)
+
+```c
+#include <stdio.h>
+#include <memory.h>
+
+struct Student {
+    int sid;
+    char name[200];
+    int age;
+};
+
+
+void g(struct Student student);
+
+void g2(struct Student *pst);
+
+void f(struct Student *pst);
+
+int main() {
+    struct Student st = {1000, "张三", 20};
+    printf("%d   %s   %d\n", st.sid, st.name, st.age);
+    st.sid = 99;
+//    st.name = "lili"; //error
+    strcpy(st.name, "lili");//复制
+    st.age = 22;
+    printf("%d   %s   %d\n", st.sid, st.name, st.age);
+
+
+    struct Student *pst;
+    pst = &st;
+    pst->sid = 99; //  pst -> sid 等价于 (*pst).sid 而(*pst).sid 等价于 st.sid
+
+    // pst -> sid
+    // 所指向的结构体变量的sid这个成员
+
+    g(st);
+    g2(&st);
+
+    return 0;
+}
+
+void g2(struct Student *pst) {
+    printf("g2  %d   %s   %d\n", pst->sid, pst->name, pst->age);
+}
+
+//这种方式多耗 208 内存，耗时间 不推荐
+void g(struct Student st) {
+    printf("g  %d   %s   %d\n", st.sid, st.name, st.age);
+}
+```
+
 ##### 运算符优先级
-
-
 
 * java运算符优先级
 
