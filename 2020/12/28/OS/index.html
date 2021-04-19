@@ -130,7 +130,92 @@
     </div>
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h4 id="linux目录结构"><a href="#linux目录结构" class="headerlink" title="linux目录结构"></a>linux目录结构</h4><table>
+        <h4 id="启动概览"><a href="#启动概览" class="headerlink" title="启动概览"></a>启动概览</h4><p><img src="/2020/12/28/OS/Screen Shot 2021-04-12 at 1.36.29 PM.png" alt=""></p>
+<p>​    </p>
+<p>简单来说 就是加电后，1。启动主板BIOS  》 2. BIOS初始化从磁盘中把加载程序bootloader 加载到内存中 》3.把磁盘镜像操作系统加载到内存中运行</p>
+<p><strong>为什么不在第二步直接加载操作系统呢?</strong>  1. 为了兼容不同的文件系统  2. bootloader只能存 512字节，系统远大于它。 </p>
+<p><a href="https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html" target="_blank" rel="noopener">https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html</a></p>
+<h5 id="BIOS初始化"><a href="#BIOS初始化" class="headerlink" title="BIOS初始化"></a>BIOS初始化</h5><ol>
+<li>硬件自检POST,检测系统中（内存和显卡，软盘 ，影片 光盘 USB)等关键部件的存在和工作状态查找并执行显卡等接口卡BIOS,并进行设备初始化；</li>
+<li>加载上述设备的第一个扇区（主引导扇区，Master Boot Record,or MBR）的512字节的内容读到内存固定地址0x7c00，这个内容就是bootloader,等待对Ucore操作系统的加载.</li>
+</ol>
+<h5 id="bootloader做的事情"><a href="#bootloader做的事情" class="headerlink" title="bootloader做的事情"></a>bootloader做的事情</h5><ol>
+<li>从实模式切换到保护模式(protection mdoe) ，为后续操作系统的执行做准备。</li>
+<li>从硬盘上读取kernel in ELF格式的ucore kernel(就是系统代码，跟在MBR后面的扇区)并放到内存中固定位置。</li>
+<li>跳转到ucore OS的入口点(entry point)执行，这时候控制器交给了 ucore.</li>
+</ol>
+<h5 id="第二部细节-加载程序"><a href="#第二部细节-加载程序" class="headerlink" title="第二部细节 加载程序"></a>第二部细节 加载程序</h5><p><img src="/2020/12/28/OS/Screen Shot 2021-04-13 at 1.36.29 PM.png" alt=""></p>
+<p>​    计算机可能有不止一个分区，每个分区有不同的系统，主引导记录来确定去哪个文件系统读加载程序</p>
+<ol>
+<li><p>BIOS启动过程</p>
+<p>当计算机加电后，一般不直接执行操作系统，而是执行系统初始化软件完成基本IO初始化和引导加载功能(BIOS)。简单地说，系统初始化软件就是在操作系统内核运行之前运行的一段小软件。通过这段小软件，我们可以初始化硬件设备、建立系统的内存空间映射图，从而将系统的软硬件环境带到一个合适的状态，以便为最终调用操作系统内核准备好正确的环境。最终引导加载程序把操作系统内核映像加载到RAM中，并将系统控制权传递给它。 </p>
+<p>对于绝大多数计算机系统而言，操作系统和应用软件是存放在磁盘（硬盘/软盘）、光盘、EPROM、ROM、Flash等可在掉电后继续保存数据的存储介质上。计算机启动后，CPU一开始会到一个特定的地址开始执行指令，这个特定的地址存放了系统初始化软件，负责完成计算机基本的IO初始化，这是系统加电后运行的第一段软件代码。对于Intel 80386的体系结构而言，PC机中的系统初始化软件由BIOS (Basic Input Output  System，即基本输入/输出系统，<strong>其本质是一个固化在主板Flash/CMOS上的软件</strong>)和位于软盘/硬盘引导扇区中的OS Boot  Loader（在ucore中的bootasm.S和bootmain.c）一起组成。BIOS实际上是被固化在计算机ROM（只读存储器）芯片上的一个特殊的软件，为上层软件提供最底层的、最直接的硬件控制与支持。更形象地说，BIOS就是PC计算机硬件与上层软件程序之间的一个”桥梁”，负责访问和控制硬件。 </p>
+<p>以Intel  80386为例，计算机加电后，CPU从物理地址0xFFFFFFF0（由初始化的CS：EIP确定，此时CS和IP的值分别是0xF000和0xFFF0)）开始执行。在0xFFFFFFF0这里只是存放了一条跳转指令，通过跳转指令跳到BIOS例行程序起始点。BIOS做完计算机硬件自检和初始化后，会选择一个启动设备（例如软盘、硬盘、光盘等），并且读取该设备的第一扇区(即主引导扇区或启动扇区)到内存一个特定的地址0x7c00处，然后CPU控制权会转移到那个地址继续执行。至此BIOS的初始化工作做完了，进一步的工作交给了ucore的bootloader。</p>
+</li>
+<li><p>bootloader启动过程</p>
+<p>BIOS将通过读取硬盘主引导扇区到内存，并转跳到对应内存中的位置执行bootloader。bootloader完成的工作包括：</p>
+<ul>
+<li>切换到保护模式，启用分段机制</li>
+<li>读磁盘中ELF执行文件格式的ucore操作系统到内存</li>
+<li>显示字符串信息</li>
+<li>把控制权交给ucore操作系统</li>
+</ul>
+<p>对应其工作的实现文件在lab1中的boot目录下的三个文件asm.h、bootasm.S和bootmain.c。下面从原理上介绍完成上述工作的计算机系统硬件和软件背景知识。</p>
+</li>
+<li><p>操作系统启动过程</p>
+<p>当bootloader通过读取硬盘扇区把ucore在系统加载到内存后，就转跳到ucore操作系统在内存中的入口位置（kern/init.c中的kern_init函数的起始地址），这样ucore就接管了整个控制权。当前的ucore功能很简单，只完成基本的内存管理和外设中断管理。ucore主要完成的工作包括：</p>
+<ul>
+<li>初始化终端；</li>
+<li>显示字符串；</li>
+<li>显示堆栈中的多层函数调用关系；</li>
+<li>切换到保护模式，启用分段机制；</li>
+<li>初始化中断控制器，设置中断描述符表，初始化时钟中断，使能整个系统的中断机制；</li>
+<li>执行while（1）死循环。</li>
+</ul>
+<p>以后的实验中会大量涉及各个函数直接的调用关系，以及由于中断处理导致的异步现象，可能对大家实现操作系统和改正其中的错误有很大影响。而理解好函数调用关系的建立机制和中断处理机制，对后续实验会有很大帮助。下面就练习5涉及的函数栈调用关系和练习6中的中断机制的建立进行阐述。</p>
+</li>
+</ol>
+<p><a href="https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html" target="_blank" rel="noopener">https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html</a></p>
+<h4 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h4><h5 id="POSIX"><a href="#POSIX" class="headerlink" title="POSIX"></a>POSIX</h5><p>Portable Operating System Interface of Unix(IEEE制定的一个标准族)</p>
+<p>操作系统给上层提供的接口，macos,Linux都遵循这个接口。</p>
+<p>内核态 0 ， 用户态 3         </p>
+<p>GDT表存了DPL为0，用户访问CPL为3， 3 &gt; 0 没法访问。 </p>
+<p>0x80到内核中</p>
+<h4 id="中断、异常和系统调用"><a href="#中断、异常和系统调用" class="headerlink" title="中断、异常和系统调用"></a>中断、异常和系统调用</h4><p><img src="/2020/12/28/OS/Screenshot 2021-04-12 191642.png" style="zoom:75%;"></p>
+<p>中断</p>
+<p>硬件设对操作系统备的处理请求（缓存区里有数据，需要内核读走。或者缓冲区里数据用完了，需要内核补充新的数据）</p>
+<p>异常</p>
+<p>非法指令或者其他原因导致当前指令执行失败（程序出错后的处理请求）</p>
+<p>系统调用</p>
+<p>应用程序主动向操作系统发出的服务请求</p>
+<h4 id="物理内存管理：-连续内存分配"><a href="#物理内存管理：-连续内存分配" class="headerlink" title="物理内存管理： 连续内存分配"></a>物理内存管理： 连续内存分配</h4><p>最先匹配（First Fit Allocation）：</p>
+<p>空闲分区列表按地址顺序排序</p>
+<p>分配过程时，搜索第一个合适的分区，如果有剩下的空闲分区，继续把空闲分区切割出来，所以会产生碎片。</p>
+<p>释放分区时，检查是否可与临近的空闲分区合并</p>
+<p>最佳匹配（Best Fit Allocation）</p>
+<p>空闲分区列表按照 小到大排序</p>
+<p>分配时，查找比需要分区大的最小的分区，可避免大的空闲分区被拆分，减少碎片大小。</p>
+<p>释放时，超找并且合并临近地址的空闲分区（如果找到）</p>
+<p><img src="/2020/12/28/OS/Screenshot from 2021-04-15 14-27-29.png" style="zoom: 67%;"></p>
+<p>最差匹配(WORST Fit Allocation)</p>
+<p>空闲分区列表按大到小排序</p>
+<p>分配时，选最大的分区，后续找大分区比较难。</p>
+<p>释放时，检查是否可与临近的空闲分区合并，进行可能的合并并调整空闲分区列表顺序。</p>
+<p>伙伴系统</p>
+<h4 id="非连续内存分配"><a href="#非连续内存分配" class="headerlink" title="非连续内存分配"></a>非连续内存分配</h4><ol>
+<li><p>虚拟地址和物理地址的转换</p>
+<p>软件实现  硬件实现</p>
+</li>
+<li><p>非连续分配的硬件辅助记者</p>
+<p>段式存储管理（segmentation）: 分的比较大</p>
+<p><img src="/2020/12/28/OS/Screenshot from 2021-04-15 16-01-54.png" alt=""></p>
+</li>
+</ol>
+<p>   页式存储管理 （paging）</p>
+<p>   把物理地址空间划分为大小相同的基本分配单位，2的n次方，如512,4096</p>
+<p>linux启动 </p>
+<p><a href="http://c.biancheng.net/view/1013.html" target="_blank" rel="noopener">http://c.biancheng.net/view/1013.html</a></p>
+<h4 id="linux目录结构"><a href="#linux目录结构" class="headerlink" title="linux目录结构"></a>linux目录结构</h4><table>
 <thead>
 <tr>
 <th>目录</th>
@@ -192,11 +277,32 @@
 </tr>
 </tbody>
 </table>
+<h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><p>进程调度 : FIFO , Priority</p>
+<h5 id="进程切换"><a href="#进程切换" class="headerlink" title="进程切换"></a>进程切换</h5><p>进程当前的状态存放到PCB(Process Control Block)中，获取下一个需要执行进程的PCB信息，切换进程。</p>
+<p><img src="/2020/12/28/OS/Screenshot from 2021-04-16 12-09-25.png" alt=""></p>
+<h5 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h5><p><img src="/2020/12/28/OS/Screenshot from 2021-04-16 12-16-25.png" alt=""></p>
+<p>线程 指令的切换，映射表不用切换    </p>
+<h6 id="2个线程用一个栈的情况"><a href="#2个线程用一个栈的情况" class="headerlink" title="2个线程用一个栈的情况"></a>2个线程用一个栈的情况</h6><p><img src="/2020/12/28/OS/Screenshot from 2021-04-16 14-27-23.png" alt=""></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个Yield</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Yield</span><span class="params">()</span></span>&#123; </span><br><span class="line">	找到<span class="number">300</span>；</span><br><span class="line">	jmp <span class="number">300</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//第二个Yield</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Yield</span><span class="params">()</span></span>&#123;</span><br><span class="line">	找到 ? ; <span class="number">204</span></span><br><span class="line">	jmp ? ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按照    (1)  -&gt; (2) -&gt; (3)的顺序执行，执行玩D()中的Yield()回到B()中，到了 右括号ret 出栈，出去的是404,正确的情况时时出204</p>
+<h6 id="两个线程-两个栈"><a href="#两个线程-两个栈" class="headerlink" title="两个线程 两个栈"></a>两个线程 两个栈</h6><p><img src="/2020/12/28/OS/Screenshot from 2021-04-16 15-11-08.png" alt=""></p>
+<p>jmp 204去掉：否则会执行两次</p>
+<h6 id="用户程序-内核程序调用"><a href="#用户程序-内核程序调用" class="headerlink" title="用户程序 内核程序调用"></a>用户程序 内核程序调用</h6><p><img src="/2020/12/28/OS/Screenshot from 2021-04-16 15-59-43.png" style="zoom:50%;"></p>
+<h6 id="多核处理"><a href="#多核处理" class="headerlink" title="多核处理"></a>多核处理</h6><p><img src="/2020/12/28/OS/Screenshot from 2021-04-16 16-01-19.png" style="zoom:80%;"></p>
+<p><img src="/2020/12/28/OS/Screenshot from 2021-04-16 16-01-07.png" style="zoom:50%;"></p>
+<p>多核情况共用一个MMU,减少切换资源调用。</p>
+<p>进程线程区别</p>
+<p>进程 : 有很大的独立性</p>
+<p>线程 :  所有线程都有完全一样的地址空间,意味着它们也共享同样的全局变量。由于线程可以访问进程地址空间的每一个内存地址，所以一个线程可以读、写甚至清除另一个线程的堆栈。</p>
+<p>每个进程中的内容 : 地址空间  全局变量 打开文件 子进程    即将发生的定时器    信号与信号处理程序</p>
+<p>每个线程中的内容：程序计数器、寄存器、堆栈、状态.</p>
 <h4 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h4><p>原子性</p>
 <p>原子性是指一系列操作不可被中断的特性,这一系列操作要么全部执行完成，要么全部没有执行,不存在部分执行部分未执行的情况</p>
 <h5 id="互斥量"><a href="#互斥量" class="headerlink" title="互斥量"></a>互斥量</h5><p>​            互斥量是最简单的线程同步的方法,处于两态之一的变量:解锁和加锁,两个状态可以保证资源访问的串行</p>
-<h5 id="自旋锁与自适应自旋"><a href="#自旋锁与自适应自旋" class="headerlink" title="自旋锁与自适应自旋"></a>自旋锁与自适应自旋</h5><pre><code>*  自旋锁
-</code></pre><p>​            自旋锁的线程会反复检查锁变量是否可用,自旋锁不会让出CPU，是一种忙等待状态,</p>
+<h5 id="自旋锁与自适应自旋"><a href="#自旋锁与自适应自旋" class="headerlink" title="自旋锁与自适应自旋"></a>自旋锁与自适应自旋</h5><ul>
+<li>自旋锁</li>
+</ul>
+<p>​            自旋锁的线程会反复检查锁变量是否可用,自旋锁不会让出CPU，是一种忙等待状态,</p>
 <p>​            自旋锁避免了进程或线程上下文切换的开销</p>
 <p>​            自旋锁不适合在单核CPU使用</p>
 <p>​            自旋锁的线程会反复检查锁变量是否可用</p>
@@ -224,20 +330,26 @@
 <p><strong>Unix域套接字</strong></p>
 <p>域套接字是一种高级的进程间通信的方法</p>
 <p>Unix域套接字可以用于同一机器进程间通信</p>
-<h4 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h4><h4 id="进程线程区别"><a href="#进程线程区别" class="headerlink" title="进程线程区别"></a>进程线程区别</h4><p>进程 : 有很大的独立性</p>
-<p>线程 :  所有线程都有完全一样的地址空间,意味着它们也共享同样的全局变量。由于线程可以访问进程地址空间的每一个内存地址，所以一个线程可以读、写甚至清除另一个线程的堆栈。</p>
-<p>每个进程中的内容 : 地址空间  全局变量 打开文件 子进程    即将发生的定时器    信号与信号处理程序</p>
-<p>每个线程中的内容：程序计数器、寄存器、堆栈、状态.</p>
-<p>[现代操作系统] 示例 p55</p>
-<ol>
-<li><p>先学习(现代操作系统) 陈渝 向勇</p>
+<h4 id="mooc-os-lab"><a href="#mooc-os-lab" class="headerlink" title="mooc-os-lab"></a>mooc-os-lab</h4><p>[现代操作系统] 示例 p55</p>
+<p>先学习(现代操作系统) 陈渝 向勇</p>
 <p><a href="https://www.bilibili.com/video/BV1js411b7vg?from=search&amp;seid=2361361014547524697" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1js411b7vg?from=search&amp;seid=2361361014547524697</a></p>
 <p>配套书： 操作系统概念(第七版) ， 操作系统-精髓与设计原理（第七版）william stallings</p>
-</li>
-<li><p>李治军</p>
-<p><a href="https://www.bilibili.com/video/BV1d4411v7u7?from=search&amp;seid=123024139096267377" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1d4411v7u7?from=search&amp;seid=123024139096267377</a></p>
-</li>
-</ol>
+<h5 id="实验环境配置"><a href="#实验环境配置" class="headerlink" title="实验环境配置"></a>实验环境配置</h5><p><a href="https://www.bilibili.com/video/BV1Zz4y1d7BK?from=search&amp;seid=14777231705696776183" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Zz4y1d7BK?from=search&amp;seid=14777231705696776183</a></p>
+<p><a href="http://os.cs.tsinghua.edu.cn/oscourse/OS2020spring" target="_blank" rel="noopener">http://os.cs.tsinghua.edu.cn/oscourse/OS2020spring</a></p>
+<p><a href="https://github.com/LearningOS/ucore_os_lab" target="_blank" rel="noopener">ucore实验基准源代码</a></p>
+<p><a href="https://www.bilibili.com/s/video/BV1Zz4y1d7BK" target="_blank" rel="noopener">https://www.bilibili.com/s/video/BV1Zz4y1d7BK</a></p>
+<p>ubuntu窗口调整</p>
+<p>device -&gt; Insert Guest addtions CD Image</p>
+<p><a href="https://blog.csdn.net/u012631731/article/details/79548621" target="_blank" rel="noopener">https://blog.csdn.net/u012631731/article/details/79548621</a></p>
+<p>修改Ubuntu硬盘大小</p>
+<p><a href="https://my.oschina.net/u/4388335/blog/3321852" target="_blank" rel="noopener">https://my.oschina.net/u/4388335/blog/3321852</a></p>
+<p> windows ubuntu文件夹共享</p>
+<p><a href="https://www.jianshu.com/p/4e73fd1c0c74?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="noopener">https://www.jianshu.com/p/4e73fd1c0c74?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation</a></p>
+<p>并发 : 多个事件在分段被单个CPU分段执行。</p>
+<p>并行： 多个CPU同时处理多个任务。</p>
+<h4 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h4><h5 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h5><p><a href="https://fishc.com.cn/forum-39-1.html" target="_blank" rel="noopener">https://fishc.com.cn/forum-39-1.html</a></p>
+<p><a href="https://www.bilibili.com/video/av22872043/?p=2&amp;spm_id_from=pageDriver" target="_blank" rel="noopener">https://www.bilibili.com/video/av22872043/?p=2&amp;spm_id_from=pageDriver</a></p>
+<h5 id="GCC内联汇编"><a href="#GCC内联汇编" class="headerlink" title="GCC内联汇编"></a>GCC内联汇编</h5><p>C语言中加入 汇编代码</p>
 
         
             <div id="toc-article">
@@ -245,7 +357,7 @@
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> Inhalte</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#linux目录结构"><span class="toc-text">linux目录结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#同步"><span class="toc-text">同步</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#互斥量"><span class="toc-text">互斥量</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自旋锁与自适应自旋"><span class="toc-text">自旋锁与自适应自旋</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#读写锁"><span class="toc-text">读写锁</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#条件变量"><span class="toc-text">条件变量</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进程同步-通信"><span class="toc-text">进程同步(通信)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#进程的实现"><span class="toc-text">进程的实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程"><span class="toc-text">线程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进程线程区别"><span class="toc-text">进程线程区别</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#启动概览"><span class="toc-text">启动概览</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#BIOS初始化"><span class="toc-text">BIOS初始化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#bootloader做的事情"><span class="toc-text">bootloader做的事情</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#第二部细节-加载程序"><span class="toc-text">第二部细节 加载程序</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#系统调用"><span class="toc-text">系统调用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#POSIX"><span class="toc-text">POSIX</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#中断、异常和系统调用"><span class="toc-text">中断、异常和系统调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#物理内存管理：-连续内存分配"><span class="toc-text">物理内存管理： 连续内存分配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#非连续内存分配"><span class="toc-text">非连续内存分配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#linux目录结构"><span class="toc-text">linux目录结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进程"><span class="toc-text">进程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#进程切换"><span class="toc-text">进程切换</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#线程"><span class="toc-text">线程</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#2个线程用一个栈的情况"><span class="toc-text">2个线程用一个栈的情况</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#两个线程-两个栈"><span class="toc-text">两个线程 两个栈</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#用户程序-内核程序调用"><span class="toc-text">用户程序 内核程序调用</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#多核处理"><span class="toc-text">多核处理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#同步"><span class="toc-text">同步</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#互斥量"><span class="toc-text">互斥量</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自旋锁与自适应自旋"><span class="toc-text">自旋锁与自适应自旋</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#读写锁"><span class="toc-text">读写锁</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#条件变量"><span class="toc-text">条件变量</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进程同步-通信"><span class="toc-text">进程同步(通信)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#进程的实现"><span class="toc-text">进程的实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mooc-os-lab"><span class="toc-text">mooc-os-lab</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#实验环境配置"><span class="toc-text">实验环境配置</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#汇编"><span class="toc-text">汇编</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#操作系统"><span class="toc-text">操作系统</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#GCC内联汇编"><span class="toc-text">GCC内联汇编</span></a></li></ol></li></ol>
     </div>
   </div>
 
