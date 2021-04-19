@@ -446,6 +446,72 @@ https://space.bilibili.com/501486236/video
 
 
 
+##### typedef  别名
+
+type_1
+
+```c
+typedef int ZHANGSAN;//为int再重新多取一个名字，ZHANGSAN等价于int
+typedef struct Student {
+    int sid;
+    char name[100];
+    char sex;
+} ST;
+
+
+int main(void) {
+    int i = 10; //等价于 ZHANGSAN i = 10;
+    ZHANGSAN j = 20;
+    printf("%d\n", j);
+
+    struct Student st;//等价于 ST st;
+    struct Student *ps = &st; // 等价于 ST * ps
+    ST st2;
+    st2.sid = 200;
+    printf("%d\n",st2.sid);
+}
+```
+
+type_2
+
+```c
+typedef struct Student {
+    int sid;
+    char name[100];
+    char sex;
+} * PST ; //PST等价于 struct Student * ,这样就是一个指针类型了
+
+int main(void){
+    struct  Student st;
+    PST ps  = &st;
+    ps->sid = 99;
+    printf("%d\n",ps->sid);
+    return 0;
+}
+```
+
+
+
+type_3
+
+```c
+typedef struct Student {
+    int sid;
+    char name[100];
+    char sex;
+} * PSTU, STU; //等价于 ST代表了 struct Student st, PST 代表了struct Student *;
+
+int main(void) {
+    STU st; //等价于 struct Student st;
+    PSTU  ps = &st; //struct Student * ps = &st;
+    ps->sid = 99;
+    printf("%d\n",ps->sid);
+    return 0;
+}
+```
+
+
+
 
 
 #### swift语法
