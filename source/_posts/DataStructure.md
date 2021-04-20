@@ -52,3 +52,55 @@ categories: DataStructure
 ![](DataStructure/Screen Shot 2021-03-12 at 5.37.58 PM.png)
 
 ![](DataStructure/Screen Shot 2021-03-12 at 5.38.08 PM.png)
+
+#### 链表
+
+![](DataStructure/Screenshot from 2021-04-20 15-49-24LinkedLIst.png)
+
+p,q指向的都是整体
+
+```c
+typedef struct node{
+	int data; // 存储数据本身
+    struct node *pNext; //pNext存储  它指向的下一个节点的指针
+} NODE, *PNODE;
+// NODE等价于struct node
+//PNODE等价于struct node*
+
+
+//将动态分配的新节点的地址赋给p
+PNODE p = (PNODE)malloc(sizeof(NODE));
+
+free(p) //删除p指向节点所占的内存，不是删除p本身所占的内存
+
+p->pNext; //p所指向结构体变量中pNext成员本身
+```
+
+
+
+
+
+1. 插入q节点
+
+   ```c
+   方法1:
+   r = p-> pNext ; p->pNext =q ; q->pNext = r;
+   方法2:
+   q->pNext = p->pNext;
+   p->pNext = q;
+   ```
+
+2. 删除p后面的节点
+
+   ```c
+   r = p->pNext;
+   p->pNext= r->pNext;
+   free(r);
+   ```
+
+   
+
+   
+
+   
+
