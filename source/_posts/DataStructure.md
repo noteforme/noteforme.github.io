@@ -100,7 +100,123 @@ p->pNext; //p所指向结构体变量中pNext成员本身
 
    
 
-   
+   #### 递归
 
+   1. 递归必须得有一个明确的中止条件。
+   2. 该函数所处理的数据规模必须在递减。
+   
+   
+   
+   ##### 阶乘 、求和
+   
+   ```c
+   
+   #include <stdio.h>
+   
+   long f(int n);
+   long sum(int n);
+   int main(void) {
+       printf("n=1 输出 %ld \n ", f(1));
+       printf("n=2 输出 %ld \n ", f(2));
+       printf("n=3 输出 %ld \n ", f(3));
+       printf("n=4 输出 %ld \n ", f(4));
+       printf("n=5 输出 %ld \n ", f(5));
+   
+       printf("n=100 相加 %ld \n ", sum(100));
+   
+       int val,mult = 1;
+       printf("请输入一个数: val=");
+       scanf("%d",&val);
+       for (int i = 1; i <= val; ++i) {
+           mult = mult * i;
+       }
+       printf("%d的阶乘是: %d\n",val,mult);
+   }
+   
+   //假定n的值是1或大于1的值
+   long f(int n) {
+       if (n == 1) {
+           return 1;
+       } else {
+           return n * f(n - 1);
+       }
+   }
+   
+   // 1+2+...+100
+   long sum(int n) {
+       if (n == 1) {
+           return 1;
+       } else {
+           return (n + sum(n-1));
+       }
+   }
+   ```
+   
+   
+   
+   ##### 汉诺塔
+   
+   ```c
+   #include <stdio.h>
+   
+   void hannuota(int n, char a, char b, char c) {
+       /**
+        *      一个盘子 :
+        *              直接将a柱子上的盘子从a移动到b
+        *      否则 :
+        *              先将a柱子上的n-1个盘子借助c移到b
+        *              直接将a柱子上的盘中从a移到c
+        *              最后将b柱子上的n-1个盘子借助a移到c
+        */
+       if (1 == n) {
+           printf("将编号为%d的盘子直接从%c柱子移到%c柱子\n", n, a, c);
+       } else {
+           hannuota(n - 1, a, c, b);
+           printf("将编号为%d的盘子直接从%c柱子移到%c柱子\n", n, a, c);
+           hannuota(n - 1, b, a, c);
+       }
+   }
+   
+   int main(void) {
+       char ch1 = 'A';
+       char ch2 = 'B';
+       char ch3 = 'C';
+       printf("请输入要移动盘子的个数:");
+       int n;
+       scanf("%d",&n);
+       hannuota(n,'A','B','C');
+       return 0;
+   }
+   ```
+   
+   
+   
+   ##### Fibonacci.c
+   
+   ```c
+   #include <stdio.h>
+   #include <stdbool.h>
+   
+   int  f(int n){
+       if(n==0){
+           return 0;
+       } else if(n==1){
+           return  1;
+       } else{
+           return f(n-1)+f(n-2);
+       }
+   }
+   
+   
+   int main(){
+       int n;
+       printf("输入n的值为 ");
+       while (true){
+           scanf("%d",&n);
+           printf("f(n) %d \n",f(n));
+       }
+   }
+   ```
+   
    
 

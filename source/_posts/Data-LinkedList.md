@@ -161,7 +161,7 @@ bool empty(PSTACK pS) {
 
 函数调用 	中断	表达式求值	内存分配  缓冲处理	迷宫
 
-![](Data-LinkedList/Screenshot from 2021-04-22 11-50-30stack.png)
+![](Data-LinkedList/2021-04-22_11-50-30stack.png)
 
 
 
@@ -173,7 +173,7 @@ bool empty(PSTACK pS) {
 
 队列 ： 一种可以实现先进先出的存储结构
 
-![](Data-LinkedList/Screenshot from 2021-04-22 12-50-46queue.png)
+![](Data-LinkedList/2021-04-22_12-50-46queue.png)
 
 
 
@@ -203,7 +203,7 @@ bool empty(PSTACK pS) {
 
 
 
-![](Data-LinkedList/Screenshot from 2021-04-22 15-45-41.png)
+![](Data-LinkedList/2021-04-22_15-45-41.png)
 
 ##### 操作 
 
@@ -223,4 +223,4 @@ bool empty(PSTACK pS) {
 
    (r+1)%数组的长度 = f
 
-![](Data-LinkedList/Screenshot from 2021-04-22 17-48-04_circleLinkedList.png)
+![](Data-LinkedList/2021-04-22_17-48-04_circleLinkedList.png)
