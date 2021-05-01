@@ -8,7 +8,7 @@ categories: ANDROID
 
 
 
-![](VideoNDK/Screen Shot 2021-03-19 at 2.55.38 PM.png)
+![](VideoNDK/2021-03-19_2.55.38_PM.png)
 
 #### 指针
 
@@ -180,7 +180,7 @@ int main(int argc, const char * argv[]) {
 
 square内存中占据的位置，fp保存square指针的入口地址,fp指向square(),*fp代表 调用square().
 
-![](VideoNDK/Screen Shot 2021-03-06 at 9.54.34 PM.png)
+![](VideoNDK/2021-03-06_9.54.34_PM.png)
 
 2. 用法
 
@@ -250,7 +250,7 @@ int main(int argc, const char * argv[]) {
 
 ```
 
-![](VideoNDK/Screen Shot 2021-03-06 at 10.12.11 PM.png)
+![](VideoNDK/2021-03-06_10.12.11_PM.png)
 
 https://www.bilibili.com/video/BV15J411Q7t9?from=search&seid=1110914330533311902
 
@@ -509,6 +509,68 @@ int main(void) {
     return 0;
 }
 ```
+
+
+
+#### C++
+
+##### 引用
+
+> ```
+> C++ 引用引用变量是一个别名，也就是说，它是某个已存在变量的另一个名字。一旦把引用初始化为某个变量，就可以使用该引用名称或变量名称来指向变量
+> ```
+
+
+
+```c++
+#include <iostream>
+
+using namespace std;
+
+void swap(int &x, int &y) {
+    int t = x;
+    x = y;
+    y = t;
+}
+
+int main() {
+    int a = 3, b = 4;
+    cout << a << "\t" << b << endl;
+    swap(a, b);
+    cout << a << "\t" << b << endl;
+}
+```
+
+##### 函数模板
+
+```c++
+
+#include <iostream>
+
+using namespace std;
+
+template<typename  T>
+T add(T x,T y){
+    return  x+y;
+}
+
+int main(){
+#if 0
+    cout<<add<int>(5,3)<<endl;
+    cout<<add<double >(5.3,7.8)<<endl;
+    cout<<add<int>(4,6)<<endl;
+    cout<<add<string>("hello","world")<<endl;
+#else
+    //类型自动推断
+    cout<<add(5,3)<<endl;
+    cout<<add(5.3,7.8)<<endl;
+    cout<<add(4,6)<<endl;
+    cout<<add((double)5,7.8)<<endl;
+#endif
+}
+```
+
+
 
 
 
