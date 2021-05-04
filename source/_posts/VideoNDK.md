@@ -33,7 +33,7 @@ int main(int argc, const char * argv[]) {
 
 
 
-##### 指针函数: 一个函数，返回指针
+##### 指针函数:带指针的函数
 
  函数的返回值为指针类型
 
@@ -131,13 +131,13 @@ int main(int argc, const char * argv[]) {
 
 
 
-##### 函数指针：一个指针，指向函数
+##### 函数指针：指向函数的指针
 
 指向函数起始地址的指针
 
 ###### 函数指针的定义
 
-* `int (*fptr)(int,int)`
+* `int (*fptr)(int,int)`  // (*func)中括号是必要的，这会告诉编译器我们声明的是函数指针而不是声明一个具有返回型为指针的函数
 
 * 指针变量 :  *fptr , 
 
@@ -255,6 +255,86 @@ int main(int argc, const char * argv[]) {
 https://www.bilibili.com/video/BV15J411Q7t9?from=search&seid=1110914330533311902
 
 
+
+函数指针pft指向了一个已经声明的函数bar()，然后通过pft来实现输出字符和整型的目的。
+
+
+
+```c++
+void bar(char, int);
+
+typedef  void (*PFT)(char, int);
+int main(){
+    PFT pft;
+    pft = bar;
+    pft('e',91);
+}
+void bar(char ch,int i){
+    cout<< " bar "<<ch<<' '<<i<<endl;
+    return;
+}
+```
+
+函数指针作为函数的参数，我们可以在一个函数的形参列表中传入一个函数指针， 然后便可以在这个函数中使用这个函数指针所指向的函数
+
+```c++
+typedef void (*PFT)(char, int);
+
+void bar(char ch, int i) {
+    cout << "bar " << ch << ' ' << i << endl;
+    return;
+}
+
+void foo(char ch, int i, PFT pf) {
+    pf(ch, i);
+    return;
+}
+
+
+int main() {
+    PFT pft;
+    pft = bar;
+    foo('e', 12, pft);
+}
+```
+
+
+
+函数对象
+
+```c++
+class A {
+public:
+    int operator()(int x) { return x; }
+};
+
+
+int main(){
+    A a;
+    cout<<a(5)<<endl;
+}
+```
+
+```c++
+class Func {
+public:
+    int operator()(int a, int b) {
+        cout << a << '+' << b << '=' << a + b << endl;
+        return a;
+    }
+};
+
+int addFunc(int a, int b, Func &func) {
+    func(a, b);
+    return a;
+}
+
+int main() {
+
+    Func func;
+    addFunc(1, 3, func);
+}
+```
 
 
 

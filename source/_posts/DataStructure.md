@@ -100,7 +100,29 @@ p->pNext; //p所指向结构体变量中pNext成员本身
    free(r);
    ```
 
-   
+
+
+
+
+
+#### 双向链表
+
+##### 插入
+
+![](Data-LinkedList/DoubleLInkedList_insert_middle.png)
+
+
+
+```c++
+    ListNodePosi <T> insertAsPred(T const&e){//紧靠当前节点之前插入新节点
+        ListNodePosi<T> x = new ListNode(e,pred,this); //创建新节点
+        pred->succ = x;
+        this->pred= x;//设置正向链接,这里是当前节点的前置节点的意思，容易和节点pred混淆
+        return x; //返回新节点的位置
+    }
+```
+
+
 
 #### 递归
 
@@ -290,6 +312,16 @@ int f(int n) {
 ```
 
 这种时间复杂度O(n),不要太快,交替滚动向前推进。
+
+
+
+
+
+
+
+
+
+
 
 
 
