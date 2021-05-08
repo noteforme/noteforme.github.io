@@ -1,5 +1,5 @@
 ---
-title: Data_Sort
+ostitle: Data_Sort
 comments: true
 date: 2021-03-21 13:04:53
 tags:
@@ -14,6 +14,12 @@ categories: DataStructure
 
 
 
+通过比较找到当前的最大元素M,并通过交换食指就位
+
+![](Data-Sort/2021-05-06_13-16-43.png)
+
+
+
 ![](Data-Sort/select2021-03-21_1.12.39PM.png)
 
 ##### 插入排序
@@ -21,6 +27,14 @@ categories: DataStructure
 
 
 ![](Data-Sort/insert2021-03-21PM.png)
+
+
+
+![](Data-Sort/2021-05-06_18-56-51.png)
+
+
+
+
 
 #### 希尔排序
 

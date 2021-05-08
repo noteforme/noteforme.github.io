@@ -8,9 +8,19 @@ categories: OS
 
 
 
+#### 学习计划
+
+mit实验 + 操作系统导论
+
+https://github.com/woai3c/MIT6.828
+
+https://pdos.csail.mit.edu/6.828/2018/index.html
+
+https://www.zhihu.com/question/40973610
+
 #### 启动概览
 
-![](OS/Screen Shot 2021-04-12 at 1.36.29 PM.png)
+![](OS/2021-04-12at1.36.29 PM.png)
 
 ​	
 
@@ -35,7 +45,7 @@ https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html
 
 #####  第二部细节 加载程序
 
-![](OS\Screen Shot 2021-04-13 at 1.36.29 PM.png)
+![](OS\2021-04-13at1.36.29 PM.png)
 
 ​	计算机可能有不止一个分区，每个分区有不同的系统，主引导记录来确定去哪个文件系统读加载程序
 
@@ -93,7 +103,7 @@ GDT表存了DPL为0，用户访问CPL为3， 3 > 0 没法访问。
 
 ####  中断、异常和系统调用
 
-<img src="OS\Screenshot 2021-04-12 191642.png" style="zoom:75%;" />
+<img src="OS\2021-04-12191642.png" style="zoom:75%;" />
 
 中断
 
@@ -127,7 +137,7 @@ GDT表存了DPL为0，用户访问CPL为3， 3 > 0 没法访问。
 
 释放时，超找并且合并临近地址的空闲分区（如果找到）
 
-<img src="OS/Screenshot from 2021-04-15 14-27-29.png" style="zoom: 67%;" />
+<img src="OS/2021-04-1514-27-29.png" style="zoom: 67%;" />Screenshot from 
 
 最差匹配(WORST Fit Allocation)
 
@@ -151,7 +161,7 @@ GDT表存了DPL为0，用户访问CPL为3， 3 > 0 没法访问。
 
    段式存储管理（segmentation）: 分的比较大
 
-   ![](OS/Screenshot from 2021-04-15 16-01-54.png)
+   ![](OS/2021-04-1516-01-54.png)
 
    
 
@@ -194,13 +204,13 @@ http://c.biancheng.net/view/1013.html
 
 进程当前的状态存放到PCB(Process Control Block)中，获取下一个需要执行进程的PCB信息，切换进程。
 
-![](OS/Screenshot from 2021-04-16 12-09-25.png)
+![](OS/2021-04-1612-09-25.png)
 
 
 
 ##### 线程
 
-![](OS/Screenshot from 2021-04-16 12-16-25.png)
+![](OS/2021-04-1612-16-25.png)
 
 线程 指令的切换，映射表不用切换	
 
@@ -210,7 +220,7 @@ http://c.biancheng.net/view/1013.html
 
 
 
-![](OS/Screenshot from 2021-04-16 14-27-23.png)
+![](OS/2021-04-1614-27-23.png)
 
 ```
 //第一个Yield
@@ -236,7 +246,7 @@ void Yield(){
 
 ###### 两个线程 两个栈
 
-![](OS/Screenshot from 2021-04-16 15-11-08.png)
+![](OS/2021-04-1615-11-08.png)
 
 jmp 204去掉：否则会执行两次
 
@@ -250,13 +260,13 @@ jmp 204去掉：否则会执行两次
 
 
 
-<img src="OS/Screenshot from 2021-04-16 15-59-43.png" style="zoom:50%;" />
+<img src="OS/2021-04-1615-59-43.png" style="zoom:50%;" />
 
 ###### 多核处理
 
-<img src="OS/Screenshot from 2021-04-16 16-01-19.png" style="zoom:80%;" />
+<img src="OS/2021-04-1616-01-19.png" style="zoom:80%;" />
 
-<img src="OS/Screenshot from 2021-04-16 16-01-07.png" style="zoom:50%;" />
+<img src="OS/2021-04-1616-01-07.png" style="zoom:50%;" />
 
 
 
