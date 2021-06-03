@@ -1,5 +1,5 @@
 ---
-ostitle: Data_Sort
+title: Data_Sort
 comments: true
 date: 2021-03-21 13:04:53
 tags:
@@ -14,7 +14,7 @@ categories: DataStructure
 
 
 
-通过比较找到当前的最大元素M,并通过交换食指就位
+通过比较找到当前的最大元素M,并通过交换使值就位
 
 ![](Data-Sort/2021-05-06_13-16-43.png)
 

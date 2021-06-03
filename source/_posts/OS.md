@@ -10,7 +10,7 @@ categories: OS
 
 #### 学习计划
 
-mit实验 + 操作系统导论
+MIT6.S081实验 + 操作系统导论
 
 https://github.com/woai3c/MIT6.828
 
@@ -18,9 +18,128 @@ https://pdos.csail.mit.edu/6.828/2018/index.html
 
 https://www.zhihu.com/question/40973610
 
+
+
+RISC-V 微处理器
+
+xv6
+
+
+
+##### 实验环境配置
+
+https://zhuanlan.zhihu.com/p/343655412
+
+https://zhuanlan.zhihu.com/p/272199762
+
+https://zhuanlan.zhihu.com/p/331492444
+
+https://www.bilibili.com/video/BV11K4y127Qk?from=search&seid=8628043749223720261
+
+错误1
+
+```
+ERROR: glib-2.48 gthread-2.0 is required to compile QEMU
+
+处理
+sudo apt-get install libglib2.0-dev
+```
+
+错误2
+
+```
+ERROR: pixman >= 0.21.8 not present.
+       Please install the pixman devel package.
+       
+处理
+sudo apt-get install libpixman-1-dev
+```
+
+
+
+#### 实验
+
+1. 在user目录下创建copy.c
+
+2. 在Makefile 152行添加配置
+
+   <img src="OS/20200919151509556.png" style="zoom:50%;" />
+
+3. 测试添加程序
+
+   启动xv6后，执行copy
+
+https://blog.csdn.net/u013577996/article/details/108680888
+
+
+
+
+
+##### 课程学习
+
+##### 3.4内核执行任何内核指令
+
+3.4 之前提到，设置处理器中kernel mode的bit位的指令是一条特殊权限指令，那么一个用户程序怎么才能让内核执行任何内核指令？因为现在切换到kernel mode的指令都是一条特殊权限指令了，对于用户程序来说也没法修改那个bit位
+
+用户程序会通过系统调用来切换到kernel mode。当用户程序执行系统调用，会通过ECALL触发一个软中断（software interrupt），软中断会查询操作系统预先设定的中断向量表，并执行中断向量表中包含的中断处理程序。中断处理程序在内核中，这样就完成了user mode到kernel mode的切换，并执行用户程序想要执行的特殊权限指令？ 
+
+**针对这个回答，我的疑问是，怎么确保恶意程序不走这种系统调用呢**
+
+##### 3.9 断点调试
+
+```
+ 一个窗口
+ 
+ make CPUS=1 qemu-gdb
+ 
+ 新开窗口 
+ 
+ gdb-multiarch kernel/kernel
+ target remote localhost:26000
+```
+
+https://zhuanlan.zhihu.com/p/331492444
+
+
+
+GDB简单使用
+
+```
+ctrl x a 显示代码
+ b 断点
+ r运行
+
+```
+
+![](OS/GDB_2021-05-11_22-43-21.png)
+
+https://www.bilibili.com/video/BV1ei4y1V758?from=search&seid=4972450432119771986
+
+
+
+
+
+##### 4.3页表
+
+![](OS/2021-05-13_pagetable.png)
+
+
+
+在最高级的page directory中的PPN，包含了下一级page directory的物理内存地址，  第二个9bit用来索引中间级的page directory，第三个9bit用来索引最低级的page directory。在最低级page directory，我们还是可以得到44bit的PPN，这里包含了我们实际上想要翻译的物理page地址，然后再加上虚拟内存地址的12bit offset，就得到了56bit物理内存地址。
+
+
+
+第一个level1有了Level2页表的物理地址，Level2的 PPN就是页表的偏移量,指向Level3的物理地址.
+
+https://www.bilibili.com/video/BV1zt4y1U7rq?from=search&seid=11572648099017443360
+
+
+
+
+
 #### 启动概览
 
-![](OS/2021-04-12at1.36.29 PM.png)
+![](OS/2021-04-13at1.36.29PM.png)
 
 ​	
 

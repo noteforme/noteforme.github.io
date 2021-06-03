@@ -107,3 +107,11 @@ CPU
 ![](ComputerOrganization/Screen Shot 2021-03-03 at 10.10.02 PM.png)
 
 不在缓存的数据需要去主存拿
+
+
+
+ ####  4GB是寻址空间为什么是4G ,byte而不是 bit 
+
+现在的内存可以看作一个很长的，每项宽度8位（即1Bit）的很长的数列,**既然是数列，那么每一项便对应一个序号，这个序号便是地址，就如同你家在一条大街的第几号一样**
+
+https://www.zhihu.com/question/61974351
