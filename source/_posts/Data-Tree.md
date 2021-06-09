@@ -35,7 +35,45 @@ categories: DataStructure
 
     只要能满足此条件，就可以把一个普通树转化为二叉树来存储。
 
-​			
+
+
+#### BST树- Binary search tree
+
+##### 删除
+
+![](Data-Tree/2021-06-08_17-53-25.png)
+
+
+
+```c++
+template<typename T>
+static BinNodePosi<T> removeAt(BinNodePosi<T> &x, BinNodePosi<T> &hot) {
+    printf(" x %d  \n",x->data);
+
+    BinNodePosi<T> w = x; //实际被摘除的节点，初值同x
+    BinNodePosi<T> succ = NULL; //实际被删除节点的接替者
+    if (!HasLChild (*x)) //若*x的左子树为空，则可
+        succ = x = x->rc; //直接将*x替换为其右子树
+    else if (!HasRChild (*x)) //若右子树为空，则可
+        succ = x = x->lc; //对称地处理——注意：此时succ != NULL
+    else { //若左右子树均存在，则选择x的直接后继作为实际被摘除节点，为此需要
+        w = w->succ(); //（在右子树中）找到*x的直接后继*w
+        swap(x->data, w->data); //交换*x和*w的数据元素
+        BinNodePosi<T> u = w->parent;
+        printf("u %d  x %d  \n",u->data,x->data);
+        ((u == x) ? u->rc : u->lc) = succ = w->rc; //隔离节点*w      // (u == x)感觉没作用呀 ???
+    }
+    hot = w->parent; //记录实际被删除节点的父亲
+    if (succ) succ->parent = hot; //并将被删除节点的接替者与hot相联
+    release(w->data);
+    release(w);
+    return succ; //释放被摘除节点，返回接替者
+} //rele
+```
+
+
+
+​		
 
 ##### 树的遍历
 
@@ -206,6 +244,12 @@ struct BTNode *createBTree() {
 
 ##### AVL树
 
+左右子树的高度差 不超过1
+
+![](Data-Tree/2021-06-09_16-38-48_avl.png)
+
+
+
 通过左旋或者右旋(左旋右旋后一定不会破坏二叉搜索树的查找规则
 
 
@@ -213,6 +257,73 @@ struct BTNode *createBTree() {
 ![](Data-Tree/AVL.png)
 
 
+
+##### zig zag
+
+zig    顺时针
+
+zag  逆时针
+
+
+
+![](Data-Tree/2021-06-09_15-10-10.png)
+
+
+
+g : grandparent节点
+
+p : parent节点
+
+##### zigzig
+
+![](Data-Tree/2021-06-09_15-24-12_zigzig.png)
+
+##### zigzag节点
+
+
+
+![](/home/mc/Documents/noteforme.github.io/source/_posts/Data-Tree/2021-06-09_15-26-26_zigzag.png)
+
+
+
+类似工人组装魔方，确定好 G P V 所对应的 a b c ,何 0 1 2 3 所对应的 T0 T1 T2  T3,直接组装程图1的树
+
+
+
+```c++
+template <typename T> BinNodePosi<T> BST<T>::rotateAt ( BinNodePosi<T> v ) { //v为非空孙辈节点
+    /*DSA*/if ( !v ) { printf ( "\a\nFail to rotate a null node\n" ); exit ( -1 ); }
+    BinNodePosi<T> p = v->parent; BinNodePosi<T> g = p->parent; //视v、p和g相对位置分四种情况
+    if ( IsLChild ( *p ) ) /* zig */
+        if ( IsLChild ( *v ) ) { /* zig-zig */ //*DSA*/printf("\tzIg-zIg: ");
+            p->parent = g->parent; //向上联接
+            return connect34 ( v, p, g, v->lc, v->rc, p->rc, g->rc );
+        } else { /* zig-zag */  //*DSA*/printf("\tzIg-zAg: ");
+            v->parent = g->parent; //向上联接
+            return connect34 ( p, v, g, p->lc, v->lc, v->rc, g->rc );
+        }
+    else  /* zag */
+    if ( IsRChild ( *v ) ) { /* zag-zag */ //*DSA*/printf("\tzAg-zAg: ");
+        p->parent = g->parent; //向上联接
+        return connect34 ( g, p, v, g->lc, p->lc, v->lc, v->rc );
+    } else { /* zag-zig */  //*DSA*/printf("\tzAg-zIg: ");
+        v->parent = g->parent; //向上联接
+        return connect34 ( g, v, p, g->lc, v->lc, v->rc, p->rc );
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+#### 伸缩树
+
+![](Data-Tree/2021-06-09_22-05-22_shensuo.png)
 
 ####  2-3-4树
 
