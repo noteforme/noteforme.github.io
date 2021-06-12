@@ -325,6 +325,62 @@ template <typename T> BinNodePosi<T> BST<T>::rotateAt ( BinNodePosi<T> v ) { //v
 
 ![](Data-Tree/2021-06-09_22-05-22_shensuo.png)
 
+
+
+#### B-Tree
+
+
+
+B树解决 一段一段从IO读取数据
+
+![](Data-Tree/2021-06-10_22-21-20_btree.png)
+
+
+
+![](Data-Tree/2021-06-10_22-59-50_BTREE2.png)
+
+[地址](https://www.xuetangx.com/learn/THU08091002048/THU08091002048/5883385/video/9195150)
+
+
+
+##### B树插入
+
+因为新节点的插入，导致所属节点的分支数超过B树阶次m的情况称作overflow
+
+
+
+![](Data-Tree/2021-06-11_15-07-47_btree_define.png)
+
+​		     m=5时，每个节点的分支数不超过5，一般节点分支树不少于是3, (3,5)
+
+​      	  m=6	对于6阶B树，分支树的上限是6，下限是3。 (3,6)
+
+
+
+ #####  B树
+
+######  上溢分裂
+
+
+
+![](Data-Tree/2021-06-11_14-55-51_btree.png)
+
+A[n/2]节点中点分裂
+
+![](Data-Tree/2021-06-11_15-32-52_split1.png)
+
+
+
+![](Data-Tree/2021-06-11_15-32-59_split2.png)
+
+​               插入37，然后上溢分裂  
+
+
+
+###### 下溢
+
+ 先从兄弟树借节点，借不到的话就合并
+
 ####  2-3-4树
 
 ##### 特点
