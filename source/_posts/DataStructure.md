@@ -61,7 +61,7 @@ categories: DataStructure
 
 ​	
 
-![](DataStructure/Screenshot from 2021-04-20 15-49-24LinkedLIst.png)
+![](DataStructure/2021-04-20_15-49-24LinkedLIst.png)
 
 p,q指向的都是整体
 
@@ -312,6 +312,16 @@ int f(int n) {
 ```
 
 这种时间复杂度O(n),不要太快,交替滚动向前推进。
+
+
+
+#### 词典
+
+
+
+![](DataStructure/2021-06-15_09-13-49_diction.png)
+
+
 
 
 

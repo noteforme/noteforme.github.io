@@ -434,15 +434,9 @@ A[n/2]节点中点分裂
 
 ##### 红黑树
 
-红黑树 新增都是红色节点
-
-根据上面的等价关系，把2-3-4树转换成下面的红黑树。
 
 
-
-![](Data-Tree/转化为红黑树.png)
-
-https://www.bilibili.com/video/BV135411h7wJ?p=4
+![](Data-Tree/2021-06-12_20-50-01_redbtree.png)
 
 ##### 性质
 
@@ -455,6 +449,20 @@ https://www.bilibili.com/video/BV135411h7wJ?p=4
 5. 从任一节点到其每个叶子的所有简单路径都包含相同数目的黑色节点(黑色平衡)。// 2-3-4树层级相等.
 
 https://www.cs.usfca.edu/~galles/visualization/RedBlack.html
+
+
+
+红黑树 新增都是红色节点
+
+根据上面的等价关系，把2-3-4树转换成下面的红黑树。
+
+
+
+![](Data-Tree/转化为红黑树.png)
+
+https://www.bilibili.com/video/BV135411h7wJ?p=4
+
+
 
 
 
