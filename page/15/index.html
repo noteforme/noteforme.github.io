@@ -45,11 +45,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -57,7 +57,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -78,6 +78,658 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-DesignPatterns_Factory" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/10/DesignPatterns_Factory/">DesignPatterns  Factory</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-10T00:36:29.000Z" itemprop="datePublished">2017年08月10日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
+  </div>
+
+      
+      
+<a href="/2017/08/10/DesignPatterns_Factory/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>工厂方法和抽象工厂方法 都是通过工厂生产产品，由于产品都实现了相同的接口，根据获取到的产品作相应的处理</p>
+<p>工厂方法 :返回一个产品实例 ,  继承了工厂Dialog Base类,Base类抽象方法由sub类实现</p>
+<p>抽象工厂方法:可以返回一组相关的产品实例,实现了创建不同产品的抽象工厂接口</p>
+<h5 id="factory-guru"><a href="#factory-guru" class="headerlink" title="factory guru"></a>factory guru</h5><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">Dialog</span> &#123;</span><br><span class="line">    <span class="comment">// The creator may also provide some default implementation</span></span><br><span class="line">    <span class="comment">// of the factory method.</span></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> Button <span class="title">createButton</span>(<span class="params"></span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Note that, despite its name, the creator's primary</span></span><br><span class="line">    <span class="comment">// responsibility isn't creating products. It usually</span></span><br><span class="line">    <span class="comment">// contains some core business logic that relies on product</span></span><br><span class="line">    <span class="comment">// objects returned by the factory method. Subclasses can</span></span><br><span class="line">    <span class="comment">// indirectly change that business logic by overriding the</span></span><br><span class="line">    <span class="comment">// factory method and returning a different type of product</span></span><br><span class="line">    <span class="comment">// from it.</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">render</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// Call the factory method to create a product object.</span></span><br><span class="line">        Button okButton = createButton();</span><br><span class="line">        <span class="comment">// Now use the product.</span></span><br><span class="line">        okButton.onClick(<span class="string">"closeDialog"</span>);</span><br><span class="line">        okButton.render();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">WindowsDialogFac</span> <span class="keyword">extends</span> <span class="title">Dialog</span> </span>&#123;</span><br><span class="line">    <span class="type">Button</span> createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">WindowsButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">WebDialogFac</span> <span class="keyword">extends</span> <span class="title">Dialog</span> </span>&#123;</span><br><span class="line">    <span class="type">Button</span> createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">HTMLButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>Button &#123;</span><br><span class="line">    void render();</span><br><span class="line">    void onClick(String  cls);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WindowsButton</span> <span class="title">implements</span> <span class="title">Button</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">render</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"WindowsButton   render()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(<span class="params">String cls</span>) </span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"WindowsButton   onClick "</span>+cls);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HTMLButton</span> <span class="title">implements</span> <span class="title">Button</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">render</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"HTMLButton   render()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(<span class="params">String cls</span>) </span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"HTMLButton   onClick "</span>+cls);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Application</span> &#123;</span><br><span class="line">    Dialog dialog;</span><br><span class="line"></span><br><span class="line">    String configOs = <span class="string">"Windows"</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">initialize</span>(<span class="params"></span>) throws Exception </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (configOs.<span class="keyword">equals</span>(<span class="string">"Windows"</span>)) &#123;</span><br><span class="line">            dialog = <span class="keyword">new</span> WindowsDialogFac();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (configOs.<span class="keyword">equals</span>(<span class="string">"HTML"</span>)) &#123;</span><br><span class="line">            dialog = <span class="keyword">new</span> WebDialogFac();</span><br><span class="line">        &#125; <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"Error! Unknown operating system."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The client code works with an instance of a concrete</span></span><br><span class="line">    <span class="comment">// creator, albeit through its base interface. As long as</span></span><br><span class="line">    <span class="comment">// the client keeps working with the creator via the base</span></span><br><span class="line">    <span class="comment">// interface, you can pass it any creator's subclass.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params"></span>) throws Exception </span>&#123;</span><br><span class="line">        initialize();</span><br><span class="line">        dialog.render();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="abstact-guru"><a href="#abstact-guru" class="headerlink" title="abstact guru"></a>abstact guru</h5><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * // 抽象工厂接口声明了一组能返回不同抽象产品的方法。这些产品属于同一个系列</span></span><br><span class="line"><span class="comment"> * // 且在高层主题或概念上具有相关性。同系列的产品通常能相互搭配使用。系列产</span></span><br><span class="line"><span class="comment"> * // 品可有多个变体，但不同变体的产品不能搭配使用。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">GUIFactory</span> &#123;</span><br><span class="line">    <span class="function">Button <span class="title">createButton</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="function">CheckBox <span class="title">createCheckBox</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Concrete factories produce a family of products that belong</span></span><br><span class="line"><span class="comment">// to a single variant. The factory guarantees that the</span></span><br><span class="line"><span class="comment">// resulting products are compatible. Signatures of the concrete</span></span><br><span class="line"><span class="comment">// factory's methods return an abstract product, while inside</span></span><br><span class="line"><span class="comment">// the method a concrete product is instantiated.</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WinFactory</span> <span class="keyword"><span class="keyword">implements</span>  <span class="type">GUIFactory</span></span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Button createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">WinButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> CheckBox createCheckBox() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">WinCheckbox</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MacFactory</span> <span class="keyword"><span class="keyword">implements</span>  <span class="type">GUIFactory</span></span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Button createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">MacButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> CheckBox createCheckBox() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">MacCheckbox</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * // 系列产品中的特定产品必须有一个基础接口。所有产品变体都必须实现这个接口。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">Button</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span>  <span class="title">paint</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Concrete products are created by corresponding concrete</span></span><br><span class="line"><span class="comment">// factories.</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WinButton</span> <span class="keyword">implements</span> <span class="title">Button</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">paint</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"根据 Windows 样式渲染按钮   WinButton"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MacButton</span> <span class="keyword">implements</span> <span class="title">Button</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">paint</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"根据 macOs 样式渲染按钮 MacButton"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是另一个产品的基础接口。所有产品都可以互动，但是只有相同具体变体的产</span></span><br><span class="line"><span class="comment">// 品之间才能够正确地进行交互。</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">CheckBox</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span>  <span class="title">paint</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WinCheckbox</span> <span class="keyword">implements</span>  <span class="title">CheckBox</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">paint</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"根据 Win 样式渲染复选框。   WinCheckbox"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MacCheckbox</span> <span class="keyword">implements</span>  <span class="title">CheckBox</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">paint</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"根据 macOS 样式渲染复选框。   MacCheckbox"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> &#123;</span></span><br><span class="line">    <span class="keyword">private</span> GUIFactory factory;</span><br><span class="line">    <span class="keyword">private</span> Button button;</span><br><span class="line">    <span class="keyword">private</span> CheckBox checkBox;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Application</span><span class="params">(GUIFactory factory)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.factory = factory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createUi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.button = factory.createButton();</span><br><span class="line">        <span class="keyword">this</span>.checkBox = factory.createCheckBox();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">paint</span><span class="params">()</span></span>&#123;</span><br><span class="line">        button.paint();</span><br><span class="line">        checkBox.paint();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://refactoring.guru/design-patterns/abstract-factory" target="_blank" rel="noopener">https://refactoring.guru/design-patterns/abstract-factory</a></p>
+<p><a href="https://www.zhihu.com/question/20367734" target="_blank" rel="noopener">https://www.zhihu.com/question/20367734</a></p>
+<h5 id="Static-Factory（静态工厂模式）"><a href="#Static-Factory（静态工厂模式）" class="headerlink" title="Static Factory（静态工厂模式）"></a>Static Factory（静态工厂模式）</h5><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>Animal &#123;</span><br><span class="line">    void move();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">implements</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Cat move"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>工厂类　对实例类进行管理和创建</li>
+</ol>
+<pre><code>public class Factory {
+ //静态工厂方法
+ public static Cat produceCat() {
+     return new Cat();
+ }
+
+public static Dog produceDog() {
+     return new Dog();
+ }
+
+ public static void main(String[] args) {
+     Animal cat = Factory.produceCat();
+     cat.move();
+
+     Dog dog = Factory.produceDog();
+     dog.move();
+     dog.eatBone();
+  }
+ }`
+</code></pre><p>假如我要实例化一个pig对象,那么肯定是要在Factory做添加的，接下来看看可以不修改其他类实现需求</p>
+<ol start="2">
+<li>Abstract Factory(抽象工厂 elementary )</li>
+</ol>
+<pre><code> public interface Provider {
+  Animal produce();
+ }
+
+ public class DogFactory implements  Provider {
+   @Override
+   public Animal produce() {
+    return new Dog();
+   }
+ }
+
+
+
+public class CatFactory implements Provider {
+    @Override
+    public Animal produce() {
+        return new Cat();
+    }
+}
+</code></pre><p>​    Provider provider = new CatFactory();<br>​     Animal cat = provider.produce();<br>​    cat.move();<br>  如果要实例化Pig，添加一个PigFactory 就可以了</p>
+<h5 id="Simple-factory"><a href="#Simple-factory" class="headerlink" title="Simple factory"></a>Simple factory</h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">PizzaStore</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    SimplePizzaFactory <span class="keyword">factory</span>;</span><br><span class="line"></span><br><span class="line">    public PizzaStore(SimplePizzaFactory <span class="keyword">factory</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.<span class="keyword">factory</span> = <span class="keyword">factory</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Pizza orderPizza(<span class="built_in">String</span> type) &#123;</span><br><span class="line">        Pizza pizza = <span class="keyword">factory</span>.createPizza(type);</span><br><span class="line">        pizza.prepare();</span><br><span class="line">        pizza.bake();</span><br><span class="line">        pizza.cut();</span><br><span class="line">        pizza.box();</span><br><span class="line">        <span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> SimplePizzaFactory &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Pizza createPizza(String <span class="class"><span class="keyword">type</span>) &#123;</span></span><br><span class="line">        Pizza pizza = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"cheese"</span>.equals(<span class="class"><span class="keyword">type</span>)) &#123;</span></span><br><span class="line">            pizza = <span class="keyword">new</span> CheesePizza();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"pepperoni"</span>.equals(<span class="class"><span class="keyword">type</span>)) &#123;</span></span><br><span class="line">            pizza = <span class="keyword">new</span> PepperoniPizza();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"calm"</span>.equals(<span class="class"><span class="keyword">type</span>)) &#123;</span></span><br><span class="line">            pizza = <span class="keyword">new</span> GreekPizza();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">PizzaStore</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    SimplePizzaFactory <span class="keyword">factory</span>;</span><br><span class="line"></span><br><span class="line">    public PizzaStore(SimplePizzaFactory <span class="keyword">factory</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.<span class="keyword">factory</span> = <span class="keyword">factory</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public Pizza orderPizza(<span class="built_in">String</span> type) &#123;</span><br><span class="line">        Pizza pizza = <span class="keyword">factory</span>.createPizza(type);</span><br><span class="line">        pizza.prepare();</span><br><span class="line">        pizza.bake();</span><br><span class="line">        pizza.cut();</span><br><span class="line">        pizza.box();</span><br><span class="line">        <span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Pizza</span> &#123;</span><br><span class="line">    String name;</span><br><span class="line">    String dough;</span><br><span class="line">    String sauce;</span><br><span class="line">    ArrayList topping = <span class="keyword">new</span> ArrayList();</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span>   <span class="keyword">void</span> <span class="title">prepare</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        printOperation(<span class="string">"preparing     "</span> + name);</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"Tossing dough..."</span>);</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"Adding sauce"</span>);</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"Adding topping: "</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;topping.size();i++)&#123;</span><br><span class="line">            System.<span class="keyword">out</span>.println(<span class="string">"    "</span>+topping.<span class="keyword">get</span>(i));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">bake</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        printOperation(<span class="string">"bake  for 25 minutes at 350"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>   <span class="keyword">void</span> <span class="title">cut</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        printOperation(<span class="string">"Cutting the pizza into diagonal slices"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">box</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        printOperation(<span class="string">"Place pizza in official pizzaStore bx"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">printOperation</span>(<span class="params">String op</span>) </span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="comment">/*getClass().getSimpleName() + " " +*/</span> op);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span>  name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SimplePizzaFactory calmFactory = <span class="keyword">new</span> <span class="type">SimplePizzaFactory</span>();</span><br><span class="line">PizzaStore calmPizza = <span class="keyword">new</span> <span class="type">PizzaStore</span>(calmFactory);</span><br><span class="line">calmPizza.orderPizza(<span class="string">"calm"</span>);</span><br></pre></td></tr></table></figure>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Accessibility" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/09/Accessibility/">Accessibility</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-09T13:27:05.000Z" itemprop="datePublished">2017年08月09日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/08/09/Accessibility/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p> 先上官网地址  <a href="https://developer.android.com/guide/topics/ui/accessibility/services.html" target="_blank" rel="noopener">https://developer.android.com/guide/topics/ui/accessibility/services.html</a><br>下面的是例子  <a href="https://developer.android.com/training/accessibility/index.html" target="_blank" rel="noopener">https://developer.android.com/training/accessibility/index.html</a></p>
+<p>然后是codelab 看看 <a href="https://codelabs.developers.google.com/codelabs/developing-android-a11y-service/index.html?index=..%2F..%2Findex#0" target="_blank" rel="noopener">https://codelabs.developers.google.com/codelabs/developing-android-a11y-service/index.html?index=..%2F..%2Findex#0</a></p>
+<p>这是codelab github上的地址   <a href="https://github.com/googlecodelabs/android-accessibility" target="_blank" rel="noopener">https://github.com/googlecodelabs/android-accessibility</a><br>一、简单实现<br>1、创建一个   MyAccessibilityService类  继承 AccessibilityService</p>
+<p>…</p>
+<pre><code>public class MyAccessibilityService extends AccessibilityService {
+
+ @Override
+ public void onAccessibilityEvent(AccessibilityEvent event) {
+ }
+
+ @Override
+ public void onInterrupt() {
+}
+</code></pre><p>   }<br>…</p>
+<p>2、创建一个values下创建XML文件夹</p>
+<p><accessibility-service android:accessibilityeventtypes="typeViewClicked|typeViewFocused" android:packagenames="com.example.android.myFirstApp, com.example.android.mySecondApp" android:accessibilityfeedbacktype="feedbackSpoken" android:notificationtimeout="100" android:settingsactivity="com.example.android.apis.accessibility.TestBackActivity" android:canretrievewindowcontent="true"></accessibility-service></p>
+<p>3、 实现 onServiceConnected()</p>
+<pre><code>@Override
+public void onServiceConnected() {
+     // Set the type of events that this service wants to listen to.  Others
+     // won&apos;t be passed to this service.
+     info.eventTypes = AccessibilityEvent.TYPE_VIEW_CLICKED |
+            AccessibilityEvent.TYPE_VIEW_FOCUSED;
+
+     // If you only want this service to work with specific applications, set their
+    // package names here.  Otherwise, when the service is activated, it will listen
+    // to events from all applications.
+    info.packageNames = new String[]
+            {&quot;com.example.android.myFirstApp&quot;, &quot;com.example.android.mySecondApp&quot;};
+
+    // Set the type of feedback your service will provide.
+    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_SPOKEN;
+
+    // Default services are invoked only if no package-specific ones are present
+    // for the type of AccessibilityEvent generated.  This service *is*
+    // application-specific, so the flag isn&apos;t necessary.  If this was a
+    // general-purpose service, it would be worth considering setting the
+    // DEFAULT flag.
+
+    // info.flags = AccessibilityServiceInfo.DEFAULT;
+
+     info.notificationTimeout = 100;
+
+     this.setServiceInfo(info);
+     Log.i(&quot;test&quot;,&quot;测试&quot;);
+}
+</code></pre><p>4、实现 onAccessibilityEvent方法</p>
+<pre><code>@Override
+public void onAccessibilityEvent(AccessibilityEvent event) {
+ final int eventType = event.getEventType();
+ String eventText = null;
+ switch(eventType) {
+    case AccessibilityEvent.TYPE_VIEW_CLICKED:
+        eventText = &quot;Focused: &quot;;
+        break;
+    case AccessibilityEvent.TYPE_VIEW_FOCUSED:
+        eventText = &quot;Focused: &quot;;
+        break;
+ }
+
+ eventText = eventText + event.getContentDescription();
+
+ // Do something nifty with this text, like speak the composed string
+// back to the user.
+ speakToUser(eventText);
+}
+...
+</code></pre><p>然后就可以开启辅助功能，看下log</p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-OKHTTP" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/07/OKHTTP/">OKHTTP</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-07T02:04:29.000Z" itemprop="datePublished">2017年08月07日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/08/07/OKHTTP/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="如何阅读开源项目"><a href="#如何阅读开源项目" class="headerlink" title="如何阅读开源项目"></a>如何阅读开源项目</h5><p><a href="https://time.geekbang.org/column/article/186778" target="_blank" rel="noopener">https://time.geekbang.org/column/article/186778</a></p>
+<p><a href="https://www.imooc.com/article/301778" target="_blank" rel="noopener">https://www.imooc.com/article/301778</a></p>
+<p><a href="https://baixin.ink/2019/05/10/how-to-learn-opensorce-project/" target="_blank" rel="noopener">https://baixin.ink/2019/05/10/how-to-learn-opensorce-project/</a></p>
+<p><a href="https://www.jianshu.com/p/656dbb97a40f" target="_blank" rel="noopener">https://www.jianshu.com/p/656dbb97a40f</a></p>
+<p><a href="https://www.codedump.info/post/20200605-how-to-read-code-v2020/" target="_blank" rel="noopener">https://www.codedump.info/post/20200605-how-to-read-code-v2020/</a></p>
+<p>不管写的怎么样，先把东西弄出来，然后参考别人的写法，做对比</p>
+<h5 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h5><ul>
+<li><p><a href="https://mp.weixin.qq.com/s/TeQhe4T4wRjdAEPz6Ne45g" target="_blank" rel="noopener"><em>okhttp</em> 是如何支持 Http2 的？</a></p>
+</li>
+<li><p><a href="https://juejin.cn/post/6898145227765186567" target="_blank" rel="noopener">Okhttp连接池是咋实现的?</a></p>
+</li>
+<li><p><a href="https://juejin.im/post/5f0452615188252e5522b747" target="_blank" rel="noopener">雨露均沾的OkHttp—WebSocket长连接（使用篇）</a> </p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650237860&amp;idx=1&amp;sn=d66e75f6f7752ededdcaa3ce780862d3&amp;chksm=88639acbbf1413dd170ba41a67035c62811b489cfc7a405977ae23254205a6b3acb99358b1f2&amp;scene=38#wechat_redirect" target="_blank" rel="noopener"><em>OKHTTP</em>之缓存配置详解</a></p>
+</li>
+<li><p>OkHttp对于网络请求都有哪些优化</p>
+</li>
+<li><p>OkHttp框架中都用到了哪些设计模式</p>
+</li>
+</ul>
+<p>   <a href="https://www.codetd.com/article/4354895" target="_blank" rel="noopener">https://www.codetd.com/article/4354895</a></p>
+<p>   <a href="https://www.jianshu.com/p/d85e556b8da6" target="_blank" rel="noopener">https://www.jianshu.com/p/d85e556b8da6</a></p>
+<h5 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h5><ol>
+<li><p>okhttp 是如何支持 Http2</p>
+<p>Http1.1 http2的区别 <a href="https://noteforme.github.io/2017/08/03/Network/" target="_blank" rel="noopener">https://noteforme.github.io/2017/08/03/Network/</a></p>
+</li>
+</ol>
+<p>Okhttp缓存</p>
+<p> 1、添加cache 路径<br> 2、初始化OkhttpClient</p>
+ <figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> NewCacheInterceptor implements Interceptor &#123;</span><br><span class="line"></span><br><span class="line">     @Override</span><br><span class="line">     <span class="keyword">public</span> <span class="built_in">Response</span> intercept(Chain chain) throws IOException &#123;</span><br><span class="line">         <span class="built_in">Request</span> <span class="built_in">request</span> = chain.<span class="built_in">request</span>();</span><br><span class="line">         <span class="built_in">Response</span> <span class="built_in">response</span> = chain.proceed(<span class="built_in">request</span>);</span><br><span class="line">         <span class="built_in">Response</span> response1 = <span class="built_in">response</span>.newBuilder()</span><br><span class="line">                 .removeHeader(<span class="string">"Pragma"</span>)</span><br><span class="line">                 .removeHeader(<span class="string">"Cache-Control"</span>)</span><br><span class="line">                 .header(<span class="string">"Cache-Control"</span>, <span class="string">"max-age="</span> + <span class="number">3600</span> * <span class="number">24</span> * <span class="number">30</span>)</span><br><span class="line">                 .build();</span><br><span class="line"></span><br><span class="line">         return response1;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>OkHttp的拦截器有：</p>
+<ul>
+<li>RetryAndFollowUpInterceptor：失败和重定向拦截器；</li>
+<li>BridgeInterceptor：封装Response的拦截器；</li>
+<li>CacheInterceptor：缓存处理相关的拦截器；</li>
+<li>ConnectInterceptor：连接服务的拦截器，真正的网络请求在这里实现；</li>
+<li>CallServerInterceptor：负责写请求和读响应的拦截器；</li>
+</ul>
+<p><a href="https://juejin.cn/post/6873476209737629709/" target="_blank" rel="noopener">https://juejin.cn/post/6873476209737629709/</a></p>
+<p><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0106/2275.html" target="_blank" rel="noopener">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0106/2275.html</a></p>
+<p><a href="http://blog.csdn.net/briblue/article/details/52920531" target="_blank" rel="noopener">http://blog.csdn.net/briblue/article/details/52920531</a><br><a href="http://mushuichuan.com/2016/03/01/okhttpcache/" target="_blank" rel="noopener">http://mushuichuan.com/2016/03/01/okhttpcache/</a></p>
+<p><a href="https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/" target="_blank" rel="noopener">https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Network" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/03/Network/">Network</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-03T01:27:38.000Z" itemprop="datePublished">2017年08月03日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+      
+      
+<a href="/2017/08/03/Network/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><img src="/2017/08/03/Network/tcp.png" style="zoom:50%;"></p>
+<p>iso7层模型</p>
+<p>4层模型</p>
+<p><img src="/2017/08/03/Network/network1.png" alt=""></p>
+<p> 网络协议分为 四层，从底到上</p>
+<h4 id="物理层-铜线介质类"><a href="#物理层-铜线介质类" class="headerlink" title="物理层: 铜线介质类"></a>物理层: 铜线介质类</h4><ol>
+<li><p>数据链路层  ： 相邻两台机器间的连接，把数据报以帧的形式发送, 以太网协议</p>
+<p>  <img src="/2017/08/03/Network/Ethernet1.png" alt=""></p>
+<p>  <img src="/2017/08/03/Network/Ethernet2.png" alt=""></p>
+</li>
+</ol>
+<h4 id="网络层-：-通过ISP、路由-找到-运行在路由器上-rip协议-不太理解"><a href="#网络层-：-通过ISP、路由-找到-运行在路由器上-rip协议-不太理解" class="headerlink" title="网络层 ： 通过ISP、路由 找到 ,运行在路由器上 rip协议:不太理解"></a>网络层 ： 通过ISP、路由 找到 ,运行在路由器上 rip协议:不太理解</h4><h4 id="传输层-TCP-UDP"><a href="#传输层-TCP-UDP" class="headerlink" title="传输层  (TCP UDP)"></a>传输层  (TCP UDP)</h4><p>代码运行在用户机器上，为了对 网络层进行更好的控制 UDP(User Datagram Protocol)</p>
+<ol>
+<li><p>面向报文传输</p>
+</li>
+<li><p>没有拥塞控制,无法保证数据在网络中是否丢失</p>
+</li>
+<li><p>UDP首部开销小</p>
+<p>​     </p>
+</li>
+</ol>
+<p><img src="/2017/08/03/Network/udp_datagram.png" alt="传输层"></p>
+<p><img src="/2017/08/03/Network/udp1.png" alt="udp1"></p>
+<p>  TCP (Transmission Control Protocol)</p>
+<ol>
+<li>面向连接的协议</li>
+<li>提供可靠传输</li>
+<li>全双工通信</li>
+<li><p>面向字节流协议: 可能对用户数据合并或分拆进行传输</p>
+<p>   <img src="/2017/08/03/Network/tcp1.png" alt="tcp"></p>
+</li>
+</ol>
+<p>TCP首部 <img src="/2017/08/03/Network/tcp2.png" alt=""></p>
+<p> 序号</p>
+<p> tcp标记</p>
+<h5 id="如何保证TCP可靠传输"><a href="#如何保证TCP可靠传输" class="headerlink" title="如何保证TCP可靠传输?"></a>如何保证TCP可靠传输?</h5><ul>
+<li><p>停止等待协议</p>
+</li>
+<li><p>连续ARQ协议(Automatic Repeat request) :</p>
+<p>​        滑动窗口: 以字节为单位，实现流量控制 累计确认</p>
+<p>​        选择重传: 重传边界和范围</p>
+</li>
+<li><p>定时器</p>
+<p>超时定时器</p>
+<p>坚持定时器: 解决死锁局面,当收到窗口为0的消息，则启动坚持定时器,每隔一段时间发送一个窗口探测报文</p>
+<p>TCP协议的拥塞控制</p>
+<p> 报文超时即认为拥塞</p>
+<p>  慢启动算法</p>
+<p>   由小到大逐渐增加发送数据量,直到到达 “慢启动阈值”=&gt;开始 拥塞避免算法</p>
+<p> 拥塞避免算法</p>
+<p>   只要网络不拥塞，就试探拥塞窗口调大</p>
+</li>
+</ul>
+<h5 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手    "></a>TCP三次握手    <img src="/2017/08/03/Network/tcpblock.png" alt=""></h5><p> TCP标记</p>
+<p> <img src="/2017/08/03/Network/tcp3.png" alt="TCP"></p>
+<p>三次握手 </p>
+<p><img src="/2017/08/03/Network/tcp_handshake.png" alt="shake">  <strong>为什么要第三次握手?</strong></p>
+<p>只有两次握手的话，一旦第二次握手接收超时，重新发送后就会重新发送，会导致建立2个连接<img src="/2017/08/03/Network/tcp_handshake2.png" alt=""></p>
+<h5 id="TCP连接的4次挥手"><a href="#TCP连接的4次挥手" class="headerlink" title="TCP连接的4次挥手"></a>TCP连接的4次挥手<img src="/2017/08/03/Network/tcp_bye.png" alt="tcp4"></h5><ul>
+<li><p>等待计时器 : 2MSL(Max Segment liftime),</p>
+</li>
+<li><p><strong>为什么需要等待计时器?</strong>： 如果第4个挥手报文接收方没收到，那么接收方会重新发送第3次的挥手报文</p>
+</li>
+<li><p><strong>为什么第3次挥手是接收方发出的?</strong> :  我的理解是，第2次挥手是确认收到的回复，第三次是挥手是确认数据发送完毕，告诉发送方可以断开了,然而我又有了疑问?</p>
+</li>
+<li><p>为什么需要第4次挥手?</p>
+</li>
+</ul>
+<h4 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h4><h5 id="protocol"><a href="#protocol" class="headerlink" title="protocol"></a>protocol</h5><p>URI</p>
+<blockquote>
+<p><a href="ftp://ftp.is.co.za/rfc/rfc1808.txt" target="_blank" rel="noopener">ftp://ftp.is.co.za/rfc/rfc1808.txt</a> <a href="http://www.ietf.org/rfc/rfc2396.txt" target="_blank" rel="noopener">http://www.ietf.org/rfc/rfc2396.txt</a> </p>
+<p>ldap://[2001:db8::7]/c=GB?objectClass?one mailto:<a href="mailto:John.Doe@example.com" target="_blank" rel="noopener">John.Doe@example.com</a> </p>
+<p>news:comp.infosystems.<a href="http://www.servers.unix" target="_blank" rel="noopener">www.servers.unix</a> </p>
+<p>tel:+1-816-555-1212</p>
+<p>telnet://192.0.2.16:80/ urn:oasis:names:specification:docbook:dtd:xml:4.1.2</p>
+</blockquote>
+<h5 id="Http-HyperText-Transfer-Protocol-可靠的数据传输协议，基于TCP"><a href="#Http-HyperText-Transfer-Protocol-可靠的数据传输协议，基于TCP" class="headerlink" title="Http(HyperText Transfer Protocol) 可靠的数据传输协议，基于TCP"></a>Http(HyperText Transfer Protocol) 可靠的数据传输协议，基于TCP</h5><ol>
+<li><p>History</p>
+<p><a href="https://hpbn.co/brief-history-of-http/" target="_blank" rel="noopener">https://hpbn.co/brief-history-of-http/</a></p>
+<p><a href="https://www.w3.org/Protocols/History.html" target="_blank" rel="noopener">https://www.w3.org/Protocols/History.html</a></p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP</a></p>
+</li>
+</ol>
+<p>DNS</p>
+<h5 id="http1-1-http2-diffrence"><a href="#http1-1-http2-diffrence" class="headerlink" title="http1.1 http2 diffrence"></a>http1.1 http2 diffrence</h5><p> 复用连接有什么区别 <a href="https://juejin.cn/post/6844903489596833800" target="_blank" rel="noopener">https://juejin.cn/post/6844903489596833800</a></p>
+<p><a href="https://tools.ietf.org/html/rfc7230#section-6" target="_blank" rel="noopener">HTTP1.1</a></p>
+<p><a href="https://tools.ietf.org/html/rfc7540" target="_blank" rel="noopener">HTTP2</a>    </p>
+<p>ssl tls <a href="https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-HexoNEXT" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/01/HexoNEXT/">Hexo NEXT</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-01T06:03:52.000Z" itemprop="datePublished">2017年08月01日</time>
+</span>
+      
+      
+      
+<a href="/2017/08/01/HexoNEXT/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="hexo-next主题添加分类"><a href="#hexo-next主题添加分类" class="headerlink" title="hexo next主题添加分类"></a>hexo next主题添加分类</h1><p>只要在　博客头部加　categories: “BLOG”　　就会自动展示分类了，如果觉得每次添加麻烦的话，修改scaffolds/post.md　模板</p>
+<pre><code>title: {{ title }}
+date: {{ date }}
+tags:
+categories:
+comments: true
+</code></pre><p> 然后hexo n “yourblog”,就会有这些了，接下里就是在首页分类进行关联了</p>
+<h1 id="生成-分类（默认已有分类）"><a href="#生成-分类（默认已有分类）" class="headerlink" title="生成 分类（默认已有分类）"></a>生成 分类（默认已有分类）</h1><pre><code>hexo new page &quot;categories&quot;
+</code></pre><ol>
+<li>新建page: $ hexo new page “categories” ，在 hexo &gt; source 文件夹中会出现一个categories文件夹</li>
+<li>打开categories文件夹中的index.md页面，在头部添加 – type: “categories” （为了点击的时候链接生效）</li>
+<li>在hexo &gt; theme &gt; next &gt; _config.yml 中修改menu下的categorues,去掉前面井号注释。 然后就可以看到分类页面了</li>
+</ol>
+<p>参考：<a href="https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/" target="_blank" rel="noopener">https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/</a></p>
+<h1 id="next-添加头像"><a href="#next-添加头像" class="headerlink" title="next 添加头像"></a>next 添加头像</h1><ul>
+<li>新建uploads文件夹，放入图片</li>
+</ul>
+<ul>
+<li><p>找到themes/next 下的 -config.yml,修改如下图所示</p>
+<pre><code># Sidebar Avatar
+# in theme directory(source/images): /images/avatar.jpg
+# in site  directory(source/uploads): /uploads/avatar.jpg
+ avatar: /uploads/author.png
+</code></pre><p>参考：<a href="https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F</a></p>
+</li>
+</ul>
+<h1 id="添加浏览数"><a href="#添加浏览数" class="headerlink" title="添加浏览数"></a>添加浏览数</h1><p><a href="https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud" target="_blank" rel="noopener">https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BLOG/">BLOG</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-HexoConfigure" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -105,7 +757,7 @@
 <a href="/2017/08/01/HexoConfigure/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -234,8 +886,8 @@ deploy:
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -250,102 +902,7 @@ deploy:
 
           
     <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-HexoNEXT" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/08/01/HexoNEXT/">Hexo NEXT</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-08-01T06:03:52.000Z" itemprop="datePublished">2017年08月01日</time>
-</span>
-      
-      
-      
-<a href="/2017/08/01/HexoNEXT/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="hexo-next主题添加分类"><a href="#hexo-next主题添加分类" class="headerlink" title="hexo next主题添加分类"></a>hexo next主题添加分类</h1><p>只要在　博客头部加　categories: “BLOG”　　就会自动展示分类了，如果觉得每次添加麻烦的话，修改scaffolds/post.md　模板</p>
-<pre><code>title: {{ title }}
-date: {{ date }}
-tags:
-categories:
-comments: true
-</code></pre><p> 然后hexo n “yourblog”,就会有这些了，接下里就是在首页分类进行关联了</p>
-<h1 id="生成-分类（默认已有分类）"><a href="#生成-分类（默认已有分类）" class="headerlink" title="生成 分类（默认已有分类）"></a>生成 分类（默认已有分类）</h1><pre><code>hexo new page &quot;categories&quot;
-</code></pre><ol>
-<li>新建page: $ hexo new page “categories” ，在 hexo &gt; source 文件夹中会出现一个categories文件夹</li>
-<li>打开categories文件夹中的index.md页面，在头部添加 – type: “categories” （为了点击的时候链接生效）</li>
-<li>在hexo &gt; theme &gt; next &gt; _config.yml 中修改menu下的categorues,去掉前面井号注释。 然后就可以看到分类页面了</li>
-</ol>
-<p>参考：<a href="https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/" target="_blank" rel="noopener">https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/</a></p>
-<h1 id="next-添加头像"><a href="#next-添加头像" class="headerlink" title="next 添加头像"></a>next 添加头像</h1><ul>
-<li>新建uploads文件夹，放入图片</li>
-</ul>
-<ul>
-<li><p>找到themes/next 下的 -config.yml,修改如下图所示</p>
-<pre><code># Sidebar Avatar
-# in theme directory(source/images): /images/avatar.jpg
-# in site  directory(source/uploads): /uploads/avatar.jpg
- avatar: /uploads/author.png
-</code></pre><p>参考：<a href="https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F</a></p>
-</li>
-</ul>
-<h1 id="添加浏览数"><a href="#添加浏览数" class="headerlink" title="添加浏览数"></a>添加浏览数</h1><p><a href="https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud" target="_blank" rel="noopener">https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BLOG/">BLOG</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -391,7 +948,7 @@ comments: true
 <a href="/2017/07/31/ContentProvider/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -541,8 +1098,8 @@ comments: true
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -555,7 +1112,7 @@ comments: true
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -601,7 +1158,7 @@ comments: true
 <a href="/2017/07/23/EclipseIdeaWeb/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -625,8 +1182,8 @@ comments: true
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -639,7 +1196,7 @@ comments: true
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -685,7 +1242,7 @@ comments: true
 <a href="/2017/07/21/String/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -855,8 +1412,8 @@ System.out.println(g.equals(a+b));
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -869,7 +1426,7 @@ System.out.println(g.equals(a+b));
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -915,7 +1472,7 @@ System.out.println(g.equals(a+b));
 <a href="/2017/07/21/Glide/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -938,8 +1495,8 @@ System.out.println(g.equals(a+b));
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -952,620 +1509,7 @@ System.out.println(g.equals(a+b));
           
           
     <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-Gson" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/07/21/Gson/">Gson</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-07-21T01:12:15.000Z" itemprop="datePublished">2017年07月21日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2017/07/21/Gson/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h5 id="Gson-Types理解"><a href="#Gson-Types理解" class="headerlink" title="$Gson$Types理解"></a>$Gson$Types理解</h5><p> 官方教程 <a href="https://github.com/google/gson/blob/master/UserGuide.md" title="官方教程" target="_blank" rel="noopener">https://github.com/google/gson/blob/master/UserGuide.md</a></p>
-<p>源码分析<br><a href="http://www.jianshu.com/p/89c314ae8c0b" target="_blank" rel="noopener">http://www.jianshu.com/p/89c314ae8c0b</a></p>
-<h5 id="Gson转map"><a href="#Gson转map" class="headerlink" title="Gson转map"></a>Gson转map</h5><ul>
-<li>Gson可以直接把json转为map,但是在转成map时，默认將int long型的数字,转换成doublel类型</li>
-</ul>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String sms = <span class="string">"&#123;<span class="subst">\"</span>Code<span class="subst">\"</span>:200,<span class="subst">\"</span>Data<span class="subst">\"</span>:&#123;<span class="subst">\"</span>Code<span class="subst">\"</span>:<span class="subst">\"</span><span class="subst">\"</span>&#125;,<span class="subst">\"</span>Message<span class="subst">\"</span>:<span class="subst">\"</span>发送成功<span class="subst">\"</span>&#125;"</span>;</span><br><span class="line">Map&lt;String, Object&gt; map = new Gson().fromJson(sms, HashMap.class);</span><br></pre></td></tr></table></figure>
-<p>这里装成map后，Code值尾 200.0  ,解析方法　</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">          .registerTypeAdapter(<span class="keyword">new</span> TypeToken&lt;TreeMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt;&gt;() &#123;</span><br><span class="line">          &#125;.getType(), <span class="keyword">new</span> JsonDeserializer&lt;TreeMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt;&gt;() &#123;</span><br><span class="line"></span><br><span class="line">              <span class="meta">@Override</span></span><br><span class="line">              public TreeMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt; deserialize(JsonElement json, <span class="built_in">Type</span> typeOfT, JsonDeserializationContext context) throws JsonParseException &#123;</span><br><span class="line">                  TreeMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt; treeMap = <span class="keyword">new</span> TreeMap&lt;&gt;();</span><br><span class="line">                  JsonObject jsonObject = json.getAsJsonObject();</span><br><span class="line">                  <span class="built_in">Set</span>&lt;<span class="built_in">Map</span>.Entry&lt;<span class="built_in">String</span>, JsonElement&gt;&gt; entrySet = jsonObject.entrySet();</span><br><span class="line">                  <span class="keyword">for</span> (<span class="built_in">Map</span>.Entry&lt;<span class="built_in">String</span>, JsonElement&gt; entry : entrySet) &#123;</span><br><span class="line">                      treeMap.put(entry.getKey(), entry.getValue());</span><br><span class="line">                  &#125;</span><br><span class="line">                  <span class="keyword">return</span> treeMap;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;).create();</span><br></pre></td></tr></table></figure>
-<p><a href="http://blog.csdn.net/liangrui_cust/article/details/51197974" target="_blank" rel="noopener">参考</a> </p>
-<ul>
-<li><p>map to json(生成json数据)</p>
-<pre><code>HashMap&lt;String, Object&gt; map = new HashMap&lt;&gt;();
-map.put(&quot;key&quot;, &quot;real_name&quot;);
-map.put(&quot;value&quot;, userName);
-list.add(map);
-map = new HashMap&lt;&gt;();
-map.put(&quot;key&quot;, &quot;mobile_phone&quot;);
-map.put(&quot;value&quot;, userPhone);
-map.put(&quot;hidden&quot;, false);
-list.add(map);
-userInfo.data = new Gson().toJson(list);
-</code></pre></li>
-</ul>
-<ul>
-<li>kotlin  json to object</li>
-</ul>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val<span class="built_in"> type </span>= object : TypeToken&lt;BaseCount&lt;List&lt;Site&gt;&gt;&gt;() &#123;&#125;.type</span><br><span class="line">var response = gson.fromJson&lt;BaseCount&lt;List&lt;Site&gt;&gt;&gt;(json, type)</span><br></pre></td></tr></table></figure>
-<p><a href="https://ask.helplib.com/java/post_498433" target="_blank" rel="noopener">https://ask.helplib.com/java/post_498433</a></p>
-<h5 id="java-parse"><a href="#java-parse" class="headerlink" title="java parse"></a>java parse</h5><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;RecipeBean&gt; <span class="title">analysisChild</span>(<span class="params">String receps</span>) throws JSONException </span>&#123;</span><br><span class="line">        List&lt;RecipeBean&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="comment">//        JSONObject jsonObject = new JSONObject();</span></span><br><span class="line">        JSONArray jsonArray = <span class="keyword">new</span> JSONArray(receps);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; jsonArray.length(); i++) &#123;</span><br><span class="line">            JSONObject <span class="keyword">object</span> = jsonArray.getJSONObject(i);</span><br><span class="line">            RecipeBean mPatient = <span class="keyword">new</span> RecipeBean(TYPE_ITEM);</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"drug_name"</span>))&#123;</span><br><span class="line">                mPatient.setDrug_name(<span class="keyword">object</span>.getString(<span class="string">"drug_name"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"drug_num"</span>))&#123;</span><br><span class="line">               mPatient.setDrug_num(<span class="keyword">object</span>.getString(<span class="string">"drug_num"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"frequency"</span>))&#123;</span><br><span class="line">             mPatient.setFrequency(<span class="keyword">object</span>.getString(<span class="string">"frequency"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"num"</span>))&#123;</span><br><span class="line">               mPatient.setNum(<span class="keyword">object</span>.getString(<span class="string">"num"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"drug_num"</span>))&#123;</span><br><span class="line">               mPatient.setDrug_num(<span class="keyword">object</span>.getString(<span class="string">"drug_num"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"pharmacy_type"</span>))&#123;</span><br><span class="line">               mPatient.setPharmacy_type(<span class="keyword">object</span>.getString(<span class="string">"pharmacy_type"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"medicine_num"</span>))&#123;</span><br><span class="line">             mPatient.setMedicine_num(<span class="keyword">object</span>.getString(<span class="string">"medicine_num"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"medicine_unit"</span>))&#123;</span><br><span class="line">              mPatient.setMedicine_unit(<span class="keyword">object</span>.getString(<span class="string">"medicine_unit"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            list.<span class="keyword">add</span>(mPatient);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-linux" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/07/19/linux/">linux</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-07-19T07:03:07.000Z" itemprop="datePublished">2017年07月19日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/LINUX/">LINUX</a>
-  </div>
-
-      
-      
-<a href="/2017/07/19/linux/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h5 id="Linux使用"><a href="#Linux使用" class="headerlink" title="Linux使用"></a>Linux使用</h5><ol>
-<li>find  ： $ find . -name ‘my*’   搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文件。 <a href="http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html</a></li>
-</ol>
-<h5 id="ubuntu-wifi热点"><a href="#ubuntu-wifi热点" class="headerlink" title="ubuntu　wifi热点"></a>ubuntu　wifi热点</h5><p><a href="http://blog.csdn.net/sunmc1204953974/article/details/45740853" target="_blank" rel="noopener">http://blog.csdn.net/sunmc1204953974/article/details/45740853</a></p>
-<h5 id="删除build文件"><a href="#删除build文件" class="headerlink" title="删除build文件"></a>删除build文件</h5><p><code>find . -name &quot;build&quot;  | xargs rm -rf</code></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-ubuntu-mariaDb" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/07/18/ubuntu-mariaDb/">ubuntu-mariaDb</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-07-18T07:31:21.000Z" itemprop="datePublished">2017年07月18日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/LINUX/">LINUX</a>
-  </div>
-
-      
-      
-<a href="/2017/07/18/ubuntu-mariaDb/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="数据库常用用法"><a href="#数据库常用用法" class="headerlink" title="数据库常用用法"></a>数据库常用用法</h1><p>W3C教程 :   <a href="https://www.w3cschool.cn/mariadb/" target="_blank" rel="noopener">https://www.w3cschool.cn/mariadb/</a><br>1、创建/删除 数据库：CREATE  DATABASE  数据库名 / drop database 数据库名;<br>2、建表/删除表 ： h_id为主键   /DROP TABLE  table_name ;</p>
-<pre><code>MariaDB [person]&gt; CREATE TABLE home_recycler(
-  h_id INT NOT NULL AUTO_INCREMENT,
-  h_title VARCHAR(100) NOT NULL,
-  h_describe VARCHAR(100) NOT NULL,
-  h_imgurl VARCHAR(40) NOT NULL,
-  PRIMARY KEY(h_id)
- );
-Query OK, 0 rows affected (0.29 sec)
-</code></pre><p>3、 插入数据</p>
-<pre><code>MariaDB [person]&gt; INSERT INTO home_recycler(h_title,h_describable,h_imgurl) VALUES(&apos;1&apos;,&apos;D&apos;,&apos;m&apos;);
-</code></pre><p>   删除数据,删除全部表的数据就不需要条件了</p>
-<pre><code>DELETE FROM home_recycler WHERE product_id=133;
-</code></pre><p>注意：插入数据乱码： 在命令行也是插入数据也是中文乱码，解决方法<br>          <a href="https://my.oschina.net/u/1011130/blog/864540" target="_blank" rel="noopener">https://my.oschina.net/u/1011130/blog/864540</a><br>          重启数据库：<a href="http://www.cnblogs.com/anseey/archive/2013/04/28/3049785.html" target="_blank" rel="noopener">http://www.cnblogs.com/anseey/archive/2013/04/28/3049785.html</a></p>
-<h1 id="、-Ubuntu数据库安装"><a href="#、-Ubuntu数据库安装" class="headerlink" title="、  Ubuntu数据库安装"></a>、  Ubuntu数据库安装</h1><p>  更新系统</p>
-<pre><code>$ sudo apt update
-$ sudo apt upgrade
-</code></pre><p> 安装MariaDB：</p>
-<pre><code>$ sudo apt install mariadb-server
-</code></pre><p> 登陆MariaDB命令行</p>
-<pre><code>$ sudo mysql -u root -p
-</code></pre><p> 参考：<a href="http://blog.topspeedsnail.com/archives/6323" target="_blank" rel="noopener">http://blog.topspeedsnail.com/archives/6323</a><br>           <a href="https://linux.cn/article-6210-1.html" target="_blank" rel="noopener">https://linux.cn/article-6210-1.html</a></p>
-<hr>
-<h1 id="、-数据库操作"><a href="#、-数据库操作" class="headerlink" title="、  数据库操作"></a>、  数据库操作</h1><ol>
-<li>登录 ：mysql -u root -p  </li>
-</ol>
-<hr>
-<ol start="2">
-<li><p>数据库导出 导入</p>
-<pre><code>在网上查了下，导出命令 千遍一律 都是这样的 mysqldump -u username -p dbname &gt; filename.sql ，按照这个操作，语法错误，   在我的惯性思维中，觉得是命令行登录数据库后再导出，其实是不需要登录的，首先Win + r 输入cmd,进入命令行 输入 mysqldump，如果看到下面这个
-
-            C:\Users\Administrator&gt;mysqldump&apos;
-            mysqldump&apos; 不是内部或外部命令，也不是可运行的程序或批处理文件。
-</code></pre></li>
-</ol>
-<ul>
-<li><p>说明需要配置环境变量了，类似我的就需要 D:\install\Mariadb\bin；加入path路径后面<br>然后输入mysqldump ，</p>
-<pre><code>C:\Users\Administrator&gt;mysqldump
-Usage: mysqldump [OPTIONS] database [tables]
-OR     mysqldump [OPTIONS] --databases [OPTIONS] DB1 [DB2 DB3...]
-OR     mysqldump [OPTIONS] --all-databases [OPTIONS]
-For more options, use mysqldump --help 
-</code></pre></li>
-</ul>
-<ul>
-<li><p>然后主题来了</p>
-<pre><code>mysqldump -u root -p person &gt; &quot;C:\mysql.sql&quot;
-</code></pre><p>root是用户名 ， person是数据库，&gt;后面是存放位置 ，标准格式是这样的  mysqldump -u username -p dbname &gt; filename.sql</p>
-<pre><code>然后导入：mysql -u username -p dbname &lt; filename.sql
-
-但是我在vps导入后数据库为空
-</code></pre></li>
-</ul>
-<p>参考： <a href="https://www.youtube.com/watch?v=2hsOk0XcYC4" target="_blank" rel="noopener">https://www.youtube.com/watch?v=2hsOk0XcYC4</a><br>           <a href="https://john-dugan.com/dump-and-restore-mysql-databases-in-windows/" target="_blank" rel="noopener">https://john-dugan.com/dump-and-restore-mysql-databases-in-windows/</a><br> <a href="http://wqss.2008.blog.163.com/blog/static/912428082010102092548409/" target="_blank" rel="noopener">http://wqss.2008.blog.163.com/blog/static/912428082010102092548409/</a>    </p>
-<hr>
-<h1 id="MariaDB-配置远程访问"><a href="#MariaDB-配置远程访问" class="headerlink" title="MariaDB 配置远程访问"></a>MariaDB 配置远程访问</h1><pre><code>有时候在家也要整整这些玩意儿，代码可以用github同步，每次数据库数据还倒腾来倒腾去的 ，如果在vps直接访问就最好了
-</code></pre><ol>
-<li><p>找到默认配置文件 : 目的是要找到 my.cnf  ， 可以先 “ cd /“ ，到根目录下  ，输入下面命令</p>
-<pre><code>root@TrustingDevoted-VM:/# find -name &quot;my.cnf&quot;
-./etc/mysql/my.cnf
-</code></pre></li>
-</ol>
-<p>2.修改my.cnf， 找到【mysqld】 ” bind-address        = 127.0.0.1“ ，前面加个” # “就可以了， 教程说 “skip-networking”前面也需要修改，但是我这里没有就作罢了</p>
-<p>3 授予权限 ，这里授予的是183.129.133.0/24段的ip</p>
-<pre><code>GRANT ALL PRIVILEGES ON *.* TO &apos;root&apos;@&apos;183.129.133.%&apos; IDENTIFIED BY &apos;123456&apos; WITH GRANT OPTION;
-</code></pre><p> 4   给远程主机给予连接用户，查询已经存在的远程用户</p>
-<pre><code>SELECT User, Host FROM mysql.user WHERE Host &lt;&gt; &apos;localhost&apos;;
-
-     | User      | Host               |
-     +-----------+--------------------+
-     | user_name | %                  |
-     | root      | 127.0.0.1          |
-     | root      | 183.129.133.%      |
-     | root      | ::1                |
-     | root      | trustingdevoted-vm |
-     +-----------+--------------------+
-</code></pre><p> “user_name” 是给的所有用户授予的 ,”root  暂时不知道怎么删除，     | 183.129.133.%”是刚才添加的，然后 sudo reboot 重启下</p>
-<p>5   本地远程登录 </p>
-<pre><code>     mysql -h66.168.1.11 -uroot -p123456
-
-注意中间没有空格, -h 后面yourVpsIp ,-u后面 用户名， -p 后面密码
-</code></pre><p> 参考：<a href="https://mariadb.com/kb/zh-cn/configuring-mariadb-for-remote-client-access/" target="_blank" rel="noopener">https://mariadb.com/kb/zh-cn/configuring-mariadb-for-remote-client-access/</a><br>       <a href="http://blog.csdn.net/ithomer/article/details/6976148" target="_blank" rel="noopener">http://blog.csdn.net/ithomer/article/details/6976148</a><br>       <a href="http://www.jianshu.com/p/9c175e9293e2" target="_blank" rel="noopener">http://www.jianshu.com/p/9c175e9293e2</a></p>
-<h2 id="安装Navicat"><a href="#安装Navicat" class="headerlink" title="　安装Navicat"></a>　安装Navicat</h2><p><a href="https://www.jianshu.com/p/42a33b0dda9c" target="_blank" rel="noopener">https://www.jianshu.com/p/42a33b0dda9c</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-ubuntu_vr" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/07/18/ubuntu_vr/">ubuntu_vr</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-07-18T06:34:53.000Z" itemprop="datePublished">2017年07月18日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/LINUX/">LINUX</a>
-  </div>
-
-      
-      
-<a href="/2017/07/18/ubuntu_vr/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>  自从shadowsocks出来，我们的上网问题算是解决了，通过google查资料确实更便利</p>
-<h5 id="shadowsocks安装"><a href="#shadowsocks安装" class="headerlink" title="shadowsocks安装"></a>shadowsocks安装</h5><p>   对于新手 作者建议安装在ubuntu上，那就用他开始吧</p>
-<ul>
-<li><p>安装软件</p>
-<pre><code>sudo apt-get install python-pip
-pip install shadowsocks
-</code></pre><p>然而我遇到了这样的问题<br>Command “python setup.py egg_info” failed with error code 1 in /tmp/pip-build-Mlx8an/shadowsocks/<br>You are using pip version 8.1.1, however version 9.0.1 is available.<br>You should consider upgrading via the ‘pip install –upgrade pip’ command.<br>接着按照他的指示来</p>
-<p>pip install –upgrade pip</p>
-<p>然而又出问题了，这次是这个 Could not import setuptools which is required to install from a source distribution.<br>Please install setuptools.<br>这时候Google派上用场了，解决方案是 </p>
-</li>
-</ul>
-<pre><code>sudo pip install -U setuptools
-</code></pre><p>  参考：<a href="https://github.com/fredley/play-pi/issues/22" target="_blank" rel="noopener">https://github.com/fredley/play-pi/issues/22</a></p>
-<p>  然后执行 pip install shadowsocks ，终于OK，Collecting shadowsocks<br>  Using cached shadowsocks-2.8.2.tar.gz<br>Installing collected packages: shadowsocks<br>  Running setup.py install for shadowsocks … done<br>Successfully installed shadowsocks-2.8.2</p>
-<h5 id="前台运行"><a href="#前台运行" class="headerlink" title="前台运行"></a>前台运行</h5><p> 软件安装好了，现在可以配置了，先在前台跑下</p>
-<pre><code>ssserver -p 8388 -k 123456 -m aes-256-cfb
-</code></pre><p> 然后手机或电脑同样配置看下代理是否有用，Ok的话，新建一个文件替代命令</p>
-<pre><code>   vi  /etc/shadowsocks.json 
- {
- &quot;server&quot;:&quot;my_server_ip&quot;,
- &quot;server_port&quot;:8388,
- &quot;local_address&quot;: &quot;127.0.0.1&quot;,
- &quot;local_port&quot;:1080,
- &quot;password&quot;:&quot;123456&quot;,
- &quot;timeout&quot;:300,
- &quot;method&quot;:&quot;aes-256-cfb&quot;,
- &quot;fast_open&quot;: false
-}
-</code></pre><p>   前台执行 :   </p>
-<pre><code>ssserver -c /etc/shadowsocks.json
-</code></pre><p> 后台执行:<br>​<br>​        ssserver -c /etc/shadowsocks.json -d start<br>​        ssserver -c /etc/shadowsocks.json -d stop </p>
-<p>接着就可以愉快的玩耍了</p>
-<ul>
-<li>卸载shadowsocks</li>
-</ul>
-<p>　先停掉服务 <code>sudo ssserver -d stop</code><br>　然后　      <code>pip uninstall shadowsocks</code>
-　
-　</p>
-<hr>
-<h5 id="shadowsocks-libev安装"><a href="#shadowsocks-libev安装" class="headerlink" title="shadowsocks-libev安装"></a>shadowsocks-libev安装</h5><p>ubuntu 17</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt <span class="keyword">update</span></span><br><span class="line">sudo apt <span class="keyword">install</span> shadowsocks-libev</span><br></pre></td></tr></table></figure>
-<p>如果是其他版本可以看下面　参考<br>from :<a href="https://github.com/shadowsocks/shadowsocks-libev#install-from-repository" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks-libev#install-from-repository</a></p>
-<ol>
-<li>启动测试连接</li>
-</ol>
-<p>和shadowsocks启动类似 ssserver 换成了 ss-server</p>
-<ul>
-<li>启动测试 : <code>ss-server -s 0.0.0.0 -p 8388 -k 123456 -m aes-256-cfb</code>　　没有 <code>-d start</code><br>可能会占用端口</li>
-<li>配置文件启动<br>To run in the foreground: <code>ss-server -c /etc/shadowsocks-libev/config.json</code></li>
-<li>To run in the background:　<br>｀nohup ss-server -c /etc/shadowsocks-libev/config.json｀</li>
-<li>停止运行: <code>sudo ss-server -d stop</code></li>
-</ul>
-<ol start="2">
-<li>simple-obfs(混淆工具)安装</li>
-</ol>
-<p>Build<br>For Unix-like systems, especially Debian-based systems, e.g. Ubuntu, Debian or Linux Mint, you can build the binary like this:</p>
-<ul>
-<li><p>Debian / Ubuntu　环境配置<br><code>sudo apt-get install --no-install-recommends build-essential autoconf libtool libssl-dev libpcre3-dev libc-ares-dev libev-dev asciidoc xmlto automake</code></p>
-</li>
-<li><p>下载simple-obfs</p>
-<p>  //Debian / Ubuntu<br>  ​    sudo apt-get install –no-install-recommends build-essential autoconf libtool             libssl-dev libpcre3-dev libev-dev asciidoc xmlto automake<br>  ​            //CentOS / Fedora / RHEL<br>  ​        sudo yum install gcc autoconf libtool automake make zlib-devel openssl-devel asciidoc xmlto<br>  ​        // Arch<br>  ​    sudo pacman -Syu gcc autoconf libtool automake make zlib openssl asciidoc xmlto<br>  ​     //Alpine<br>  ​    apk add gcc autoconf make libtool automake zlib-devel openssl asciidoc xmlto libpcre32 libev-dev g++ linux-headers</p>
-<pre><code>git clone https://github.com/shadowsocks/simple-obfs.git
-cd simple-obfs
-git submodule update --init --recursive
-./autogen.sh
-./configure &amp;&amp; make
-sudo make install
-</code></pre></li>
-</ul>
-<p>​         </p>
-<h5 id="注意"><a href="#注意" class="headerlink" title="注意:"></a>注意:</h5><ol>
-<li>Question</li>
-</ol>
-<ul>
-<li><p>问题1<br><code>autoconf --version</code><br>需要安装 <code>sudo apt install autoconf</code></p>
-</li>
-<li><p>问题2</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">configure.<span class="symbol">ac:</span><span class="number">19</span>: <span class="symbol">error:</span> possibly undefined <span class="function"><span class="keyword">macro</span>: <span class="title">AC_DISABLE_STATIC</span></span></span><br><span class="line">      If this token and others are legitimate, please use m4_pattern_allow.</span><br><span class="line">      See the Autoconf documentation.</span><br><span class="line">configure.<span class="symbol">ac:</span><span class="number">20</span>: <span class="symbol">error:</span> possibly undefined <span class="function"><span class="keyword">macro</span>: <span class="title">AC_DISABLE_SHARED</span></span></span><br><span class="line">configure.<span class="symbol">ac:</span><span class="number">44</span>: <span class="symbol">error:</span> possibly undefined <span class="function"><span class="keyword">macro</span>: <span class="title">AC_PROG_LIBTOOL</span></span></span><br><span class="line"><span class="symbol">autoreconf:</span> /usr/bin/autoconf failed <span class="keyword">with</span> exit <span class="symbol">status:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><code>sudo apt-get install libtool</code></p>
-<ul>
-<li><p>问题3<br><code>sudo apt-get install automake</code><br><a href="http://ask.xmodulo.com/fix-failed-to-run-aclocal.html" target="_blank" rel="noopener">http://ask.xmodulo.com/fix-failed-to-run-aclocal.html</a></p>
-<p><img src="/2017/07/18/ubuntu_vr/shadowsocklib_autogen.png" alt="shadowsocklib_autogen"></p>
-</li>
-</ul>
-<ol start="2">
-<li>混淆</li>
-</ol>
-<ul>
-<li><p>server端: <code>ss-server -c  /etc/shadowsocks-libev/config.json  --plugin obfs-server --plugin-opts &quot;obfs=http&quot;</code></p>
-</li>
-<li><p>clinet 端:<code>ss-local -c config.json --plugin obfs-local --plugin-opts &quot;obfs=http;obfs-host=www.baidu.com&quot;</code><br>也可以都放在配置文件中</p>
-</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"server"</span>:<span class="string">"0.0.0.0"</span>,</span><br><span class="line">    <span class="attr">"server_port"</span>:your_server_port,</span><br><span class="line">    <span class="attr">"local_address"</span>:<span class="string">"127.0.0.1"</span>,</span><br><span class="line">    <span class="attr">"local_port"</span>:<span class="number">1080</span>,</span><br><span class="line">    <span class="attr">"password"</span>:<span class="string">"your_password"</span>,</span><br><span class="line">    <span class="attr">"timeout"</span>:<span class="number">300</span>,</span><br><span class="line">    <span class="attr">"method"</span>:<span class="string">"your_encryption_method"</span>,</span><br><span class="line">    <span class="attr">"plugin"</span>:<span class="string">"/usr/local/bin/obfs-server --obfs http"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那么服务端直接运行<code></code>ss-server -c /etc/shadowsocks-libev/config.json `就可以了</p>
-<p>后台运行就是前面的测试连接 nohup命令　</p>
-<p>from:<a href="https://teddysun.com/511.html" target="_blank" rel="noopener">https://teddysun.com/511.html</a></p>
-<ul>
-<li><p>参数: </p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">插件：obfs-<span class="built_in">local</span></span><br><span class="line">插件选项：obfs=<span class="keyword">http</span>;obfs-host=www.baidu.com</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>客户端连接<br>　client也按照 simple-obfs  服务端安装方式安装<br>　连接命令 <code>ss-local -c /etc/shadowsocks-libev/config.json --plugin obfs-local --plugin-opts &quot;obfs=http;obfs-host=www.biadu.com&quot;</code></p>
-</li>
-</ul>
-<p>参考:<a href="https://github.com/shadowsocks/simple-obfs" target="_blank" rel="noopener">https://github.com/shadowsocks/simple-obfs</a><br><a href="https://blog.phpgao.com/shadowsocks_on_linux.html" target="_blank" rel="noopener">https://blog.phpgao.com/shadowsocks_on_linux.html</a><br><a href="https://softwaredownload.gitbooks.io/openwrt-fanqiang/content/ebook/03.2.html" target="_blank" rel="noopener">https://softwaredownload.gitbooks.io/openwrt-fanqiang/content/ebook/03.2.html</a></p>
-<h5 id="配置ubuntu开机启动"><a href="#配置ubuntu开机启动" class="headerlink" title="配置ubuntu开机启动"></a>配置ubuntu开机启动</h5><ul>
-<li>home下　新建 run_server.sh<br>输入</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">cd</span> /home/jon/shadowsocksr/shadowsocks</span><br><span class="line">python local.py -c /etc/shadowsocks.json</span><br></pre></td></tr></table></figure>
-<ul>
-<li>修改脚本权限<br>一定要让脚本具备可执行权限，可以执行如下指令：<br><code>$ sudo chmod 755 run_server.sh</code></li>
-</ul>
-<ul>
-<li><p>将脚本放置在启动路径下<br>将run_server.sh移动到/etc/init.d路径下，可以直接拷贝，也可以链接过去<br><code>$ sudo cp run_server.sh /etc/init.d/</code></p>
-</li>
-<li><p>将脚本添加到启动脚本。<br>执行如下指令，在这里90表明一个优先级，越高表示执行的越晚</p>
-</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> /etc/init.d/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo update-rc.d run_server.sh defaults 90</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>如何移除该脚本<br>很简单，执行如下指令：<br><code>sudo update-rc.d -f run_server.sh remove</code></li>
-</ul>
-<p><a href="http://jackqdyulei.github.io/2016/03/06/linux-auto-script/" target="_blank" rel="noopener">http://jackqdyulei.github.io/2016/03/06/linux-auto-script/</a></p>
-<h5 id="设置系统全局代理"><a href="#设置系统全局代理" class="headerlink" title="设置系统全局代理"></a>设置系统全局代理</h5><p> <a href="https://blog.csdn.net/u012810317/article/details/52139361" target="_blank" rel="noopener">https://blog.csdn.net/u012810317/article/details/52139361</a></p>
-<ul>
-<li><p>terminal代理</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">export</span> <span class="attribute">http_proxy</span>=http://127.0.0.1:8118</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">https_proxy</span>=http://127.0.0.1:8118</span><br></pre></td></tr></table></figure>
-<p>或者</p>
-<p>git config –global http.proxy “localhost:1080”</p>
-<p>git config –global http.proxy “localhost:1080”</p>
-</li>
-</ul>
-<p>   git clone –recurse-submodules <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:shadowsocks/shadowsocks-android.git</p>
-<h5 id="修改包名"><a href="#修改包名" class="headerlink" title="修改包名"></a>修改包名</h5><ul>
-<li><p>把apk改成 shadowsocks.apk</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">![SS_20190DD](E:\noteforme<span class="selector-class">.github</span><span class="selector-class">.io</span>\source\_posts\ubuntu_ssr\SS_20190DD.png)java -jar apktool<span class="selector-class">.jar</span> d shadowsocks<span class="selector-class">.apk</span>      <span class="comment">//解包</span></span><br><span class="line">											<span class="comment">//中间做修改</span></span><br><span class="line">java -jar apktool<span class="selector-class">.jar</span> <span class="selector-tag">b</span> shadowsocks			<span class="comment">//打成apk再dist目录下</span></span><br><span class="line"></span><br><span class="line">jarsigner -verbose -keystore androidTest<span class="selector-class">.jks</span> -signedjar signed<span class="selector-class">.apk</span> AndroidTest<span class="selector-class">.apk</span> test  <span class="comment">//生成签名</span></span><br><span class="line"></span><br><span class="line">jarsigner -verbose -keystore androidTest<span class="selector-class">.jks</span> -signedjar signed<span class="selector-class">.apk</span> shadowsockstt<span class="selector-class">.apk</span> test</span><br></pre></td></tr></table></figure>
-<p><a href="https://blog.csdn.net/huaiyiheyuan/article/details/53114490" target="_blank" rel="noopener">https://blog.csdn.net/huaiyiheyuan/article/details/53114490</a></p>
-</li>
-</ul>
-<h5 id="windows全局代理"><a href="#windows全局代理" class="headerlink" title="windows全局代理"></a>windows全局代理</h5><p><a href="https://www.flyzy2005.com/fan-qiang/shadowsocks/proxifier-with-shadowsocks/" target="_blank" rel="noopener">https://www.flyzy2005.com/fan-qiang/shadowsocks/proxifier-with-shadowsocks/</a></p>
-<p><img src="/2017/07/18/ubuntu_vr/SS_20190DD.png" alt="SS_20190DD"></p>
-<h5 id="win7下使用"><a href="#win7下使用" class="headerlink" title="win7下使用"></a>win7下使用</h5><ol>
-<li>首先下载 Microsoft .NET Framework 4.6.2，但是win7系统不支持安装</li>
-<li>下载 <strong>需要升级为Windows 7 SP1</strong> 需要去官网下载 Windows 7 SP1</li>
-</ol>
-<h5 id="VR-INSTALL"><a href="#VR-INSTALL" class="headerlink" title="VR  INSTALL"></a>VR  INSTALL</h5><ul>
-<li>安装</li>
-</ul>
-<p><a href="https://toutyrater.github.io/prep/install.html" target="_blank" rel="noopener">https://toutyrater.github.io/prep/install.html</a></p>
-<ol>
-<li><p>Install</p>
-</li>
-<li><blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> wget https://install.direct/go.sh</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> sudo bash go.sh</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
-</blockquote>
-</li>
-<li><p>check</p>
-<blockquote>
-<p>cat /etc/v2ray/config.json</p>
-</blockquote>
-<p>you will see the config,I won’t be  change it</p>
-</li>
-<li><p>ff</p>
-<blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">$ sudo systemctl start v2ray</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>sudo: unable to resolve host vm8l</p>
-</li>
-<li><p>$ cat /etc/hostname</p>
-<p>vm8lcxg8.hostflyte.com</p>
-<p>or you  could use this<a href="https://github.com/233boy/v2ray/wiki/V2Ray%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B" target="_blank" rel="noopener">vr使用</a></p>
-</li>
-</ol>
-<ul>
-<li>macOS use</li>
-</ul>
-<blockquote>
-<p>proxy</p>
-</blockquote>
-<p>Github slowly</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global http<span class="selector-class">.proxy</span> socks5:<span class="comment">//127.0.0.1:1081</span></span><br><span class="line"></span><br><span class="line">git config --global https<span class="selector-class">.proxy</span> socks5:<span class="comment">//127.0.0.1:1081</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git<span class="built_in"> config </span>--global --unset http.proxy </span><br><span class="line">git<span class="built_in"> config </span>--global --unset https.proxy</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.jianshu.com/p/5e74b1042b70" target="_blank" rel="noopener">https://www.jianshu.com/p/5e74b1042b70</a></p>
-<p>GitHub 镜像 </p>
-<p><a href="https://github.com/Zenquan/quickgitclone" target="_blank" rel="noopener">https://github.com/Zenquan/quickgitclone</a></p>
-<p>git clone  <a href="https://github.com.cnpmjs.org/android/media-samples.git" target="_blank" rel="noopener">https://github.com.cnpmjs.org/android/media-samples.git</a></p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo dscacheutil -flushcache</span></span><br></pre></td></tr></table></figure>
-<p>Terminal</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> http_proxy=<span class="string">"http://127.0.0.1:1081"</span></span><br><span class="line"><span class="keyword">export</span> https_proxy=<span class="string">"http://127.0.0.1:1081"</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>google 搭建vr</p>
-<p>查看网络详情 -》防火墙</p>
-<p>按照这个教程 <a href="https://zelikk.blogspot.com/2019/01/gcp-v2ray-firewall.html" target="_blank" rel="noopener">https://zelikk.blogspot.com/2019/01/gcp-v2ray-firewall.html</a></p>
-<p>网络标记就选了全部实例</p>
-<p><img src="/2017/07/18/ubuntu_vr/veray_go_engile_1.png" alt="veray_go_engile_1" style="zoom:67%;"></p>
-</li>
-</ul>
-<pre><code>注意复制的端口号 带上了逗号
-</code></pre><p>​    root身份运行    </p>
-<p>-bash: sudo: command not found</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dpkg -l|grep sudo</span><br><span class="line">apt-<span class="builtin-name">get</span> install sudo</span><br><span class="line">sudo apt-<span class="builtin-name">get</span> install wget</span><br></pre></td></tr></table></figure>
-<p>root运行</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo -i</span></span><br></pre></td></tr></table></figure>
-<p>安装</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http<span class="variable">s:</span>//install.direct/<span class="keyword">go</span>.<span class="keyword">sh</span></span><br><span class="line">sudo bash <span class="keyword">go</span>.<span class="keyword">sh</span></span><br><span class="line">sudo systemctl start v2ray</span><br></pre></td></tr></table></figure>
-<p>设置mac终端走ssr或者是v2ray代理</p>
-<p><a href="http://www.xiaosuiyin.com/2020/02/15/设置mac终端走ssr或者是v2ray代理/" target="_blank" rel="noopener">http://www.xiaosuiyin.com/2020/02/15/%E8%AE%BE%E7%BD%AEmac%E7%BB%88%E7%AB%AF%E8%B5%B0ssr%E6%88%96%E8%80%85%E6%98%AFv2ray%E4%BB%A3%E7%90%86/</a></p>
-<p><a href="https://github.com/233boy/v2ray/wiki/V2Ray%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B" target="_blank" rel="noopener">https://github.com/233boy/v2ray/wiki/V2Ray%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B</a></p>
-<p><a href="https://github.com/v2fly/fhs-install-v2ray/blob/master/README.zh-Hans-CN.md" target="_blank" rel="noopener">https://github.com/v2fly/fhs-install-v2ray/blob/master/README.zh-Hans-CN.md</a></p>
-<p>注意配置  tcp端口</p>
-<p><a href="https://by.affpass.com/go/jms" target="_blank" rel="noopener">https://justmysocks3.net</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1582,7 +1526,7 @@ sudo make install
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/14/">Vorheriger</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/16/">Nächster</a>
+<a class="extend prev" rel="prev" href="/page/14/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/16/">Next</a>
 </nav>
 
 
@@ -1592,28 +1536,28 @@ sudo make install
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
     <div class="widget">
       <ul>
         
           <li>
+            <a href="/2021/06/17/kmp/">kmp</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/21/Assembly/">Assembly</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/18/OS-LAB/">OS_LAB</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/19/Data-LinkedList/">Data_LinkedList</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/21/Data-Sort/">Data_Sort</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/12/INTERVIEW-practice/">INTERVIEW-practice</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/08/Concurrency-SychronizedVolatile/">Concurrency_SychronizedVolatile</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/26/Concurrency-thread/">Concurrency_thread</a>
           </li>
         
       </ul>
@@ -1626,16 +1570,16 @@ sudo make install
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOSP/" style="font-size: 15px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/BLOG/" style="font-size: 12.5px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 12.5px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/JVM/" style="font-size: 20px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 17.5px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 17.5px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 15px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 15px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 17.5px;">concurrency</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/resume/" style="font-size: 12.5px;">resume</a>
+      <a href="/tags/AOSP/" style="font-size: 17.5px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 12.5px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 12.5px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/JVM/" style="font-size: 20px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 17.5px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 17.5px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 15px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 15px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 17.5px;">concurrency</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/AOSP/">AOSP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/INTERVIEW/">INTERVIEW</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/INTERVIEW/">INTERVIEW</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1643,9 +1587,9 @@ sudo make install
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年08月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年07月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年04月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年01月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年11月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年09月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年07月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年07月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年06月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年04月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年11月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年10月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年09月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年08月</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年07月</a><span class="archive-list-count">11</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年05月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年01月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年08月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年07月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年04月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年01月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年11月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年09月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年07月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年01月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年07月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年06月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年04月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年11月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年10月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年09月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年08月</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年07月</a><span class="archive-list-count">11</span></li></ul>
     </div>
   </div>
 
@@ -1655,7 +1599,7 @@ sudo make install
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/">AOSP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/">BLOG</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/">AOSP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/">BLOG</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1694,9 +1638,9 @@ sudo make install
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Sitemap</a>
-        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
-        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
       </p>
       
         <p>

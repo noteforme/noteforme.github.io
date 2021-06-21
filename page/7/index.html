@@ -45,11 +45,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -57,7 +57,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -78,6 +78,345 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-RxJava02" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/09/19/RxJava02/">RxJava02</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2019-09-19T03:50:24.000Z" itemprop="datePublished">2019年09月19日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2019/09/19/RxJava02/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>操作符</strong></p>
+<ul>
+<li><p>retryWhen</p>
+<p><code>retryWhen</code>是收到<code>onError</code>后触发是否要重订阅的询问，而<code>repeatWhen</code>是通过<code>onComplete</code>触发。</p>
+</li>
+</ul>
+<p><a href="https://blog.csdn.net/qq_35599978/article/details/80290252" target="_blank" rel="noopener">https://blog.csdn.net/qq_35599978/article/details/80290252</a></p>
+<p><a href="https://www.jianshu.com/p/d135f19e045c" target="_blank" rel="noopener">https://www.jianshu.com/p/d135f19e045c</a></p>
+<h5 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h5><p>专用于合并事件，该合并不是连接（连接操作符后面会说），而是两两配对，也就意味着，最终配对出的 <code>Observable</code> 发射事件数目只和少的那个相同。</p>
+<h5 id="concat"><a href="#concat" class="headerlink" title="concat"></a><code>concat</code></h5><p>单一的把两个发射器连接成一个发射器</p>
+<h5 id="FlatMap"><a href="#FlatMap" class="headerlink" title="FlatMap"></a><code>FlatMap</code></h5><p>它可以把一个发射器 <code>Observable</code> 通过某种方法转换为多个 <code>Observables</code>,<code>flatMap</code> 并不能保证事件的顺序</p>
+<p>如果需要保证，需要用到我们下面要讲的 <code>ConcatMap</code></p>
+<h5 id="ConcatMap"><a href="#ConcatMap" class="headerlink" title="ConcatMap"></a>ConcatMap</h5><h5 id="doOnNext"><a href="#doOnNext" class="headerlink" title="doOnNext"></a>doOnNext</h5><p>让订阅者在接收到数据之前可以做其他事情,获取到数据之前想先保存一下它</p>
+<h5 id="skip"><a href="#skip" class="headerlink" title="skip"></a>skip</h5><p> skip(2)  跳过count个数开始接收</p>
+<h5 id="take"><a href="#take" class="headerlink" title="take"></a>take</h5><p>最多接收count个数据</p>
+<h5 id="just"><a href="#just" class="headerlink" title="just"></a>just</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable.just(<span class="string">"1"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>)</span><br></pre></td></tr></table></figure>
+<p>简单的发射器依次调用 <code>onNext()</code> 方法</p>
+<h5 id="Single"><a href="#Single" class="headerlink" title="Single"></a>Single</h5><p><code>Single</code> 只会接收一个参数，而 <code>SingleObserver</code> 只会调用 <code>onError()</code> 或者 <code>onSuccess()</code></p>
+<h5 id="distinct"><a href="#distinct" class="headerlink" title="distinct"></a>distinct</h5><p>去重操作符，简单的作用就是去重</p>
+<h5 id="debounce"><a href="#debounce" class="headerlink" title="debounce"></a>debounce</h5><h5 id="defer"><a href="#defer" class="headerlink" title="defer"></a>defer</h5><p>每次订阅都会创建一个新的 <code>Observable</code>，并且如果没有被订阅，就不会产生新的</p>
+<h5 id="last"><a href="#last" class="headerlink" title="last"></a>last</h5><p>操作符仅取出可观察到的最后一个值</p>
+<h5 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h5><h5 id="window"><a href="#window" class="headerlink" title="window"></a>window</h5><p>按照实际划分窗口，将数据发送给不同的 <code>Observable</code></p>
+<h5 id="empty-amp-never-amp-error"><a href="#empty-amp-never-amp-error" class="headerlink" title="empty() &amp; never() &amp; error()"></a>empty() &amp; never() &amp; error()</h5><blockquote>
+<ol>
+<li>empty() ： 直接发送 onComplete() 事件</li>
+<li>never()：不发送任何事件</li>
+<li>error()：发送 onError() 事件</li>
+</ol>
+</blockquote>
+<p><a href="https://www.jianshu.com/p/c08bfc58f4b6" target="_blank" rel="noopener">https://www.jianshu.com/p/c08bfc58f4b6</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava/">RxJava</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-ThreadStop" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/08/30/ThreadStop/">ThreadStop</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2019-08-30T02:00:40.000Z" itemprop="datePublished">2019年08月30日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+      
+      
+<a href="/2019/08/30/ThreadStop/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a href="https://segmentfault.com/a/1190000007961347" target="_blank" rel="noopener">https://segmentfault.com/a/1190000007961347</a></p>
+<p><a href="https://www.cnblogs.com/xingele0917/p/3994468.html" target="_blank" rel="noopener">https://www.cnblogs.com/xingele0917/p/3994468.html</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-GreenDao" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/08/12/GreenDao/">GreenDao</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2019-08-12T09:42:58.000Z" itemprop="datePublished">2019年08月12日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2019/08/12/GreenDao/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h4><h5 id="数据库定义"><a href="#数据库定义" class="headerlink" title="数据库定义"></a>数据库定义</h5><ul>
+<li>Bean</li>
+</ul>
+<blockquote>
+<p> schema：告知GreenDao当前实体属于哪个schema<br> active：标记一个实体处于活跃状态，活动实体有更新、删除和刷新方法<br> nameInDb：在数据库中使用的别名，默认使用的是实体的类名<br> indexes：定义索引，可以跨越多个列<br> createInDb：标记创建数据库表</p>
+</blockquote>
+<ul>
+<li><p>基础属性注解</p>
+<blockquote>
+<p>@Id：主键 Long 型，可以通过@Id(autoincrement = true)设置自增长<br>@Property：设置一个非默认关系映射所对应的列名，默认是使用字段名，例如：@Property(nameInDb = “name”)<br>@NotNull：设置数据库表当前列不能为空<br>@Transient：添加此标记后不会生成数据库表的列</p>
+</blockquote>
+</li>
+<li><p>索引注解</p>
+</li>
+</ul>
+<blockquote>
+<p>@Index：使用@Index作为一个属性来创建一个索引，通过name设置索引别名，也可以通过unique给索引添加约束<br>@Unique：向数据库添加了一个唯一的约束</p>
+</blockquote>
+<ul>
+<li><p>关系注解</p>
+<blockquote>
+<p>@ToOne：定义与另一个实体（一个实体对象）的关系<br>@ToMany：定义与多个实体对象的关系</p>
+</blockquote>
+</li>
+</ul>
+<p><a href="https://blog.csdn.net/speedystone/article/details/72769793" target="_blank" rel="noopener">https://blog.csdn.net/speedystone/article/details/72769793</a></p>
+<h5 id="Convert-自定义类型"><a href="#Convert-自定义类型" class="headerlink" title="@Convert 自定义类型"></a>@Convert 自定义类型</h5><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> @<span class="keyword">interface</span> Convert &#123;</span><br><span class="line">    <span class="keyword">Class</span>&lt;? <span class="keyword">extends</span> PropertyConverter&gt; converter();</span><br><span class="line">    <span class="keyword">Class</span> columnType(); <span class="comment">//可以在DB中保留的列的类。这仅限于greenDAO原生支持的所有java类。</span></span><br><span class="line">&#125;</span><br><span class="line">@Convert(converter = NoteTypeConverter.<span class="keyword">class</span>, columnType = String.<span class="keyword">class</span>) <span class="comment">//类型转换类，自定义的类型在数据库中存储的类型</span></span><br><span class="line"><span class="keyword">private</span> NoteType type; <span class="comment">//在保存到数据库时会将自定义的类型 NoteType 通过 NoteTypeConverter 转换为数据库支持的 String 类型。反之亦然</span></span><br></pre></td></tr></table></figure>
+<h5 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h5><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> Student &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span>(autoincrement = <span class="literal">true</span>)  <span class="comment">// id  递增</span></span><br><span class="line">            Long id;</span><br><span class="line">    <span class="meta">@Unique</span></span><br><span class="line">    <span class="keyword">public</span> int studentNo;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> int age; <span class="comment">//年龄</span></span><br><span class="line">    <span class="meta">@Property</span>(nameInDb = <span class="string">"usePhone"</span>) <span class="comment">//数据库中映射的字段就是 usePhone</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">String</span> telPhone;<span class="comment">//手机号</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transient</span>  <span class="comment">//数据库中不会创建对应的字段</span></span><br><span class="line">            <span class="built_in">String</span> sex; <span class="comment">//性别</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">String</span> name;<span class="comment">//姓名</span></span><br><span class="line">    <span class="built_in">String</span> address;<span class="comment">//家庭住址</span></span><br><span class="line">    <span class="built_in">String</span> schoolName;<span class="comment">//学校名字</span></span><br><span class="line">    <span class="built_in">String</span> grade;<span class="comment">//几年级</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">boolean</span> statue;</span><br></pre></td></tr></table></figure>
+<h6 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h6><ul>
+<li><p>insertData</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">for (<span class="name">int</span> i = <span class="number">0</span><span class="comment">; i &lt; 4; i++) &#123;</span></span><br><span class="line">    Student student = new Student()<span class="comment">;</span></span><br><span class="line">    student.setStudentNo(<span class="name">i</span>)<span class="comment">;</span></span><br><span class="line">    student.age = new Random().nextInt() + <span class="number">10</span><span class="comment">;</span></span><br><span class="line">    student.telPhone = RandomValue.getTel()<span class="comment">;</span></span><br><span class="line">    student.setName(<span class="name">RandomValue</span>.getChineseName())<span class="comment">;</span></span><br><span class="line">    if (<span class="name">i</span> % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">        student.setSex(<span class="string">"男"</span>)<span class="comment">;</span></span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        student.setSex(<span class="string">"女"</span>)<span class="comment">;</span></span><br><span class="line">    &#125;</span><br><span class="line">    if (<span class="name">i</span> == <span class="number">0</span>) &#123;</span><br><span class="line">        student.setStatue(<span class="name">true</span>)<span class="comment">;</span></span><br><span class="line">    &#125;</span><br><span class="line">    student.setAddress(<span class="name">RandomValue</span>.getRoad())<span class="comment">;</span></span><br><span class="line">    student.setSchoolName(<span class="name">RandomValue</span>.getSchoolName())<span class="comment">;</span></span><br><span class="line">    long dsoi = studaoImpl.insert(<span class="name">student</span>)<span class="comment">;</span></span><br><span class="line">    Timber.i(<span class="string">"insertData "</span> + dsoi)<span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>insertOrReplace</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Student student = new Student()<span class="comment">;</span></span><br><span class="line">student.setStudentNo(<span class="number">1</span>)<span class="comment">;</span></span><br><span class="line">student.setName(<span class="string">"我改名了"</span>)<span class="comment">;</span></span><br><span class="line">long df = studaoImpl.insertOrReplace(student)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>updateData</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Student student = new Student()<span class="comment">;</span></span><br><span class="line">student.setStudentNo(<span class="number">1</span>)<span class="comment">;</span></span><br><span class="line">student.setName(<span class="string">"我改名了"</span>)<span class="comment">;</span></span><br><span class="line">studaoImpl.update(student)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>delete</p>
+<figure class="highlight pony"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Student</span> student = <span class="function"><span class="keyword">new</span> <span class="title">Student</span>();</span></span><br><span class="line"><span class="function"><span class="title">student</span>.<span class="title">setId</span>(<span class="number">1</span>l);</span></span><br><span class="line"><span class="function"><span class="title">studaoImpl</span>.<span class="title">delete</span>(student);</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>deleteAll</p>
+</li>
+</ul>
+<p>​     <code>studaoImpl.deleteAll();</code></p>
+<h6 id="query"><a href="#query" class="headerlink" title="query"></a>query</h6><ul>
+<li>QueryAll</li>
+</ul>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List<span class="variable">&lt;Student&gt;</span> dd = studaoImpl.<span class="built_in">load</span>All();</span><br><span class="line">studaoImpl.<span class="built_in">load</span>All().<span class="keyword">for</span>Each(current-&gt;Timber.i(current.<span class="keyword">to</span>String())); // print student</span><br></pre></td></tr></table></figure>
+<ul>
+<li>QueryLastState</li>
+</ul>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">List</span>&lt;Student&gt; sList = studaoImpl.queryBuilder().limit(<span class="number">1</span>).<span class="keyword">where</span>(StudentDao.Properties.Statue.<span class="literal">eq</span>(<span class="literal">false</span>)).<span class="built_in">list</span>();</span><br><span class="line">Timber.i(sList.toString());</span><br><span class="line">Student student = sList.get(<span class="number">0</span>);</span><br><span class="line">student.setStatue(<span class="literal">true</span>);</span><br><span class="line">studaoImpl.update(student);</span><br><span class="line">sList = studaoImpl.queryBuilder().limit(<span class="number">1</span>).<span class="keyword">where</span>(StudentDao.Properties.Statue.<span class="literal">eq</span>(<span class="literal">false</span>)).<span class="built_in">list</span>();</span><br></pre></td></tr></table></figure>
+<h5 id="oneToOne"><a href="#oneToOne" class="headerlink" title="oneToOne"></a>oneToOne</h5><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> &#123;</span></span><br><span class="line">    <span class="meta">@Id</span>(autoincrement = <span class="literal">true</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> pid;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CreditCard</span> &#123;</span></span><br><span class="line">    <span class="meta">@Id</span>(autoincrement = <span class="literal">true</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> cid;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> pid;</span><br><span class="line">    <span class="comment">//idcard和person是一对一关系，外键为personId</span></span><br><span class="line">    <span class="meta">@ToOne</span>(joinProperty = <span class="string">"pid"</span>)</span><br><span class="line">    <span class="keyword">private</span> Person person;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h6 id="insert-1"><a href="#insert-1" class="headerlink" title="insert"></a>insert</h6><figure class="highlight pony"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Long</span> pid = <span class="number">6</span>L;<span class="comment">//personId</span></span><br><span class="line"></span><br><span class="line"><span class="type">Person</span> p = <span class="function"><span class="keyword">new</span> <span class="title">Person</span>(pid, "xiaoMing", <span class="number">18</span>);</span></span><br><span class="line"><span class="function"><span class="title">mPersonDao</span>.<span class="title">insert</span>(p);</span></span><br><span class="line"><span class="function"><span class="title">Long</span> <span class="title">cid</span> = 2<span class="title">L</span>;<span class="comment">//idcardid;</span></span></span><br><span class="line"><span class="function"><span class="title">CreditCard</span> <span class="title">c</span> = <span class="title">new</span> <span class="title">CreditCard</span>(cid, <span class="number">100</span>); <span class="comment">//这个写了100（无论写什么）,实际还是6,关联了personId</span></span></span><br><span class="line"><span class="function"><span class="title">c</span>.<span class="title">setPerson</span>(p);</span></span><br><span class="line"><span class="function"><span class="title">mCreditCardDao</span>.<span class="title">insert</span>(c);</span></span><br></pre></td></tr></table></figure>
+<h6 id="query-1"><a href="#query-1" class="headerlink" title="query"></a>query</h6><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">List&lt;CreditCard&gt; list = mCreditCardDao.loadAll();</span><br><span class="line">CreditCard card = list.<span class="keyword">get</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span> (card != <span class="literal">null</span>) &#123;</span><br><span class="line">    Timber.i(<span class="string">"CardInfo  cardid----------&gt;"</span> + card.getCid() + <span class="string">"  personid----------&gt;"</span> + card.getPid());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">switch</span> (position) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">        selectPersonInfoByCard(card);<span class="comment">//根据idcard获取person</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">selectPersonInfoByCard</span>(<span class="params">CreditCard card</span>) </span>&#123;</span><br><span class="line">        Person person = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (card != <span class="literal">null</span>) &#123;</span><br><span class="line">            person = card.getPerson();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (person != <span class="literal">null</span>) &#123;</span><br><span class="line">            Timber.i(<span class="string">"PersonByCard   personId   + ----------&gt; "</span> + person.getPid() + <span class="string">"  name----------&gt;   "</span> + person.getName() + <span class="string">"    age----------&gt;"</span> + person.getAge());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Timber.i(<span class="string">"----获取person信息失败------"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://juejin.im/post/5a30f79c6fb9a045031014fd" target="_blank" rel="noopener">https://juejin.im/post/5a30f79c6fb9a045031014fd</a></p>
+<p><a href="https://blog.csdn.net/qq_34358104/article/details/69833909" target="_blank" rel="noopener">https://blog.csdn.net/qq_34358104/article/details/69833909</a></p>
+<h5 id="OneToMany"><a href="#OneToMany" class="headerlink" title="OneToMany"></a>OneToMany</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MStudent</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id(autoincrement = true)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> sid;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> tid;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MTecher</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id(autoincrement = true)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> tid;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//一对多关系，tid为Student表的外键</span></span><br><span class="line">    <span class="meta">@ToMany(referencedJoinProperty = <span class="meta-string">"tid"</span>)</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;MStudent&gt; students;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="insert-2"><a href="#insert-2" class="headerlink" title="insert"></a>insert</h6><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 添加Student信息</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   private void <span class="keyword">insertStudent() </span>&#123;</span><br><span class="line">       try &#123;</span><br><span class="line">           Long sid = <span class="number">1</span>L<span class="comment">;</span></span><br><span class="line">           for (int i = <span class="number">0</span><span class="comment">; i &lt; 5; i++) &#123;</span></span><br><span class="line">               MStudent s = new MStudent(sid, <span class="string">"xiaoMing--&gt;"</span> + i, tid)<span class="comment">;</span></span><br><span class="line">               mStudentDao.<span class="keyword">insert(s);</span></span><br><span class="line"><span class="keyword"> </span>              sid++<span class="comment">;</span></span><br><span class="line">           &#125;</span><br><span class="line">           Log.i(<span class="string">"tag"</span>, <span class="string">"学生信息添加成功"</span>)<span class="comment">;</span></span><br><span class="line">       &#125; catch (Exception e) &#123;</span><br><span class="line">           e.printStackTrace()<span class="comment">;</span></span><br><span class="line">           Log.i(<span class="string">"tag"</span>, <span class="string">"学生信息添加失败"</span>)<span class="comment">;</span></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">     <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 添加Teacher信息</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   private void <span class="keyword">insertTeacher() </span>&#123;</span><br><span class="line">       try &#123;</span><br><span class="line">           String name = <span class="string">"Miss zhang"</span><span class="comment">;</span></span><br><span class="line">           MTecher mTecher = new MTecher(tid, name)<span class="comment">;</span></span><br><span class="line">           mTecherDao.<span class="keyword">insert(mTecher);</span></span><br><span class="line"><span class="keyword"> </span>          Log.i(<span class="string">"tag"</span>,<span class="string">"教师信息添加成功"</span>)<span class="comment">;</span></span><br><span class="line">       &#125; catch (Exception e) &#123;</span><br><span class="line">           e.printStackTrace()<span class="comment">;</span></span><br><span class="line">           Log.i(<span class="string">"tag"</span>,<span class="string">"教师信息添加失败"</span>)<span class="comment">;</span></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h6 id="query-2"><a href="#query-2" class="headerlink" title="query"></a>query</h6><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">private void selectTeacher() &#123;</span><br><span class="line">    MTecher t = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        t = mTecherDao.loadByRowId(tid);</span><br><span class="line">        <span class="keyword">if</span> (t != null)&#123;</span><br><span class="line">            <span class="keyword">Log</span>.<span class="built_in">i</span>(<span class="string">"tag"</span>,<span class="string">"查询教师信息----&gt;成功"</span>);</span><br><span class="line">            <span class="keyword">Log</span>.<span class="built_in">i</span>(<span class="string">"tag"</span>,<span class="string">"tid---&gt;"</span>+t.getTid());</span><br><span class="line">            <span class="keyword">Log</span>.<span class="built_in">i</span>(<span class="string">"tag"</span>,<span class="string">"teacher's name-----&gt;"</span>+t.getName());</span><br><span class="line">            selectStudentByTeacher(t);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">Log</span>.<span class="built_in">i</span>(<span class="string">"tag"</span>,<span class="string">"查询表中没有该教师信息"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception <span class="keyword">e</span>) &#123;</span><br><span class="line">        <span class="keyword">e</span>.printStackTrace();</span><br><span class="line">        <span class="keyword">Log</span>.<span class="built_in">i</span>(<span class="string">"tag"</span>,<span class="string">"查询教师信息----&gt;失败"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据获取得到的Teacher获取其名下的学生信息</span></span><br><span class="line"><span class="comment">     * @param t</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    private void selectStudentByTeacher(MTecher t) &#123;</span><br><span class="line">        <span class="keyword">List</span>&lt;MStudent&gt; <span class="keyword">list</span> = t.getStudents();</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">list</span> != null &amp;&amp; <span class="keyword">list</span>.size() &gt; 0)&#123;</span><br><span class="line">            <span class="keyword">for</span> (MStudent mStudent : <span class="keyword">list</span>) &#123;</span><br><span class="line">                <span class="keyword">Log</span>.<span class="built_in">i</span>(<span class="string">"tag"</span>,<span class="string">"sid---------&gt;  "</span>+mStudent.getSid() +<span class="string">"    tid---------&gt;"</span>+mStudent.getTid()+<span class="string">"  name--------&gt;"</span>+mStudent.getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">Log</span>.<span class="built_in">i</span>(<span class="string">"tag"</span>,<span class="string">"--------获取学生信息失败--------"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="ManyToMany"><a href="#ManyToMany" class="headerlink" title="ManyToMany"></a>ManyToMany</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NTeacher</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id(autoincrement = true)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> tid;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="meta">@ToMany</span></span><br><span class="line">    <span class="meta">@JoinEntity(entity = TandSRelative.class, sourceProperty = <span class="meta-string">"tid"</span>, targetProperty = <span class="meta-string">"sid"</span>)</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;TandSRelative&gt; list;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NStudent</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id(autoincrement = true)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> sid;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ToMany</span></span><br><span class="line">    <span class="meta">@JoinEntity(entity = TandSRelative.class,sourceProperty = <span class="meta-string">"sid"</span>,targetProperty = <span class="meta-string">"tid"</span>)</span></span><br><span class="line">    List&lt;NTeacher&gt; teacherList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TandSRelative</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id(autoincrement = true)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> tsid;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> tid;<span class="comment">//teacher的id</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> sid;<span class="comment">//student的id</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="insert-3"><a href="#insert-3" class="headerlink" title="insert"></a>insert</h6><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">//2个教师和3个学生的关系</span></span><br><span class="line"><span class="comment">//教师1，带学生1、2</span></span><br><span class="line"><span class="comment">//教师2，带学生1、3</span></span><br><span class="line"><span class="comment">//学生1，选修教师1和教师2的课</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addTeacherStu</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        List&lt;NTeacher&gt; teacherList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">long</span> i = <span class="number">1</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">            NTeacher teacherBean = <span class="keyword">new</span> NTeacher();</span><br><span class="line">            teacherBean.setTid(i);</span><br><span class="line">            teacherList.<span class="keyword">add</span>(teacherBean);</span><br><span class="line">        &#125;</span><br><span class="line">        daoSession.getNTeacherDao().insertInTx(teacherList);</span><br><span class="line"></span><br><span class="line">        List&lt;NStudent&gt; studentList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">long</span> j = <span class="number">1</span>; j &lt; <span class="number">4</span>; j++) &#123;</span><br><span class="line">            NStudent studentBean = <span class="keyword">new</span> NStudent();</span><br><span class="line">            studentBean.setSid(j);</span><br><span class="line">            studentList.<span class="keyword">add</span>(studentBean);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//教师1带学生1、2</span></span><br><span class="line">        List&lt;TandSRelative&gt; teacherTeachStuList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        TandSRelative tandSRelative1 = <span class="keyword">new</span> TandSRelative(<span class="literal">null</span>, <span class="number">1</span>L, <span class="number">1</span>L);</span><br><span class="line">        teacherTeachStuList.<span class="keyword">add</span>(tandSRelative1);</span><br><span class="line"></span><br><span class="line">        TandSRelative tandSRelative2 = <span class="keyword">new</span> TandSRelative(<span class="literal">null</span>, <span class="number">1</span>L, <span class="number">2</span>L);</span><br><span class="line">        teacherTeachStuList.<span class="keyword">add</span>(tandSRelative2);</span><br><span class="line"></span><br><span class="line">        TandSRelative tandSRelative3 = <span class="keyword">new</span> TandSRelative(<span class="literal">null</span>, <span class="number">2</span>L, <span class="number">1</span>L);</span><br><span class="line">        teacherTeachStuList.<span class="keyword">add</span>(tandSRelative3);</span><br><span class="line"></span><br><span class="line">        TandSRelative tandSRelative4 = <span class="keyword">new</span> TandSRelative(<span class="literal">null</span>, <span class="number">2</span>L, <span class="number">3</span>L);</span><br><span class="line">        teacherTeachStuList.<span class="keyword">add</span>(tandSRelative4);</span><br><span class="line"></span><br><span class="line">        daoSession.getTandSRelativeDao().insertInTx(teacherTeachStuList);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/Free-Thinker/p/10654474.html" target="_blank" rel="noopener">https://www.cnblogs.com/Free-Thinker/p/10654474.html</a></p>
+<p><a href="https://juejin.im/post/5a30f79c6fb9a045031014fd" target="_blank" rel="noopener">https://juejin.im/post/5a30f79c6fb9a045031014fd</a></p>
+<p><a href="https://blog.csdn.net/RobotHost/article/details/70098744" target="_blank" rel="noopener">https://blog.csdn.net/RobotHost/article/details/70098744</a></p>
+<h5 id="migration"><a href="#migration" class="headerlink" title="migration"></a>migration</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySQLiteOpenHelper</span> <span class="keyword">extends</span> <span class="title">DaoMaster</span>.<span class="title">OpenHelper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MySQLiteOpenHelper</span><span class="params">(Context context, String name, SQLiteDatabase.CursorFactory factory)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, name, factory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(Database db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span> </span>&#123;</span><br><span class="line"><span class="comment">//        super.onUpgrade(db, oldVersion, newVersion);</span></span><br><span class="line">        MigrationHelper.migrate(db, <span class="keyword">new</span> MigrationHelper.ReCreateAllTableListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreateAllTables</span><span class="params">(Database db, <span class="keyword">boolean</span> ifNotExists)</span> </span>&#123;</span><br><span class="line">                DaoMaster.createAllTables(db, ifNotExists);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDropAllTables</span><span class="params">(Database db, <span class="keyword">boolean</span> ifExists)</span> </span>&#123;</span><br><span class="line">                DaoMaster.dropAllTables(db, ifExists);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, StudentDao.class); <span class="comment">//可以添加多个</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "dblearn.db");</span></span><br><span class="line">        MigrationHelper.DEBUG = <span class="literal">true</span>;</span><br><span class="line">        MySQLiteOpenHelper helper = <span class="keyword">new</span> <span class="type">MySQLiteOpenHelper</span>(<span class="built_in">this</span>,<span class="string">"dblearn.db"</span>,<span class="literal">null</span>);</span><br><span class="line">        SQLiteDatabase db = helper.getWritableDatabase();</span><br><span class="line">        DaoMaster daoMaster = <span class="keyword">new</span> <span class="type">DaoMaster</span>(db);</span><br><span class="line">        daoSession = daoMaster.<span class="keyword">new</span><span class="type">Session</span>();</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> Student &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span>(autoincrement = <span class="literal">true</span>)  <span class="comment">// id  递增</span></span><br><span class="line">            Long id;</span><br><span class="line">    <span class="meta">@Unique</span></span><br><span class="line">    <span class="keyword">public</span> int studentNo;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> int age; <span class="comment">//年龄</span></span><br><span class="line">    <span class="meta">@Property</span>(nameInDb = <span class="string">"usePhone"</span>) <span class="comment">//数据库中映射的字段就是 usePhone</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">String</span> telPhone;<span class="comment">//手机号</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transient</span>  <span class="comment">//数据库中不会创建对应的字段</span></span><br><span class="line">            <span class="built_in">String</span> sex; <span class="comment">//性别</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">String</span> name;<span class="comment">//姓名</span></span><br><span class="line">    <span class="built_in">String</span> address;<span class="comment">//家庭住址</span></span><br><span class="line">    <span class="built_in">String</span> schoolName;<span class="comment">//学校名字</span></span><br><span class="line">    <span class="built_in">String</span> grade;<span class="comment">//几年级</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">boolean</span> statue;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@ToOne</span>(joinProperty = <span class="string">"name"</span>)</span><br><span class="line">    IdCard student;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> migrate; <span class="comment">//新添加的字段 迁移</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/yuweiguocn/GreenDaoUpgradeHelper/blob/master/README_CH.md" target="_blank" rel="noopener">https://github.com/yuweiguocn/GreenDaoUpgradeHelper/blob/master/README_CH.md</a></p>
+<p><a href="https://stackoverflow.com/questions/13373170/greendao-schema-update-and-data-migration/30334668#30334668" target="_blank" rel="noopener">https://stackoverflow.com/questions/13373170/greendao-schema-update-and-data-migration/30334668#30334668</a></p>
+<h4 id="查看数据库"><a href="#查看数据库" class="headerlink" title="查看数据库"></a>查看数据库</h4><h5 id="database-navigator"><a href="#database-navigator" class="headerlink" title="database navigator"></a>database navigator</h5><p><img src="/2019/08/12/GreenDao/check_Screen Shot 2020-04-13 at 5.59.22 PM.png" alt="check_Screen Shot 2020-04-13 at 5.59.22 PM"></p>
+<p><img src="/2019/08/12/GreenDao/Screen Shot 2020-04-13 at 6.04.11 PM.png" alt="Screen Shot 2020-04-13 at 6.04.11 PM"></p>
+<p>C:\Users\john\Desktop\dbsqlite</p>
+<p>Device file explorer里面查看</p>
+<p>data/data/{$packname}/mine</p>
+<p><a href="https://blog.csdn.net/yu75567218/article/details/78904909" target="_blank" rel="noopener">https://blog.csdn.net/yu75567218/article/details/78904909</a></p>
+<h4 id="数据缓存"><a href="#数据缓存" class="headerlink" title="数据缓存"></a>数据缓存</h4><ul>
+<li><p>RxJava实现数据网络数据缓存</p>
+<p><a href="https://blog.csdn.net/qq_35064774/article/details/53449795" target="_blank" rel="noopener">https://blog.csdn.net/qq_35064774/article/details/53449795</a></p>
+</li>
+<li><p>用户测量数据有网上传</p>
+<p><a href="https://wenku.baidu.com/view/65f16f61998fcc22bdd10d5b.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/65f16f61998fcc22bdd10d5b.html</a></p>
+<p><a href="https://my.oschina.net/banxi/blog/57984" target="_blank" rel="noopener">https://my.oschina.net/banxi/blog/57984</a></p>
+<p><a href="https://www.infoq.cn/article/q-EjPtHOVFaE46XKjhlf" target="_blank" rel="noopener">https://www.infoq.cn/article/q-EjPtHOVFaE46XKjhlf</a></p>
+</li>
+</ul>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DB/">DB</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-Gradient" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -110,7 +449,7 @@
 <a href="/2019/07/22/Gradient/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -134,8 +473,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -148,7 +487,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -194,7 +533,7 @@
 <a href="/2019/06/13/AndroidTesting_Robolectric/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -210,8 +549,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -226,7 +565,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -272,7 +611,7 @@
 <a href="/2019/05/15/Kotlin/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -374,8 +713,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -388,7 +727,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -434,7 +773,7 @@
 <a href="/2019/04/08/PrincipleComputer/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -612,8 +951,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -626,7 +965,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -672,7 +1011,7 @@
 <a href="/2019/03/26/Popupwindow/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -696,8 +1035,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -710,7 +1049,629 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-INTERVIEW-ANDROID" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/01/15/INTERVIEW-ANDROID/">INTERVIEW_ANDROID</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2019-01-15T02:24:37.000Z" itemprop="datePublished">2019年01月15日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2019/01/15/INTERVIEW-ANDROID/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a href="https://www.1point3acres.com/bbs/interview/airbnb(%E5%8C%97%E4%BA%AC)%E3%80%81%E5%BF%AB%E6%89%8B%E3%80%81%E5%B0%8F%E7%BA%A2%E4%B9%A6%E3%80%81%E7%8C%BF%E9%A2%98%E5%BA%93%E7%AD%8915%E5%AE%B6%E9%9D%A2%E7%BB%8F-mobile-ios-android-530393.html" target="_blank" rel="noopener">https://www.1point3acres.com/bbs/interview/airbnb(%E5%8C%97%E4%BA%AC)%E3%80%81%E5%BF%AB%E6%89%8B%E3%80%81%E5%B0%8F%E7%BA%A2%E4%B9%A6%E3%80%81%E7%8C%BF%E9%A2%98%E5%BA%93%E7%AD%8915%E5%AE%B6%E9%9D%A2%E7%BB%8F-mobile-ios-android-530393.html</a></p>
+<h3 id="一）Android基础知识点"><a href="#一）Android基础知识点" class="headerlink" title="一）Android基础知识点"></a>一）Android基础知识点</h3><h4 id="四大组件是什么"><a href="#四大组件是什么" class="headerlink" title="四大组件是什么"></a>四大组件是什么</h4><p>Activity ,Service ,BroadCastReceiver,ContentProvider</p>
+<h4 id="Activity各种情况下的生命周期"><a href="#Activity各种情况下的生命周期" class="headerlink" title="Activity各种情况下的生命周期"></a>Activity各种情况下的生命周期</h4><ul>
+<li><p>先启动A 再跳转B</p>
+<p>A_onCreate()-&gt; A_onStart()-&gt;A_onResume-&gt; A_onPause()-&gt; B_onCreate() -&gt; B_onStart() -&gt; B_resume -&gt; A_onSaveInstanceState()-&gt;A_onStop()</p>
+</li>
+<li><p>弹出Dialog</p>
+<p>不调用任何生命周期,所以Activity上有Dialog的时候按Home键时的生命周期,有没有Dialog都一样的。</p>
+</li>
+<li><p>横竖屏切换的时候，Activity 各种情况下的生命周期</p>
+</li>
+</ul>
+<ol>
+<li><p>Activity状态保存于恢复 (什么都不设置)</p>
+<p><img src="/2019/01/15/INTERVIEW-ANDROID/Screen Shot 2021-01-24 at 3.37.01 PM.png" alt=""></p>
+</li>
+<li><p>设置<code>android:screenOrientation=&quot;portrait&quot;</code> 不会旋转</p>
+</li>
+<li><p>Android 8.0 设置<code>android:configChanges=&quot;orientation|keyboardHidden|screenSize&quot;</code> </p>
+<p>会发生旋转，生命周期不发生变化，只是会调用 <code>onConfigurationChanged()</code> </p>
+<p><a href="https://blog.csdn.net/qq_36713816/article/details/80538467" target="_blank" rel="noopener">https://blog.csdn.net/qq_36713816/article/details/80538467</a></p>
+</li>
+</ol>
+<ul>
+<li><p>前台切换到后台，然后再回到前台，Activity生命周期回调方法。</p>
+<p>前台切换到后台: A_onCreate()-&gt; A_onStart()-&gt;A_onResume-&gt; A_onPause()-&gt;A_onSaveInstanceState()-&gt; A_onStop()</p>
+<p>再回到前台: A_onRestart() -&gt;A_onStart()-&gt; A_onResume()</p>
+</li>
+</ul>
+<h4 id="Activity之间的通信方式"><a href="#Activity之间的通信方式" class="headerlink" title="Activity之间的通信方式"></a>Activity之间的通信方式</h4><ul>
+<li><p>Intent</p>
+<p>startActivity()或startActivityForResult(),通过Intent传递信息,需要注意，Intent对携带信息大小有限制。</p>
+</li>
+</ul>
+<ul>
+<li><p>BroadcastReceiver</p>
+</li>
+<li><p>数据存取传递，sharePreference/sql/File</p>
+</li>
+<li><p>Application 静态变量</p>
+</li>
+</ul>
+<h4 id="Activity的四种启动模式对比"><a href="#Activity的四种启动模式对比" class="headerlink" title="Activity的四种启动模式对比"></a>Activity的四种启动模式对比</h4><ul>
+<li><p>Standard </p>
+<p>默认启动模式，每次都重新创建一个新的Activity 。</p>
+</li>
+<li><p>SingleStop</p>
+<p>当前Activity如果再栈顶，那么就不会创建新的Activity，会原先调用Activity的onNewIntent()</p>
+</li>
+<li><p>SingleTask</p>
+<p>当前任务栈已经有Activity实例，就不会再创建了，会调用 onNewIntent().</p>
+</li>
+<li><p>SingleInstance</p>
+<p>单一实例模式，整个手机操作系统里面只有一个实例存在。不同的应用去打开这个activity  共享公用的同一个activity。他会运行在自己单独，独立的任务栈里面，并且任务栈里面只有他一个实例存在。应用场景：呼叫来电界面。这种模式的使用情况比较罕见，在Launcher中可能使用。或者你确定你需要使Activity只有一个实例。<br> 可以得出以下结论：<br> \1. 以singleInstance模式启动的Activity具有全局唯一性，即整个系统中只会存在一个这样的实例。<br> \2. 以singleInstance模式启动的Activity在整个系统中是单例的，如果在启动这样的Activiyt时，已经存在了一个实例，那么会把它所在的任务调度到前台，重用这个实例。<br> \3. 以singleInstance模式启动的Activity具有独占性，即它会独自占用一个任务，被他开启的任何activity都会运行在其他任务中。<br> \4. 被singleInstance模式的Activity开启的其他activity，能够在新的任务中启动，但不一定开启新的任务，也可能在已有的一个任务中开启。</p>
+<p><a href="https://blog.csdn.net/zivensonice/article/details/51569502" target="_blank" rel="noopener">https://blog.csdn.net/zivensonice/article/details/51569502</a></p>
+<p><a href="https://ayusch.com/android-launch-modes-explained/" target="_blank" rel="noopener">https://ayusch.com/android-launch-modes-explained/</a></p>
+<p><a href="https://noteforme.github.io/2021/01/16/Activity/" target="_blank" rel="noopener">https://noteforme.github.io/2021/01/16/Activity/</a></p>
+</li>
+<li><p>为什么 application.startActivity 要设置NEW_TASK</p>
+<p>如果Activity是由一个已经启动的Activity发起的，那么把它放在这个已经启动的任务栈是合理的，Application本来没有任务栈，那么就新创建一个放起来.</p>
+<p><a href="https://www.wanandroid.com/wenda/show/8697" target="_blank" rel="noopener">https://www.wanandroid.com/wenda/show/8697</a></p>
+</li>
+</ul>
+<p>任务栈的底层原理</p>
+<h4 id="fragment各种情况下的生命周期-Activity与Fragment之间生命周期比较"><a href="#fragment各种情况下的生命周期-Activity与Fragment之间生命周期比较" class="headerlink" title="fragment各种情况下的生命周期 Activity与Fragment之间生命周期比较"></a>fragment各种情况下的生命周期 Activity与Fragment之间生命周期比较</h4><p>1.<u>onAttach() -&gt; onCreate() -</u>&gt; onCreateView() -&gt; onActivityCreate() -&gt; onStart() -&gt;  onResume() -&gt; onPause() -&gt; onStop() -&gt;      </p>
+<p>​    onDestroyView() -&gt; onDestroy() -&gt; onDetach() </p>
+<h4 id="Fragment状态保存startActivityForResult是哪个类的方法，在什么情况下使用？"><a href="#Fragment状态保存startActivityForResult是哪个类的方法，在什么情况下使用？" class="headerlink" title="Fragment状态保存startActivityForResult是哪个类的方法，在什么情况下使用？"></a>Fragment状态保存startActivityForResult是哪个类的方法，在什么情况下使用？</h4><ul>
+<li><p>Fragment发起</p>
+<p> Fragment onActivityResult能接收。Activity onActivityResult能接收,但是requestCode不正确。</p>
+</li>
+<li><p>Activity发起</p>
+<p> Fragment不能接收。 Activity onActivityResult能接收。</p>
+</li>
+</ul>
+<h4 id="fragment之间传递数据的方式？"><a href="#fragment之间传递数据的方式？" class="headerlink" title="fragment之间传递数据的方式？"></a>fragment之间传递数据的方式？</h4><ol>
+<li><p>Fragment.setArguments()方法传递bundle</p>
+</li>
+<li><p>findFragmentById()找到tag,然后直接操作Framgent</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onArticleSelected</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">      ArticleFragment articleFrag = (ArticleFragment)</span><br><span class="line">              getSupportFragmentManager().findFragmentById(R.id.article_fragment);</span><br><span class="line">   </span><br><span class="line">      <span class="keyword">if</span> (articleFrag != <span class="keyword">null</span>) &#123;</span><br><span class="line">          articleFrag.updateArticleView(position);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          ArticleFragment newFragment = <span class="keyword">new</span> ArticleFragment();</span><br><span class="line">          Bundle args = <span class="keyword">new</span> Bundle();</span><br><span class="line">          args.putInt(ArticleFragment.ARG_POSITION, position);</span><br><span class="line">          newFragment.setArguments(args);</span><br><span class="line">   </span><br><span class="line">          FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();</span><br><span class="line">          transaction.replace(R.id.fragment_container, newFragment);</span><br><span class="line">          transaction.addToBackStack(<span class="keyword">null</span>);</span><br><span class="line">          transaction.commit();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="3">
+<li><p>接口回调</p>
+</li>
+<li><p>ViewModel Livedata ?</p>
+</li>
+</ol>
+<h4 id="请描述一下Service-的生命周期"><a href="#请描述一下Service-的生命周期" class="headerlink" title="请描述一下Service 的生命周期"></a>请描述一下Service 的生命周期</h4><h5 id="startService"><a href="#startService" class="headerlink" title="startService()"></a>startService()</h5><p>​    启动:  onCreate() - onCommandStart()  - onDestory()</p>
+<p>​    继续startService : 只会执行 onCommandStart()      </p>
+<h5 id="bindService"><a href="#bindService" class="headerlink" title="bindService()"></a>bindService()</h5><p>​    onCreate() -   onBind() - onUnbind()-onDestory()</p>
+<h4 id="service和activity怎么进行数据交互？"><a href="#service和activity怎么进行数据交互？" class="headerlink" title="service和activity怎么进行数据交互？"></a>service和activity怎么进行数据交互？</h4><ol>
+<li><p>bindService()</p>
+<p>Service中定义接口，ServiceConnection中获取Service实例，调用响应接口</p>
+</li>
+<li><p>注册广播传递数据</p>
+<p><a href="http://wangbufan.cn/2019/09/17/Service%E5%8F%8AService%E4%B8%8EActivity%E9%80%9A%E4%BF%A1/" target="_blank" rel="noopener">http://wangbufan.cn/2019/09/17/Service%E5%8F%8AService%E4%B8%8EActivity%E9%80%9A%E4%BF%A1/</a></p>
+</li>
+</ol>
+<h4 id="说说ContentProvider、ContentResolver、ContentObserver-之间的关系"><a href="#说说ContentProvider、ContentResolver、ContentObserver-之间的关系" class="headerlink" title="说说ContentProvider、ContentResolver、ContentObserver 之间的关系"></a>说说ContentProvider、ContentResolver、ContentObserver 之间的关系</h4><p>​     把自己的程序数据提供给其他应用程序调用，提供香港的uri接口,没用过</p>
+<h4 id="请描述一下广播BroadcastReceiver的理解"><a href="#请描述一下广播BroadcastReceiver的理解" class="headerlink" title="请描述一下广播BroadcastReceiver的理解"></a>请描述一下广播BroadcastReceiver的理解</h4><p>​    广播是可以作为应用全局监听器，可以实现应用中不同组件少量数据的通信！！！，更深研究后可以多说点.</p>
+<h4 id="广播的分类"><a href="#广播的分类" class="headerlink" title="广播的分类"></a>广播的分类</h4><ol>
+<li>无序广播</li>
+<li>有序广播</li>
+</ol>
+<h4 id="广播使用的方式和场景"><a href="#广播使用的方式和场景" class="headerlink" title="广播使用的方式和场景"></a>广播使用的方式和场景</h4><p>app全局监听</p>
+<p>binder机制 <a href="https://www.jianshu.com/p/5a983578418e" target="_blank" rel="noopener">https://www.jianshu.com/p/5a983578418e</a></p>
+<h4 id="BroadcastReceiver，LocalBroadcastReceiver-本地广播-区别"><a href="#BroadcastReceiver，LocalBroadcastReceiver-本地广播-区别" class="headerlink" title="BroadcastReceiver，LocalBroadcastReceiver(本地广播) 区别"></a>BroadcastReceiver，LocalBroadcastReceiver(本地广播) 区别</h4><p>BroadcastReceiver：针对应用间，系统和应用间通信。</p>
+<p> LocalBroadcastReceiver： 只有自己应用内部才能收到,效率更高.</p>
+<h4 id="AlertDialog-popupWindow-Toast区别-？"><a href="#AlertDialog-popupWindow-Toast区别-？" class="headerlink" title="AlertDialog,popupWindow,Toast区别 ？"></a>AlertDialog,popupWindow,Toast区别 ？</h4><ul>
+<li><p>AlertDialog : 拦截了屏幕上所有的TouchK/key</p>
+</li>
+<li><p>PopupWindow </p>
+<p>  仅仅拦截自身区域touch/key</p>
+<p>  需要Activity类型的Context启动</p>
+</li>
+<li><p>Toast</p>
+</li>
+<li><p>可以研究下 两者最根本的区别在于有没有新建一个 window，PopupWindow 没有新建，而是通过 WMS 将 View 加到 DecorView；Dialog 是新建了一个 window (PhoneWindow)，相当于走了一遍 Activity 中创建 window 的流程</p>
+<p><a href="https://www.jianshu.com/p/aed496937bd2" target="_blank" rel="noopener">https://www.jianshu.com/p/aed496937bd2</a></p>
+</li>
+</ul>
+<h4 id="Application-和-Activity-的-Context-对象的区别"><a href="#Application-和-Activity-的-Context-对象的区别" class="headerlink" title="Application 和 Activity 的 Context 对象的区别"></a>Application 和 Activity 的 Context 对象的区别</h4><p>ApplicatioContext ：</p>
+<p>​    应用生命周期一样长,长生命周期对象就用ApplicationContext</p>
+<p>Activity的Context：</p>
+<p>​     当前Activity的生命周期,和UI相关的都用Activity为Context来处理</p>
+<p><a href="https://www.jianshu.com/p/e215c90a460e" target="_blank" rel="noopener">https://www.jianshu.com/p/e215c90a460e</a></p>
+<h4 id="Android属性动画特性"><a href="#Android属性动画特性" class="headerlink" title="Android属性动画特性"></a>Android属性动画特性</h4><p>可以改变对象的属性。还需要说说什么吗?</p>
+<h4 id="如何导入外部数据库"><a href="#如何导入外部数据库" class="headerlink" title="如何导入外部数据库?"></a>如何导入外部数据库?</h4><p>把数据库文件防盗asserts目录下，然后写入databases目录下面, 然后通过数据库容器装载里面数据库里面的数据。</p>
+<p><a href="https://blog.csdn.net/chaoyu168/article/details/50467913" target="_blank" rel="noopener">https://blog.csdn.net/chaoyu168/article/details/50467913</a></p>
+<h4 id="LinearLayout、RelativeLayout、FrameLayout的特性及对比，并介绍使用场景。"><a href="#LinearLayout、RelativeLayout、FrameLayout的特性及对比，并介绍使用场景。" class="headerlink" title="LinearLayout、RelativeLayout、FrameLayout的特性及对比，并介绍使用场景。"></a>LinearLayout、RelativeLayout、FrameLayout的特性及对比，并介绍使用场景。</h4><ol>
+<li>LinearLayout ： 水平或垂直位置按照顺序来排列子元素.</li>
+<li>RelativeLayout:  有相对的参照物，进行布局.</li>
+<li>FrameLayout: 后面添加的会覆盖前面的布局。</li>
+</ol>
+<h4 id="谈谈对接口与回调的理解"><a href="#谈谈对接口与回调的理解" class="headerlink" title="谈谈对接口与回调的理解"></a>谈谈对接口与回调的理解</h4><ul>
+<li><p>理解: A发送消息给B,B处理完后高速A处理结果.</p>
+</li>
+<li><p>实现: 一般而言，处理消息的类是唯一的，发送消息的类却是各种各样的，将回调方法做成一个接口，不同的发送者实现该接口，并且把自己的接口实现类的对象在发送消息时，传递给消息处理者。</p>
+</li>
+</ul>
+<p>注册之后不马上执行，而是某个时机再触发执行。</p>
+<h4 id="回调的原理-写一个回调demo"><a href="#回调的原理-写一个回调demo" class="headerlink" title="回调的原理 写一个回调demo"></a>回调的原理 写一个回调demo</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ProcessClick process = <span class="keyword">new</span> ProcessClick(<span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"已经点击"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        process.click();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">OnClickListener</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span>  <span class="title">onClick</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span>  <span class="title">ProcessClick</span> </span>&#123;</span><br><span class="line">    OnClickListener listener;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProcessClick</span><span class="params">(OnClickListener listener)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.listener = listener;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">click</span><span class="params">()</span></span>&#123;</span><br><span class="line">        listener.onClick();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://developer.aliyun.com/article/614769" target="_blank" rel="noopener">https://developer.aliyun.com/article/614769</a></p>
+<h4 id="介绍下SurfaceView"><a href="#介绍下SurfaceView" class="headerlink" title="介绍下SurfaceView"></a>介绍下SurfaceView</h4><ul>
+<li><p>SurfaceView使用双缓冲技术缓解，页面绘制频繁引起的卡顿。</p>
+</li>
+<li><p>SurfaceView可以在子线程更新 UI,不会阻塞主线程，提高响应速度。</p>
+<p><a href="https://noteforme.github.io/2019/11/05/SurfaceView/" target="_blank" rel="noopener">https://noteforme.github.io/2019/11/05/SurfaceView/</a></p>
+</li>
+</ul>
+<h4 id="RecycleView的使用"><a href="#RecycleView的使用" class="headerlink" title="? RecycleView的使用"></a>? RecycleView的使用</h4><h4 id="插值器-估值器区别"><a href="#插值器-估值器区别" class="headerlink" title="插值器 估值器区别"></a>插值器 估值器区别</h4><p> 插值器: （<code>Interpolator</code>）决定 值 的变化模式（匀速、加速）</p>
+<p>估值器 :     (<code>TypeEvaluator</code>)决定 值 的具体变化数值</p>
+<h4 id="我的面试问题"><a href="#我的面试问题" class="headerlink" title="我的面试问题"></a>我的面试问题</h4><p>activity销毁后重新创建，怎么获取fragment</p>
+<h4 id="activity和service通信"><a href="#activity和service通信" class="headerlink" title="activity和service通信"></a>activity和service通信</h4><ol>
+<li><p>通过bindService</p>
+</li>
+<li><p>通过广播</p>
+<p><a href="https://www.jianshu.com/p/6040dfa83594" target="_blank" rel="noopener">https://www.jianshu.com/p/6040dfa83594</a></p>
+</li>
+</ol>
+<h4 id="activity销毁线程会不会消失"><a href="#activity销毁线程会不会消失" class="headerlink" title="activity销毁线程会不会消失"></a>activity销毁线程会不会消失</h4><p>不会,  可以这样处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 静态内部类将不会再隐式的持有外部类的引用，所以在配置改变时，你的Activity的实例在也不会</span></span><br><span class="line"><span class="comment">  * 出现内存泄露</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">boolean</span> mRunning = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     mRunning = <span class="keyword">true</span>;</span><br><span class="line">     <span class="keyword">while</span> (mRunning) &#123;</span><br><span class="line">       SystemClock.sleep(<span class="number">1000</span>);</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     mRunning = <span class="keyword">false</span>;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="activity每个方法处理的区别"><a href="#activity每个方法处理的区别" class="headerlink" title="activity每个方法处理的区别"></a>activity每个方法处理的区别</h4><ol>
+<li><p>onCreate():  Activity创建的时候调用，绑定数据。</p>
+</li>
+<li><p>onStart() : 当Activity对用户变得可见的时候调用.</p>
+</li>
+<li><p>onResume() : activity开始和用户交互的时候调用，这时候activity处于栈顶，伴随着用户的输入.</p>
+</li>
+<li><p>onPause() : 当activity失去前台状态，开始进入stopped/hidden or destroyed状态，不能再获取焦点，此时activity对用户可见，但是更新的UI的操作要快。</p>
+</li>
+<li><p>onStop()  :  当activity不再可见，可能是新的activity来到栈顶，或者当前activity正在被destroy.</p>
+</li>
+<li><p>onDestory(): 当前activity正在离开。</p>
+</li>
+</ol>
+<h4 id="activity-fragment传递数据方式"><a href="#activity-fragment传递数据方式" class="headerlink" title="activity fragment传递数据方式"></a>activity fragment传递数据方式</h4><ul>
+<li><p>ViewModel</p>
+</li>
+<li><p>onTach() 回调</p>
+</li>
+</ul>
+<h4 id="单例模式怎么理解的"><a href="#单例模式怎么理解的" class="headerlink" title="单例模式怎么理解的"></a>单例模式怎么理解的</h4><p>  创建唯一的对象 </p>
+<ul>
+<li>res/raw和assets 三者目录下的文件在打包后原封不动的保存在apk包中，不会被编译成二进制。</li>
+<li>Res/raw文件会被映射到R.java文件中，访问的时候直接使用资源 R.id.filename;</li>
+<li>res/raw不可以有目录结构，而asserts则可以有目录结构，也就是asserts目录下可以建立文件夹.</li>
+</ul>
+<p><a href="https://www.jianshu.com/p/4c8bcb8c3717" target="_blank" rel="noopener">https://www.jianshu.com/p/4c8bcb8c3717</a></p>
+<h4 id="截获通知"><a href="#截获通知" class="headerlink" title="截获通知"></a>截获通知</h4><p>新建一个服务MessageNotificationService实现 NotificationListenerService</p>
+<h4 id="final特性"><a href="#final特性" class="headerlink" title="final特性"></a>final特性</h4><ol>
+<li>final类不能被继承，没有子类</li>
+<li>方法不能被子类的方法重写，但可以被继承</li>
+<li>表示常量，只能被赋值一次，赋值后不再改变。</li>
+</ol>
+<h4 id="android多线程怎么处理的-，两个子线程间怎么通讯"><a href="#android多线程怎么处理的-，两个子线程间怎么通讯" class="headerlink" title="android多线程怎么处理的 ，两个子线程间怎么通讯"></a>android多线程怎么处理的 ，两个子线程间怎么通讯</h4><p>​    Android主线程和子线程之间的通信是通过消息循环机制，主线程中的handler把子线程的 message发送给主线程的Looper，那么子线程是如何通信的， 可以把looper绑定到子线程中，调用Looper.prepare()为改子线程生成Looper,然后调用Looper.loop()启动消息队列，并且在该子线程中创建一个Handler,在另一个子线程调用handler发送消息。这样实现通信.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> threadA = ThreadA()</span><br><span class="line"><span class="keyword">val</span> threadB = ThreadB()</span><br><span class="line">Thread(threadA).start()</span><br><span class="line"><span class="keyword">if</span> (threadA.getHandler() == <span class="literal">null</span>) &#123;</span><br><span class="line">    Thread.sleep(<span class="number">1000</span>)</span><br><span class="line">    handler = threadA.getHandler()</span><br><span class="line">&#125;</span><br><span class="line">Thread(threadB).start()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> : <span class="type">Runnable &#123;</span></span></span><br><span class="line">        <span class="keyword">var</span> mHandler: Handler? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">getHandler</span><span class="params">()</span></span>: Handler? &#123;</span><br><span class="line">            <span class="keyword">return</span> mHandler</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">run</span><span class="params">()</span></span> &#123;</span><br><span class="line">            Looper.prepare()</span><br><span class="line">            mHandler = <span class="keyword">object</span> : Handler(Looper.myLooper()!!) &#123;</span><br><span class="line">                <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">handleMessage</span><span class="params">(msg: <span class="type">Message</span>)</span></span> &#123;</span><br><span class="line">                    <span class="keyword">super</span>.handleMessage(msg)</span><br><span class="line">                    Timber.d(<span class="string">"线程A: 线程B发过来消息了-- <span class="subst">$&#123;msg.obj&#125;</span> "</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            Looper.loop()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    inner <span class="class"><span class="keyword">class</span> <span class="title">ThreadB</span> : <span class="type">Runnable &#123;</span></span></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">run</span><span class="params">()</span></span> &#123;</span><br><span class="line">            <span class="keyword">val</span> message = Message.obtain()</span><br><span class="line">            message.what = <span class="number">1</span></span><br><span class="line">            message.obj = <span class="string">"线程B 发送消息"</span> + System.currentTimeMillis()</span><br><span class="line">            handler?.sendMessage(message)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/pbm863521/article/details/103493708" target="_blank" rel="noopener">https://blog.csdn.net/pbm863521/article/details/103493708</a></p>
+<h4 id="防止应用被被杀死-怎么保证service不被杀死"><a href="#防止应用被被杀死-怎么保证service不被杀死" class="headerlink" title="防止应用被被杀死,怎么保证service不被杀死"></a>防止应用被被杀死,怎么保证service不被杀死</h4><p><a href="http://www.52im.net/thread-2881-1-1.html" target="_blank" rel="noopener">http://www.52im.net/thread-2881-1-1.html</a></p>
+<p><a href="http://www.52im.net/thread-2893-1-1.html" target="_blank" rel="noopener">http://www.52im.net/thread-2893-1-1.html</a></p>
+<h4 id="webview安全问题"><a href="#webview安全问题" class="headerlink" title="webview安全问题"></a>webview安全问题</h4><p>WebView漏洞的根源在于强制其访问攻击者控制的网页。网页中含有攻击者可以控制的JS,因此可能钓鱼，窃取私有文件，甚至是 RCE,带来比较大的危害。</p>
+<p>下面主要是4.4系统以上的机型</p>
+<h5 id="Webview密码明文存储漏洞"><a href="#Webview密码明文存储漏洞" class="headerlink" title="Webview密码明文存储漏洞"></a>Webview密码明文存储漏洞</h5><p>WebView默认开启密码保存功能mWebView.setSavePassword(true),如果未关闭，用户输入密码时，会弹出提示框，询问用户是否保存密码，如果选是，密码会明文保存到 /data/data/com.package.name/databases/webview.db</p>
+<h5 id="WebView域控制不严格漏洞"><a href="#WebView域控制不严格漏洞" class="headerlink" title="WebView域控制不严格漏洞"></a>WebView域控制不严格漏洞</h5><p>setAllowFileAccess(true) : 窃取APP任意目录下的私有文件</p>
+<p>setAllowUniversalAccessFromFileURLs : 允许通过file域url中的 javascript访问其他的源。</p>
+<p><a href="https://noteforme.github.io/2017/09/01/WebView/" target="_blank" rel="noopener">https://noteforme.github.io/2017/09/01/WebView/</a></p>
+<h4 id="webview内存泄漏-Leakcanary-验证"><a href="#webview内存泄漏-Leakcanary-验证" class="headerlink" title="webview内存泄漏 Leakcanary 验证?"></a>webview内存泄漏 Leakcanary 验证?</h4><p>android 5.0以下有内存泄漏问题</p>
+<p><a href="https://juejin.cn/post/6901487965562732551" target="_blank" rel="noopener">https://juejin.cn/post/6901487965562732551</a></p>
+<h4 id="android-view绘制机制和加载过程，请详细说下整个流程"><a href="#android-view绘制机制和加载过程，请详细说下整个流程" class="headerlink" title="android view绘制机制和加载过程，请详细说下整个流程"></a>android view绘制机制和加载过程，请详细说下整个流程</h4><p>每个Activity包含一个Window对象，Android中window对象由PhoneWindow实现，PhoneWindow将一个DecorView设置为整个应用窗口的根View,DecorView作为窗口界面的顶层视图，封装了窗口操作的通用方法，DecorView将要显示的具体内容显示在PhoneWindow上，这里所有的View监听事件通过WindowMangerService来接收,通过Activity对象来回调相应的onCLicklistener.显示是将屏幕分成两部分，一个TitleView，另一个是ContentView.</p>
+<p> Measure</p>
+<p>如果是原始的 View,通过measure方法就完成了测量过程,如果是ViewGroup,除了完成自己的测量外，还需要遍历所有的子View,各个子元素再去递归执行这个流程.</p>
+<p>Layout </p>
+<p>Draw</p>
+<h4 id="wrap-content-和MATCH-PARENT的测量方式"><a href="#wrap-content-和MATCH-PARENT的测量方式" class="headerlink" title="wrap content 和MATCH_PARENT的测量方式"></a>wrap content 和MATCH_PARENT的测量方式</h4><p>WRAP_CONTENT : 最大模式，大小不定，但是不能超过窗口的大小. specMode是AT_MOST模式,这种模式下，它的宽，高等于specSize,                                 这种情况下specSize是parentSize,而parentSize是父容器目前可以使用的大小,也就是父容器剩余的空间大小.</p>
+<p>MATCH_PARENT: 精确模式，大小就是窗口大小.</p>
+<p><a href="https://noteforme.github.io/2017/11/12/View_OVER/" target="_blank" rel="noopener">https://noteforme.github.io/2017/11/12/View_OVER/</a></p>
+<p>viewstub延迟加载原理</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">// 设置 ViewStub 不进行绘制</span></span><br><span class="line">     setWillNotDraw(<span class="keyword">true</span>);</span><br><span class="line">     </span><br><span class="line">     </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> replaceSelfWithView(View view, ViewGroup parent) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> <span class="keyword">index</span> = parent.indexOfChild(<span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">// 把 ViewStub 从控件层级中移除。</span></span><br><span class="line">    parent.removeViewInLayout(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把新创建的 View 对象加入控件层级结构中，并且位于 ViewStub 的位置，</span></span><br><span class="line">    <span class="comment">// 并且在这个过程中，会使用 ViewStub 的布局参数，例如宽高等。</span></span><br><span class="line">    <span class="keyword">final</span> ViewGroup.LayoutParams layoutParams = getLayoutParams();</span><br><span class="line">    <span class="keyword">if</span> (layoutParams != <span class="keyword">null</span>) &#123;</span><br><span class="line">        parent.addView(view, <span class="keyword">index</span>, layoutParams);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        parent.addView(view, <span class="keyword">index</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://juejin.cn/post/6844903799337779214" target="_blank" rel="noopener">https://juejin.cn/post/6844903799337779214</a></p>
+<h4 id="overdraw过度绘制优化方法"><a href="#overdraw过度绘制优化方法" class="headerlink" title="overdraw过度绘制优化方法"></a>overdraw过度绘制优化方法</h4><p>移除默认和不必要背景</p>
+<p><a href="https://jaeger.itscoder.com/android/2016/09/29/android-performance-overdraw.html" target="_blank" rel="noopener">https://jaeger.itscoder.com/android/2016/09/29/android-performance-overdraw.html</a></p>
+<p><a href="https://www.jianshu.com/p/9e095bacf44a" target="_blank" rel="noopener">https://www.jianshu.com/p/9e095bacf44a</a></p>
+<p>我的问题</p>
+<p>怎么让线程有序 :加入队列</p>
+<p>两个线程，想让来的一个插队怎么弄</p>
+<p>多线程死锁(图片网络请求会出现的问题</p>
+<p>批量网络请求</p>
+<p>除了handler还有什么能传递数据</p>
+<p>子线程创建Handler</p>
+<p>handler启动一个线程和asnnaltask区别 单元测试</p>
+<p>context对象互相引用，对象回收 Android界面怎么回收的 生命周期 </p>
+<p>android怎么对内存进行分析</p>
+<p>内存溢出和内存泄露的区别，oom是怎么处理的 ， ANR怎么避免</p>
+<p>java内存回收机制 android管理机制 怎么处理内存泄露</p>
+<p>怎么做性能优化</p>
+<p>反射机制</p>
+<p>broadcastReciever和 handler区别</p>
+<p>后台图片更改，前台怎么处理</p>
+<p>图片加载库,图片加载方法</p>
+<p>图片加载框架怎么处理oom问题</p>
+<p>java Android加载机制</p>
+<p>Android加载动态库</p>
+<p>AndroidManifest权限是怎么获取的，封装权限管理，为什么需要权限分组.</p>
+<p>listview内回收图片</p>
+<p>listview图片 缓存，listview怎么优化</p>
+<p>viewpager listview处理滑动冲突 </p>
+<p>opengl</p>
+<p>list遍历删除</p>
+<p>fragment tag</p>
+<p><strong>sercice ALDL</strong> (后面再弄)</p>
+<p>Hashmap实现原理  实现有序</p>
+<p>android事件分发机制，请详细说下整个流程</p>
+<p>android四大组件的加载过程</p>
+<p>提高sqlite的查询效率</p>
+<p>冒泡排序，插入排序 </p>
+<p>contentprovider</p>
+<h5 id="（二）Android源码相关分析"><a href="#（二）Android源码相关分析" class="headerlink" title="（二）Android源码相关分析"></a>（二）Android源码相关分析</h5><ul>
+<li>Android动画框架实现原理</li>
+<li>Android各个版本API的区别</li>
+<li>Requestlayout，onlayout，onDraw，DrawChild区别与联系</li>
+<li>invalidate和postInvalidate的区别及使用</li>
+<li>Activity-Window-View三者的差别</li>
+<li>谈谈对Volley的理解</li>
+<li>如何优化自定义View</li>
+<li>低版本SDK如何实现高版本api？</li>
+<li>描述一次网络请求的流程</li>
+<li>HttpUrlConnection 和 okhttp关系</li>
+<li>Bitmap对象的理解</li>
+<li>looper架构</li>
+<li>ActivityThread，AMS，WMS的工作原理</li>
+<li>自定义View如何考虑机型适配</li>
+<li>自定义View的事件</li>
+<li>AstncTask+HttpClient 与 AsyncHttpClient有什么区别？</li>
+<li>LaunchMode应用场景</li>
+<li>AsyncTask 如何使用?</li>
+<li>SpareArray原理</li>
+<li>请介绍下ContentProvider 是如何实现数据共享的？</li>
+<li>AndroidService与Activity之间通信的几种方式</li>
+<li>IntentService原理及作用是什么？</li>
+<li>说说Activity、Intent、Service 是什么关系</li>
+<li>ApplicationContext和ActivityContext的区别</li>
+<li>SP是进程同步的吗?有什么方法做到同步？</li>
+<li>谈谈多线程在Android中的使用</li>
+<li>进程和 Application 的生命周期</li>
+<li>封装View的时候怎么知道view的大小</li>
+<li>RecycleView原理</li>
+<li>AndroidManifest的作用与理解</li>
+</ul>
+<h5 id="（三）常见的一些原理性问题"><a href="#（三）常见的一些原理性问题" class="headerlink" title="（三）常见的一些原理性问题"></a>（三）常见的一些原理性问题</h5><ul>
+<li>Handler机制和底层实现</li>
+<li>Handler、Thread和HandlerThread的差别</li>
+<li>handler发消息给子线程，looper怎么启动？</li>
+<li>关于Handler，在任何地方new Handler 都是什么线程下?</li>
+<li>ThreadLocal原理，实现及如何保证Local属性？</li>
+<li>请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系</li>
+<li>请描述一下View事件传递分发机制</li>
+<li>Touch事件传递流程</li>
+<li>事件分发中的onTouch 和onTouchEvent 有什么区别，又该如何使用？</li>
+<li>View和ViewGroup分别有哪些事件分发相关的回调方法</li>
+<li>View刷新机制</li>
+<li>View绘制流程</li>
+<li>自定义控件原理</li>
+<li>自定义View如何提供获取View属性的接口？</li>
+<li>Android代码中实现WAP方式联网</li>
+<li>AsyncTask机制</li>
+<li>AsyncTask原理及不足</li>
+<li>如何取消AsyncTask？</li>
+<li>为什么不能在子线程更新UI？</li>
+<li>ANR产生的原因是什么？</li>
+<li>ANR定位和修正</li>
+<li>oom是什么？</li>
+<li>什么情况导致oom？</li>
+<li>有什么解决方法可以避免OOM？</li>
+<li>Oom 是否可以try catch？为什么？</li>
+<li>内存泄漏是什么？</li>
+<li>什么情况导致内存泄漏？</li>
+<li>如何防止线程的内存泄漏？</li>
+<li>内存泄露场的解决方法</li>
+<li>内存泄漏和内存溢出区别？</li>
+<li>LruCache默认缓存大小</li>
+<li>ContentProvider的权限管理(解答：读写分离，权限控制-精确到表级，URL控制)</li>
+<li>如何通过广播拦截和abort一条短信？</li>
+<li>广播是否可以请求网络？</li>
+<li>广播引起anr的时间限制是多少？</li>
+<li>计算一个view的嵌套层级</li>
+<li>Activity栈</li>
+<li>Android线程有没有上限？</li>
+<li>线程池有没有上限？</li>
+<li>ListView重用的是什么？</li>
+<li>Android为什么引入Parcelable？</li>
+<li>有没有尝试简化Parcelable的使用？</li>
+</ul>
+<h5 id="（四）开发中常见的一些问题"><a href="#（四）开发中常见的一些问题" class="headerlink" title="（四）开发中常见的一些问题"></a>（四）开发中常见的一些问题</h5><ul>
+<li>ListView 中图片错位的问题是如何产生的?</li>
+<li>混合开发有了解吗？</li>
+<li>知道哪些混合开发的方式？说出它们的优缺点和各自使用场景？（解答：比如:RN，weex，H5，小程序，WPA等。做Android的了解一些前端js等还是很有好处的)；</li>
+<li>屏幕适配的处理技巧都有哪些?</li>
+<li>服务器只提供数据接收接口，在多线程或多进程条件下，如何保证数据的有序到达？</li>
+<li>动态布局的理解</li>
+<li>怎么去除重复代码？</li>
+<li>画出 Android 的大体架构图</li>
+<li>Recycleview和ListView的区别</li>
+<li>ListView图片加载错乱的原理和解决方案</li>
+<li>动态权限适配方案，权限组的概念</li>
+<li>Android系统为什么会设计ContentProvider？</li>
+<li>下拉状态栏是不是影响activity的生命周期</li>
+<li>如果在onStop的时候做了网络请求，onResume的时候怎么恢复？</li>
+<li>Bitmap 使用时候注意什么？</li>
+<li>Bitmap的recycler()</li>
+<li>Android中开启摄像头的主要步骤</li>
+<li>ViewPager使用细节，如何设置成每次只初始化当前的Fragment，其他的不初始化？</li>
+<li>点击事件被拦截，但是想传到下面的View，如何操作？</li>
+<li>微信主页面的实现方式</li>
+<li>微信上消息小红点的原理</li>
+<li>CAS介绍（这是阿里巴巴的面试题，我不是很了解，可以参考博客: <a href="http://blog.csdn.net/jly4758/article/details/46673835" target="_blank" rel="noopener">CAS简介</a>）</li>
+</ul>
+<p><a href="https://github.com/android-exchange/Android-Interview" target="_blank" rel="noopener">https://github.com/android-exchange/Android-Interview</a></p>
+<p>Kotin面试题</p>
+<p><a href="http://www.youkmi.cn/2019/10/27/kotlin-ti-mu-zheng-li/" target="_blank" rel="noopener">http://www.youkmi.cn/2019/10/27/kotlin-ti-mu-zheng-li/</a></p>
+<p><a href="https://www.jianshu.com/p/45866c8415c8" target="_blank" rel="noopener">https://www.jianshu.com/p/45866c8415c8</a></p>
+<h3 id="（五）混合开发面试题"><a href="#（五）混合开发面试题" class="headerlink" title="（五）混合开发面试题"></a>（五）混合开发面试题</h3><p><strong>大厂除了技术深度之外，还要求你具备一些广度的知识，比如你要会前端知识，会混合开发，至少会一种脚本语言，C c++更不用说了，也是必会的。</strong></p>
+<ul>
+<li>Hybrid做过吗？</li>
+<li>Hybrid通信原理是什么，有做研究吗？</li>
+<li>react native有多少了解？讲一下原理。</li>
+<li>weex了解吗？如何自己实现类似技术？</li>
+<li>flutter了解吗？内部是如何实现跨平台的？</li>
+<li>Dart语言有研究贵吗？</li>
+<li>快应用了解吗？跟其她方式相比有什么优缺点？</li>
+<li>说说你用过的混合开发技术有哪些？各有什么优缺点？</li>
+<li>Python会吗？</li>
+<li>会不会PHP？</li>
+<li>Gradle了解多少？groovy语法会吗？</li>
+<li></li>
+</ul>
+<hr>
+<h3 id="（六）高端技术面试题"><a href="#（六）高端技术面试题" class="headerlink" title="（六）高端技术面试题"></a>（六）高端技术面试题</h3><p><strong>这里讲的是大公司需要用到的一些高端Android技术，这里专门整理了一个文档，希望大家都可以看看。这些题目有点技术含量，需要好点时间去研究一下的。</strong></p>
+<h5 id="（一）图片"><a href="#（一）图片" class="headerlink" title="（一）图片"></a>（一）图片</h5><ul>
+<li>图片库对比</li>
+<li>图片库的源码分析</li>
+<li>图片框架缓存实现</li>
+<li>LRUCache原理</li>
+<li>图片加载原理</li>
+<li>自己去实现图片库，怎么做？</li>
+<li>Glide源码解析</li>
+<li>Glide使用什么缓存？</li>
+<li>Glide内存缓存如何控制大小？</li>
+</ul>
+<h5 id="（二）网络和安全机制"><a href="#（二）网络和安全机制" class="headerlink" title="（二）网络和安全机制"></a>（二）网络和安全机制</h5><ul>
+<li>网络框架对比和源码分析</li>
+<li>自己去设计网络请求框架，怎么做？</li>
+<li>okhttp源码</li>
+<li>网络请求缓存处理，okhttp如何处理网络缓存的</li>
+<li>从网络加载一个10M的图片，说下注意事项</li>
+<li>TCP的3次握手和四次挥手</li>
+<li>TCP与UDP的区别</li>
+<li>TCP与UDP的应用</li>
+<li>HTTP协议</li>
+<li>HTTP1.0与2.0的区别</li>
+<li>HTTP报文结构</li>
+<li>HTTP与HTTPS的区别以及如何实现安全性</li>
+<li>如何验证证书的合法性?</li>
+<li>https中哪里用了对称加密，哪里用了非对称加密，对加密算法（如RSA）等是否有了解?</li>
+<li>client如何确定自己发送的消息被server收到?</li>
+<li>谈谈你对WebSocket的理解</li>
+<li>WebSocket与socket的区别</li>
+<li>谈谈你对安卓签名的理解。</li>
+<li>请解释安卓为啥要加签名机制?</li>
+<li>视频加密传输</li>
+<li>App 是如何沙箱化，为什么要这么做？</li>
+<li>权限管理系统（底层的权限是如何进行 grant 的）？</li>
+</ul>
+<h5 id="（三）数据库"><a href="#（三）数据库" class="headerlink" title="（三）数据库"></a>（三）数据库</h5><ul>
+<li>sqlite升级，增加字段的语句</li>
+<li>数据库框架对比和源码分析</li>
+<li>数据库的优化</li>
+<li>数据库数据迁移问题</li>
+</ul>
+<h5 id="（四）算法"><a href="#（四）算法" class="headerlink" title="（四）算法"></a>（四）算法</h5><ul>
+<li>排序算法有哪些？</li>
+<li>最快的排序算法是哪个？</li>
+<li>手写一个冒泡排序</li>
+<li>手写快速排序代码</li>
+<li>快速排序的过程、时间复杂度、空间复杂度</li>
+<li>手写堆排序</li>
+<li>堆排序过程、时间复杂度及空间复杂度</li>
+<li>写出你所知道的排序算法及时空复杂度，稳定性</li>
+<li>二叉树给出根节点和目标节点，找出从根节点到目标节点的路径</li>
+<li>给阿里2万多名员工按年龄排序应该选择哪个算法？</li>
+<li>GC算法(各种算法的优缺点以及应用场景)</li>
+<li>蚁群算法与蒙特卡洛算法</li>
+<li>子串包含问题(KMP 算法)写代码实现</li>
+<li>一个无序，不重复数组，输出N个元素，使得N个元素的和相加为M，给出时间复杂度、空间复杂度。手写算法</li>
+<li>万亿级别的两个URL文件A和B，如何求出A和B的差集C(提示：Bit映射-&gt;hash分组-&gt;多文件读写效率-&gt;磁盘寻址以及应用层面对寻址的优化)</li>
+<li>百度POI中如何试下查找最近的商家功能(提示：坐标镜像+R树)。</li>
+<li>两个不重复的数组集合中，求共同的元素。</li>
+<li>两个不重复的数组集合中，这两个集合都是海量数据，内存中放不下，怎么求共同的元素？</li>
+<li>一个文件中有100万个整数，由空格分开，在程序中判断用户输入的整数是否在此文件中。说出最优的方法</li>
+<li>一张Bitmap所占内存以及内存占用的计算</li>
+<li>2000万个整数，找出第五十大的数字？</li>
+<li>烧一根不均匀的绳，从头烧到尾总共需要1个小时。现在有若干条材质相同的绳子，问如何用烧绳的方法来计时一个小时十五分钟呢？</li>
+<li>求1000以内的水仙花数以及40亿以内的水仙花数</li>
+<li>5枚硬币，2正3反如何划分为两堆然后通过翻转让两堆中正面向上的硬8币和反面向上的硬币个数相同</li>
+<li>时针走一圈，时针分针重合几次</li>
+<li>N*N的方格纸,里面有多少个正方形</li>
+<li>x个苹果，一天只能吃一个、两个、或者三个，问多少天可以吃完？</li>
+</ul>
+<h5 id="（五）插件化、模块化、组件化、热修复、增量更新、Gradle"><a href="#（五）插件化、模块化、组件化、热修复、增量更新、Gradle" class="headerlink" title="（五）插件化、模块化、组件化、热修复、增量更新、Gradle"></a>（五）插件化、模块化、组件化、热修复、增量更新、Gradle</h5><ul>
+<li>对热修复和插件化的理解</li>
+<li>插件化原理分析</li>
+<li>模块化实现（好处，原因）</li>
+<li>热修复,插件化</li>
+<li>项目组件化的理解</li>
+<li>描述清点击 Android Studio 的 build 按钮后发生了什么</li>
+</ul>
+<h5 id="（六）架构设计和设计模式"><a href="#（六）架构设计和设计模式" class="headerlink" title="（六）架构设计和设计模式"></a>（六）架构设计和设计模式</h5><ul>
+<li>谈谈你对Android设计模式的理解</li>
+<li>MVC MVP MVVM原理和区别</li>
+<li>你所知道的设计模式有哪些？</li>
+<li>项目中常用的设计模式</li>
+<li>手写生产者/消费者模式</li>
+<li>写出观察者模式的代码</li>
+<li>适配器模式，装饰者模式，外观模式的异同？</li>
+<li>用到的一些开源框架，介绍一个看过源码的，内部实现过程。</li>
+<li>谈谈对RxJava的理解</li>
+<li>RxJava的功能与原理实现</li>
+<li>RxJava的作用，与平时使用的异步操作来比的优缺点</li>
+<li>说说EventBus作用，实现方式，代替EventBus的方式</li>
+<li>从0设计一款App整体架构，如何去做？</li>
+<li>说一款你认为当前比较火的应用并设计(比如：直播APP，P2P金融，小视频等)</li>
+<li>谈谈对java状态机理解</li>
+<li>Fragment如果在Adapter中使用应该如何解耦？</li>
+<li>Binder机制及底层实现</li>
+<li>对于应用更新这块是如何做的？(解答：灰度，强制更新，分区域更新)？</li>
+<li>实现一个Json解析器(可以通过正则提高速度)</li>
+<li>统计启动时长,标准</li>
+</ul>
+<h5 id="（七）性能优化"><a href="#（七）性能优化" class="headerlink" title="（七）性能优化"></a>（七）性能优化</h5><ul>
+<li>如何对Android 应用进行性能分析以及优化?</li>
+<li>ddms 和 traceView</li>
+<li>性能优化如何分析systrace？</li>
+<li>用IDE如何分析内存泄漏？</li>
+<li>Java多线程引发的性能问题，怎么解决？</li>
+<li>启动页白屏及黑屏解决？</li>
+<li>启动太慢怎么解决？</li>
+<li>怎么保证应用启动不卡顿？</li>
+<li>App启动崩溃异常捕捉</li>
+<li>自定义View注意事项</li>
+<li>现在下载速度很慢,试从网络协议的角度分析原因,并优化(提示：网络的5层都可以涉及)。</li>
+<li>Https请求慢的解决办法（提示：DNS，携带数据，直接访问IP）</li>
+<li>如何保持应用的稳定性</li>
+<li>RecyclerView和ListView的性能对比</li>
+<li>ListView的优化</li>
+<li>RecycleView优化</li>
+<li>View渲染</li>
+<li>Bitmap如何处理大图，如一张30M的大图，如何预防OOM</li>
+<li>java中的四种引用的区别以及使用场景</li>
+<li>强引用置为null，会不会被回收？</li>
+</ul>
+<h5 id="（八）NDK、jni、Binder、AIDL、进程通信有关"><a href="#（八）NDK、jni、Binder、AIDL、进程通信有关" class="headerlink" title="（八）NDK、jni、Binder、AIDL、进程通信有关"></a>（八）NDK、jni、Binder、AIDL、进程通信有关</h5><ul>
+<li>请介绍一下NDK</li>
+<li>什么是NDK库?</li>
+<li>jni用过吗？</li>
+<li>如何在jni中注册native函数，有几种注册方式?</li>
+<li>Java如何调用c、c++语言？</li>
+<li>jni如何调用java层代码？</li>
+<li>进程间通信的方式？</li>
+<li>Binder机制</li>
+<li>简述IPC？</li>
+<li>什么是AIDL？</li>
+<li>AIDL解决了什么问题？</li>
+<li>AIDL如何使用？</li>
+<li>Android 上的 Inter-Process-Communication 跨进程通信时如何工作的？</li>
+<li>多进程场景遇见过么？</li>
+<li>Android进程分类？</li>
+<li>进程和 Application 的生命周期？</li>
+<li>进程调度</li>
+<li>谈谈对进程共享和线程安全的认识</li>
+<li>谈谈对多进程开发的理解以及多进程应用场景</li>
+<li>什么是协程？</li>
+</ul>
+<h5 id="（九）framework层、ROM定制、Ubuntu、Linux之类的问题"><a href="#（九）framework层、ROM定制、Ubuntu、Linux之类的问题" class="headerlink" title="（九）framework层、ROM定制、Ubuntu、Linux之类的问题"></a>（九）framework层、ROM定制、Ubuntu、Linux之类的问题</h5><ul>
+<li>java虚拟机的特性</li>
+<li>谈谈对jvm的理解</li>
+<li>JVM内存区域，开线程影响哪块内存</li>
+<li>对Dalvik、ART虚拟机有什么了解？</li>
+<li>Art和Dalvik对比</li>
+<li>虚拟机原理，如何自己设计一个虚拟机(内存管理，类加载，双亲委派)</li>
+<li>谈谈你对双亲委派模型理解</li>
+<li>JVM内存模型，内存区域</li>
+<li>类加载机制</li>
+<li>谈谈对ClassLoader(类加载器)的理解</li>
+<li>谈谈对动态加载（OSGI）的理解</li>
+<li>内存对象的循环引用及避免</li>
+<li>内存回收机制、GC回收策略、GC原理时机以及GC对象</li>
+<li>垃圾回收机制与调用System.gc()区别</li>
+<li>系统启动流程是什么？（提示：Zygote进程 –&gt; SystemServer进程 –&gt; 各种系统服务 –&gt; 应用进程）</li>
+<li>大体说清一个应用程序安装到手机上时发生了什么</li>
+<li>简述Activity启动全部过程</li>
+<li>App启动流程，从点击桌面开始</li>
+<li>逻辑地址与物理地址，为什么使用逻辑地址？</li>
+<li>Android为每个应用程序分配的内存大小是多少？</li>
+<li>Android中进程内存的分配，能不能自己分配定额内存？</li>
+<li>进程保活的方式</li>
+<li>如何保证一个后台服务不被杀死？（相同问题：如何保证service在后台不被kill？）比较省电的方式是什么？</li>
+<li>App中唤醒其他进程的实现方式</li>
+</ul>
+<p>​    <a href="https://www.jianshu.com/p/c3965e82b164" target="_blank" rel="noopener">https://www.jianshu.com/p/c3965e82b164</a></p>
+<ul>
+<li><a href="https://www.cnblogs.com/deman/p/5860976.html#_label29" target="_blank" rel="noopener">https://www.cnblogs.com/deman/p/5860976.html#_label29</a>)</li>
+</ul>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
     </div>
 
 
@@ -756,7 +1717,7 @@
 <a href="/2019/01/01/View_Practice/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -805,8 +1766,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -821,412 +1782,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-MediaPlayer" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/11/18/MediaPlayer/">MediaPlayer</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2018-11-18T01:05:11.000Z" itemprop="datePublished">2018年11月18日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2018/11/18/MediaPlayer/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a href="https://developer.android.com/reference/android/media/MediaPlayer" target="_blank" rel="noopener">https://developer.android.com/reference/android/media/MediaPlayer</a></p>
-<p><a href="http://www.runoob.com/w3cnote/android-tutorial-mediaplayer.html" target="_blank" rel="noopener">http://www.runoob.com/w3cnote/android-tutorial-mediaplayer.html</a></p>
-<p><img src="/2018/11/18/MediaPlayer/mediaplayer_state_diagram.gif" alt="mediaplayer_state_diagram"></p>
-<p>这张状态转换图清晰的描述了MediaPlayer的各个状态，也列举了主要的方法的调用时序，每种方法只能在一些特定的状态下使用，如果使用时MediaPlayer的状态不正确则会引发IllegalStateException异常。</p>
-<p>Idle 状态：当使用new()方法创建一个MediaPlayer对象或者调用了其reset()方法时，该MediaPlayer对象处于idle状态。这两种方法的一个重要差别就是：如果在这个状态下调用了getDuration()等方法（相当于调用时机不正确），通过reset()方法进入idle状态的话会触发OnErrorListener.onError()，并且MediaPlayer会进入Error状态；如果是新创建的MediaPlayer对象，则并不会触发onError(),也不会进入Error状态。</p>
-<p>End 状态：通过release()方法可以进入End状态，只要MediaPlayer对象不再被使用，就应当尽快将其通过release()方法释放掉，以释放相关的软硬件组件资源，这其中有些资源是只有一份的（相当于临界资源）。如果MediaPlayer对象进入了End状态，则不会在进入任何其他状态了。</p>
-<p>Initialized 状态：这个状态比较简单，MediaPlayer调用setDataSource()方法就进入Initialized状态，表示此时要播放的文件已经设置好了。</p>
-<p>Prepared 状态：初始化完成之后还需要通过调用prepare()或prepareAsync()方法，这两个方法一个是同步的一个是异步的，只有进入Prepared状态，才表明MediaPlayer到目前为止都没有错误，可以进行文件播放。</p>
-<p>Preparing 状态：这个状态比较好理解，主要是和prepareAsync()配合，如果异步准备完成，会触发OnPreparedListener.onPrepared()，进而进入Prepared状态。</p>
-<p>Started 状态：显然，MediaPlayer一旦准备好，就可以调用start()方法，这样MediaPlayer就处于Started状态，这表明MediaPlayer正在播放文件过程中。可以使用isPlaying()测试MediaPlayer是否处于了Started状态。如果播放完毕，而又设置了循环播放，则MediaPlayer仍然会处于Started状态，类似的，如果在该状态下MediaPlayer调用了seekTo()或者start()方法均可以让MediaPlayer停留在Started状态。</p>
-<p>Paused 状态：Started状态下MediaPlayer调用pause()方法可以暂停MediaPlayer，从而进入Paused状态，MediaPlayer暂停后再次调用start()则可以继续MediaPlayer的播放，转到Started状态，暂停状态时可以调用seekTo()方法，这是不会改变状态的。</p>
-<p>Stop 状态：Started或者Paused状态下均可调用stop()停止MediaPlayer，而处于Stop状态的MediaPlayer要想重新播放，需要通过prepareAsync()和prepare()回到先前的Prepared状态重新开始才可以。</p>
-<p>PlaybackCompleted状态：文件正常播放完毕，而又没有设置循环播放的话就进入该状态，并会触发OnCompletionListener的onCompletion()方法。此时可以调用start()方法重新从头播放文件，也可以stop()停止MediaPlayer，或者也可以seekTo()来重新定位播放位置。</p>
-<p>Error状态：如果由于某种原因MediaPlayer出现了错误，会触发OnErrorListener.onError()事件，此时MediaPlayer即进入Error状态，及时捕捉并妥善处理这些错误是很重要的，可以帮助我们及时释放相关的软硬件资源，也可以改善用户体验。通过setOnErrorListener(android.media.MediaPlayer.OnErrorListener)可以设置该监听器。如果MediaPlayer进入了Error状态，可以通过调用reset()来恢复，使得MediaPlayer重新返回到Idle状态。</p>
-<p>原文：<a href="https://blog.csdn.net/ddna/article/details/5178864" target="_blank" rel="noopener">https://blog.csdn.net/ddna/article/details/5178864</a><br><a href="https://blog.csdn.net/biaobiao1217/article/details/51557733" target="_blank" rel="noopener">https://blog.csdn.net/biaobiao1217/article/details/51557733</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-mina" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/11/03/mina/">mina</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2018-11-03T01:48:09.000Z" itemprop="datePublished">2018年11月03日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
-  </div>
-
-      
-      
-<a href="/2018/11/03/mina/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>MINA配置</p>
-<ul>
-<li>下载 <a href="http://mina.apache.org/mina-project/downloads.html" target="_blank" rel="noopener">http://mina.apache.org/mina-project/downloads.html</a>   <a href="http://mirrors.shu.edu.cn/apache/mina/mina/2.0.19/apache-mina-2.0.19-bin.zip" target="_blank" rel="noopener"><strong>apache-mina-2.0.19-bin.zip</strong></a> 解压</li>
-<li>下载 <a href="https://www.slf4j.org/download.html" target="_blank" rel="noopener">https://www.slf4j.org/download.html</a>   slf4j-1.7.25.zip解压</li>
-</ul>
-<p>在MineUtil项目中有demo实现</p>
-<p>IM键盘</p>
-<p><a href="https://juejin.im/post/5ef850c9f265da231019f6e4" target="_blank" rel="noopener">https://juejin.im/post/5ef850c9f265da231019f6e4</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-GestureDetector" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/13/GestureDetector/">GestureDetector</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2018-08-13T08:08:19.000Z" itemprop="datePublished">2018年08月13日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2018/08/13/GestureDetector/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>GestureDetector总结</p>
-<p><a href="https://blog.csdn.net/harvic880925/article/details/39520901" target="_blank" rel="noopener">https://blog.csdn.net/harvic880925/article/details/39520901</a></p>
-<p>切换动画</p>
-<p><a href="https://blog.csdn.net/u013309870/article/details/52873515" target="_blank" rel="noopener">https://blog.csdn.net/u013309870/article/details/52873515</a></p>
-<p><a href="http://www.jcodecraeer.com/a/basictutorial/2016/1014/6672.html" target="_blank" rel="noopener">http://www.jcodecraeer.com/a/basictutorial/2016/1014/6672.html</a></p>
-<p><a href="https://www.jianshu.com/p/a06e4f215f49" target="_blank" rel="noopener">https://www.jianshu.com/p/a06e4f215f49</a></p>
-<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">e1,</span> MotionEvent e2坐标滑动距离</span><br></pre></td></tr></table></figure>
-<p>速度判断:velocityX：X轴上的移动速度，像素/秒   </p>
-<p>velocityY：Y轴上的移动速度，像素/秒 </p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-AndroidSource" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/25/AndroidSource/">AndroidSource</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2018-07-25T01:57:29.000Z" itemprop="datePublished">2018年07月25日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2018/07/25/AndroidSource/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h5 id="源码调试"><a href="#源码调试" class="headerlink" title="源码调试"></a>源码调试</h5><p>要学习Android源码需要编译一份，然后安装要求导入AndroidStudio,可以参考:<br><a href="http://blog.csdn.net/huaiyiheyuan/article/details/52069122" target="_blank" rel="noopener">http://blog.csdn.net/huaiyiheyuan/article/details/52069122</a></p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Application</span> <span class="keyword">extends</span> <span class="title">ContextWrapper</span> <span class="title">implements</span> <span class="title">ComponentCallbacks2</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>当我点开父类ContextWrapper后，发现引用的是jar立面的class文件，既然有源码这肯定不是我所需要的，<br>可以这要操作:Project Structure-&gt;Dependencies(可以看到很多jar依赖删掉)-&gt;　＋JARS And Dierctories -&gt;添加源码要关联的frameworks 、packages…</p>
-<ol>
-<li>新建JDK1.8　选择openjdk8</li>
-</ol>
-<p>　<img src="/2018/07/25/AndroidSource/DeepinScrot_aosp1.png" alt="新建JDK"></p>
-<ol start="2">
-<li><p>删除依赖</p>
-<p>　<img src="/2018/07/25/AndroidSource/DeepinScrot_aosp5.png" alt="删除依赖"></p>
-</li>
-</ol>
-<p>3.　选择需要的包</p>
-<p><img src="/2018/07/25/AndroidSource/DeepinScrot_aosp.png" alt="选择包"></p>
-<p>4.　这一步要衡量一下，转为gradle项目后，project structure下面就没有moudles了<br> <img src="/2018/07/25/AndroidSource/DeepinScrot_aosp2.png" alt="添加包"><br>    这个设置后麻烦可以大了，后面不得不删除了android.ipr、android.iws、android.iml这三个文件重新生成</p>
-<p>５.　跳转到源码<br>　　找到pacages-&gt; apps-&gt;Settings　<code>public class SettingsDrawerActivity extends Activity {</code></p>
-<p>  点开Activity发现还是跳转到jar的内容<br>  <img src="/2018/07/25/AndroidSource/DeepinScrot_aosp6.png" alt="跳转成功"> 点击Ok后再测试下</p>
-<p>  <img src="/2018/07/25/AndroidSource/DeepinScrot_aosp7.png" alt="验证"><br>  终于成功了</p>
-<p><strong> 哈哈　然后就可以愉快的调试源码了
-</strong></p>
-<p>/home/jon/noteforme.github.io/public/2017/08/10/DesignParrerns</p>
-<p><a href="https://cloud.tencent.com/developer/news/277549" target="_blank" rel="noopener">https://cloud.tencent.com/developer/news/277549</a></p>
-<ul>
-<li><p>Activity启动过程</p>
-<p>对应用程序Activity进行编译和打包</p>
-<pre><code>/home/jon/桌面/LaoLuo/chapter-7/src/packages/experimental/Activity
-make snod
-emulator
-</code></pre></li>
-</ul>
-<p>然后查看activity信息，在这里通过源码里面的 adb</p>
-<pre><code>cd  /home/jon/AOSP/out/host/linux-x86/bin
-adb shell dumpsys activity
-</code></pre><blockquote>
-</blockquote>
-<p><img src="https://img-blog.csdn.net/20170123173332254?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRhY2hpODU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="zoom: 67%;"></p>
-<p>1.Android系统架构<br>Android系统架构分为五层，从上到下依次是应用层、应用框架层、系统运行库层、硬件抽象层和Linux内核层。</p>
-<p>应用层<br>系统内置的应用程序以及非系统级的应用程序都是属于应用层。负责与用户进行直接交互，通常都是用Java进行开发的。</p>
-<p>应用框架层（Java Framework)<br>应用框架层为开发人员提供了可以开发应用程序所需要的API，我们平常开发应用程序都是调用的这一层所提供的API，当然也包括系统的应用。这一层的是由Java代码编写的，可以称为Java Framework。下面来看这一层所提供的主要的组件。</p>
-<p>名称    功能描述<br>Activity Manager(活动管理器)    管理各个应用程序生命周期以及通常的导航回退功能<br>Location Manager(位置管理器)    提供地理位置以及定位功能服务<br>Package Manager(包管理器)    管理所有安装在Android系统中的应用程序<br>Notification Manager(通知管理器)    使得应用程序可以在状态栏中显示自定义的提示信息<br>Resource Manager（资源管理器）    提供应用程序使用的各种非代码资源，如本地化字符串、图片、布局文件、颜色文件等<br>Telephony Manager(电话管理器)    管理所有的移动设备功能<br>Window Manager（窗口管理器）    管理所有开启的窗口程序<br>Content Providers（内容提供器）    使得不同应用程序之间可以共享数据<br>View System（视图系统）    构建应用程序的基本组件<br>表1<br>系统运行库层（Native)<br>系统运行库层分为两部分，分别是C/C++程序库和Android运行时库。下面分别来介绍它们。</p>
-<p>1.C/C++程序库<br>C/C++程序库能被Android系统中的不同组件所使用，并通过应用程序框架为开发者提供服务，主要的C/C++程序库如下表2所示。</p>
-<p>名称    功能描述<br>OpenGL ES    3D绘图函数库<br>Libc    从BSD继承来的标准C系统函数库，专门为基于嵌入式Linux的设备定制<br>Media Framework    多媒体库，支持多种常用的音频、视频格式录制和回放。<br>SQLite    轻型的关系型数据库引擎<br>SGL    底层的2D图形渲染引擎<br>SSL    安全套接层，是为网络通信提供安全及数据完整性的一种安全协议<br>FreeType    可移植的字体引擎，它提供统一的接口来访问多种字体格式文件<br>表2<br>2.Android运行时库<br>运行时库又分为核心库和ART(5.0系统之后，Dalvik虚拟机被ART取代)。核心库提供了Java语言核心库的大多数功能，这样开发者可以使用Java语言来编写Android应用。相较于JVM，Dalvik虚拟机是专门为移动设备定制的，允许在有限的内存中同时运行多个虚拟机的实例，并且每一个Dalvik 应用作为一个独立的Linux 进程执行。独立的进程可以防止在虚拟机崩溃的时候所有程序都被关闭。而替代Dalvik虚拟机的ART 的机制与Dalvik 不同。在Dalvik下，应用每次运行的时候，字节码都需要通过即时编译器转换为机器码，这会拖慢应用的运行效率，而在ART 环境中，应用在第一次安装的时候，字节码就会预先编译成机器码，使其成为真正的本地应用。</p>
-<p>硬件抽象层（HAL)<br>硬件抽象层是位于操作系统内核与硬件电路之间的接口层，其目的在于将硬件抽象化，为了保护硬件厂商的知识产权，它隐藏了特定平台的硬件接口细节，为操作系统提供虚拟硬件平台，使其具有硬件无关性，可在多种平台上进行移植。 从软硬件测试的角度来看，软硬件的测试工作都可分别基于硬件抽象层来完成，使得软硬件测试工作的并行进行成为可能。通俗来讲，就是将控制硬件的动作放在硬件抽象层中。</p>
-<p>Linux内核层<br>Android 的核心系统服务基于Linux 内核，在此基础上添加了部分Android专用的驱动。系统的安全性、内存管理、进程管理、网络协议栈和驱动模型等都依赖于该内核。<br>Android系统的五层架构就讲到这，了解以上的知识对以后分析系统源码有很大的帮助。</p>
-<p>2.Android系统源码目录<br>我们要先了解Android系统源码目录，为后期源码学习打下基础。关于源码的阅读，你可以访问<a href="http://androidxref.com/来阅读系统源码。当然，最好是将源码下载下来。下载源码可以使用清华大学开源软件镜像站提供的Android" target="_blank" rel="noopener">http://androidxref.com/来阅读系统源码。当然，最好是将源码下载下来。下载源码可以使用清华大学开源软件镜像站提供的Android</a> 镜像：<a href="https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/</a> 。如果觉得麻烦也可以查找国内的网盘进行下载，推荐使用该百度网盘地址下载：<a href="http://pan.baidu.com/s/1ngsZs，它提供了多个Android版本的的源码下载。" target="_blank" rel="noopener">http://pan.baidu.com/s/1ngsZs，它提供了多个Android版本的的源码下载。</a></p>
-<p>整体结构<br>各个版本的源码目录基本是类似，如果是编译后的源码目录会多增加一个out文件夹，用来存储编译产生的文件。Android7.0的根目录结构说明如下表所示。</p>
-<p>从表3可以看出，系统源码分类清晰，并且内容庞大且复杂。接下来分析packages中的内容，也就是应用层部分。<br>应用层部分<br>应用层位于整个Android系统的最上层，开发者开发的应用程序以及系统内置的应用程序都是在应用层。源码根目录中的packages目录对应着系统应用层。它的目录结构如表4所示。</p>
-<h5 id="Android-open-source-project"><a href="#Android-open-source-project" class="headerlink" title="Android open source project"></a>Android open source project</h5><h5 id=""><a href="#" class="headerlink" title=" "></a> </h5><p>Android Architecture</p>
-<p><img src="/2018/07/25/AndroidSource/android_stack_720.png" style="zoom:50%;">         <img src="/2018/07/25/AndroidSource/ape_fwk_all.png" style="zoom: 67%;"></p>
-<p><a href="https://source.android.com/" target="_blank" rel="noopener">https://source.android.com/</a>                            </p>
-<p> <a href="https://source.android.com/devices/architecture" target="_blank" rel="noopener">https://source.android.com/devices/architecture</a></p>
-<blockquote>
-<pre><code>    Android源码根目录    描述
-
-abi    应用程序二进制接口
-art    全新的ART运行环境
-bionic    系统C库
-bootable    启动引导相关代码
-build    存放系统编译规则及generic等基础开发包配置
-cts    Android兼容性测试套件标准
-dalvik art    虚拟机
-developers    开发者目录
-development    应用程序开发相关
-device    设备相关配置
-docs    参考文档目录
-external    开源模组相关文件
-frameworks    应用程序框架，Android系统核心部分，由Java和C++编写
-hardware    主要是硬件抽象层的代码
-libcore    核心库相关文件
-libnativehelper    动态库，实现JNI库的基础
-ndk    NDK相关代码，帮助开发人员在应用程序中嵌入C/C++代码
-out    编译完成后代码输出在此目录
-packages    应用程序包
-pdk    Plug Development Kit 的缩写，本地开发套件
-platform_testing    平台测试
-prebuilts    x86和arm架构下预编译的一些资源
-sdk    sdk和模拟器
-system    底层文件系统库、应用和组件
-toolchain    工具链文件
-tools    工具文件
-Makefile    全局Makefile文件，用来定义编译规则
-————————————————
-
-https://blog.csdn.net/wenzhi20102321/article/details/80739649
-
-https://blog.csdn.net/wen0006/article/details/5804639
-</code></pre></blockquote>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/7/index.html">http://yoursite.com/page/7/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AOSP/">AOSP</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1243,7 +1799,7 @@ https://blog.csdn.net/wen0006/article/details/5804639
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/6/">Vorheriger</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/8/">Nächster</a>
+<a class="extend prev" rel="prev" href="/page/6/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/8/">Next</a>
 </nav>
 
 
@@ -1253,28 +1809,28 @@ https://blog.csdn.net/wen0006/article/details/5804639
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
     <div class="widget">
       <ul>
         
           <li>
+            <a href="/2021/06/17/kmp/">kmp</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/21/Assembly/">Assembly</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/18/OS-LAB/">OS_LAB</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/19/Data-LinkedList/">Data_LinkedList</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/21/Data-Sort/">Data_Sort</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/12/INTERVIEW-practice/">INTERVIEW-practice</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/08/Concurrency-SychronizedVolatile/">Concurrency_SychronizedVolatile</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/26/Concurrency-thread/">Concurrency_thread</a>
           </li>
         
       </ul>
@@ -1287,16 +1843,16 @@ https://blog.csdn.net/wen0006/article/details/5804639
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOSP/" style="font-size: 15px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/BLOG/" style="font-size: 12.5px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 12.5px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/JVM/" style="font-size: 20px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 17.5px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 17.5px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 15px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 15px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 17.5px;">concurrency</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/resume/" style="font-size: 12.5px;">resume</a>
+      <a href="/tags/AOSP/" style="font-size: 17.5px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 12.5px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 12.5px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/JVM/" style="font-size: 20px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 17.5px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 17.5px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 15px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 15px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 17.5px;">concurrency</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/AOSP/">AOSP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/INTERVIEW/">INTERVIEW</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/INTERVIEW/">INTERVIEW</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1304,9 +1860,9 @@ https://blog.csdn.net/wen0006/article/details/5804639
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年08月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年07月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年04月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年01月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年11月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年09月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年07月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年07月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年06月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年04月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年11月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年10月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年09月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年08月</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年07月</a><span class="archive-list-count">11</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年05月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年01月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年08月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年07月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年04月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年01月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年11月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年09月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年07月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年01月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年07月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年06月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年04月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年11月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年10月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年09月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年08月</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年07月</a><span class="archive-list-count">11</span></li></ul>
     </div>
   </div>
 
@@ -1316,7 +1872,7 @@ https://blog.csdn.net/wen0006/article/details/5804639
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/">AOSP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/">BLOG</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/">AOSP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/">BLOG</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1355,9 +1911,9 @@ https://blog.csdn.net/wen0006/article/details/5804639
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Sitemap</a>
-        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
-        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
       </p>
       
         <p>
