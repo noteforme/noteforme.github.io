@@ -45,11 +45,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -57,7 +57,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -78,152 +78,6 @@
 
       <div class="outer">
         <section id="main">
-  <article id="post-DesignPatterns_Factory" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/08/10/DesignPatterns_Factory/">DesignPatterns  Factory</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-08-10T00:36:29.000Z" itemprop="datePublished">2017年08月10日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
-  </div>
-
-      
-      
-<a href="/2017/08/10/DesignPatterns_Factory/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>工厂方法和抽象工厂方法 都是通过工厂生产产品，由于产品都实现了相同的接口，根据获取到的产品作相应的处理</p>
-<p>工厂方法 :返回一个产品实例 ,  继承了工厂Dialog Base类,Base类抽象方法由sub类实现</p>
-<p>抽象工厂方法:可以返回一组相关的产品实例,实现了创建不同产品的抽象工厂接口</p>
-<h5 id="factory-guru"><a href="#factory-guru" class="headerlink" title="factory guru"></a>factory guru</h5><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">Dialog</span> &#123;</span><br><span class="line">    <span class="comment">// The creator may also provide some default implementation</span></span><br><span class="line">    <span class="comment">// of the factory method.</span></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> Button <span class="title">createButton</span>(<span class="params"></span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Note that, despite its name, the creator's primary</span></span><br><span class="line">    <span class="comment">// responsibility isn't creating products. It usually</span></span><br><span class="line">    <span class="comment">// contains some core business logic that relies on product</span></span><br><span class="line">    <span class="comment">// objects returned by the factory method. Subclasses can</span></span><br><span class="line">    <span class="comment">// indirectly change that business logic by overriding the</span></span><br><span class="line">    <span class="comment">// factory method and returning a different type of product</span></span><br><span class="line">    <span class="comment">// from it.</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">render</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// Call the factory method to create a product object.</span></span><br><span class="line">        Button okButton = createButton();</span><br><span class="line">        <span class="comment">// Now use the product.</span></span><br><span class="line">        okButton.onClick(<span class="string">"closeDialog"</span>);</span><br><span class="line">        okButton.render();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">WindowsDialogFac</span> <span class="keyword">extends</span> <span class="title">Dialog</span> </span>&#123;</span><br><span class="line">    <span class="type">Button</span> createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">WindowsButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">WebDialogFac</span> <span class="keyword">extends</span> <span class="title">Dialog</span> </span>&#123;</span><br><span class="line">    <span class="type">Button</span> createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">HTMLButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>Button &#123;</span><br><span class="line">    void render();</span><br><span class="line">    void onClick(String  cls);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WindowsButton</span> <span class="title">implements</span> <span class="title">Button</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">render</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"WindowsButton   render()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(<span class="params">String cls</span>) </span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"WindowsButton   onClick "</span>+cls);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HTMLButton</span> <span class="title">implements</span> <span class="title">Button</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">render</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"HTMLButton   render()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(<span class="params">String cls</span>) </span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"HTMLButton   onClick "</span>+cls);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Application</span> &#123;</span><br><span class="line">    Dialog dialog;</span><br><span class="line"></span><br><span class="line">    String configOs = <span class="string">"Windows"</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">initialize</span>(<span class="params"></span>) throws Exception </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (configOs.<span class="keyword">equals</span>(<span class="string">"Windows"</span>)) &#123;</span><br><span class="line">            dialog = <span class="keyword">new</span> WindowsDialogFac();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (configOs.<span class="keyword">equals</span>(<span class="string">"HTML"</span>)) &#123;</span><br><span class="line">            dialog = <span class="keyword">new</span> WebDialogFac();</span><br><span class="line">        &#125; <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"Error! Unknown operating system."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The client code works with an instance of a concrete</span></span><br><span class="line">    <span class="comment">// creator, albeit through its base interface. As long as</span></span><br><span class="line">    <span class="comment">// the client keeps working with the creator via the base</span></span><br><span class="line">    <span class="comment">// interface, you can pass it any creator's subclass.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params"></span>) throws Exception </span>&#123;</span><br><span class="line">        initialize();</span><br><span class="line">        dialog.render();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="abstact-guru"><a href="#abstact-guru" class="headerlink" title="abstact guru"></a>abstact guru</h5><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * // 抽象工厂接口声明了一组能返回不同抽象产品的方法。这些产品属于同一个系列</span></span><br><span class="line"><span class="comment"> * // 且在高层主题或概念上具有相关性。同系列的产品通常能相互搭配使用。系列产</span></span><br><span class="line"><span class="comment"> * // 品可有多个变体，但不同变体的产品不能搭配使用。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">GUIFactory</span> &#123;</span><br><span class="line">    <span class="function">Button <span class="title">createButton</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="function">CheckBox <span class="title">createCheckBox</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Concrete factories produce a family of products that belong</span></span><br><span class="line"><span class="comment">// to a single variant. The factory guarantees that the</span></span><br><span class="line"><span class="comment">// resulting products are compatible. Signatures of the concrete</span></span><br><span class="line"><span class="comment">// factory's methods return an abstract product, while inside</span></span><br><span class="line"><span class="comment">// the method a concrete product is instantiated.</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WinFactory</span> <span class="keyword"><span class="keyword">implements</span>  <span class="type">GUIFactory</span></span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Button createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">WinButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> CheckBox createCheckBox() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">WinCheckbox</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MacFactory</span> <span class="keyword"><span class="keyword">implements</span>  <span class="type">GUIFactory</span></span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Button createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">MacButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> CheckBox createCheckBox() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">MacCheckbox</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * // 系列产品中的特定产品必须有一个基础接口。所有产品变体都必须实现这个接口。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">Button</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span>  <span class="title">paint</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Concrete products are created by corresponding concrete</span></span><br><span class="line"><span class="comment">// factories.</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WinButton</span> <span class="keyword">implements</span> <span class="title">Button</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">paint</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"根据 Windows 样式渲染按钮   WinButton"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MacButton</span> <span class="keyword">implements</span> <span class="title">Button</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">paint</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"根据 macOs 样式渲染按钮 MacButton"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是另一个产品的基础接口。所有产品都可以互动，但是只有相同具体变体的产</span></span><br><span class="line"><span class="comment">// 品之间才能够正确地进行交互。</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">CheckBox</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span>  <span class="title">paint</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WinCheckbox</span> <span class="keyword">implements</span>  <span class="title">CheckBox</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">paint</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"根据 Win 样式渲染复选框。   WinCheckbox"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MacCheckbox</span> <span class="keyword">implements</span>  <span class="title">CheckBox</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">paint</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"根据 macOS 样式渲染复选框。   MacCheckbox"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> &#123;</span></span><br><span class="line">    <span class="keyword">private</span> GUIFactory factory;</span><br><span class="line">    <span class="keyword">private</span> Button button;</span><br><span class="line">    <span class="keyword">private</span> CheckBox checkBox;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Application</span><span class="params">(GUIFactory factory)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.factory = factory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createUi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.button = factory.createButton();</span><br><span class="line">        <span class="keyword">this</span>.checkBox = factory.createCheckBox();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">paint</span><span class="params">()</span></span>&#123;</span><br><span class="line">        button.paint();</span><br><span class="line">        checkBox.paint();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="https://refactoring.guru/design-patterns/abstract-factory" target="_blank" rel="noopener">https://refactoring.guru/design-patterns/abstract-factory</a></p>
-<p><a href="https://www.zhihu.com/question/20367734" target="_blank" rel="noopener">https://www.zhihu.com/question/20367734</a></p>
-<h5 id="Static-Factory（静态工厂模式）"><a href="#Static-Factory（静态工厂模式）" class="headerlink" title="Static Factory（静态工厂模式）"></a>Static Factory（静态工厂模式）</h5><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>Animal &#123;</span><br><span class="line">    void move();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">implements</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Cat move"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>工厂类　对实例类进行管理和创建</li>
-</ol>
-<pre><code>public class Factory {
- //静态工厂方法
- public static Cat produceCat() {
-     return new Cat();
- }
-
-public static Dog produceDog() {
-     return new Dog();
- }
-
- public static void main(String[] args) {
-     Animal cat = Factory.produceCat();
-     cat.move();
-
-     Dog dog = Factory.produceDog();
-     dog.move();
-     dog.eatBone();
-  }
- }`
-</code></pre><p>假如我要实例化一个pig对象,那么肯定是要在Factory做添加的，接下来看看可以不修改其他类实现需求</p>
-<ol start="2">
-<li>Abstract Factory(抽象工厂 elementary )</li>
-</ol>
-<pre><code> public interface Provider {
-  Animal produce();
- }
-
- public class DogFactory implements  Provider {
-   @Override
-   public Animal produce() {
-    return new Dog();
-   }
- }
-
-
-
-public class CatFactory implements Provider {
-    @Override
-    public Animal produce() {
-        return new Cat();
-    }
-}
-</code></pre><p>​    Provider provider = new CatFactory();<br>​     Animal cat = provider.produce();<br>​    cat.move();<br>  如果要实例化Pig，添加一个PigFactory 就可以了</p>
-<h5 id="Simple-factory"><a href="#Simple-factory" class="headerlink" title="Simple factory"></a>Simple factory</h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">PizzaStore</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    SimplePizzaFactory <span class="keyword">factory</span>;</span><br><span class="line"></span><br><span class="line">    public PizzaStore(SimplePizzaFactory <span class="keyword">factory</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.<span class="keyword">factory</span> = <span class="keyword">factory</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Pizza orderPizza(<span class="built_in">String</span> type) &#123;</span><br><span class="line">        Pizza pizza = <span class="keyword">factory</span>.createPizza(type);</span><br><span class="line">        pizza.prepare();</span><br><span class="line">        pizza.bake();</span><br><span class="line">        pizza.cut();</span><br><span class="line">        pizza.box();</span><br><span class="line">        <span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> SimplePizzaFactory &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Pizza createPizza(String <span class="class"><span class="keyword">type</span>) &#123;</span></span><br><span class="line">        Pizza pizza = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"cheese"</span>.equals(<span class="class"><span class="keyword">type</span>)) &#123;</span></span><br><span class="line">            pizza = <span class="keyword">new</span> CheesePizza();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"pepperoni"</span>.equals(<span class="class"><span class="keyword">type</span>)) &#123;</span></span><br><span class="line">            pizza = <span class="keyword">new</span> PepperoniPizza();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"calm"</span>.equals(<span class="class"><span class="keyword">type</span>)) &#123;</span></span><br><span class="line">            pizza = <span class="keyword">new</span> GreekPizza();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">PizzaStore</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    SimplePizzaFactory <span class="keyword">factory</span>;</span><br><span class="line"></span><br><span class="line">    public PizzaStore(SimplePizzaFactory <span class="keyword">factory</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.<span class="keyword">factory</span> = <span class="keyword">factory</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public Pizza orderPizza(<span class="built_in">String</span> type) &#123;</span><br><span class="line">        Pizza pizza = <span class="keyword">factory</span>.createPizza(type);</span><br><span class="line">        pizza.prepare();</span><br><span class="line">        pizza.bake();</span><br><span class="line">        pizza.cut();</span><br><span class="line">        pizza.box();</span><br><span class="line">        <span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Pizza</span> &#123;</span><br><span class="line">    String name;</span><br><span class="line">    String dough;</span><br><span class="line">    String sauce;</span><br><span class="line">    ArrayList topping = <span class="keyword">new</span> ArrayList();</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span>   <span class="keyword">void</span> <span class="title">prepare</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        printOperation(<span class="string">"preparing     "</span> + name);</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"Tossing dough..."</span>);</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"Adding sauce"</span>);</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"Adding topping: "</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;topping.size();i++)&#123;</span><br><span class="line">            System.<span class="keyword">out</span>.println(<span class="string">"    "</span>+topping.<span class="keyword">get</span>(i));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">bake</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        printOperation(<span class="string">"bake  for 25 minutes at 350"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>   <span class="keyword">void</span> <span class="title">cut</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        printOperation(<span class="string">"Cutting the pizza into diagonal slices"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">box</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        printOperation(<span class="string">"Place pizza in official pizzaStore bx"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">printOperation</span>(<span class="params">String op</span>) </span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="comment">/*getClass().getSimpleName() + " " +*/</span> op);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span>  name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SimplePizzaFactory calmFactory = <span class="keyword">new</span> <span class="type">SimplePizzaFactory</span>();</span><br><span class="line">PizzaStore calmPizza = <span class="keyword">new</span> <span class="type">PizzaStore</span>(calmFactory);</span><br><span class="line">calmPizza.orderPizza(<span class="string">"calm"</span>);</span><br></pre></td></tr></table></figure>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
   <article id="post-Accessibility" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -256,7 +110,7 @@ public class CatFactory implements Provider {
 <a href="/2017/08/09/Accessibility/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  Gästebuch
 </a>
 
 
@@ -335,8 +189,8 @@ public void onAccessibilityEvent(AccessibilityEvent event) {
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -349,7 +203,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) {
           
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>Aktie:</span>
     </div>
 
 
@@ -395,7 +249,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) {
 <a href="/2017/08/07/OKHTTP/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  Gästebuch
 </a>
 
 
@@ -448,8 +302,8 @@ public void onAccessibilityEvent(AccessibilityEvent event) {
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -462,7 +316,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) {
           
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>Aktie:</span>
     </div>
 
 
@@ -508,7 +362,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) {
 <a href="/2017/08/03/Network/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  Gästebuch
 </a>
 
 
@@ -607,8 +461,8 @@ public void onAccessibilityEvent(AccessibilityEvent event) {
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -621,102 +475,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) {
           
           
     <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-HexoNEXT" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/08/01/HexoNEXT/">Hexo NEXT</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-08-01T06:03:52.000Z" itemprop="datePublished">2017年08月01日</time>
-</span>
-      
-      
-      
-<a href="/2017/08/01/HexoNEXT/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="hexo-next主题添加分类"><a href="#hexo-next主题添加分类" class="headerlink" title="hexo next主题添加分类"></a>hexo next主题添加分类</h1><p>只要在　博客头部加　categories: “BLOG”　　就会自动展示分类了，如果觉得每次添加麻烦的话，修改scaffolds/post.md　模板</p>
-<pre><code>title: {{ title }}
-date: {{ date }}
-tags:
-categories:
-comments: true
-</code></pre><p> 然后hexo n “yourblog”,就会有这些了，接下里就是在首页分类进行关联了</p>
-<h1 id="生成-分类（默认已有分类）"><a href="#生成-分类（默认已有分类）" class="headerlink" title="生成 分类（默认已有分类）"></a>生成 分类（默认已有分类）</h1><pre><code>hexo new page &quot;categories&quot;
-</code></pre><ol>
-<li>新建page: $ hexo new page “categories” ，在 hexo &gt; source 文件夹中会出现一个categories文件夹</li>
-<li>打开categories文件夹中的index.md页面，在头部添加 – type: “categories” （为了点击的时候链接生效）</li>
-<li>在hexo &gt; theme &gt; next &gt; _config.yml 中修改menu下的categorues,去掉前面井号注释。 然后就可以看到分类页面了</li>
-</ol>
-<p>参考：<a href="https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/" target="_blank" rel="noopener">https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/</a></p>
-<h1 id="next-添加头像"><a href="#next-添加头像" class="headerlink" title="next 添加头像"></a>next 添加头像</h1><ul>
-<li>新建uploads文件夹，放入图片</li>
-</ul>
-<ul>
-<li><p>找到themes/next 下的 -config.yml,修改如下图所示</p>
-<pre><code># Sidebar Avatar
-# in theme directory(source/images): /images/avatar.jpg
-# in site  directory(source/uploads): /uploads/avatar.jpg
- avatar: /uploads/author.png
-</code></pre><p>参考：<a href="https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F</a></p>
-</li>
-</ul>
-<h1 id="添加浏览数"><a href="#添加浏览数" class="headerlink" title="添加浏览数"></a>添加浏览数</h1><p><a href="https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud" target="_blank" rel="noopener">https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BLOG/">BLOG</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Share:</span>
+      <span>Aktie:</span>
     </div>
 
 
@@ -757,7 +516,7 @@ comments: true
 <a href="/2017/08/01/HexoConfigure/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  Gästebuch
 </a>
 
 
@@ -886,8 +645,8 @@ deploy:
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -902,7 +661,102 @@ deploy:
 
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-HexoNEXT" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/01/HexoNEXT/">Hexo NEXT</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-01T06:03:52.000Z" itemprop="datePublished">2017年08月01日</time>
+</span>
+      
+      
+      
+<a href="/2017/08/01/HexoNEXT/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="hexo-next主题添加分类"><a href="#hexo-next主题添加分类" class="headerlink" title="hexo next主题添加分类"></a>hexo next主题添加分类</h1><p>只要在　博客头部加　categories: “BLOG”　　就会自动展示分类了，如果觉得每次添加麻烦的话，修改scaffolds/post.md　模板</p>
+<pre><code>title: {{ title }}
+date: {{ date }}
+tags:
+categories:
+comments: true
+</code></pre><p> 然后hexo n “yourblog”,就会有这些了，接下里就是在首页分类进行关联了</p>
+<h1 id="生成-分类（默认已有分类）"><a href="#生成-分类（默认已有分类）" class="headerlink" title="生成 分类（默认已有分类）"></a>生成 分类（默认已有分类）</h1><pre><code>hexo new page &quot;categories&quot;
+</code></pre><ol>
+<li>新建page: $ hexo new page “categories” ，在 hexo &gt; source 文件夹中会出现一个categories文件夹</li>
+<li>打开categories文件夹中的index.md页面，在头部添加 – type: “categories” （为了点击的时候链接生效）</li>
+<li>在hexo &gt; theme &gt; next &gt; _config.yml 中修改menu下的categorues,去掉前面井号注释。 然后就可以看到分类页面了</li>
+</ol>
+<p>参考：<a href="https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/" target="_blank" rel="noopener">https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/</a></p>
+<h1 id="next-添加头像"><a href="#next-添加头像" class="headerlink" title="next 添加头像"></a>next 添加头像</h1><ul>
+<li>新建uploads文件夹，放入图片</li>
+</ul>
+<ul>
+<li><p>找到themes/next 下的 -config.yml,修改如下图所示</p>
+<pre><code># Sidebar Avatar
+# in theme directory(source/images): /images/avatar.jpg
+# in site  directory(source/uploads): /uploads/avatar.jpg
+ avatar: /uploads/author.png
+</code></pre><p>参考：<a href="https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F</a></p>
+</li>
+</ul>
+<h1 id="添加浏览数"><a href="#添加浏览数" class="headerlink" title="添加浏览数"></a>添加浏览数</h1><p><a href="https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud" target="_blank" rel="noopener">https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BLOG/">BLOG</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Aktie:</span>
     </div>
 
 
@@ -948,7 +802,7 @@ deploy:
 <a href="/2017/07/31/ContentProvider/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  Gästebuch
 </a>
 
 
@@ -1098,8 +952,8 @@ deploy:
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1112,7 +966,7 @@ deploy:
           
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>Aktie:</span>
     </div>
 
 
@@ -1158,7 +1012,7 @@ deploy:
 <a href="/2017/07/23/EclipseIdeaWeb/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  Gästebuch
 </a>
 
 
@@ -1182,8 +1036,8 @@ deploy:
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1196,7 +1050,7 @@ deploy:
           
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>Aktie:</span>
     </div>
 
 
@@ -1242,7 +1096,7 @@ deploy:
 <a href="/2017/07/21/String/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  Gästebuch
 </a>
 
 
@@ -1412,8 +1266,8 @@ System.out.println(g.equals(a+b));
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1426,7 +1280,7 @@ System.out.println(g.equals(a+b));
           
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>Aktie:</span>
     </div>
 
 
@@ -1472,7 +1326,7 @@ System.out.println(g.equals(a+b));
 <a href="/2017/07/21/Glide/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  Gästebuch
 </a>
 
 
@@ -1495,8 +1349,8 @@ System.out.println(g.equals(a+b));
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1509,7 +1363,106 @@ System.out.println(g.equals(a+b));
           
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Gson" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/07/21/Gson/">Gson</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-07-21T01:12:15.000Z" itemprop="datePublished">2017年07月21日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/07/21/Gson/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="Gson-Types理解"><a href="#Gson-Types理解" class="headerlink" title="$Gson$Types理解"></a>$Gson$Types理解</h5><p> 官方教程 <a href="https://github.com/google/gson/blob/master/UserGuide.md" title="官方教程" target="_blank" rel="noopener">https://github.com/google/gson/blob/master/UserGuide.md</a></p>
+<p>源码分析<br><a href="http://www.jianshu.com/p/89c314ae8c0b" target="_blank" rel="noopener">http://www.jianshu.com/p/89c314ae8c0b</a></p>
+<h5 id="Gson转map"><a href="#Gson转map" class="headerlink" title="Gson转map"></a>Gson转map</h5><ul>
+<li>Gson可以直接把json转为map,但是在转成map时，默认將int long型的数字,转换成doublel类型</li>
+</ul>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String sms = <span class="string">"&#123;<span class="subst">\"</span>Code<span class="subst">\"</span>:200,<span class="subst">\"</span>Data<span class="subst">\"</span>:&#123;<span class="subst">\"</span>Code<span class="subst">\"</span>:<span class="subst">\"</span><span class="subst">\"</span>&#125;,<span class="subst">\"</span>Message<span class="subst">\"</span>:<span class="subst">\"</span>发送成功<span class="subst">\"</span>&#125;"</span>;</span><br><span class="line">Map&lt;String, Object&gt; map = new Gson().fromJson(sms, HashMap.class);</span><br></pre></td></tr></table></figure>
+<p>这里装成map后，Code值尾 200.0  ,解析方法　</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">          .registerTypeAdapter(<span class="keyword">new</span> TypeToken&lt;TreeMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt;&gt;() &#123;</span><br><span class="line">          &#125;.getType(), <span class="keyword">new</span> JsonDeserializer&lt;TreeMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt;&gt;() &#123;</span><br><span class="line"></span><br><span class="line">              <span class="meta">@Override</span></span><br><span class="line">              public TreeMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt; deserialize(JsonElement json, <span class="built_in">Type</span> typeOfT, JsonDeserializationContext context) throws JsonParseException &#123;</span><br><span class="line">                  TreeMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt; treeMap = <span class="keyword">new</span> TreeMap&lt;&gt;();</span><br><span class="line">                  JsonObject jsonObject = json.getAsJsonObject();</span><br><span class="line">                  <span class="built_in">Set</span>&lt;<span class="built_in">Map</span>.Entry&lt;<span class="built_in">String</span>, JsonElement&gt;&gt; entrySet = jsonObject.entrySet();</span><br><span class="line">                  <span class="keyword">for</span> (<span class="built_in">Map</span>.Entry&lt;<span class="built_in">String</span>, JsonElement&gt; entry : entrySet) &#123;</span><br><span class="line">                      treeMap.put(entry.getKey(), entry.getValue());</span><br><span class="line">                  &#125;</span><br><span class="line">                  <span class="keyword">return</span> treeMap;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;).create();</span><br></pre></td></tr></table></figure>
+<p><a href="http://blog.csdn.net/liangrui_cust/article/details/51197974" target="_blank" rel="noopener">参考</a> </p>
+<ul>
+<li><p>map to json(生成json数据)</p>
+<pre><code>HashMap&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+map.put(&quot;key&quot;, &quot;real_name&quot;);
+map.put(&quot;value&quot;, userName);
+list.add(map);
+map = new HashMap&lt;&gt;();
+map.put(&quot;key&quot;, &quot;mobile_phone&quot;);
+map.put(&quot;value&quot;, userPhone);
+map.put(&quot;hidden&quot;, false);
+list.add(map);
+userInfo.data = new Gson().toJson(list);
+</code></pre></li>
+</ul>
+<ul>
+<li>kotlin  json to object</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val<span class="built_in"> type </span>= object : TypeToken&lt;BaseCount&lt;List&lt;Site&gt;&gt;&gt;() &#123;&#125;.type</span><br><span class="line">var response = gson.fromJson&lt;BaseCount&lt;List&lt;Site&gt;&gt;&gt;(json, type)</span><br></pre></td></tr></table></figure>
+<p><a href="https://ask.helplib.com/java/post_498433" target="_blank" rel="noopener">https://ask.helplib.com/java/post_498433</a></p>
+<h5 id="java-parse"><a href="#java-parse" class="headerlink" title="java parse"></a>java parse</h5><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;RecipeBean&gt; <span class="title">analysisChild</span>(<span class="params">String receps</span>) throws JSONException </span>&#123;</span><br><span class="line">        List&lt;RecipeBean&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="comment">//        JSONObject jsonObject = new JSONObject();</span></span><br><span class="line">        JSONArray jsonArray = <span class="keyword">new</span> JSONArray(receps);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; jsonArray.length(); i++) &#123;</span><br><span class="line">            JSONObject <span class="keyword">object</span> = jsonArray.getJSONObject(i);</span><br><span class="line">            RecipeBean mPatient = <span class="keyword">new</span> RecipeBean(TYPE_ITEM);</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"drug_name"</span>))&#123;</span><br><span class="line">                mPatient.setDrug_name(<span class="keyword">object</span>.getString(<span class="string">"drug_name"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"drug_num"</span>))&#123;</span><br><span class="line">               mPatient.setDrug_num(<span class="keyword">object</span>.getString(<span class="string">"drug_num"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"frequency"</span>))&#123;</span><br><span class="line">             mPatient.setFrequency(<span class="keyword">object</span>.getString(<span class="string">"frequency"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"num"</span>))&#123;</span><br><span class="line">               mPatient.setNum(<span class="keyword">object</span>.getString(<span class="string">"num"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"drug_num"</span>))&#123;</span><br><span class="line">               mPatient.setDrug_num(<span class="keyword">object</span>.getString(<span class="string">"drug_num"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"pharmacy_type"</span>))&#123;</span><br><span class="line">               mPatient.setPharmacy_type(<span class="keyword">object</span>.getString(<span class="string">"pharmacy_type"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"medicine_num"</span>))&#123;</span><br><span class="line">             mPatient.setMedicine_num(<span class="keyword">object</span>.getString(<span class="string">"medicine_num"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">"medicine_unit"</span>))&#123;</span><br><span class="line">              mPatient.setMedicine_unit(<span class="keyword">object</span>.getString(<span class="string">"medicine_unit"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            list.<span class="keyword">add</span>(mPatient);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://yoursite.com/page/15/index.html">http://yoursite.com/page/15/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
     </div>
 
 
@@ -1526,7 +1479,7 @@ System.out.println(g.equals(a+b));
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/14/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/16/">Next</a>
+<a class="extend prev" rel="prev" href="/page/14/">Vorheriger</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/16/">Nächster</a>
 </nav>
 
 
@@ -1536,7 +1489,7 @@ System.out.println(g.equals(a+b));
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
     <div class="widget">
       <ul>
         
@@ -1549,15 +1502,15 @@ System.out.println(g.equals(a+b));
           </li>
         
           <li>
-            <a href="/2021/05/18/OS-LAB/">OS_LAB</a>
-          </li>
-        
-          <li>
             <a href="/2021/04/19/Data-LinkedList/">Data_LinkedList</a>
           </li>
         
           <li>
             <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/21/Data-Sort/">Data_Sort</a>
           </li>
         
       </ul>
@@ -1577,9 +1530,9 @@ System.out.println(g.equals(a+b));
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/INTERVIEW/">INTERVIEW</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/INTERVIEW/">INTERVIEW</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1587,9 +1540,9 @@ System.out.println(g.equals(a+b));
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年05月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年01月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年08月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年07月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年04月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年01月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年11月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年09月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年07月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年01月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年07月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年06月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年04月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年11月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年10月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年09月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年08月</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年07月</a><span class="archive-list-count">11</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年01月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年08月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年07月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年04月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年01月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年11月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年09月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年07月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年01月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年07月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年06月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年04月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年11月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年10月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年09月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年08月</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年07月</a><span class="archive-list-count">11</span></li></ul>
     </div>
   </div>
 
@@ -1638,9 +1591,9 @@ System.out.println(g.equals(a+b));
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Site Map</a>
-        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
-        <span> | </span><a href="/about/">Contact the blogger</a>
+        <a href="/sitemap.xml">Sitemap</a>
+        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
+        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
       </p>
       
         <p>
