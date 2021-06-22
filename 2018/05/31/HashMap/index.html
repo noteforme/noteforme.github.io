@@ -130,44 +130,66 @@
     </div>
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h5 id="HashMap和HashTable的区别"><a href="#HashMap和HashTable的区别" class="headerlink" title="HashMap和HashTable的区别"></a>HashMap和HashTable的区别</h5><pre><code>1. HashTable是线程安全的    
-2. HashTable key不能为空，HashMap可以.存在数组为0的位置
-</code></pre><ul>
-<li><p>HashMap的实现原理 HashMap数据结构？</p>
-<ol>
+        <h4 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h4><h5 id="Hash是干嘛的"><a href="#Hash是干嘛的" class="headerlink" title="Hash是干嘛的"></a>Hash是干嘛的</h5><p>Hash函数是指把⼀个⼤范围映射到⼀个⼩范围。把⼤范围映射到⼀个⼩范围的⽬的往往是为了 节省空间，使得数据容易保存。</p>
+<h5 id="HashMap和HashTable的区别"><a href="#HashMap和HashTable的区别" class="headerlink" title="HashMap和HashTable的区别"></a>HashMap和HashTable的区别</h5><ol>
+<li>HashTable是线程安全的    </li>
+<li>HashTable key不能为空，HashMap可以.存在数组为0的位置</li>
+</ol>
+<h5 id="HashMap的实现原理-HashMap数据结构？"><a href="#HashMap的实现原理-HashMap数据结构？" class="headerlink" title="HashMap的实现原理 HashMap数据结构？"></a>HashMap的实现原理 HashMap数据结构？</h5><ol>
 <li><p>JDK1.7 Table数组+ Entry链表</p>
 </li>
 <li><p>JDK1.8 Table数组+ Entry链表/红黑树（ 为什么用红黑树）</p>
 <p><strong>红黑树有自平衡</strong>的特点，可以防止不平衡情况的发生，所以可以始终将查找的<strong>时间复杂度控制在 O(log(n))</strong></p>
 </li>
 </ol>
-</li>
-</ul>
-<p>  <img src="https://pic1.zhimg.com/80/v2-3e203e5dcf8c12e7ebf137c344615aa4_1440w.jpg" style="zoom: 67%;"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-3e203e5dcf8c12e7ebf137c344615aa4_1440w.jpg" style="zoom: 67%;"></p>
 <p>​    HashMap采用Entry数组存放key-value,每个 key value组成一个实体，Entry类实际上是一个单向的链表结构，它有next指针指向下一    个实体， 1.8中链表大于8时会转成红黑树.长度降到 6 就转换回去.</p>
-<ul>
-<li><p>HashMap源码理解</p>
+<p>​    </p>
+<p>HashMap源码理解</p>
+<h5 id="HashMap如何"><a href="#HashMap如何" class="headerlink" title="HashMap如何"></a>HashMap如何</h5><h5 id="put数据（从HashMap源码角度讲解）？"><a href="#put数据（从HashMap源码角度讲解）？" class="headerlink" title="put数据（从HashMap源码角度讲解）？"></a>put数据（从HashMap源码角度讲解）？</h5><ol>
+<li><p>对key的Dashcode()做hash运算，计算index.</p>
 </li>
-<li><p>HashMap如何put数据（从HashMap源码角度讲解）？</p>
+<li><p>如果没碰撞直接放到bucket⾥</p>
 </li>
-<li><p>HashMap怎么手写实现？</p>
+<li><p>如果碰撞了，以链表的形式存在buckets后</p>
+</li>
+<li><p>如果节点已经存在就替换old value(保证key的唯⼀性)</p>
+</li>
+<li><p>如果bucket满了(超过load factor*current capacity)，就要resize</p>
+</li>
+</ol>
+<p>get数据</p>
+<ol>
+<li><p>对key的hashCode()做hash运算，计算index;</p>
+</li>
+<li><p>如果在bucket⾥的第⼀个节点⾥直接命中，则直接返回；</p>
+</li>
+<li><p>如果有冲突，则通过key.equals(k)去查找对应的Entry;分为下面两种方式.</p>
+</li>
+<li><p>若为树，则在树中通过key.equals(k)查找，O(logn)；</p>
+</li>
+<li><p>若为链表，则在链表中通过key.equals(k)查找，O(n)。</p>
+</li>
+</ol>
+<p>HashMap怎么手写实现？</p>
 <p><a href="https://www.jianshu.com/p/985534b21089" target="_blank" rel="noopener">https://www.jianshu.com/p/985534b21089</a></p>
-</li>
-<li><p>ConcurrentHashMap的实现原理</p>
-</li>
-<li><p>ArrayMap和HashMap的对比</p>
-</li>
-<li><p>HashTable实现原理</p>
-</li>
-<li><p>TreeMap具体实现</p>
-</li>
-<li><p>HashMap与HashSet的区别</p>
-</li>
-<li><p>HashSet与HashMap怎么判断集合元素重复？</p>
-</li>
-</ul>
+<p>HashTable实现原理</p>
+<p>ConcurrentHashMap的实现原理</p>
+<h5 id="HashTable-ConcurrentHashMap-区别"><a href="#HashTable-ConcurrentHashMap-区别" class="headerlink" title="HashTable  ConcurrentHashMap 区别"></a>HashTable  ConcurrentHashMap 区别</h5><p>Hashtable的实现是基于Dictionary抽象类的。Java5提供了ConcurrentHashMap，它是HashTable的替代，比HashTable的扩展性更好。</p>
+<h5 id="TreeMap具体实现"><a href="#TreeMap具体实现" class="headerlink" title="TreeMap具体实现"></a>TreeMap具体实现</h5><p>TreeMap是一个有序的key-value集合，是非线程安全的，基于红黑树（Red-Black tree）实现。其映射根据<strong>键的自然顺序</strong>进行排序，或者根据<strong>创建映射时提供的 Comparator</strong> 进行排序，具体取决于使用的构造方法。其基本操作 containsKey、get、put 和 remove 的时间复杂度是 log(n) 。TreeMap是非同步的。 它的iterator 方法返回的迭代器是fail-fastl的。</p>
+<p><a href="https://www.cnblogs.com/nananana/p/10426377.html" target="_blank" rel="noopener">https://www.cnblogs.com/nananana/p/10426377.html</a></p>
+<h5 id="HashMap与HashSet的区别"><a href="#HashMap与HashSet的区别" class="headerlink" title="HashMap与HashSet的区别"></a>HashMap与HashSet的区别</h5><p>HashSet实现了Set接口，它不允许集合中有重复的值</p>
+<p>HashSet与HashMap怎么判断集合元素重复？</p>
+<h5 id="为什么不一开始就使用红黑树"><a href="#为什么不一开始就使用红黑树" class="headerlink" title="为什么不一开始就使用红黑树"></a>为什么不一开始就使用红黑树</h5><p>因为红⿊树需要进⾏左旋，右旋，变⾊这些操作来保持平衡，⽽单链表不需要。<br>当元素⼩于8个当时候，此时做查询操作，链表结构已经能保证查询性能。<br>当元素⼤于8个的时候，此时需要红⿊树来加快查 询速度，但是新增节点的效率变慢了。<br>因此，如果⼀开始就⽤红⿊树结构，元素太少，新增效率⼜⽐较慢，⽆疑这是浪费性能的。</p>
+<h5 id="什么时候退化为链表"><a href="#什么时候退化为链表" class="headerlink" title="什么时候退化为链表"></a>什么时候退化为链表</h5><p>为6的时候退转为链表。中间有个差值7可以防⽌链表和树之间频繁的转换。<br>假设⼀下，如果设计成链表个数超过8则链表转 换成树结构，链表个数⼩于8则树结构转换成链表，<br>如果⼀个HashMap不停的插⼊、删除元素，链表个数在8左右徘徊，就会 频繁的发⽣树转链表、链表转树，效率会很低。</p>
 <p><a href="https://www.youtube.com/watch?v=jwL1W8zEuX4" target="_blank" rel="noopener">https://www.youtube.com/watch?v=jwL1W8zEuX4</a></p>
 <p><a href="https://www.bilibili.com/video/BV1if4y167eE?p=4" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1if4y167eE?p=4</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/127147909" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/127147909</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/348756860" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/348756860</a></p>
+<h4 id="ArrayMap"><a href="#ArrayMap" class="headerlink" title="ArrayMap"></a>ArrayMap</h4><h5 id="SparseArray"><a href="#SparseArray" class="headerlink" title="SparseArray"></a>SparseArray</h5><p> key是int类型的Map，Android再次提供效率更高的数据结构SparseArray，可避免自动装箱过程</p>
+<p><a href="https://blog.csdn.net/zxt0601/article/details/78333328" target="_blank" rel="noopener">https://blog.csdn.net/zxt0601/article/details/78333328</a></p>
+<p><a href="http://www.jcodecraeer.com/a/anzhuokaifa/2017/0912/8504.html" target="_blank" rel="noopener">http://www.jcodecraeer.com/a/anzhuokaifa/2017/0912/8504.html</a></p>
+<p><a href="http://gityuan.com/2019/01/13/arraymap/" target="_blank" rel="noopener">http://gityuan.com/2019/01/13/arraymap/</a></p>
 
         
             <div id="toc-article">
@@ -175,7 +197,7 @@
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> Inhalte</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#HashMap和HashTable的区别"><span class="toc-text">HashMap和HashTable的区别</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#HashMap"><span class="toc-text">HashMap</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Hash是干嘛的"><span class="toc-text">Hash是干嘛的</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HashMap和HashTable的区别"><span class="toc-text">HashMap和HashTable的区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HashMap的实现原理-HashMap数据结构？"><span class="toc-text">HashMap的实现原理 HashMap数据结构？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HashMap如何"><span class="toc-text">HashMap如何</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#put数据（从HashMap源码角度讲解）？"><span class="toc-text">put数据（从HashMap源码角度讲解）？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HashTable-ConcurrentHashMap-区别"><span class="toc-text">HashTable  ConcurrentHashMap 区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TreeMap具体实现"><span class="toc-text">TreeMap具体实现</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HashMap与HashSet的区别"><span class="toc-text">HashMap与HashSet的区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么不一开始就使用红黑树"><span class="toc-text">为什么不一开始就使用红黑树</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#什么时候退化为链表"><span class="toc-text">什么时候退化为链表</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayMap"><span class="toc-text">ArrayMap</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#SparseArray"><span class="toc-text">SparseArray</span></a></li></ol></li></ol>
     </div>
   </div>
 
