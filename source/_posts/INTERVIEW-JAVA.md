@@ -3,7 +3,7 @@ title: INTERVIEW-JAVA
 comments: true
 date: 2018-05-24 22:31:57
 tags: 
-categories: INTERVIEW
+categories: 
 
 ---
 
@@ -13,41 +13,41 @@ categories: INTERVIEW
 
 ####  （一） java基础面试知识点
 
-##### java中==和equals和hashCode的区别
+###### java中==和equals和hashCode的区别
 
-1. 比较对象,
+1.  类型
 
-   当两个引用地址相同， == 返回true,equals()返回取决于重写的实现.
+   - 基本类型：比较的是值是否相同；
 
-2. 基础数据类型比较
+   - 引用类型：比较的是引用是否相同；
 
-   比较的值是否相等.
+     
 
-3. ?  JVM String特性 
+2. ?  JVM String特性 
 
    Java虚拟机在内存中开辟出一块单独的区域
 
    https://zhuanlan.zhihu.com/p/60643031
-   
+
    https://www.bilibili.com/video/BV1PJ411n7xZ?p=118   几个视频讲到用法，最好能用图画出来
-   
+
    https://www.iteye.com/blog/rednaxelafx-774673
 
 ​		
 
-##### int、char、long各占多少字节数
+###### int、char、long各占多少字节数
 
    byte   1字节       short   2字节         int    4字节           long   8字节          
 
    char   2字节       float   4字节         double  8字节      boolean  false/true(理论上占用1bit,1/8字节，实际处理按1byte处理) 
 
-##### int与integer的区别
+###### int与integer的区别
 
 ​	Integer 是int的包装类；int是基本数据类型;
 
 ​	Integer实际是对象的引用，int是直接存储数据值
 
-##### 谈谈对java多态(polymorphism)的理解,Java中实现多态的机制是什么
+###### 谈谈对java多态(polymorphism)的理解,Java中实现多态的机制是什么
 
  实现的机制是，父类或者接口定义的引用变量指向子类或者子类的实现， 执行期间判断所引用对象的实际类型，根据其实际的类型调用相应的方法。
 
@@ -65,7 +65,7 @@ https://cloud.tencent.com/developer/article/1447574
 
 
 
-##### String、StringBuffer、StringBuilder区别
+###### String、StringBuffer、StringBuilder区别
 
  * 都是fianl类，不能被继承,底层都是 char[] value实现
  * String类长度是不可变的，substring()、  concat(),最终实现都是通过  new String(buf, true)实现的,StringBuffer,StringBuilder是通过操作本类的value实现的
@@ -73,7 +73,7 @@ https://cloud.tencent.com/developer/article/1447574
 
 ​	
 
-##### 什么是内部类？内部类的作用
+###### 什么是内部类？内部类的作用
 
 ​	内部类:	一个类定义在另一个类的内部，就叫内部类
 
@@ -133,7 +133,7 @@ https://cloud.tencent.com/developer/article/1447574
 
     https://juejin.cn/post/6844903566293860366
 
-#####  抽象类和接口区别
+######  抽象类和接口区别
 
 | Abstract class                                               | Interface                                                    |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -151,7 +151,7 @@ https://www.javatpoint.com/difference-between-abstract-class-and-interface
 
  
 
-##### ? 泛型中extends和super的区别
+###### ? 泛型中extends和super的区别
 
 - 上界<? extends T>不能往里存，只能往外取，适合频繁往外面读取内容的场景。
 
@@ -159,20 +159,20 @@ https://www.javatpoint.com/difference-between-abstract-class-and-interface
 
   https://noteforme.github.io/2018/04/16/Generics/
 
-##### string 转换成 integer的方式及原理
+###### string 转换成 integer的方式及原理
 
   1. 判断是否null或""
   2. 判断第一位正负数，逐位获取值 ?
 
   https://blog.csdn.net/nobody_1/article/details/91488686
 
-#####   静态内部类的设计意图
+######   静态内部类的设计意图
 
 ​	非静态内部类编译后会隐含的保存着一个引用，改引用指向创建它的外围类，静态内部类没有，
 
 ​	它不能使用任何外围类的非static成员变量和方法.
 
-##### final，finally，finalize的区别
+###### final，finally，finalize的区别
 
 * Final : 用于申明属性，方法，类，表示属性不可变，方法不可以覆盖，类不能继承
 
@@ -219,7 +219,7 @@ https://www.javatpoint.com/difference-between-abstract-class-and-interface
 
 
 
-##### Serializable 和Parcelable 的区别，如何将一个Java对象序列化到文件里？
+###### Serializable 和Parcelable 的区别，如何将一个Java对象序列化到文件里？
 
 1. `Parcelable` is faster than `Serializable` interface,ObjectOutputStream写入到文件中
 
@@ -244,7 +244,7 @@ https://www.javatpoint.com/difference-between-abstract-class-and-interface
 
 
 
-##### 成员内部类、局部内部类以及项目中的应用
+###### 成员内部类、局部内部类以及项目中的应用
 
 成员内部类 : 普通的内部类，不能存在任何static的变量和方法；
 
@@ -274,7 +274,7 @@ public class Parcel5 {
 
 
 
-##### 谈谈对kotlin的理解
+###### 谈谈对kotlin的理解
 
 null处理
 
@@ -294,7 +294,7 @@ Android 支持java8以后新特性支持, 配置比较麻烦。
 
 ### （二） java深入源码级的面试题（有难度）
 
-##### 哪些情况下的对象会被垃圾回收机制处理掉？
+###### 哪些情况下的对象会被垃圾回收机制处理掉？
 
 1. 可达性分析,GC Root向下搜索，产生一个reference chain 。当一个对象不能和任何GC Root产生关系时就被回收.
 2. * 强引用 
@@ -304,7 +304,7 @@ Android 支持java8以后新特性支持, 配置比较麻烦。
 
 https://noteforme.github.io/2021/01/05/JVM-GC/
 
-##### 讲一下常见编码方式？
+###### 讲一下常见编码方式？
 
 1. ASCII码:  用一个字节的低7位表示，总共128个,0~31 是控制字符如换行回车删除等；32~126 是打印字符，可以通过键盘输入并且能够显示出来
 
@@ -323,7 +323,7 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 
 5. https://www.cnblogs.com/mlan/p/7823375.html
 
-##### utf-8编码中的中文占几个字节；int型几个字节？
+###### utf-8编码中的中文占几个字节；int型几个字节？
 
    32位 64位代表寻址方式
 
@@ -331,7 +331,7 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 
 ​	int类型 4个字节
 
-##### 静态代理和动态代理的区别，什么场景使用？
+###### 静态代理和动态代理的区别，什么场景使用？
 
 ​	静态代理 :  编译的时候就已经存在，
 
@@ -339,13 +339,13 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 
 ​	https://noteforme.github.io/2021/01/14/DesignPattern-Proxy/
 
-##### Java的异常体系
+###### Java的异常体系
 
 非运行时异常 :编译期间可以检查到的异常, 像IoException,DataFormatException,CertificateException
 
 运行时异常 : NullPointerException, ClassCastException,IndexOutOfBoundsException
 
-##### ? 谈谈你对解析与分派的认识。
+###### ? 谈谈你对解析与分派的认识。
 
 说说你对Java反射的理解
 
@@ -358,7 +358,7 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 
 #### (三) 线程、多线程和线程池
 
-##### ? 进程和线程的区别 协程呢
+###### ? 进程和线程的区别 协程呢
 
 * 进程  
 
@@ -437,21 +437,21 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 
 #### (四） 数据结构
 
-##### 常用数据结构简介
+###### 常用数据结构简介
 
 数组 栈 队列  链表 图 树 哈希表
 
-##### 并发集合了解哪些？
+###### 并发集合了解哪些？
 
 ConcurrentHashMap  CopyOnWriteArrayList  CopyOnWriteArraySet  ArrayBlockingQueue  LinkedBlockingQueue
 
 https://blog.csdn.net/u010942020/article/details/73610121
 
-##### 列举java的集合以及集合之间的继承关系
+###### 列举java的集合以及集合之间的继承关系
 
-<img src="INTERVIEW-JAVA/colltetcion_map.png" style="zoom: 67%;" />
+<img src="INTERVIEW-JAVA/colltetcion_map.png"  />
 
-##### List,Set,Map的区别
+###### List,Set,Map的区别
 
 容器类介绍以及之间的区别（容器类估计很多人没听这个词，Java容器主要可以划分为4个部分：List列表、Set集合、Map映射、工具类（Iterator迭代器、Enumeration枚举类、Arrays和Collections），具体的可以看看这篇博文 [Java容器类](http://alexyyek.github.io/2015/04/06/Collection/)）
 
@@ -460,21 +460,32 @@ https://blog.csdn.net/u010942020/article/details/73610121
 
 http://alexyyek.github.io/2015/04/06/Collection/
 
-##### List和Map的实现方式以及存储方式
+###### List和Map的实现方式以及存储方式
 
 1. list
 
-   ArrayList    查询快 .  LinkedList  插入删除快
+   CccArrayList    查询快 .  LinkedList  插入删除快
 
    
 
-- 修改对象A的equals方法的签名，那么使用HashMap存放这个对象实例的时候，会调用哪个equals方法？
-- 
+修改对象A的equals方法的签名，那么使用HashMap存放这个对象实例的时候，会调用哪个equals方法？
 
-- 集合Set实现Hash怎么防止碰撞
-- ArrayList和LinkedList的区别，以及应用场景
-- 数组和链表的区别
-- 二叉树的深度优先遍历和广度优先遍历的具体实现
+
+
+###### 集合Set实现Hash怎么防止碰撞
+
+1，如果hash码值不相同，说明是一个新元素，存储；
+
+如果没有元素和传入对象（也就是add的元素）的hash值相等，那么就认为这个元素在table中不存在，将其添加进table；
+
+2.1，如果hash码值相同，且equles判断相等，说明元素已经存在，不存；
+
+2.2，如果hash码值相同，且equles判断不相等，说明元素不存在，存；
+
+原文链接：https://blog.csdn.net/github_37130188/article/details/96508272
+
+
+
 - 堆的结构
 - 堆和树的区别
 - 堆和栈在内存中的区别是什么(解答提示：可以从数据结构方面以及实际实现方面两个方面去回答)？
@@ -487,5 +498,11 @@ http://alexyyek.github.io/2015/04/06/Collection/
 - 合并多个单有序链表（假设都是递增的）
 
 
+
+
+
+#### TCPIP协议
+
+https://www.youtube.com/watch?v=pUV3qZh481k
 
 

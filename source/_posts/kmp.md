@@ -61,7 +61,7 @@ categories: DataStructure
 
 #### KMP算法
 
-![](kmp/2021-06-17_21-27-43_kmp.png)
+![](1kmp/2021-06-17_21-27-43_kmp.png)
 
 
 

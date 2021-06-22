@@ -1,9 +1,9 @@
 ---
 title: INTERVIEW-practice
 comments: true
-date: 2021-03-12 12:44:01
+date: 2018-03-12 12:44:01
 tags:
-categories: INTERVIEW
+categories: 
 ---
 
 ## [阿里面试题](https://www.jianshu.com/p/cf5092fa2694)
