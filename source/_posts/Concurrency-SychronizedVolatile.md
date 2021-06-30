@@ -172,7 +172,7 @@ public class VisibilityThread {
 
 流程图
 
-![](Concurrency-SychronizedVolatile/Screen Shot 2021-03-11 at 10.30.09 AM.png)
+![](Concurrency-SychronizedVolatile/2021-03-11_at_10.30.09.png)
 
 
 
@@ -208,7 +208,7 @@ https://wudaijun.com/2019/04/cpu-cache-and-memory-model/#valine-comments
 
 
 
-<img src="Concurrency-SychronizedVolatile/Screen Shot 2020-08-19 at 3.54.13 PM.png" alt="Screen Shot 2020-08-19 at 3.54.13 PM"  />
+<img src="Concurrency-SychronizedVolatile/2020-08-19_at_3.54.13.png" alt="Screen Shot 2020-08-19_at_3.54.13 PM"  />
 
 
 

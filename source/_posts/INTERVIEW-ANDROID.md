@@ -109,7 +109,63 @@ Activity ,Service ,BroadCastReceiver,ContentProvider
 
 
 
+###### Android APK编译打包流程
+
+![](https://camo.githubusercontent.com/9f62ff22761b5a960fc9547be84cd05ddec48fe4b28fbb1bd17877fb88b43ed0/687474703a2f2f75706c6f61642d696d616765732e6a69616e7368752e696f2f75706c6f61645f696d616765732f333938353536332d636462613331396461623332643063372e706e673f696d6167654d6f6772322f6175746f2d6f7269656e742f7374726970253743696d61676556696577322f322f772f31323430)
+
+1. AAPT（Android Asset Packaging  Tools）工具会打包应用中的资源文件，如AndroidManifest.xml、layout布局中的xml等，并将xml文件编译成二进制形式，当然assets文件夹中的文件不会被编译，图片以及raw文件夹中的资源也会保持原有的形态，需要注意的是raw文件夹中的资源也会生成资源ID。AAPT编译完成后会生成R.java文件。
+2. AIDL工会将所有的aidl接口转换为java接口。
+3. 所有的Java源代码、R文件、接口都会编译器编译成.class文件。
+4. Dex工具会将上述产生的.class文件以及第三方库和其他class文件转化为dex（Dalvik虚拟机可执行文件）文件，dex文件最终会被打包进APK文件。
+5. apkbuilder会把编译后的资源和其他资源文件同dex文件一起打入APK中。
+6. 生成APK文件之后，，需要对其签名才能安装到设备上，平时测试都会使用debug keystore，当发布应用时必须使用release版的keystore对应用进行签名。
+7. 如果对APK正式签名，还需要使用zipalign工具对APK进行对齐操作，这样做的好处是当应用运行时能提高速度，但是会相应的增加内存开销。
+
+**总结：编译 --> DEX --> 打包 --> 签名和对齐**
+
+
+
+###### ART虚拟机与Dalvik虚拟机的区别
+
+* 什么是ART？
+
+  ART代表Android  Runtime，其处理应用程序执行的方式完全不同于Dalvik，Dalvik是依靠一个Just-In-Time（**JIT）编译器去解释字节码**。开发者编译后的应用代码需要通过一个解释器在用户的设备上运行，这一机制并不高效，但让应用能更容易在不同硬件和架构上运行。ART则完全改变了这套做法，**在应用安装时就预编译字节码到机器语言**，这一机制叫Ahead-Of-Time（AOT）编译。在移除解释代码这一过程后，应用程序执行将更加效率。启动更快。
+
+* ART优点：
+
+  1. 系统性能的显著提升。
+  2. 应用启动更快、运行更快、体验更流畅、触摸反馈更及时。
+  3. 更长的电池续航能力
+  4. 支持更低的硬件。
+
+* ART缺点
+
+  1. 更大的存储空间占用，可能会增加10%-20%
+  2. 更长的应用安装时间
+
+###### Android 消息机制
+
+* Handler通信，Binder通信
+* 简单描述下Handler,Handler是怎么切换线程的,Handler同步屏障
+
+* handler如何实现延时发消息postdelay()
+* 从源码了解handler looper ,messageQueue思路
+* handler的post(Runnable)如何实现的。callback，runnable，msg的执行优先级。阻塞是怎么实现的？为什么不会阻塞主线程？
+* Handler机制了解吗？一个线程有几个Looper？为什么？
+* 说说你对Handler机制的了解，同步消息，异步消息等
+* IdleHandler用过吗,IdleHandler应用场景？
+* Handler休眠是怎样的？epoll的原理是什么？如何实现延时消息，如果移除一个延时消息会解除休眠吗？
+* handler内存泄露问题
+
+
+
+
+
+ 
+
 ###### fragment各种情况下的生命周期 Activity与Fragment之间生命周期比较
+
+
 
 1.<u>onAttach() -> onCreate() -</u>> onCreateView() -> onActivityCreate() -> onStart() ->  onResume() -> onPause() -> onStop() -> 	 
 
@@ -162,13 +218,13 @@ Activity ,Service ,BroadCastReceiver,ContentProvider
 
 ###### 请描述一下Service 的生命周期
 
-####### startService()
+* startService()
 
 ​	启动:  onCreate() - onCommandStart()  - onDestory()
 
 ​	继续startService : 只会执行 onCommandStart()  	
 
-####### bindService()
+* bindService()
 
 ​	onCreate() -   onBind() - onUnbind()-onDestory()
 
@@ -178,17 +234,17 @@ Activity ,Service ,BroadCastReceiver,ContentProvider
 
    Service中定义接口，ServiceConnection中获取Service实例，调用响应接口
 
-2. 注册广播传递数据
-
+2. 注册广播传递数据说说ContentProvider、ContentResolver、Co说说ContentProvider、ContentResolver、ContentObserver 之间的关系
+   	 把自己的程序数据提供给其他应用程序调用，提供香港的uri接口,没用过ntentObserver 之间的关系
+   	 把自己的程序数据提供给其他应用程序调用，提供香港的uri接口,没用过
+   
    http://wangbufan.cn/2019/09/17/Service%E5%8F%8AService%E4%B8%8EActivity%E9%80%9A%E4%BF%A1/
-
-###### 说说ContentProvider、ContentResolver、ContentObserver 之间的关系
-
-​	 把自己的程序数据提供给其他应用程序调用，提供香港的uri接口,没用过
 
 ###### 请描述一下广播BroadcastReceiver的理解
 
 *  广播是可以作为应用全局监听器，可以实现应用中不同组件少量数据的通信！！！，更深研究后可以多说点.
+
+  基于消息的发布/订阅事件模型.
 
 * 广播的分类
 
@@ -196,7 +252,7 @@ Activity ,Service ,BroadCastReceiver,ContentProvider
 
   2. 有序广播
 
-     **接收者的优先级顺序**传播,每个都**有权终止广播**,下一个就得不到
+     **接收者按照优先级顺序**接收,每个接收者都**有权终止广播**,下一个就得不到.
 
 * 广播使用的方式和场景
 
@@ -214,6 +270,8 @@ Activity ,Service ,BroadCastReceiver,ContentProvider
 
 ###### AlertDialog,popupWindow,Toast区别 ？
 
+Android是不允许Activity或Dialog凭空出现的,而Dialog则必须在一个Activity上面弹出
+
 * AlertDialog 
 
      拦截了屏幕上所有的TouchK/key
@@ -226,9 +284,9 @@ Activity ,Service ,BroadCastReceiver,ContentProvider
 
 * Toast
 
-* 可以研究下 两者最根本的区别在于有没有新建一个 window，PopupWindow 没有新建，而是通过 WMS 将 View 加到 DecorView；Dialog 是新建了一个 window (PhoneWindow)，相当于走了一遍 Activity 中创建 window 的流程
+    可以研究下 两者最根本的区别在于有没有新建一个 window，PopupWindow 没有新建，而是通过 WMS 将 View 加到 DecorView；Dialog 是新建了一个 window (PhoneWindow)，相当于走了一遍 Activity 中创建 window 的流程
 
-  https://www.jianshu.com/p/aed496937bd2
+    https://www.jianshu.com/p/aed496937bd2
 
 ###### Application 和 Activity 的 Context 对象的区别
 
@@ -241,6 +299,16 @@ Activity的Context：
 ​	 当前Activity的生命周期,和UI相关的都用Activity为Context来处理
 
 https://www.jianshu.com/p/e215c90a460e
+
+### 
+
+######  Context的理解？
+
+​	Context是维持Android程序中各组件能够正常工作的一个核心功能类
+
+
+
+
 
 ###### Android属性动画特性
 
@@ -321,6 +389,10 @@ https://developer.aliyun.com/article/614769
  插值器: （`Interpolator`）决定 值 的变化模式（匀速、加速）
 
  估值器 : 	(`TypeEvaluator`)决定 值 的具体变化数值
+
+
+
+
 
 
 
