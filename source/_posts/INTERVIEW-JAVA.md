@@ -15,25 +15,11 @@ categories:
 
 ###### java中==和equals和hashCode的区别
 
-1.  类型
+类型
 
-   - 基本类型：比较的是值是否相同；
-
-   - 引用类型：比较的是引用是否相同；
-
-     
-
-2. ?  JVM String特性 
-
-   Java虚拟机在内存中开辟出一块单独的区域
-
-   https://zhuanlan.zhihu.com/p/60643031
-
-   https://www.bilibili.com/video/BV1PJ411n7xZ?p=118   几个视频讲到用法，最好能用图画出来
-
-   https://www.iteye.com/blog/rednaxelafx-774673
-
-​		
+- 基本类型：比较的是值是否相同；
+- 引用类型：类、接口、数组,当他们用双等号（==）进行比较的时候，比较的是他们的引用，如果要比较堆中对象是否相同，那么就要重写equals方法了；
+- 默认情况下（没有覆盖equals方法）下的equals方法都是调用Object类的equals方法，而Object的equals方法主要是用于判断**对象的内存地址引用是不是同一个地址**（是不是同一个对象）。
 
 ###### int、char、long各占多少字节数
 
@@ -70,6 +56,7 @@ https://cloud.tencent.com/developer/article/1447574
  * 都是fianl类，不能被继承,底层都是 char[] value实现
  * String类长度是不可变的，substring()、  concat(),最终实现都是通过  new String(buf, true)实现的,StringBuffer,StringBuilder是通过操作本类的value实现的
  * StringBuffer类是线程安全的，StringBuilder不是线程安全的
+ * String：字符串常量。
 
 ​	
 
@@ -266,11 +253,23 @@ public class Parcel5 {
     }
     
   public static void main(String[] args) {
-        Parcel5 parcel5 = new Parcel5();
+      Parcel5 parcel5 = new Parcel5();
       Destionation d = parcel5.destionation("chenssy");
     }
 }
 ```
+
+
+
+###### ?  JVM String特性 
+
+Java虚拟机在内存中开辟出一块单独的区域
+
+https://zhuanlan.zhihu.com/p/60643031
+
+https://www.bilibili.com/video/BV1PJ411n7xZ?p=118   几个视频讲到用法，最好能用图画出来
+
+https://www.iteye.com/blog/rednaxelafx-774673
 
 
 
@@ -301,6 +300,7 @@ Android 支持java8以后新特性支持, 配置比较麻烦。
    * 软引用: 内存溢出时候对象回收
    * 弱引用:下一次GC时候对象回收
    * 虚引用：随时可能被回收
+3. 当前商业虚拟机的垃圾回收都采用分代收集算法，这种算法并没有什么新的思想，只是根据对象的存活周期将内存划分为几块。一般是把Java堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。在新生代中，每次垃圾回收都有大批对象死去，只有少量存活，那就选用复制算法，只要付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高，没有额外的空间对它进行分配担保，那就使用标记清理或者标记整理算法来进行回收。
 
 https://noteforme.github.io/2021/01/05/JVM-GC/
 
@@ -325,11 +325,13 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 
 ###### utf-8编码中的中文占几个字节；int型几个字节？
 
-   32位 64位代表寻址方式
-
 ​	少数是汉字每个占用3个字节，多数占用4个字节。
 
+​	https://blog.csdn.net/hellokatewj/article/details/24325653
+
 ​	int类型 4个字节
+
+
 
 ###### 静态代理和动态代理的区别，什么场景使用？
 
@@ -339,6 +341,8 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 
 ​	https://noteforme.github.io/2021/01/14/DesignPattern-Proxy/
 
+https://www.jianshu.com/p/2f518a4a4c2b
+
 ###### Java的异常体系
 
 非运行时异常 :编译期间可以检查到的异常, 像IoException,DataFormatException,CertificateException
@@ -347,14 +351,37 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 
 ###### ? 谈谈你对解析与分派的认识。
 
-说说你对Java反射的理解
+###### 说说你对Java反射的理解
 
-- 说说你对Java注解的理解
-- 说说你对依赖注入的理解
-- 说一下泛型原理，并举例说明
-- Java中String的了解
-- String为什么要设计成不可变的？
-- Object类的equal和hashCode方法重写，为什么？
+对于任何一个类都可以通过反射知道的它的属性和方法。
+
+说说你对Java注解的理解
+
+###### 为什么Java里的匿名内部类只能访问final修饰的外部变量？
+
+因为匿名内部类最终会被编译成一个单独的类，而被该类使用的变量会以构造函数参数的形式传递给该类。如果变量不定义为final的，参数在匿名内部类中可以被修改，进而造成和外部的变量不一致的问题，为了避免这种不一致的情况，规定匿名内部类只能访问final修饰的外部变量。
+
+###### 说说你对依赖注入的理解?
+
+###### 说一下泛型原理，并举例说明
+
+泛型实现了参数化类型的概念，使代码可以应用于多种类型。
+
+在泛型代码内部，无法获得任何有关泛型参数类型的信息。
+
+
+
+###### String为什么要设计成不可变的？
+
+1. 便于实现字符串池
+
+   由于会大量的使用String常量，如果每一次声明一个String都创建一个String对象，那将会造成极大的空间资源的浪费。Java提出了String pool的概念，在堆中开辟一块存储空间String  pool，当初始化一个String变量时，如果该字符串已经存在了，就不会去创建一个新的字符串变量，而是会返回已经存在了的字符串的引用。
+
+   如果字符串是可变的，某一个字符串变量改变了其值，那么其指向的变量的值也会改变，String pool将不能够实现！
+
+   https://www.cnblogs.com/wkfvawl/p/11693260.html
+
+
 
 #### (三) 线程、多线程和线程池
 
@@ -458,13 +485,11 @@ https://blog.csdn.net/u010942020/article/details/73610121
 1. List是一个有序的队列，每一个元素都有它的索引。Set是一个不允许有重复元素的集合。
 2. Map是一个映射接口，即key-value键值对。
 
-http://alexyyek.github.io/2015/04/06/Collection/
-
 ###### List和Map的实现方式以及存储方式
 
 1. list
 
-   CccArrayList    查询快 .  LinkedList  插入删除快
+   ArrayList    查询快 .  LinkedList  插入删除快
 
    
 
@@ -484,7 +509,7 @@ http://alexyyek.github.io/2015/04/06/Collection/
 
 原文链接：https://blog.csdn.net/github_37130188/article/details/96508272
 
-
+https://noteforme.github.io/2018/05/31/HashMap/
 
 - 堆的结构
 - 堆和树的区别
@@ -504,5 +529,4 @@ http://alexyyek.github.io/2015/04/06/Collection/
 #### TCPIP协议
 
 https://www.youtube.com/watch?v=pUV3qZh481k
-
 

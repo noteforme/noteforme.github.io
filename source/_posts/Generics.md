@@ -6,9 +6,15 @@ tags:
 categories: JAVA
 ---
 
+#### 类型擦出
+
+Java中的泛型基本上都是在编译器这个层次来实现的。在生成的Java字节码中是不包含泛型中的类型信息的。使用泛型的时候加上的类型参数，会在编译器在编译的时候去掉。这个过程就称为类型擦除。
+
+泛型的作用是能在编译期间就提示错误，而不是运行时。
 
 
-![Screen Shot 2020-09-13 at 9.33.25 PM](Generics/Screen Shot 2020-09-13 at 9.33.25 PM.png)
+
+<img src="Generics/2020-09-13_at_9.33.25.png" alt="Screen Shot 2020-09-13 at 9.33.25 PM" style="zoom:67%;" />
 
 类型信息
 
@@ -39,8 +45,6 @@ public class StaticGenerator<T> {
 
 ##### 上界通配符	<? extends T>
 
-
-
 ```
 class Fruit {
 }
@@ -51,7 +55,7 @@ class Apple extends Fruit {
 class Plate<T> {
     T item;
     
-		public Plate() {
+	public Plate() {
     }
     public Plate(T item) {
         this.item = item;
@@ -69,26 +73,26 @@ class Plate<T> {
 
 
 
-`Plate<Fruit> p=new Plate<Apple>(new Apple());  `
+`Plate<Fruit> p=new Plate(new Apple());  `
 
 定义一个 `Plate<Fruit>` 理论上可以放 Apple，但是无法编译  Plate<Apple> cannot be converted to Plate<Fruit>
 
 所以 就算容器中的类型之间存在继承关系 Plate<Apple> 	 Plate<Fruit>也不存在继承关系,Java就设计成Plate<? extend Fruit>来让两个容器之间存在继承关系.
 
-Plate< Fruit >和Plate< Apple > 是 Plate<? extend Fruit>的子类.
+  Apple是Fruit的子类.
 
-```
+```java
 Plate<? extends  Fruit> p = new Plate<Apple>(new Apple());
 ```
 
 
 
-```
+```java
 p.set(new Fruit());
 p.set(new Apple());
 ```
 
->  你会发现无法往里面设置数据，按道理说我们将泛型类型设置为? extend Fruit。按理说我们往里面添加Fruit的子类应该是可以的。但是Java编译器不允许这样操作。<? extends Fruit>会使往盘子里放东西的set()方法失效。但取东西get()方法还有效
+>  **你会发现无法往里面设置任何数据**，按道理说我们将泛型类型设置为? extend Fruit。按理说我们往里面添加Fruit的子类应该是可以的。但是Java编译器不允许这样操作。<? extends Fruit>会使往盘子里放东西的set()方法失效。但取东西get()方法还有效
 
 >  原因是：Java编译期只知道容器里面存放的是Fruit和它的子类，具体是什么类型不知道，可能是Fruit？可能是Apple？也可能是Banana，RedApple，GreenApple？编译器在后面看到Plate< Apple >赋值以后，盘子里面没有标记为“苹果”。只是标记了一个占位符“CAP#1”，来表示捕获一个Fruit或者Fruit的派生类，具体是什么类型不知道。所有调用代码无论往容器里面插入Apple或者Meat或者Fruit编译器都不知道能不能和这个“CAP#1”匹配，所以这些操作都不允许。
 >
@@ -106,19 +110,21 @@ Object object=p.get();
 
 
 
+* Java类型擦除只会擦除到Fruit类型,如果没有指明边界，那么类型参数将被擦除到Object.
+
 ##### 下界通配符 <? super T>
 
 
 
-![Screen Shot 2020-09-13 at 9.46.10 PM](Generics/Screen Shot 2020-09-13 at 9.46.10 PM.png)
+![Screen Shot 2020-09-13 at 9.46.10 PM](Generics/2020-09-13_at_9.46.10.png)
 
 >  下界通配符<? super Fruit>不影响往里面存储，但是读取出来的数据只能是Object类型。
 
 ```
-Plate<? super  Fruit> p = new Plate<>();
+bn
+p.setPlate<? super  Fruit> p = new Plate<>();
 p.set(new Fruit());
-p.set(new Apple());
-p.set(new RedApple());
+p.set(new Apple());(new RedApple());
 ```
 
 > 下界通配符规定了元素最小的粒度，必须是Fruit或其基类，那么我往里面存储Fruit及其子类都是可以的，因为它都可以隐式的转化为Fruit类型。但是往外读就不好控制了，里面存储的都是Fruit及其基类，无法转型为任何一种类型，只有Object基类才能装下。

@@ -1,5 +1,5 @@
 ---
-title: HashMap
+gbtitle: HashMap
 comments: true
 date: 2018-05-31 22:54:44
 tags:
@@ -99,7 +99,9 @@ https://www.cnblogs.com/nananana/p/10426377.html
 
 ##### HashMap与HashSet的区别
 
-HashSet实现了Set接口，它不允许集合中有重复的值
+1. 基于 HashMap 实现的，底层采用 HashMap 来保存元素
+
+2. HashSet实现了Set接口，它不允许集合中有重复的值
 
 
 
@@ -107,7 +109,7 @@ HashSet与HashMap怎么判断集合元素重复？
 
 
 
-##### 为什么不一开始就使用红黑树
+##### l nn为什么不一开始就使用红黑树
 
 因为红⿊树需要进⾏左旋，右旋，变⾊这些操作来保持平衡，⽽单链表不需要。
 当元素⼩于8个当时候，此时做查询操作，链表结构已经能保证查询性能。

@@ -21,11 +21,11 @@ categories: VIEW
 
 
 
- ![流程](View_OVER\Screen Shot 2021-02-21 at 5.19.41 PM.png)
+ ![流程](View_OVER\2021-02-21_at_5.19.41.png)
 
 
 
->  每个Activity包含一个Window对象，Android中window对象由PhoneWindow实现，PhoneWindow将一个DecorView设置为整个应用窗口的根View,DecorView作为窗口界面的顶层视图，封装了窗口操作的通用方法，DecorView将要显示的具体内容显示在PhoneWindow上，这里所有的View监听事件通过WindowMangerService来接收,通过Activity对象来回调相应的onCLicklistener.显示是将屏幕分成两部分，一个TitleView，另一个是ContentView.
+每个Activity包含一个Window对象，Android中window对象由PhoneWindow实现，PhoneWindow将一个DecorView设置为整个应用窗口的根View,DecorView作为窗口界面的顶层视图，封装了窗口操作的通用方法，DecorView将要显示的具体内容显示在PhoneWindow上，这里所有的View监听事件通过WindowMangerService来接收,通过Activity对象来回调相应的onCLicklistener.显示是将屏幕分成两部分，一个TitleView，另一个是ContentView.
 
 #### Measure
 
@@ -62,11 +62,9 @@ setMeasuredDimension(width, height)
 
 加载布局
 
-<img src="View_OVER\Screen Shot 2021-02-16 at 3.37.39 PM.png" alt="图" style="zoom:80%;" />
+<img src="View_OVER\2021-02-16_at_3.37.39.png" alt="图" style="zoom:80%;" />
 
  
-
-
 
 ##### onSizeChanged
 

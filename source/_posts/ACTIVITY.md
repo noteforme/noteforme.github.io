@@ -1,5 +1,5 @@
 ---
-title: Activity
+ title: Activity
 comments: true
 date: 2021-01-16 17:49:32
 tags:
@@ -55,37 +55,112 @@ onStop() :
 
 * standard 
 
-Default. The system creates a new instance of the activity in the task from which it was started and routes the intent to it. The activity can be instantiated multiple times, each instance can belong to different tasks, and one task can have multiple instances. 
+  在不同的Task中打开同一个Activity，Activity会被创建多个实例。分别放进打开它的Task中。
+
+  例如: 点开短信中的电话号码， 新的 打电话的Activity会存在于   短信Task中。
 
 * singleTop
 
-  > 　 If an instance of the activity already exists at the top of the current task, the system routes the intent to that instance through a call to its `onNewIntent()` method, rather than creating a new instance of the activity. The activity can be instantiated multiple times, each instance can belong to different tasks, and one task can have multiple instances (but only if the activity at the top of the back stack is *not* an existing instance of the activity).
-  > 　　　　For example, suppose a task's back stack consists of root activity A with activities B, C, and D on top (the stack is A-B-C-D; D is on top). An intent arrives for an activity of type D. If D has the default `"standard"` launch mode, a new instance of the class is launched and the stack becomes A-B-C-D-D. However, if D's launch mode is `"singleTop"`, the existing instance of D receives the intent through `onNewIntent()`, because it's at the top of the stack—the stack remains A-B-C-D. However, if an intent arrives for an activity of type B, then a new instance of B is added to the stack, even if its launch mode is `"singleTop"`.
+  
 
 * singleTask
-  
+
   > The system creates a new task and instantiates the activity at the root of the new task. However, if an instance of the activity already exists in a separate task, the system routes the intent to the existing instance through a call to its `onNewIntent()` method, rather than creating a new instance. Only one instance of the activity can exist at a time.
+  >
+  > 只会在一个Task出现,这个Task里只有一个这个Activity，全局唯一
 
 * singleInstance 
 
   > Same as `"singleTask"`, except that the system doesn't launch any other activities into the task holding the instance. The activity is always the single and only member of its task; any activities started by this one open in a separate task.
+  >
+  > 除了全局唯一，还会独占一个Task
 
 
 
-除了 singleInstance 不好验证 所在task是否只有唯一的activity ，其他的启动模式比较清晰
+##### taskAffinity
 
-查看运行的activity
+每个Activity都有一个taskAffinity，默认取自Activity所在的Application的taskAffinity,而后者又默认取自app包名.
+
+每个Task也有它自己的taskAffinity，它取自栈底的Activity的taskAffinity
+
+默认情况下，Activity会直接进入当前的Task
+
+但对于设置了  launchMode = "singleTask"的Activity,系统会先比对Activity和当前Task的taskAffinity是否相同
+
+* 如果相同，依然正常入栈.
+
+* 如果不同，新Activity会去寻找和它 taskAffinity相同的Task后入栈。
+
+  如果找不到，系统就为它创建一个新的Task,或者创建一个新的Task.
+
+
+
+MainActivity启动FirstActivity
+
+```xml
+<activity
+    android:name=".component.launchmode.FirstActivity"
+    android:taskAffinity="com.comm.mytask" />
+```
+
+```
+```
+
+
+
+     ```
+       TaskRecord{dff3f0b #4947 A=com.comm.util U=0 StackId=1 sz=2}
+             Run #4: ActivityRecord{e52ebf7 u0 com.comm.util/.component.launchmode.FirstActivity t4947}
+             Run #3: ActivityRecord{cd6b037 u0 com.comm.util/.MainActivity t4947}
+     ```
+
+
+
+
+
+```xml
+<activity
+    android:name=".component.launchmode.FirstActivity"
+    android:launchMode="singleTask"
+    android:taskAffinity="com.comm.mytask" />
+```
+
+```
+ 	TaskRecord{3713c1e #4946 A=com.comm.mytask U=0 StackId=1 sz=1}
+        Run #4: ActivityRecord{3d3bd58 u0 com.comm.util/.component.launchmode.FirstActivity t4946}
+      TaskRecord{273cacc #4945 A=com.comm.util U=0 StackId=1 sz=1}
+        Run #3: ActivityRecord{77277e0 u0 com.comm.util/.MainActivity t4945}
+```
+
+ 添加完   `android:launchMode="singleTask"`后 多了个task	 com.comm.mytask
+
+
+
+##### TaskAffinity和最近任务列表
+
+最近任务列表会列出现有的Task
+
+* 但他们的taskAffinity需要不一样
+* 当多个Task具有相同的taskAffinity额时候，最近任务列表只有显示最新展示过的那一个.
+
+   
+
+除了 singleInstance 不好验证 所在task是否只有唯一的activity ，其他的启动模式比较清晰?
+
+查看运行的activity   
 
 ```
 adb shell dumpsys activity activities | sed -En -e '/Running activities/,/Run #0/p'
 ```
 
-##### 两种方式
+#####  remote: Compressing objects: 100% (3780/3780), done.    两种方式
 
 1. AndroidMenifest
 
    ```xml
-   <activity
+    remote: Compressing objects: 100% (378.  remote: Compressing objects: 100% (3780/3780), done.
+    0/3780), done.
+      <activity
              android:name = "com.ryg.chapter_1.SecondActivity"
              android:launchMode="singleTask"
              />
@@ -275,7 +350,7 @@ http://blog.csdn.net/mynameishuangshuai/article/details/51491074
 
 
 
-
+https://www.youtube.com/watch?v=r4T9zkhpmII
 
 
 
