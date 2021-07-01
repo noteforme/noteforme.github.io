@@ -236,7 +236,7 @@ Activity ,Service ,BroadCastReceiver,ContentProvider
 
 2. 注册广播传递数据说说ContentProvider、ContentResolver、Co说说ContentProvider、ContentResolver、ContentObserver 之间的关系
    	 把自己的程序数据提供给其他应用程序调用，提供香港的uri接口,没用过ntentObserver 之间的关系
-   	 把自己的程序数据提供给其他应用程序调用，提供香港的uri接口,没用过
+      	 把自己的程序数据提供给其他应用程序调用，提供香港的uri接口,没用过
    
    http://wangbufan.cn/2019/09/17/Service%E5%8F%8AService%E4%B8%8EActivity%E9%80%9A%E4%BF%A1/
 

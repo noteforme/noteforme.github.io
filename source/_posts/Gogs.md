@@ -132,3 +132,15 @@ https://gogs.io/docs/upgrade/upgrade_from_binary
 ####   clone地址为 localhost问题
 
  /home/git/gogs/custom/conf下把app.ini，DOMAIN   ROOT_URL 改成主机ip
+
+
+
+
+
+#### Draw
+
+```
+/root/DRAW/apache-tomcat-8.5.65/bin
+./startup.sh
+```
+

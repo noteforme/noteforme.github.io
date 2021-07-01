@@ -6,27 +6,29 @@ tags: concurrency
 categories: JAVA
 ---
 
+<img src="Concurrency-SychronizedVolatile/2020-08-19_at_3.54.13.png" alt="Screen Shot 2020-08-19_at_3.54.13 PM"  />
+
+####  MESI
+
+为什么需要MESI协议 : CPU的高度运算需要高速的数据,然而内存和硬盘的发展速度远远不及CPU
 
 
-#### MESI 缓存一致性流程(不带Store Buffer)
 
 一个CPU的变量发生改变，其他拥有这个变量CPU需要同步.
 
 查看如下链接的 多核缓存协同操作流程图
+
+![](https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162525310-2087402052.png)
+
+ https://www.bilibili.com/video/BV1fK4y1E7NC视频讲解了这个状态图的各个情况.
+
+
 
 https://www.cnblogs.com/yanlong300/p/8986041.html
 
 https://www.codenong.com/cs106520859/
 
 
-
-
-
-####  CPU缓存一致性协议MESI
-
-为什么需要MESI协议 : CPU的高度运算需要高速的数据,然而内存和硬盘的发展速度远远不及CPU
-
-##### volitile可见性问题
 
 ![](https://www.researchgate.net/profile/Paul-Mckenney/publication/228824849/figure/fig4/AS:340743597117458@1458251012215/Caches-With-Store-Forwarding.png)
 
@@ -62,10 +64,6 @@ CPU 1 发出 Read 消息读取 a 的值，发现 a 却为旧值 0，assert faile
 在日常开发过程中也是完全有可能遇到上面的情况，由于 a 的变更对 CPU1 不可见，虽然执行指令的时序没有真正被打乱，但对于 CPU1  来说，这造成了 b=1 先于 a=1 执行的假象，这种看是乱序的问题，通常称为 “重排序”。当然上面所说的情况，只是指令重排序的一种可能。
 
 
-
-可见性问题存在的主要原因就是，Store Buffer ，尚未及时刷入缓存，然后其他CPU还是从内存里面取出旧值.为了提高CPU效率，MESI引入了缓存失效机制.
-
-https://www.cnblogs.com/xmzJava/p/11417943.html
 
 
 
@@ -137,6 +135,48 @@ http://intheworld.win/2015/07/16/%E5%A4%9A%E6%A0%B8%E7%A8%8B%E5%BA%8F%E8%AE%BE%E
 
 
 
+
+
+##### MESI为什么还需要volatile?
+
+volatile 和MESI 中间差了好几层抽象，中间会经历java编译器，java虚拟机和JIT，操作系统，CPU核心。
+
+
+
+volatile 是Java 中标识变量可见性的关键字，说直接点：使用volatile 修饰的变量是有内存可见性的，这是Java  语法定的，Java 不关心你底层操作系统、硬件CPU 是如何实现内存可见的，我的语法规定就是volatile 修饰的变量必须是具有可见性的。
+
+CPU 有X86（复杂指令集）、ARM（精简指令集）等体系架构，版本类型也有很多种，CPU 可能通过锁总线、MESI  协议实现多核心缓存的一致性。因为有硬件的差异以及编译器和处理器的指令重排优化的存在，所以Java  需要一种协议来规避硬件平台的差异，保障同一段代表在所有平台运行效果一致，这个协议叫做Java 内存模型（Java Memory Model）。
+
+https://www.wwwbuild.net/java3y/5614.html
+
+
+
+可见性问题存在的主要原因就是，Store Buffer ，尚未及时刷入缓存，然后其他CPU还是从内存里面取出旧值.为了提高CPU效率，MESI引入了缓存失效机制.
+
+https://www.cnblogs.com/xmzJava/p/11417943.html   **这篇文章很好**
+
+而对于JAVA而言，他必须要屏蔽各个处理器的差异，所以才有了java内存模型(JMM),volatile只是内存模型的一小部分，实现了变量的可见性和禁止指令重排序优化的功能。整个内存模型必须要实现可见性，原子性，和有序性。而volatile实现了其中的可见性和有序性。
+
+
+
+##### 思考
+
+上面说的意思是volitle是上层实现，不管底层是什么，其实MESI volatile还是没搞懂，但是MESI是CPU具体存在的，而且MESI也和可见性差不多原理，如果不用volatile就没有MESI了？
+
+
+
+https://www.scss.tcd.ie/jeremy.jones/VivioJS/caches/MESI.htm
+
+各种文章人云亦云，要么直接回避上面问题，有的还说volatile保障MESI,自己相信吗?
+
+https://www.youtube.com/watch?v=q8r7b1KMUlE
+
+看了**这个视频感觉**能说通了，volatile是在MESI基础上，禁止指令重排序(加了栅栏),来保障可见性。
+
+有空看看其他几个视频链接，该删的删.
+
+
+
 ##### CPU代码执行顺序
 
 ```java
@@ -176,15 +216,13 @@ public class VisibilityThread {
 
 
 
-
-
 https://www.bilibili.com/video/BV1XZ4y157Pj?p=4
 
 
 
 
 
-####  Volatile禁止重排序
+#####  Volatile禁止重排序
 
 单个线程中，只要重排序不会对结果产生影响，就不能保证其中的操作一定按照程序写定的顺序执行——即使重排序对于其他线程会产生影响。java并发编程实战3.1
 
@@ -208,19 +246,23 @@ https://wudaijun.com/2019/04/cpu-cache-and-memory-model/#valine-comments
 
 
 
-<img src="Concurrency-SychronizedVolatile/2020-08-19_at_3.54.13.png" alt="Screen Shot 2020-08-19_at_3.54.13 PM"  />
+##### Sychronized volatile区别？
+
+* Sychronized 
+
+ 保证原子性和可见性	synchronized可见性，线程加锁时，必须清空工作内存中共享变量的值，从而使用共享变量时需要从主内存重新读取；线程在解锁时，需要把工作内存中最新的共享变量的值写入到主存，以此来保证共享变量的可见性
+
+* volatile
+
+   只能保证可见性
 
 
 
-#### Sychronized volatile区别？
 
-Sychronized : 保证原子性和可见性
 
-​				synchronized可见性，线程加锁时，必须清空工作内存中共享变量的值，从而使用共享变量时需要从主内存重新读取；线程在解锁时，需要把工作内存中最新的共享变量的值写入到主存，以此来保证共享变量的可见性
 
-volatile： 只能保证可见性
 
-https://juejin.im/post/6864252499466354701
+
 
 
 
@@ -253,3 +295,6 @@ Cpu2发现不是100了，修改失败
    执行 CAS 的时候，是针对某一个，而不是多个共享变量的，这个变量可能是 Integer 类型，也有可能是 Long 类型、对象类型等等，但是我们不能针对多个共享变量同时进行 CAS 操作，因为这多个变量之间是独立的，简单的把原子操作组合到一起，并不具备原子性.
 
    解决方案:那就是利用一个新的类，来整合刚才这一组共享变量，这个新的类中的多个成员变量就是刚才的那多个共享变量，然后再利用 atomic 包中的 AtomicReference 来把这个新对象整体进行 CAS 操作，这样就可以保证线程安全。
+
+
+
