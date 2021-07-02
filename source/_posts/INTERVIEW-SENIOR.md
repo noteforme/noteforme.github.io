@@ -2,8 +2,8 @@
 title: INTERVIEW_SENIOR
 comments: true
 date: 2018-06-22 18:56:44
-tags:
-categories: ANDROID
+tags: inter
+categories: 
 ---
 
 

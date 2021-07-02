@@ -284,34 +284,33 @@ http://jcpplus.github.io/2015/07/23/modify-remote-url/
 ```
 [检出标签](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%89%93%E6%A0%87%E7%AD%BE) 检出标签
 
-* Checkout Git Tags 
+##### Checkout Git Tags 
 
-  https://devconnected.com/how-to-checkout-git-tags/
+https://devconnected.com/how-to-checkout-git-tags/
 
-  > ```
-  >  git fetch --all --tags
-  >  git checkout tags/v1.0 -b v1.0-branch	//git checkout tags/v2.1.1 -b v2.1.1-branch
-  >  
-  >  git log --oneline --graph		//You can inspect the state of your branch by using the “git log” command. Make sure that the HEAD pointer (the latest commit) is pointing to your annotated tag.
-  > ```
+> ```
+>  git fetch --all --tags
+>  git checkout tags/v1.0 -b v1.0-branch	//git checkout tags/v2.1.1 -b v2.1.1-branch
+>  
+>  git log --oneline --graph		//You can inspect the state of your branch by using the “git log” command. Make sure that the HEAD pointer (the latest commit) is pointing to your annotated tag.
+> ```
 
-* checkout remote tag
+##### checkout remote tag
 
-  ```
-  git fetch --all --tags
-  
-  git ls-remote --tags
-   
-    refs/tags/v2.5.8^{}
-    refs/tags/v2.5.9
-    refs/tags/v2.5.9^{}
-  
-  git checkout  refs/tags/v2.5.9 -branch v2.5.9-branch
-   																				这个自定义
-  
-  ```
+```
+git fetch --all --tags
 
-  
+git ls-remote --tags
+ 
+  refs/tags/v2.5.8^{}
+  refs/tags/v2.5.9
+  refs/tags/v2.5.9^{}
+
+git checkout  refs/tags/v2.5.9 -b v2.5.9-branch					//-b 后面是自定义的分支名称
+ 																				这个自定义
+```
+
+
 
 在 Git 中你并不能真的检出一个标签，因为它们并不能像分支一样来回移动。 如果你想要工作目录与仓库中特定的标签版本完全一样，可以使用 git checkout -b [branchname] [tagname] 在特定的标签上创建一个新分支：
 
@@ -380,7 +379,7 @@ http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/
 
 [www.github.com](https://link.zhihu.com/?target=http%3A//www.github.com/) 替换为   www.github.com.cnpmjs.org
 
->https://github.com/flutter/flutter.git
->
->git clone https://github.com.cnpmjs.org/love-flutter/flutter-column.git
+https://github.com/flutter/flutter.git
+
+git clone https://github.com.cnpmjs.org/love-flutter/flutter-column.git
 

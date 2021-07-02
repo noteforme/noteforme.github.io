@@ -18,9 +18,7 @@ categories: JAVA
 
 
 
-#### 线程是如何在 6 种状态之间转换
-
-##### 线程的6中状态
+#### 线程的6中状态
 
 1. New（新创建）
 2. Runnable（可运行）
@@ -82,11 +80,255 @@ categories: JAVA
 
 
 
+#### 状态实例
+
+##### WAITING
+
+###### wait()
+
+WAITING.java
+
+```java
+    final Object lock = new Object();
+         threadA = new Thread(() -> {
+            synchronized (lock) {
+                    System.out.println(Thread.currentThread().getName() + " " + threadA.getState());
+                try {
+                   lock.wait();
+                } catch (InterruptedException e) {}
+            }
+        }, "Thread-A");
+        threadA.start();
+        Thread.sleep(2000L);
+        System.out.println(Thread.currentThread().getName() + " 线程A的状态 " + threadA.getState());
+```
+
+
+
+###### join
+
+WaitJOIN.java
+
+```java
+final Object lock = new Object();
+threadA = new Thread(() -> {
+    synchronized (lock) {
+        try {
+            System.out.println(Thread.currentThread().getName() + " " + threadA.getState());
+            threadB.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}, "Thread-A");
+
+threadB = new Thread(() -> {
+    synchronized (lock) {
+        System.out.println(Thread.currentThread().getName() + " " + threadB.getState());
+        try {
+            Thread.sleep(1000l);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}, "Thread-B");
+
+threadA.start();
+threadB.start();
+
+Thread.sleep(2000);
+System.out.println(Thread.currentThread().getName() + "运行 线程A的状态 " + threadA.getState());
+```
+
+
+
+运行结果
+
+---
+
+Thread-A RUNNABLE
+main运行 线程A的状态 WAITING
+
+---
+
+
+
+###### wait
+
+WaitState.java
+
+```java
+final Object lock = new Object();
+ threadA = new Thread(() -> {
+    synchronized (lock) {
+        try {
+            System.out.println(Thread.currentThread().getName() + " " + threadA.getState());
+            lock.wait();
+            Thread.sleep(5000l);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}, "BLOCKED-Thread-A");
+
+ threadB = new Thread(() -> {
+    synchronized (lock) {
+        System.out.println(Thread.currentThread().getName() + " " + threadB.getState());
+        System.out.println(Thread.currentThread().getName() + " 线程A的状态 " + threadA.getState());
+        try {
+            Thread.sleep(5000l);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}, "BLOCKED-Thread-B");
+```
+
+ 结果
+
+---
+
+BLOCKED-Thread-A RUNNABLE
+BLOCKED-Thread-B RUNNABLE
+BLOCKED-Thread-B 线程A的状态 WAITING
+
+---
+
+从结果可以得到两个结论:
+
+1. 线程A调用 lock.wait()后 A出于WAITING状态。
+2. 线程A调用 lock.wait()后，立马释放锁，线程B获得锁开始执行。
+
+
+
+
+
+##### TIMED_WAITING
+
+###### wait(5000)
+
+WAITING_TIMEOUT.java
+
+```java
+final Object lock = new Object();
+threadA = new Thread(() -> {
+    synchronized (lock) {
+        System.out.println(Thread.currentThread().getName() + " " + threadA.getState());
+        try {
+            lock.wait(5000);
+        } catch (InterruptedException e) {
+        }
+    }
+}, "Thread-A");
+threadA.start();
+Thread.sleep(2000L);
+System.out.println(Thread.currentThread().getName() + " 线程A的状态 " + threadA.getState());
+```
+
+运行结果:
+
+---
+
+Thread-A RUNNABLE
+main 线程A的状态 TIMED_WAITING
+
+---
+
+
+
+###### sleep(5000)
+
+TIMED_WAITING.java
+
+```java
+threadA = new Thread(() -> {
+    System.out.println(Thread.currentThread().getName() + " " + threadA.getState());
+    try {
+        Thread.sleep(5000);
+    } catch (InterruptedException e) {
+    }
+}, "Thread-A");
+threadA.start();
+Thread.sleep(2000L);
+System.out.println(Thread.currentThread().getName() + " 线程A的状态 " + threadA.getState());
+```
+
+
+
+调用了 Thread.sleep(5000l);
+
+运行结果:
+
+---
+
+Thread-A RUNNABLE
+main 线程A的状态 TIMED_WAITING
+
+---
+
+
+
+##### BLOCKED
+
+```JAVA
+    final Object lock = new Object();
+        threadA = new Thread(() -> {
+            synchronized (lock) {
+                try {
+                    System.out.println(Thread.currentThread().getName() + " 线程A的状态 " + threadA.getState());
+                    System.out.println(Thread.currentThread().getName() + " 线程B的状态 " + threadB.getState());
+                    Thread.sleep(10000l);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "Thread-A");
+
+        threadB = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println(Thread.currentThread().getName() + " 线程A的状态 " + threadA.getState());
+                System.out.println(Thread.currentThread().getName() + " 线程B的状态 " + threadB.getState());
+                try {
+                    Thread.sleep(10000l);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "Thread-B");
+```
+
+
+
+运行结果:线程A得到锁，线程B进入阻塞状态。
+
+---
+
+Thread-A 线程A的状态 RUNNABLE
+Thread-A 线程B的状态 BLOCKED
+Thread-B 线程A的状态 TERMINATED
+Thread-B 线程B的状态 RUNNABLE
+
+---
+
+
+
+
+
 ##### 注意
 
 1. 线程的状态是需要按照箭头方向来走的，比如线程从 New 状态是不可以直接进入 Blocked 状态的，它需要先经历 Runnable 状态。
+
 2. 线程生命周期不可逆：一旦进入 Runnable 状态就不能回到 New 状态；一旦被终止就不可能再有任何状态的变化。所以一个线程只能有一次 New 和 Terminated 状态，只有处于中间状态才可以相互转换。
+
 3. Thread sleep() yield()结束后，回到就绪状态.
+
+   
+
+https://www.geeksforgeeks.org/lifecycle-and-states-of-a-thread-in-java/
+
+https://fangjian0423.github.io/2016/06/04/java-thread-state/
+
+
 
 
 
@@ -102,10 +344,10 @@ categories: JAVA
 
 #### 正确的停止方式
 
-对于 Java 而言，最正确的停止线程的方式是使用 interrupt。但 interrupt 仅仅起到通知被停止线程的作用。而对于被停止的线程而言，它拥有完全的自主权，它既可以选择立即停止，也可以选择一段时间后停止，也可以选择压根不停止。那么为什么 Java 不提供强制停止线程的能力呢
+对于 Java 而言，最正确的停止线程的方式是使用 interrupt。但 interrupt 仅仅起到通知被停止线程的作用。而对于被停止的线程而言，它拥有完全的自主权，它既可以选择立即停止，也可以选择一段时间后停止，也可以选择压根不停止。首先通过 Thread.currentThread().isInterrupt() 判断线程是否被中断，随后检查是否还有工作要做。&& 逻辑表示只有当两个判断条件同时满足的情况下，才会去执行下面的工作。
 
 ```java
-while (!Thread.currentThread().isInterrupted() && more work to do) {
+while (!Thread.currentThread().isInterrupted() && cout<1000) {
     do more work
 }
 ```

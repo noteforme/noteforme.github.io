@@ -2,8 +2,8 @@
 title: INTERVIEW_ANDROID
 comments: true
 date: 2021-01-15 10:24:37
-tags: resume
-categories: ANDROID
+tags: inter
+categories:
 ---
 
 
@@ -732,12 +732,22 @@ contentprovider
 
 #### （三）常见的一些原理性问题
 
-- Handler机制和底层实现
+#####  Handler机制和底层实现
+
 - Handler、Thread和HandlerThread的差别
 - handler发消息给子线程，looper怎么启动？
 - 关于Handler，在任何地方new Handler 都是什么线程下?
 - ThreadLocal原理，实现及如何保证Local属性？
 - 请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系
+- 讲了讲消息机制
+- 主线程死循环不会卡死吗
+- epoll的时候算是卡顿吗
+- 怎么样算是卡顿了
+- 怎么利用消息机制检测卡顿
+- 除了这种方式还有别的监测卡顿的方式吗
+
+##### View
+
 - 请描述一下View事件传递分发机制
 - Touch事件传递流程
 - 事件分发中的onTouch 和onTouchEvent 有什么区别，又该如何使用？
@@ -751,6 +761,9 @@ contentprovider
 - AsyncTask原理及不足
 - 如何取消AsyncTask？
 - 为什么不能在子线程更新UI？
+
+##### 性能优化
+
 - ANR产生的原因是什么？
 - ANR定位和修正
 - oom是什么？
