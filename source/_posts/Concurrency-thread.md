@@ -80,6 +80,16 @@ categories: JAVA
 
 
 
+##### 多线程方法
+
+##### notify()
+
+只能叫醒别人 
+
+
+
+
+
 #### 状态实例
 
 ##### WAITING
@@ -200,6 +210,35 @@ BLOCKED-Thread-B 线程A的状态 WAITING
 2. 线程A调用 lock.wait()后，立马释放锁，线程B获得锁开始执行。
 
 
+
+###### park
+
+```java
+char[] aI = "1234567".toCharArray();
+char[] aC = "ABCDEFG".toCharArray();
+
+t1 = new Thread(() -> {
+
+        for(char c : aI) {
+            System.out.print(c);
+            LockSupport.unpark(t2); //叫醒T2
+            LockSupport.park(); //T1阻塞
+        }
+
+}, "t1");
+
+t2 = new Thread(() -> {
+
+    for(char c : aC) {
+        LockSupport.park(); //t2阻塞
+        System.out.print(c);
+        LockSupport.unpark(t1); //叫醒t1
+    }
+
+}, "t2");
+```
+
+轮流打印数字和字母
 
 
 
@@ -329,6 +368,14 @@ https://www.geeksforgeeks.org/lifecycle-and-states-of-a-thread-in-java/
 https://fangjian0423.github.io/2016/06/04/java-thread-state/
 
 
+
+
+
+notify
+
+调用之前持有对象锁
+
+https://howtodoinjava.com/java/multi-threading/wait-notify-and-notifyall-methods/
 
 
 
@@ -723,3 +770,8 @@ public class ShutdownTest {
 
 
 
+为什么 wait 必须在 synchronized 保护的同步代码中使用?
+
+不在synchronized就不能保证原子性，执行wait之前的代码后，被其他线程抢占执行了notifiy(此时没起作用，wait方法还没调用)，回来继续执行wait，这样该线程就得不到唤醒.
+
+https://kaiwu.lagou.com/course/courseInfo.htm?courseId=16#/detail/pc?id=242

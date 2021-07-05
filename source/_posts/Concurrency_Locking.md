@@ -909,14 +909,68 @@ Thread-3释放写锁
   > t2 获得锁A
   > t2   成功转账200元
   > a的余额500
-  > b的余额500
-
+  >
+  > #### b的余额500
   
-
+  
+  
   1. **使用 HashCode 的值来决定顺序**
-
+  
      主要思想是，两个线程都先获取 锁A,再获取锁B,这样就不会有死锁了
-
+  
   2. **主键 ID 具有唯一、不重复的特点**
-
+  
      由主键 ID 大小来决定获取锁的顺序，就可以确保避免死锁。
+
+##### AQS
+
+https://www.cnblogs.com/dennyzhangdd/p/7218510.html
+
+
+
+##### 信号量
+
+```java
+public class SemaphoreTestMain {
+
+    static Semaphore sSemaphore = new Semaphore(6);
+
+    public static void main(String[] args)  {
+
+            final SemaphoreTestMain semaphoreTestMain = new SemaphoreTestMain();
+            for (int i = 0 ; i < 1000;i++)
+            {
+               Thread myThread = new Thread()
+                {
+                    @Override
+                    public void run() {
+                        super.run();
+                        try {
+                            semaphoreTestMain.test();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
+               myThread.setName("threat index:" + i);
+                myThread.start();
+
+            }
+
+    }
+
+
+    public void test() throws InterruptedException {
+        sSemaphore.acquire();
+        System.out.println(Thread.currentThread().getName() + "--in");
+        Thread.sleep(1000);
+        System.out.println(Thread.currentThread().getName() + "--out" );
+        sSemaphore.release();
+
+    }
+
+}
+```
+
+https://www.bilibili.com/video/BV1B7411L7tE
