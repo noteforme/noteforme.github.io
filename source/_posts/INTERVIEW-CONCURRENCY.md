@@ -135,7 +135,7 @@ https://howtodoinjava.com/java/multi-threading/wait-notify-and-notifyall-methods
 ###### 如何实现线程同步？
 
  	1. Synchronized修饰整个方法或代码块。
- 	2. **Lock**
+ 	2. Lock
 
 ###### 两个进程同时要求写或者读，能不能实现？如何防止进程的同步？
 
@@ -161,25 +161,104 @@ https://howtodoinjava.com/java/multi-threading/wait-notify-and-notifyall-methods
 
 ​	
 
-#### 锁
-
 ##### 线程安全 锁
 
 ###### 讲一下java中的同步的方法 结果锁一起
 
+ 1. synchronized  
+
+ 2. wait和notify
+
+ 3. volatile
+
+     a.volatile关键字为域变量的访问提供了一种免锁机制
+      b.使用volatile修饰域相当于告诉虚拟机该域可能会被其他线程更新
+      c.因此每次使用该域就要重新计算，而不是使用寄存器中的值 
+      d.volatile不会提供任何原子操作，它也不能用来修饰final类型的变量 
+
+###### synchronize的原理
+
+> 1. 原子性：确保线程互斥的访问同步代码；
+> 2. 可见性：保证共享变量的修改能够及时可见，其实是通过Java内存模型中的 “**对一个变量unlock操作之前，必须要同步到主内存中；如果对一个变量进行lock操作，则将会清空工作内存中此变量的值，在执行引擎使用此变量前，需要重新从主内存中load操作或assign操作初始化变量值**” 来保证的；
+> 3. 有序性：有效解决重排序问题，即 “一个unlock操作先行发生(happen-before)于后面对同一个锁的lock操作”；
+
+###### 谈谈对Synchronized关键字，类锁，方法锁，重入锁的理解
+
+1. 当synchronized作用于普通方法是，锁对象是this；
+2. 当synchronized作用于静态方法是，锁对象是当前类的Class对象；
+3. 当synchronized作用于代码块时，锁对象是synchronized(obj)中的这个obj。
+
+###### static synchronized 方法的多线程访问和作用
+
+也就是两个的区别了,也就是synchronized相当于this.synchronized，而staticsynchronized相当于Something.synchronized，它可以对类的所有对象实例起作用
+
+###### synchronized与Lock的区别
+
+Lock支持的功能:
+
+公平锁：Synchronized是非公平锁，Lock支持公平锁，默认非公平锁
+
+可中断锁：ReentrantLock提供了lockInterruptibly（）的功能，可以中断争夺锁的操作，抢锁的时候会check是否被中断，中断直接抛出异常，退出抢锁。而Synchronized只有抢锁的过程，不可干预，直到抢到锁以后，才可以编码控制锁的释放。
+
+快速反馈锁：ReentrantLock提供了trylock（）  和 trylock（tryTimes）的功能，不等待或者限定时间等待获取锁，更灵活。可以避免死锁的发生。
+
+读写锁：ReentrantReadWriteLock类实现了读写锁的功能，类似于Mysql，锁自身维护一个计数器，读锁可以并发的获取，写锁只能独占。而synchronized全是独占锁
+
+Condition：ReentrantLock提供了比Sync更精准的线程调度工具，Condition，一个lock可以有多个Condition，比如在生产消费的业务下，一个锁通过控制生产Condition和消费Condition精准控制。
+
+https://www.jianshu.com/p/09d5ba4bfb7a
 
 
-synchronize的原理
+###### ReentrantLock的内部实现
 
-- 谈谈对Synchronized关键字，类锁，方法锁，重入锁的理解
-- static synchronized 方法的多线程访问和作用
-- 同一个类里面两个synchronized方法，两个线程同时访问的问题
-- synchronized与Lock的区别
-- ReentrantLock 、synchronized和volatile比较
-- ReentrantLock的内部实现
-- lock原理
-- 死锁的四个必要条件？
-- 怎么避免死锁？
+显式锁ReentrantLock和同步工具类的实现基础都是AQS (AbstractQueuedSynchronizer).AQS内部有一条双向的队列存放等待线程，节点是Node对象。每个Node维护了线程、前后Node的指针和等待状态等参数。
+
+
+
+ReentrantLock是可重入锁，也就是同一个线程可以多次获取锁，每获取一次就会进行一次计数，解锁的时候就会递减这个计数，直到计数变为0。
+
+它有两种实现，一种是公平锁，一种是非公平锁，
+
+###### lock原理
+
+整体来看Lock主要是通过两个东西来实现的分别是**CAS和AQS(AbstractQueuedSynchronizer)。**通过加锁和解锁的过程来分析锁的实现。
+
+一、整体概述流程
+
+1. 读取表示锁状态的变量
+
+2. 如果表示状态的变量的值为0，那么当前线程尝试将变量值设置为1（通过CAS操作完成），当多个线程同时将表示状态的变量值由0设置成1时，仅一个线程能成功，其它线程都会失败。失败后进入队列自旋转并阻塞当前线程。
+
+     2.1 若成功，表示获取了锁，
+
+     >    2.1.1 如果该线程（或者说节点）已位于在队列中，则将其出列（并将下一个节点则变成了队列的头节点）
+>
+     >   2.1.2 如果该线程未入列，则不用对队列进行维护
+>
+     >    2.1.3 然后当前线程从lock方法中返回，对共享资源进行访问。           
+
+     2.2 若失败，则当前线程将自身放入等待（锁的）队列中并阻塞自身，此时线程一直被阻塞在lock方法中，没有从该方法中返回（被唤醒后仍然在lock方法中，并从下一条语句继续执行，这里又会回到第1步重新开始）。
+
+3. 如果表示状态的变量的值为1，那么将当前线程放入等待队列中，然后将自身阻塞
+https://blog.csdn.net/liyantianmin/article/details/54673109
+
+
+
+###### 死锁的四个必要条件？
+
+1. 互斥条件: 指线程对己经获取到的资源进行排它性使用 ，即该资源同时只由 一个线
+   程占用。如果 此时 还有其 他 线程请求获取该资源 ，则 请求者只能等待，直至占有资
+   源 的 线程释放该资源。
+2. .请求并持有条件 : 指一个线程己经持有了至少一个资源，但又提出了新的资源请求，
+   而新资源己被其 他 线程占有，所 以 当前线程会被阻塞 ，但 阻塞 的同时 并不释放自 己
+   己经获取的资源。
+3. 不可剥夺条件 : 指线程获取到的资源在自己使用完之前不能被其他线程抢占 ， 只有在自己使用完 毕后才 由 自 己释放该资源。
+4. 环路等待条件 : 指在发生死锁时 ，必然存在一个线程→资源的环形链 ，即线程集合
+
+###### 怎么避免死锁？
+
+
+
 - 对象锁和类锁是否会互相影响？
 - synchronized是公平锁还是非公平锁,ReteranLock是公平锁吗？是怎么实现的
 - synchronized跟ReentranLock有什么区别？
@@ -189,15 +268,15 @@ synchronize的原理
 
 ##### 管理线程 提高效率
 
-- volatile的原理
+###### volatile的原理
+
+https://www.bilibili.com/video/BV1NT4y1G7WE?p=8
 
 - 谈谈volatile关键字的用法 谈谈volatile关键字的作用
 
 - 谈谈NIO的理解
 
 - synchronized 和volatile 关键字的区别
-
-- 什么是线程池，如何使用?
 
 - Java的并发、多线程、线程模型
 
@@ -215,15 +294,18 @@ synchronize的原理
 
 - 断点续传的实现
 
-- 为什么要用线程池
-
   
+
 
 ##### 线程池
 
 - JavaAPI线程池有哪些参数
 
+- 什么是线程池，如何使用?
+
 - 什么是核心线程
+
+- 为什么要用线程池
 
 - 怎么销毁核心线程
 
@@ -241,8 +323,6 @@ synchronize的原理
 
 - 跨进程通信了解多少？管道了解吗？
 
-- 线程中 sleep() 和 wait() 有何区别，各有什么含义？
-
 - 安卓解决线程并发问题。
 
   
@@ -255,3 +335,6 @@ synchronize的原理
 - AQS了解吗？
 - ConcurrentHashMap，线程安全，为何安全。底层实现是怎么样的。
 
+
+
+https://www.zhihu.com/question/63859501

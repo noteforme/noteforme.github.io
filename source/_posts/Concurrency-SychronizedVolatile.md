@@ -238,15 +238,167 @@ https://zhuanlan.zhihu.com/p/148772753
 
 https://www.bilibili.com/video/BV1tE411o7oj?p=2
 
-
-
 https://wudaijun.com/2019/04/cpu-cache-and-memory-model/#valine-comments
 
 
 
 
 
-##### Sychronized volatile区别？
+#### Sychronized三种应用方式
+
+- 修饰实例方法，作用于当前实例加锁，进入同步代码前要获得当前实例的锁
+- 修饰静态方法，作用于当前类对象加锁，进入同步代码前要获得当前类对象的锁
+- 修饰代码块，指定加锁对象，对给定对象加锁，进入同步代码库前要获得给定对象的锁。
+
+
+
+1. 作用于实例方法
+
+   ```java
+     public synchronized void increase(){
+           i++;
+     }
+   ```
+
+   示例 
+
+   ```java
+   public class AccountingSync implements Runnable{
+       //共享资源(临界资源)
+       static int i=0;
+   
+       /**
+        * synchronized 修饰实例方法
+        */
+       public synchronized void increase(){
+           i++;
+       }
+       @Override
+       public void run() {
+           for(int j=0;j<1000000;j++){
+               increase();
+           }
+       }
+       public static void main(String[] args) throws InterruptedException {
+           AccountingSync instance=new AccountingSync();
+           Thread t1=new Thread(instance);
+           Thread t2=new Thread(instance);
+           t1.start();
+           t2.start();
+           t1.join();
+           t2.join();
+           System.out.println(i);
+       }
+       /**
+        * 输出结果:
+        * 2000000
+        */
+   
+   ```
+
+   当一个线程正在访问一个对象的 synchronized 实例方法，那么其他线程不能访问该对象的其他 synchronized 方法，毕竟一个对象只有一把锁。
+
+   
+
+   如果是一个线程 A 需要访问实例对象 obj1 的 synchronized 方法 f1(当前对象锁是obj1)，另一个线程 B  需要访问实例对象 obj2 的 synchronized 方法 f2(当前对象锁是obj2)，这样是允许的，因为两个实例对象锁并不同相同
+
+   
+
+2. synchronized作用于静态方法
+
+   ```java
+   public class synchronized_01 implements Runnable {
+       static int i = 0;
+   
+       /**
+        * 对于全局
+        */
+       public static synchronized void increase() {
+           i++;
+       }
+   
+       @Override
+       public void run() {
+           for (int j = 0; j < 1000000; j++) {
+               increase();
+           }
+       }
+   
+       public static void main(String[] args) throws InterruptedException {
+           //new新实例
+           Thread t1 = new Thread(new AccountingSyncBad());
+           t1.start();
+   
+           for (int j = 0; j < 1000000; j++) {
+               increase();
+           }
+           TimeUnit.SECONDS.sleep(2);
+           System.out.println(i);
+       }
+   }
+   
+       /**
+        * 输出结果:
+        * 2000000
+        */
+   ```
+
+   其锁对象是当前类的class对象. 可以看到主线程和自线程发生互斥。
+
+3. synchronized同步代码块
+
+   ```java
+   
+   public class synchronized_03 implements Runnable {
+       static synchronized_03 instance=new synchronized_03();
+       static int i=0;
+       @Override
+       public void run() {
+           //省略其他耗时操作....
+           //使用同步代码块对变量i进行同步操作,锁对象为instance
+           synchronized(instance){
+               for(int j=0;j<1000000;j++){
+                   i++;
+               }
+           }
+       }
+   
+       
+       public static void main(String[] args) throws InterruptedException {
+           //new新实例
+           Thread t1 = new Thread(new synchronized_03());
+           t1.start();
+           System.out.println(i);
+       }
+   }
+   ```
+
+   将synchronized作用于一个给定的实例对象instance，即当前实例对象就是锁对象.当然除了instance作为对象外，我们还可以使用this对象(代表当前实例)或者当前类的class对象作为锁
+
+   //this,当前实例对象锁
+
+   ```
+   synchronized(this){
+       for(int j=0;j<1000000;j++){
+           i++;
+       }
+   }
+   
+   //class对象锁
+   synchronized(AccountingSync.class){
+       for(int j=0;j<1000000;j++){
+           i++;
+       }
+   }
+   ```
+
+   https://blog.csdn.net/javazejian/article/details/72828483
+
+   
+
+   
+
+   ##### Sychronized volatile区别？
 
 * Sychronized 
 
