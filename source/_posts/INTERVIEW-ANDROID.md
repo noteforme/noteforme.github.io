@@ -145,17 +145,7 @@ Activity ,Service ,BroadCastReceiver,ContentProvider
 
 ###### Android 消息机制
 
-* Handler通信，Binder通信
-* 简单描述下Handler,Handler是怎么切换线程的,Handler同步屏障
 
-* handler如何实现延时发消息postdelay()
-* 从源码了解handler looper ,messageQueue思路
-* handler的post(Runnable)如何实现的。callback，runnable，msg的执行优先级。阻塞是怎么实现的？为什么不会阻塞主线程？
-* Handler机制了解吗？一个线程有几个Looper？为什么？
-* 说说你对Handler机制的了解，同步消息，异步消息等
-* IdleHandler用过吗,IdleHandler应用场景？
-* Handler休眠是怎样的？epoll的原理是什么？如何实现延时消息，如果移除一个延时消息会解除休眠吗？
-* handler内存泄露问题
 
 
 
@@ -629,9 +619,13 @@ https://www.jianshu.com/p/9e095bacf44a
 
 
 
-怎么让线程有序 :加入队列
+###### 怎么让线程有序
 
 两个线程，想让来的一个插队怎么弄
+
+​	join
+
+
 
 多线程死锁(图片网络请求会出现的问题
 
@@ -681,7 +675,7 @@ list遍历删除
 
 fragment tag
 
-**sercice ALDL** (后面再弄)
+sercice ALDL (后面再弄)
 
 Hashmap实现原理  实现有序
 
@@ -734,17 +728,7 @@ contentprovider
 
 #####  Handler机制和底层实现
 
-- Handler、Thread和HandlerThread的差别
-- handler发消息给子线程，looper怎么启动？
-- 关于Handler，在任何地方new Handler 都是什么线程下?
-- ThreadLocal原理，实现及如何保证Local属性？
-- 请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系
-- 讲了讲消息机制
-- 主线程死循环不会卡死吗
-- epoll的时候算是卡顿吗
-- 怎么样算是卡顿了
-- 怎么利用消息机制检测卡顿
-- 除了这种方式还有别的监测卡顿的方式吗
+
 
 ##### View
 

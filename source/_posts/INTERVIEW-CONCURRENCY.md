@@ -10,6 +10,31 @@ categories:
 
 #####  线程基础
 
+
+
+###### Java线程模型
+
+1. 用户线程与内核级线程
+2. 并发与并行
+3. 多线程模型
+
+https://crazyfzw.github.io/2018/06/19/thred-model/
+
+谈谈对多线程的理解
+
+1. 在Android中一个应用程序就是一个单独的进程，一般来说，当我们运行一个应用，系统就会自动创建一个进程，并且为这个进程创建一个主线程--UI线程，这样就可以运行MainActivity。
+2. 线程是操作系统能够进行运算调度的最小单位，线程是进程的子集，线程可以并行的执行不同任务，所有的线程共享同一片内存空间，这就为线程间通信提供了基础，线程有五种状态：创建，就绪，运行，阻塞，死亡。
+
+###### 多线程有什么要注意的问题？
+
+并发问题，安全问题，效率问题。
+
+谈谈你对并发编程的理解并举例说明
+
+- 谈谈你对多线程同步机制的理解？
+
+
+
 ###### ? 进程和线程的区别 协程呢
 
 * 进程  
@@ -161,6 +186,14 @@ https://howtodoinjava.com/java/multi-threading/wait-notify-and-notifyall-methods
 
 ​	
 
+###### 怎么中止一个线程，Thread.Interupt一定有效吗？
+
+不一定 
+
+https://juejin.cn/post/6844903896339447815#heading-6
+
+
+
 ##### 线程安全 锁
 
 ###### 讲一下java中的同步的方法 结果锁一起
@@ -257,75 +290,149 @@ https://blog.csdn.net/liyantianmin/article/details/54673109
 
 ###### 怎么避免死锁？
 
+请求并持有和环路等待条件是可 以被破坏.
 
 
-- 对象锁和类锁是否会互相影响？
-- synchronized是公平锁还是非公平锁,ReteranLock是公平锁吗？是怎么实现的
-- synchronized跟ReentranLock有什么区别？
-- synchronized与ReentranLock发生异常的场景.
+
+###### synchronized是公平锁还是非公平锁,ReteranLock是公平锁吗？是怎么实现的
+
+1. synchronized只能是非公平锁。
+2. 而ReentrantLock可以实现公平锁和非公平锁两种。
+3. 公平锁的公平的含义在于如果线程现在拿不到这把锁，那么线程就都会进入等待，开始排队，在等待队列里等待时间长的线程会优先拿到这把锁，有先来先得的意思。而非公平锁就不那么“完美”了，它会在一定情况下，忽略掉已经在排队的线程，发生插队现象
 
 
+
+###### synchronized跟ReentranLock有什么区别？
+
+都是加锁方式同步，而且都是阻塞式的同步，也就是说当如果一个线程获得了对象锁，进入了同步块，其他访问该同步块的线程都必须阻塞在同步块外面等待
+
+* synchronized
+
+  **自动释放锁**,只有非公平锁。都是可重入的
+
+* ReentrantLock
+
+   **手动释放锁**
+
+###### 对象锁和类锁是否会互相影响？
+
+不会相互影响
+
+* 类锁
+
+  在代码中的方法上加了static和synchronized的锁，或者synchronized(xxx.class）的代码段
+
+* 对象锁
+
+  在代码中的方法上加了synchronized的锁，或者synchronized(this）的代码段
+
+* 私有锁
+
+  在类内部声明一个私有属性如private Object lock，在需要加锁的代码段synchronized(lock）
+
+  
 
 ##### 管理线程 提高效率
 
 ###### volatile的原理
 
+ 有序性.
+
+ 可见性 :
+
+　	（1）修改volatile变量时会强制将修改后的值刷新的主内存中。
+
+　　（2）修改volatile变量后会导致其他线程工作内存中对应的变量值失效。因此，再读取该变量值的时候就需要重新从读取主内存中的值。
+
+
+
+https://www.cnblogs.com/paddix/p/5428507.html
+
 https://www.bilibili.com/video/BV1NT4y1G7WE?p=8
 
-- 谈谈volatile关键字的用法 谈谈volatile关键字的作用
+###### synchronized 和volatile 关键字的区别
 
-- 谈谈NIO的理解
+1. volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性
+2. volatile标记的变量不会被编译器优化；synchronized标记的变量可以被编译器优化.
 
-- synchronized 和volatile 关键字的区别
 
-- Java的并发、多线程、线程模型
 
-- 谈谈对多线程的理解
+多线程断点续传原理
 
-- 多线程有什么要注意的问题？
+其实原理很简单，只需要保证每个子任务的下载进度能够被即时地记录即可。这样继续下载时只需要读取这些下载记录，从上次下载结束的位置开始下载即可。
 
-- 谈谈你对并发编程的理解并举例说明
+https://juejin.cn/post/6844904013440221198
 
-- 谈谈你对多线程同步机制的理解？
 
-- 如何保证多线程读写文件的安全？
-
-- 多线程断点续传原理
-
-- 断点续传的实现
-
-  
 
 
 ##### 线程池
 
-- JavaAPI线程池有哪些参数
+###### JavaAPI线程池有哪些参数
 
-- 什么是线程池，如何使用?
+![](https://s0.lgstatic.com/i/image2/M01/AD/A3/CgoB5l3eH8mAAoJCAACEOKMHtpw036.png)
 
-- 什么是核心线程
 
-- 为什么要用线程池
 
-- 怎么销毁核心线程
+![](https://s0.lgstatic.com/i/image2/M01/AD/A3/CgoB5l3eH-KAAHpkAAC4vEMOXQ4797.png)
 
-- 为什么DCL要那么写，直接在方法前加synchronized不行吗
 
-- 源码中有哪里用到了AtomicInt
 
-- 如何让两个线程循环交替打印
+###### 为什么要用线程池
 
-- 怎么中止一个线程，Thread.Interupt一定有效吗？
+1. 降低资源消耗2. 提高响应速度3. 提高线程的可管理性
 
-- 协程可以在Java项目中使用吗？
+###### 什么是线程池，如何使用?
 
-- 线程池了解多少？拒绝策略有几种,为什么有newSingleThread
+很多小任务让一组线程来执行，而不是一个任务对应一个新线程。这种能接收大量小任务并进行分发处理的就是线程池
 
-- 跨进程通信了解多少？管道了解吗？
+###### 什么是核心线程
 
-- 安卓解决线程并发问题。
+​	常驻线程池的线程数量
 
-  
+###### 怎么销毁核心线程
+
+​	allowCoreThreadTimeOut
+
+​	https://objcoding.com/2019/04/14/threadpool-some-settings/
+
+###### 为什么DCL DOUBLE CHECK LOCK要那么写，直接在方法前加synchronized不行吗
+
+​	不DCL 这样写，就会创建多个实例
+
+​	synchronized可以，这样粒度太大了.
+
+​	https://blog.csdn.net/zhaoyajie1011/article/details/106812327
+
+
+
+###### 如何让两个线程循环交替打印
+
+
+
+协程可以在Java项目中使用吗？
+
+线程池了解多少？拒绝策略有几种,为什么有newSingleThread
+
+###### 跨进程通信了解多少？管道了解吗？
+
+    文件
+    AIDL （基于 Binder）
+        Android 进阶：进程通信之 AIDL 的使用
+        Android 进阶：进程通信之 AIDL 解析
+    Binder
+        Android 进阶：进程通信之 Binder 机制浅析
+    Messenger （基于 Binder）
+        Android 进阶：进程通信之 Messenger 使用与解析 
+    ContentProvider （基于 Binder）
+        Android 进阶：进程通信之 ContentProvider 内容提供者 
+    Socket
+        Android 进阶：进程通信之 Socket （顺便回顾 TCP UDP）
+
+![](https://img-blog.csdn.net/20170605011532312?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTI0MDg3Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+原文链接：https://blog.csdn.net/u011240877/article/details/72863432
+
+
 
 ##### 底层原理
 
@@ -338,3 +445,15 @@ https://www.bilibili.com/video/BV1NT4y1G7WE?p=8
 
 
 https://www.zhihu.com/question/63859501
+
+
+
+##### AQS
+
+http://gee.cs.oswego.edu/dl/papers/aqs.pdf
+
+https://www.bilibili.com/video/BV11Q4y1M7K2?from=search&seid=12598203519866117819
+
+https://javadoop.com/post/AbstractQueuedSynchronizer
+
+https://www.bilibili.com/video/BV1yJ411v7er?from=search&seid=12598203519866117819

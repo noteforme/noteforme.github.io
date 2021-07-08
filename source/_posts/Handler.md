@@ -1,22 +1,49 @@
 ---
-title: HandlerMessage
+title: Handler
 comments: true
 date: 2017-08-21 17:06:35
 tags:
 categories: ANDROID
 
 ---
-#　handler post和handleMesage区别
 
-  https://segmentfault.com/a/1190000006700118  写的不错
-  
-  
-# ThreadLocal存取算法
+
+
+
+##### 原理图
+
+
+
+<img src="Handler/2021-07-07_15-49-54_hanlder.png" />
+
+
+
+ ![](https://images.xiaozhuanlan.com/photo/2019/5dd99feb4297e4c3a5ad55dba0812a1a.png)
+
+
+
+
+
+##### 各组件作用
+
+- Handler：事件的发送及处理者，在构造方法中可以设置其 async，默认为 false。若 async 为 true 则该 Handler 发送的 Message 均为异步消息，有同步屏障的情况下会被优先处理。
+- Looper：一个用于遍历 MessageQueue 的类，每个线程有一个独有的 Looper，它会在所处的线程开启一个死循环，不断从 MessageQueue 中拿出消息，并将其发送给 target 进行处理
+- MessageQueue：在主线程,用于存储 Message，内部维护了 Message 的链表，每次拿取 Message 时，若该  Message 离真正执行还需要一段时间，会通过 nativePollOnce  进入阻塞状态，避免资源的浪费。若存在消息屏障，则会忽略同步消息优先拿取异步消息，从而实现异步消息的优先消费。
+
+
+
+
+
+
+
+
+
+##### ThreadLocal存取算法
 　ThreadLocal是一个线程内部的数据存储类，它可以指定线程的存储数据，数据存储后只有在指定的线程种裁可以获取到存储的数据, 其他线程无法获取。
 
  验证:
 
-     
+
       private ThreadLocal<String> mStringThreadLocal = new ThreadLocal<>();
       mStringThreadLocal.set("我是主线程");
         Log.d(TAG, "mStringThreadLocal 主线程 :　" + mStringThreadLocal.get());
@@ -27,7 +54,7 @@ categories: ANDROID
                 Log.d(TAG, "mStringThreadLocal 线程１:　" + mStringThreadLocal.get());
             }
         });
-
+    
         exec.submit(new Runnable() {
             @Override
             public void run() {
@@ -47,7 +74,7 @@ categories: ANDROID
 [^参考：Android开发艺术探索　p377]
 
 
-#  异步消息处理机制
+#####  异步消息处理机制
  来个简单的例子  
  ```
     new Thread(new Runnable() {
@@ -58,7 +85,7 @@ categories: ANDROID
               Looper.loop();
             }
         }).start();
-```
+ ```
 把　Looper.prepare();注释，报错日志 : `java.lang.RuntimeException: Can't create handler inside thread that has not called Looper.prepare()`
 
 从报错信息入手看原因，初始化Handler (API = 25)
@@ -125,6 +152,7 @@ categories: ANDROID
 MesageQueue也是通过Looper创建的，看到private 构造方法,一个Looper管理一个　ＭesageQueue,
 但是我们通常在UI线程初始化Handler不需要调用 `Looper.prepare();`,这是因为应用启动后,主线程
 ActivityThread main方法为我们做了工作。
+
 ```
  public static void main(String[] args) {
         Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, "ActivityThreadMain");
@@ -330,8 +358,105 @@ ActivityThread main方法为我们做了工作。
 这里就清楚了，消息就传到了　Hanlder里面handleMessage的实现方法
 从上面分析handler消息传递基本了解了，借张图看下整片森林
 
-![Handler机制](HandlerMessage/DeepinScrot_handlerMsg.png)
 
-参考：
+
+##### 问题
+
+* handler的是怎样实现的？
+
+* Handler通信，Binder通信
+
+* 简单描述下Handler,Handler是怎么切换线程的,Handler同步屏障
+
+* handler如何实现延时发消息postdelay()
+
+* 从源码了解handler looper ,messageQueue思路
+
+* handler的post(Runnable)如何实现的。callback，runnable，msg的执行优先级。阻塞是怎么实现的？为什么不会阻塞主线程？
+
+* Handler机制了解吗？一个线程有几个Looper？为什么？
+
+* 说说你对Handler机制的了解，同步消息，异步消息等
+
+* IdleHandler用过吗,IdleHandler应用场景？
+
+* Handler休眠是怎样的？epoll的原理是什么？如何实现延时消息，如果移除一个延时消息会解除休眠吗？
+
+* handler内存泄露问题
+
+* Handler内存泄漏的GCRoot是什么？
+
+* 主线程死循环不会卡死吗
+
+* epoll的时候算是卡顿吗
+
+* 怎么样算是卡顿了
+
+* 怎么利用消息机制检测卡顿
+
+* 除了这种方式还有别的监测卡顿的方式吗
+
+* 从源码了解handler looper ,messageQueue思路
+
+* handler如何实现延时发消息postdelay()
+
+* Android中为什么主线程不会因为Looper.loop()里的死循环卡死？
+
+* 1、Handler问题三连：是什么？有什么用？为什么要用，不用行不行？
+
+  2、Android UI更新机制(GUI) 为何设计成了单线程的？
+
+  3、真的只能在主(UI)线程中更新UI吗？
+
+  4、真的不能在主(UI)线程中执行网络操作吗？
+
+  5、Handler怎么用？
+
+  6、为什么建议使用Message.obtain()来创建Message实例？
+
+  7、为什么子线程中不可以直接new Handler()而主线程中可以？
+
+  8、主线程给子线程的Handler发送消息怎么写？
+
+  9、HandlerThread实现的核心原理？
+
+  10、当你用Handler发送一个Message，发生了什么？
+
+  11、Looper是怎么拣队列里的消息的？
+
+  12、分发给Handler的消息是怎么处理的？
+
+  13、IdleHandler是什么？
+
+  14、Looper在主线程中死循环，为啥不会ANR？
+
+  15、Handler泄露的原因及正确写法
+
+  16、Handler中的同步屏障机制
+
+  17、Android 11 Handler相关变更
+
+  https://juejin.cn/post/6844904150140977165
+
+* handler post和handleMesage区别
+
+    https://segmentfault.com/a/1190000006700118  写的不错
+
+​	
+
+---
+
+
+
+
+
+https://www.bilibili.com/video/BV1A7411M7zQ?from=search&seid=14693797999095810218
+
+https://juejin.im/post/6844904150140977165
+
+
+
 http://blog.csdn.net/ljd2038/article/details/50889754
 http://blog.csdn.net/guolin_blog/article/details/9991569
+
+https://xiaozhuanlan.com/topic/0843791256
