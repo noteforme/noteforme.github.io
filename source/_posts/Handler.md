@@ -34,6 +34,14 @@ categories: ANDROID
 
 
 
+#####  消息入队顺序
+
+https://www.jianshu.com/p/9efe3b48b730
+
+https://juejin.cn/post/6844904113470177293
+
+https://www.bilibili.com/video/BV1VE411Z7Ay?p=4
+
 
 
 
@@ -63,7 +71,7 @@ categories: ANDROID
         });
 
 运行结果:
->    D/MainActivity: mStringThreadLocal 主线程 :　我是主线程
+>       D/MainActivity: mStringThreadLocal 主线程 :　我是主线程
      D/MainActivity: mStringThreadLocal 线程１:　我是线程１
      D/MainActivity: mStringThreadLocal 线程2: null
 
@@ -74,7 +82,7 @@ categories: ANDROID
 [^参考：Android开发艺术探索　p377]
 
 
-#####  异步消息处理机制
+#####  消息代码流程
  来个简单的例子  
  ```
     new Thread(new Runnable() {
@@ -360,23 +368,47 @@ ActivityThread main方法为我们做了工作。
 
 
 
+######  发送消息时机
+
+https://zhuanlan.zhihu.com/p/260661053
+
+https://blog.csdn.net/thh159/article/details/103644489
+
 ##### 问题
 
-* handler的是怎样实现的？
+###### handler的是怎样实现的？
 
-* Handler通信，Binder通信
+新线程中执行了一个耗时操作，然后把该结果塞给message，handler将发送这个messageQueue，Loop不停的从消息队列中取出消息。Handler 分发给Ui.
 
-* 简单描述下Handler,Handler是怎么切换线程的,Handler同步屏障
 
-* handler如何实现延时发消息postdelay()
 
-* 从源码了解handler looper ,messageQueue思路
+###### Handler是怎么切换线程的
 
-* handler的post(Runnable)如何实现的。callback，runnable，msg的执行优先级。阻塞是怎么实现的？为什么不会阻塞主线程？
+我们在不同的线程发送消息，线程之间的资源是共享的
 
-* Handler机制了解吗？一个线程有几个Looper？为什么？
 
-* 说说你对Handler机制的了解，同步消息，异步消息等
+
+从源码了解handler looper ,messageQueue思路
+
+
+
+handler如何实现延时发消息postdelay()。callback，runnable，msg的执行优先级。阻塞是怎么实现的？为什么不会阻塞主线程？
+
+###### Handler机制了解吗？一个线程有几个Looper？为什么？
+
+只能有一个，不然调用Looper.prepare()会抛出运行时异常，提示“Only one Looper may be created per thread”
+
+
+
+###### handler如何实现延时发消息postdelay()
+
+可以看到这里也是一个for循环遍历队列，核心变量就是nextPollTimeoutMillis。可以看到，计算出nextPollTimeoutMillis后就调用nativiePollOnce这个native方法。这里的话大概可以猜到他的运行机制，因为他是根据执行时间进行排序的，那传入的这个nextPollTimeoutMillis应该就是休眠时间，类似于java的sleep(time)。休眠到下一次message的时候就执行。那如果我在这段时间又插入了一个新的message怎么办，所以handler每次插入message都会唤醒线程，重新计算插入后，再走一次这个休眠流程
+
+https://www.jianshu.com/p/68083d432b3f
+
+
+
+说说你对Handler机制的了解，同步消息，异步消息等
 
 * IdleHandler用过吗,IdleHandler应用场景？
 
@@ -396,11 +428,17 @@ ActivityThread main方法为我们做了工作。
 
 * 除了这种方式还有别的监测卡顿的方式吗
 
-* 从源码了解handler looper ,messageQueue思路
+    
 
-* handler如何实现延时发消息postdelay()
+* 
 
 * Android中为什么主线程不会因为Looper.loop()里的死循环卡死？
+
+* Handler通信，Binder通信
+
+* Handler同步屏障
+
+    
 
 * 1、Handler问题三连：是什么？有什么用？为什么要用，不用行不行？
 
@@ -456,7 +494,6 @@ https://juejin.im/post/6844904150140977165
 
 
 
-http://blog.csdn.net/ljd2038/article/details/50889754
 http://blog.csdn.net/guolin_blog/article/details/9991569
 
 https://xiaozhuanlan.com/topic/0843791256
