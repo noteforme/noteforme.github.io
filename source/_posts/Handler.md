@@ -497,3 +497,11 @@ https://juejin.im/post/6844904150140977165
 http://blog.csdn.net/guolin_blog/article/details/9991569
 
 https://xiaozhuanlan.com/topic/0843791256
+
+
+
+
+
+glide handler 
+
+https://www.bilibili.com/video/BV1FU4y1V7HE

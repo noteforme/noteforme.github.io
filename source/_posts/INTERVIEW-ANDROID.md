@@ -813,17 +813,64 @@ https://www.jianshu.com/p/45866c8415c8
 
 #### （五）混合开发面试题
 
-- Hybrid做过吗？
-- Hybrid通信原理是什么，有做研究吗？
 - flutter了解吗？内部是如何实现跨平台的？
 - 说说你用过的混合开发技术有哪些？各有什么优缺点？
 
   
 
-------
+#### (六) 框架学习
 
+##### RxJava
 
+​	RxJava原理及如何封装使用
+
+​	RXJava**怎么切换线程**
+
+​	Rxjava自定义操作符
+
+​	你了解协程吗？协程有什么作用？可以完全取代rxjava吗？
+
+​	rxjava里面用了大量的`<? super T>`这些，是什么意思。
+
+- RxJava怎么通过被订阅者传给订阅者的过程是什么样的?
+- Observer处理完onComplete后会还能onNext吗?
+- RxJava中map、flatMap的区别，你还用过其他哪些操作符?
+- Maybe、Single、Flowable、Completable几种观察者的区别，以及他们在什么场景用？
+- RxJava切换线程是怎么回事?
+- RxJava的subscribeOn只有第一次生效?
+- RxJava的observeOn多次调用哪个有效?
+- RxJava中背压是怎么回事？
+
+---
 
 https://www.jianshu.com/p/c3965e82b164
 
-https://www.cnblogs.com/deman/p/5860976.html#_label29)
+https://zhuanlan.zhihu.com/p/322405376
+
+https://www.bilibili.com/video/BV1Af4y187b8
+
+
+
+##### Retrofit
+
+https://www.bilibili.com/video/BV1ib4y1f7S1
+
+
+
+怎么看源码 
+
+https://www.bilibili.com/video/BV1d54y1h768
+
+
+
+#### VIEW
+
+##### 事件分发机制
+
+https://www.bilibili.com/video/BV1754y1H7jT
+
+
+
+#### Binder通信原理与机制
+
+https://blog.csdn.net/Android_SE/article/details/103898581
