@@ -45,11 +45,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -57,7 +57,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -77,7 +77,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Activity" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-ACTIVITY" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
     
@@ -114,7 +114,7 @@
 
       
       
-<a href="/2021/01/16/Activity/#comments" class="article-comment-link">
+<a href="/2021/01/16/ACTIVITY/#comments" class="article-comment-link">
   
     
     
@@ -123,7 +123,7 @@
     
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -154,32 +154,56 @@ I/BaseActivity: MainActivity -- onStop() --
 <p>onStop() :<br>大概知道原因，但是还是不够说服力，因为onStart()方法已经对用户可见了，为什么MainActivity – onStop()不在 StopResumeActivity – onStart()后面呢？</p>
 <p>可能是onResume()调用后，新activity位于栈顶，之前的再onStop()</p>
 <h4 id="Activity-luanch-mode"><a href="#Activity-luanch-mode" class="headerlink" title="Activity luanch mode"></a>Activity luanch mode</h4><h5 id="4种启动模式"><a href="#4种启动模式" class="headerlink" title="4种启动模式"></a>4种启动模式</h5><ul>
-<li>standard </li>
-</ul>
-<p>Default. The system creates a new instance of the activity in the task from which it was started and routes the intent to it. The activity can be instantiated multiple times, each instance can belong to different tasks, and one task can have multiple instances. </p>
-<ul>
-<li><p>singleTop</p>
-<blockquote>
-<p>　 If an instance of the activity already exists at the top of the current task, the system routes the intent to that instance through a call to its <code>onNewIntent()</code> method, rather than creating a new instance of the activity. The activity can be instantiated multiple times, each instance can belong to different tasks, and one task can have multiple instances (but only if the activity at the top of the back stack is <em>not</em> an existing instance of the activity).<br>　　　　For example, suppose a task’s back stack consists of root activity A with activities B, C, and D on top (the stack is A-B-C-D; D is on top). An intent arrives for an activity of type D. If D has the default <code>&quot;standard&quot;</code> launch mode, a new instance of the class is launched and the stack becomes A-B-C-D-D. However, if D’s launch mode is <code>&quot;singleTop&quot;</code>, the existing instance of D receives the intent through <code>onNewIntent()</code>, because it’s at the top of the stack—the stack remains A-B-C-D. However, if an intent arrives for an activity of type B, then a new instance of B is added to the stack, even if its launch mode is <code>&quot;singleTop&quot;</code>.</p>
-</blockquote>
+<li><p>standard </p>
+<p>在不同的Task中打开同一个Activity，Activity会被创建多个实例。分别放进打开它的Task中。</p>
+<p>例如: 点开短信中的电话号码， 新的 打电话的Activity会存在于   短信Task中。</p>
 </li>
+<li><p>singleTop</p>
+</li>
+</ul>
+<ul>
 <li><p>singleTask</p>
 <blockquote>
 <p>The system creates a new task and instantiates the activity at the root of the new task. However, if an instance of the activity already exists in a separate task, the system routes the intent to the existing instance through a call to its <code>onNewIntent()</code> method, rather than creating a new instance. Only one instance of the activity can exist at a time.</p>
+<p>只会在一个Task出现,这个Task里只有一个这个Activity，全局唯一</p>
 </blockquote>
 </li>
 <li><p>singleInstance </p>
 <blockquote>
 <p>Same as <code>&quot;singleTask&quot;</code>, except that the system doesn’t launch any other activities into the task holding the instance. The activity is always the single and only member of its task; any activities started by this one open in a separate task.</p>
+<p>除了全局唯一，还会独占一个Task</p>
 </blockquote>
 </li>
 </ul>
-<p>除了 singleInstance 不好验证 所在task是否只有唯一的activity ，其他的启动模式比较清晰</p>
-<p>查看运行的activity</p>
+<h5 id="taskAffinity"><a href="#taskAffinity" class="headerlink" title="taskAffinity"></a>taskAffinity</h5><p>每个Activity都有一个taskAffinity，默认取自Activity所在的Application的taskAffinity,而后者又默认取自app包名.</p>
+<p>每个Task也有它自己的taskAffinity，它取自栈底的Activity的taskAffinity</p>
+<p>默认情况下，Activity会直接进入当前的Task</p>
+<p>但对于设置了  launchMode = “singleTask”的Activity,系统会先比对Activity和当前Task的taskAffinity是否相同</p>
+<ul>
+<li><p>如果相同，依然正常入栈.</p>
+</li>
+<li><p>如果不同，新Activity会去寻找和它 taskAffinity相同的Task后入栈。</p>
+<p>如果找不到，系统就为它创建一个新的Task,或者创建一个新的Task.</p>
+</li>
+</ul>
+<p>MainActivity启动FirstActivity</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".component.launchmode.FirstActivity"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:taskAffinity</span>=<span class="string">"com.comm.mytask"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TaskRecord&#123;dff3f0b <span class="number">#494</span>7 A=com<span class="selector-class">.comm</span><span class="selector-class">.util</span> U=<span class="number">0</span> StackId=<span class="number">1</span> sz=<span class="number">2</span>&#125;</span><br><span class="line">      Run #<span class="number">4</span>: ActivityRecord&#123;e52ebf7 u0 com<span class="selector-class">.comm</span><span class="selector-class">.util</span>/<span class="selector-class">.component</span><span class="selector-class">.launchmode</span><span class="selector-class">.FirstActivity</span> t4947&#125;</span><br><span class="line">      Run #<span class="number">3</span>: ActivityRecord&#123;cd6b037 u0 com<span class="selector-class">.comm</span><span class="selector-class">.util</span>/<span class="selector-class">.MainActivity</span> t4947&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".component.launchmode.FirstActivity"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:launchMode</span>=<span class="string">"singleTask"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:taskAffinity</span>=<span class="string">"com.comm.mytask"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TaskRecord&#123;3713c1e #4946 <span class="attribute">A</span>=com.comm.mytask <span class="attribute">U</span>=0 <span class="attribute">StackId</span>=1 <span class="attribute">sz</span>=1&#125;</span><br><span class="line">      <span class="builtin-name">Run</span> #4: ActivityRecord&#123;3d3bd58 u0 com.comm.util/.component.launchmode.FirstActivity t4946&#125;</span><br><span class="line">    TaskRecord&#123;273cacc #4945 <span class="attribute">A</span>=com.comm.util <span class="attribute">U</span>=0 <span class="attribute">StackId</span>=1 <span class="attribute">sz</span>=1&#125;</span><br><span class="line">      <span class="builtin-name">Run</span> #3: ActivityRecord&#123;77277e0 u0 com.comm.util/.MainActivity t4945&#125;</span><br></pre></td></tr></table></figure>
+<p> 添加完   <code>android:launchMode=&quot;singleTask&quot;</code>后 多了个task     com.comm.mytask</p>
+<h5 id="TaskAffinity和最近任务列表"><a href="#TaskAffinity和最近任务列表" class="headerlink" title="TaskAffinity和最近任务列表"></a>TaskAffinity和最近任务列表</h5><p>最近任务列表会列出现有的Task</p>
+<ul>
+<li>但他们的taskAffinity需要不一样</li>
+<li>当多个Task具有相同的taskAffinity额时候，最近任务列表只有显示最新展示过的那一个.</li>
+</ul>
+<p>除了 singleInstance 不好验证 所在task是否只有唯一的activity ，其他的启动模式比较清晰?</p>
+<p>查看运行的activity   </p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb <span class="keyword">shell</span><span class="bash"> dumpsys activity activities | sed -En -e <span class="string">'/Running activities/,/Run #0/p'</span></span></span><br></pre></td></tr></table></figure>
-<h5 id="两种方式"><a href="#两种方式" class="headerlink" title="两种方式"></a>两种方式</h5><ol>
+<h5 id="remote-Compressing-objects-100-3780-3780-done-两种方式"><a href="#remote-Compressing-objects-100-3780-3780-done-两种方式" class="headerlink" title="remote: Compressing objects: 100% (3780/3780), done.    两种方式"></a>remote: Compressing objects: 100% (3780/3780), done.    两种方式</h5><ol>
 <li><p>AndroidMenifest</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:name</span> = <span class="string">"com.ryg.chapter_1.SecondActivity"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:launchMode</span>=<span class="string">"singleTask"</span></span></span><br><span class="line"><span class="tag">          /&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">remote: Compressing objects: 100% (378.  remote: Compressing objects: 100% (3780/3780), done.</span><br><span class="line">0/3780), done.</span><br><span class="line">  <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:name</span> = <span class="string">"com.ryg.chapter_1.SecondActivity"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:launchMode</span>=<span class="string">"singleTask"</span></span></span><br><span class="line"><span class="tag">         /&gt;</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Intent设置</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intent.addFlasg(Intent.FLAG_ACTIVITY_NEW_TASK)</span><br></pre></td></tr></table></figure>
@@ -195,7 +219,7 @@ I/BaseActivity: MainActivity -- onStop() --
 <blockquote>
 <p>adb shell dumpsys activity</p>
 </blockquote>
-<p><img src="/2021/01/16/Activity/Screen Shot 2021-01-23 at 3.31.08 PM.png" alt=""></p>
+<p><img src="/2021/01/16/ACTIVITY/Activity/Screen Shot 2021-01-23 at 3.31.08 PM.png" alt=""></p>
 <ul>
 <li>taskAffinity属性的值为字符串，且中间必须含有分隔符”.”</li>
 <li>standard模式，taskAffinity继承自Application的taskAffinity，而Application默认taskAffinity为包名，所以MainActivity的taskAffinity为包名。</li>
@@ -246,14 +270,15 @@ I/BaseActivity: MainActivity -- onStop() --
 <p><a href="https://blog.csdn.net/qq_16628781/article/details/51539715" target="_blank" rel="noopener">https://blog.csdn.net/qq_16628781/article/details/51539715</a></p>
 <h4 id="然而-ANDROID-4-4-启动模式会出现问题"><a href="#然而-ANDROID-4-4-启动模式会出现问题" class="headerlink" title="然而 ANDROID 4.4 启动模式会出现问题"></a>然而 ANDROID 4.4 启动模式会出现问题</h4><p><a href="http://www.jianshu.com/p/2a9fcf3c11e4" target="_blank" rel="noopener">http://www.jianshu.com/p/2a9fcf3c11e4</a></p>
 <p><a href="http://blog.csdn.net/mynameishuangshuai/article/details/51491074" target="_blank" rel="noopener">http://blog.csdn.net/mynameishuangshuai/article/details/51491074</a></p>
+<p><a href="https://www.youtube.com/watch?v=r4T9zkhpmII" target="_blank" rel="noopener">https://www.youtube.com/watch?v=r4T9zkhpmII</a></p>
 
         
             <div id="toc-article">
                 
   <div class="widget-wrap" id="toc-wrap">
-    <h3 class="widget-title"><i class="fa fa-toc"></i> Inhalte</h3>
+    <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Activity"><span class="toc-text">Activity</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#lifecycle"><span class="toc-text">lifecycle</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#想到一个问题-界面A到界面B，是A的onStop-先执行-还是B的onResume-先走"><span class="toc-text">想到一个问题:界面Ａ到界面Ｂ，是Ａ的onStop()先执行　还是Ｂ的onResume()先走</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Activity-luanch-mode"><span class="toc-text">Activity luanch mode</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4种启动模式"><span class="toc-text">4种启动模式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#两种方式"><span class="toc-text">两种方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#SingleInstance-不设置taskAffinity"><span class="toc-text">SingleInstance 不设置taskAffinity</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#栈内Activity查看，设置taskAffinity"><span class="toc-text">栈内Activity查看，设置taskAffinity</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#OnNewIntent"><span class="toc-text">OnNewIntent()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#然而-ANDROID-4-4-启动模式会出现问题"><span class="toc-text">然而 ANDROID 4.4 启动模式会出现问题</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Activity"><span class="toc-text">Activity</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#lifecycle"><span class="toc-text">lifecycle</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#想到一个问题-界面A到界面B，是A的onStop-先执行-还是B的onResume-先走"><span class="toc-text">想到一个问题:界面Ａ到界面Ｂ，是Ａ的onStop()先执行　还是Ｂ的onResume()先走</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Activity-luanch-mode"><span class="toc-text">Activity luanch mode</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4种启动模式"><span class="toc-text">4种启动模式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#taskAffinity"><span class="toc-text">taskAffinity</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TaskAffinity和最近任务列表"><span class="toc-text">TaskAffinity和最近任务列表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#remote-Compressing-objects-100-3780-3780-done-两种方式"><span class="toc-text">remote: Compressing objects: 100% (3780/3780), done.    两种方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#SingleInstance-不设置taskAffinity"><span class="toc-text">SingleInstance 不设置taskAffinity</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#栈内Activity查看，设置taskAffinity"><span class="toc-text">栈内Activity查看，设置taskAffinity</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#OnNewIntent"><span class="toc-text">OnNewIntent()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#然而-ANDROID-4-4-启动模式会出现问题"><span class="toc-text">然而 ANDROID 4.4 启动模式会出现问题</span></a></li></ol>
     </div>
   </div>
 
@@ -262,8 +287,8 @@ I/BaseActivity: MainActivity -- onStop() --
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/2021/01/16/Activity/">http://yoursite.com/2021/01/16/Activity/</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/2021/01/16/ACTIVITY/">http://noteforme.github.io.com/2021/01/16/ACTIVITY/</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -276,7 +301,7 @@ I/BaseActivity: MainActivity -- onStop() --
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -297,9 +322,9 @@ I/BaseActivity: MainActivity -- onStop() --
     </a>
   
   
-    <a href="/2021/01/14/Exception/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/01/15/INTERVIEW-ANDROID/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">older</strong>
-      <div class="article-nav-title">Exception</div>
+      <div class="article-nav-title">INTERVIEW_ANDROID</div>
     </a>
   
 </nav>
@@ -324,9 +349,13 @@ I/BaseActivity: MainActivity -- onStop() --
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/07/12/DesignPattern-Decorator/">DesignPattern_Decorator</a>
+          </li>
         
           <li>
             <a href="/2021/06/17/kmp/">kmp</a>
@@ -344,10 +373,6 @@ I/BaseActivity: MainActivity -- onStop() --
             <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
           </li>
         
-          <li>
-            <a href="/2021/03/21/Data-Sort/">Data_Sort</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -358,16 +383,16 @@ I/BaseActivity: MainActivity -- onStop() --
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOSP/" style="font-size: 17.5px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 12.5px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 12.5px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/JVM/" style="font-size: 20px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 17.5px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 17.5px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 15px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 15px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 17.5px;">concurrency</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a>
+      <a href="/tags/AOSP/" style="font-size: 17.5px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 12.5px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 12.5px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/JVM/" style="font-size: 20px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 17.5px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 17.5px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 15px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 15px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 17.5px;">concurrency</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/inter/" style="font-size: 17.5px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -375,9 +400,9 @@ I/BaseActivity: MainActivity -- onStop() --
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年01月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年08月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年07月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年04月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年01月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年11月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年09月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年07月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年01月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年07月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年06月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年04月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年11月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年10月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年09月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年08月</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年07月</a><span class="archive-list-count">11</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年07月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年08月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年07月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年04月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年01月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年11月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年09月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年07月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年07月</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年06月</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年04月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年11月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年10月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年09月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年08月</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年07月</a><span class="archive-list-count">11</span></li></ul>
     </div>
   </div>
 
@@ -387,7 +412,7 @@ I/BaseActivity: MainActivity -- onStop() --
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/">AOSP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/">BLOG</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/">AOSP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/">BLOG</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/">inter</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -426,9 +451,9 @@ I/BaseActivity: MainActivity -- onStop() --
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Sitemap</a>
-        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
-        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
       </p>
       
         <p>
