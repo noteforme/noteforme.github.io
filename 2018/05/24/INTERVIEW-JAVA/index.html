@@ -126,21 +126,12 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p><a href="https://www.cnblogs.com/huangjialin/p/12411842.html" target="_blank" rel="noopener">面试题含答案</a></p>
-<h4 id="（一）-java基础面试知识点"><a href="#（一）-java基础面试知识点" class="headerlink" title="（一） java基础面试知识点"></a>（一） java基础面试知识点</h4><h6 id="java中-和equals和hashCode的区别"><a href="#java中-和equals和hashCode的区别" class="headerlink" title="java中==和equals和hashCode的区别"></a>java中==和equals和hashCode的区别</h6><ol>
-<li><p>比较对象,</p>
-<p>当两个引用地址相同， == 返回true,equals()返回取决于重写的实现.</p>
-</li>
-<li><p>基础数据类型比较</p>
-<p>比较的值是否相等.</p>
-</li>
-<li><p>?  JVM String特性 </p>
-<p>Java虚拟机在内存中开辟出一块单独的区域</p>
-<p><a href="https://zhuanlan.zhihu.com/p/60643031" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/60643031</a></p>
-<p><a href="https://www.bilibili.com/video/BV1PJ411n7xZ?p=118" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1PJ411n7xZ?p=118</a>   几个视频讲到用法，最好能用图画出来</p>
-<p><a href="https://www.iteye.com/blog/rednaxelafx-774673" target="_blank" rel="noopener">https://www.iteye.com/blog/rednaxelafx-774673</a></p>
-</li>
-</ol>
-<p>​        </p>
+<h4 id="（一）-java基础面试知识点"><a href="#（一）-java基础面试知识点" class="headerlink" title="（一） java基础面试知识点"></a>（一） java基础面试知识点</h4><h6 id="java中-和equals和hashCode的区别"><a href="#java中-和equals和hashCode的区别" class="headerlink" title="java中==和equals和hashCode的区别"></a>java中==和equals和hashCode的区别</h6><p>类型</p>
+<ul>
+<li>基本类型：比较的是值是否相同；</li>
+<li>引用类型：类、接口、数组,当他们用双等号（==）进行比较的时候，比较的是他们的引用，如果要比较堆中对象是否相同，那么就要重写equals方法了；</li>
+<li>默认情况下（没有覆盖equals方法）下的equals方法都是调用Object类的equals方法，而Object的equals方法主要是用于判断<strong>对象的内存地址引用是不是同一个地址</strong>（是不是同一个对象）。</li>
+</ul>
 <h6 id="int、char、long各占多少字节数"><a href="#int、char、long各占多少字节数" class="headerlink" title="int、char、long各占多少字节数"></a>int、char、long各占多少字节数</h6><p>   byte   1字节       short   2字节         int    4字节           long   8字节          </p>
 <p>   char   2字节       float   4字节         double  8字节      boolean  false/true(理论上占用1bit,1/8字节，实际处理按1byte处理) </p>
 <h6 id="int与integer的区别"><a href="#int与integer的区别" class="headerlink" title="int与integer的区别"></a>int与integer的区别</h6><p>​    Integer 是int的包装类；int是基本数据类型;</p>
@@ -159,6 +150,7 @@
 <li>都是fianl类，不能被继承,底层都是 char[] value实现</li>
 <li>String类长度是不可变的，substring()、  concat(),最终实现都是通过  new String(buf, true)实现的,StringBuffer,StringBuilder是通过操作本类的value实现的</li>
 <li>StringBuffer类是线程安全的，StringBuilder不是线程安全的</li>
+<li>String：字符串常量。</li>
 </ul>
 <p>​    </p>
 <h6 id="什么是内部类？内部类的作用"><a href="#什么是内部类？内部类的作用" class="headerlink" title="什么是内部类？内部类的作用"></a>什么是内部类？内部类的作用</h6><p>​    内部类:    一个类定义在另一个类的内部，就叫内部类</p>
@@ -277,7 +269,21 @@
 </blockquote>
 <h6 id="成员内部类、局部内部类以及项目中的应用"><a href="#成员内部类、局部内部类以及项目中的应用" class="headerlink" title="成员内部类、局部内部类以及项目中的应用"></a>成员内部类、局部内部类以及项目中的应用</h6><p>成员内部类 : 普通的内部类，不能存在任何static的变量和方法；</p>
 <p>局部内部类： 嵌套于方法和作用域内</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Parcel5</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Destionation <span class="title">destionation</span><span class="params">(String str)</span></span>&#123;</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">PDestionation</span> <span class="keyword">implements</span> <span class="title">Destionation</span></span>&#123;</span><br><span class="line">            <span class="keyword">private</span> String label;</span><br><span class="line">            <span class="function"><span class="keyword">private</span> <span class="title">PDestionation</span><span class="params">(String whereTo)</span></span>&#123;</span><br><span class="line">                label = whereTo;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">readLabel</span><span class="params">()</span></span>&#123;</span><br><span class="line">                <span class="keyword">return</span> label;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PDestionation(str);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Parcel5 parcel5 = <span class="keyword">new</span> Parcel5();</span><br><span class="line">      Destionation d = parcel5.destionation(<span class="string">"chenssy"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Parcel5</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Destionation <span class="title">destionation</span><span class="params">(String str)</span></span>&#123;</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">PDestionation</span> <span class="keyword">implements</span> <span class="title">Destionation</span></span>&#123;</span><br><span class="line">            <span class="keyword">private</span> String label;</span><br><span class="line">            <span class="function"><span class="keyword">private</span> <span class="title">PDestionation</span><span class="params">(String whereTo)</span></span>&#123;</span><br><span class="line">                label = whereTo;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">readLabel</span><span class="params">()</span></span>&#123;</span><br><span class="line">                <span class="keyword">return</span> label;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PDestionation(str);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      Parcel5 parcel5 = <span class="keyword">new</span> Parcel5();</span><br><span class="line">      Destionation d = parcel5.destionation(<span class="string">"chenssy"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="Java中对象的生命周期"><a href="#Java中对象的生命周期" class="headerlink" title="Java中对象的生命周期"></a>Java中对象的生命周期</h6><p>​    <strong>1、创建阶段(Created)</strong><br>  <code>检测类是否被加载没有加载的先加载</code>→<code>为新生对象分配内存</code>→<code>将分配到的内存空间都初始化为零值</code>→<code>对对象进行必要的设置</code>→<code>执行&lt;init&gt;方法把对象进行初始化</code><br> 对象的加载大小是类加载中就已经确定好了的，类加载过程就相当复杂了，如下图：</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/4345692-846543b5bed56265.png?imageMogr2/auto-orient/strip|imageView2/2/w/452" alt="img"></p>
+<p>类加载过程.png</p>
+<p><strong>2、应用阶段(In Use)</strong><br>  至少有一个强引用使用着</p>
+<p><strong>3、不可见阶段(Invisible)</strong><br>  程序的执行已经超出了该对象的作用域了</p>
+<p><strong>4、不可达阶段(Unreachable)</strong><br>  程序不再持有该对象的任何强引用，这种情况下，该对象仍可能被JVM等系统下的某些已装载的静态变量或线程或JNI等强引用持有着，这些特殊的强引用被称为”GC root”</p>
+<p><strong>5、收集阶段(Collected)</strong><br>  垃圾回收器发现该对象已经处于“不可达阶段”并且垃圾回收器已经对该对象的内存空间重新分配做好准备时，则对象进入了“收集阶段”。如果该对象已经重写了finalize()方法，则会去执行该方法的终端操作。</p>
+<p><strong>6、终结阶段(Finalized)</strong><br>  当对象执行完finalize()方法后仍然处于不可达状态时，则该对象进入终结阶段。在该阶段是等待垃圾回收器对该对象空间进行回收。</p>
+<p><strong>7、对象空间重分配阶段(De-allocated)</strong><br>  垃圾回收器对该对象的所占用的内存空间进行回收或者再分配了，则该对象彻底消失了，称之为“对象空间重新分配阶段”。</p>
+<p>链接：<a href="https://www.jianshu.com/p/72f5017c6649" target="_blank" rel="noopener">https://www.jianshu.com/p/72f5017c6649</a></p>
+<h6 id="JVM-String特性"><a href="#JVM-String特性" class="headerlink" title="?  JVM String特性"></a>?  JVM String特性</h6><p>Java虚拟机在内存中开辟出一块单独的区域</p>
+<p><a href="https://zhuanlan.zhihu.com/p/60643031" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/60643031</a></p>
+<p><a href="https://www.bilibili.com/video/BV1PJ411n7xZ?p=118" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1PJ411n7xZ?p=118</a>   几个视频讲到用法，最好能用图画出来</p>
+<p><a href="https://www.iteye.com/blog/rednaxelafx-774673" target="_blank" rel="noopener">https://www.iteye.com/blog/rednaxelafx-774673</a></p>
 <h6 id="谈谈对kotlin的理解"><a href="#谈谈对kotlin的理解" class="headerlink" title="谈谈对kotlin的理解"></a>谈谈对kotlin的理解</h6><p>null处理</p>
 <p>拓展函数</p>
 <p>Findviewbyid</p>
@@ -294,6 +300,7 @@
 <li>虚引用：随时可能被回收</li>
 </ul>
 </li>
+<li>当前商业虚拟机的垃圾回收都采用分代收集算法，这种算法并没有什么新的思想，只是根据对象的存活周期将内存划分为几块。一般是把Java堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。在新生代中，每次垃圾回收都有大批对象死去，只有少量存活，那就选用复制算法，只要付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高，没有额外的空间对它进行分配担保，那就使用标记清理或者标记整理算法来进行回收。</li>
 </ol>
 <p><a href="https://noteforme.github.io/2021/01/05/JVM-GC/" target="_blank" rel="noopener">https://noteforme.github.io/2021/01/05/JVM-GC/</a></p>
 <h6 id="讲一下常见编码方式？"><a href="#讲一下常见编码方式？" class="headerlink" title="讲一下常见编码方式？"></a>讲一下常见编码方式？</h6><ol>
@@ -309,86 +316,27 @@
 <li><p><a href="https://www.cnblogs.com/mlan/p/7823375.html" target="_blank" rel="noopener">https://www.cnblogs.com/mlan/p/7823375.html</a></p>
 </li>
 </ol>
-<h6 id="utf-8编码中的中文占几个字节；int型几个字节？"><a href="#utf-8编码中的中文占几个字节；int型几个字节？" class="headerlink" title="utf-8编码中的中文占几个字节；int型几个字节？"></a>utf-8编码中的中文占几个字节；int型几个字节？</h6><p>   32位 64位代表寻址方式</p>
-<p>​    少数是汉字每个占用3个字节，多数占用4个字节。</p>
+<h6 id="utf-8编码中的中文占几个字节；int型几个字节？"><a href="#utf-8编码中的中文占几个字节；int型几个字节？" class="headerlink" title="utf-8编码中的中文占几个字节；int型几个字节？"></a>utf-8编码中的中文占几个字节；int型几个字节？</h6><p>​    少数是汉字每个占用3个字节，多数占用4个字节。</p>
+<p>​    <a href="https://blog.csdn.net/hellokatewj/article/details/24325653" target="_blank" rel="noopener">https://blog.csdn.net/hellokatewj/article/details/24325653</a></p>
 <p>​    int类型 4个字节</p>
 <h6 id="静态代理和动态代理的区别，什么场景使用？"><a href="#静态代理和动态代理的区别，什么场景使用？" class="headerlink" title="静态代理和动态代理的区别，什么场景使用？"></a>静态代理和动态代理的区别，什么场景使用？</h6><p>​    静态代理 :  编译的时候就已经存在，</p>
 <p>​    动态代理 ： 通过反射机制生成的代理对象</p>
 <p>​    <a href="https://noteforme.github.io/2021/01/14/DesignPattern-Proxy/" target="_blank" rel="noopener">https://noteforme.github.io/2021/01/14/DesignPattern-Proxy/</a></p>
+<p><a href="https://www.jianshu.com/p/2f518a4a4c2b" target="_blank" rel="noopener">https://www.jianshu.com/p/2f518a4a4c2b</a></p>
 <h6 id="Java的异常体系"><a href="#Java的异常体系" class="headerlink" title="Java的异常体系"></a>Java的异常体系</h6><p>非运行时异常 :编译期间可以检查到的异常, 像IoException,DataFormatException,CertificateException</p>
 <p>运行时异常 : NullPointerException, ClassCastException,IndexOutOfBoundsException</p>
-<h6 id="谈谈你对解析与分派的认识。"><a href="#谈谈你对解析与分派的认识。" class="headerlink" title="? 谈谈你对解析与分派的认识。"></a>? 谈谈你对解析与分派的认识。</h6><p>说说你对Java反射的理解</p>
-<ul>
-<li>说说你对Java注解的理解</li>
-<li>说说你对依赖注入的理解</li>
-<li>说一下泛型原理，并举例说明</li>
-<li>Java中String的了解</li>
-<li>String为什么要设计成不可变的？</li>
-<li>Object类的equal和hashCode方法重写，为什么？</li>
-</ul>
-<h4 id="三-线程、多线程和线程池"><a href="#三-线程、多线程和线程池" class="headerlink" title="(三) 线程、多线程和线程池"></a>(三) 线程、多线程和线程池</h4><h6 id="进程和线程的区别-协程呢"><a href="#进程和线程的区别-协程呢" class="headerlink" title="? 进程和线程的区别 协程呢"></a>? 进程和线程的区别 协程呢</h6><ul>
-<li>进程  </li>
-</ul>
-<p>​    是系统给程序分配资源的基本单位，每个进程都有唯一的地址空间，一个程序至少有一个进程，一个进程至少有一个线程.</p>
-<ul>
-<li><p>线程</p>
-<p>线程是执行操作的基本单位，JVM结构中共享 Method Area ,Heap Area</p>
+<h6 id="谈谈你对解析与分派的认识。"><a href="#谈谈你对解析与分派的认识。" class="headerlink" title="? 谈谈你对解析与分派的认识。"></a>? 谈谈你对解析与分派的认识。</h6><h6 id="说说你对Java反射的理解"><a href="#说说你对Java反射的理解" class="headerlink" title="说说你对Java反射的理解"></a>说说你对Java反射的理解</h6><p>对于任何一个类都可以通过反射知道的它的属性和方法。</p>
+<p>说说你对Java注解的理解</p>
+<h6 id="为什么Java里的匿名内部类只能访问final修饰的外部变量？"><a href="#为什么Java里的匿名内部类只能访问final修饰的外部变量？" class="headerlink" title="为什么Java里的匿名内部类只能访问final修饰的外部变量？"></a>为什么Java里的匿名内部类只能访问final修饰的外部变量？</h6><p>因为匿名内部类最终会被编译成一个单独的类，而被该类使用的变量会以构造函数参数的形式传递给该类。如果变量不定义为final的，参数在匿名内部类中可以被修改，进而造成和外部的变量不一致的问题，为了避免这种不一致的情况，规定匿名内部类只能访问final修饰的外部变量。</p>
+<h6 id="说说你对依赖注入的理解"><a href="#说说你对依赖注入的理解" class="headerlink" title="说说你对依赖注入的理解?"></a>说说你对依赖注入的理解?</h6><h6 id="说一下泛型原理，并举例说明"><a href="#说一下泛型原理，并举例说明" class="headerlink" title="说一下泛型原理，并举例说明"></a>说一下泛型原理，并举例说明</h6><p>泛型实现了参数化类型的概念，使代码可以应用于多种类型。</p>
+<p>在泛型代码内部，无法获得任何有关泛型参数类型的信息。</p>
+<h6 id="String为什么要设计成不可变的？"><a href="#String为什么要设计成不可变的？" class="headerlink" title="String为什么要设计成不可变的？"></a>String为什么要设计成不可变的？</h6><ol>
+<li><p>便于实现字符串池</p>
+<p>由于会大量的使用String常量，如果每一次声明一个String都创建一个String对象，那将会造成极大的空间资源的浪费。Java提出了String pool的概念，在堆中开辟一块存储空间String  pool，当初始化一个String变量时，如果该字符串已经存在了，就不会去创建一个新的字符串变量，而是会返回已经存在了的字符串的引用。</p>
+<p>如果字符串是可变的，某一个字符串变量改变了其值，那么其指向的变量的值也会改变，String pool将不能够实现！</p>
+<p><a href="https://www.cnblogs.com/wkfvawl/p/11693260.html" target="_blank" rel="noopener">https://www.cnblogs.com/wkfvawl/p/11693260.html</a></p>
 </li>
-</ul>
-<p>​    <a href="https://blog.csdn.net/mxsgoden/article/details/8821936" target="_blank" rel="noopener">https://blog.csdn.net/mxsgoden/article/details/8821936</a></p>
-<p>​    <a href="https://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html</a></p>
-<p>进程 : 有很大的独立性</p>
-<p>线程 :  所有线程都有完全一样的地址空间,意味着它们也共享同样的全局变量。由于线程可以访问进程地址空间的每一个内存地址，所以一个线程可以读、写甚至清除另一个线程的堆栈。</p>
-<p>每个进程中的内容 : 地址空间  全局变量 打开文件 子进程    即将发生的定时器    信号与信号处理程序</p>
-<p>每个线程中的内容：程序计数器、寄存器、堆栈、状态.</p>
-<p>协程</p>
-<p>​        协程拥有自己的寄存器上下文和栈，协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的    时候，恢复先前保存的寄存器上下文和栈，即所有局部状态的一个特定组合），每次过程重入时，就相当于进入上一次调用的状态，换种说法：进入上一次离开时所处逻辑流的位置。</p>
-<p>协程的好处:</p>
-<ol>
-<li>无需线程上下文切换的开销 </li>
-<li>无需原子操作锁定及同步的开销</li>
-<li>方便切换控制流，简化编程模型</li>
 </ol>
-<p>​    为什么要有线程，而不是仅仅用进程？</p>
-<p> 如何控制某个方法允许并发访问线程的个数？</p>
-<ul>
-<li>在Java中wait和seelp方法的不同；</li>
-<li>谈谈wait/notify关键字的理解</li>
-<li>什么导致线程阻塞？</li>
-<li>线程如何关闭？</li>
-<li>讲一下java中的同步的方法</li>
-<li>数据一致性如何保证？</li>
-<li>如何保证线程安全？</li>
-<li>如何实现线程同步？</li>
-<li>两个进程同时要求写或者读，能不能实现？如何防止进程的同步？</li>
-<li>线程间操作List</li>
-<li>Java中对象的生命周期</li>
-<li>Synchronized用法</li>
-<li>synchronize的原理</li>
-<li>谈谈对Synchronized关键字，类锁，方法锁，重入锁的理解</li>
-<li>static synchronized 方法的多线程访问和作用</li>
-<li>同一个类里面两个synchronized方法，两个线程同时访问的问题</li>
-<li>volatile的原理</li>
-<li>谈谈volatile关键字的用法 谈谈volatile关键字的作用</li>
-<li>谈谈NIO的理解</li>
-<li>synchronized 和volatile 关键字的区别</li>
-<li>synchronized与Lock的区别</li>
-<li>ReentrantLock 、synchronized和volatile比较</li>
-<li>ReentrantLock的内部实现</li>
-<li>lock原理</li>
-<li>死锁的四个必要条件？</li>
-<li>怎么避免死锁？</li>
-<li>对象锁和类锁是否会互相影响？</li>
-<li>什么是线程池，如何使用?</li>
-<li>Java的并发、多线程、线程模型</li>
-<li>谈谈对多线程的理解</li>
-<li>多线程有什么要注意的问题？</li>
-<li>谈谈你对并发编程的理解并举例说明</li>
-<li>谈谈你对多线程同步机制的理解？</li>
-<li>如何保证多线程读写文件的安全？</li>
-<li>多线程断点续传原理</li>
-<li>断点续传的实现</li>
-</ul>
 <h4 id="四）-数据结构"><a href="#四）-数据结构" class="headerlink" title="(四） 数据结构"></a>(四） 数据结构</h4><h6 id="常用数据结构简介"><a href="#常用数据结构简介" class="headerlink" title="常用数据结构简介"></a>常用数据结构简介</h6><p>数组 栈 队列  链表 图 树 哈希表</p>
 <h6 id="并发集合了解哪些？"><a href="#并发集合了解哪些？" class="headerlink" title="并发集合了解哪些？"></a>并发集合了解哪些？</h6><p>ConcurrentHashMap  CopyOnWriteArrayList  CopyOnWriteArraySet  ArrayBlockingQueue  LinkedBlockingQueue</p>
 <p><a href="https://blog.csdn.net/u010942020/article/details/73610121" target="_blank" rel="noopener">https://blog.csdn.net/u010942020/article/details/73610121</a></p>
@@ -398,40 +346,29 @@
 <li>List是一个有序的队列，每一个元素都有它的索引。Set是一个不允许有重复元素的集合。</li>
 <li>Map是一个映射接口，即key-value键值对。</li>
 </ol>
-<p><a href="http://alexyyek.github.io/2015/04/06/Collection/" target="_blank" rel="noopener">http://alexyyek.github.io/2015/04/06/Collection/</a></p>
 <h6 id="List和Map的实现方式以及存储方式"><a href="#List和Map的实现方式以及存储方式" class="headerlink" title="List和Map的实现方式以及存储方式"></a>List和Map的实现方式以及存储方式</h6><ol>
 <li><p>list</p>
-<p>CccArrayList    查询快 .  LinkedList  插入删除快</p>
+<p>ArrayList    查询快 .  LinkedList  插入删除快</p>
 </li>
 </ol>
+<p>修改对象A的equals方法的签名，那么使用HashMap存放这个对象实例的时候，会调用哪个equals方法？</p>
+<h6 id="集合Set实现Hash怎么防止碰撞"><a href="#集合Set实现Hash怎么防止碰撞" class="headerlink" title="集合Set实现Hash怎么防止碰撞"></a>集合Set实现Hash怎么防止碰撞</h6><p>1，如果hash码值不相同，说明是一个新元素，存储；</p>
+<p>如果没有元素和传入对象（也就是add的元素）的hash值相等，那么就认为这个元素在table中不存在，将其添加进table；</p>
+<p>2.1，如果hash码值相同，且equles判断相等，说明元素已经存在，不存；</p>
+<p>2.2，如果hash码值相同，且equles判断不相等，说明元素不存在，存；</p>
+<p>原文链接：<a href="https://blog.csdn.net/github_37130188/article/details/96508272" target="_blank" rel="noopener">https://blog.csdn.net/github_37130188/article/details/96508272</a></p>
+<p><a href="https://noteforme.github.io/2018/05/31/HashMap/" target="_blank" rel="noopener">https://noteforme.github.io/2018/05/31/HashMap/</a></p>
 <ul>
-<li>修改对象A的equals方法的签名，那么使用HashMap存放这个对象实例的时候，会调用哪个equals方法？</li>
-</ul>
-<ul>
-<li>集合Set实现Hash怎么防止碰撞</li>
-</ul>
-<p>  二叉树的深度优先遍历和广度优先遍历的具体实现</p>
-<ul>
-<li><p>堆的结构</p>
-</li>
-<li><p>堆和树的区别</p>
-</li>
-<li><p>堆和栈在内存中的区别是什么(解答提示：可以从数据结构方面以及实际实现方面两个方面去回答)？</p>
-</li>
-<li><p>什么是深拷贝和浅拷贝</p>
-</li>
-<li><p>手写链表逆序代码</p>
-</li>
-<li><p>讲一下对树，B+树的理解</p>
-</li>
-<li><p>讲一下对图的理解</p>
-</li>
-<li><p>判断单链表成环与否？</p>
-</li>
-<li><p>链表翻转（即：翻转一个单项链表）</p>
-</li>
-<li><p>合并多个单有序链表（假设都是递增的）</p>
-</li>
+<li>堆的结构</li>
+<li>堆和树的区别</li>
+<li>堆和栈在内存中的区别是什么(解答提示：可以从数据结构方面以及实际实现方面两个方面去回答)？</li>
+<li>什么是深拷贝和浅拷贝</li>
+<li>手写链表逆序代码</li>
+<li>讲一下对树，B+树的理解</li>
+<li>讲一下对图的理解</li>
+<li>判断单链表成环与否？</li>
+<li>链表翻转（即：翻转一个单项链表）</li>
+<li>合并多个单有序链表（假设都是递增的）</li>
 </ul>
 <h4 id="TCPIP协议"><a href="#TCPIP协议" class="headerlink" title="TCPIP协议"></a>TCPIP协议</h4><p><a href="https://www.youtube.com/watch?v=pUV3qZh481k" target="_blank" rel="noopener">https://www.youtube.com/watch?v=pUV3qZh481k</a></p>
 
@@ -441,7 +378,7 @@
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> Inhalte</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#（一）-java基础面试知识点"><span class="toc-text">（一） java基础面试知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#java中-和equals和hashCode的区别"><span class="toc-text">java中==和equals和hashCode的区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#int、char、long各占多少字节数"><span class="toc-text">int、char、long各占多少字节数</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#int与integer的区别"><span class="toc-text">int与integer的区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#谈谈对java多态-polymorphism-的理解-Java中实现多态的机制是什么"><span class="toc-text">谈谈对java多态(polymorphism)的理解,Java中实现多态的机制是什么</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#String、StringBuffer、StringBuilder区别"><span class="toc-text">String、StringBuffer、StringBuilder区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#什么是内部类？内部类的作用"><span class="toc-text">什么是内部类？内部类的作用</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#抽象类和接口区别"><span class="toc-text">抽象类和接口区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#泛型中extends和super的区别"><span class="toc-text">? 泛型中extends和super的区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#string-转换成-integer的方式及原理"><span class="toc-text">string 转换成 integer的方式及原理</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#静态内部类的设计意图"><span class="toc-text">静态内部类的设计意图</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#final，finally，finalize的区别"><span class="toc-text">final，finally，finalize的区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Serializable-和Parcelable-的区别，如何将一个Java对象序列化到文件里？"><span class="toc-text">Serializable 和Parcelable 的区别，如何将一个Java对象序列化到文件里？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#成员内部类、局部内部类以及项目中的应用"><span class="toc-text">成员内部类、局部内部类以及项目中的应用</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#谈谈对kotlin的理解"><span class="toc-text">谈谈对kotlin的理解</span></a></li></ol></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#（二）-java深入源码级的面试题（有难度）"><span class="toc-text">（二） java深入源码级的面试题（有难度）</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#哪些情况下的对象会被垃圾回收机制处理掉？"><span class="toc-text">哪些情况下的对象会被垃圾回收机制处理掉？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#讲一下常见编码方式？"><span class="toc-text">讲一下常见编码方式？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#utf-8编码中的中文占几个字节；int型几个字节？"><span class="toc-text">utf-8编码中的中文占几个字节；int型几个字节？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#静态代理和动态代理的区别，什么场景使用？"><span class="toc-text">静态代理和动态代理的区别，什么场景使用？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Java的异常体系"><span class="toc-text">Java的异常体系</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#谈谈你对解析与分派的认识。"><span class="toc-text">? 谈谈你对解析与分派的认识。</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三-线程、多线程和线程池"><span class="toc-text">(三) 线程、多线程和线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#进程和线程的区别-协程呢"><span class="toc-text">? 进程和线程的区别 协程呢</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四）-数据结构"><span class="toc-text">(四） 数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#常用数据结构简介"><span class="toc-text">常用数据结构简介</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#并发集合了解哪些？"><span class="toc-text">并发集合了解哪些？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#列举java的集合以及集合之间的继承关系"><span class="toc-text">列举java的集合以及集合之间的继承关系</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#List-Set-Map的区别"><span class="toc-text">List,Set,Map的区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#List和Map的实现方式以及存储方式"><span class="toc-text">List和Map的实现方式以及存储方式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCPIP协议"><span class="toc-text">TCPIP协议</span></a></li>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#（一）-java基础面试知识点"><span class="toc-text">（一） java基础面试知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#java中-和equals和hashCode的区别"><span class="toc-text">java中==和equals和hashCode的区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#int、char、long各占多少字节数"><span class="toc-text">int、char、long各占多少字节数</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#int与integer的区别"><span class="toc-text">int与integer的区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#谈谈对java多态-polymorphism-的理解-Java中实现多态的机制是什么"><span class="toc-text">谈谈对java多态(polymorphism)的理解,Java中实现多态的机制是什么</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#String、StringBuffer、StringBuilder区别"><span class="toc-text">String、StringBuffer、StringBuilder区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#什么是内部类？内部类的作用"><span class="toc-text">什么是内部类？内部类的作用</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#抽象类和接口区别"><span class="toc-text">抽象类和接口区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#泛型中extends和super的区别"><span class="toc-text">? 泛型中extends和super的区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#string-转换成-integer的方式及原理"><span class="toc-text">string 转换成 integer的方式及原理</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#静态内部类的设计意图"><span class="toc-text">静态内部类的设计意图</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#final，finally，finalize的区别"><span class="toc-text">final，finally，finalize的区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Serializable-和Parcelable-的区别，如何将一个Java对象序列化到文件里？"><span class="toc-text">Serializable 和Parcelable 的区别，如何将一个Java对象序列化到文件里？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#成员内部类、局部内部类以及项目中的应用"><span class="toc-text">成员内部类、局部内部类以及项目中的应用</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Java中对象的生命周期"><span class="toc-text">Java中对象的生命周期</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#JVM-String特性"><span class="toc-text">?  JVM String特性</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#谈谈对kotlin的理解"><span class="toc-text">谈谈对kotlin的理解</span></a></li></ol></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#（二）-java深入源码级的面试题（有难度）"><span class="toc-text">（二） java深入源码级的面试题（有难度）</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#哪些情况下的对象会被垃圾回收机制处理掉？"><span class="toc-text">哪些情况下的对象会被垃圾回收机制处理掉？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#讲一下常见编码方式？"><span class="toc-text">讲一下常见编码方式？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#utf-8编码中的中文占几个字节；int型几个字节？"><span class="toc-text">utf-8编码中的中文占几个字节；int型几个字节？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#静态代理和动态代理的区别，什么场景使用？"><span class="toc-text">静态代理和动态代理的区别，什么场景使用？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Java的异常体系"><span class="toc-text">Java的异常体系</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#谈谈你对解析与分派的认识。"><span class="toc-text">? 谈谈你对解析与分派的认识。</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#说说你对Java反射的理解"><span class="toc-text">说说你对Java反射的理解</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#为什么Java里的匿名内部类只能访问final修饰的外部变量？"><span class="toc-text">为什么Java里的匿名内部类只能访问final修饰的外部变量？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#说说你对依赖注入的理解"><span class="toc-text">说说你对依赖注入的理解?</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#说一下泛型原理，并举例说明"><span class="toc-text">说一下泛型原理，并举例说明</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#String为什么要设计成不可变的？"><span class="toc-text">String为什么要设计成不可变的？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四）-数据结构"><span class="toc-text">(四） 数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#常用数据结构简介"><span class="toc-text">常用数据结构简介</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#并发集合了解哪些？"><span class="toc-text">并发集合了解哪些？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#列举java的集合以及集合之间的继承关系"><span class="toc-text">列举java的集合以及集合之间的继承关系</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#List-Set-Map的区别"><span class="toc-text">List,Set,Map的区别</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#List和Map的实现方式以及存储方式"><span class="toc-text">List和Map的实现方式以及存储方式</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#集合Set实现Hash怎么防止碰撞"><span class="toc-text">集合Set实现Hash怎么防止碰撞</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCPIP协议"><span class="toc-text">TCPIP协议</span></a></li>
     </div>
   </div>
 
@@ -450,7 +387,7 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://yoursite.com/2018/05/24/INTERVIEW-JAVA/">http://yoursite.com/2018/05/24/INTERVIEW-JAVA/</a></p>
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/2018/05/24/INTERVIEW-JAVA/">http://noteforme.github.io.com/2018/05/24/INTERVIEW-JAVA/</a></p>
               <p>Copyright-Erklärung: 转载请注明出处.</p>
           </blockquote>
         
@@ -462,6 +399,8 @@
           
 
           
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/inter/">inter</a></li></ul>
+
           
     <div class="social-share">
       <span>Aktie:</span>
@@ -517,6 +456,10 @@
       <ul>
         
           <li>
+            <a href="/2021/07/12/DesignPattern-Decorator/">DesignPattern_Decorator</a>
+          </li>
+        
+          <li>
             <a href="/2021/06/17/kmp/">kmp</a>
           </li>
         
@@ -532,10 +475,6 @@
             <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
           </li>
         
-          <li>
-            <a href="/2021/03/21/Data-Sort/">Data_Sort</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -546,7 +485,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOSP/" style="font-size: 17.5px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 12.5px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 12.5px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/JVM/" style="font-size: 20px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 17.5px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 17.5px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 15px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 15px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 17.5px;">concurrency</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a>
+      <a href="/tags/AOSP/" style="font-size: 17.5px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 12.5px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 12.5px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/JVM/" style="font-size: 20px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 17.5px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 17.5px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 15px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 15px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 17.5px;">concurrency</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/inter/" style="font-size: 17.5px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a>
     </div>
   </div>
 
@@ -555,7 +494,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -565,7 +504,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年01月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年08月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年07月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年04月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年01月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年11月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年09月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年07月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年01月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年07月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年06月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年04月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年11月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年10月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年09月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年08月</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年07月</a><span class="archive-list-count">11</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年07月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年01月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年08月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年07月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年04月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年01月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年11月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年09月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年07月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年04月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年07月</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年06月</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年05月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年04月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年03月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年01月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年11月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年10月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年09月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年08月</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年07月</a><span class="archive-list-count">11</span></li></ul>
     </div>
   </div>
 
@@ -575,7 +514,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/">AOSP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/">BLOG</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/">AOSP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/">BLOG</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/">inter</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
