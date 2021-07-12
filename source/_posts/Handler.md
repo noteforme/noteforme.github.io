@@ -34,7 +34,7 @@ categories: ANDROID
 
 
 
-#####  消息入队顺序
+#####  消息入队算法
 
 https://www.jianshu.com/p/9efe3b48b730
 
@@ -81,8 +81,10 @@ https://www.bilibili.com/video/BV1VE411Z7Ay?p=4
 
 [^参考：Android开发艺术探索　p377]
 
+#####  消息
 
-#####  消息代码流程
+###### 同步消息
+
  来个简单的例子  
  ```
     new Thread(new Runnable() {
@@ -368,11 +370,92 @@ ActivityThread main方法为我们做了工作。
 
 
 
-######  发送消息时机
+###### 异步消息
+
+Android系统16ms会刷新一次屏幕，如果主线程的消息过多，在16ms之内没有执行完，必然会造成卡顿或者掉帧。那怎么才能不排队，没有延时的处理呢？这个时候就需要异步消息，在处理异步消息的时候，我们就需要同步屏障，让异步消息不用排队等候处理。可以理解为同步屏障是一堵墙，把同步消息队列拦住，先处理异步消息，等异步消息处理完了，这堵墙就会取消，然后继续处理同步消息。
+
+https://blog.csdn.net/ly502541243/article/details/109091386
+
+查找异步消息方法
+
+MessageQueue.java 
+
+```java
+ Message next() {
+        for (;;) {
+            if (nextPollTimeoutMillis != 0) {
+                Binder.flushPendingCommands();
+            }
+
+            nativePollOnce(ptr, nextPollTimeoutMillis);
+
+            synchronized (this) {
+                // Try to retrieve the next message.  Return if found.
+                final long now = SystemClock.uptimeMillis();
+                Message prevMsg = null;
+                Message msg = mMessages;
+                if (msg != null && msg.target == null) {
+                    // Stalled by a barrier.  Find the next asynchronous message in the queue.
+                    do {
+                        prevMsg = msg;
+                        msg = msg.next;
+                    } while (msg != null && !msg.isAsynchronous()); //循环查找 直到找到异步消息为止.
+                }
+            }
+        }
+```
+
+
+
+https://blog.csdn.net/ly502541243/article/details/109091386
+
+
+
+
+
+#####  发送延时消息
+
+看下面问题:handler如何实现延时发消息postdelay()
 
 https://zhuanlan.zhihu.com/p/260661053
 
 https://blog.csdn.net/thh159/article/details/103644489
+
+
+
+
+
+##### IdleHandler使用
+
+当消息队列空闲时会执行IdleHandler的queueIdle()方法，该方法返回一个boolean值，如果为false则执行完毕之后移除这条消息，如果为true则保留，等到下次空闲时会再次执行，下面看下MessageQueue的next()方法可以发现确实是这样
+
+```java
+Message next() {
+    // Run the idle handlers.
+            // We only ever reach this code block during the first iteration.
+ 	keep = idler.queueIdle();
+}
+```
+
+1. Activity启动优化：onCreate，onStart，onResume中耗时较短但非必要的代码可以放到IdleHandler中执行，减少启动时间
+
+2. 想要在一个View绘制完成之后添加其他依赖于这个View的View，当然这个用View#post()也能实现，区别就是前者会在消息队列空闲时执行
+3. 一些第三方库中有使用，比如LeakCanary，Glide中有使用到，具体可以自行去查看
+4. 以前我们在Activity中获取某个控件的宽高的时候总是得到的是0，那是因为view的测量还未完成。通常的做法是监听ViewTreeObserver，它是在ViewRootImpl测量完成之后调用ViewTreeObserver.dispatchOnGlobalLayout()方法，这时候在onGlobalLayout回调中获取的控件宽高都是正确的数据。
+   
+
+```kotlin
+Looper.myQueue().addIdleHandler {
+    Log.i("HandlerActivity", "width ${btFive.width}  height ${btFive.height}")
+    false
+}
+```
+
+https://blog.csdn.net/ZYJWR/article/details/103086664
+
+https://www.wanandroid.com/wenda/show/8723
+
+
 
 ##### 问题
 
@@ -388,99 +471,135 @@ https://blog.csdn.net/thh159/article/details/103644489
 
 
 
-从源码了解handler looper ,messageQueue思路
-
-
-
-handler如何实现延时发消息postdelay()。callback，runnable，msg的执行优先级。阻塞是怎么实现的？为什么不会阻塞主线程？
-
 ###### Handler机制了解吗？一个线程有几个Looper？为什么？
 
 只能有一个，不然调用Looper.prepare()会抛出运行时异常，提示“Only one Looper may be created per thread”
 
 
 
-###### handler如何实现延时发消息postdelay()
+###### handler如何实现延时发消息postdelay(),
 
-可以看到这里也是一个for循环遍历队列，核心变量就是nextPollTimeoutMillis。可以看到，计算出nextPollTimeoutMillis后就调用nativiePollOnce这个native方法。这里的话大概可以猜到他的运行机制，因为他是根据执行时间进行排序的，那传入的这个nextPollTimeoutMillis应该就是休眠时间，类似于java的sleep(time)。休眠到下一次message的时候就执行。那如果我在这段时间又插入了一个新的message怎么办，所以handler每次插入message都会唤醒线程，重新计算插入后，再走一次这个休眠流程
+可以看到这里也是一个for循环遍历队列，核心变量就是nextPollTimeoutMillis。可以看到，计算出nextPollTimeoutMillis后就调用nativiePollOnce这个native方法。这里的话大概可以猜到他的运行机制，因为他是根据执行时间进行排序的，那传入的这个nextPollTimeoutMillis应该就是休眠时间，类似于java的sleep(time)。休眠到下一次message的时候就执行。那如果我在这段时间又插入了一个新的message怎么办，所以handler每次插入message都会唤醒线程，重新计算插入后，再走一次这个休眠流程。
+
+
+
+值得注意的是这个方法没有开启子线程，只是调用了run(), 在` msg.target.dispatchMessage(msg)`可以看到，接着调用了handleCallback().
 
 https://www.jianshu.com/p/68083d432b3f
 
 
 
-说说你对Handler机制的了解，同步消息，异步消息等
+###### 如果移除一个延时消息会解除休眠吗
 
-* IdleHandler用过吗,IdleHandler应用场景？
 
-* Handler休眠是怎样的？epoll的原理是什么？如何实现延时消息，如果移除一个延时消息会解除休眠吗？
 
-* handler内存泄露问题
 
-* Handler内存泄漏的GCRoot是什么？
 
-* 主线程死循环不会卡死吗
+###### 主线程死循环不会卡死吗
 
-* epoll的时候算是卡顿吗
+从前面的主线程、子线程的分析可以看出，Looper会在线程中不断的检索消息，如果是子线程的Looper死循环，一旦任务完成，用户应该手动退出，而不是让其一直休眠等待。（引用自Gityuan）线程其实就是一段可执行的代码，当可执行的代码执行完成后，线程的生命周期便该终止了，线程退出。而对于主线程，我们是绝不希望会被运行一段时间，自己就退出，那么如何保证能一直存活呢？简单做法就是可执行代码是能一直执行下去的，死循环便能保证不会被退出，例如，binder 线程也是采用死循环的方法，通过循环方式不同与 Binder 驱动进行读写操作，当然并非简单地死循环，无消息时会休眠。**Android是基于消息处理机制的，用户的行为都在这个Looper循环中，我们在休眠时点击屏幕，便唤醒主线程继续进行工作**。
 
-* 怎么样算是卡顿了
+主线程的死循环一直运行是不是特别消耗 CPU 资源呢？ 其实不然，这里就涉及到 Linux pipe/epoll机制，简单说就是在主线程的 MessageQueue 没有消息时，便阻塞在 loop 的 queue.next() 中的 nativePollOnce() 方法里，此时主线程会释放 CPU 资源进入休眠状态，直到下个消息到达或者有事务发生，通过往 pipe 管道写端写入数据来唤醒主线程工作。这里采用的 epoll 机制，是一种IO多路复用机制，可以同时监控多个描述符，当某个描述符就绪(读或写就绪)，则立刻通知相应程序进行读或写操作，本质同步I/O，即读写是阻塞的。 所以说，主线程大多数时候都是处于休眠状态，并不会消耗大量CPU资源。
 
-* 怎么利用消息机制检测卡顿
+https://www.jianshu.com/p/a7969d73c120
 
-* 除了这种方式还有别的监测卡顿的方式吗
 
-    
 
-* 
 
-* Android中为什么主线程不会因为Looper.loop()里的死循环卡死？
 
-* Handler通信，Binder通信
+###### handler内存泄露问题
 
-* Handler同步屏障
 
-    
 
-* 1、Handler问题三连：是什么？有什么用？为什么要用，不用行不行？
+###### 说说你对Handler机制的了解，同步消息，异步消息等
 
-  2、Android UI更新机制(GUI) 为何设计成了单线程的？
 
-  3、真的只能在主(UI)线程中更新UI吗？
 
-  4、真的不能在主(UI)线程中执行网络操作吗？
+###### IdleHandler用过吗,IdleHandler应用场景？
 
-  5、Handler怎么用？
+ 见上面IdleHandler使用
 
-  6、为什么建议使用Message.obtain()来创建Message实例？
+handler如何实现延时发消息postdelay()。callback，runnable，msg的执行优先级。阻塞是怎么实现的？为什么不会阻塞主线程？
 
-  7、为什么子线程中不可以直接new Handler()而主线程中可以？
+###### 
 
-  8、主线程给子线程的Handler发送消息怎么写？
+###### Handler休眠是怎样的？epoll的原理是什么？
 
-  9、HandlerThread实现的核心原理？
+###### 如何实现延时消息，如果移除一个延时消息会解除休眠吗？
 
-  10、当你用Handler发送一个Message，发生了什么？
 
-  11、Looper是怎么拣队列里的消息的？
 
-  12、分发给Handler的消息是怎么处理的？
+Handler内存泄漏的GCRoot是什么？
 
-  13、IdleHandler是什么？
+epoll的时候算是卡顿吗
 
-  14、Looper在主线程中死循环，为啥不会ANR？
+怎么样算是卡顿了
 
-  15、Handler泄露的原因及正确写法
+怎么利用消息机制检测卡顿
 
-  16、Handler中的同步屏障机制
+除了这种方式还有别的监测卡顿的方式吗
 
-  17、Android 11 Handler相关变更
 
-  https://juejin.cn/post/6844904150140977165
 
-* handler post和handleMesage区别
+###### Android中为什么主线程不会因为Looper.loop()里的死循环卡死？
 
-    https://segmentfault.com/a/1190000006700118  写的不错
+对于线程即是一段可执行的代码，当可执行代码执行完成后，线程生命周期便该终止了，线程退出。而对于主线程，我们是绝不希望会被运行一段时间，自己就退出，那么如何保证能一直存活呢？简单做法就是可执行代码是能一直执行下去的，死循环便能保证不会被退出，例如，binder线程也是采用死循环的方法，通过循环方式不同与Binder驱动进行读写操作，当然并非简单地死循环，无消息时会休眠。但这里可能又引发了另一个问题，既然是死循环又如何去处理其他事务呢？通过创建新线程的方式。真正会卡死主线程的操作是在回调方法`onCreate/onStart/onResume`等操作时间过长，会导致掉帧，甚至发生ANR，looper.loop本身不会导致应用卡死。
 
-​	
+主线程的死循环一直运行是不是特别消耗CPU资源呢？ 其实不然，这里就涉及到`Linux pipe/epoll`机制，简单说就是在主线程的`MessageQueue`没有消息时，便阻塞在loop的`queue.next()`中的`nativePollOnce()`方法里，此时主线程会释放CPU资源进入休眠状态，直到下个消息到达或者有事务发生，通过往pipe管道写端写入数据来唤醒主线程工作。这里采用的epoll机制，是一种IO多路复用机制，可以同时监控多个描述符，当某个描述符就绪(读或写就绪)，则立刻通知相应程序进行读或写操作，本质同步I/O，即读写是阻塞的。 所以说，主线程大多数时候都是处于休眠状态，并不会消耗大量CPU资源。 Gityuan–Handler(Native层)
+
+
+
+Handler通信，Binder通信
+
+
+
+###### Handler同步屏障
+
+Handler发送的消息分为普通消息、屏障消息、异步消息，一旦Looper在处理消息时遇到屏障消息，那么就不再处理普通的消息，而仅仅处理异步的消息。不再使用屏障后，需要撤销屏障，不然就再也执行不到普通消息了。
+
+为什么需要这样？它是设计来为了让某些特殊的消息得以更快被执行的机制。比如绘制界面，这种消息可能会明显的被用户感知到，稍有不慎就会引起卡顿、掉帧之类的，所以需要及时处理（可能消息队列中有大量的消息，如果像平时一样挨个进行处理，那绘制界面这个消息就得等很久，这是不想看到的）。
+
+屏障消息仅仅是起一个屏障的作用，本身一般不附带其他东西，它需要配合其他Handler组件才能发挥作用。  
+
+
+
+1、Handler问题三连：是什么？有什么用？为什么要用，不用行不行？
+
+2、Android UI更新机制(GUI) 为何设计成了单线程的？
+
+3、真的只能在主(UI)线程中更新UI吗？
+
+4、真的不能在主(UI)线程中执行网络操作吗？
+
+6、为什么建议使用Message.obtain()来创建Message实例？
+
+7、为什么子线程中不可以直接new Handler()而主线程中可以？
+
+8、主线程给子线程的Handler发送消息怎么写？
+
+9、HandlerThread实现的核心原理？
+
+10、当你用Handler发送一个Message，发生了什么？
+
+11、Looper是怎么拣队列里的消息的？
+
+12、分发给Handler的消息是怎么处理的？
+
+14、Looper在主线程中死循环，为啥不会ANR？
+
+15、Handler泄露的原因及正确写法
+
+16、Handler中的同步屏障机制
+
+17、Android 11 Handler相关变更
+
+https://juejin.cn/post/6844904150140977165
+
+
+
+handler post和handleMesage区别
+
+​	**post的runnable会直接在callback中调用run方法执行，而sendMessage方法要用户主动重写mCallback或者handleMessage方法来处理**
 
 ---
 
@@ -505,3 +624,7 @@ https://xiaozhuanlan.com/topic/0843791256
 glide handler 
 
 https://www.bilibili.com/video/BV1FU4y1V7HE
+
+
+
+https://segmentfault.com/a/1190000039809784

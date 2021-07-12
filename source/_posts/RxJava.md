@@ -8,6 +8,24 @@ categories: ANDROID
 
 
 
+#### 原理
+
+![](RxJava/2021-07-11_observer.png)
+
+
+
+![](RxJava/2021-07-11_observable.png)
+
+1. 最主要的是Observable里面持有observer引用，就可以给observer发消息，其他的都是拓展。
+2. Rxjava2会有Flower等背压类继承ObservableSource，所以 Observable 从ObservableSource分离出来，让ObservableCreate实现subscribeAcutal(Observer)
+3. 本来可以在ObservableCreate中直接发消息，因为emmit也可能变，现在把调用流程放到了ObservableOnSubscribe,并且传了emmit,最终ObservableOnSubscribe打包给了了ObservableCreate
+
+
+
+![](RxJava/2021-07-12_RXJAVA.png)
+
+
+
 
 
 #### 匿名内部类和lambda区别
@@ -20,7 +38,7 @@ categories: ANDROID
 
 **Lambda表达式通过\*invokedynamic\*指令实现，书写Lambda表达式不会产生新的类**
 
-## 推论，this引用的意义
+推论，this引用的意义
 
 既然Lambda表达式不是内部类的简写，那么Lambda内部的`this`引用也就跟内部类对象没什么关系了。在Lambda表达式中`this`的意义跟在表达式外部完全一样。因此下列代码将输出两遍`Hello Hoolee`，而不是两个引用地址。
 

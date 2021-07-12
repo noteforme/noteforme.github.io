@@ -14,56 +14,67 @@ https://developer.android.com/guide/topics/permissions/overview#normal-dangerous
 
 #### 权限管理 
 
-### Normal permissions
+##### Normal permissions
 
 
 
-### Dangerous permissions
+##### Dangerous permissions
 
 <img src="Permission/Screen Shot 2020-09-17 at 2.06.37 PM.png" alt="Screen Shot 2020-09-17 at 2.06.37 PM" style="zoom: 80%;" />
 
-##   基本使用
-```
+#### Android11权限申请
 
+申请位置权限，先申请前台，后申请后台权限。
+
+https://zhuanlan.zhihu.com/p/275758740
+
+####   基本使用
+
+
+
+```java
+ public static final int PERMISSION_REQUEST_CODE = 1000;
+    void requestPermission() {
         // Here, thisActivity is the current activity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        		//则每次执行需要这一权限的操作时您都必须检查自己是否具有该权限
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            //则每次执行需要这一权限的操作时您都必须检查自己是否具有该权限
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 // Should we show an explanation?
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-//                            当某条权限之前已经请求过，并且用户已经拒绝了该权限时，shouldShowRequestPermissionRationale ()方法返回的是true
+//                            当某条权限之前已经请求过，并且用户已经拒绝了该权限时
+                    //异步向用户显示解释，这里先弹出解释框，再请求权限.
+                    Log.d(TAG, "用户看到解释后，再次常识请求权限");
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
                 } else {
-//                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
-                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+                    //无需解释，首次请求许可
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+                    Log.d(TAG, "requestPermissions");
                 }
             } else {
-                handlerExecute();
-            }
-        }
-    
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case WRITE_EXTERNAL_STORAGE_REQUEST_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                    handlerExecute();
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-                // other 'case' lines to check for other
-                // permissions this app might request
+                //权限已经授予
+                Log.d(TAG, "requestPermissions is ok");
             }
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty. 如果取消请求，则grantResult 为空
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onRequestPermissionResult:ok");
+                } else {
+                    Log.d(TAG, "onRequestPermissionResult:no");
+                }
+                return;
+            }
+        }
+    }
 ```
+
+
 
 
 
@@ -150,13 +161,13 @@ http://www.10tiao.com/html/227/201610/2650237473/1.html
 
 
 
-## One-time permissions
+##### One-time permissions
 
 Starting in Android 11 (API level 30), whenever your app requests a permission related to location, microphone, or camera, the user-facing permissions dialog contains an option called **Only this time**. If the user selects this option in the dialog, your app is granted a temporary *one-time permission*.
 
 
 
-## Permission groups
+##### Permission groups
 
 - If the app has already been granted another dangerous permission in the same permission group, the system immediately grants the permission without any interaction with the user. For example, if an app had previously requested and been granted the `READ_CONTACTS` permission, and it then requests `WRITE_CONTACTS`, the system immediately grants that permission without showing the permissions dialog to the user.
 

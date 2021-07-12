@@ -8,6 +8,10 @@ categories: DesignPatterns
 
 
 
+![](https://user-gold-cdn.xitu.io/2020/3/23/171064de21df41e0?imageView2/0/w/1280/h/960/ignore-error/1)
+
+
+
 ##### Observer观察者模式/订阅模式
 
 * PUSH 模式
