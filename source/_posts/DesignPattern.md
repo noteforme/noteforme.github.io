@@ -8,6 +8,448 @@ categories: DesignPatterns
 
 
 
+#### 设计原则
+
+##### 单一职责
+
+​	一个类应该只负责一项职责。
+
+##### 接口隔离
+
+​	客户端不应该依赖它不需要的接口，即一个类对另一个类的依赖应该建立在最小的接口上。
+
+##### 依赖倒置
+
+* 高层模块不应该依赖低层模块，二者都应该依赖其抽象。
+* 抽象不应该依赖细节，细节应该依赖抽象。
+* 依赖倒置的中心思想是**面向接口编程**。
+
+##### 里氏替换
+
+* 所有使用基类的地方必须能透明的使用其子类。
+* 使用继承时，遵循里氏替换原则，**子类尽量不要重写父类的方法**。继承实际上让两个类耦合性增强了，适当情况下可以通过 聚合 组合 依赖来解决问题。
+
+​	通用做法是： 原来的父类和子类都继承一个更通俗的基类，原有的继承关系去掉，采用依赖，聚合，组合等关系代替。
+
+
+
+之前的方案
+
+```java
+public class Liskov {
+    public static void main(String[] args) {
+        A a = new A();
+        System.out.println("11-3=" + a.func1(11, 3));
+        System.out.println("1-8=" + a.func1(1, 8));
+
+        System.out.println("---------------");
+        B b = new B();
+        System.out.println("11-3=" + b.func1(11, 3));
+        System.out.println("1-8=" + b.func1(1, 8));
+        System.out.println("11+3+9=" + b.func2(11, 3));
+    }
+}
+
+class A {
+    public int func1(int num1, int num2) {
+        return num1 - num2;
+    }
+}
+
+class B extends A {
+    //没意识到 重写了该方法
+    public int func1(int num1, int num2) {
+        return num1 + num2;
+    }
+
+    public int func2(int a, int b) {
+        return func1(a, b) - 9;
+    }
+}
+```
+
+
+
+改进后的方案
+
+```java
+public class Liskov {
+    public static void main(String[] args) {
+        A a = new A();
+        System.out.println("11-3=" + a.func1(11, 3));
+        System.out.println("1-8=" + a.func1(1, 8));
+
+        System.out.println("---------------");
+        B b = new B();
+        //因为B类不再继承A类，因此调用者，不会再func1求减法
+        System.out.println("11+3=" + b.func1(11, 3));
+        System.out.println("1+8=" + b.func1(1, 8));
+        System.out.println("11+3+9=" + b.func2(11, 3));
+
+
+        //使用组合仍然可以使用A类相关方法
+        System.out.println("11-3=" + b.func3(11, 3));
+
+    }
+}
+ class  Base{
+    //把更基础的方法和成员写到Base类中
+}
+
+class A extends Base {
+    public int func1(int num1, int num2) {
+        return num1 - num2;
+    }
+
+
+}
+
+class B extends Base {
+    //如果B需要使用A类的方法，使用组合关系
+    private A a = new A();
+    //没意识到 重写了该方法
+    public int func1(int num1, int num2) {
+        return num1 + num2;
+    }
+
+    public int func2(int a, int b) {
+        return func1(a, b) +9;
+    }
+
+    public int func3(int a,int b){
+        return this.a.func1(a,b);
+    }
+}
+```
+
+##### 开闭原则 ocp
+
+open closed principle
+
+* 不适用该原则的方案
+
+  ```java
+  public class GraphicEditor {
+      public static void main(String[] args) {
+          GraphicEditor graphicEditor = new GraphicEditor();
+          graphicEditor.drawShape(new Rectangle());
+          graphicEditor.drawShape(new Circle());
+          graphicEditor.drawShape(new Triangle());
+      }
+  
+      //添加一个图形需要修改
+      public void drawShape(Shape s) {
+          if (s.m_type == 1)
+              drawRectangle(s);
+          else if (s.m_type == 2)
+              drawCircle(s);
+          else if (s.m_type == 3)
+              drawTriangle(s);
+      }
+  
+  
+      private void drawCircle(Shape s) {
+          System.out.println("绘制圆形");
+  
+      }
+  
+      private void drawRectangle(Shape s) {
+          System.out.println("绘制矩形");
+      }
+  
+      //添加一个图形需要修改
+      private void drawTriangle(Shape s) {
+          System.out.println("绘制三角形");
+      }
+  }
+  
+  
+  class Shape {
+      public int m_type;
+  }
+  
+  class Rectangle extends Shape {
+      public Rectangle() {
+          super.m_type = 1;
+      }
+  }
+  
+  class Circle extends Shape {
+      public Circle() {
+          super.m_type = 2;
+      }
+  }
+  
+  //新增图形
+  class Triangle extends Shape {
+      public Triangle() {
+          super.m_type = 3;
+      }
+  }
+  ```
+
+  可以看到改动很多
+
+* 使用ocp原则改进后
+
+  ```java
+  public class GraphicEditor {
+      public static void main(String[] args) {
+          GraphicEditor graphicEditor = new GraphicEditor();
+          graphicEditor.drawShape(new Rectangle());
+          graphicEditor.drawShape(new Circle());
+          graphicEditor.drawShape(new Triangle());
+          graphicEditor.drawShape(new OtherGraphic());
+      }
+  
+      public void drawShape(Shape s) {
+          s.drawShape();
+      }
+  
+  }
+  
+  
+  abstract class Shape {
+      public int m_type;
+  
+      abstract void drawShape();
+  }
+  
+  class Rectangle extends Shape {
+      @Override
+      void drawShape() {
+          System.out.println("绘制矩形");
+      }
+  }
+  
+  class Circle extends Shape {
+      @Override
+      void drawShape() {
+          System.out.println("绘制圆形");
+      }
+  }
+  
+  
+  class Triangle extends Shape {
+      @Override
+      void drawShape() {
+          System.out.println("绘制三角形");
+      }
+  }
+  
+  //新增一个图形
+  class OtherGraphic extends Shape {
+  
+      @Override
+      void drawShape() {
+          System.out.println("新增一个图形");
+      }
+  }
+  ```
+
+  实现代码没有任何改动
+
+
+
+
+
+##### 迪米特法则
+
+* 一个对象应该对其他对象保持最少的了解
+
+* Demeter Principle又叫最少知道原则， 即一个类对自己依赖的类知道的越少越好。也就是说，对于被依赖的类不管多么复杂，都尽量将逻辑封装在类的内部。对外出了提供的public方法，不泄漏任何信息
+
+* 只与直接的朋友通信。
+
+  直接的朋友: 每个对象都会与其他对象有耦合关系，只要两个对象之间有耦合关系，我们就说这两个对象之间是朋友关系。耦合的方式很多， 依赖 关联，组合，聚合等。 其中，我们称出现成员变量，方法参数，方法返回值中的类为直接的朋友，而出现在局部变量中的类不是直接的朋友。也就是说，陌生的类最好不要以局部变量的形式出现在类的内部。
+
+
+
+​	改进前
+
+​	
+
+```java
+public class Demeter1 {
+    public static void main(String[] args) {
+        SchoolManager schoolManager = new SchoolManager();
+        schoolManager.printAllEmployee(new CollegeManger());
+
+    }
+}
+
+//学校总部员工的类
+class SchollEmployee {
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+}
+
+//学院的员工
+class CollegeEmployee {
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+}
+
+//管理学院员工的管理类
+class CollegeManger {
+    public List<CollegeEmployee> getAllEmployee() {
+        ArrayList<CollegeEmployee> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            CollegeEmployee collegeEmployee = new CollegeEmployee();
+            collegeEmployee.setId("学院员工id= " + i);
+            list.add(collegeEmployee);
+        }
+        return list;
+    }
+}
+
+// SchollEmployee , CollegeManger 是直接朋友
+// CollegeEmployee 不是直接朋友，而是一个陌生类，这样违反了 迪米特法则。
+class SchoolManager {
+
+    public List<SchollEmployee> getAllEmployee() {//方法返回值:直接朋友
+        ArrayList<SchollEmployee> list = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            SchollEmployee schollEmployee = new SchollEmployee(); // CollegeEmployee 不是直接朋友，以局部变量出现在SchoolManager
+            schollEmployee.setId("学校总部员工id= " + i);
+            list.add(schollEmployee);
+        }
+        return list;
+    }
+    //该方法完成输出学校总部和学院员工ID
+    void printAllEmployee(CollegeManger sub) {//方法参数:直接朋友
+
+        List<CollegeEmployee> list1 = sub.getAllEmployee();
+        System.out.println("-----------学院员工--------");
+        for (CollegeEmployee e : list1) {
+            System.out.println(e.getId());
+        }
+
+        List<SchollEmployee> list2 = this.getAllEmployee();
+        System.out.println("-----------学校总部员工--------");
+        for (SchollEmployee e : list2) {
+            System.out.println(e.getId());
+        }
+    }
+}
+```
+
+
+
+改进后
+
+```java
+public class Demeter2 {
+    public static void main(String[] args) {
+        System.out.println("使用迪米特法则的改进");
+        SchoolManager schoolManager = new SchoolManager();
+        schoolManager.printAllEmployee(new CollegeManger());
+
+    }
+}
+
+
+//学校总部员工的类
+class SchollEmployee {
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+}
+
+//学院的员工
+class CollegeEmployee {
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+}
+
+//管理学院员工的管理类
+class CollegeManger {
+    public List<CollegeEmployee> getAllEmployee() {
+        ArrayList<CollegeEmployee> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            CollegeEmployee collegeEmployee = new CollegeEmployee();
+            collegeEmployee.setId("学院员工id= " + i);
+            list.add(collegeEmployee);
+        }
+        return list;
+    }
+
+    // 输出学院员工的信息
+    void printCollegeEmployee() {
+        //改进方法： 将输出学院员工的方法，封装到CollegeManager中。
+        List<CollegeEmployee> list1 = getAllEmployee();
+        System.out.println("-----------学院员工--------");
+        for (CollegeEmployee e : list1) {
+            System.out.println(e.getId());
+        }
+    }
+}
+
+
+// SchollEmployee , CollegeManger 是直接朋友
+// CollegeEmployee 不是直接朋友，而是一个陌生类，这样违反了 迪米特法则。
+class SchoolManager {
+
+    public List<SchollEmployee> getAllEmployee() {//方法返回值:直接朋友
+        ArrayList<SchollEmployee> list = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            SchollEmployee schollEmployee = new SchollEmployee(); // CollegeEmployee 不是直接朋友，以局部变量出现在SchoolManager
+            schollEmployee.setId("学校总部员工id= " + i);
+            list.add(schollEmployee);
+        }
+        return list;
+    }
+
+    //该方法完成输出学校总部和学院员工ID
+    void printAllEmployee(CollegeManger sub) {//方法参数:直接朋友
+
+      /*
+        List<CollegeEmployee> list1 = sub.getAllEmployee();
+        System.out.println("-----------学院员工--------");
+        for (CollegeEmployee e : list1) {
+            System.out.println(e.getId());
+        }*/
+        //改进方法： 将输出学院员工的方法，封装到CollegeManager中。
+        sub.printCollegeEmployee();
+
+        List<SchollEmployee> list2 = this.getAllEmployee();
+        System.out.println("-----------学校总部员工--------");
+        for (SchollEmployee e : list2) {
+            System.out.println(e.getId());
+        }
+    }
+}
+```
+
+
+
 #### 创见型: 对象的创建
 
  单例模式 、工厂模式 、原型模式
