@@ -554,3 +554,7 @@ class SchoolManager {
 10. 中介模式
 
     将一组对象之间的交互关系（或者依赖关系）从多对多（网状关系）转换为一对多（星状关系
+    
+    
+
+https://www.bilibili.com/video/BV1W4411c77E?p=28&spm_id_from=pageDriver

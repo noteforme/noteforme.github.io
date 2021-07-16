@@ -6,9 +6,11 @@ tags: RxJava
 categories: ANDROID
 ---
 
+#### 观察者模式
+
+##### 观察者模式使用
 
 
-#### 原理
 
 ![](RxJava/2021-07-11_observer.png)
 
@@ -22,9 +24,161 @@ categories: ANDROID
 
 
 
-![](RxJava/2021-07-12_RXJAVA.png)
+ ##### 观察者模式应用
+
+```java
+/**
+ * 具体的被观察者
+ */
+public class ObservableCreate<T> extends Observable<T> {
+
+    ObservableOnSubscribe<T> source;
+
+    public ObservableCreate(ObservableOnSubscribe<T> source) {
+        this.source = source;
+    }
+
+    @Override
+    protected void subscribeActual(Observer observer) {
+        observer.onSubscribe(); //订阅成功，回调给观察者
+        //创建发射器
+        CreateEmitter createEmitter = new CreateEmitter(observer); //发射器和观察者建立关联
+        source.subscribe(createEmitter); //发射器与被观察者建立关联
+    }
 
 
+    static final class CreateEmitter<T> implements Emitter<T> {
+        final Observer<T> observer;
+
+        public CreateEmitter(Observer<T> observer) {
+            this.observer = observer;
+        }
+
+        @Override
+        public void onNext(T t) {
+            observer.onNext(t);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            observer.onError(e);
+        }
+
+        @Override
+        public void onComplete() {
+            observer.onComplete();
+        }
+    }
+}
+```
+
+
+
+
+
+#### 装饰器模式
+
+##### 装饰器模式使用
+
+RxJava观察者模式最主要是这个方法 subscribeActual(Observer observer) ，通过发射器与 观察者、被观察者建立关联，接着通过发射器发送事件给观察者。
+
+!(RxJava/2021-07-12_RXJAVA.png)
+
+![](RxJava/2021-07-13_5.37.48_observer1.png)
+
+![](RxJava/2021-07-14_3.14.28_zhuangshi.png)
+
+红色方框中用到了 装饰器模式。
+
+
+
+#### 应用实例
+
+WriteRxJavaActivity.java
+
+```java
+Observable.create(new ObservableOnSubscribe<Object>() {
+    @Override
+    public void subscribe(Emitter<Object> emitter) {
+        Log.i(TAG, "subscribe: ");
+        emitter.onNext("aaaa");
+        emitter.onNext("bbb");
+        emitter.onNext("12312");
+        emitter.onComplete();
+    }
+})
+        .map(new Function<Object, Object>() {
+            @Override
+            public Object apply(Object o) {
+                return ("apply 后 1 " + o);
+            }
+        })
+        .map(new Function<Object, Object>() {
+            @Override
+            public Object apply(Object o) {
+                return ("apply 后 2 " + o);
+            }
+        })
+
+        .subscribe(new Observer() {
+            @Override
+            public void onNext(Object o) {
+                Log.i(TAG, "onNext: " + o);
+            }
+        });
+```
+
+
+
+##### 调用结构图
+
+上面代码的调用结构可以用下图表示
+
+![](RxJava/RxJava_LinkedList.png)
+
+
+
+##### ObservableMap
+
+其中关键代码在ObservableMap.java ,subscribeActual方法。
+
+Observalbe.java
+
+```java
+public <R>  ObservableMap<T, R> map(Function<T,R> function){
+        return  new ObservableMap(this,function); //上层Observable传入 ObservableMap
+}
+```
+
+ObservableMap.java
+
+```java
+protected void subscribeActual(Observer observer) {         // source上层Observable,
+    source.subscribe(new MapObserver(observer, function)); //传入的observer是下游的observer,可以从最后往前看
+}
+```
+
+
+
+##### 调用流程
+
+1. 第一遍 把 Observable传入下一层的Observable中。 可以理解为 调用结构图 ->向右建立关联
+2. 直至调用到最后的观察者subscribe(new Observer())，开始把下一级的Observer传入Observable(被观察者)，可以理解为向左建立关联。
+3.  1，2完成后可以理解为建立双向链表，上游一直持有下游的Observer,开始发送emitter.onNext("aaaa");事件。
+
+
+
+​	除了最后手动建立观察者，中间也建立了观察者，不停的向下发送事件。
+
+
+
+​	observable observer都在套娃。
+
+
+
+##### ObservableFlatMap
+
+接收事件后，创建新的事件发送。
 
 
 
@@ -114,9 +268,11 @@ https://www.bilibili.com/video/BV1U4411V7Sv?p=5
 
 
 
-#### Consumer
+#### RxJava操作符
 
-```
+###### Consumer
+
+```java
 @FunctionalInterface
 public interface Consumer<T> {
 
@@ -127,18 +283,6 @@ public interface Consumer<T> {
      */
     void accept(T t);
 
-    /**
-     * Returns a composed {@code Consumer} that performs, in sequence, this
-     * operation followed by the {@code after} operation. If performing either
-     * operation throws an exception, it is relayed to the caller of the
-     * composed operation.  If performing this operation throws an exception,
-     * the {@code after} operation will not be performed.
-     *
-     * @param after the operation to perform after this operation
-     * @return a composed {@code Consumer} that performs in sequence this
-     * operation followed by the {@code after} operation
-     * @throws NullPointerException if {@code after} is null
-     */
     default Consumer<T> andThen(Consumer<? super T> after) {
         Objects.requireNonNull(after);
         return (T t) -> { accept(t); after.accept(t); };
@@ -148,15 +292,15 @@ public interface Consumer<T> {
 
 
 
-##### accept
+###### accept
 
-```
+```java
 public static void method(String name,Consumer<String> con){
     con.accept(name);
 }
 ```
 
-```
+```java
 method("john",(String name)->{
     System.out.println(name);
 });
@@ -164,11 +308,11 @@ method("john",(String name)->{
 
 
 
-##### andThen
+###### andThen
 
 示例1
 
-```
+```java
 public static void method3(String s, Consumer1 con1, Consumer1 con2) {
     con1.andThen3(con2).accept(s);
 }
@@ -267,14 +411,14 @@ public interface Consumer1 {
 
    
 
-   ```
+   ```java
    @FunctionalInterface
    interface MessageBuilder1 {
        String builderMessage(int param);
    }
    ```
 
-   ```
+   ```java
    
    private static void showLog1(int level, MessageBuilder1 msg) {
        if (level == 1) {
@@ -283,7 +427,7 @@ public interface Consumer1 {
    }
    ```
 
-   ```
+   ```java
    showLog1(1, (t) -> {
        System.out.println(t);
        return msgA + msgB + msgC;
@@ -295,9 +439,9 @@ public interface Consumer1 {
    5
    HelloWorldJava
 
-#### Function
+###### Function
 
-```
+```java
 
 package java.util.function;
 /**
@@ -376,7 +520,7 @@ public interface Function<T, R> {
 
 
 
-```
+```java
 public int compute(int a, Function<Integer,Integer> function){
     int reuslt = function.apply(a); //  相当于 2 * value  操作
     return reuslt;
@@ -385,7 +529,7 @@ public int compute(int a, Function<Integer,Integer> function){
 
 
 
-```
+```java
 FunctionTest functionTest = new FunctionTest();
 functionTest.compute(1,value->{return  2 * value ;});
 
