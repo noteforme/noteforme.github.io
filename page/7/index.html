@@ -86,6 +86,124 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-JCenterPublish" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/12/13/JCenterPublish/">JCenterPublish</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2019-12-12T22:30:57.000Z" itemprop="datePublished">2019年12月13日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/TOOL/">TOOL</a>
+  </div>
+
+      
+      
+<a href="/2019/12/13/JCenterPublish/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="nexus-sonatype"><a href="#nexus-sonatype" class="headerlink" title="nexus sonatype"></a>nexus sonatype</h5><ol>
+<li><p>主要步骤按照这个操作 <a target="_blank" rel="noopener" href="https://www.gcssloop.com/gebug/maven-private">https://www.gcssloop.com/gebug/maven-private</a></p>
+</li>
+<li><p>注意： 密码不再是　admin admin 123了按照这个步骤 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/fcb128e34c87">https://www.jianshu.com/p/fcb128e34c87</a></p>
+</li>
+<li><p>部署好一个平台后，sonatype-work复制过去，其他配置就不用再弄了，注意nexus-3.20.0-04-unix.tar.gz解压后也会有sonatype-work文件，可能会把之前的覆盖</p>
+</li>
+<li><p>运行</p>
+<p>在命令行工具中输入启动命令：</p>
+<p>software/nexus-3.20.0-04-mac/nexus-3.20.0-04/bin</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nexus <span class="literal">start</span></span><br></pre></td></tr></table></figure>
+
+<p>如果一切顺利，在等待几十秒到一两分钟之后就可以查看我们的仓库了，如果出错了，可以使用 run 命令来查看具体的出错原因：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># run 命令相当于 debug 模式，会输出所有的日志信息</span></span><br><span class="line">./nexus <span class="built_in">run</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>当然，Nexus 还有很多其他命令(例如:停止、重启、查看状态等)：</p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nexus &#123;start|<span class="type">stop</span>|<span class="type">run</span>|<span class="type">run</span>-redirect|<span class="type">status</span>|<span class="type">restart</span>|<span class="type">force</span>-reload&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意:windows启动是这样的 <code>.\nexus.exe /run</code></p>
+</li>
+<li><p>打包</p>
+</li>
+</ol>
+<p> 在配置完善后同步一下项目，就可以打开 gradle 命令菜单看到多出来了3个命令，双击即可执行对应的命令：</p>
+<ul>
+<li>pack：打包项目</li>
+<li>uploadToLocal：上传到本机仓库</li>
+<li>uploadToPublic：上传到公网仓库</li>
+</ul>
+<ol start="6">
+<li><p>查看</p>
+<p><code>http://localhost:8081</code> 即可查看，如果修改了端口号，后面写对应的端口号即可。如果是运行在服务器上，则在其他电脑上输入<code>http://&#123;服务器ip&#125;:&#123;port&#125;</code> IP 和对应的端口号。如果运行成功，则会看到类似如下界面：</p>
+</li>
+</ol>
+<h5 id="Prepare"><a href="#Prepare" class="headerlink" title="Prepare"></a>Prepare</h5><ul>
+<li>Setting the JDK path</li>
+</ul>
+<blockquote>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Open ~/.bash_profile </span><br><span class="line">export JAVA_HOME=<span class="constructor">$(<span class="operator">/</span><span class="params">usr</span><span class="operator">/</span><span class="params">libexec</span><span class="operator">/</span><span class="params">java_home</span>)</span></span><br><span class="line">source ~/.bash_profile</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://android.jlelse.eu/publishing-your-android-kotlin-or-java-library-to-jcenter-from-android-studio-1b24977fe450">https://android.jlelse.eu/publishing-your-android-kotlin-or-java-library-to-jcenter-from-android-studio-1b24977fe450</a></p>
+<h5 id="maven-center"><a href="#maven-center" class="headerlink" title="maven center"></a>maven center</h5><p>按照这个教程参考**<a href="git@121.41.17.19:library/TestMavenUp.git">TestMavenUp</a>*  就差不多了</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6c1d2688ed2d/">https://www.jianshu.com/p/6c1d2688ed2d/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0629548ab5a4">https://www.jianshu.com/p/0629548ab5a4</a></p>
+<p>可以把项目和jar放到同一个目录</p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/7/index.html">http://noteforme.github.io.com/page/7/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-Math-Trigonometric-functions" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -980,91 +1098,6 @@
 </article>
 
 
-  <article id="post-Gradient" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/07/22/Gradient/">Gradient</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2019-07-22T09:41:27.000Z" itemprop="datePublished">2019年07月22日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/VIEW/">VIEW</a>
-  </div>
-
-      
-      
-<a href="/2019/07/22/Gradient/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h5 id="LinearGradient"><a href="#LinearGradient" class="headerlink" title="LinearGradient"></a>LinearGradient</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * LinearGradient</span></span><br><span class="line"><span class="comment"> * Create a shader that draws a linear gradient along a line.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> x0           The x-coordinate for the start of the gradient line</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> y0           The y-coordinate for the start of the gradient line</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> x1           The x-coordinate for the end of the gradient line</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> y1           The y-coordinate for the end of the gradient line</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> colors       The colors to be distributed along the gradient line</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> positions    May be null. The relative positions [0..1] of</span></span><br><span class="line"><span class="comment"> *                     each corresponding color in the colors array. If this is null,</span></span><br><span class="line"><span class="comment"> *                     the the colors are distributed evenly along the gradient line.</span></span><br><span class="line"><span class="comment"> 					 所占比例，渲染颜色所占比例,如果传null，则均匀渲染</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> tile         The Shader tiling mode</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">val colors = intArrayOf(</span><br><span class="line">    Color.RED, Color.GREEN, Color.BLUE</span><br><span class="line">)</span><br><span class="line">val positions = floatArrayOf(<span class="number">0.5</span>f, <span class="number">1</span>f, <span class="number">0.5</span>f)</span><br><span class="line">val linearGradient = LinearGradient(<span class="number">0</span>f, <span class="number">300</span>f, <span class="number">300</span>f, <span class="number">300</span>f, colors, positions, Shader.TileMode.CLAMP)</span><br><span class="line">val mPaint = Paint()</span><br><span class="line">mPaint.setShader(linearGradient)</span><br><span class="line">canvas?.drawRect(<span class="number">0</span>f, <span class="number">0</span>f, <span class="number">300</span>f, <span class="number">300</span>f, mPaint)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>LinearGradient（0f, 0f, 300f, 300f）,说明从 (0,0) 到(300,300)对角线方向渲染</p>
-<p><img src="/2019/07/22/Gradient/Gradient%5Cgradient_20171214100743840.png" alt="LinearGradient"></p>
-</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5fb82b189094">https://www.jianshu.com/p/5fb82b189094</a></p>
-<ul>
-<li><p>渐变模式 </p>
-<p>-CLAMP<br>边缘拉伸<br>-REPEAT<br>在水平和垂直两个方向上重复，相邻图像没有间隙<br>-MIRROR</p>
-<p>以镜像的方式在水平和垂直两个方向上重复，相邻图像有间隙</p>
-</li>
-</ul>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/7/index.html">http://noteforme.github.io.com/page/7/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1083,6 +1116,10 @@
       <ul>
         
           <li>
+            <a href="/2021/08/19/kotlin-elementary/">kotlin_elementary</a>
+          </li>
+        
+          <li>
             <a href="/2021/06/17/kmp/">kmp</a>
           </li>
         
@@ -1096,10 +1133,6 @@
         
           <li>
             <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/21/Data-Sort/">Data_Sort</a>
           </li>
         
       </ul>
@@ -1121,7 +1154,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1131,7 +1164,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 

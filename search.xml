@@ -1489,6 +1489,22 @@ https://blog.csdn.net/wen0006/article/details/5804639
 
 
 
+<h4 id="线程池状态切换"><a href="#线程池状态切换" class="headerlink" title="线程池状态切换"></a>线程池状态切换</h4><p><img src="https://img2020.cnblogs.com/blog/1208468/202102/1208468-20210219204031490-460634238.png"></p>
+<p>1、RUNNING</p>
+<p>(1) 状态说明：线程池处在RUNNING状态时，能够接收新任务，以及对已添加的任务进行处理。<br> (02) 状态切换：线程池的初始化状态是RUNNING。换句话说，线程池被一旦被创建，就处于RUNNING状态，并且线程池中的任务数为0！</p>
+<ul>
+<li>1</li>
+</ul>
+<p>2、 SHUTDOWN</p>
+<p>(1) 状态说明：线程池处在SHUTDOWN状态时，不接收新任务，但能处理已添加的任务。<br> (2) 状态切换：调用线程池的shutdown()接口时，线程池由RUNNING -&gt; SHUTDOWN。</p>
+<p>3、STOP</p>
+<p>(1) 状态说明：线程池处在STOP状态时，不接收新任务，不处理已添加的任务，并且会中断正在处理的任务。<br> (2) 状态切换：调用线程池的shutdownNow()接口时，线程池由(RUNNING or SHUTDOWN ) -&gt; STOP。</p>
+<p>4、TIDYING</p>
+<p>(1)  状态说明：当所有的任务已终止，ctl记录的”任务数量”为0，线程池会变为TIDYING状态。当线程池变为TIDYING状态时，会执行钩子函数terminated()。terminated()在ThreadPoolExecutor类中是空的，若用户想在线程池变为TIDYING时，进行相应的处理；可以通过重载terminated()函数来实现。<br> (2) 状态切换：当线程池在SHUTDOWN状态下，阻塞队列为空并且线程池中执行的任务也为空时，就会由 SHUTDOWN -&gt; TIDYING。<br> 当线程池在STOP状态下，线程池中执行的任务为空时，就会由STOP -&gt; TIDYING。</p>
+<p>5、 TERMINATED</p>
+<p>(1) 状态说明：线程池彻底终止，就变成TERMINATED状态。<br> (2) 状态切换：线程池处在TIDYING状态时，执行完terminated()之后，就会由 TIDYING -&gt; TERMINATED。</p>
+<p><a href="https://blog.csdn.net/nmjhehe/article/details/115901549">https://blog.csdn.net/nmjhehe/article/details/115901549</a></p>
+<p><a href="https://www.cnblogs.com/east7/p/14417977.html">https://www.cnblogs.com/east7/p/14417977.html</a></p>
 <h4 id="线程池工作原理"><a href="#线程池工作原理" class="headerlink" title="线程池工作原理"></a>线程池工作原理</h4><p><img src="https://s0.lgstatic.com/i/image2/M01/AD/A3/CgoB5l3eH8mAAoJCAACEOKMHtpw036.png"></p>
 <h5 id="各参数含义"><a href="#各参数含义" class="headerlink" title="各参数含义"></a>各参数含义</h5><h6 id="corePoolSize"><a href="#corePoolSize" class="headerlink" title="corePoolSize"></a>corePoolSize</h6><p>线程池初始化时线程数默认为 0，当有新的任务提交后，会创建新线程执行任务，如果不做特殊设置，此后线程数通常不会再小于 corePoolSize ，因为它们是核心线程，即便未来可能没有可执行的任务也不会被销毁。</p>
 <h6 id="maximumPoolSize"><a href="#maximumPoolSize" class="headerlink" title="maximumPoolSize"></a>maximumPoolSize</h6><p>​    maximumPoolSize 最大线程数，线程池会在 corePoolSize 核心线程数的基础上继续创建线程来执行任务，假设任务被不断提交，线程池会持续创建线程直到线程数达到 maximumPoolSize 最大线程数，如果依然有任务被提交，这就超过了线程池的最大处理能力，这个时候线程池就会拒绝这些任务，我们可以看到实际上任务进来之后，线程池会逐一判断 corePoolSize、workQueue、maximumPoolSize，如果依然不能满足需求，则会拒绝任务。</p>
@@ -8575,7 +8591,8 @@ android:dividerPadding=&quot;@dimen/dimen_15&quot;
   <entry>
     <title>tool_mac</title>
     <url>/2020/04/11/tool-mac/</url>
-    <content><![CDATA[<p>some tool for mac</p>
+    <content><![CDATA[<h4 id="IntelliJ-idea-clion"><a href="#IntelliJ-idea-clion" class="headerlink" title="IntelliJ idea clion"></a>IntelliJ idea clion</h4><p>clion激活: CLion-2019.2.5.dmg 下载完成后,先使用再打开,jetbrains-agent-20200227.zip直接拖入就好了。</p>
+<p>some tool for mac</p>
 <p>查看当前环境变量 : env</p>
 <p>Packet Sender  </p>
 <p>tcp ip tool</p>
@@ -10728,6 +10745,7 @@ $ sudo apt upgrade
 <p><a href="https://www.kaelli.com/43.html">https://www.kaelli.com/43.html</a></p>
 <p><a href="https://www.jianshu.com/p/058c54948ca5">https://www.jianshu.com/p/058c54948ca5</a></p>
 <p><a href="https://juejin.cn/post/6888222422760488974#heading-51">https://juejin.cn/post/6888222422760488974#heading-51</a></p>
+<p><a href="https://github.com/Omooo/Android_QA">https://github.com/Omooo/Android_QA</a></p>
 ]]></content>
       <tags>
         <tag>inter</tag>
@@ -13702,5 +13720,14 @@ Socket
       <tags>
         <tag>inter</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>kotlin_elementary</title>
+    <url>/2021/08/19/kotlin-elementary/</url>
+    <content><![CDATA[<h4 id="Kotlin内置数据类型"><a href="#Kotlin内置数据类型" class="headerlink" title="Kotlin内置数据类型"></a>Kotlin内置数据类型</h4><p><img src="/2021/08/19/kotlin-elementary/2021-08-19_datatype.png"></p>
+]]></content>
+      <categories>
+        <category>kotlin</category>
+      </categories>
   </entry>
 </search>

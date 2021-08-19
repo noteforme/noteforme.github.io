@@ -86,6 +86,231 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-View_CanvasApi" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/11/12/View_CanvasApi/">View_CanvasApi</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-11-12T04:34:50.000Z" itemprop="datePublished">2017年11月12日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/VIEW/">VIEW</a>
+  </div>
+
+      
+      
+<a href="/2017/11/12/View_CanvasApi/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="Canvas的常用操作速查表"><a href="#Canvas的常用操作速查表" class="headerlink" title="Canvas的常用操作速查表"></a>Canvas的常用操作速查表</h4><table>
+<thead>
+<tr>
+<th>操作类型</th>
+<th>相关API</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>绘制颜色</td>
+<td>drawColor, drawRGB, drawARGB</td>
+<td>使用单一颜色填充整个画布</td>
+</tr>
+<tr>
+<td>绘制基本形状</td>
+<td>drawPoint, drawPoints, drawLine, drawLines, drawRect, drawRoundRect, drawOval, drawCircle, drawArc</td>
+<td>依次为 点、线、矩形、圆角矩形、椭圆、圆、圆弧</td>
+</tr>
+<tr>
+<td>绘制图片</td>
+<td>drawBitmap, drawPicture</td>
+<td>绘制位图和图片</td>
+</tr>
+<tr>
+<td>绘制文本</td>
+<td>drawText,    drawPosText, drawTextOnPath</td>
+<td>依次为 绘制文字、绘制文字时指定每个文字位置、根据路径绘制文字</td>
+</tr>
+<tr>
+<td>绘制路径</td>
+<td>drawPath</td>
+<td>绘制路径，绘制贝塞尔曲线时也需要用到该函数</td>
+</tr>
+<tr>
+<td>顶点操作</td>
+<td>drawVertices, drawBitmapMesh</td>
+<td>通过对顶点操作可以使图像形变，drawVertices直接对画布作用、 drawBitmapMesh只对绘制的Bitmap作用</td>
+</tr>
+<tr>
+<td>画布剪裁</td>
+<td>clipPath,    clipRect</td>
+<td>设置画布的显示区域</td>
+</tr>
+<tr>
+<td>画布快照</td>
+<td>save, restore, saveLayerXxx, restoreToCount, getSaveCount</td>
+<td>依次为 保存当前状态、 回滚到上一次保存的状态、 保存图层状态、 回滚到指定状态、 获取保存次数</td>
+</tr>
+<tr>
+<td>画布变换</td>
+<td>translate, scale, rotate, skew</td>
+<td>依次为 位移、缩放、 旋转、错切</td>
+</tr>
+<tr>
+<td>Matrix(矩阵)</td>
+<td>getMatrix, setMatrix, concat</td>
+<td>实际画布的位移，缩放等操作的都是图像矩阵Matrix，只不过Matrix比较难以理解和使用，故封装了一些常用的方法。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>PS： Canvas常用方法在上面表格中已经全部列出了，当然还存在一些其他的方法未列出，具体可以参考官方文档 <a target="_blank" rel="noopener" href="http://developer.android.com/reference/android/graphics/Canvas.html">Canvas</a></p>
+</blockquote>
+<h4 id="Use-Canvas"><a href="#Use-Canvas" class="headerlink" title="Use Canvas"></a>Use Canvas</h4><h5 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h5><ul>
+<li>lineTo简单实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">canvas.translate(DeviceUtil.mWidth / <span class="number">2</span>, DeviceUtil.mHeight / <span class="number">2</span>); <span class="comment">//原点移动到屏幕中心</span></span><br><span class="line">   Path path = <span class="keyword">new</span> Path();</span><br><span class="line">   path.lineTo(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">   path.lineTo(<span class="number">200</span>, <span class="number">0</span>);</span><br><span class="line">   canvas.drawPath(path, mPaint);</span><br></pre></td></tr></table></figure>
+
+<img src="/2017/11/12/View_CanvasApi/custoview_02.jpg" alt="customview" style="zoom: 25%;">
+
+<p>从字面意思 lineto,顾名思义肯定就有from的坐标点，再看这个借的图，第一条线是从原点开始的，第二条线是从A开始的，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path.close();  <span class="comment">//形成封闭的图形</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>   这些操作都可以叠加</p>
+<ul>
+<li><p>Rect RectF区别: Rect是使用int类型作为数值，RectF是使用float类型作为数值。</p>
+<p>四个参数是 矩形左上角和右下角两个点的坐标</p>
+</li>
+<li><p>画线</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Path path = <span class="keyword">new</span> Path();</span><br><span class="line">path.moveTo(<span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">path.rLineTo(<span class="number">100</span>, <span class="number">200</span>);</span><br><span class="line">canvas.drawPath(path, mPaint);</span><br></pre></td></tr></table></figure>
+
+<h5 id="Draw-Circle"><a href="#Draw-Circle" class="headerlink" title="Draw Circle"></a>Draw Circle</h5><ul>
+<li><p>画笔</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mPaint = <span class="keyword">new</span> <span class="constructor">Paint()</span>;</span><br><span class="line">mPaint.set<span class="constructor">Color(Color.BLUE)</span>;</span><br><span class="line">mPaint.set<span class="constructor">Style(Paint.Style.FILL)</span>; <span class="comment">// Fill是空心圆 ，STROKE实心圆,</span></span><br><span class="line">空心圆就需要设置setStrokeWidth这个属性</span><br></pre></td></tr></table></figure>
+
+<p>canvas.drawCircle(getWidth()/2,getHeight()/2,getWidth()/2,mPaint);</p>
+<p>public void drawArc(RectF oval, float startAngle, float sweepAngle, boolean useCenter, Paint paint)</p>
+<p>oval :指定圆弧的外轮廓矩形区域。<br>startAngle: 圆弧起始角度，单位为度。<br>sweepAngle: 圆弧扫过的角度(起始位置 X轴)，顺时针方向，单位为度,从右中间开始为零度。<br>useCenter: 如果为True时，在绘制圆弧时将圆心包括在内，通常用来绘制扇形</p>
+<p>RectF是矩形的内接圆,left top right bottom分别对象 左上角和右下角 坐标</p>
+</li>
+</ul>
+<h5 id="drawText"><a href="#drawText" class="headerlink" title="drawText"></a>drawText</h5><p>坐标(0,0)位于左下角</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">canvas</span>?.drawText(<span class="string">&quot;测试文字&quot;</span>,<span class="number">0</span>f,<span class="number">0</span>f,mPaint)</span><br></pre></td></tr></table></figure>
+
+<p>measure textSize </p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">val</span> kgRect = <span class="constructor">Rect()</span></span><br><span class="line">var kgText = <span class="string">&quot;hello world&quot;</span></span><br><span class="line">mDialPaint.get<span class="constructor">TextBounds(<span class="params">kgText</span>,0,<span class="params">kgText</span>.<span class="params">length</span>,<span class="params">kgRect</span>)</span></span><br><span class="line">var txtHeight = kgRect.height<span class="literal">()</span></span><br><span class="line">var txtWidth = kgRect.width<span class="literal">()</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">canvas</span><span class="selector-class">.drawPoint</span>(<span class="number">200</span>, <span class="number">200</span>, mPaint);</span><br><span class="line">       <span class="selector-tag">canvas</span><span class="selector-class">.drawPoints</span>(new <span class="attribute">float</span><span class="selector-attr">[]</span>&#123;          //绘制一组点，坐标位置由<span class="attribute">float</span>数组指定</span><br><span class="line">               <span class="number">500</span>, <span class="number">500</span>,</span><br><span class="line">               <span class="number">500</span>, <span class="number">600</span>,</span><br><span class="line">               <span class="number">500</span>, <span class="number">700</span></span><br><span class="line">       &#125;, mPaint);</span><br></pre></td></tr></table></figure>
+
+<p>位移(translate)</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在坐标原点绘制一个黑色圆形</span></span><br><span class="line">    <span class="selector-tag">canvas</span><span class="selector-class">.translate</span>(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">    <span class="selector-tag">canvas</span><span class="selector-class">.drawCircle</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, mPaint);</span><br><span class="line">    <span class="comment">// 在坐标原点绘制一个蓝色圆形</span></span><br><span class="line">    <span class="selector-tag">mPaint</span><span class="selector-class">.setColor</span>(Color.BLUE);</span><br><span class="line">    <span class="selector-tag">canvas</span><span class="selector-class">.translate</span>(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">    <span class="selector-tag">canvas</span><span class="selector-class">.drawCircle</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, mPaint);</span><br></pre></td></tr></table></figure>
+
+<p>缩放(scale)</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">canvas.translate(mWidth<span class="operator"> / </span><span class="number">2</span>, mHeight<span class="operator"> / </span><span class="number">2</span>);</span><br><span class="line">   RectF rect = <span class="keyword">new</span> <span class="constructor">RectF(0, -400, 400, 0)</span>;   <span class="comment">// 矩形区域</span></span><br><span class="line">   mPaint.set<span class="constructor">Color(Color.BLACK)</span>;           <span class="comment">// 绘制黑色矩形</span></span><br><span class="line">   canvas.draw<span class="constructor">Rect(<span class="params">rect</span>, <span class="params">mPaint</span>)</span>;</span><br><span class="line">   canvas.scale(-<span class="number">0.5</span>f, -<span class="number">0.5</span>f);          <span class="comment">// 画布缩放  &lt;-- 缩放中心向右偏移了200个单位</span></span><br><span class="line">   mPaint.set<span class="constructor">Color(Color.BLUE)</span>;            <span class="comment">// 绘制蓝色矩形</span></span><br><span class="line">   canvas.draw<span class="constructor">Rect(<span class="params">rect</span>, <span class="params">mPaint</span>)</span>;</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">   RectF rect = <span class="keyword">new</span> <span class="constructor">RectF(-400, -400, 400, 400)</span>;</span><br><span class="line">   canvas.draw<span class="constructor">Rect(<span class="params">rect</span>, <span class="params">mPaint</span>)</span>;</span><br><span class="line">   <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">       canvas.scale(<span class="number">0.9</span>f, <span class="number">0.9</span>f);</span><br><span class="line">       canvas.draw<span class="constructor">Rect(<span class="params">rect</span>, <span class="params">mPaint</span>)</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>旋转(rotate)</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">canvas</span><span class="selector-class">.rotate</span>(<span class="number">180</span>);</span><br></pre></td></tr></table></figure>
+
+<h5 id="drawPicture-三个方法"><a href="#drawPicture-三个方法" class="headerlink" title="drawPicture 三个方法"></a>drawPicture 三个方法</h5><blockquote>
+<p>public void drawPicture (Picture picture) </p>
+<p>public void drawPicture (Picture picture, Rect dst) </p>
+<p>public void drawPicture (Picture picture, RectF dst)</p>
+</blockquote>
+<h5 id="drawBitmap-三个方法"><a href="#drawBitmap-三个方法" class="headerlink" title="drawBitmap 三个方法"></a>drawBitmap 三个方法</h5><blockquote>
+<p>// 第一种 public void drawBitmap (Bitmap bitmap, Matrix matrix, Paint paint) </p>
+<p>// 第二种 public void drawBitmap (Bitmap bitmap, float left, float top, Paint paint)</p>
+<p>// 第三种 public void drawBitmap (Bitmap bitmap, Rect src, Rect dst, Paint paint) public void drawBitmap (Bitmap bitmap, Rect src, RectF dst, Paint paint)</p>
+</blockquote>
+<p>直接看第三种方法</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 指定图片绘制区域(左上角的四分之一)</span></span><br><span class="line">Rect src = <span class="keyword">new</span> <span class="constructor">Rect(0, 0, <span class="params">bitmap</span>.<span class="params">getWidth</span>()</span><span class="operator"> / </span><span class="number">2</span>, bitmap.get<span class="constructor">Height()</span><span class="operator"> / </span><span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指定图片在屏幕上显示的区域</span></span><br><span class="line">Rect dst = <span class="keyword">new</span> <span class="constructor">Rect(0, 0, 400, 500)</span>;</span><br><span class="line"><span class="comment">//绘制图片</span></span><br><span class="line">canvas.draw<span class="constructor">Bitmap(<span class="params">bitmap</span>, <span class="params">src</span>, <span class="params">dst</span>, <span class="params">null</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Angle</p>
+<p><strong>在常见的数学坐标系中角度增大方向为逆时针，</strong></p>
+<p><strong>在默认的屏幕坐标系中角度增大方向为顺时针。</strong></p>
+<p>sweepAngle扫过的角度</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">drawArc</span>(<span class="variable">@NonNull</span> RectF oval, float startAngle, float sweepAngle, boolean useCenter,</span><br><span class="line">        <span class="variable">@NonNull</span> Paint paint)</span><br></pre></td></tr></table></figure>
+
+<p>canvas?.drawArc(rectF,0f,145f,false,mDialPaint)</p>
+<h5 id="save-restore"><a href="#save-restore" class="headerlink" title="save restore"></a>save restore</h5><p>SaveRestoreView</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   canvas?.drawLine(<span class="number">0</span>f,<span class="number">200</span>f,<span class="number">700</span>f,<span class="number">200</span>f,linePaint)</span><br><span class="line"><span class="regexp">//</span>        canvas?.save()  <span class="regexp">//</span>将画布状态保存</span><br><span class="line">   canvas?.rotate(<span class="number">90</span>f, px <span class="regexp">/ 2, py /</span> <span class="number">2</span>);</span><br><span class="line"><span class="regexp">//</span>        canvas?.restore();<span class="regexp">//</span>恢复画布状态 这个操作能撤销到 上次保存的画布状态</span><br><span class="line">   canvas?.drawLine(<span class="number">0</span>f,<span class="number">400</span>f,<span class="number">700</span>f,<span class="number">400</span>f,bgPaint)</span><br></pre></td></tr></table></figure>
+
+<p>运行效果：</p>
+<img src="/2017/11/12/View_CanvasApi/Screen_Shot_2020-02-25_0.44.15.png" style="zoom: 50%;">
+
+
+
+<p>打开注释后的运行效果，这样运行后相当于 没有发生选择画布这件事。</p>
+<img src="/2017/11/12/View_CanvasApi/Screen_Shot_2020-02-25_10.46.05.png" alt="Screen_Shot_2020-02-25_10.46.05" style="zoom:50%;">
+
+
+
+<h4 id="saveslayer-图层"><a href="#saveslayer-图层" class="headerlink" title="saveslayer 图层"></a>saveslayer 图层</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cquwentao/article/details/51423371">https://blog.csdn.net/cquwentao/article/details/51423371</a></p>
+<p> <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0bd672626c8d">https://www.jianshu.com/p/0bd672626c8d</a></p>
+<p>Canvas demo</p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/better-programming/learn-all-android-canvas-draw-functions-dd5d6595884a">https://medium.com/better-programming/learn-all-android-canvas-draw-functions-dd5d6595884a</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/13/index.html">http://noteforme.github.io.com/page/13/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-Gogs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1385,83 +1610,6 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
 </article>
 
 
-  <article id="post-DesignPattern_Builder" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/10/07/DesignPattern_Builder/">DesignPattern-Builder</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-10-07T09:45:46.000Z" itemprop="datePublished">2017年10月07日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
-  </div>
-
-      
-      
-<a href="/2017/10/07/DesignPattern_Builder/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Builder模式"><a href="#Builder模式" class="headerlink" title="Builder模式"></a>Builder模式</h1><p>不直接生成想要的对象，而是让客户端利用所有必要的参数调用构造器（或者静态工厂），得到一个builder对象，然后客户端在builder对象上调用类似于setter的方法，来设置每个相关的可选参数</p>
-<p> 既能保证像重叠构造器模式那样的安全性，也能保证像JavaBeans模式那么好的可读性</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NutritionFacts_03_Builder</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> servingSize;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> servings;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> calories;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> fat;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> sodium;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> carbohydrate;</span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span>  <span class="class"><span class="keyword">class</span>  <span class="title">Builder</span></span>&#123;</span><br><span class="line">        <span class="comment">//Required parameters</span></span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> servingSize;</span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> servings;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Optional parameters = initialized to default values</span></span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">int</span> calories     = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">int</span> fat          = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">int</span> carbohydrate = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">int</span> sodium       = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">(<span class="keyword">int</span> servingSize, <span class="keyword">int</span> servings)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.servingSize = servingSize;</span><br><span class="line">            <span class="keyword">this</span>.servings = servings;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span>  Builder <span class="title">calories</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            calories = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  Builder <span class="title">fat</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.fat = fat;</span><br><span class="line">            <span class="keyword">return</span>  <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  Builder <span class="title">carbohydrate</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            carbohydrate = val;</span><br><span class="line">            <span class="keyword">return</span>  <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  Builder <span class="title">sodium</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            sodium = val;</span><br><span class="line">            <span class="keyword">return</span>  <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  NutritionFacts_03_Builder <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">return</span>  <span class="keyword">new</span> NutritionFacts_03_Builder(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">NutritionFacts_03_Builder</span><span class="params">(Builder builder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.servingSize = builder.servingSize;</span><br><span class="line">        <span class="keyword">this</span>.servings = builder.servings;</span><br><span class="line">        <span class="keyword">this</span>.calories = builder.calories;</span><br><span class="line">        <span class="keyword">this</span>.fat = builder.fat;</span><br><span class="line">        <span class="keyword">this</span>.sodium = builder.sodium;</span><br><span class="line">        <span class="keyword">this</span>.carbohydrate = builder.carbohydrate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        NutritionFacts_03_Builder cocaCola = <span class="keyword">new</span> NutritionFacts_03_Builder.Builder(<span class="number">240</span>,<span class="number">9</span>)</span><br><span class="line">                .calories(<span class="number">100</span>).sodium(<span class="number">35</span>).carbohydrate(<span class="number">27</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p> 返回的this时怎么替代对象的</p>
-<h5 id="对象创建更加灵活"><a href="#对象创建更加灵活" class="headerlink" title="对象创建更加灵活"></a>对象创建更加灵活</h5><p>当 isRef 为 true 的时候，arg 表示 String 类型的 refBeanId，type 不需要设置；当 isRef 为 false 的时候，arg、type 都需要设置</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConstructorArg</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">boolean</span> isRef;</span><br><span class="line">    <span class="keyword">private</span> Class <span class="keyword">type</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Object</span> arg;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="title">ConstructorArg</span>(<span class="params">Builder builder</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.isRef = isRef;</span><br><span class="line">        <span class="built_in">this</span>.type = <span class="keyword">type</span>;</span><br><span class="line">        <span class="built_in">this</span>.arg = arg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">boolean</span> isRef;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> Class <span class="keyword">type</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">Object</span> arg;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="title">Builder</span>(<span class="params"><span class="built_in">boolean</span> isRef</span>)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.isRef = isRef;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> Builder <span class="function"><span class="title">setType</span>(<span class="params">Class <span class="keyword">type</span></span>)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.type = <span class="keyword">type</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> Builder <span class="function"><span class="title">setArg</span>(<span class="params"><span class="built_in">Object</span> arg</span>)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.arg = arg;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> ConstructorArg <span class="function"><span class="title">build</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (isRef) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!(arg <span class="keyword">instanceof</span> <span class="built_in">String</span>)) &#123;</span><br><span class="line">                    <span class="comment">//这里refBeanId是ConstructorArg吗？只是判断了下arg类型是否为String</span></span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;当 isRef 为 true 的时候，arg 表示 String 类型refBeanId&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">type</span> != <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;当 isRef 为 true 的时候，type 不需要设置&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!isRef) &#123;</span><br><span class="line">                <span class="keyword">if</span> (arg == <span class="literal">null</span> || <span class="keyword">type</span> == <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;当 isRef 为 false 的时候，arg、type 都需要设置&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ConstructorArg(<span class="built_in">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/13/index.html">http://noteforme.github.io.com/page/13/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1480,6 +1628,10 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
       <ul>
         
           <li>
+            <a href="/2021/08/19/kotlin-elementary/">kotlin_elementary</a>
+          </li>
+        
+          <li>
             <a href="/2021/06/17/kmp/">kmp</a>
           </li>
         
@@ -1493,10 +1645,6 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
         
           <li>
             <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/21/Data-Sort/">Data_Sort</a>
           </li>
         
       </ul>
@@ -1518,7 +1666,7 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1528,7 +1676,7 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 

@@ -86,6 +86,111 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-Camera" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/28/Camera/">Camera</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-28T14:16:43.000Z" itemprop="datePublished">2017年08月28日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/08/28/Camera/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://developer.android.com/training/camera/photobasics.html#TaskPath">https://developer.android.com/training/camera/photobasics.html#TaskPath</a></p>
+<h5 id="Get-the-thumbnail-缩略图"><a href="#Get-the-thumbnail-缩略图" class="headerlink" title="Get the thumbnail(缩略图)"></a>Get the thumbnail(缩略图)</h5><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> REQUEST_IMAGE_CAPTURE = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btAlbum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Intent takePictureIntent = <span class="keyword">new</span> <span class="built_in">Intent</span>(</span><br><span class="line">               Intent.ACTION_PICK,</span><br><span class="line">               MediaStore.Images.Media.EXTERNAL_CONTENT_URI);</span><br><span class="line">       <span class="built_in">startActivityForResult</span>(takePictureIntent, REQUEST_IMAGE_CAPTURE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public void on<span class="constructor">ActivityResult(<span class="params">int</span> <span class="params">requestCode</span>, <span class="params">int</span> <span class="params">resultCode</span>, Intent <span class="params">data</span>)</span> &#123;</span><br><span class="line">      super.on<span class="constructor">ActivityResult(<span class="params">requestCode</span>, <span class="params">resultCode</span>, <span class="params">data</span>)</span>;</span><br><span class="line">   <span class="keyword">if</span> (requestCode<span class="operator"> == </span>REQUEST_IMAGE_CAPTURE<span class="operator"> &amp;&amp; </span>resultCode<span class="operator"> == </span>Activity.RESULT_OK) &#123;</span><br><span class="line">            data?.extras?.<span class="keyword">let</span> &#123;</span><br><span class="line">                <span class="keyword">val</span> imageBitmap = it.get(<span class="string">&quot;data&quot;</span>) <span class="keyword">as</span> Bitmap</span><br><span class="line">                img_show.set<span class="constructor">ImageBitmap(<span class="params">imageBitmap</span>)</span></span><br><span class="line">       &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Save-the-full-size-photo"><a href="#Save-the-full-size-photo" class="headerlink" title="Save the full-size photo"></a>Save the full-size photo</h5><pre><code>  provider_camera.xml 
+</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">paths</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span>&gt;</span></span><br><span class="line">    &lt;external-path</span><br><span class="line">        name=&quot;my_images&quot;</span><br><span class="line">        path=&quot;Android/data/com.zhujia.land/files/Pictures&quot; /&gt;</span><br><span class="line"><span class="tag">&lt;/<span class="name">paths</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>跳转拍照 : 还得注意申请权限</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> void dispatch<span class="constructor">TakePictureIntent(<span class="params">int</span> <span class="params">num</span>)</span> &#123;</span><br><span class="line">       Intent takePictureIntent = <span class="keyword">new</span> <span class="constructor">Intent(MediaStore.ACTION_IMAGE_CAPTURE)</span>;</span><br><span class="line">       <span class="keyword">if</span> (takePictureIntent.resolve<span class="constructor">Activity(<span class="params">this</span>.<span class="params">getPackageManager</span>()</span>) != null) &#123;</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               photoFile = create<span class="constructor">ImageFile()</span>;</span><br><span class="line">           &#125; catch (IOException e) &#123;</span><br><span class="line">               e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (photoFile<span class="operator"> == </span>null) &#123;</span><br><span class="line">               return;</span><br><span class="line">           &#125;</span><br><span class="line">           Uri imgUri;</span><br><span class="line">           <span class="keyword">if</span> (Build.VERSION.SDK_INT &lt; <span class="number">24</span>) &#123;</span><br><span class="line">               imgUri = <span class="module-access"><span class="module"><span class="identifier">Uri</span>.</span></span>from<span class="constructor">File(<span class="params">photoFile</span>)</span>;</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="comment">//Android 7.0系统开始 使用本地真实的Uri路径不安全,使用FileProvider封装共享Uri</span></span><br><span class="line">               <span class="comment">//参数二:fileprovider绝对路径 com.dyb.testcamerademo：项目包名</span></span><br><span class="line">               imgUri = <span class="module-access"><span class="module"><span class="identifier">FileProvider</span>.</span></span>get<span class="constructor">UriForFile(<span class="params">this</span>, <span class="string">&quot;com.zhujia.land.fileprovider&quot;</span>, <span class="params">photoFile</span>)</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           takePictureIntent.put<span class="constructor">Extra(MediaStore.EXTRA_OUTPUT, <span class="params">imgUri</span>)</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       start<span class="constructor">ActivityForResult(<span class="params">takePictureIntent</span>, <span class="params">num</span>)</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onActivityResult</span><span class="params">(requestCode: <span class="type">Int</span>, resultCode: <span class="type">Int</span>, <span class="keyword">data</span>: <span class="type">Intent</span>?)</span></span> &#123;</span><br><span class="line">      <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, <span class="keyword">data</span>)</span><br><span class="line">      <span class="keyword">if</span> (requestCode == REQUEST_IMAGE_CAPTURE &amp;&amp; resultCode == Activity.RESULT_OK) &#123;</span><br><span class="line">          <span class="comment">//如果拍照成功，将Uri用BitmapFactory的decodeStream方法转为Bitmap</span></span><br><span class="line">          <span class="keyword">val</span> imageBitmap = BitmapFactory.decodeStream(photoURI?.let &#123;</span><br><span class="line">              contentResolver.openInputStream(</span><br><span class="line">                  it</span><br><span class="line">              )</span><br><span class="line">          &#125;)</span><br><span class="line">           galleryAddPic(mImageUriFromFile) <span class="comment">//将拍的照片添加到相册</span></span><br><span class="line">          img_show.setImageBitmap(imageBitmap)</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>照片添加到相册</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将拍的照片添加到相册</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> uri 拍的照片的Uri</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">galleryAddPic</span><span class="params">(uri: <span class="type">Uri</span>?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,uri)</span><br><span class="line">    sendBroadcast(mediaScanIntent)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>But it has a question</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">createImageFile</span><span class="params">(context: <span class="type">Context</span>)</span></span>: File? &#123;</span><br><span class="line">            <span class="comment">// Create an image file name</span></span><br><span class="line">            <span class="keyword">val</span> timeStamp: String = SimpleDateFormat(yyyyMMDD_HHmmss).format(Date())</span><br><span class="line"><span class="comment">//            val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)</span></span><br><span class="line">            <span class="keyword">val</span> storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> File.createTempFile(</span><br><span class="line">                <span class="string">&quot;JPEG_<span class="subst">$&#123;timeStamp&#125;</span>_&quot;</span>, <span class="comment">/* prefix */</span></span><br><span class="line">                <span class="string">&quot;.jpg&quot;</span>, <span class="comment">/* suffix */</span></span><br><span class="line">                storageDir <span class="comment">/* directory */</span></span><br><span class="line">            ).apply &#123;</span><br><span class="line">                <span class="comment">// Save a file: path for use with ACTION_VIEW intents</span></span><br><span class="line">                <span class="keyword">var</span> currentPhotoPath = absolutePath</span><br><span class="line">                Timber.i(<span class="string">&quot;createImageFile  <span class="variable">$currentPhotoPath</span>&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>ACTION_MEDIA_SCANNER_SCAN_FILE</code> 还有一个限制条件，那就是传递进去的文件绝对路径，必须是以 <code>Environment.getExternalStorageDirectory()</code> 方法的返回值开头。</p>
+<p>这样 ‘context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)’  这个暂时没弄好</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5ae0541df265da0b9d77e45a">https://juejin.im/post/5ae0541df265da0b9d77e45a</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f269bcda335f#">https://www.jianshu.com/p/f269bcda335f#</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/26d29e187f89">https://www.jianshu.com/p/26d29e187f89</a></p>
+<p>servlet<br><a target="_blank" rel="noopener" href="https://my.oschina.net/u/2008084/blog/524937">https://my.oschina.net/u/2008084/blog/524937</a></p>
+<p>7.0<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011418943/article/details/77712662">https://blog.csdn.net/u011418943/article/details/77712662</a></p>
+<p>Android 10</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/31esIqMudRRDBY8JDs8D4A">https://mp.weixin.qq.com/s/31esIqMudRRDBY8JDs8D4A</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5a33a5106fb9a04525782db5">https://juejin.im/post/5a33a5106fb9a04525782db5</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-ConcurrencyThreadPool" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -129,6 +234,22 @@
 
 
 
+<h4 id="线程池状态切换"><a href="#线程池状态切换" class="headerlink" title="线程池状态切换"></a>线程池状态切换</h4><p><img src="https://img2020.cnblogs.com/blog/1208468/202102/1208468-20210219204031490-460634238.png"></p>
+<p>1、RUNNING</p>
+<p>(1) 状态说明：线程池处在RUNNING状态时，能够接收新任务，以及对已添加的任务进行处理。<br> (02) 状态切换：线程池的初始化状态是RUNNING。换句话说，线程池被一旦被创建，就处于RUNNING状态，并且线程池中的任务数为0！</p>
+<ul>
+<li>1</li>
+</ul>
+<p>2、 SHUTDOWN</p>
+<p>(1) 状态说明：线程池处在SHUTDOWN状态时，不接收新任务，但能处理已添加的任务。<br> (2) 状态切换：调用线程池的shutdown()接口时，线程池由RUNNING -&gt; SHUTDOWN。</p>
+<p>3、STOP</p>
+<p>(1) 状态说明：线程池处在STOP状态时，不接收新任务，不处理已添加的任务，并且会中断正在处理的任务。<br> (2) 状态切换：调用线程池的shutdownNow()接口时，线程池由(RUNNING or SHUTDOWN ) -&gt; STOP。</p>
+<p>4、TIDYING</p>
+<p>(1)  状态说明：当所有的任务已终止，ctl记录的”任务数量”为0，线程池会变为TIDYING状态。当线程池变为TIDYING状态时，会执行钩子函数terminated()。terminated()在ThreadPoolExecutor类中是空的，若用户想在线程池变为TIDYING时，进行相应的处理；可以通过重载terminated()函数来实现。<br> (2) 状态切换：当线程池在SHUTDOWN状态下，阻塞队列为空并且线程池中执行的任务也为空时，就会由 SHUTDOWN -&gt; TIDYING。<br> 当线程池在STOP状态下，线程池中执行的任务为空时，就会由STOP -&gt; TIDYING。</p>
+<p>5、 TERMINATED</p>
+<p>(1) 状态说明：线程池彻底终止，就变成TERMINATED状态。<br> (2) 状态切换：线程池处在TIDYING状态时，执行完terminated()之后，就会由 TIDYING -&gt; TERMINATED。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/nmjhehe/article/details/115901549">https://blog.csdn.net/nmjhehe/article/details/115901549</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/east7/p/14417977.html">https://www.cnblogs.com/east7/p/14417977.html</a></p>
 <h4 id="线程池工作原理"><a href="#线程池工作原理" class="headerlink" title="线程池工作原理"></a>线程池工作原理</h4><p><img src="https://s0.lgstatic.com/i/image2/M01/AD/A3/CgoB5l3eH8mAAoJCAACEOKMHtpw036.png"></p>
 <h5 id="各参数含义"><a href="#各参数含义" class="headerlink" title="各参数含义"></a>各参数含义</h5><h6 id="corePoolSize"><a href="#corePoolSize" class="headerlink" title="corePoolSize"></a>corePoolSize</h6><p>线程池初始化时线程数默认为 0，当有新的任务提交后，会创建新线程执行任务，如果不做特殊设置，此后线程数通常不会再小于 corePoolSize ，因为它们是核心线程，即便未来可能没有可执行的任务也不会被销毁。</p>
 <h6 id="maximumPoolSize"><a href="#maximumPoolSize" class="headerlink" title="maximumPoolSize"></a>maximumPoolSize</h6><p>​    maximumPoolSize 最大线程数，线程池会在 corePoolSize 核心线程数的基础上继续创建线程来执行任务，假设任务被不断提交，线程池会持续创建线程直到线程数达到 maximumPoolSize 最大线程数，如果依然有任务被提交，这就超过了线程池的最大处理能力，这个时候线程池就会拒绝这些任务，我们可以看到实际上任务进来之后，线程池会逐一判断 corePoolSize、workQueue、maximumPoolSize，如果依然不能满足需求，则会拒绝任务。</p>
@@ -1470,197 +1591,6 @@ public interface Target &#123;
 </article>
 
 
-  <article id="post-DesignPatterns_Factory" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/08/10/DesignPatterns_Factory/">DesignPatterns  Factory</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-08-10T00:36:29.000Z" itemprop="datePublished">2017年08月10日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
-  </div>
-
-      
-      
-<a href="/2017/08/10/DesignPatterns_Factory/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>工厂方法和抽象工厂方法 都是通过工厂生产产品，由于产品都实现了相同的接口，根据获取到的产品作相应的处理</p>
-<p>工厂方法 :返回一个产品实例 ,  继承了工厂Dialog Base类,Base类抽象方法由sub类实现</p>
-<p>抽象工厂方法:可以返回一组相关的产品实例,实现了创建不同产品的抽象工厂接口</p>
-<h5 id="factory-guru"><a href="#factory-guru" class="headerlink" title="factory guru"></a>factory guru</h5><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public abstract class Dialog &#123;</span><br><span class="line">    <span class="regexp">//</span> The creator may also provide some default implementation</span><br><span class="line">    <span class="regexp">//</span> of the factory method.</span><br><span class="line">    abstract Button createButton();</span><br><span class="line"></span><br><span class="line">    <span class="regexp">//</span> Note that, despite its name, the creato<span class="string">r&#x27;s primary</span></span><br><span class="line"><span class="string">    // responsibility isn&#x27;</span>t creating products. It usually</span><br><span class="line">    <span class="regexp">//</span> contains some core business logic that relies on product</span><br><span class="line">    <span class="regexp">//</span> objects returned by the factory method. Subclasses can</span><br><span class="line">    <span class="regexp">//</span> indirectly change that business logic by overriding the</span><br><span class="line">    <span class="regexp">//</span> factory method and returning a different type of product</span><br><span class="line">    <span class="regexp">//</span> from it.</span><br><span class="line">    void render() &#123;</span><br><span class="line">        <span class="regexp">//</span> Call the factory method to create a product object.</span><br><span class="line">        Button okButton = createButton();</span><br><span class="line">        <span class="regexp">//</span> Now use the product.</span><br><span class="line">        okButton.onClick(<span class="string">&quot;closeDialog&quot;</span>);</span><br><span class="line">        okButton.render();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">WindowsDialogFac</span> <span class="keyword">extends</span> <span class="title">Dialog</span> </span>&#123;</span><br><span class="line">    <span class="type">Button</span> createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">WindowsButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">WebDialogFac</span> <span class="keyword">extends</span> <span class="title">Dialog</span> </span>&#123;</span><br><span class="line">    <span class="type">Button</span> createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">HTMLButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Button</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">render</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onClick</span><span class="params">(String  cls)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WindowsButton</span> <span class="title">implements</span> <span class="title">Button</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">render</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;WindowsButton   render()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(<span class="keyword">String</span> cls)</span> </span>&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;WindowsButton   onClick &quot;</span>+cls);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HTMLButton</span> <span class="title">implements</span> <span class="title">Button</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">render</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;HTMLButton   render()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(<span class="keyword">String</span> cls)</span> </span>&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;HTMLButton   onClick &quot;</span>+cls);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    Dialog dialog;</span><br><span class="line"></span><br><span class="line">    String configOs = <span class="string">&quot;Windows&quot;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">initialize</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (configOs.equals(<span class="string">&quot;Windows&quot;</span>)) &#123;</span><br><span class="line">            dialog = <span class="keyword">new</span> WindowsDialogFac();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (configOs.equals(<span class="string">&quot;HTML&quot;</span>)) &#123;</span><br><span class="line">            dialog = <span class="keyword">new</span> WebDialogFac();</span><br><span class="line">        &#125; <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">&quot;Error! Unknown operating system.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The client code works with an instance of a concrete</span></span><br><span class="line">    <span class="comment">// creator, albeit through its base interface. As long as</span></span><br><span class="line">    <span class="comment">// the client keeps working with the creator via the base</span></span><br><span class="line">    <span class="comment">// interface, you can pass it any creator&#x27;s subclass.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        initialize();</span><br><span class="line">        dialog.render();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="abstact-guru"><a href="#abstact-guru" class="headerlink" title="abstact guru"></a>abstact guru</h5><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * <span class="regexp">//</span> 抽象工厂接口声明了一组能返回不同抽象产品的方法。这些产品属于同一个系列</span><br><span class="line"> * <span class="regexp">//</span> 且在高层主题或概念上具有相关性。同系列的产品通常能相互搭配使用。系列产</span><br><span class="line"> * <span class="regexp">//</span> 品可有多个变体，但不同变体的产品不能搭配使用。</span><br><span class="line"> */</span><br><span class="line">public interface GUIFactory &#123;</span><br><span class="line">    Button createButton();</span><br><span class="line">    CheckBox createCheckBox();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Concrete factories produce a family of products that belong</span></span><br><span class="line"><span class="comment">// to a single variant. The factory guarantees that the</span></span><br><span class="line"><span class="comment">// resulting products are compatible. Signatures of the concrete</span></span><br><span class="line"><span class="comment">// factory&#x27;s methods return an abstract product, while inside</span></span><br><span class="line"><span class="comment">// the method a concrete product is instantiated.</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WinFactory</span> <span class="keyword"><span class="keyword">implements</span>  <span class="type">GUIFactory</span></span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Button createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">WinButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> CheckBox createCheckBox() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">WinCheckbox</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MacFactory</span> <span class="keyword"><span class="keyword">implements</span>  <span class="type">GUIFactory</span></span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Button createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">MacButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> CheckBox createCheckBox() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">MacCheckbox</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * // 系列产品中的特定产品必须有一个基础接口。所有产品变体都必须实现这个接口。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="symbol">Button</span> &#123;</span><br><span class="line">    <span class="built_in">void</span>  paint();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Concrete products are created by corresponding concrete</span></span><br><span class="line"><span class="comment">// factories.</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="symbol">WinButton</span> <span class="symbol">implements</span> <span class="symbol">Button</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">void</span> paint() &#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">&quot;根据 Windows 样式渲染按钮   WinButton&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="symbol">MacButton</span> <span class="symbol">implements</span> <span class="symbol">Button</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">void</span> paint() &#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">&quot;根据 macOs 样式渲染按钮 MacButton&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是另一个产品的基础接口。所有产品都可以互动，但是只有相同具体变体的产</span></span><br><span class="line"><span class="comment">// 品之间才能够正确地进行交互。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CheckBox</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span>  <span class="title">paint</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="symbol">WinCheckbox</span> <span class="symbol">implements</span>  <span class="symbol">CheckBox</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">void</span> paint() &#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">&quot;根据 Win 样式渲染复选框。   WinCheckbox&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="symbol">MacCheckbox</span> <span class="symbol">implements</span>  <span class="symbol">CheckBox</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">void</span> paint() &#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">&quot;根据 macOS 样式渲染复选框。   MacCheckbox&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> GUIFactory factory;</span><br><span class="line">    <span class="keyword">private</span> Button button;</span><br><span class="line">    <span class="keyword">private</span> CheckBox checkBox;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="title">Application</span>(<span class="params">GUIFactory factory</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.factory = factory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">createUi</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.button = factory.createButton();</span><br><span class="line">        <span class="built_in">this</span>.checkBox = factory.createCheckBox();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span>  <span class="built_in">void</span> <span class="function"><span class="title">paint</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        button.paint();</span><br><span class="line">        checkBox.paint();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><a target="_blank" rel="noopener" href="https://refactoring.guru/design-patterns/abstract-factory">https://refactoring.guru/design-patterns/abstract-factory</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20367734">https://www.zhihu.com/question/20367734</a></p>
-<h5 id="Static-Factory（静态工厂模式）"><a href="#Static-Factory（静态工厂模式）" class="headerlink" title="Static Factory（静态工厂模式）"></a>Static Factory（静态工厂模式）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="symbol">Cat</span> <span class="symbol">implements</span> <span class="symbol">Animal</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">void</span> move() &#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">&quot;Cat move&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<ol>
-<li>工厂类　对实例类进行管理和创建</li>
-</ol>
-<pre><code>   public class Factory &#123;
-    //静态工厂方法
-    public static Cat produceCat() &#123;
-        return new Cat();
-    &#125;
-
-   public static Dog produceDog() &#123;
-        return new Dog();
-    &#125;
-
-    public static void main(String[] args) &#123;
-        Animal cat = Factory.produceCat();
-        cat.move();
-
-        Dog dog = Factory.produceDog();
-        dog.move();
-        dog.eatBone();
-     &#125;
-    &#125;`
-</code></pre>
-<p>假如我要实例化一个pig对象,那么肯定是要在Factory做添加的，接下来看看可以不修改其他类实现需求</p>
-<ol start="2">
-<li>Abstract Factory(抽象工厂 elementary )</li>
-</ol>
-<pre><code> public interface Provider &#123;
-  Animal produce();
- &#125;
- 
- public class DogFactory implements  Provider &#123;
-   @Override
-   public Animal produce() &#123;
-    return new Dog();
-   &#125;
- &#125;
-
-
-
-public class CatFactory implements Provider &#123;
-    @Override
-    public Animal produce() &#123;
-        return new Cat();
-    &#125;
-&#125;
-</code></pre>
-<p>​    Provider provider = new CatFactory();<br>​     Animal cat = provider.produce();<br>​    cat.move();<br>  如果要实例化Pig，添加一个PigFactory 就可以了</p>
-<h5 id="Simple-factory"><a href="#Simple-factory" class="headerlink" title="Simple factory"></a>Simple factory</h5><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PizzaStore</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    SimplePizzaFactory factory;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="title">PizzaStore</span>(<span class="params">SimplePizzaFactory factory</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.factory = factory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Pizza <span class="function"><span class="title">orderPizza</span>(<span class="params"><span class="built_in">String</span> <span class="keyword">type</span></span>)</span> &#123;</span><br><span class="line">        Pizza pizza = factory.createPizza(<span class="keyword">type</span>);</span><br><span class="line">        pizza.prepare();</span><br><span class="line">        pizza.bake();</span><br><span class="line">        pizza.cut();</span><br><span class="line">        pizza.box();</span><br><span class="line">        <span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> class SimplePizzaFactory &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Pizza createPizza(<span class="built_in">String</span> <span class="keyword">type</span>) &#123;</span><br><span class="line">        Pizza pizza = <span class="built_in">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;cheese&quot;</span>.<span class="keyword">equals</span>(<span class="keyword">type</span>)) &#123;</span><br><span class="line">            pizza = <span class="literal">new</span> CheesePizza();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;pepperoni&quot;</span>.<span class="keyword">equals</span>(<span class="keyword">type</span>)) &#123;</span><br><span class="line">            pizza = <span class="literal">new</span> PepperoniPizza();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;calm&quot;</span>.<span class="keyword">equals</span>(<span class="keyword">type</span>)) &#123;</span><br><span class="line">            pizza = <span class="literal">new</span> GreekPizza();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PizzaStore</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    SimplePizzaFactory factory;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="title">PizzaStore</span>(<span class="params">SimplePizzaFactory factory</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.factory = factory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Pizza <span class="function"><span class="title">orderPizza</span>(<span class="params"><span class="built_in">String</span> <span class="keyword">type</span></span>)</span> &#123;</span><br><span class="line">        Pizza pizza = factory.createPizza(<span class="keyword">type</span>);</span><br><span class="line">        pizza.prepare();</span><br><span class="line">        pizza.bake();</span><br><span class="line">        pizza.cut();</span><br><span class="line">        pizza.box();</span><br><span class="line">        <span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Pizza</span> &#123;</span></span><br><span class="line">    <span class="keyword">String</span> name;</span><br><span class="line">    <span class="keyword">String</span> dough;</span><br><span class="line">    <span class="keyword">String</span> sauce;</span><br><span class="line">    ArrayList topping = <span class="keyword">new</span> <span class="built_in">ArrayList</span>();</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span>   <span class="keyword">void</span> <span class="title">prepare</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="built_in">printOperation</span>(<span class="string">&quot;preparing     &quot;</span> + name);</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;Tossing dough...&quot;</span>);</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;Adding sauce&quot;</span>);</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;Adding topping: &quot;</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;topping.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            System.out.<span class="built_in">println</span>(<span class="string">&quot;    &quot;</span>+topping.<span class="built_in">get</span>(i));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">bake</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="built_in">printOperation</span>(<span class="string">&quot;bake  for 25 minutes at 350&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>   <span class="keyword">void</span> <span class="title">cut</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="built_in">printOperation</span>(<span class="string">&quot;Cutting the pizza into diagonal slices&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">box</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="built_in">printOperation</span>(<span class="string">&quot;Place pizza in official pizzaStore bx&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">printOperation</span><span class="params">(<span class="keyword">String</span> op)</span> </span>&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="comment">/*getClass().getSimpleName() + &quot; &quot; +*/</span> op);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">String</span> <span class="title">getName</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span>  name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SimplePizzaFactory calmFactory = <span class="keyword">new</span> <span class="constructor">SimplePizzaFactory()</span>;</span><br><span class="line">PizzaStore calmPizza = <span class="keyword">new</span> <span class="constructor">PizzaStore(<span class="params">calmFactory</span>)</span>;</span><br><span class="line">calmPizza.order<span class="constructor">Pizza(<span class="string">&quot;calm&quot;</span>)</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1679,6 +1609,10 @@ public class CatFactory implements Provider &#123;
       <ul>
         
           <li>
+            <a href="/2021/08/19/kotlin-elementary/">kotlin_elementary</a>
+          </li>
+        
+          <li>
             <a href="/2021/06/17/kmp/">kmp</a>
           </li>
         
@@ -1692,10 +1626,6 @@ public class CatFactory implements Provider &#123;
         
           <li>
             <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/21/Data-Sort/">Data_Sort</a>
           </li>
         
       </ul>
@@ -1717,7 +1647,7 @@ public class CatFactory implements Provider &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1727,7 +1657,7 @@ public class CatFactory implements Provider &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
