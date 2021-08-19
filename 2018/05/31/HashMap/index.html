@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>HashMap | Jon&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Jon's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/localshare/css/share.css">
+
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jon&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Cease to struggle and you cease to live. - Thomas Carlyle</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+        
+          <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-HashMap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      HashMap
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2018-05-31T14:54:44.000Z" itemprop="datePublished">2018年05月31日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+      
+        <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+      
+      
+<a href="/2018/05/31/HashMap/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h4><p>Hash函数是指把⼀个⼤范围映射到⼀个⼩范围。把⼤范围映射到⼀个⼩范围的⽬的往往是为了 节省空间，使得数据容易保存。</p>
+<h5 id="HashMap扩容机制"><a href="#HashMap扩容机制" class="headerlink" title="HashMap扩容机制"></a>HashMap扩容机制</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">     <span class="keyword">int</span> threshold;             <span class="comment">// 所能容纳的key-value对极限 </span></span><br><span class="line">     <span class="keyword">final</span> <span class="keyword">float</span> loadFactor;    <span class="comment">// 负载因子</span></span><br><span class="line">     <span class="keyword">int</span> modCount;  </span><br><span class="line">     <span class="keyword">int</span> size;  </span><br><span class="line"><span class="keyword">new</span> HashMap&lt;Integer,String&gt;(<span class="number">2</span>,<span class="number">0.75f</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Node[] table的初始化长度length(默认值是16)，Load  factor为负载因子(默认值是0.75)，threshold是HashMap所能容纳的最大数据量的Node(键值对)个数。threshold = length * Load factor。也就是说，在数组定义好长度之后，负载因子越大，所能容纳的键值对个数越多。</p>
+<p>map初始化为一个长度为2的数组，loadFactor=0.75，threshold=2*0.75=1，也就是说当put第二个key的时候，map就需要进行resize。</p>
+<p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2016/06/24/java-hashmap.html">https://tech.meituan.com/2016/06/24/java-hashmap.html</a></p>
+<h5 id="HashMap和HashTable的区别"><a href="#HashMap和HashTable的区别" class="headerlink" title="HashMap和HashTable的区别"></a>HashMap和HashTable的区别</h5><ol>
+<li>HashTable是线程安全的    </li>
+<li>HashTable key不能为空，HashMap可以.存在数组为0的位置</li>
+</ol>
+<h5 id="HashMap的实现原理-HashMap数据结构？"><a href="#HashMap的实现原理-HashMap数据结构？" class="headerlink" title="HashMap的实现原理 HashMap数据结构？"></a>HashMap的实现原理 HashMap数据结构？</h5><ol>
+<li><p>JDK1.7 Table数组+ Entry链表</p>
+</li>
+<li><p>JDK1.8 Table数组+ Entry链表/红黑树（ 为什么用红黑树）</p>
+<p><strong>红黑树有自平衡</strong>的特点，可以防止不平衡情况的发生，所以可以始终将查找的<strong>时间复杂度控制在 O(log(n))</strong></p>
+</li>
+</ol>
+<img src="https://pic1.zhimg.com/80/v2-3e203e5dcf8c12e7ebf137c344615aa4_1440w.jpg" style="zoom: 67%;">
+
+
+
+<p>​    HashMap采用Entry数组存放key-value,每个 key value组成一个实体，Entry类实际上是一个单向的链表结构，它有next指针指向下一    个实体， 1.8中链表大于8时会转成红黑树.长度降到 6 就转换回去.</p>
+<p>​    </p>
+<p>HashMap源码理解</p>
+<h5 id="HashMap如何"><a href="#HashMap如何" class="headerlink" title="HashMap如何"></a>HashMap如何</h5><h5 id="put数据（从HashMap源码角度讲解）？"><a href="#put数据（从HashMap源码角度讲解）？" class="headerlink" title="put数据（从HashMap源码角度讲解）？"></a>put数据（从HashMap源码角度讲解）？</h5><ol>
+<li><p>对key的Dashcode()做hash运算，计算index.</p>
+</li>
+<li><p>如果没碰撞直接放到bucket⾥</p>
+</li>
+<li><p>如果碰撞了，以链表的形式存在buckets后</p>
+</li>
+<li><p>如果节点已经存在就替换old value(保证key的唯⼀性)</p>
+</li>
+<li><p>如果bucket满了(超过load factor*current capacity)，就要resize</p>
+</li>
+</ol>
+<p>get数据</p>
+<ol>
+<li><p>对key的hashCode()做hash运算，计算index;</p>
+</li>
+<li><p>如果在bucket⾥的第⼀个节点⾥直接命中，则直接返回；</p>
+</li>
+<li><p>如果有冲突，则通过key.equals(k)去查找对应的Entry;分为下面两种方式.</p>
+</li>
+<li><p>若为树，则在树中通过key.equals(k)查找，O(logn)；</p>
+</li>
+<li><p>若为链表，则在链表中通过key.equals(k)查找，O(n)。</p>
+</li>
+</ol>
+<p>HashMap怎么手写实现？</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/985534b21089">https://www.jianshu.com/p/985534b21089</a></p>
+<p>HashTable实现原理</p>
+<p>ConcurrentHashMap的实现原理</p>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h5 id="HashTable-ConcurrentHashMap-区别"><a href="#HashTable-ConcurrentHashMap-区别" class="headerlink" title="HashTable  ConcurrentHashMap 区别"></a>HashTable  ConcurrentHashMap 区别</h5><p>Hashtable的实现是基于Dictionary抽象类的。Java5提供了ConcurrentHashMap，它是HashTable的替代，比HashTable的扩展性更好。</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kJ411C7hC?p=9&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1kJ411C7hC?p=9&amp;spm_id_from=pageDriver</a></p>
+<h5 id="TreeMap具体实现"><a href="#TreeMap具体实现" class="headerlink" title="TreeMap具体实现"></a>TreeMap具体实现</h5><p>TreeMap是一个有序的key-value集合，是非线程安全的，基于红黑树（Red-Black tree）实现。其映射根据<strong>键的自然顺序</strong>进行排序，或者根据<strong>创建映射时提供的 Comparator</strong> 进行排序，具体取决于使用的构造方法。其基本操作 containsKey、get、put 和 remove 的时间复杂度是 log(n) 。TreeMap是非同步的。 它的iterator 方法返回的迭代器是fail-fastl的。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/nananana/p/10426377.html">https://www.cnblogs.com/nananana/p/10426377.html</a></p>
+<h5 id="HashMap与HashSet的区别"><a href="#HashMap与HashSet的区别" class="headerlink" title="HashMap与HashSet的区别"></a>HashMap与HashSet的区别</h5><ol>
+<li><p>基于 HashMap 实现的，底层采用 HashMap 来保存元素</p>
+</li>
+<li><p>HashSet实现了Set接口，它不允许集合中有重复的值</p>
+</li>
+</ol>
+<p>HashSet与HashMap怎么判断集合元素重复？</p>
+<h5 id="l-nn为什么不一开始就使用红黑树"><a href="#l-nn为什么不一开始就使用红黑树" class="headerlink" title="l nn为什么不一开始就使用红黑树"></a>l nn为什么不一开始就使用红黑树</h5><p>因为红⿊树需要进⾏左旋，右旋，变⾊这些操作来保持平衡，⽽单链表不需要。<br>当元素⼩于8个当时候，此时做查询操作，链表结构已经能保证查询性能。<br>当元素⼤于8个的时候，此时需要红⿊树来加快查 询速度，但是新增节点的效率变慢了。<br>因此，如果⼀开始就⽤红⿊树结构，元素太少，新增效率⼜⽐较慢，⽆疑这是浪费性能的。</p>
+<h5 id="什么时候退化为链表"><a href="#什么时候退化为链表" class="headerlink" title="什么时候退化为链表"></a>什么时候退化为链表</h5><p>为6的时候退转为链表。中间有个差值7可以防⽌链表和树之间频繁的转换。<br>假设⼀下，如果设计成链表个数超过8则链表转 换成树结构，链表个数⼩于8则树结构转换成链表，<br>如果⼀个HashMap不停的插⼊、删除元素，链表个数在8左右徘徊，就会 频繁的发⽣树转链表、链表转树，效率会很低。</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=jwL1W8zEuX4">https://www.youtube.com/watch?v=jwL1W8zEuX4</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1if4y167eE?p=4">https://www.bilibili.com/video/BV1if4y167eE?p=4</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/127147909">https://zhuanlan.zhihu.com/p/127147909</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/348756860">https://zhuanlan.zhihu.com/p/348756860</a></p>
+<h4 id="ArrayMap"><a href="#ArrayMap" class="headerlink" title="ArrayMap"></a>ArrayMap</h4><p>ArrayMap类有两个非常重要的静态成员变量mBaseCache和mTwiceBaseCacheSize，用于ArrayMap所在进程的全局缓存功能：</p>
+<p><img src="http://gityuan.com/images/arraymap/cache_add.jpg"></p>
+<p><a target="_blank" rel="noopener" href="http://gityuan.com/2019/01/13/arraymap/">http://gityuan.com/2019/01/13/arraymap/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=I16lz26WyzQ">https://www.youtube.com/watch?v=I16lz26WyzQ</a></p>
+<h5 id="SparseArray"><a href="#SparseArray" class="headerlink" title="SparseArray"></a>SparseArray</h5><p> key是int类型的Map，Android再次提供效率更高的数据结构SparseArray，可避免自动装箱过程,SparseArray不需要保存key所对应的哈希值，所以比ArrayMap还能再节省1/3的内存。</p>
+<p><img src="http://gityuan.com/images/arraymap/SparseArray.jpg"></p>
+<p>SparseArray构造mKeys     mValues两个数组，默认长度10，也可以自己定义initialCapacity</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">SparseArray</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (initialCapacity == <span class="number">0</span>) &#123;</span><br><span class="line">          mKeys = EmptyArray.INT;</span><br><span class="line">          mValues = EmptyArray.OBJECT;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          mValues = ArrayUtils.newUnpaddedObjectArray(initialCapacity);</span><br><span class="line">          mKeys = <span class="keyword">new</span> <span class="keyword">int</span>[mValues.length];</span><br><span class="line">      &#125;</span><br><span class="line">      mSize = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> key, E value)</span> </span>&#123;</span><br><span class="line">   	<span class="comment">// 二分查找,key在mKeys列表中对应的index,注意binarySearch返回做了 ~操作.</span></span><br><span class="line">  	<span class="comment">//如果没找到，返回的是当前元素将要插入的位置</span></span><br><span class="line">    <span class="keyword">int</span> i = ContainerHelpers.binarySearch(mKeys, mSize, key); </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (i &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        mValues[i] = value;  <span class="comment">//找到后给对应的value数组赋值</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        i = ~i;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i &lt; mSize &amp;&amp; mValues[i] == DELETED) &#123;</span><br><span class="line">            mKeys[i] = key;</span><br><span class="line">            mValues[i] = value;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mGarbage &amp;&amp; mSize &gt;= mKeys.length) &#123;</span><br><span class="line">            gc();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Search again because indices may have changed.</span></span><br><span class="line">            i = ~ContainerHelpers.binarySearch(mKeys, mSize, key);</span><br><span class="line">        &#125;</span><br><span class="line">				<span class="comment">//插入数据，内部做了排序</span></span><br><span class="line">        mKeys = GrowingArrayUtils.insert(mKeys, mSize, i, key);</span><br><span class="line">        mValues = GrowingArrayUtils.insert(mValues, mSize, i, value);</span><br><span class="line">        mSize++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = ContainerHelpers.binarySearch(mKeys, mSize, key);</span><br><span class="line">    <span class="keyword">if</span> (i &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (mValues[i] != DELETED) &#123;</span><br><span class="line">            mValues[i] = DELETED;  <span class="comment">//标记该数据为DELETE</span></span><br><span class="line">            mGarbage = <span class="keyword">true</span>; <span class="comment">// 设置存在GC</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zxt0601/article/details/78333328">https://blog.csdn.net/zxt0601/article/details/78333328</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.jcodecraeer.com/a/anzhuokaifa/2017/0912/8504.html">http://www.jcodecraeer.com/a/anzhuokaifa/2017/0912/8504.html</a></p>
+
+        
+            <div id="toc-article">
+                
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> Inhalte</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#HashMap"><span class="toc-text">HashMap</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#HashMap%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6"><span class="toc-text">HashMap扩容机制</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HashMap%E5%92%8CHashTable%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">HashMap和HashTable的区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HashMap%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86-HashMap%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9F"><span class="toc-text">HashMap的实现原理 HashMap数据结构？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HashMap%E5%A6%82%E4%BD%95"><span class="toc-text">HashMap如何</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#put%E6%95%B0%E6%8D%AE%EF%BC%88%E4%BB%8EHashMap%E6%BA%90%E7%A0%81%E8%A7%92%E5%BA%A6%E8%AE%B2%E8%A7%A3%EF%BC%89%EF%BC%9F"><span class="toc-text">put数据（从HashMap源码角度讲解）？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#HashTable-ConcurrentHashMap-%E5%8C%BA%E5%88%AB"><span class="toc-text">HashTable  ConcurrentHashMap 区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TreeMap%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-text">TreeMap具体实现</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HashMap%E4%B8%8EHashSet%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">HashMap与HashSet的区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#l-nn%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E4%B8%80%E5%BC%80%E5%A7%8B%E5%B0%B1%E4%BD%BF%E7%94%A8%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="toc-text">l nn为什么不一开始就使用红黑树</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%80%80%E5%8C%96%E4%B8%BA%E9%93%BE%E8%A1%A8"><span class="toc-text">什么时候退化为链表</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayMap"><span class="toc-text">ArrayMap</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#SparseArray"><span class="toc-text">SparseArray</span></a></li></ol></li></ol>
+    </div>
+  </div>
+
+
+            </div>
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/2018/05/31/HashMap/">http://noteforme.github.io.com/2018/05/31/HashMap/</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+        
+<nav id="article-nav">
+  
+    <a href="/2018/06/06/DesignPatterns_Singleton/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">newer</strong>
+      <div class="article-nav-title">
+        
+          Singleton
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/24/INTERVIEW-JAVA/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">INTERVIEW-JAVA</div>
+    </a>
+  
+</nav>
+
+      
+      
+        
+
+
+
+
+
+
+
+      
+    </footer>
+  </div>
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/17/kmp/">kmp</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/21/Assembly/">Assembly</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/19/Data-LinkedList/">Data_LinkedList</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/21/Data-Sort/">Data_Sort</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 13.33px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/" rel="tag">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/" rel="tag">resume</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-link"></i> Blogroll</h3>
+    <div class="widget">
+      <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example1.com/">site-name1</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example2.com/">site-name2</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example3.com/">site-name3</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">Sitemap</a>
+        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
+        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2021 Jon.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        
+            <span>Count by <a href="http://busuanzi.ibruce.info/" target="_blank">busuanzi.</a></span>
+        
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+  
+<script src="/localshare/js/social-share.js"></script>
+
+  
+<script src="/localshare/js/qrcode.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

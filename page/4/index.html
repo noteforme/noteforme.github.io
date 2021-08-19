@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Jon&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Jon's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/localshare/css/share.css">
+
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jon&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Cease to struggle and you cease to live. - Thomas Carlyle</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+        
+          <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  <article id="post-DesignPattern-Decorator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/07/12/DesignPattern-Decorator/">DesignPattern_Decorator</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-07-12T04:37:59.000Z" itemprop="datePublished">2020年07月12日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
+  </div>
+
+      
+      
+<a href="/2020/07/12/DesignPattern-Decorator/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>装饰器模式</strong></p>
+<p>应用场景: 拓展一个类的功能或给一个类添加附加职责.</p>
+<p>优点: </p>
+<ol>
+<li>不改变原有对象的情况下给一个对象拓展功能</li>
+<li>使用不同的组合实现不同的效果</li>
+<li>符合开闭原则</li>
+</ol>
+<p><img src="/2020/07/12/DesignPattern-Decorator/2021-07-12_decorator.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteComponent</span> <span class="keyword">implements</span>  <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;拍照&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//对具体类的拓展</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteComponent1</span> <span class="keyword">implements</span>  <span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Component component;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreteComponent1</span><span class="params">(Component component)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.component = component;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;美颜&quot;</span>);</span><br><span class="line">        component.operation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//测试</span></span><br><span class="line"><span class="keyword">new</span> ConcreteComponent1(<span class="keyword">new</span> ConcreteComponent()).operation();</span><br></pre></td></tr></table></figure>
+
+<p>也可以把装饰器抽象出来</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 具体类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreateComponent</span> <span class="keyword">implements</span>  <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;拍照&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> <span class="keyword">implements</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    Component component;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Decorator</span><span class="params">(Component component)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.component = component;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        component.operation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//对具体类的拓展</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreateComponent1</span> <span class="keyword">extends</span>  <span class="title">Decorator</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreateComponent1</span><span class="params">(Component component)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(component);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;美颜&quot;</span>);</span><br><span class="line">        <span class="keyword">super</span>.operation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreateComponent2</span> <span class="keyword">extends</span>  <span class="title">Decorator</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreateComponent2</span><span class="params">(Component component)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(component);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;呵呵&quot;</span>);</span><br><span class="line">        <span class="keyword">super</span>.operation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//测试</span></span><br><span class="line"> ConcreateComponent2 concreateComponent1 = <span class="keyword">new</span> ConcreateComponent2(<span class="keyword">new</span> ConcreateComponent1(<span class="keyword">new</span> 	  ConcreateComponent()));</span><br><span class="line">        concreateComponent1.operation();</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1hp4y1D7MP?from=search&amp;seid=6785978722248254154">https://www.bilibili.com/video/BV1hp4y1D7MP?from=search&amp;seid=6785978722248254154</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Hv411r7uN?p=2">https://www.bilibili.com/video/BV1Hv411r7uN?p=2</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/4/index.html">http://noteforme.github.io.com/page/4/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-LiveData" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/06/15/LiveData/">LiveData</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-06-15T03:20:42.000Z" itemprop="datePublished">2020年06月15日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/Jetpack/">Jetpack</a>
+  </div>
+
+      
+      
+<a href="/2020/06/15/LiveData/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><ol>
+<li>确保界面符合数据状态</li>
+<li>不会发生内存泄漏</li>
+<li>不会因Activity停止而导致崩溃</li>
+<li>不再需要手动处理生命周期</li>
+<li>数据始终保持最新状态</li>
+<li>适当的配置更改</li>
+<li>共享资源</li>
+</ol>
+<h4 id="livedata和viewmodel关系"><a href="#livedata和viewmodel关系" class="headerlink" title="livedata和viewmodel关系"></a>livedata和viewmodel关系</h4><p>viewmodel中的数据发生变化时通知页面</p>
+<h4 id="LiveData原理"><a href="#LiveData原理" class="headerlink" title="LiveData原理"></a>LiveData原理</h4><p>注册观察者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">observe</span><span class="params">(<span class="meta">@NonNull</span> LifecycleOwner owner, <span class="meta">@NonNull</span> Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</span><br><span class="line">     assertMainThread(<span class="string">&quot;observe&quot;</span>);</span><br><span class="line">     <span class="keyword">if</span> (owner.getLifecycle().getCurrentState() == DESTROYED) &#123;</span><br><span class="line">         <span class="comment">// ignore</span></span><br><span class="line">         <span class="keyword">return</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     LifecycleBoundObserver wrapper = <span class="keyword">new</span> LifecycleBoundObserver(owner, observer);</span><br><span class="line">     ObserverWrapper existing = mObservers.putIfAbsent(observer, wrapper);</span><br><span class="line">     <span class="keyword">if</span> (existing != <span class="keyword">null</span> &amp;&amp; !existing.isAttachedTo(owner)) &#123;</span><br><span class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Cannot add the same observer&quot;</span></span><br><span class="line">                 + <span class="string">&quot; with different lifecycles&quot;</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (existing != <span class="keyword">null</span>) &#123;</span><br><span class="line">         <span class="keyword">return</span>;</span><br><span class="line">     &#125; </span><br><span class="line">     owner.getLifecycle().addObserver(wrapper); <span class="comment">//在这里注册</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>给观察者发送消息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dispatchingValue</span><span class="params">(<span class="meta">@Nullable</span> ObserverWrapper initiator)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mDispatchingValue) &#123;</span><br><span class="line">        mDispatchInvalidated = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    mDispatchingValue = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        mDispatchInvalidated = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (initiator != <span class="keyword">null</span>) &#123;</span><br><span class="line">            considerNotify(initiator);</span><br><span class="line">            initiator = <span class="keyword">null</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (Iterator&lt;Map.Entry&lt;Observer&lt;? <span class="keyword">super</span> T&gt;, ObserverWrapper&gt;&gt; iterator =</span><br><span class="line">                    mObservers.iteratorWithAdditions(); iterator.hasNext(); ) &#123; <span class="comment">//遍历观察者，给观察者发送消息</span></span><br><span class="line">                considerNotify(iterator.next().getValue());</span><br><span class="line">                <span class="keyword">if</span> (mDispatchInvalidated) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (mDispatchInvalidated);</span><br><span class="line">    mDispatchingValue = <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="数据粘性"><a href="#数据粘性" class="headerlink" title="数据粘性"></a>数据粘性</h4><p>经过了解和使用 view model,databiding后，我觉得这个不是官方留的坑，在特定的场景可能还需要这样做，我获取手环睡眠数据此时有其他fragment还没创建，我就需要创建后才就监听到数据。</p>
+<h5 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h5><p>我们能不能再创建新的ObserverWrapper的时候，直接把mVersion的值赋给mLastVersion，这样就符合(observer.mLastVersion &gt;= mVersion)这一条件了，就不会再继续执行onChanged方法了</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/geyuecang/article/details/89028283">https://blog.csdn.net/geyuecang/article/details/89028283</a></p>
+<h5 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h5><p> singleLiveEvent</p>
+<p>其实这个方法解决的并不是粘性事件的问题，而是“数据倒灌”的问题。“数据倒灌”一词出自<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://xiaozhuanlan.com/u/kunminx">KunMinX</a>的Blog<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://xiaozhuanlan.com/topic/6719328450"><strong>重学安卓：LiveData 数据倒灌 背景缘由全貌 独家解析</strong></a>,即在setValue后,observe对此次set的value值会进行多次消费。比如进行第二次observe的时候获取到的数据是第一次的旧数据。这样会带来不可预期的后果。</p>
+<h4 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h4><p>UnPeekLiveData</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProtectedUnPeekLiveData</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">LiveData</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">boolean</span> isAllowNullValue;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> HashMap&lt;Integer, Boolean&gt; observers = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">observeInActivity</span><span class="params">(<span class="meta">@NonNull</span> AppCompatActivity activity, <span class="meta">@NonNull</span> Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</span><br><span class="line">        LifecycleOwner owner = activity;</span><br><span class="line">        Integer storeId = System.identityHashCode(observer);<span class="comment">//源码这里是activity.getViewModelStore()，是为了保证同一个ViewModel环境下&quot;唯一可信源&quot;</span></span><br><span class="line">        observe(storeId, owner, observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">observe</span><span class="params">(<span class="meta">@NonNull</span> Integer storeId,</span></span></span><br><span class="line"><span class="function"><span class="params">                         <span class="meta">@NonNull</span> LifecycleOwner owner,</span></span></span><br><span class="line"><span class="function"><span class="params">                         <span class="meta">@NonNull</span> Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (observers.get(storeId) == <span class="keyword">null</span>) &#123;</span><br><span class="line">            observers.put(storeId, <span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">super</span>.observe(owner, t -&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (!observers.get(storeId)) &#123;</span><br><span class="line">                observers.put(storeId, <span class="keyword">true</span>);</span><br><span class="line">                <span class="keyword">if</span> (t != <span class="keyword">null</span> || isAllowNullValue) &#123;</span><br><span class="line">                    observer.onChanged(t);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (value != <span class="keyword">null</span> || isAllowNullValue) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Map.Entry&lt;Integer, Boolean&gt; entry : observers.entrySet()) &#123;</span><br><span class="line">                entry.setValue(<span class="keyword">false</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">super</span>.setValue(value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.setValue(<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>，为每个传入的observer对象携带一个布尔类型的值，作为其是否能进入observe方法的开关。每当有一个新的observer存进来的时候，开关默认关闭。</p>
+<p>每次setValue后，打开所有Observer的开关，允许所有observe执行。</p>
+<p>这个确实清晰，简单</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d0244c4c7cc9">https://www.jianshu.com/p/d0244c4c7cc9</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903623252508685">https://juejin.cn/post/6844903623252508685</a></p>
+<p>UnPeekLiveData</p>
+<p>或者 ELiveData </p>
+<p><a target="_blank" rel="noopener" href="https://www.ershicimi.com/p/2f57df7148300017e8a0f7227720a2e8">https://www.ershicimi.com/p/2f57df7148300017e8a0f7227720a2e8</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5b2b1b2cf265da5952314b63">https://juejin.im/post/5b2b1b2cf265da5952314b63</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/79d909b6f8bd">https://www.jianshu.com/p/79d909b6f8bd</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6892704779781275662">https://juejin.im/post/6892704779781275662</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d0244c4c7cc9">https://www.jianshu.com/p/d0244c4c7cc9</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/4/index.html">http://noteforme.github.io.com/page/4/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-THINKING" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/05/19/THINKING/">THINKING</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-05-19T01:55:11.000Z" itemprop="datePublished">2020年05月19日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/TOOL/">TOOL</a>
+  </div>
+
+      
+      
+<a href="/2020/05/19/THINKING/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://juejin.im/post/5eb168e9f265da7bb65fb27a">https://juejin.im/post/5eb168e9f265da7bb65fb27a</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.mifengtd.cn/articles/runningcheese-gtd-system.html">https://www.mifengtd.cn/articles/runningcheese-gtd-system.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/JsonChao/Awesome-Android-Notebook">https://github.com/JsonChao/Awesome-Android-Notebook</a></p>
+<p>I don’t know what to do  if I prevent me  think code or tech in my life.   I think i   love tech ,but it could’t support my career now.I l’m  look forword is that what I can do .</p>
+<p>CodeReview</p>
+<img src="/2020/05/19/THINKING/codereview3.png" alt="codereview3" style="zoom:50%;">
+
+
+
+<p><img src="/2020/05/19/THINKING/codereview4.jpg"></p>
+<img src="/2020/05/19/THINKING/codereview1.jpg" alt="CodeReview1" style="zoom: 50%;">
+
+<img src="/2020/05/19/THINKING/codereview2.jpg" alt="CodeReview1" style="zoom:50%;">
+
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/4/index.html">http://noteforme.github.io.com/page/4/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/THINK/" rel="tag">THINK</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-ActivityLayout" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/05/08/ActivityLayout/">ActivityLayout</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-05-08T01:54:32.000Z" itemprop="datePublished">2020年05月08日</time>
+</span>
+      
+      
+      
+<a href="/2020/05/08/ActivityLayout/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ii07I8Cy80MqjsqKkns_WQ">https://mp.weixin.qq.com/s/ii07I8Cy80MqjsqKkns_WQ</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b5b1b8e1747f">https://www.jianshu.com/p/b5b1b8e1747f</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/4/index.html">http://noteforme.github.io.com/page/4/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-DataStructure" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/05/06/DataStructure/">DataStructure</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-05-06T01:46:22.000Z" itemprop="datePublished">2020年05月06日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/DataStructure/">DataStructure</a>
+  </div>
+
+      
+      
+<a href="/2020/05/06/DataStructure/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>无论什么难题，降低复杂度的方法就是这三个步骤。只要你能深入理解这里的核心思想，就能把问题迎刃而解。</p>
+<p>第一步，暴力解法。在没有任何时间、空间约束下，完成代码任务的开发。</p>
+<p>第二步，无效操作处理。将代码中的无效计算、无效存储剔除，降低时间或空间复杂度。</p>
+<p>第三步，时空转换。设计合理数据结构，完成时间复杂度向空间复杂度的转移。</p>
+<p>既然说这是这门专栏的总纲，那么很显然后续的学习都是在这个总纲体系的框架中。第一步的暴力解法没有太多的套路，只要围绕你面临的问题出发，大胆发挥想象去尝试解决即可。第二步的无效操作处理中，你需要学会并掌握递归、二分法、排序算法、动态规划等常用的算法思维。第三步的时空转换，你需要对数据的操作进行细分，全面掌握常见数据结构的基础知识。再围绕问题，有针对性的设计数据结构、采用合理的算法思维，去不断完成时空转移，降低时间复杂度。</p>
+<img src="/2020/05/06/DataStructure/datastructure_overview.jpg" alt="datastructure_overview" style="zoom:67%;">
+
+<p><em><a target="_blank" rel="noopener" href="https://github.com/labuladong/fucking-algorithm">https://github.com/labuladong/fucking-algorithm</a></em></p>
+<h4 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h4><p><img src="/2020/05/06/DataStructure/%E6%89%A7%E8%A1%8C%E6%AD%A5%E9%AA%A4.png"></p>
+<p>消耗计算时间和计算空间</p>
+<h5 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h5><ul>
+<li><p>对数阶</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> count =<span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span>(count &lt; n)&#123;</span><br><span class="line">  count = count * <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>代码看到 2 * 2 * 2 … 最终离n很近，最终退出循环，2^x =n ,得到 x = log2^n,所以这个循环时间复杂度为O(logn)</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h5><p>空间方面主要体现在计算过程中,对于存储资源的消耗情况</p>
+<p>![](DataStructure/Screen Shot 2021-03-12 at 5.37.58 PM.png)</p>
+<p>![](DataStructure/Screen Shot 2021-03-12 at 5.38.08 PM.png)</p>
+<h4 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h4><p>​    </p>
+<p><img src="/2020/05/06/DataStructure/2021-04-20_15-49-24LinkedLIst.png"></p>
+<p>p,q指向的都是整体</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> data; <span class="comment">// 存储数据本身</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">pNext</span>;</span> <span class="comment">//pNext存储  它指向的下一个节点的指针</span></span><br><span class="line">&#125; NODE, *PNODE;</span><br><span class="line"><span class="comment">// NODE等价于struct node</span></span><br><span class="line"><span class="comment">//PNODE等价于struct node*</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//将动态分配的新节点的地址赋给p</span></span><br><span class="line">PNODE p = (PNODE)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(NODE));</span><br><span class="line"></span><br><span class="line"><span class="built_in">free</span>(p) <span class="comment">//删除p指向节点所占的内存，不是删除p本身所占的内存</span></span><br><span class="line"></span><br><span class="line">p-&gt;pNext; <span class="comment">//p所指向结构体变量中pNext成员本身</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>插入q节点</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">方法<span class="number">1</span>:</span><br><span class="line">r = p-&gt; pNext ; p-&gt;pNext =q ; q-&gt;pNext = r;</span><br><span class="line">方法<span class="number">2</span>:</span><br><span class="line">q-&gt;pNext = p-&gt;pNext;</span><br><span class="line">p-&gt;pNext = q;</span><br></pre></td></tr></table></figure></li>
+<li><p>删除p后面的节点</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">r = p-&gt;pNext;</span><br><span class="line">p-&gt;pNext= r-&gt;pNext;</span><br><span class="line"><span class="built_in">free</span>(r);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h4><h5 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h5><p><img src="/2020/05/06/DataStructure/Data-LinkedList/DoubleLInkedList_insert_middle.png"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ListNodePosi &lt;T&gt; <span class="built_in">insertAsPred</span>(T <span class="keyword">const</span>&amp;e)&#123;<span class="comment">//紧靠当前节点之前插入新节点</span></span><br><span class="line">    ListNodePosi&lt;T&gt; x = <span class="keyword">new</span> <span class="built_in">ListNode</span>(e,pred,<span class="keyword">this</span>); <span class="comment">//创建新节点</span></span><br><span class="line">    pred-&gt;succ = x;</span><br><span class="line">    <span class="keyword">this</span>-&gt;pred= x;<span class="comment">//设置正向链接,这里是当前节点的前置节点的意思，容易和节点pred混淆</span></span><br><span class="line">    <span class="keyword">return</span> x; <span class="comment">//返回新节点的位置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h4><ol>
+<li>递归必须得有一个明确的中止条件。</li>
+<li>该函数所处理的数据规模必须在递减。</li>
+</ol>
+<h5 id="递归复杂度"><a href="#递归复杂度" class="headerlink" title="递归复杂度"></a>递归复杂度</h5><h6 id="递归跟踪-recursion-trace-分析"><a href="#递归跟踪-recursion-trace-分析" class="headerlink" title="递归跟踪(recursion trace)分析"></a>递归跟踪(recursion trace)分析</h6><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sum</span>(<span class="keyword">int</span> A[],<span class="keyword">int</span> n)&#123;</span><br><span class="line">	<span class="keyword">return</span> (n&lt;<span class="number">1</span>)?</span><br><span class="line">        <span class="number">0</span>:<span class="built_in">sum</span>(A,n<span class="number">-1</span>)+A[n<span class="number">-1</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<img src="/2020/05/06/DataStructure/2021-04-25_17-54-13.png" style="zoom:50%;">
+
+<p>检查每个<strong>递归实例</strong>，累计所需的时间(调用语句本身，计入对应的子实例)</p>
+<p>其总和即算法执行时间</p>
+<p>本例中，单个递归实例自身只需o(1)时间</p>
+<p>T(n) = o(1)  * (n+1) = o(n)</p>
+<h6 id="递归方程"><a href="#递归方程" class="headerlink" title="递归方程"></a>递归方程</h6><p>求解sum(A,n) : 递归求解规模为n-1的问题sum(A,n-1) 加上 A[n-1]  。</p>
+<p>​    T(n) = T(n-1) + o(1)  // 为了求解T(n)所需要的时间,花了T(n-1)的时间求解n-1的问题,然后再花了o(1)的时间 </p>
+<p>​     T(0) = o(1)</p>
+<blockquote>
+<p>T(n) = T(n-1) + o(1) //两边同时 -n</p>
+<p>T(n) -n = T(n-1) -(n-1) </p>
+<p>​             = …</p>
+<p>​             =T(2) - 2</p>
+<p>​            = T(1) -1 </p>
+<p>​            =T(0)</p>
+<p>T(n) = o(1) +n  = o(n)</p>
+</blockquote>
+<h5 id="递归实例"><a href="#递归实例" class="headerlink" title="递归实例"></a>递归实例</h5><h6 id="阶乘-、求和"><a href="#阶乘-、求和" class="headerlink" title="阶乘 、求和"></a>阶乘 、求和</h6><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> n)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> n)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;n=1 输出 %ld \n &quot;</span>, f(<span class="number">1</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;n=2 输出 %ld \n &quot;</span>, f(<span class="number">2</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;n=3 输出 %ld \n &quot;</span>, f(<span class="number">3</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;n=4 输出 %ld \n &quot;</span>, f(<span class="number">4</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;n=5 输出 %ld \n &quot;</span>, f(<span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;n=100 相加 %ld \n &quot;</span>, sum(<span class="number">100</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> val,mult = <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;请输入一个数: val=&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;val);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= val; ++i) &#123;</span><br><span class="line">        mult = mult * i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d的阶乘是: %d\n&quot;</span>,val,mult);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//假定n的值是1或大于1的值</span></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> n * f(n - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1+2+...+100</span></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (n + sum(n<span class="number">-1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="汉诺塔"><a href="#汉诺塔" class="headerlink" title="汉诺塔"></a>汉诺塔</h6><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hannuota</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">char</span> a, <span class="keyword">char</span> b, <span class="keyword">char</span> c)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *      一个盘子 :</span></span><br><span class="line"><span class="comment">     *              直接将a柱子上的盘子从a移动到b</span></span><br><span class="line"><span class="comment">     *      否则 :</span></span><br><span class="line"><span class="comment">     *              先将a柱子上的n-1个盘子借助c移到b</span></span><br><span class="line"><span class="comment">     *              直接将a柱子上的盘中从a移到c</span></span><br><span class="line"><span class="comment">     *              最后将b柱子上的n-1个盘子借助a移到c</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="number">1</span> == n) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;将编号为%d的盘子直接从%c柱子移到%c柱子\n&quot;</span>, n, a, c);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        hannuota(n - <span class="number">1</span>, a, c, b);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;将编号为%d的盘子直接从%c柱子移到%c柱子\n&quot;</span>, n, a, c);</span><br><span class="line">        hannuota(n - <span class="number">1</span>, b, a, c);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ch1 = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="keyword">char</span> ch2 = <span class="string">&#x27;B&#x27;</span>;</span><br><span class="line">    <span class="keyword">char</span> ch3 = <span class="string">&#x27;C&#x27;</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;请输入要移动盘子的个数:&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">    hannuota(n,<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="Fibonacci-c"><a href="#Fibonacci-c" class="headerlink" title="Fibonacci.c"></a>Fibonacci.c</h6><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">f</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(n==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>  <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> f(n<span class="number">-1</span>)+f(n<span class="number">-2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;输入n的值为 &quot;</span>);</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;f(n) %d \n&quot;</span>,f(n));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>上面这种求和方式，随着n增加，时间复杂度会指数型增加，到了40已经算不动了，里面会有大量重复的计算</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> f = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> g = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (n--)&#123;</span><br><span class="line">        g = g+f;</span><br><span class="line">        f = g-f;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> g;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种时间复杂度O(n),不要太快,交替滚动向前推进。</p>
+<h4 id="Hash-散列"><a href="#Hash-散列" class="headerlink" title="Hash(散列)"></a>Hash(散列)</h4><p>[Hash(key) + 1^2] % M          以平方数为距离，确定下一试探桶单元</p>
+<p> M为三列表的容量</p>
+<p><img src="/2020/05/06/DataStructure/2021-06-15_09-13-49_diction.png"></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/4/index.html">http://noteforme.github.io.com/page/4/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-DeliverValue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/28/DeliverValue/">DeliverValue</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-04-28T02:20:55.000Z" itemprop="datePublished">2020年04月28日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+      
+      
+<a href="/2020/04/28/DeliverValue/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="Value-Copy"><a href="#Value-Copy" class="headerlink" title="Value Copy"></a>Value Copy</h5><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/huaiyiheyuan/article/details/55102057">https://blog.csdn.net/huaiyiheyuan/article/details/55102057</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/lP-xB5yzpvqVEiA439euVQ">https://mp.weixin.qq.com/s/lP-xB5yzpvqVEiA439euVQ</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5e91cc6c51882573a343db03">https://juejin.im/post/5e91cc6c51882573a343db03</a></p>
+<p>基本数据类型  declare in stack</p>
+<p>Object  declare in Heap</p>
+<p>Java value deliver  </p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5af3a44bf265da0b74522bf3">https://juejin.im/post/5af3a44bf265da0b74522bf3</a></p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">String</span> name = <span class="string">&quot;hollischuang&quot;</span>;</span><br><span class="line"><span class="keyword">String</span> name = <span class="keyword">new</span> <span class="built_in"><span class="keyword">String</span></span>(<span class="string">&quot;hollischuang&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/4/index.html">http://noteforme.github.io.com/page/4/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Bluetooth04" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/26/Bluetooth04/">Bluetooth04</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-04-26T02:46:23.000Z" itemprop="datePublished">2020年04月26日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/BLE/">BLE</a>
+  </div>
+
+      
+      
+<a href="/2020/04/26/Bluetooth04/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="蓝牙问题汇总"><a href="#蓝牙问题汇总" class="headerlink" title="蓝牙问题汇总"></a>蓝牙问题汇总</h5><p><a target="_blank" rel="noopener" href="https://race604.com/android-ble-in-action/">https://race604.com/android-ble-in-action/</a></p>
+<ol>
+<li>连接断开之后可以根据实际情况进行重连，但如果是连接失败的情况，建议不要立即重连，而是调用<code>void closeBluetoothGatt()</code>清空一下状态，并延迟一段时间等待复位，否则会把gatt阻塞，导致手机不重启蓝牙就再也无法连接任何设备的严重情况。</li>
+</ol>
+<p>  <a target="_blank" rel="noopener" href="https://github.com/Jasonchenlijian/FastBle/blob/master/README_1.2.x.md">https://github.com/Jasonchenlijian/FastBle/blob/master/README_1.2.x.md</a></p>
+<ol start="2">
+<li><p>每当设备断开连接时，请确保在BluetoothGatt对象上调用close()并将其设置为null,</p>
+<p>解决方法:始终在断开连接时关闭gatt实例，并在每次连接时创建一个新的gatt实例。</p>
+<p>在<code>onLeScan(..)</code>中启动一个新线程，然后进行连接</p>
+<p><a target="_blank" rel="noopener" href="https://stackoom.com/question/1Cyqr/Android-%E8%93%9D%E7%89%99%E4%BD%8E%E5%8A%9F%E8%80%97%E4%B8%8D%E7%A8%B3%E5%AE%9A">https://stackoom.com/question/1Cyqr/Android-%E8%93%9D%E7%89%99%E4%BD%8E%E5%8A%9F%E8%80%97%E4%B8%8D%E7%A8%B3%E5%AE%9A</a></p>
+</li>
+</ol>
+<p>BluetoothLeScanner: could not find callback wrapper</p>
+<ol start="3">
+<li><p>连接失败处理</p>
+<p>分两个平台来说，iOS端也有连接失败的委托，但是好像几乎不会发生这种情况，至少我从来没遇见过，而对于同款设备，android常常会出现连接失败的情况，<code>status != BluetoothGatt.GATT_SUCCESS</code>  ，android端开发请不要把连接失败和断开连接放在一块处理，因为断开连接可以直接尝试重新连接，而连接失败后尝试重新连接，需要加一些延时，并且需要gatt.close，清空一下状态，否则会把gatt阻塞导致手机不重启蓝牙就再也无法连接任何设备的情况。</p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html">http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html</a></p>
+<ol start="4">
+<li>扫描广播包</li>
+</ol>
+<p>所有外设，只有在发出广播包的情况下，才能被central发现，绝大多数情况下，外设被连接后就不会发出广播（也有例外），很多人遇到无法找到设备的问题，大多属于这种情况。 重复扫描问题——————</p>
+<p><a target="_blank" rel="noopener" href="http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html">http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html</a></p>
+<ol start="5">
+<li><p>Android 7+ will stop scanning if it continues without stopping at all  for 30 minutes or more. This was added as a feature to prevent battery  drain in case developers had inadvertently or abusively left scanning on forever.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/AltBeacon/android-beacon-library/issues/528">https://github.com/AltBeacon/android-beacon-library/issues/528</a></p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37796683/article/details/83657204">https://blog.csdn.net/m0_37796683/article/details/83657204</a></p>
+<ol start="6">
+<li><p>status 133</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/baidu_26352053/article/details/54571688">https://blog.csdn.net/baidu_26352053/article/details/54571688</a></p>
+</li>
+<li><p>unregisterApp() - mClientIf=5</p>
+</li>
+<li><p> filter</p>
+</li>
+</ol>
+<p>   <a target="_blank" rel="noopener" href="https://juejin.im/post/5d37d4d6f265da1bc414958a">https://juejin.im/post/5d37d4d6f265da1bc414958a</a></p>
+<ol start="9">
+<li><p>防止Android7中的BLE扫描滥用，从而做了一些限制，即不要在30s内对蓝牙扫描<br>重复开启-关闭超过5次。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.classycode.com/undocumented-android-7-ble-behavior-changes-d1a9bd87d983">https://blog.classycode.com/undocumented-android-7-ble-behavior-changes-d1a9bd87d983</a></p>
+</li>
+</ol>
+<ul>
+<li>蓝牙添加扫描间隔</li>
+</ul>
+<p>​    <a target="_blank" rel="noopener" href="https://github.com/haodynasty/AndroidBleManager">https://github.com/haodynasty/AndroidBleManager</a></p>
+<p>​    <a target="_blank" rel="noopener" href="https://github.com/AltBeacon/android-beacon-library">https://github.com/AltBeacon/android-beacon-library</a></p>
+<h3 id="应用如何做自动重连"><a href="#应用如何做自动重连" class="headerlink" title="应用如何做自动重连"></a>应用如何做自动重连</h3><p>其实自动重连比想象的要简单许多，无论是android还是ios端，只需要在设备断开连接的委托方法中，重新调用gatt.connet或者是centralManager.connet方法就可以了，无论当时设备是否有点，是否在周围，当设备再次开会或者连接到可连接范围内，都会自动被连上，就是这么简单。</p>
+<p><a target="_blank" rel="noopener" href="http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html">http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html</a></p>
+<p>Intent mIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);<br>startActivityForResult(mIntent, 1);</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mBluetoothAdapter.<span class="builtin-name">enable</span>();</span><br><span class="line">mBluetoothAdapter.<span class="builtin-name">disable</span>();</span><br></pre></td></tr></table></figure>
+
+<p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/u014418171/article/details/81219297">https://blog.csdn.net/u014418171/article/details/81219297</a></p>
+<p>扫描</p>
+<p>过滤</p>
+<p><strong>Scanning by device name</strong></p>
+<p>Looking for a device by it’s name has 2 main use cases: to look for 1 specific device or to look for 1 specific device model. For example, my Polar H7 chest strap advertises itself as “Polar H7 391BB014”. The latter part (‘391BB014’) is a unique number (or serial number) and the first part is generic for all Polar H7 devices. This is very common practice. Unfortunately the device name scan filter can only be used to find specific devices as it does full string matching. If you want to find all Polar H7 devices you will need to do a ‘substring’ compare on ‘Polar H7’, but you can’t do that with a filter. You just need to pass <code>null</code> as the filter and do the substring comparison yourself in <code>onScanResult</code>.</p>
+<p>So here is an example of how to scan for devices by <strong>exact</strong> name</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">String</span>[] names = <span class="keyword">new</span> <span class="keyword">String</span>[]&#123;<span class="string">&quot;Polar H7 391BB014&quot;</span>&#125;;</span><br><span class="line">List&lt;ScanFilter&gt; filters = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span>(names != <span class="keyword">null</span>) &#123;</span><br><span class="line">    filters = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">String</span> name : names) &#123;</span><br><span class="line">        ScanFilter <span class="built_in">filter</span> = <span class="keyword">new</span> ScanFilter.Builder()</span><br><span class="line">                .setDeviceName(name)</span><br><span class="line">                .build();</span><br><span class="line">        filters.<span class="built_in">add</span>(<span class="built_in">filter</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">scanner.startScan(filters, scanSettings, scanCallback);</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://medium.com/@martijn.van.welie/making-android-ble-work-part-1-a736dcd53b02">https://medium.com/@martijn.van.welie/making-android-ble-work-part-1-a736dcd53b02</a></p>
+<p>android蓝牙自动连接</p>
+<p><a target="_blank" rel="noopener" href="http://www.cocoachina.com/articles/83844">http://www.cocoachina.com/articles/83844</a></p>
+<h5 id="Ble-library"><a href="#Ble-library" class="headerlink" title="Ble library"></a>Ble library</h5><p><a target="_blank" rel="noopener" href="https://github.com/NordicSemiconductor/Android-BLE-Library">Android-BLE-Library</a></p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">LoggableBleManager</span> <span class="selector-tag">public</span> <span class="selector-tag">void</span> <span class="selector-tag">log</span>(final int priority, <span class="variable">@NonNull</span> final String message)</span><br><span class="line">是日志打印出口</span><br><span class="line">是 <span class="selector-tag">BleManager</span> <span class="selector-tag">public</span> <span class="selector-tag">void</span> <span class="selector-tag">log</span>(final int priority, <span class="variable">@NonNull</span> final String message)的实现</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/NordicSemiconductor/nRF-Logger-API">nRF-Logger-API</a>是手机日志查看工具</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggableBleManager&lt;T</span> <span class="keyword">extends</span> <span class="title">BleManagerCallbacks&gt;</span> <span class="keyword">extends</span> <span class="title">BleManager&lt;T&gt;</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="type">ILogSession</span> logSession;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * The manager constructor.</span></span><br><span class="line"><span class="comment">    * &lt;p&gt;</span></span><br><span class="line"><span class="comment">    * After constructing the manager, the callbacks object must be set with</span></span><br><span class="line"><span class="comment">    * &#123;@link #setManagerCallbacks(BleManagerCallbacks)&#125;.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * @param context the context.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   public <span class="type">LoggableBleManager</span>(<span class="meta">@NonNull</span> <span class="keyword">final</span> <span class="type">Context</span> context) &#123;</span><br><span class="line">      <span class="keyword">super</span>(context);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Sets the log session to log into.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * @param session nRF Logger log session to log inti, or null, if nRF Logger is not installed.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   public void setLogger(<span class="meta">@Nullable</span> <span class="keyword">final</span> <span class="type">ILogSession</span> session) &#123;</span><br><span class="line">      logSession = session;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   public void log(<span class="keyword">final</span> int priority, <span class="meta">@NonNull</span> <span class="keyword">final</span> <span class="type">String</span> message) &#123;</span><br><span class="line">      <span class="type">Logger</span>.log(logSession, <span class="type">LogContract</span>.<span class="type">Log</span>.<span class="type">Level</span>.fromPriority(priority), message);</span><br><span class="line">      <span class="type">Log</span>.println(priority, <span class="string">&quot;BleManager&quot;</span>, message);</span><br><span class="line"><span class="comment">//    Timber.i(&quot;BleManager   &quot;+ message);</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/4/index.html">http://noteforme.github.io.com/page/4/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-annotation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/25/annotation/">annotation</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-04-25T14:38:39.000Z" itemprop="datePublished">2020年04月25日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+      
+      
+<a href="/2020/04/25/annotation/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h3><h4 id="注解的作用"><a href="#注解的作用" class="headerlink" title="注解的作用"></a>注解的作用</h4><p><img src="/2020/04/25/annotation/retrofit/2021-07-29_9.08.16_function.png"></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/briblue/article/details/73824058">https://blog.csdn.net/briblue/article/details/73824058</a></p>
+<ul>
+<li>提供信息给编译器： 编译器可以利用注解来探测错误和警告信息</li>
+<li>编译阶段时的处理：  软件工具可以用来利用注解信息来生成代码、Html文档或者做其它相应处理。</li>
+<li>运行时的处理：  某些注解可以在程序运行的时候接受代码的提取</li>
+</ul>
+<p>元注解 ： 不可以再分的注解， 负责注解其他注解。java定义了4个标准的meta-annotation类型,它们被用来提供对其它annotation类型作说明。Target Retention Documented Inherited</p>
+<p>​                如上图的 Overide被@Target和@Retention修饰，他们用来说明解释其他注解，位于 java.lang.annotation下</p>
+<h4 id="元注解类型"><a href="#元注解类型" class="headerlink" title="元注解类型"></a>元注解类型</h4><h5 id="Target"><a href="#Target" class="headerlink" title="Target"></a>Target</h5><p>用于描述注解的使用范围(注解可以用在什么地方)</p>
+<p>如 类 属性 方法等</p>
+<p><img src="/2020/04/25/annotation/2021-06-28_21-32-34_target.png"></p>
+<h5 id="Retention"><a href="#Retention" class="headerlink" title="Retention"></a>Retention</h5><p>需要什么级别保存该注释信息，用于保留注解的生命周期</p>
+<p><img src="/2020/04/25/annotation/2021-06-28_21-36-57_retention.png"></p>
+<h5 id="Inherited"><a href="#Inherited" class="headerlink" title="@Inherited"></a>@Inherited</h5><p>标明所修饰的注解，在所作用的类上，是否可以被继承。</p>
+<h5 id="Documented"><a href="#Documented" class="headerlink" title="@Documented"></a>@Documented</h5><p>javadoc的工具文档化</p>
+<h4 id="注解使用"><a href="#注解使用" class="headerlink" title="注解使用"></a>注解使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Sxt&#123;</span><br><span class="line"> 	<span class="function">String <span class="title">studentName</span><span class="params">()</span></span>;  <span class="comment">// studentName 参数名， String参数类型</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>注解元素必须要有值，我们定义注解元素时，经常使用空字符串，0作为默认值。</p>
+<p>也经常使用负数(比如:-1)表示不存在的含义</p>
+<p>annotation01</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)</span> <span class="comment">//针对方法 和类有效</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span>	<span class="comment">// 针对运行时有效</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Annotation01 &#123;</span><br><span class="line">    <span class="function">String <span class="title">studentName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">age</span><span class="params">()</span> <span class="keyword">default</span> 0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">id</span><span class="params">()</span> <span class="keyword">default</span> -1</span>; <span class="comment">// String indexOf(&quot;abc&quot;) -1</span></span><br><span class="line"></span><br><span class="line">    String[] schools() <span class="keyword">default</span> &#123;<span class="string">&quot;清华大学&quot;</span>,<span class="string">&quot;哈工大&quot;</span>&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Annotation02</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Annotation02 &#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果只有一个参数，一般写成value</p>
+<p>Demo01</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Annotation01</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo02</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Annotation01(age = 19, studentName = &quot;老高&quot;,</span></span><br><span class="line"><span class="meta">            id = 1001, schools = &#123;&quot;哈工大&quot;, &quot;清华大学&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Annotation02(value = &quot;aaaa&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Annotation02(&quot;aaaa&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用注解,参照 test01(),也可以省略”value=” 参见test02()</p>
+<h5 id="注解实例"><a href="#注解实例" class="headerlink" title="注解实例"></a>注解实例</h5><p>注解设置 SxtStudent信息，映射数据库</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = &#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SxtTable &#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = &#123;ElementType.FIELD&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SxtField &#123;</span><br><span class="line">    <span class="function">String <span class="title">columnName</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">String <span class="title">type</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SxtTable(&quot;tb_student&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SxtStudent</span> </span>&#123;</span><br><span class="line">    <span class="meta">@SxtField(columnName = &quot;id&quot;,type = &quot;int&quot;,length = 10)</span></span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">int</span> id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SxtField(columnName = &quot;sname&quot;,type = &quot;varchar&quot;,length = 10)</span></span><br><span class="line">    <span class="keyword">private</span> String studentName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SxtField(columnName = &quot;age&quot;,type = &quot;int&quot;,length = 3)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过第三方工具获取注解信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Class clazz = Class.forName(<span class="string">&quot;annotation.SxtStudent&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获得类的所有有效注解</span></span><br><span class="line">    Annotation[] annotations = clazz.getAnnotations();</span><br><span class="line">    <span class="keyword">for</span> (Annotation a:annotations)&#123;</span><br><span class="line">        System.out.println(a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//获得类的指定注解</span></span><br><span class="line">    SxtTable st = (SxtTable)clazz.getAnnotation(SxtTable.class);</span><br><span class="line">    System.out.println(st.value());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获得类的属性的注解</span></span><br><span class="line">    Field f = clazz.getDeclaredField(<span class="string">&quot;studentName&quot;</span>);</span><br><span class="line">    SxtField sxtField = f.getAnnotation(SxtField.class);</span><br><span class="line">    System.out.println(sxtField.columnName()+<span class="string">&quot;--&quot;</span> + sxtField.type()+<span class="string">&quot;---&quot;</span> + sxtField.length());</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>运行结果</p>
+<blockquote>
+<p>@annotation.SxtTable(value=tb_student)<br>tb_student<br>sname–varchar—10</p>
+</blockquote>
+<h5 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">String path = <span class="string">&quot;reflection.User&quot;</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Class&lt;?&gt; clazz = Class.forName(path);</span><br><span class="line">    <span class="comment">//对象是表示或封装一些数据。一个类被加载后，JVM会创建一个对应该类的Class对象，类的整个结构信息会放到对应的CLass对象中。</span></span><br><span class="line">    <span class="comment">//这个Class对象就像一面镜子一样，通过这面镜子我可已看到对应类的全部信息。</span></span><br><span class="line">    System.out.println(clazz.hashCode());</span><br><span class="line"></span><br><span class="line">    Class clazz2 = Class.forName(path); <span class="comment">// 一个类对应的一个class对象</span></span><br><span class="line">    System.out.println(clazz2.hashCode());</span><br><span class="line"></span><br><span class="line">    Class intCLazz = <span class="keyword">int</span>.class;</span><br><span class="line">    <span class="keyword">int</span>[] arr01 = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">    <span class="keyword">int</span>[][] arr02 = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">30</span>][<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">int</span>[]arr03 = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">30</span>];</span><br><span class="line">    <span class="keyword">double</span>[] arr04 = <span class="keyword">new</span> <span class="keyword">double</span>[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line">    System.out.println(arr01.getClass().hashCode());</span><br><span class="line">    System.out.println(arr02.getClass().hashCode());</span><br><span class="line">    System.out.println(arr03.getClass().hashCode());</span><br><span class="line">    System.out.println(arr04.getClass().hashCode());</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=vZe5zG0vh3U&amp;list=PLC664nq_h8b9Jzh-qYJ_AeOpmSoBLC_tg&amp;index=1">https://www.youtube.com/watch?v=vZe5zG0vh3U&amp;list=PLC664nq_h8b9Jzh-qYJ_AeOpmSoBLC_tg&amp;index=1</a></p>
+<h3 id="注解处理器"><a href="#注解处理器" class="headerlink" title="注解处理器"></a>注解处理器</h3><p>是javac处理注解的一种工具，它用来在编译时扫描和处理注解。简单来说就是在编译器，通过注解采集信息，生成.java文件。减少重复代码的编写。</p>
+<h5 id="APT原理"><a href="#APT原理" class="headerlink" title="APT原理"></a>APT原理</h5><p><img src="/2020/04/25/annotation/2021-07-29_2.39.54_apt.png"></p>
+<p><img src="/2020/04/25/annotation/2021-07-29_2.10_process.png"></p>
+<h5 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h5><p><img src="/2020/04/25/annotation/2021-07-29_2.10.48_step.png"></p>
+<h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><p>APT就这固定的几步，网上demo可以生成，我的就是没法生成，原来是因为,@DIActivity类的头部没有设置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DIActivity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>项目 MRouter</p>
+<h4 id="Arouter"><a href="#Arouter" class="headerlink" title="Arouter"></a>Arouter</h4><h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><p>获得当前程序在手机中对应的apk文件,使用classsloader:dexfile(PMS)，反射获取apk所有的类，筛选出注册activity的类。初始化</p>
+<h5 id="核心实现"><a href="#核心实现" class="headerlink" title="核心实现"></a>核心实现</h5><p><img src="/2020/04/25/annotation/2021-08-12_1.18_arouter.png"></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uV411n787?p=6&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1uV411n787?p=6&amp;spm_id_from=pageDriver</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ly4y1W7f5?p=6&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1Ly4y1W7f5?p=6&amp;spm_id_from=pageDriver</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1nU4y1a79o?from=search&amp;seid=3188418579827888379">https://www.bilibili.com/video/BV1nU4y1a79o?from=search&amp;seid=3188418579827888379</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6925283352698159117#heading-14">https://juejin.cn/post/6925283352698159117#heading-14</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6947992544252788767">https://juejin.cn/post/6947992544252788767</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xx326664162/article/details/68490059">https://blog.csdn.net/xx326664162/article/details/68490059</a></p>
+<p><a target="_blank" rel="noopener" href="https://hanshuliang.blog.csdn.net/article/details/117072224">https://hanshuliang.blog.csdn.net/article/details/117072224</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/han1202012/APT">https://github.com/han1202012/APT</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/4/index.html">http://noteforme.github.io.com/page/4/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-JVM" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/18/JVM/">JVM</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-04-18T14:19:42.000Z" itemprop="datePublished">2020年04月18日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+      
+      
+<a href="/2020/04/18/JVM/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://noteforme.github.io/2020/01/04/JVM-METHOD/">JVM方法区-第六章</a></p>
+<p>![Screen Shot 2020-04-16 at 8.22.33 PM](JVM/Screen Shot 2020-04-16 at 8.22.33 PM.png)</p>
+<p>![Screen Shot 2020-04-16 at 8.29.39 PM](JVM/Screen Shot 2020-04-16 at 8.29.39 PM.png)</p>
+<p>![Screen Shot 2020-04-16 at 8.41.39 PM](JVM/Screen Shot 2020-04-16 at 8.41.39 PM.png)</p>
+<p>![Screen Shot 2020-04-16 at 8.43.41 PM](Screen Shot 2020-04-16 at 8.43.41 PM.png)</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5f0376e3e51d45349b5c9d0c">https://juejin.im/post/5f0376e3e51d45349b5c9d0c</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.iteye.com/blog/rednaxelafx-656951">https://www.iteye.com/blog/rednaxelafx-656951</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av75247289?p=2">https://www.bilibili.com/video/av75247289?p=2</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/4/index.html">http://noteforme.github.io.com/page/4/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-tool-mac" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/11/tool-mac/">tool_mac</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-04-11T08:35:50.000Z" itemprop="datePublished">2020年04月11日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/TOOL/">TOOL</a>
+  </div>
+
+      
+      
+<a href="/2020/04/11/tool-mac/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>some tool for mac</p>
+<p>查看当前环境变量 : env</p>
+<p>Packet Sender  </p>
+<p>tcp ip tool</p>
+<img src="/2020/04/11/tool-mac/Screen Shot 2020-04-11 at 4.40.59 PM.png" alt="Screen Shot 2020-04-11 at 4.40.59 PM" style="zoom:67%;">
+
+
+
+<h4 id="HomeBrew安装"><a href="#HomeBrew安装" class="headerlink" title="HomeBrew安装"></a>HomeBrew安装</h4><ol>
+<li>下载</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Homebrew/install/master/install.sh">https://raw.githubusercontent.com/Homebrew/install/master/install.sh</a></p>
+<ol start="2">
+<li><p>更换源</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BREW_REPO=<span class="string">&quot;https://github.com/Homebrew/brew&quot;</span></span><br><span class="line">   换成  </span><br><span class="line">BREW_REPO=<span class="string">&quot;git://mirrors.ustc.edu.cn/brew.git&quot;</span> </span><br></pre></td></tr></table></figure></li>
+<li><p>权限</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod <span class="number">755</span> <span class="keyword">install</span>.sh </span><br><span class="line">./<span class="keyword">install</span>.sh </span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43635647/article/details/104249968">https://blog.csdn.net/weixin_43635647/article/details/104249968</a></p>
+<h5 id="set-environment-variable-mac"><a href="#set-environment-variable-mac" class="headerlink" title="set environment variable mac"></a>set environment variable mac</h5><ol>
+<li>Flutter</li>
+</ol>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.bash_profile</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="string">&quot;<span class="variable">$PATH</span>:/Users/john/development/flutter/bin&quot;</span></span><br><span class="line"></span><br><span class="line">which flutter</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>jdk </p>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/10/install/installation-jdk-and-jre-macos.htm#JSJIG-GUID-F575EB4A-70D3-4AB4-A20E-DBE95171AB5F">https://docs.oracle.com/javase/10/install/installation-jdk-and-jre-macos.htm#JSJIG-GUID-F575EB4A-70D3-4AB4-A20E-DBE95171AB5F</a></p>
+</li>
+</ol>
+<h5 id="mac-terminal"><a href="#mac-terminal" class="headerlink" title="mac terminal"></a>mac terminal</h5><ol>
+<li>download and install iterm2</li>
+<li>Download iterm2-finder-tools-1.0.0  open Open iTerm.workflow install</li>
+<li>file top 右键 customize toolbar then move opem iTerm into toolbar</li>
+</ol>
+</li>
+<li><p>Ignore</p>
+<p><code>Command + Shift + .</code></p>
+</li>
+<li><p>Environment set</p>
+<p>AppledeMacBook-Pro:~ apple$ cat ~/.bash_profile</p>
+<p>export PATH=”$PATH:/Users/john/development/flutter/bin”</p>
+<p>export PUB_HOSTED_URL=<a target="_blank" rel="noopener" href="https://pub.flutter-io.cn/">https://pub.flutter-io.cn</a></p>
+<p>export FLUTTER_STORAGE_BASE_URL=<a target="_blank" rel="noopener" href="https://storage.flutter-io.cn/">https://storage.flutter-io.cn</a> </p>
+</li>
+</ol>
+<ul>
+<li><p>gradle 阿里云镜像 </p>
+<p>/Users/john/.gradle 目录添加 init.gradle</p>
+</li>
+</ul>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/4/index.html">http://noteforme.github.io.com/page/4/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+
+    <nav id="page-nav">
+
+<a class="extend prev" rel="prev" href="/page/3/">Vorheriger</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/5/">Nächster</a>
+</nav>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/17/kmp/">kmp</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/21/Assembly/">Assembly</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/19/Data-LinkedList/">Data_LinkedList</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/21/Data-Sort/">Data_Sort</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 13.33px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/" rel="tag">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/" rel="tag">resume</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-link"></i> Blogroll</h3>
+    <div class="widget">
+      <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example1.com/">site-name1</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example2.com/">site-name2</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example3.com/">site-name3</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">Sitemap</a>
+        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
+        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2021 Jon.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        
+            <span>Count by <a href="http://busuanzi.ibruce.info/" target="_blank">busuanzi.</a></span>
+        
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+  
+<script src="/localshare/js/social-share.js"></script>
+
+  
+<script src="/localshare/js/qrcode.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

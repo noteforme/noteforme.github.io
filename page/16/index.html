@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Jon&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Jon's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/localshare/css/share.css">
+
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jon&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Cease to struggle and you cease to live. - Thomas Carlyle</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+        
+          <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  <article id="post-Accessibility" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/09/Accessibility/">Accessibility</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-09T13:27:05.000Z" itemprop="datePublished">2017年08月09日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/08/09/Accessibility/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p> 先上官网地址  <a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/ui/accessibility/services.html">https://developer.android.com/guide/topics/ui/accessibility/services.html</a><br>下面的是例子  <a target="_blank" rel="noopener" href="https://developer.android.com/training/accessibility/index.html">https://developer.android.com/training/accessibility/index.html</a></p>
+<p>然后是codelab 看看 <a target="_blank" rel="noopener" href="https://codelabs.developers.google.com/codelabs/developing-android-a11y-service/index.html?index=../../index#0">https://codelabs.developers.google.com/codelabs/developing-android-a11y-service/index.html?index=..%2F..%2Findex#0</a></p>
+<p>这是codelab github上的地址   <a target="_blank" rel="noopener" href="https://github.com/googlecodelabs/android-accessibility">https://github.com/googlecodelabs/android-accessibility</a><br>一、简单实现<br>1、创建一个   MyAccessibilityService类  继承 AccessibilityService</p>
+<p>…</p>
+<pre><code>public class MyAccessibilityService extends AccessibilityService &#123;
+
+ @Override
+ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
+ &#125;
+
+ @Override
+ public void onInterrupt() &#123;
+&#125;
+</code></pre>
+<p>   }<br>…</p>
+<p>2、创建一个values下创建XML文件夹</p>
+<p><accessibility-service android:accessibilityeventtypes="typeViewClicked|typeViewFocused" android:packagenames="com.example.android.myFirstApp, com.example.android.mySecondApp" android:accessibilityfeedbacktype="feedbackSpoken" android:notificationtimeout="100" android:settingsactivity="com.example.android.apis.accessibility.TestBackActivity" android:canretrievewindowcontent="true"></accessibility-service></p>
+<p>3、 实现 onServiceConnected()</p>
+<pre><code>@Override
+public void onServiceConnected() &#123;
+     // Set the type of events that this service wants to listen to.  Others
+     // won&#39;t be passed to this service.
+     info.eventTypes = AccessibilityEvent.TYPE_VIEW_CLICKED |
+            AccessibilityEvent.TYPE_VIEW_FOCUSED;
+
+     // If you only want this service to work with specific applications, set their
+    // package names here.  Otherwise, when the service is activated, it will listen
+    // to events from all applications.
+    info.packageNames = new String[]
+            &#123;&quot;com.example.android.myFirstApp&quot;, &quot;com.example.android.mySecondApp&quot;&#125;;
+
+    // Set the type of feedback your service will provide.
+    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_SPOKEN;
+
+    // Default services are invoked only if no package-specific ones are present
+    // for the type of AccessibilityEvent generated.  This service *is*
+    // application-specific, so the flag isn&#39;t necessary.  If this was a
+    // general-purpose service, it would be worth considering setting the
+    // DEFAULT flag.
+
+    // info.flags = AccessibilityServiceInfo.DEFAULT;
+
+     info.notificationTimeout = 100;
+
+     this.setServiceInfo(info);
+     Log.i(&quot;test&quot;,&quot;测试&quot;);
+&#125;
+</code></pre>
+<p>4、实现 onAccessibilityEvent方法</p>
+<pre><code>@Override
+public void onAccessibilityEvent(AccessibilityEvent event) &#123;
+ final int eventType = event.getEventType();
+ String eventText = null;
+ switch(eventType) &#123;
+    case AccessibilityEvent.TYPE_VIEW_CLICKED:
+        eventText = &quot;Focused: &quot;;
+        break;
+    case AccessibilityEvent.TYPE_VIEW_FOCUSED:
+        eventText = &quot;Focused: &quot;;
+        break;
+ &#125;
+
+ eventText = eventText + event.getContentDescription();
+
+ // Do something nifty with this text, like speak the composed string
+// back to the user.
+ speakToUser(eventText);
+&#125;
+...
+</code></pre>
+<p>然后就可以开启辅助功能，看下log</p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-OKHTTP" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/07/OKHTTP/">OKHTTP</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-07T02:04:29.000Z" itemprop="datePublished">2017年08月07日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/08/07/OKHTTP/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Okhttp使用线程池无 核心级线程，不应该先把阻塞队列塞满，再执行非核心级线程吗，这样任何不应该会立即执行呀？？？</p>
+<p>阻塞队列用了synchrnized 会添加失败。所以直接创建非核心线程。</p>
+<h4 id="如何阅读开源项目"><a href="#如何阅读开源项目" class="headerlink" title="如何阅读开源项目"></a>如何阅读开源项目</h4><p><a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/186778">https://time.geekbang.org/column/article/186778</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.imooc.com/article/301778">https://www.imooc.com/article/301778</a></p>
+<p><a target="_blank" rel="noopener" href="https://baixin.ink/2019/05/10/how-to-learn-opensorce-project/">https://baixin.ink/2019/05/10/how-to-learn-opensorce-project/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/656dbb97a40f">https://www.jianshu.com/p/656dbb97a40f</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.codedump.info/post/20200605-how-to-read-code-v2020/">https://www.codedump.info/post/20200605-how-to-read-code-v2020/</a></p>
+<p>不管写的怎么样，先把东西弄出来，然后参考别人的写法，做对比</p>
+<h4 id="Okhttp优势"><a href="#Okhttp优势" class="headerlink" title="Okhttp优势"></a>Okhttp优势</h4><p><a target="_blank" rel="noopener" href="https://square.github.io/okhttp/">https://square.github.io/okhttp/</a></p>
+<p>OkHttp is an HTTP client that’s efficient by default:</p>
+<ul>
+<li>HTTP/2 support allows all requests to the same host to share a socket.</li>
+<li>Connection pooling reduces request latency (if HTTP/2 isn’t available).</li>
+<li>Transparent GZIP shrinks download sizes.</li>
+<li>Response caching avoids the network completely for repeat requests.</li>
+</ul>
+<h4 id="任务运行图"><a href="#任务运行图" class="headerlink" title="任务运行图"></a>任务运行图</h4><p><img src="/2017/08/07/OKHTTP/2021-07-23_2.26_OKHTTP.png"></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>一开始看了网上视频，就说Okhttp是自驱动循环调用，相对于AsyncTask的优势就是 并发执行，但是这两条不就矛盾了吗，既然环形链式调用，怎么能并发呢。就从源码中找答案。</p>
+<p>Dispatcher.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> maxRequests = <span class="number">64</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> maxRequestsPerHost = <span class="number">5</span>;</span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(AsyncCall call)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (runningAsyncCalls.size() &lt; maxRequests &amp;&amp; runningCallsForHost(call) &lt; maxRequestsPerHost) &#123;</span><br><span class="line">      runningAsyncCalls.add(call);</span><br><span class="line">      executorService().execute(call);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      readyAsyncCalls.add(call);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>可以看到提交任务 &gt;5时，才会被添加到readyAsyncCalls队列中。&lt;5的任务直接提交。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">promoteCalls</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (runningAsyncCalls.size() &gt;= maxRequests) <span class="keyword">return</span>; <span class="comment">// Already running max capacity.</span></span><br><span class="line">  <span class="keyword">if</span> (readyAsyncCalls.isEmpty()) <span class="keyword">return</span>; <span class="comment">// No ready calls to promote.</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (Iterator&lt;AsyncCall&gt; i = readyAsyncCalls.iterator(); i.hasNext(); ) &#123;</span><br><span class="line">    AsyncCall call = i.next();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (runningCallsForHost(call) &lt; maxRequestsPerHost) &#123;</span><br><span class="line">      i.remove();</span><br><span class="line">      runningAsyncCalls.add(call);</span><br><span class="line">      Log.i(<span class="string">&quot;Dispatcher&quot;</span>, <span class="string">&quot;promoteCalls:  准备队列 &quot;</span>+call.request().tag+<span class="string">&quot; 执行&quot;</span>);</span><br><span class="line">      executorService().execute(call);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (runningAsyncCalls.size() &gt;= maxRequests) <span class="keyword">return</span>; <span class="comment">// Reached max capacity.</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>readyAsyncCalls不为空，然后取出一条，再执行，可以看到，默认情况下会有5条环形任务链。</p>
+<h4 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h4><p><img src="/2017/08/07/OKHTTP/2021-07-24_6.43_interupt.png"></p>
+<p>OkHttp的拦截器有：</p>
+<ul>
+<li>RetryAndFollowUpInterceptor：失败和重定向拦截器；</li>
+<li>BridgeInterceptor：负责将http协议必备的请求头加入其中(host),并添加一些默认的行为(gzip),获得结果后，调用cookie接口并解析GZIP数据。</li>
+<li>CacheInterceptor：缓存处理相关的拦截器；</li>
+<li>ConnectInterceptor： 负责找到或者新建一个连接，并获取对应的socket流；在获得结果后不进行额外的处理。</li>
+<li>CallServerInterceptor：进行真正的与服务器的通信，向服务器请求和读响应的拦截器；</li>
+</ul>
+<h5 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h5><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/TeQhe4T4wRjdAEPz6Ne45g"><em>okhttp</em> 是如何支持 Http2 的？</a></p>
+<p>Handshake则会把服务端支持的Tls版本，加密方式等都带回来，然后会把这个没有验证过的HandShake用X509Certificate去验证证书的有效性。然后会通过Platform去从SSLSocket去获取ALPN的协议支持信息，当后端支持的协议内包含Http2.0时，则就会把请求升级到Http2.0阶段。</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6898145227765186567">Okhttp连接池是咋实现的?</a></p>
+<p>在连接池中找连接的时候会对比连接池中相同host的连接。</p>
+<p>如果在连接池中找不到连接的话，会创建连接，创建完后会存储到连接池中。</p>
+<p>在把连接放入连接池中时，会把清除操作的任务放入到线程池中执行，删除任务中会判断当前连接有没有在使用中，有没有正在使用通过RealConnection的transmitters集合的size是否为0来判断，如果不在使用中，找出空闲时间最长的连接，如果空闲时间最长的连接超过了keep-alive默认的5分钟或者空闲的连接数超过了最大的keep-alive连接数5个的话，会把存活时间最长的连接从连接池中删除。保证keep-alive的最大空闲时间和最大的连接数</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.im/post/5f0452615188252e5522b747">雨露均沾的OkHttp—WebSocket长连接（使用篇）</a> </p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&mid=2650237860&idx=1&sn=d66e75f6f7752ededdcaa3ce780862d3&chksm=88639acbbf1413dd170ba41a67035c62811b489cfc7a405977ae23254205a6b3acb99358b1f2&scene=38#wechat_redirect"><em>OKHTTP</em>之缓存配置详解</a></p>
+</li>
+<li><p>OkHttp对于网络请求都有哪些优化</p>
+</li>
+<li><p>OkHttp框架中都用到了哪些设计模式</p>
+<p> <a target="_blank" rel="noopener" href="https://www.codetd.com/article/4354895">https://www.codetd.com/article/4354895</a></p>
+<p> <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d85e556b8da6">https://www.jianshu.com/p/d85e556b8da6</a></p>
+</li>
+</ul>
+<h5 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h5><p>Okhttp缓存</p>
+<p> 1、添加cache 路径<br> 2、初始化OkhttpClient</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NewCacheInterceptor</span> <span class="keyword">implements</span> <span class="title">Interceptor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     <span class="meta">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> Response <span class="title">intercept</span><span class="params">(Chain chain)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">         Request request = chain.request();</span><br><span class="line">         Response response = chain.proceed(request);</span><br><span class="line">         Response response1 = response.newBuilder()</span><br><span class="line">                 .removeHeader(<span class="string">&quot;Pragma&quot;</span>)</span><br><span class="line">                 .removeHeader(<span class="string">&quot;Cache-Control&quot;</span>)</span><br><span class="line">                 .header(<span class="string">&quot;Cache-Control&quot;</span>, <span class="string">&quot;max-age=&quot;</span> + <span class="number">3600</span> * <span class="number">24</span> * <span class="number">30</span>)</span><br><span class="line">                 .build();</span><br><span class="line"></span><br><span class="line">         <span class="keyword">return</span> response1;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6873476209737629709/">https://juejin.cn/post/6873476209737629709/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0106/2275.html">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0106/2275.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/briblue/article/details/52920531">http://blog.csdn.net/briblue/article/details/52920531</a><br><a target="_blank" rel="noopener" href="http://mushuichuan.com/2016/03/01/okhttpcache/">http://mushuichuan.com/2016/03/01/okhttpcache/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/">https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV12Q4y1d7uD?p=7&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV12Q4y1d7uD?p=7&amp;spm_id_from=pageDriver</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Network" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/03/Network/">Network</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-03T01:27:38.000Z" itemprop="datePublished">2017年08月03日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+      
+      
+<a href="/2017/08/03/Network/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1F54y1t7Dx?from=search&amp;seid=12798261982184143495">https://www.bilibili.com/video/BV1F54y1t7Dx?from=search&amp;seid=12798261982184143495</a></p>
+<h4 id="Open-System-Interconnection"><a href="#Open-System-Interconnection" class="headerlink" title="Open System Interconnection"></a>Open System Interconnection</h4><p>OSI 7层模型</p>
+<p>TCP/IP 5层模型</p>
+<p><img src="/2017/08/03/Network/2021-08-15_10_network.png"></p>
+<img src="/2017/08/03/Network/network1.png" style="zoom:33%;">
+
+
+
+
+
+<h4 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h4><h5 id="protocol"><a href="#protocol" class="headerlink" title="protocol"></a>protocol</h5><p>URI</p>
+<blockquote>
+<p><a href="ftp://ftp.is.co.za/rfc/rfc1808.txt">ftp://ftp.is.co.za/rfc/rfc1808.txt</a> <a target="_blank" rel="noopener" href="http://www.ietf.org/rfc/rfc2396.txt">http://www.ietf.org/rfc/rfc2396.txt</a> </p>
+<p>ldap://[2001:db8::7]/c=GB?objectClass?one mailto:<a href="mailto:&#x4a;&#x6f;&#104;&#110;&#46;&#68;&#x6f;&#x65;&#x40;&#101;&#x78;&#x61;&#x6d;&#112;&#108;&#x65;&#x2e;&#x63;&#x6f;&#x6d;">&#x4a;&#x6f;&#104;&#110;&#46;&#68;&#x6f;&#x65;&#x40;&#101;&#x78;&#x61;&#x6d;&#112;&#108;&#x65;&#x2e;&#x63;&#x6f;&#x6d;</a> </p>
+<p>news:comp.infosystems.<a target="_blank" rel="noopener" href="http://www.servers.unix/">www.servers.unix</a> </p>
+<p>tel:+1-816-555-1212</p>
+<p>telnet://192.0.2.16:80/ urn:oasis:names:specification:docbook:dtd:xml:4.1.2</p>
+</blockquote>
+<h5 id="Http1-1"><a href="#Http1-1" class="headerlink" title="Http1.1"></a>Http1.1</h5><p><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7230#section-6">https://tools.ietf.org/html/rfc7230#section-6</a></p>
+<p>HyperText Transfer Protocol 可靠的数据传输协议，基于TCP</p>
+<h6 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h6><p><img src="Network/2021-07-21_3.21_http_protical.png"></p>
+<h5 id="Http2-0"><a href="#Http2-0" class="headerlink" title="Http2.0"></a>Http2.0</h5><p><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7540">https://tools.ietf.org/html/rfc7540</a></p>
+<img src="Network/2021-07-25_5.00_http2.png" style="zoom:50%;">
+
+
+
+<p>可以看到http2.0改造了协议， head 改成了 HEADERS frame ,Body 改成了 DATA frame。</p>
+<img src="Network/2021-07-25_5.04_http2.png" style="zoom:33%;">
+
+<ul>
+<li>Length :  整个frame  开始到结束 </li>
+<li>Type :  frame的类型</li>
+<li>Stream ID用作流控制</li>
+<li>Payload 请求正文</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1SJ411q7ei?from=search&amp;seid=10178848750670062838">https://www.bilibili.com/video/BV1SJ411q7ei?from=search&amp;seid=10178848750670062838</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Sw411d7oE?from=search&amp;seid=10178848750670062838">https://www.bilibili.com/video/BV1Sw411d7oE?from=search&amp;seid=10178848750670062838</a></p>
+<h5 id="端口作用"><a href="#端口作用" class="headerlink" title="端口作用"></a>端口作用</h5><p>进程id是会变化的，进程通过绑定固定不变的端口，来实现通信。</p>
+<p>http版本区别</p>
+<p> <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903489596833800">https://juejin.cn/post/6844903489596833800</a></p>
+<h6 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h6><p>对TCP/IP的封装， 提供可供程序员做网络开发的接口-Socket编程接口。</p>
+<img src="/2017/08/03/Network/2021-07-21_3.09_UML_HTTP.png" style="zoom: 67%;">
+
+<p>SocketHttpTest.java</p>
+<ul>
+<li><p>http get请求</p>
+<p>按照get请求拼接字符串</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">StringBuffer protocol = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">             <span class="comment">//请求行</span></span><br><span class="line">             protocol.append(<span class="string">&quot;GET &quot;</span>);</span><br><span class="line">             protocol.append(url.getPath());</span><br><span class="line">             protocol.append(<span class="string">&quot;?&quot;</span>);</span><br><span class="line">             protocol.append(url.getQuery());</span><br><span class="line">             protocol.append(<span class="string">&quot; &quot;</span>);</span><br><span class="line">             protocol.append(<span class="string">&quot;HTTP/1.1&quot;</span>);</span><br><span class="line">             protocol.append(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">  </span><br><span class="line">             <span class="comment">// http请求头</span></span><br><span class="line">             protocol.append(<span class="string">&quot;Host:&quot;</span>);</span><br><span class="line">             protocol.append(url.getHost());</span><br><span class="line">             protocol.append(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">  </span><br><span class="line">             <span class="comment">//空行</span></span><br><span class="line">             protocol.append(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">             <span class="comment">//post请求体 get没有</span></span><br><span class="line">             System.out.println(<span class="string">&quot;发送的http报文: \n&quot;</span> + protocol.toString());</span><br><span class="line">  </span><br><span class="line">             Socket socket = <span class="keyword">new</span> Socket();</span><br><span class="line">             socket.connect(<span class="keyword">new</span> InetSocketAddress(url.getHost(), <span class="number">80</span>));</span><br><span class="line">  </span><br><span class="line">             <span class="comment">//获得输入输出流</span></span><br><span class="line">             BufferedWriter bufferedWriter = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(socket.getOutputStream()));</span><br><span class="line">             BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(socket.getInputStream()));</span><br><span class="line">  </span><br><span class="line">             bufferedWriter.write(protocol.toString());</span><br><span class="line">             bufferedWriter.flush();</span><br><span class="line">  </span><br><span class="line">             StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">             String line = <span class="string">&quot;&quot;</span>;</span><br><span class="line">             <span class="keyword">while</span> ((line = bufferedReader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                 stringBuilder.append(line)</span><br><span class="line">                         .append(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">  </span><br><span class="line">             &#125;</span><br><span class="line">             System.out.println(stringBuilder.toString());</span><br></pre></td></tr></table></figure></li>
+<li><p>Http Post请求</p>
+<p>参数放入请求体中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"> 						URL url = <span class="keyword">new</span> URL(cUrl);</span><br><span class="line">            StringBuffer protocol = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">            <span class="comment">//请求行</span></span><br><span class="line">            protocol.append(<span class="string">&quot;POST &quot;</span>);</span><br><span class="line">            protocol.append(url.getPath());</span><br><span class="line">            protocol.append(<span class="string">&quot; &quot;</span>);</span><br><span class="line">            protocol.append(<span class="string">&quot;HTTP/1.1&quot;</span>);</span><br><span class="line">            protocol.append(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// http请求头</span></span><br><span class="line">            protocol.append(<span class="string">&quot;Host:&quot;</span>);</span><br><span class="line">            protocol.append(url.getHost());</span><br><span class="line">            protocol.append(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">            protocol.append(<span class="string">&quot;Content-Length: 60\r\n&quot;</span>);</span><br><span class="line">            protocol.append(<span class="string">&quot;Content-Type: application/x-www-form-urlencoded\r\n&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">//空行</span></span><br><span class="line">            protocol.append(<span class="string">&quot;\r\n&quot;</span>); <span class="comment">// 必须用空行分隔请求体</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">//post请求体 get没有</span></span><br><span class="line"><span class="comment">//                protocol.append(&quot;city=&quot;+ URLEncoder.encode(&quot;长沙&quot;,&quot;UTF-8&quot;) +&quot;&amp;key=13cb58f5884f9749287abbead9c658f2&quot;);</span></span><br><span class="line">            protocol.append(url.getQuery());</span><br><span class="line">            System.out.println(<span class="string">&quot;发送的http报文: \n&quot;</span> + protocol.toString());</span><br><span class="line"></span><br><span class="line">            Socket socket = <span class="keyword">new</span> Socket();</span><br><span class="line">            socket.connect(<span class="keyword">new</span> InetSocketAddress(url.getHost(), <span class="number">80</span>));</span><br><span class="line"></span><br><span class="line">            <span class="comment">//获得输入输出流</span></span><br><span class="line">            BufferedWriter bufferedWriter = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(socket.getOutputStream()));</span><br><span class="line">            BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(socket.getInputStream()));</span><br><span class="line"></span><br><span class="line">            bufferedWriter.write(protocol.toString());</span><br><span class="line">            bufferedWriter.flush();</span><br><span class="line"></span><br><span class="line">            StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            String line = <span class="string">&quot;&quot;</span>;</span><br><span class="line">            <span class="keyword">while</span> ((line = bufferedReader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                stringBuilder.append(line)</span><br><span class="line">                        .append(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(stringBuilder.toString());</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h6 id="分块编码"><a href="#分块编码" class="headerlink" title="分块编码"></a>分块编码</h6><p> 数据量很大！分块编码</p>
+<p><img src="/2017/08/03/Network/2021-07-21_3.43_chunk.png"></p>
+<p>上面的5就是 下面的字符长度</p>
+<h5 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h5><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1F54y1t7Dx?p=5">https://www.bilibili.com/video/BV1F54y1t7Dx?p=5</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1j7411H7vV?from=search&amp;seid=12798261982184143495">https://www.bilibili.com/video/BV1j7411H7vV?from=search&amp;seid=12798261982184143495</a></p>
+<p><img src="Network/2021-08-15_10_https1.png"></p>
+<p><img src="Network/2021-08-15_10_https2.png"></p>
+<h4 id="传输层-TCP-UDP"><a href="#传输层-TCP-UDP" class="headerlink" title="传输层  (TCP UDP)"></a>传输层  (TCP UDP)</h4><p>代码运行在用户机器上，为了对 网络层进行更好的控制 UDP(User Datagram Protocol)</p>
+<ol>
+<li><p>面向报文传输</p>
+</li>
+<li><p>没有拥塞控制,无法保证数据在网络中是否丢失</p>
+</li>
+<li><p>UDP首部开销小</p>
+<p>​     </p>
+</li>
+</ol>
+<img src="/2017/08/03/Network/udp_datagram.png" alt="传输层" style="zoom:67%;">
+
+<img src="/2017/08/03/Network/udp1.png" alt="udp1" style="zoom: 25%;">
+
+<p>  TCP (Transmission Control Protocol)</p>
+<ol>
+<li><p> 面向连接的协议</p>
+</li>
+<li><p> 提供可靠传输</p>
+</li>
+<li><p> 全双工通信</p>
+</li>
+<li><p>面向字节流协议: 可能对用户数据合并或分拆进行传输</p>
+<p>   <img src="/2017/08/03/Network/tcp1.png" alt="tcp"></p>
+</li>
+</ol>
+<p>TCP首部 <img src="/2017/08/03/Network/tcp2.png" style="zoom: 50%;"></p>
+<p> 序号</p>
+<p> tcp标记</p>
+<h5 id="如何保证TCP可靠传输"><a href="#如何保证TCP可靠传输" class="headerlink" title="如何保证TCP可靠传输?"></a>如何保证TCP可靠传输?</h5><ul>
+<li><p>停止等待协议</p>
+</li>
+<li><p>连续ARQ协议(Automatic Repeat request) :</p>
+<p>​        滑动窗口: 以字节为单位，实现流量控制 累计确认</p>
+<p>​        选择重传: 重传边界和范围</p>
+</li>
+<li><p>定时器</p>
+<p>超时定时器</p>
+<p>坚持定时器: 解决死锁局面,当收到窗口为0的消息，则启动坚持定时器,每隔一段时间发送一个窗口探测报文</p>
+<p>TCP协议的拥塞控制</p>
+<p> 报文超时即认为拥塞</p>
+<p>  慢启动算法</p>
+<p>   由小到大逐渐增加发送数据量,直到到达 “慢启动阈值”=&gt;开始 拥塞避免算法</p>
+<p> 拥塞避免算法</p>
+<p>   只要网络不拥塞，就试探拥塞窗口调大</p>
+</li>
+</ul>
+<h5 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手    "></a>TCP三次握手    <img src="/2017/08/03/Network/tcpblock.png" style="zoom:33%;"></h5><p> TCP标记</p>
+ <img src="/2017/08/03/Network/tcp3.png" alt="TCP" style="zoom:33%;">
+
+<p>三次握手 </p>
+<img src="/2017/08/03/Network/tcp_handshake.png" alt="shake" style="zoom:33%;">
+
+
+
+<h6 id="为何3次握手1"><a href="#为何3次握手1" class="headerlink" title="为何3次握手1"></a>为何3次握手1</h6><p>客户端角度 : 1 ，2，说明客户端的发送和接收没问题</p>
+<p>服务端角度： 1，2，说明服务端的接收没问题，但是不确定自己的发送收否有问题，所以需要3确认</p>
+<h6 id="为何3次握手2"><a href="#为何3次握手2" class="headerlink" title="为何3次握手2"></a>为何3次握手2</h6><p>第一次握手客户端发出:    Server觉得 : 客户端的发送能力没问题</p>
+<p>第二次握手服务端发出:    Client觉得  : 服务端的接收能力没问题， 以及服务端的发送能力没问题。</p>
+<p>第三次握手客户端发出:    Server觉得: 客户端的接收能力没问题。</p>
+<p><strong>为什么要第三次握手?</strong></p>
+<p><img src="https://www.programmersought.com/images/29/378161939bb91ee6a16d6719b5bb381d.png"></p>
+<p>只有两次握手的话，一旦第二次握手接收超时，重新发送后就会重新发送，会导致建立2个连接</p>
+<img src="/2017/08/03/Network/tcp_handshake2.png" style="zoom: 33%;">
+
+<h5 id="TCP连接的4次挥手"><a href="#TCP连接的4次挥手" class="headerlink" title="TCP连接的4次挥手"></a>TCP连接的4次挥手</h5><h5 id=""><a href="#" class="headerlink" title=""></a><img src="/2017/08/03/Network/tcp_bye.png" alt="tcp4" style="zoom: 33%;"></h5><ol>
+<li><p>由客户端向服务端发起    : 服务端收到信息后,就能确定客户端已经停止发送数据。    </p>
+</li>
+<li><p>由服务端向客户端发起    : 客户端收到消息后,就能确定服务端已经知道客户端不会再发送数据。这一次是为了TCP可靠传输，确认收到了数据包。</p>
+</li>
+<li><p>由服务端向客户端发起    : 客户端收到消息后,就能确定服务端已经停止发送数据。此时 服务端数据发送完了。</p>
+</li>
+<li><p>由客户端向服务端发起    : 服务端收到信息后,就能确定客户端已经知道服务端不会再发送数据。</p>
+</li>
+</ol>
+<ol>
+<li>Client: 分手</li>
+<li>Server : what</li>
+<li>Server : 好吧 分吧</li>
+<li>Client : 我已经删微信了； </li>
+</ol>
+<ul>
+<li><p>等待计时器 : 2MSL(Max Segment liftime),</p>
+</li>
+<li><p>**为什么需要等待计时器?**： 如果第4个挥手报文接收方没收到，那么接收方会重新发送第3次的挥手报文</p>
+</li>
+<li><p><strong>为什么第3次挥手是接收方发出的?</strong> :  我的理解是，第2次挥手是确认收到的回复，第三次是挥手是确认数据发送完毕，告诉发送方可以断开了,然而我又有了疑问?</p>
+</li>
+<li><p>为什么需要第4次挥手?</p>
+</li>
+</ul>
+<p><img src="https://pic2.zhimg.com/80/v2-914ad7e22599fd63d2c9434d55d4b6c6_720w.jpg?source=1940ef5c"></p>
+<p>小扎和小美通信</p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63264012">https://www.zhihu.com/question/63264012</a></p>
+<h4 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h4><p> 通过ISP、路由 找到 ,运行在路由器上 rip协议:不太理解</p>
+<p>网络配置</p>
+<img src="/2017/08/03/Network/2021-08-15_8_netconfig.png" style="zoom:50%;">
+
+
+
+<h5 id="主机计算"><a href="#主机计算" class="headerlink" title="主机计算"></a>主机计算</h5><p>IPADDR                    : 192.168.139.10</p>
+<p>NETMASK子网掩码 : 255.255.255.0</p>
+<p>网络号:    就是上面的IPADDR ,NETMASK进行 与运算, 192.168.139.0,10就是网络中的第10号主机。</p>
+<h5 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h5><p><img src="/2017/08/03/Network/2021-08-15_8.30_router.png"></p>
+<ol>
+<li><p>第一条意思</p>
+<p>我这台计算机通过 eth0,不需要任何中间的网关Geteway,久可以访问这个网络(192.168.150.)中的任何计算机，</p>
+</li>
+</ol>
+<h5 id="怎么找到目标主机"><a href="#怎么找到目标主机" class="headerlink" title="怎么找到目标主机"></a>怎么找到目标主机</h5><p>面试题:路由器是怎么找目标服务器</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1PU4y1s7Bs?p=18&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1PU4y1s7Bs?p=18&amp;spm_id_from=pageDriver</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1PU4y1s7Bs?p=24&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1PU4y1s7Bs?p=24&amp;spm_id_from=pageDriver</a></p>
+<ol>
+<li><p><a target="_blank" rel="noopener" href="http://www.baidu.com通过/">www.baidu.com通过</a> DNS解析得到目标ip地址 61.135.169.121</p>
+</li>
+<li><p>61.135.169.121和第一条255.255.255.0进行 按位与运算的到的61.135.169.0和192.168.150.0结果不一样，所以该条目被淘汰。</p>
+</li>
+<li><p>第二条目不用管（好像这个条目有问题），来到第三条，按照步骤2按位与运算，得到结果0.0.0.0，和Destination结果一样。则此时的Gateway起作用。</p>
+</li>
+<li><p>数据给到下一跳网关，也就是192.168.150.2，如果获得的下一跳网关Gateway是 0.0.0.0的话，那么说明在同一个局域网直接发数据就好了，不用跳了。</p>
+</li>
+</ol>
+<h4 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h4><h5 id="封装成帧"><a href="#封装成帧" class="headerlink" title="封装成帧"></a>封装成帧</h5><h5 id="透明传输"><a href="#透明传输" class="headerlink" title="透明传输"></a>透明传输</h5><h5 id="差错检测"><a href="#差错检测" class="headerlink" title="差错检测"></a>差错检测</h5><p>ARP协议</p>
+<p><img src="/2017/08/03/Network/2021-08-15_9_arp.png"></p>
+<p>网卡的IP 192.168.150.1     和at后面对应的 网卡mac地址。</p>
+<p><img src="/2017/08/03/Network/2021-08-15_arp_demo.png"></p>
+<p><img src="/2017/08/03/Network/2021-08-15_9.37_arp_router.png"></p>
+<h5 id="网卡pc1到pc5的过程"><a href="#网卡pc1到pc5的过程" class="headerlink" title="网卡pc1到pc5的过程"></a>网卡pc1到pc5的过程</h5><p>网络数据里层存放目标IP地址，外层有下一跳的mac地址。</p>
+<p>但是mac地址是怎么来的呢?</p>
+<p>就是通过 arp协议,</p>
+<ol>
+<li>pc1发到pc2路由器,带的数据是1，mac先定义成FFFFFF</li>
+<li>pc2接受到后，回传给pc1自己的mac地址，接着上面的传输层步骤4就有了下一跳的mac地址了。</li>
+</ol>
+<h4 id="物理层-铜线介质类"><a href="#物理层-铜线介质类" class="headerlink" title="物理层: 铜线介质类"></a>物理层: 铜线介质类</h4><ol>
+<li><p>数据链路层  ： 相邻两台机器间的连接，把数据报以帧的形式发送, 以太网协议</p>
+  <img src="/2017/08/03/Network/Ethernet1.png" style="zoom:67%;">
+
+  <img src="/2017/08/03/Network/Ethernet2.png" style="zoom:67%;"></li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1pA411M7Ai?p=137&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1pA411M7Ai?p=137&amp;spm_id_from=pageDriver</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1PU4y1s7Bs?from=search&amp;seid=16016904944562540448">https://www.bilibili.com/video/BV1PU4y1s7Bs?from=search&amp;seid=16016904944562540448</a></p>
+<p> <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html">https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://hpbn.co/brief-history-of-http/">https://hpbn.co/brief-history-of-http/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.w3.org/Protocols/History.html">https://www.w3.org/Protocols/History.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP">https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-HexoConfigure" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/01/HexoConfigure/">HexoConfigure</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-01T06:03:52.000Z" itemprop="datePublished">2017年08月01日</time>
+</span>
+      
+      
+      
+<a href="/2017/08/01/HexoConfigure/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h5><p>​    官方文档:<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/index.html">https://hexo.io/zh-cn/docs/index.html</a></p>
+<ol>
+<li><p>下载 <a target="_blank" rel="noopener" href="https://nodejs.org/en/">Node.js </a>)</p>
+</li>
+<li><p>Git</p>
+<p>下载的是 node-v6.11.3-x64.msi ，一路安装下去自动配置好了环境变量<br> 输入 <code>node -v</code> 测试</p>
+</li>
+<li><p>npm  </p>
+<p><code>npm install -g hexo-cli  </code></p>
+<p>注意： 安装Node.js最佳方式使用nvm，使用master分支不起作用,需要github推荐的分支</p>
+<p>接着安装node.js</p>
+<p>搭建好hexo后，由于他是本地生成的，那么就要考虑同步的问题了，目前解决在github建一个分支 hexo，然后把本地资源用git分支管理</p>
+</li>
+<li><p>安装 npm install hexo </p>
+</li>
+</ol>
+<p>安装出问题 更换镜像源</p>
+<p><a target="_blank" rel="noopener" href="https://www.lemonneko.cn/win10%E6%90%AD%E5%BB%BAhexo%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/">https://www.lemonneko.cn/win10%E6%90%AD%E5%BB%BAhexo%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</a></p>
+<h5 id="上传文件到分支"><a href="#上传文件到分支" class="headerlink" title="上传文件到分支"></a>上传文件到分支</h5><pre><code>    // git初始化
+     git init
+    // 添加仓库地址
+    git remote add origin https://github.com/用户名/仓库名.git
+    // 新建分支并切换到新建的分支
+    git checkout -b 分支名
+    // 添加所有本地文件到git
+    git add .
+    // git提交
+    git commit -m &quot;&quot;
+    // 文件推送到hexo分支
+    git push origin hexo
+</code></pre>
+<p>   其他设备安装好环境(支持跨平台)，先clone　hexo分支到本地</p>
+<pre><code>git clone -b hexo git@github.com:noteforme/noteforme.github.io.git
+// 安装hexo , 下不下来就用privoxy
+npm install hexo
+// 注意这里不需要hexo初始化：hexo init；否则之前的hexo配置参数会重置
+// 安装依赖库
+npm install
+// 安装部署相关配置
+npm install hexo-deployer-git
+
+//如果出错执行下面的
+npm install -g hexo-cli
+</code></pre>
+<p>这要就完成同步了(上面的流程还不是很规范，不过执行上面几个命令基本都能解决)</p>
+<p>如果有这些不用管了 </p>
+<blockquote>
+<p>npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.0.0 (node_modules\chokidar\node_modules\fsevents):<br>npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for <a href="mailto:&#102;&#x73;&#x65;&#x76;&#101;&#x6e;&#x74;&#x73;&#x40;&#x31;&#46;&#x31;&#46;&#x32;">&#102;&#x73;&#x65;&#x76;&#101;&#x6e;&#x74;&#x73;&#x40;&#x31;&#46;&#x31;&#46;&#x32;</a>: wanted {“os”:”darwin”,”arch”:”any”} (current: {“os”:”win32”,”arch”:”x64”</p>
+</blockquote>
+<p>问题:在ubuntu上，执行hexo d部署后每次都要输入github用户名和密码，在这里也找到了答案，就是根目录下的 _config.yml文件没有配置成ssh,之前是这样的     repository:<a target="_blank" rel="noopener" href="https://github.com/noteforme/noteforme.github.io.git">https://github.com/noteforme/noteforme.github.io.git</a><br>    # Deployment<br>    ## Docs: <a target="_blank" rel="noopener" href="https://hexo.io/docs/deployment.html">https://hexo.io/docs/deployment.html</a><br>    deploy:<br>      type: git<br>      repository: <a href="mailto:&#103;&#105;&#116;&#x40;&#x67;&#x69;&#x74;&#x68;&#x75;&#x62;&#46;&#99;&#111;&#109;">&#103;&#105;&#116;&#x40;&#x67;&#x69;&#x74;&#x68;&#x75;&#x62;&#46;&#99;&#111;&#109;</a>:noteforme/noteforme.github.io.git<br>      branch: master</p>
+<p>参考：<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/6fb0b287f950">http://www.jianshu.com/p/6fb0b287f950</a></p>
+<h5 id="博客嵌入图片"><a href="#博客嵌入图片" class="headerlink" title="博客嵌入图片"></a>博客嵌入图片</h5><ul>
+<li><p>我们生成的路径是以public目录的路径为相对路径，所以要看public下面有没有生成图片<br><img src="/2017/08/01/HexoConfigure/2017/07/17/BLOG_SYNC_HTTPS/img_generate20170717152203.png" alt="图片"></p>
+<p>  所以我的写法是<br>  “  <img src="/2017/08/01/HexoConfigure/2017/07/17/BLOG_SYNC_HTTPS/img_generate20170717152203.png" alt="描述">  ”<br>  别忘了2017前面的 “/”，否则文章页面不显示图片</p>
+<p>参考： <a target="_blank" rel="noopener" href="http://www.jianshu.com/p/950f8f13a36c">http://www.jianshu.com/p/950f8f13a36c</a></p>
+</li>
+<li><p>之前用上面的方式比较麻烦，有时候还有问题</p>
+</li>
+</ul>
+<blockquote>
+<pre><code> ![描述](BLOG_SYNC_HTTPS/img_generate20170717152203.png)
+</code></pre>
+</blockquote>
+<p> 竟然也是可以的，可以看下效果</p>
+<p> <img src="/2017/08/01/HexoConfigure/BLOG_SYNC_HTTPS/img_generate20170717152203.png" alt="图片"></p>
+<p>奇怪了　这里又不显示了,明明　AndroidStudioTool这篇博客可以显示的,看来还得摸索</p>
+<h6 id="https认证-Cloudflare免费的ssl"><a href="#https认证-Cloudflare免费的ssl" class="headerlink" title="https认证:Cloudflare免费的ssl"></a>https认证:Cloudflare免费的ssl</h6><ul>
+<li><p>创建账户<br>注册　　<a target="_blank" rel="noopener" href="https://www.cloudflare.com/a/sign-up">https://www.cloudflare.com/a/sign-up</a></p>
+</li>
+<li><p>登录后输入域名,点击扫描<br>　　　　如图</p>
+<pre><code>           ![描述](/2017/07/17/https-github-pages/img.png)
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>一直continue，到了Selet a Cloudflare Plan 选择Free Website</p>
+</li>
+<li><p>解析域名的地方，修改域名服务器,我这里是在godaddy修改，然后continue</p>
+</li>
+<li><p>点击Preview on your site instantly－&gt; 点击Overview(显示Ａctive即可)－&gt;点击Crypto(选择Ｆlexible)</p>
+<p>参考：<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/92b6d4a6ecd5">http://www.jianshu.com/p/92b6d4a6ecd5</a></p>
+</li>
+</ul>
+<h5 id="mac-install-hero"><a href="#mac-install-hero" class="headerlink" title="mac install hero"></a>mac install hero</h5><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g hero-<span class="keyword">cli</span> </span><br></pre></td></tr></table></figure>
+
+<p>theme didn’t commit to GitHub ,so you could clone theme</p>
+<h6 id="hexo-next主题添加分类"><a href="#hexo-next主题添加分类" class="headerlink" title="hexo next主题添加分类"></a>hexo next主题添加分类</h6><ul>
+<li><p>修改主题</p>
+<p>  <code>git clone git@github.com:ppoffice/hexo-theme-icarus.git themes/icarus</code><br> 里面都有介绍，主要石npm安装不了插件<br> 就需要<a target="_blank" rel="noopener" href="http://blog.csdn.net/huaiyiheyuan/article/details/53026243">这篇文章</a> 的polipo工具，最有名的Privoxy反而不起作用</p>
+</li>
+<li><p>分类<br>只要在　博客头部加　categories: “BLOG”　　就会自动展示分类了，如果觉得每次添加麻烦的话，修改scaffolds/post.md　模板</p>
+<p>  title: HexoConfigure<br>  date: 1501567432000<br>  tags:<br>  categories:<br>  comments: true</p>
+</li>
+</ul>
+<p> 然后hexo n “yourblog”,就会有这些了，接下里就是在首页分类进行关联了</p>
+<ul>
+<li>生成 分类（默认已有分类）<pre><code> hexo new page &quot;categories&quot;
+</code></pre>
+</li>
+</ul>
+<ol>
+<li>新建page: $ hexo new page “categories” ，在 hexo &gt; source 文件夹中会出现一个categories文件夹</li>
+<li>打开categories文件夹中的index.md页面，在头部添加 – type: “categories” （为了点击的时候链接生效）</li>
+<li>在hexo &gt; theme &gt; next &gt; _config.yml 中修改menu下的categorues,去掉前面井号注释。 然后就可以看到分类页面了</li>
+</ol>
+<p>参考：<a target="_blank" rel="noopener" href="https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/">https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/</a></p>
+<h6 id="next-添加头像"><a href="#next-添加头像" class="headerlink" title="next 添加头像"></a>next 添加头像</h6><ul>
+<li>新建uploads文件夹，放入图片</li>
+</ul>
+<ul>
+<li><p>找到themes/next 下的 -config.yml,修改如下图所示</p>
+<pre><code> # Sidebar Avatar
+ # in theme directory(source/images): /images/avatar.jpg
+ # in site  directory(source/uploads): /uploads/avatar.jpg
+  avatar: /uploads/author.png
+</code></pre>
+<p>参考：<a target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F">https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F</a></p>
+</li>
+</ul>
+<h6 id="添加浏览数"><a href="#添加浏览数" class="headerlink" title="添加浏览数"></a>添加浏览数</h6><p><a target="_blank" rel="noopener" href="https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud">https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud</a></p>
+<h5 id="Mac-Hexo安装后-command-not-found-hexo的解决方法"><a href="#Mac-Hexo安装后-command-not-found-hexo的解决方法" class="headerlink" title="Mac  Hexo安装后 command not found: hexo的解决方法"></a>Mac  Hexo安装后 command not found: hexo的解决方法</h5><p>​         </p>
+<p>$ npm root -g<br>获取node_modules地址<br>/Users/guo/.npm-global/lib/node_modules</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$export</span> PATH=<span class="variable">$PATH</span>:<span class="regexp">/Users/m</span><span class="regexp">/.npm-global/</span>lib<span class="regexp">/node_modules/</span>hexo-cli/bin</span><br></pre></td></tr></table></figure>
+
+<p>也可以去修改<del>/.zshrc 或者</del>/.bashrc，在里面添加上述命令，然后 source ~/.zshrc</p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-ContentProvider" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/07/31/ContentProvider/">ContentProvider</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-07-31T01:35:40.000Z" itemprop="datePublished">2017年07月31日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/07/31/ContentProvider/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/providers/content-provider-basics.html?hl=zh-cn">https://developer.android.com/guide/topics/providers/content-provider-basics.html?hl=zh-cn</a><br>   还需要完善单条记录 查询 修改等<br>一、新建数据库<br>    <a target="_blank" rel="noopener" href="https://github.com/BlogForMe/AndroidProject/blob/master/ContentProvider/mylibrary/src/main/java/com/hyhy/mylibrary/ArticleDbHelper.java">https://github.com/BlogForMe/AndroidProject/blob/master/ContentProvider/mylibrary/src/main/java/com/hyhy/mylibrary/ArticleDbHelper.java</a><br>二、创建ContentProvider</p>
+<pre><code>    public class ArticlesProvider extends ContentProvider &#123;
+        public static final String AUTHORITY = &quot;com.hyhy.contenttest.db.ArticlesProvider&quot;;  //标识特定ContentProvider,使用包名使他唯一
+        private static final Uri NOTIFY_URI = Uri.parse(&quot;content://&quot; + AUTHORITY + &quot;/&quot; + TABLE_NAME);
+        private static final UriMatcher uriMatcher;
+
+
+        /**
+         * Match Code
+         */
+        public static final int ARTICLE_ALL = 0;
+        public static final int ARTICLE_SINGLE = 1;
+
+
+        /**
+         * MIME
+         */
+        public static final String CONTENT_TYPE = &quot;vnd.android.cursor.dir/vnd.com.hyhy.article&quot;;
+        private static final String CONTENT_ITEM_TYPE = &quot;vnd.android.cursor.item/vnd.com.hyhy.article&quot;;
+
+        static &#123;
+            uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+            uriMatcher.addURI(AUTHORITY, TABLE_NAME, ARTICLE_ALL);          //匹配记录集合
+            uriMatcher.addURI(AUTHORITY, TABLE_NAME + &quot;/#&quot;, ARTICLE_SINGLE);    //匹配单条记录
+        &#125;
+
+        private ArticleDbHelper helper;
+        private SQLiteDatabase db;
+        private ContentResolver resolver;
+
+        @Override
+        public boolean onCreate() &#123;
+            resolver = getContext().getContentResolver();
+            helper = new ArticleDbHelper(getContext());
+            return false;
+        &#125;
+
+        @Nullable
+        @Override
+        public String getType(@NonNull Uri uri) &#123;
+            int match = uriMatcher.match(uri);
+            switch (match) &#123;
+                case ARTICLE_ALL:
+                    return CONTENT_TYPE;
+                case ARTICLE_SINGLE:
+                    return CONTENT_ITEM_TYPE;
+                default:
+                    throw new IllegalArgumentException(&quot;Unknown URI: &quot; + uri);
+            &#125;
+        &#125;
+
+        @Override
+        public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) &#123;
+            db = helper.getReadableDatabase();
+            int match = uriMatcher.match(uri);
+            switch (match) &#123;
+                case ARTICLE_ALL:
+                    //doesn&#39;t need any code in my provider.
+                    break;
+                case ARTICLE_SINGLE:
+    //                long _id  = ContentUris.parseId()
+                    break;
+                default:
+                    throw new IllegalArgumentException(&quot;Unknown URI: &quot; + uri);
+            &#125;
+            return db.query(TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+        &#125;
+
+
+        @Nullable
+        @Override
+        public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) &#123;
+            int match = uriMatcher.match(uri);
+            if (match != ARTICLE_ALL) &#123;
+                throw new IllegalArgumentException(&quot;Wrong URI:&quot; + uri);
+            &#125;
+            db = helper.getWritableDatabase();
+            long rowId = db.insert(TABLE_NAME, null, values);
+            if (rowId &gt; 0) &#123;
+                notifyDataChanged();
+                return ContentUris.withAppendedId(uri, rowId);
+            &#125;
+            return null;
+        &#125;
+
+
+        @Override
+        public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) &#123;
+            return 0;
+        &#125;
+
+        @Override
+        public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) &#123;
+            return 0;
+        &#125;
+
+         private void notifyDataChanged() &#123;
+            getContext().getContentResolver().notifyChange(NOTIFY_URI, null);
+         &#125;
+     &#125;
+</code></pre>
+<p>配置Androidmanifest.xml</p>
+<pre><code>  &lt;provider
+         android:name=&quot;.db.ArticlesProvider&quot;
+        android:authorities=&quot;com.hyhy.contenttest.db.ArticlesProvider&quot;
+        android:exported=&quot;true&quot; /&gt;
+</code></pre>
+<p>三、操作ContentProvider</p>
+<pre><code> public class MainActivity extends AppCompatActivity &#123;
+    private static final String AUTHORITY = &quot;com.hyhy.contenttest.db.ArticlesProvider&quot;;
+    private static final Uri ARTICLE_ALL_URI = Uri.parse(&quot;content://&quot; + AUTHORITY + &quot;/&quot; + TABLE_NAME);
+    private ContentResolver resolver;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) &#123;
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        resolver = getContentResolver();
+    &#125;
+
+
+    public void addDb(View v) &#123;
+        ContentValues values;
+        for (int i = 1; i &lt; 5; i++) &#123;
+            values = new ContentValues();
+            values.put(ArticleReaderContract.Articles.COLUMN_NAME_ENTRY_ID, i);
+            values.put(ArticleReaderContract.Articles.COLUMN_NAME_TITLE, &quot;heh &quot; + i);
+            values.put(ArticleReaderContract.Articles.COLUMN_NAME_SUBTITLE, &quot;describe &quot; + i);
+            resolver.insert(ARTICLE_ALL_URI, values);
+        &#125;
+        Toast.makeText(MainActivity.this, &quot;插入成功&quot;, Toast.LENGTH_SHORT).show();
+    &#125;
+
+    public void btQueryAll(View v) &#123;
+        Cursor c = resolver.query(ARTICLE_ALL_URI, null, null, null, null);
+        while (c.moveToNext()) &#123;
+            System.out.println(c.getString(c.getColumnIndex(COLUMN_NAME_TITLE)));
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>   参考 ： <a target="_blank" rel="noopener" href="http://blog.csdn.net/liuhe688/article/details/7050868">http://blog.csdn.net/liuhe688/article/details/7050868</a><br>   这一块还不熟悉</p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-EclipseIdeaWeb" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/07/23/EclipseIdeaWeb/">EclipseIdeaWeb</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-07-23T11:16:39.000Z" itemprop="datePublished">2017年07月23日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/TOOL/">TOOL</a>
+  </div>
+
+      
+      
+<a href="/2017/07/23/EclipseIdeaWeb/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Eclipse导入web项目"><a href="#Eclipse导入web项目" class="headerlink" title="Eclipse导入web项目"></a>Eclipse导入web项目</h2><p>1、src并入包<br>导入项目后可以看这种情况</p>
+<p>​    <img src="/2017/07/23/EclipseIdeaWeb/EclipseIdeaWeb%5CDS712.png" alt="DS712"></p>
+<p>处理方法：VideoServer右键－&gt;Build Path-&gt;Configure Build Path-&gt;Source-&gt;Brower-&gt;src-&gt;Apply;接着就可以看到</p>
+<p><img src="/2017/07/23/EclipseIdeaWeb/EclipseDWeb%5CDS5817.png" alt="DS5817">,点击Yes后，项目目录正常了，但是发现这是一个Ｊava项目,没有javax.相关的包</p>
+<ul>
+<li>２、Java项目转Ｗeb项目<br>VideoServer右键－&gt;Properties-&gt;Project Facets</li>
+<li>在这里勾选　Dynamic Web Module:下面会有个提示　Ｄynamic Web Module 3.0 Requires Java 1.6 or newer.</li>
+<li>勾选　Ｊava　　<img src="/2017/07/23/EclipseIdeaWeb/EclipseDWeb/DS3156.png" alt="藐三"></li>
+<li>勾选　ＪavaScript<br>点击Apply</li>
+</ul>
+<h2 id="Idea安装"><a href="#Idea安装" class="headerlink" title="Idea安装"></a>Idea安装</h2><p><a target="_blank" rel="noopener" href="http://justcode.ikeepstudying.com/2017/12/%E6%9B%B4%E6%96%B0-intellij-idea-2017-3-1-%E6%B3%A8%E5%86%8C%E7%A0%81-%EF%BC%88%E4%BA%B2%E6%B5%8B%E5%8F%AF%E7%94%A8%EF%BC%89/">http://justcode.ikeepstudying.com/2017/12/%E6%9B%B4%E6%96%B0-intellij-idea-2017-3-1-%E6%B3%A8%E5%86%8C%E7%A0%81-%EF%BC%88%E4%BA%B2%E6%B5%8B%E5%8F%AF%E7%94%A8%EF%BC%89/</a></p>
+<p><a target="_blank" rel="noopener" href="http://idea.lanyus.com/">http://idea.lanyus.com/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jetbrains.com/help/idea/developing-a-java-ee-application.html">https://www.jetbrains.com/help/idea/developing-a-java-ee-application.html</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-String" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/07/21/String/">String</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-07-21T06:54:53.000Z" itemprop="datePublished">2017年07月21日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+      
+      
+<a href="/2017/07/21/String/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p> 　字符串连接有两种方式，一种时  “ +  “,另一种是 StringBuilder方式</p>
+<p>命令行运行java</p>
+<p>平常用开发工具习惯了，都忘了怎么用命令行运行，特此记录下</p>
+<p>新建 Concatenation.java文件，cmd到该目录下，写入代码</p>
+<pre><code> public class Concatenation&#123;
+    public static void main(String[] args)&#123;
+     String mango = &quot;mango&quot;;
+     String s = &quot;abc&quot; + mango + &quot;def&quot; + 47;
+     System.out.print(s);    
+    &#125;
+ &#125;
+</code></pre>
+<p>生成 Concatenation.calss 文件</p>
+<pre><code>  D:\DemoExo&gt;javac Concatenation.java
+</code></pre>
+<p>运行Concatenation.class文件,后面是运行结果</p>
+<pre><code>   D:\DemoExo&gt;java Concatenation
+   abcmangodef47
+</code></pre>
+<h4 id="String字符串连接方式"><a href="#String字符串连接方式" class="headerlink" title="String字符串连接方式"></a>String字符串连接方式</h4><p>回到主题</p>
+<p>  查看JDK文档（不知道在哪），String 类中每一个看起来会修改String值的方法，实际上都是创建了一个全新的String对象,以包含修改后的字符串内容.</p>
+<pre><code>public class Immutable&#123;
+     public static String upcase(String s)&#123;
+       return s.toUpperCase();
+     &#125;
+     public static void println(String q)&#123;
+       System.out.println(q);
+     &#125;
+ 
+    public static void main(String[] args)&#123;
+        String q = &quot;howdy&quot;;
+        print(q);            // howdy
+       String qq= upcase(q);
+       print(qq);            //HOWDY
+       print(q);             //howdy
+    &#125;
+&#125;
+</code></pre>
+<p>运行结果：<br>howdy<br>HOWDY<br>howdy<br>当把q传给upcase()时，实际传递的是引用的拷贝</p>
+<h4 id="编译器运行过程"><a href="#编译器运行过程" class="headerlink" title="编译器运行过程"></a>编译器运行过程</h4><p>反编译Concatenation,生成JVM字节码</p>
+<pre><code>   javap -c Concatenation.class
+</code></pre>
+<p>字节码是这样的</p>
+<pre><code>C:\DemoExo&gt;javap -c Concatenation.class
+ Compiled from &quot;Concatenation.java&quot;
+public class Concatenation &#123;
+  public Concatenation();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: ldc           #2                  // String mango
+       2: astore_1
+       3: new           #3                  // class java/lang/StringBuilder
+       6: dup
+       7: invokespecial #4                  // Method java/lang/StringBuilder.&quot;&lt;init&gt;&quot;:()V
+      10: ldc           #5                  // String abc
+      12: invokevirtual #6                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      15: aload_1
+      16: invokevirtual #6                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      19: ldc           #7                  // String def
+      21: invokevirtual #6                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      24: bipush        47
+      26: invokevirtual #8                  // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+      29: invokevirtual #9                  // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+      32: astore_2
+      33: getstatic     #10                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      36: aload_2
+      37: invokevirtual #11                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
+      40: return
+&#125;
+</code></pre>
+<p>可以看到，编译器创建了一个StringBuilder对象,用以构造最终的String，并四次调用了append(),最后使用命令astore_2生成 s对象。<br>这样来看，使用 “+” 连接符，是不会影响性能的咯，接着往下</p>
+<h3 id="“-”连接符-和-StringBuilder对比"><a href="#“-”连接符-和-StringBuilder对比" class="headerlink" title="“+”连接符 和 StringBuilder对比"></a>“+”连接符 和 StringBuilder对比</h3><p>运行javap -c WhitherStringBuilder.class 看到两个方法对象的字节码，先看前半部分implicit()</p>
+<pre><code>public class WhitherStringBuilder &#123;
+  public WhitherStringBuilder();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V
+       4: return
+
+  public java.lang.String implicit(java.lang.String[]);
+    Code:
+       0: ldc           #2                  // String
+       2: astore_2
+       3: iconst_0
+       4: istore_3
+       5: iload_3
+       6: aload_1
+       7: arraylength
+       8: if_icmpge     38
+      11: new           #3                  // class java/lang/StringBuilder
+      14: dup
+      15: invokespecial #4                  // Method java/lang/StringBuilder.&quot;&lt;init&gt;&quot;:()V
+      18: aload_2
+      19: invokevirtual #5                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      22: aload_1
+      23: iload_3
+      24: aaload
+      25: invokevirtual #5                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      28: invokevirtual #6                  // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+      31: astore_2
+      32: iinc          3, 1
+      35: goto          5
+      38: aload_2
+      39: areturn
+</code></pre>
+<p>第8到35行，在for循环体内，每一次循环就创建了一个StringBuilder对象，接着看看explicit()</p>
+<pre><code> public java.lang.String explicit(java.lang.String[]);
+   Code:
+      0: new           #3                  // class java/lang/StringBuilder
+      3: dup
+      4: invokespecial #4                  // Method java/lang/StringBuilder.&quot;&lt;init&gt;&quot;:()V
+      7: astore_2
+      8: iconst_0
+      9: istore_3
+     10: iload_3
+     11: aload_1
+     12: arraylength
+     13: if_icmpge     30
+     16: aload_2
+     17: aload_1
+     18: iload_3
+     19: aaload
+     20: invokevirtual #5                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     23: pop
+     24: iinc          3, 1
+     27: goto          10
+     30: aload_2
+     31: invokevirtual #6                  // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+</code></pre>
+<p>第13到27行在for循环体内，StringBuilder只会生成一个对象</p>
+<p>总结： 由此来看，如果字符串操作比较简单，就可以用“+”连接让编译器处理字符串<br>如果在循环中，那么自己创建一个StringBuilder对象</p>
+<p>参考：<em>摘自ThinkInJava4   P286</em></p>
+<h4 id="避免创建不必要的对象"><a href="#避免创建不必要的对象" class="headerlink" title="避免创建不必要的对象"></a>避免创建不必要的对象</h4><p>创建　String对象</p>
+<p> 最好能重用对象而不是每次需要的时候就创建一个功能相同的新对象，重用方式即快速<br>又流行。如果对象是不可变的，它始终可以被重用。</p>
+<p>极端的反面例子　｀Ｓtring s = new String(“stringette”);  //DON’T DO THIS ! ｀<br>该语句每次被执行的时候都创建一个新的String实例，传递给String构造器的参数”stringette’本身就是一个String实例，如果这种用法在一个循环中，或者在一个频繁<br>调用的方法中，就会创建出成千上万不必要的String  实例。</p>
+<p>改进后的版本如下所示</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String s  = <span class="string">&quot;stringette&#x27;;</span></span><br></pre></td></tr></table></figure>
+<p>这个版本只用了一个String实例，而且它可以保证，对于所有的同一台虚拟机中运行的代码<br>，只要包含相同的字符串字面常量，该对象就会被重用.</p>
+<h2 id="返回数据处理"><a href="#返回数据处理" class="headerlink" title="返回数据处理"></a>返回数据处理</h2><p>对于同时提供静态工厂方法和构造器的不可变类，通常可以使用静态工厂方法，而不是构造器<br>以避免创建不必要的对象，例如，静态工厂方法Boolean.valueof(String)由于构造器Boolean(String),构造器每次调用的时候都会创建一个新的对象，而静态工厂方法则不会</p>
+<p>我们平常解析回来后非String类型的数据，需要转换成String对象　<br>看到这里后就需要使用<code>String.valueof(String)</code> </p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Returns the string representation of the &#123;<span class="doctag">@code </span>Object&#125; argument.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param   </span>obj   an &#123;<span class="doctag">@code </span>Object&#125;.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return  </span>if the argument is &#123;<span class="doctag">@code </span>null&#125;, then a string equal to</span></span><br><span class="line"><span class="comment">   *          &#123;<span class="doctag">@code </span>&quot;null&quot;&#125;; otherwise, the value of</span></span><br><span class="line"><span class="comment">   *          &#123;<span class="doctag">@code </span>obj.toString()&#125; is returned.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@see     </span>java.lang.Object#toString()</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">String</span> <span class="function"><span class="title">valueOf</span>(<span class="params"><span class="built_in">Object</span> obj</span>)</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> (obj == <span class="literal">null</span>) ? <span class="string">&quot;null&quot;</span> : obj.toString();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>从源码中看到对形参　做了　null判断，所以用这种方式页不用担心闪退的情况了<br>参考 Effective Java　page17</p>
+<ul>
+<li><p>java 8 获取对象数据</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private WchatMobile decodeMobile(<span class="built_in">String</span> encryptedData, <span class="built_in">String</span> iv, <span class="built_in">String</span> unionid) &#123;</span><br><span class="line">  WchatMiniAppSession miniAppSession = getWchatMiniAppSession(unionid);</span><br><span class="line">  <span class="built_in">String</span> sessionKey = Optional.ofNullable(miniAppSession)</span><br><span class="line">    .orElseThrow<span class="function"><span class="params">(() -&gt; <span class="keyword">new</span> ServiceExecutionException(<span class="string">&quot;用户小程序登录信息为空&quot;</span>))</span></span></span><br><span class="line"><span class="function">    .<span class="title">getSessionKey</span><span class="params">()</span>;</span></span><br><span class="line"><span class="function">  </span></span><br><span class="line"><span class="function">  <span class="title">return</span> <span class="title">Optional</span>.<span class="title">ofNullable</span><span class="params">(wchatMiniAppService)</span></span></span><br><span class="line"><span class="function">   .<span class="title">map</span><span class="params">(<span class="keyword">as</span> -&gt; <span class="keyword">as</span>.getWxMaService())</span></span></span><br><span class="line"><span class="function">   .<span class="title">map</span><span class="params">(s -&gt; s.getUserService())</span></span></span><br><span class="line"><span class="function">   .<span class="title">map</span><span class="params">(se -&gt; se.getPhoneNoInfo(sessionKey, encryptedData, iv))</span></span></span><br><span class="line"><span class="function">   .<span class="title">map</span><span class="params">(num -&gt; WchatMobile.<span class="keyword">from</span>(num))</span></span></span><br><span class="line"><span class="function">   .<span class="title">orElse</span><span class="params">(<span class="literal">null</span>)</span>;</span></span><br><span class="line"><span class="function"> &#125;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/209343">https://time.geekbang.org/column/article/209343</a></p>
+<h4 id="亨元模式"><a href="#亨元模式" class="headerlink" title="亨元模式"></a>亨元模式</h4><pre><code>Integer a = 1;
+Integer b = 2;
+Integer c = 3;
+Integer d = 3;
+Integer e = 321;
+Integer f = 321;
+Long g = 3L;
+System.out.println(c==d);
+System.out.println(e==f);
+System.out.println(c==(a+b));
+System.out.println(c.equals(a+b));
+System.out.println(g ==(a+b));
+System.out.println(g.equals(a+b));
+</code></pre>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Glide" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/07/21/Glide/">Glide</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-07-21T06:03:20.000Z" itemprop="datePublished">2017年07月21日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/07/21/Glide/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="Glide加载流程"><a href="#Glide加载流程" class="headerlink" title="Glide加载流程"></a>Glide加载流程</h4><p><img src="/2017/07/21/Glide/2021-08-09_4.51_glideflow.png">\</p>
+<h4 id="LruCache"><a href="#LruCache" class="headerlink" title="LruCache"></a>LruCache</h4><p><img src="/2017/07/21/Glide/2021-08-09_4.4_lrucache.png"></p>
+<h5 id="LinkedHashMap参数含义"><a href="#LinkedHashMap参数含义" class="headerlink" title="LinkedHashMap参数含义"></a>LinkedHashMap参数含义</h5><p>initialCapacity : 最大容量</p>
+<p>loadFactor     :     负载因子</p>
+<p>accessOrder    : 排序方式, true 按照访问顺序排序， false 按照插入顺序排序</p>
+<h5 id="访问顺序排序"><a href="#访问顺序排序" class="headerlink" title="访问顺序排序"></a>访问顺序排序</h5><p>accessOrder : true</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">LinkedHashMap&lt;String, String&gt; map = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(<span class="number">0</span>, <span class="number">0.75f</span>, <span class="keyword">true</span>);</span><br><span class="line">map.put(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;b&quot;</span>, <span class="string">&quot;B&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;c&quot;</span>, <span class="string">&quot;C&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;d&quot;</span>, <span class="string">&quot;D&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;e&quot;</span>, <span class="string">&quot;E&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;f&quot;</span>, <span class="string">&quot;F&quot;</span>);</span><br><span class="line"></span><br><span class="line">map.get(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;n&quot;</span>,<span class="string">&quot;N&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (Map.Entry&lt;String, String&gt; entry : map.entrySet()) &#123;</span><br><span class="line">    Log.d(<span class="string">&quot;LruCacheTest&quot;</span>, <span class="string">&quot;testLinkedHashMap : &quot;</span>+ entry.getKey()+<span class="string">&quot; : &quot;</span> + entry.getValue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果</p>
+<blockquote>
+<p> D LruCacheTest: testLinkedHashMap : b : B<br> D LruCacheTest: testLinkedHashMap : c : C<br> D LruCacheTest: testLinkedHashMap : d : D<br> D LruCacheTest: testLinkedHashMap : e : E<br> D LruCacheTest: testLinkedHashMap : f : F<br> D LruCacheTest: testLinkedHashMap : a : A<br> D LruCacheTest: testLinkedHashMap : n : N</p>
+</blockquote>
+<p>可以看到 先访问a ,在插入n,把最新最近使用和访问的 A N,放到链表后面</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LinkedHashMap&lt;String, String&gt; map = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(<span class="number">100</span>, <span class="number">0.75f</span>, <span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>D LruCacheTest: testLinkedHashMap : a : A<br>D LruCacheTest: testLinkedHashMap : b : B<br>D LruCacheTest: testLinkedHashMap : c : C<br>D LruCacheTest: testLinkedHashMap : d : D<br>D LruCacheTest: testLinkedHashMap : e : E<br>D LruCacheTest: testLinkedHashMap : f : F<br>D LruCacheTest: testLinkedHashMap : n : N</p>
+</blockquote>
+<h4 id="感知生命周期"><a href="#感知生命周期" class="headerlink" title="感知生命周期"></a>感知生命周期</h4><p><img src="/2017/07/21/Glide/2021-08-09_4.52_lifecycle.png"></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Qy4y1s7Gh?p=15&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1Qy4y1s7Gh?p=15&amp;spm_id_from=pageDriver</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/bumptech/glide">https://github.com/bumptech/glide</a></p>
+<p><a target="_blank" rel="noopener" href="https://muyangmin.github.io/glide-docs-cn/doc/generatedapi.html">https://muyangmin.github.io/glide-docs-cn/doc/generatedapi.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6844904136266219534">https://juejin.im/post/6844904136266219534</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/48d9e4d5d75d">https://www.jianshu.com/p/48d9e4d5d75d</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Gson" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/07/21/Gson/">Gson</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-07-21T01:12:15.000Z" itemprop="datePublished">2017年07月21日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/07/21/Gson/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="Gson-Types理解"><a href="#Gson-Types理解" class="headerlink" title="$Gson$Types理解"></a>$Gson$Types理解</h5><p> 官方教程 <a target="_blank" rel="noopener" href="https://github.com/google/gson/blob/master/UserGuide.md" title="官方教程">https://github.com/google/gson/blob/master/UserGuide.md</a></p>
+<p>源码分析<br><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/89c314ae8c0b">http://www.jianshu.com/p/89c314ae8c0b</a></p>
+<h5 id="Gson转map"><a href="#Gson转map" class="headerlink" title="Gson转map"></a>Gson转map</h5><ul>
+<li>Gson可以直接把json转为map,但是在转成map时，默认將int long型的数字,转换成doublel类型</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> sms <span class="operator">=</span> <span class="string">&quot;&#123;<span class="subst">\&quot;</span>Code<span class="subst">\&quot;</span>:200,<span class="subst">\&quot;</span>Data<span class="subst">\&quot;</span>:&#123;<span class="subst">\&quot;</span>Code<span class="subst">\&quot;</span>:<span class="subst">\&quot;</span><span class="subst">\&quot;</span>&#125;,<span class="subst">\&quot;</span>Message<span class="subst">\&quot;</span>:<span class="subst">\&quot;</span>发送成功<span class="subst">\&quot;</span>&#125;&quot;</span>;</span><br><span class="line"><span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">Object</span>&gt; map <span class="operator">=</span> new <span class="type">Gson</span>().fromJson(sms, <span class="type">HashMap</span>.class);</span><br></pre></td></tr></table></figure>
+<p>这里装成map后，Code值尾 200.0  ,解析方法　</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">          .registerTypeAdapter(<span class="keyword">new</span> TypeToken&lt;TreeMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt;&gt;() &#123;</span><br><span class="line">          &#125;.getType(), <span class="keyword">new</span> JsonDeserializer&lt;TreeMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt;&gt;() &#123;</span><br><span class="line"></span><br><span class="line">              <span class="meta">@Override</span></span><br><span class="line">              public TreeMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt; deserialize(JsonElement json, <span class="built_in">Type</span> typeOfT, JsonDeserializationContext context) throws JsonParseException &#123;</span><br><span class="line">                  TreeMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt; treeMap = <span class="keyword">new</span> TreeMap&lt;&gt;();</span><br><span class="line">                  JsonObject jsonObject = json.getAsJsonObject();</span><br><span class="line">                  <span class="built_in">Set</span>&lt;<span class="built_in">Map</span>.Entry&lt;<span class="built_in">String</span>, JsonElement&gt;&gt; entrySet = jsonObject.entrySet();</span><br><span class="line">                  <span class="keyword">for</span> (<span class="built_in">Map</span>.Entry&lt;<span class="built_in">String</span>, JsonElement&gt; entry : entrySet) &#123;</span><br><span class="line">                      treeMap.put(entry.getKey(), entry.getValue());</span><br><span class="line">                  &#125;</span><br><span class="line">                  <span class="keyword">return</span> treeMap;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;).create();</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/liangrui_cust/article/details/51197974">参考</a> </p>
+<ul>
+<li><p>map to json(生成json数据)</p>
+<pre><code>  HashMap&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+  map.put(&quot;key&quot;, &quot;real_name&quot;);
+  map.put(&quot;value&quot;, userName);
+  list.add(map);
+  map = new HashMap&lt;&gt;();
+  map.put(&quot;key&quot;, &quot;mobile_phone&quot;);
+  map.put(&quot;value&quot;, userPhone);
+  map.put(&quot;hidden&quot;, false);
+  list.add(map);
+  userInfo.data = new Gson().toJson(list);
+</code></pre>
+</li>
+</ul>
+<ul>
+<li>kotlin  json to object</li>
+</ul>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">val</span> <span class="keyword">type</span> = object : <span class="type">TypeToken</span>&lt;<span class="type">BaseCount</span>&lt;<span class="type">List</span>&lt;<span class="type">Site</span>&gt;&gt;&gt;() &#123;&#125;.<span class="keyword">type</span></span><br><span class="line"><span class="title">var</span> response = gson.fromJson&lt;<span class="type">BaseCount</span>&lt;<span class="type">List</span>&lt;<span class="type">Site</span>&gt;&gt;&gt;(json, <span class="keyword">type</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://ask.helplib.com/java/post_498433">https://ask.helplib.com/java/post_498433</a></p>
+<h5 id="java-parse"><a href="#java-parse" class="headerlink" title="java parse"></a>java parse</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"> public static List&lt;RecipeBean&gt; analysis<span class="constructor">Child(String <span class="params">receps</span>)</span> throws JSONException &#123;</span><br><span class="line">        List&lt;RecipeBean&gt; <span class="built_in">list</span> = <span class="keyword">new</span> ArrayList&lt;&gt;<span class="literal">()</span>;</span><br><span class="line"><span class="comment">//        JSONObject jsonObject = new JSONObject();</span></span><br><span class="line">        JSONArray jsonArray = <span class="keyword">new</span> <span class="constructor">JSONArray(<span class="params">receps</span>)</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; jsonArray.length<span class="literal">()</span>; i++) &#123;</span><br><span class="line">            JSONObject <span class="keyword">object</span> = jsonArray.get<span class="constructor">JSONObject(<span class="params">i</span>)</span>;</span><br><span class="line">            RecipeBean mPatient = <span class="keyword">new</span> <span class="constructor">RecipeBean(TYPE_ITEM)</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;drug_name&quot;</span>))&#123;</span><br><span class="line">                mPatient.set<span class="constructor">Drug_name(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;drug_name&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;drug_num&quot;</span>))&#123;</span><br><span class="line">               mPatient.set<span class="constructor">Drug_num(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;drug_num&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;frequency&quot;</span>))&#123;</span><br><span class="line">             mPatient.set<span class="constructor">Frequency(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;frequency&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;num&quot;</span>))&#123;</span><br><span class="line">               mPatient.set<span class="constructor">Num(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;num&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;drug_num&quot;</span>))&#123;</span><br><span class="line">               mPatient.set<span class="constructor">Drug_num(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;drug_num&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;pharmacy_type&quot;</span>))&#123;</span><br><span class="line">               mPatient.set<span class="constructor">Pharmacy_type(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;pharmacy_type&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;medicine_num&quot;</span>))&#123;</span><br><span class="line">             mPatient.set<span class="constructor">Medicine_num(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;medicine_num&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;medicine_unit&quot;</span>))&#123;</span><br><span class="line">              mPatient.set<span class="constructor">Medicine_unit(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;medicine_unit&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">list</span>.add(mPatient);</span><br><span class="line">        &#125;</span><br><span class="line">        return <span class="built_in">list</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-linux" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/07/19/linux/">linux</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-07-19T07:03:07.000Z" itemprop="datePublished">2017年07月19日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/LINUX/">LINUX</a>
+  </div>
+
+      
+      
+<a href="/2017/07/19/linux/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="Linux使用"><a href="#Linux使用" class="headerlink" title="Linux使用"></a>Linux使用</h5><ol>
+<li>find  ： $ find . -name ‘my*’   搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文件。 <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html">http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html</a></li>
+</ol>
+<h5 id="ubuntu-wifi热点"><a href="#ubuntu-wifi热点" class="headerlink" title="ubuntu　wifi热点"></a>ubuntu　wifi热点</h5><p><a target="_blank" rel="noopener" href="http://blog.csdn.net/sunmc1204953974/article/details/45740853">http://blog.csdn.net/sunmc1204953974/article/details/45740853</a></p>
+<h5 id="删除build文件"><a href="#删除build文件" class="headerlink" title="删除build文件"></a>删除build文件</h5><p><code>find . -name &quot;build&quot;  | xargs rm -rf</code></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+
+    <nav id="page-nav">
+
+<a class="extend prev" rel="prev" href="/page/15/">Vorheriger</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/17/">Nächster</a>
+</nav>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/17/kmp/">kmp</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/21/Assembly/">Assembly</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/19/Data-LinkedList/">Data_LinkedList</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/21/Data-Sort/">Data_Sort</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 13.33px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/" rel="tag">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/" rel="tag">resume</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-link"></i> Blogroll</h3>
+    <div class="widget">
+      <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example1.com/">site-name1</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example2.com/">site-name2</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example3.com/">site-name3</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">Sitemap</a>
+        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
+        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2021 Jon.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        
+            <span>Count by <a href="http://busuanzi.ibruce.info/" target="_blank">busuanzi.</a></span>
+        
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+  
+<script src="/localshare/js/social-share.js"></script>
+
+  
+<script src="/localshare/js/qrcode.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

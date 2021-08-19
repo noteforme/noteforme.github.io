@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Handler | Jon&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Jon's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/localshare/css/share.css">
+
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jon&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Cease to struggle and you cease to live. - Thomas Carlyle</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+        
+          <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Handler" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Handler
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-21T09:06:35.000Z" itemprop="datePublished">2017年08月21日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+        <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+      
+      
+<a href="/2017/08/21/Handler/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h5><img src="/2017/08/21/Handler/2021-07-07_15-49-54_hanlder.png">
+
+
+
+<p> <img src="https://images.xiaozhuanlan.com/photo/2019/5dd99feb4297e4c3a5ad55dba0812a1a.png"></p>
+<h5 id="各组件作用"><a href="#各组件作用" class="headerlink" title="各组件作用"></a>各组件作用</h5><ul>
+<li>Handler：事件的发送及处理者，在构造方法中可以设置其 async，默认为 false。若 async 为 true 则该 Handler 发送的 Message 均为异步消息，有同步屏障的情况下会被优先处理。</li>
+<li>Looper：一个用于遍历 MessageQueue 的类，每个线程有一个独有的 Looper，它会在所处的线程开启一个死循环，不断从 MessageQueue 中拿出消息，并将其发送给 target 进行处理</li>
+<li>MessageQueue：在主线程,用于存储 Message，内部维护了 Message 的链表，每次拿取 Message 时，若该  Message 离真正执行还需要一段时间，会通过 nativePollOnce  进入阻塞状态，避免资源的浪费。若存在消息屏障，则会忽略同步消息优先拿取异步消息，从而实现异步消息的优先消费。</li>
+</ul>
+<h5 id="消息入队算法"><a href="#消息入队算法" class="headerlink" title="消息入队算法"></a>消息入队算法</h5><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9efe3b48b730">https://www.jianshu.com/p/9efe3b48b730</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904113470177293">https://juejin.cn/post/6844904113470177293</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1VE411Z7Ay?p=4">https://www.bilibili.com/video/BV1VE411Z7Ay?p=4</a></p>
+<h5 id="ThreadLocal存取算法"><a href="#ThreadLocal存取算法" class="headerlink" title="ThreadLocal存取算法"></a>ThreadLocal存取算法</h5><p>　ThreadLocal是一个线程内部的数据存储类，它可以指定线程的存储数据，数据存储后只有在指定的线程种裁可以获取到存储的数据, 其他线程无法获取。</p>
+<p> 验证:</p>
+<pre><code>  private ThreadLocal&lt;String&gt; mStringThreadLocal = new ThreadLocal&lt;&gt;();
+  mStringThreadLocal.set(&quot;我是主线程&quot;);
+    Log.d(TAG, &quot;mStringThreadLocal 主线程 :　&quot; + mStringThreadLocal.get());
+    exec.submit(new Runnable() &#123;
+        @Override
+        public void run() &#123;
+            mStringThreadLocal.set(&quot;我是线程１&quot;);
+            Log.d(TAG, &quot;mStringThreadLocal 线程１:　&quot; + mStringThreadLocal.get());
+        &#125;
+    &#125;);
+
+    exec.submit(new Runnable() &#123;
+        @Override
+        public void run() &#123;
+            Log.d(TAG, &quot;mStringThreadLocal 线程2: &quot; + mStringThreadLocal.get());
+        &#125;
+    &#125;);
+</code></pre>
+<p>运行结果:</p>
+<blockquote>
+<pre><code>  D/MainActivity: mStringThreadLocal 主线程 :　我是主线程
+ D/MainActivity: mStringThreadLocal 线程１:　我是线程１
+ D/MainActivity: mStringThreadLocal 线程2: null
+</code></pre>
+</blockquote>
+<p>从日志可以看到，虽然在不同线程访问的同一个ThreadLocal对象，但是他们通过ThreadLocal获取到的值确不一样<br>　结论：　对ThreadLocal所做的　读写操作仅限于各自线程的内部，ThreadLocal可以在多个线程互不干扰的存储和修改数据。<br>  !!!任务： 分析ThreadLocal存取算法</p>
+<p>[^参考：Android开发艺术探索　p377]</p>
+<h5 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h5><h6 id="同步消息"><a href="#同步消息" class="headerlink" title="同步消息"></a>同步消息</h6><p> 来个简单的例子<br> <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">new</span> Thread(<span class="built_in">new</span> Runnable() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        <span class="built_in">public</span> <span class="type">void</span> run() &#123;</span><br><span class="line">          Looper.<span class="keyword">prepare</span>();</span><br><span class="line">          <span class="keyword">handler</span> = <span class="built_in">new</span> <span class="keyword">Handler</span>();</span><br><span class="line">          Looper.<span class="keyword">loop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).<span class="keyword">start</span>();</span><br></pre></td></tr></table></figure><br>把　Looper.prepare();注释，报错日志 : <code>java.lang.RuntimeException: Can&#39;t create handler inside thread that has not called Looper.prepare()</code></p>
+<p>从报错信息入手看原因，初始化Handler (API = 25)</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="title">Handler</span>(<span class="params">Callback callback, <span class="built_in">boolean</span> <span class="keyword">async</span></span>)</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (FIND_POTENTIAL_LEAKS) &#123;</span><br><span class="line">           final Class&lt;? <span class="keyword">extends</span> Handler&gt; klass = getClass();</span><br><span class="line">           <span class="keyword">if</span> ((klass.isAnonymousClass() || klass.isMemberClass() || klass.isLocalClass()) &amp;&amp;</span><br><span class="line">                   (klass.getModifiers() &amp; Modifier.STATIC) == <span class="number">0</span>) &#123;</span><br><span class="line">               Log.w(TAG, <span class="string">&quot;The following Handler class should be static or leaks might occur: &quot;</span> +</span><br><span class="line">                   klass.getCanonicalName());</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       mLooper = Looper.myLooper();</span><br><span class="line">       <span class="keyword">if</span> (mLooper == <span class="literal">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(</span><br><span class="line">               <span class="string">&quot;Can&#x27;t create handler inside thread that has not called Looper.prepare()&quot;</span>);  <span class="comment">//报错信息</span></span><br><span class="line">       &#125;</span><br><span class="line">       mQueue = mLooper.mQueue;</span><br><span class="line">       mCallback = callback;</span><br><span class="line">       mAsynchronous = <span class="keyword">async</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>　mLooper为空,所以报错，看下<code>Looper.myLooper();</code></p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Return the Looper object associated with the current thread.  Returns</span></span><br><span class="line"><span class="comment">    * null if the calling thread is not associated with a Looper.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> @<span class="function">Nullable Looper <span class="title">myLooper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> sThreadLocal.<span class="built_in">get</span>();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>  注释可以看到，当前线程没有Looper对象, 那么Looper对象是怎么创建的呢，很显然就是上面例子里的<code> Looper.prepare();</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Initialize the current thread as a looper.</span></span><br><span class="line"><span class="comment">     * This gives you a chance to create handlers that then reference</span></span><br><span class="line"><span class="comment">     * this looper, before actually starting the loop. Be sure to call</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link </span>#loop()&#125; after calling this method, and end it by calling</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link </span>#quit()&#125;.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">void</span> <span class="function"><span class="title">prepare</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">       prepare(<span class="literal">true</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">void</span> <span class="function"><span class="title">prepare</span>(<span class="params"><span class="built_in">boolean</span> quitAllowed</span>)</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (sThreadLocal.get() != <span class="literal">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Only one Looper may be created per thread&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       sThreadLocal.set(<span class="keyword">new</span> Looper(quitAllowed));</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>如果没有Looper　则new 一个，由此也看到每个线程最多一个Looper对象,接着看初始化的Looper</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="constructor">Looper(<span class="params">boolean</span> <span class="params">quitAllowed</span>)</span> &#123;</span><br><span class="line">       mQueue = <span class="keyword">new</span> <span class="constructor">MessageQueue(<span class="params">quitAllowed</span>)</span>;</span><br><span class="line">       mThread = <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>MesageQueue也是通过Looper创建的，看到private 构造方法,一个Looper管理一个　ＭesageQueue,<br>但是我们通常在UI线程初始化Handler不需要调用 <code>Looper.prepare();</code>,这是因为应用启动后,主线程<br>ActivityThread main方法为我们做了工作。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span> </span>&#123;</span><br><span class="line">       Trace.<span class="built_in">traceBegin</span>(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="string">&quot;ActivityThreadMain&quot;</span>);</span><br><span class="line">       SamplingProfilerIntegration.<span class="built_in">start</span>();</span><br><span class="line"></span><br><span class="line">       <span class="comment">// CloseGuard defaults to true and can be quite spammy.  We</span></span><br><span class="line">       <span class="comment">// disable it here, but selectively enable it later (via</span></span><br><span class="line">       <span class="comment">// StrictMode) on debug builds, but using DropBox, not logs.</span></span><br><span class="line">       CloseGuard.<span class="built_in">setEnabled</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">       Environment.<span class="built_in">initForCurrentUser</span>();</span><br><span class="line"></span><br><span class="line">       <span class="comment">// Set the reporter for event logging in libcore</span></span><br><span class="line">       EventLogger.<span class="built_in">setReporter</span>(<span class="keyword">new</span> <span class="built_in">EventLoggingReporter</span>());</span><br><span class="line"></span><br><span class="line">       <span class="comment">// Make sure TrustedCertificateStore looks in the right place for CA certificates</span></span><br><span class="line">       <span class="keyword">final</span> <span class="built_in">File</span> configDir = Environment.<span class="built_in">getUserConfigDirectory</span>(UserHandle.<span class="built_in">myUserId</span>());</span><br><span class="line">       TrustedCertificateStore.<span class="built_in">setDefaultUserDirectory</span>(configDir);</span><br><span class="line"></span><br><span class="line">       <span class="built_in">Process</span>.<span class="built_in">setArgV0</span>(<span class="string">&quot;&lt;pre-initialized&gt;&quot;</span>);</span><br><span class="line"></span><br><span class="line">       Looper.<span class="built_in">prepareMainLooper</span>();</span><br><span class="line"></span><br><span class="line">       ActivityThread thread = <span class="keyword">new</span> <span class="built_in">ActivityThread</span>();</span><br><span class="line">       thread.<span class="built_in">attach</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (sMainThreadHandler == null) &#123;</span><br><span class="line">           sMainThreadHandler = thread.<span class="built_in">getHandler</span>();</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">           Looper.<span class="built_in">myLooper</span>().<span class="built_in">setMessageLogging</span>(<span class="keyword">new</span></span><br><span class="line">                   <span class="built_in">LogPrinter</span>(Log.DEBUG, <span class="string">&quot;ActivityThread&quot;</span>));</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// End of event ActivityThreadMain.</span></span><br><span class="line">       Trace.<span class="built_in">traceEnd</span>(Trace.TRACE_TAG_ACTIVITY_MANAGER);</span><br><span class="line">       Looper.<span class="built_in">loop</span>();</span><br><span class="line"></span><br><span class="line">       <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">RuntimeException</span>(<span class="string">&quot;Main thread loop unexpectedly exited&quot;</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这样初始化Handler操作分析好了，接着就开始发消息了 <code>handler.sendMessage(message);</code>,经过层层调用来到这个方法</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">　 <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">sendMessageAtTime</span><span class="params">(Message msg, <span class="keyword">long</span> uptimeMillis)</span> </span>&#123;</span><br><span class="line">    MessageQueue queue = mQueue;</span><br><span class="line">    <span class="keyword">if</span> (queue == null) &#123;</span><br><span class="line">        RuntimeException e = <span class="keyword">new</span> <span class="built_in">RuntimeException</span>(</span><br><span class="line">                <span class="keyword">this</span> + <span class="string">&quot; sendMessageAtTime() called with no mQueue&quot;</span>);</span><br><span class="line">        Log.<span class="built_in">w</span>(<span class="string">&quot;Looper&quot;</span>, e.<span class="built_in">getMessage</span>(), e);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">enqueueMessage</span>(queue, msg, uptimeMillis);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二个参数时间是可以添加延时的参数</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">boolean <span class="title">enqueueMessage</span>(<span class="params">Message msg, <span class="built_in">long</span> <span class="keyword">when</span></span>)</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (msg.target == <span class="literal">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Message must have a target.&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">if</span> (msg.isInUse()) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(msg + <span class="string">&quot; This message is already in use.&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       synchronized (<span class="keyword">this</span>) &#123;</span><br><span class="line">           <span class="keyword">if</span> (mQuitting) &#123;</span><br><span class="line">               IllegalStateException e = <span class="keyword">new</span> IllegalStateException(</span><br><span class="line">                       msg.target + <span class="string">&quot; sending message to a Handler on a dead thread&quot;</span>);</span><br><span class="line">               Log.w(TAG, e.getMessage(), e);</span><br><span class="line">               msg.recycle();</span><br><span class="line">               <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           msg.markInUse();</span><br><span class="line">           msg.<span class="keyword">when</span> = <span class="keyword">when</span>;</span><br><span class="line">           Message p = mMessages;</span><br><span class="line">           boolean needWake;</span><br><span class="line">           <span class="keyword">if</span> (p == <span class="literal">null</span> || <span class="keyword">when</span> == <span class="number">0</span> || <span class="keyword">when</span> &lt; p.<span class="keyword">when</span>) &#123;</span><br><span class="line">               <span class="comment">// New head, wake up the event queue if blocked.</span></span><br><span class="line">               msg.next = p;</span><br><span class="line">               mMessages = msg;</span><br><span class="line">               needWake = mBlocked;</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="comment">// Inserted within the middle of the queue.  Usually we don&#x27;t have to wake</span></span><br><span class="line">               <span class="comment">// up the event queue unless there is a barrier at the head of the queue</span></span><br><span class="line">               <span class="comment">// and the message is the earliest asynchronous message in the queue.</span></span><br><span class="line">               needWake = mBlocked &amp;&amp; p.target == <span class="literal">null</span> &amp;&amp; msg.isAsynchronous();</span><br><span class="line">               Message prev;</span><br><span class="line">               <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">                   prev = p;</span><br><span class="line">                   p = p.next;</span><br><span class="line">                   <span class="keyword">if</span> (p == <span class="literal">null</span> || <span class="keyword">when</span> &lt; p.<span class="keyword">when</span>) &#123;</span><br><span class="line">                       <span class="keyword">break</span>;</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">if</span> (needWake &amp;&amp; p.isAsynchronous()) &#123;</span><br><span class="line">                       needWake = <span class="literal">false</span>;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               msg.next = p; <span class="comment">// invariant: p == prev.next</span></span><br><span class="line">               prev.next = msg;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// We can assume mPtr != 0 because mQuitting is false.</span></span><br><span class="line">           <span class="keyword">if</span> (needWake) &#123;</span><br><span class="line">               nativeWake(mPtr);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这要Mesage消息就添加到 MesageQueue中了，按事件顺序添加，然后就是取消息了，通过调用<code>Looper.loop();</code></p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Run the message queue in this thread. Be sure to call</span></span><br><span class="line"><span class="comment">    * &#123;@link #quit()&#125; to end the loop.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   public static void loop<span class="literal">()</span> &#123;</span><br><span class="line">       final Looper me = my<span class="constructor">Looper()</span>;</span><br><span class="line">       <span class="keyword">if</span> (me<span class="operator"> == </span>null) &#123;</span><br><span class="line">           throw <span class="keyword">new</span> <span class="constructor">RuntimeException(<span class="string">&quot;No Looper; Looper.prepare() wasn&#x27;t called on this thread.&quot;</span>)</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       final MessageQueue queue = me.mQueue;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// Make sure the identity of this thread is that of the local process,</span></span><br><span class="line">       <span class="comment">// and keep track of what that identity token actually is.</span></span><br><span class="line">       <span class="module-access"><span class="module"><span class="identifier">Binder</span>.</span></span>clear<span class="constructor">CallingIdentity()</span>;</span><br><span class="line">       final long ident = <span class="module-access"><span class="module"><span class="identifier">Binder</span>.</span></span>clear<span class="constructor">CallingIdentity()</span>;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">           Message msg = queue.next<span class="literal">()</span>; <span class="comment">// might block</span></span><br><span class="line">           <span class="keyword">if</span> (msg<span class="operator"> == </span>null) &#123;</span><br><span class="line">               <span class="comment">// No message indicates that the message queue is quitting.</span></span><br><span class="line">               return;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// This must be in a local variable, in case a UI event sets the logger</span></span><br><span class="line">           final Printer logging = me.mLogging;</span><br><span class="line">           <span class="keyword">if</span> (logging != null) &#123;</span><br><span class="line">               logging.println(<span class="string">&quot;&gt;&gt;&gt;&gt;&gt; Dispatching to &quot;</span> + msg.target + <span class="string">&quot; &quot;</span> +</span><br><span class="line">                       msg.callback + <span class="string">&quot;: &quot;</span> + msg.what);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           final long traceTag = me.mTraceTag;</span><br><span class="line">           <span class="keyword">if</span> (traceTag != <span class="number">0</span><span class="operator"> &amp;&amp; </span><span class="module-access"><span class="module"><span class="identifier">Trace</span>.</span></span>is<span class="constructor">TagEnabled(<span class="params">traceTag</span>)</span>) &#123;</span><br><span class="line">               <span class="module-access"><span class="module"><span class="identifier">Trace</span>.</span></span>trace<span class="constructor">Begin(<span class="params">traceTag</span>, <span class="params">msg</span>.<span class="params">target</span>.<span class="params">getTraceName</span>(<span class="params">msg</span>)</span>);</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               msg.target.dispatch<span class="constructor">Message(<span class="params">msg</span>)</span>;</span><br><span class="line">           &#125; finally &#123;</span><br><span class="line">               <span class="keyword">if</span> (traceTag != <span class="number">0</span>) &#123;</span><br><span class="line">                   <span class="module-access"><span class="module"><span class="identifier">Trace</span>.</span></span>trace<span class="constructor">End(<span class="params">traceTag</span>)</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="keyword">if</span> (logging != null) &#123;</span><br><span class="line">               logging.println(<span class="string">&quot;&lt;&lt;&lt;&lt;&lt; Finished to &quot;</span> + msg.target + <span class="string">&quot; &quot;</span> + msg.callback);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// Make sure that during the course of dispatching the</span></span><br><span class="line">           <span class="comment">// identity of the thread wasn&#x27;t corrupted.</span></span><br><span class="line">           final long newIdent = <span class="module-access"><span class="module"><span class="identifier">Binder</span>.</span></span>clear<span class="constructor">CallingIdentity()</span>;</span><br><span class="line">           <span class="keyword">if</span> (ident != newIdent) &#123;</span><br><span class="line">               <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>wtf(TAG, <span class="string">&quot;Thread identity changed from 0x&quot;</span></span><br><span class="line">                       + <span class="module-access"><span class="module"><span class="identifier">Long</span>.</span></span><span class="keyword">to</span><span class="constructor">HexString(<span class="params">ident</span>)</span> + <span class="string">&quot; to 0x&quot;</span></span><br><span class="line">                       + <span class="module-access"><span class="module"><span class="identifier">Long</span>.</span></span><span class="keyword">to</span><span class="constructor">HexString(<span class="params">newIdent</span>)</span> + <span class="string">&quot; while dispatching to &quot;</span></span><br><span class="line">                       + msg.target.get<span class="constructor">Class()</span>.get<span class="constructor">Name()</span> + <span class="string">&quot; &quot;</span></span><br><span class="line">                       + msg.callback + <span class="string">&quot; what=&quot;</span> + msg.what);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           msg.recycle<span class="constructor">Unchecked()</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>通过 Message msg = queue.next();　获取消息，然后用<code>  msg.target.dispatchMessage(msg);</code>把消息往哪发呢 ?</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Handle system messages here.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    public void dispatch<span class="constructor">Message(Message <span class="params">msg</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (msg.callback != null) &#123;</span><br><span class="line">            handle<span class="constructor">Callback(<span class="params">msg</span>)</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (mCallback != null) &#123;</span><br><span class="line">                <span class="keyword">if</span> (mCallback.handle<span class="constructor">Message(<span class="params">msg</span>)</span>) &#123;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            handle<span class="constructor">Message(<span class="params">msg</span>)</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>点开　handleMesage(msg),msg.target 就是Handler</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Subclasses must implement this to receive messages.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这里就清楚了，消息就传到了　Hanlder里面handleMessage的实现方法<br>从上面分析handler消息传递基本了解了，借张图看下整片森林</p>
+<h6 id="异步消息"><a href="#异步消息" class="headerlink" title="异步消息"></a>异步消息</h6><p>Android系统16ms会刷新一次屏幕，如果主线程的消息过多，在16ms之内没有执行完，必然会造成卡顿或者掉帧。那怎么才能不排队，没有延时的处理呢？这个时候就需要异步消息，在处理异步消息的时候，我们就需要同步屏障，让异步消息不用排队等候处理。可以理解为同步屏障是一堵墙，把同步消息队列拦住，先处理异步消息，等异步消息处理完了，这堵墙就会取消，然后继续处理同步消息。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ly502541243/article/details/109091386">https://blog.csdn.net/ly502541243/article/details/109091386</a></p>
+<p>查找异步消息方法</p>
+<p>MessageQueue.java </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Message <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">           <span class="keyword">if</span> (nextPollTimeoutMillis != <span class="number">0</span>) &#123;</span><br><span class="line">               Binder.flushPendingCommands();</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           nativePollOnce(ptr, nextPollTimeoutMillis);</span><br><span class="line"></span><br><span class="line">           <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">               <span class="comment">// Try to retrieve the next message.  Return if found.</span></span><br><span class="line">               <span class="keyword">final</span> <span class="keyword">long</span> now = SystemClock.uptimeMillis();</span><br><span class="line">               Message prevMsg = <span class="keyword">null</span>;</span><br><span class="line">               Message msg = mMessages;</span><br><span class="line">               <span class="keyword">if</span> (msg != <span class="keyword">null</span> &amp;&amp; msg.target == <span class="keyword">null</span>) &#123;</span><br><span class="line">                   <span class="comment">// Stalled by a barrier.  Find the next asynchronous message in the queue.</span></span><br><span class="line">                   <span class="keyword">do</span> &#123;</span><br><span class="line">                       prevMsg = msg;</span><br><span class="line">                       msg = msg.next;</span><br><span class="line">                   &#125; <span class="keyword">while</span> (msg != <span class="keyword">null</span> &amp;&amp; !msg.isAsynchronous()); <span class="comment">//循环查找 直到找到异步消息为止.</span></span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ly502541243/article/details/109091386">https://blog.csdn.net/ly502541243/article/details/109091386</a></p>
+<h5 id="发送延时消息"><a href="#发送延时消息" class="headerlink" title="发送延时消息"></a>发送延时消息</h5><p>看下面问题:handler如何实现延时发消息postdelay()</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/260661053">https://zhuanlan.zhihu.com/p/260661053</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/thh159/article/details/103644489">https://blog.csdn.net/thh159/article/details/103644489</a></p>
+<h5 id="IdleHandler使用"><a href="#IdleHandler使用" class="headerlink" title="IdleHandler使用"></a>IdleHandler使用</h5><p>当消息队列空闲时会执行IdleHandler的queueIdle()方法，该方法返回一个boolean值，如果为false则执行完毕之后移除这条消息，如果为true则保留，等到下次空闲时会再次执行，下面看下MessageQueue的next()方法可以发现确实是这样</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Message <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Run the idle handlers.</span></span><br><span class="line">            <span class="comment">// We only ever reach this code block during the first iteration.</span></span><br><span class="line"> 	keep = idler.queueIdle();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>Activity启动优化：onCreate，onStart，onResume中耗时较短但非必要的代码可以放到IdleHandler中执行，减少启动时间</p>
+</li>
+<li><p>想要在一个View绘制完成之后添加其他依赖于这个View的View，当然这个用View#post()也能实现，区别就是前者会在消息队列空闲时执行</p>
+</li>
+<li><p>一些第三方库中有使用，比如LeakCanary，Glide中有使用到，具体可以自行去查看</p>
+</li>
+<li><p>以前我们在Activity中获取某个控件的宽高的时候总是得到的是0，那是因为view的测量还未完成。通常的做法是监听ViewTreeObserver，它是在ViewRootImpl测量完成之后调用ViewTreeObserver.dispatchOnGlobalLayout()方法，这时候在onGlobalLayout回调中获取的控件宽高都是正确的数据。</p>
+</li>
+</ol>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Looper.myQueue().addIdleHandler &#123;</span><br><span class="line">    Log.i(<span class="string">&quot;HandlerActivity&quot;</span>, <span class="string">&quot;width <span class="subst">$&#123;btFive.width&#125;</span>  height <span class="subst">$&#123;btFive.height&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ZYJWR/article/details/103086664">https://blog.csdn.net/ZYJWR/article/details/103086664</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.wanandroid.com/wenda/show/8723">https://www.wanandroid.com/wenda/show/8723</a></p>
+<h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><h6 id="handler的是怎样实现的？"><a href="#handler的是怎样实现的？" class="headerlink" title="handler的是怎样实现的？"></a>handler的是怎样实现的？</h6><p>新线程中执行了一个耗时操作，然后把该结果塞给message，handler将发送这个messageQueue，Loop不停的从消息队列中取出消息。Handler 分发给Ui.</p>
+<h6 id="Handler是怎么切换线程的"><a href="#Handler是怎么切换线程的" class="headerlink" title="Handler是怎么切换线程的"></a>Handler是怎么切换线程的</h6><p>我们在不同的线程发送消息，线程之间的资源是共享的</p>
+<h6 id="Handler机制了解吗？一个线程有几个Looper？为什么？"><a href="#Handler机制了解吗？一个线程有几个Looper？为什么？" class="headerlink" title="Handler机制了解吗？一个线程有几个Looper？为什么？"></a>Handler机制了解吗？一个线程有几个Looper？为什么？</h6><p>只能有一个，不然调用Looper.prepare()会抛出运行时异常，提示“Only one Looper may be created per thread”</p>
+<h6 id="handler如何实现延时发消息postdelay"><a href="#handler如何实现延时发消息postdelay" class="headerlink" title="handler如何实现延时发消息postdelay(),"></a>handler如何实现延时发消息postdelay(),</h6><p>可以看到这里也是一个for循环遍历队列，核心变量就是nextPollTimeoutMillis。可以看到，计算出nextPollTimeoutMillis后就调用nativiePollOnce这个native方法。这里的话大概可以猜到他的运行机制，因为他是根据执行时间进行排序的，那传入的这个nextPollTimeoutMillis应该就是休眠时间，类似于java的sleep(time)。休眠到下一次message的时候就执行。那如果我在这段时间又插入了一个新的message怎么办，所以handler每次插入message都会唤醒线程，重新计算插入后，再走一次这个休眠流程。</p>
+<p>值得注意的是这个方法没有开启子线程，只是调用了run(), 在<code> msg.target.dispatchMessage(msg)</code>可以看到，接着调用了handleCallback().</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/68083d432b3f">https://www.jianshu.com/p/68083d432b3f</a></p>
+<h6 id="如果移除一个延时消息会解除休眠吗"><a href="#如果移除一个延时消息会解除休眠吗" class="headerlink" title="如果移除一个延时消息会解除休眠吗"></a>如果移除一个延时消息会解除休眠吗</h6><h6 id="主线程死循环不会卡死吗"><a href="#主线程死循环不会卡死吗" class="headerlink" title="主线程死循环不会卡死吗"></a>主线程死循环不会卡死吗</h6><p>从前面的主线程、子线程的分析可以看出，Looper会在线程中不断的检索消息，如果是子线程的Looper死循环，一旦任务完成，用户应该手动退出，而不是让其一直休眠等待。（引用自Gityuan）线程其实就是一段可执行的代码，当可执行的代码执行完成后，线程的生命周期便该终止了，线程退出。而对于主线程，我们是绝不希望会被运行一段时间，自己就退出，那么如何保证能一直存活呢？简单做法就是可执行代码是能一直执行下去的，死循环便能保证不会被退出，例如，binder 线程也是采用死循环的方法，通过循环方式不同与 Binder 驱动进行读写操作，当然并非简单地死循环，无消息时会休眠。<strong>Android是基于消息处理机制的，用户的行为都在这个Looper循环中，我们在休眠时点击屏幕，便唤醒主线程继续进行工作</strong>。</p>
+<p>主线程的死循环一直运行是不是特别消耗 CPU 资源呢？ 其实不然，这里就涉及到 Linux pipe/epoll机制，简单说就是在主线程的 MessageQueue 没有消息时，便阻塞在 loop 的 queue.next() 中的 nativePollOnce() 方法里，此时主线程会释放 CPU 资源进入休眠状态，直到下个消息到达或者有事务发生，通过往 pipe 管道写端写入数据来唤醒主线程工作。这里采用的 epoll 机制，是一种IO多路复用机制，可以同时监控多个描述符，当某个描述符就绪(读或写就绪)，则立刻通知相应程序进行读或写操作，本质同步I/O，即读写是阻塞的。 所以说，主线程大多数时候都是处于休眠状态，并不会消耗大量CPU资源。</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a7969d73c120">https://www.jianshu.com/p/a7969d73c120</a></p>
+<h6 id="handler内存泄露问题"><a href="#handler内存泄露问题" class="headerlink" title="handler内存泄露问题"></a>handler内存泄露问题</h6><h6 id="说说你对Handler机制的了解，同步消息，异步消息等"><a href="#说说你对Handler机制的了解，同步消息，异步消息等" class="headerlink" title="说说你对Handler机制的了解，同步消息，异步消息等"></a>说说你对Handler机制的了解，同步消息，异步消息等</h6><h6 id="IdleHandler用过吗-IdleHandler应用场景？"><a href="#IdleHandler用过吗-IdleHandler应用场景？" class="headerlink" title="IdleHandler用过吗,IdleHandler应用场景？"></a>IdleHandler用过吗,IdleHandler应用场景？</h6><p> 见上面IdleHandler使用</p>
+<p>handler如何实现延时发消息postdelay()。callback，runnable，msg的执行优先级。阻塞是怎么实现的？为什么不会阻塞主线程？</p>
+<h6 id=""><a href="#" class="headerlink" title=""></a></h6><h6 id="Handler休眠是怎样的？epoll的原理是什么？"><a href="#Handler休眠是怎样的？epoll的原理是什么？" class="headerlink" title="Handler休眠是怎样的？epoll的原理是什么？"></a>Handler休眠是怎样的？epoll的原理是什么？</h6><h6 id="如何实现延时消息，如果移除一个延时消息会解除休眠吗？"><a href="#如何实现延时消息，如果移除一个延时消息会解除休眠吗？" class="headerlink" title="如何实现延时消息，如果移除一个延时消息会解除休眠吗？"></a>如何实现延时消息，如果移除一个延时消息会解除休眠吗？</h6><p>Handler内存泄漏的GCRoot是什么？</p>
+<p>epoll的时候算是卡顿吗</p>
+<p>怎么样算是卡顿了</p>
+<p>怎么利用消息机制检测卡顿</p>
+<p>除了这种方式还有别的监测卡顿的方式吗</p>
+<h6 id="Android中为什么主线程不会因为Looper-loop-里的死循环卡死？"><a href="#Android中为什么主线程不会因为Looper-loop-里的死循环卡死？" class="headerlink" title="Android中为什么主线程不会因为Looper.loop()里的死循环卡死？"></a>Android中为什么主线程不会因为Looper.loop()里的死循环卡死？</h6><p>对于线程即是一段可执行的代码，当可执行代码执行完成后，线程生命周期便该终止了，线程退出。而对于主线程，我们是绝不希望会被运行一段时间，自己就退出，那么如何保证能一直存活呢？简单做法就是可执行代码是能一直执行下去的，死循环便能保证不会被退出，例如，binder线程也是采用死循环的方法，通过循环方式不同与Binder驱动进行读写操作，当然并非简单地死循环，无消息时会休眠。但这里可能又引发了另一个问题，既然是死循环又如何去处理其他事务呢？通过创建新线程的方式。真正会卡死主线程的操作是在回调方法<code>onCreate/onStart/onResume</code>等操作时间过长，会导致掉帧，甚至发生ANR，looper.loop本身不会导致应用卡死。</p>
+<p>主线程的死循环一直运行是不是特别消耗CPU资源呢？ 其实不然，这里就涉及到<code>Linux pipe/epoll</code>机制，简单说就是在主线程的<code>MessageQueue</code>没有消息时，便阻塞在loop的<code>queue.next()</code>中的<code>nativePollOnce()</code>方法里，此时主线程会释放CPU资源进入休眠状态，直到下个消息到达或者有事务发生，通过往pipe管道写端写入数据来唤醒主线程工作。这里采用的epoll机制，是一种IO多路复用机制，可以同时监控多个描述符，当某个描述符就绪(读或写就绪)，则立刻通知相应程序进行读或写操作，本质同步I/O，即读写是阻塞的。 所以说，主线程大多数时候都是处于休眠状态，并不会消耗大量CPU资源。 Gityuan–Handler(Native层)</p>
+<p>Handler通信，Binder通信</p>
+<h6 id="Handler同步屏障"><a href="#Handler同步屏障" class="headerlink" title="Handler同步屏障"></a>Handler同步屏障</h6><p>Handler发送的消息分为普通消息、屏障消息、异步消息，一旦Looper在处理消息时遇到屏障消息，那么就不再处理普通的消息，而仅仅处理异步的消息。不再使用屏障后，需要撤销屏障，不然就再也执行不到普通消息了。</p>
+<p>为什么需要这样？它是设计来为了让某些特殊的消息得以更快被执行的机制。比如绘制界面，这种消息可能会明显的被用户感知到，稍有不慎就会引起卡顿、掉帧之类的，所以需要及时处理（可能消息队列中有大量的消息，如果像平时一样挨个进行处理，那绘制界面这个消息就得等很久，这是不想看到的）。</p>
+<p>屏障消息仅仅是起一个屏障的作用，本身一般不附带其他东西，它需要配合其他Handler组件才能发挥作用。  </p>
+<p>1、Handler问题三连：是什么？有什么用？为什么要用，不用行不行？</p>
+<p>2、Android UI更新机制(GUI) 为何设计成了单线程的？</p>
+<p>3、真的只能在主(UI)线程中更新UI吗？</p>
+<p>4、真的不能在主(UI)线程中执行网络操作吗？</p>
+<p>6、为什么建议使用Message.obtain()来创建Message实例？</p>
+<p>7、为什么子线程中不可以直接new Handler()而主线程中可以？</p>
+<p>8、主线程给子线程的Handler发送消息怎么写？</p>
+<p>9、HandlerThread实现的核心原理？</p>
+<p>10、当你用Handler发送一个Message，发生了什么？</p>
+<p>11、Looper是怎么拣队列里的消息的？</p>
+<p>12、分发给Handler的消息是怎么处理的？</p>
+<p>14、Looper在主线程中死循环，为啥不会ANR？</p>
+<p>15、Handler泄露的原因及正确写法</p>
+<p>16、Handler中的同步屏障机制</p>
+<p>17、Android 11 Handler相关变更</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904150140977165">https://juejin.cn/post/6844904150140977165</a></p>
+<p>handler post和handleMesage区别</p>
+<p>​    <strong>post的runnable会直接在callback中调用run方法执行，而sendMessage方法要用户主动重写mCallback或者handleMessage方法来处理</strong></p>
+<hr>
+<p><img src="/2017/08/21/Handler/handler/2021-07-31_4.42_hanlder_qustion.png"></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1A7411M7zQ?from=search&amp;seid=14693797999095810218">https://www.bilibili.com/video/BV1A7411M7zQ?from=search&amp;seid=14693797999095810218</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6844904150140977165">https://juejin.im/post/6844904150140977165</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/guolin_blog/article/details/9991569">http://blog.csdn.net/guolin_blog/article/details/9991569</a></p>
+<p><a target="_blank" rel="noopener" href="https://xiaozhuanlan.com/topic/0843791256">https://xiaozhuanlan.com/topic/0843791256</a></p>
+<p>glide handler </p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1FU4y1V7HE">https://www.bilibili.com/video/BV1FU4y1V7HE</a></p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000039809784">https://segmentfault.com/a/1190000039809784</a></p>
+
+        
+            <div id="toc-article">
+                
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> Inhalte</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E5%9B%BE"><span class="toc-text">原理图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%84%E7%BB%84%E4%BB%B6%E4%BD%9C%E7%94%A8"><span class="toc-text">各组件作用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E5%85%A5%E9%98%9F%E7%AE%97%E6%B3%95"><span class="toc-text">消息入队算法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ThreadLocal%E5%AD%98%E5%8F%96%E7%AE%97%E6%B3%95"><span class="toc-text">ThreadLocal存取算法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%88%E6%81%AF"><span class="toc-text">消息</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E6%B6%88%E6%81%AF"><span class="toc-text">同步消息</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E6%B6%88%E6%81%AF"><span class="toc-text">异步消息</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF"><span class="toc-text">发送延时消息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#IdleHandler%E4%BD%BF%E7%94%A8"><span class="toc-text">IdleHandler使用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#handler%E7%9A%84%E6%98%AF%E6%80%8E%E6%A0%B7%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F"><span class="toc-text">handler的是怎样实现的？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Handler%E6%98%AF%E6%80%8E%E4%B9%88%E5%88%87%E6%8D%A2%E7%BA%BF%E7%A8%8B%E7%9A%84"><span class="toc-text">Handler是怎么切换线程的</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Handler%E6%9C%BA%E5%88%B6%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%9C%89%E5%87%A0%E4%B8%AALooper%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">Handler机制了解吗？一个线程有几个Looper？为什么？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#handler%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%BB%B6%E6%97%B6%E5%8F%91%E6%B6%88%E6%81%AFpostdelay"><span class="toc-text">handler如何实现延时发消息postdelay(),</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E7%A7%BB%E9%99%A4%E4%B8%80%E4%B8%AA%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E4%BC%9A%E8%A7%A3%E9%99%A4%E4%BC%91%E7%9C%A0%E5%90%97"><span class="toc-text">如果移除一个延时消息会解除休眠吗</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%BB%E7%BA%BF%E7%A8%8B%E6%AD%BB%E5%BE%AA%E7%8E%AF%E4%B8%8D%E4%BC%9A%E5%8D%A1%E6%AD%BB%E5%90%97"><span class="toc-text">主线程死循环不会卡死吗</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#handler%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E9%97%AE%E9%A2%98"><span class="toc-text">handler内存泄露问题</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%AF%B4%E8%AF%B4%E4%BD%A0%E5%AF%B9Handler%E6%9C%BA%E5%88%B6%E7%9A%84%E4%BA%86%E8%A7%A3%EF%BC%8C%E5%90%8C%E6%AD%A5%E6%B6%88%E6%81%AF%EF%BC%8C%E5%BC%82%E6%AD%A5%E6%B6%88%E6%81%AF%E7%AD%89"><span class="toc-text">说说你对Handler机制的了解，同步消息，异步消息等</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#IdleHandler%E7%94%A8%E8%BF%87%E5%90%97-IdleHandler%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9F"><span class="toc-text">IdleHandler用过吗,IdleHandler应用场景？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link"><span class="toc-text"></span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Handler%E4%BC%91%E7%9C%A0%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%EF%BC%9Fepoll%E7%9A%84%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">Handler休眠是怎样的？epoll的原理是什么？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%EF%BC%8C%E5%A6%82%E6%9E%9C%E7%A7%BB%E9%99%A4%E4%B8%80%E4%B8%AA%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E4%BC%9A%E8%A7%A3%E9%99%A4%E4%BC%91%E7%9C%A0%E5%90%97%EF%BC%9F"><span class="toc-text">如何实现延时消息，如果移除一个延时消息会解除休眠吗？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Android%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%BB%E7%BA%BF%E7%A8%8B%E4%B8%8D%E4%BC%9A%E5%9B%A0%E4%B8%BALooper-loop-%E9%87%8C%E7%9A%84%E6%AD%BB%E5%BE%AA%E7%8E%AF%E5%8D%A1%E6%AD%BB%EF%BC%9F"><span class="toc-text">Android中为什么主线程不会因为Looper.loop()里的死循环卡死？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Handler%E5%90%8C%E6%AD%A5%E5%B1%8F%E9%9A%9C"><span class="toc-text">Handler同步屏障</span></a></li></ol></li></ol>
+    </div>
+  </div>
+
+
+            </div>
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/2017/08/21/Handler/">http://noteforme.github.io.com/2017/08/21/Handler/</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+        
+<nav id="article-nav">
+  
+    <a href="/2017/08/27/ConcurrencyThreadPool/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">newer</strong>
+      <div class="article-nav-title">
+        
+          ConcurrencyThreadPool
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/08/16/AnimationResource/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">AnimationResource</div>
+    </a>
+  
+</nav>
+
+      
+      
+        
+
+
+
+
+
+
+
+      
+    </footer>
+  </div>
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/17/kmp/">kmp</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/21/Assembly/">Assembly</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/19/Data-LinkedList/">Data_LinkedList</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/21/Data-Sort/">Data_Sort</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 13.33px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年06月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/" rel="tag">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/" rel="tag">resume</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-link"></i> Blogroll</h3>
+    <div class="widget">
+      <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example1.com/">site-name1</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example2.com/">site-name2</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example3.com/">site-name3</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">Sitemap</a>
+        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
+        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2021 Jon.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        
+            <span>Count by <a href="http://busuanzi.ibruce.info/" target="_blank">busuanzi.</a></span>
+        
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+  
+<script src="/localshare/js/social-share.js"></script>
+
+  
+<script src="/localshare/js/qrcode.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>
