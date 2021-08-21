@@ -86,6 +86,177 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-View_OVER" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/11/12/View_OVER/">View_OVER</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-11-12T13:24:33.000Z" itemprop="datePublished">2017年11月12日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/VIEW/">VIEW</a>
+  </div>
+
+      
+      
+<a href="/2017/11/12/View_OVER/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>自定义View函数调用流程 </p>
+<p> <img src="/2017/11/12/View_OVER/View_OVER%5C2019-04-29-71649.jpg" alt="流程"></p>
+<p>构造函数执行一次</p>
+<p>onMeasure(), onLayout(), onDraw()都可能运行很多次。</p>
+<p>所以onMeasure() 用的变量不能在构造方法初始化。</p>
+<p><a target="_blank" rel="noopener" href="http://gcssloop.github.io/customview/CustomViewProcess">http://gcssloop.github.io/customview/CustomViewProcess</a></p>
+<h4 id="窗口显示"><a href="#窗口显示" class="headerlink" title="窗口显示"></a>窗口显示</h4><p> <img src="/2017/11/12/View_OVER/View_OVER%5C2021-02-21_at_5.19.41.png" alt="流程"></p>
+<p>每个Activity包含一个Window对象，Android中window对象由PhoneWindow实现，PhoneWindow将一个DecorView设置为整个应用窗口的根View,DecorView作为窗口界面的顶层视图，封装了窗口操作的通用方法，DecorView将要显示的具体内容显示在PhoneWindow上，这里所有的View监听事件通过WindowMangerService来接收,通过Activity对象来回调相应的onCLicklistener.显示是将屏幕分成两部分，一个TitleView，另一个是ContentView.</p>
+<h4 id="Measure"><a href="#Measure" class="headerlink" title="Measure"></a>Measure</h4><p>如果是原始的 View,通过measure方法就完成了测量过程,如果是ViewGroup,除了完成自己的测量外，还需要遍历所有的子View,各个子元素再去递归执行这个流程.</p>
+<h5 id="View-OnMeasure-方法"><a href="#View-OnMeasure-方法" class="headerlink" title="View OnMeasure()方法"></a>View OnMeasure()方法</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> widthMode = <span class="module-access"><span class="module"><span class="identifier">MeasureSpec</span>.</span></span>get<span class="constructor">Mode(<span class="params">widthMeasureSpec</span>)</span>;</span><br><span class="line"><span class="keyword">val</span> widthSize = <span class="module-access"><span class="module"><span class="identifier">MeasureSpec</span>.</span></span>get<span class="constructor">Size(<span class="params">widthMeasureSpec</span>)</span>; widthSize父控件留个子空间的最大宽度</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> heightMode = <span class="module-access"><span class="module"><span class="identifier">MeasureSpec</span>.</span></span>get<span class="constructor">Mode(<span class="params">heightMeasureSpec</span>)</span>;</span><br><span class="line"><span class="keyword">val</span> heightSize = <span class="module-access"><span class="module"><span class="identifier">MeasureSpec</span>.</span></span>get<span class="constructor">Size(<span class="params">heightMeasureSpec</span>)</span>;</span><br><span class="line"></span><br><span class="line">var width = <span class="number">10</span></span><br><span class="line">var height = <span class="number">10</span></span><br><span class="line"><span class="keyword">if</span> (widthMode<span class="operator"> == </span>MeasureSpec.EXACTLY) &#123;   <span class="comment">//如果match_parent或者具体的值，直接赋值</span></span><br><span class="line">    width = widthSize</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (widthMode<span class="operator"> == </span>MeasureSpec.AT_MOST) &#123; <span class="comment">//w，我们要得到控件需要多大的尺寸</span></span><br><span class="line">    width = paddingLeft + mBound.width<span class="literal">()</span> + paddingRight</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//高度跟宽度处理方式一样</span></span><br><span class="line"><span class="keyword">if</span> (heightMode<span class="operator"> == </span>MeasureSpec.EXACTLY) &#123;</span><br><span class="line">    height = heightSize</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (heightMode<span class="operator"> == </span>MeasureSpec.AT_MOST) &#123;</span><br><span class="line">    height = paddingTop + mBound.height<span class="literal">()</span> + paddingBottom</span><br><span class="line">&#125;</span><br><span class="line">set<span class="constructor">MeasuredDimension(<span class="params">width</span>, <span class="params">height</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>理解onMeasure <a target="_blank" rel="noopener" href="https://blog.csdn.net/tuke_tuke/article/details/73302595">https://blog.csdn.net/tuke_tuke/article/details/73302595</a></p>
+<p>加载布局</p>
+<img src="/2017/11/12/View_OVER/2021-02-16_at_3.37.39.png" alt="图" style="zoom:80%;">
+
+<h5 id="onSizeChanged"><a href="#onSizeChanged" class="headerlink" title="onSizeChanged"></a>onSizeChanged</h5><p>因为View的大小不仅由View本身控制，而且受父控件的影响，所以我们在确定View大小的时候最好使用系统提供的onSizeChanged回调函数。它又四个参数，分别为 宽度，高度，上一次宽度，上一次高度。这个函数比较简单，我们只需关注 宽度(w), 高度(h) 即可，这两个参数就是View最终的大小。</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903448186454030">https://juejin.cn/post/6844903448186454030</a></p>
+<h4 id="Layout"><a href="#Layout" class="headerlink" title="Layout"></a>Layout</h4><p><code>public void layout(int l, int t, int r, int b) </code></p>
+<p>该控件的左 上 右 下边距</p>
+<h4 id="Scroller"><a href="#Scroller" class="headerlink" title="Scroller"></a>Scroller</h4><h5 id="scrollTo-scrollBy"><a href="#scrollTo-scrollBy" class="headerlink" title="scrollTo scrollBy"></a>scrollTo scrollBy</h5><p>在 View 类中，有两个变量 <code>mScrollX</code> 和 <code>mScrollY</code>，它们记录的是 View 的内容的偏移值。<code>mScrollX</code> 和 <code>mScrollY</code> 的默认值都是 0，即默认不偏移。另外我们需要知道一点，向左滑动，<code>mScrollX</code> 为正数，反正为负数。假设我们令 <code>mScrollX = 10</code>，那么该 View 的内容会相对于原来向左偏移 10px。 看看系统的 View 类中的源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">View</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * The offset, in pixels, by which the content of this view is scrolled</span></span><br><span class="line"><span class="comment">  * horizontally.</span></span><br><span class="line"><span class="comment">  * &#123;<span class="doctag">@hide</span>&#125;</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="keyword">int</span> mScrollX; <span class="comment">//整个滑动过程的 X移动范围</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * The offset, in pixels, by which the content of this view is scrolled</span></span><br><span class="line"><span class="comment">  * vertically.</span></span><br><span class="line"><span class="comment">  * &#123;<span class="doctag">@hide</span>&#125;</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="keyword">int</span> mScrollY;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>滑动绝对距离</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scrollTo</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>滑动相对距离</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scrollBy</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="Scroller辅助类"><a href="#Scroller辅助类" class="headerlink" title="Scroller辅助类"></a>Scroller辅助类</h5><p>HorizontalScrollViewEx</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HorizontalScrollViewEx</span> <span class="keyword">extends</span> <span class="title">ViewGroup</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">&quot;HorizontalScrollViewEx&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mChildrenSize;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mChildWidth;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mChildIndex;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分别记录上次滑动的坐标</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mLastX = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mLastY = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 分别记录上次滑动的坐标(onInterceptTouchEvent)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mLastXIntercept = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mLastYIntercept = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Scroller mScroller;</span><br><span class="line">    <span class="keyword">private</span> VelocityTracker mVelocityTracker;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HorizontalScrollViewEx</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mScroller = <span class="keyword">new</span> Scroller(getContext());</span><br><span class="line">        mVelocityTracker = VelocityTracker.obtain();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        mVelocityTracker.addMovement(event);</span><br><span class="line">        <span class="keyword">int</span> x = (<span class="keyword">int</span>) event.getX();</span><br><span class="line">        <span class="keyword">int</span> y = (<span class="keyword">int</span>) event.getY();</span><br><span class="line">        <span class="keyword">switch</span> (event.getAction()) &#123;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_DOWN: &#123;</span><br><span class="line">                <span class="keyword">if</span> (!mScroller.isFinished()) &#123;</span><br><span class="line">                    mScroller.abortAnimation();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_MOVE: &#123;</span><br><span class="line">                <span class="keyword">int</span> deltaX = x - mLastX;</span><br><span class="line">                <span class="keyword">int</span> deltaY = y - mLastY;</span><br><span class="line">                scrollBy(-deltaX, <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_UP: &#123;</span><br><span class="line">                <span class="keyword">int</span> scrollX = getScrollX();</span><br><span class="line"><span class="comment">//                int scrollToChildIndex = scrollX / mChildWidth;</span></span><br><span class="line">                mVelocityTracker.computeCurrentVelocity(<span class="number">1000</span>);</span><br><span class="line">                <span class="keyword">float</span> xVelocity = mVelocityTracker.getXVelocity();</span><br><span class="line">                <span class="keyword">if</span> (Math.abs(xVelocity) &gt;= <span class="number">50</span>) &#123;</span><br><span class="line">                    mChildIndex = xVelocity &gt; <span class="number">0</span> ? mChildIndex - <span class="number">1</span> : mChildIndex + <span class="number">1</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    mChildIndex = (scrollX + mChildWidth / <span class="number">2</span>) / mChildWidth;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                mChildIndex = Math.max(<span class="number">0</span>, Math.min(mChildIndex, mChildrenSize - <span class="number">1</span>));</span><br><span class="line">                Log.d(TAG,  <span class="string">&quot;xVelocity &quot;</span>+xVelocity+ <span class="string">&quot; mChildIndex &quot;</span> +mChildIndex +<span class="string">&quot; mChildWidth &quot;</span> + mChildWidth);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">int</span> dx = mChildIndex * mChildWidth - scrollX;</span><br><span class="line"></span><br><span class="line">                Log.d(TAG,  <span class="string">&quot; scrollX &quot;</span> + scrollX + <span class="string">&quot; dx &quot;</span> + dx);</span><br><span class="line">                smoothScrollBy(dx, <span class="number">0</span>);</span><br><span class="line">                mVelocityTracker.clear();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        mLastX = x;</span><br><span class="line">        mLastY = y;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;left &quot;</span> + l + <span class="string">&quot; top &quot;</span> + t + <span class="string">&quot; right &quot;</span> + r + <span class="string">&quot; bottom &quot;</span> + b);</span><br><span class="line">        <span class="keyword">int</span> childLeft = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> childCount = getChildCount();</span><br><span class="line">        mChildrenSize = childCount;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; childCount; i++) &#123;</span><br><span class="line">            <span class="keyword">final</span> View childView = getChildAt(i);</span><br><span class="line">            <span class="keyword">if</span> (childView.getVisibility() != View.GONE) &#123;</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> childWidth = childView.getMeasuredWidth();</span><br><span class="line">                mChildWidth = childWidth;</span><br><span class="line">                childView.layout(childLeft, <span class="number">0</span>, childLeft + childWidth,</span><br><span class="line">                        childView.getMeasuredHeight());</span><br><span class="line">                childLeft += childWidth;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">smoothScrollBy</span><span class="params">(<span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123;</span><br><span class="line">        mScroller.startScroll(getScrollX(), <span class="number">0</span>, dx, <span class="number">0</span>, <span class="number">500</span>);</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mScroller.computeScrollOffset()) &#123;</span><br><span class="line">            Log.d(TAG,<span class="string">&quot;getCurrX &quot;</span>+mScroller.getCurrX() + <span class="string">&quot;mScroller.getCurrY() &quot;</span> +mScroller.getCurrY());</span><br><span class="line">            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());</span><br><span class="line">            postInvalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDetachedFromWindow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mVelocityTracker.recycle();</span><br><span class="line">        <span class="keyword">super</span>.onDetachedFromWindow();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>可知View的scrollTo()、scrollBy()是瞬间完成的，当我们的手指在屏幕上移动时，内容会跟着手指滑动，但是当我们手指一抬起时，滑动就会停止,为使得滚动更加平滑,Scroller只是计算辅助类，它的startScroll()和computeScrollOffset()方法中也只是对一些轨迹参数进行设置和计算，真正需要进行滑动还是得通过View的scrollTo()、scrollBy()方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 开始滚动，并记下当前时间点作为开始滚动的时间点</span></span><br><span class="line">startX startY，滑动时起点偏移量，</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startScroll</span><span class="params">(<span class="keyword">int</span> startX, <span class="keyword">int</span> startY, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy, <span class="keyword">int</span> duration)</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>开始一个动画控制，由(startX , startY)在duration时间内前进(dx,dy)个单位，即到达偏移坐标为(startX+dx , startY+dy)处。</p>
+<p>滑动日志,startX+dx是1080 2160,印证了上面的判断</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">com</span>.ryg.chapter_<span class="number">3</span> D/HorizontalScrollViewEx:  scrollX <span class="number">821</span> dx <span class="number">259</span></span><br><span class="line"><span class="attribute">com</span>.ryg.chapter_<span class="number">3</span> D/HorizontalScrollViewEx:  scrollX <span class="number">2007</span> dx <span class="number">153</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>实际滑动处理类，Scroller类应该有个插值器，提供滑动控制</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void compute<span class="constructor">Scroll()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (mScroller.compute<span class="constructor">ScrollOffset()</span>) &#123;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>d(TAG,<span class="string">&quot;getCurrX &quot;</span>+mScroller.get<span class="constructor">CurrX()</span> + <span class="string">&quot;mScroller.getCurrY() &quot;</span> +mScroller.get<span class="constructor">CurrY()</span>);</span><br><span class="line">        scroll<span class="constructor">To(<span class="params">mScroller</span>.<span class="params">getCurrX</span>()</span>, mScroller.get<span class="constructor">CurrY()</span>);</span><br><span class="line">        post<span class="constructor">Invalidate()</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="http://chanthuang.github.io/2016/08/31/Android-View-%E7%9A%84%E6%BB%9A%E5%8A%A8%E5%8E%9F%E7%90%86%E5%92%8C-Scroller%E3%80%81VelocityTracker-%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8/">http://chanthuang.github.io/2016/08/31/Android-View-%E7%9A%84%E6%BB%9A%E5%8A%A8%E5%8E%9F%E7%90%86%E5%92%8C-Scroller%E3%80%81VelocityTracker-%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f10809e1964b">https://www.jianshu.com/p/f10809e1964b</a></p>
+<h4 id="Draw"><a href="#Draw" class="headerlink" title="Draw"></a>Draw</h4><p>Paint</p>
+<p>为了展示方便，容易看出效果，之前使用的模式一直为填充模式，实际上画笔有三种模式，如下：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">STROKE                <span class="regexp">//</span>描边</span><br><span class="line">FILL                  <span class="regexp">//</span>填充</span><br><span class="line">FILL_AND_STROKE       <span class="regexp">//</span>描边加填充</span><br></pre></td></tr></table></figure>
+
+<p>为了区分三者效果我们做如下实验：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Paint paint = <span class="keyword">new</span> <span class="constructor">Paint()</span>;</span><br><span class="line">paint.set<span class="constructor">Color(Color.BLUE)</span>;</span><br><span class="line">paint.set<span class="constructor">StrokeWidth(40)</span>;     <span class="comment">//为了实验效果明显，特地设置描边宽度非常大</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 描边</span></span><br><span class="line">paint.set<span class="constructor">Style(Paint.Style.STROKE)</span>;</span><br><span class="line">canvas.draw<span class="constructor">Circle(200,200,100,<span class="params">paint</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 填充</span></span><br><span class="line">paint.set<span class="constructor">Style(Paint.Style.FILL)</span>;</span><br><span class="line">canvas.draw<span class="constructor">Circle(200,500,100,<span class="params">paint</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 描边加填充</span></span><br><span class="line">paint.set<span class="constructor">Style(Paint.Style.FILL_AND_STROKE)</span>;</span><br><span class="line">canvas.draw<span class="constructor">Circle(200, 800, 100, <span class="params">paint</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<img src="https://camo.githubusercontent.com/cb4ff7eb6df1e98d082a48ceaf4c29370e236103/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f30303558746469326a77316632373467366c7862706a3330753031686371336e2e6a7067" alt="显示图" style="zoom:25%;">
+
+
+
+<h5 id="画布"><a href="#画布" class="headerlink" title="画布"></a>画布</h5><p>坐标操作</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">canvas</span><span class="selector-class">.scale</span>(<span class="number">1</span>,-<span class="number">1</span>);                 <span class="comment">// 翻转Y轴</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="自定义属性类别"><a href="#自定义属性类别" class="headerlink" title="自定义属性类别"></a>自定义属性类别</h5><blockquote>
+<p>boolean     表示attr取值为true或者false<br>color         表示attr取值是颜色类型，例如#ff3344,或者是一个指向color的资源id，例如R.color.colorAccent.<br>dimension 表示 attr 取值是尺寸类型，例如例如取值16sp、16dp，也可以是一个指向dimen的资源id，例          如R.dimen.dp_16<br>float      表示attr取值是整形或者浮点型<br>fraction     表示 attr取值是百分数类型，只能以%结尾，例如30%<br>integer      表示attr取值是整型<br>string        表示attr取值是String类型，或者一个指向String的资源id，例如R.string.testString<br>reference   表示attr取值只能是一个指向资源的id。<br>enum     表示attr取值只能是枚举类型。</p>
+</blockquote>
+<p><strong>refrence , 表示attr取值只能是一个指向资源的id。</strong></p>
+<attr name="color" format="refrence">
+
+<p>注意  dimension ,</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val <span class="selector-tag">a</span> = context!!<span class="selector-class">.obtainStyledAttributes</span>(attrs, R<span class="selector-class">.styleable</span><span class="selector-class">.ViewBodySleep</span> , defStyleAttr, <span class="number">0</span>)</span><br><span class="line"> linePaint<span class="selector-class">.textSize</span>   = <span class="selector-tag">a</span><span class="selector-class">.getDimensionPixelSize</span>(R<span class="selector-class">.styleable</span><span class="selector-class">.ViewBodySleep_vbltextsize</span>,<span class="number">21</span>)<span class="selector-class">.toFloat</span>()</span><br><span class="line"> indexPaint<span class="selector-class">.textSize</span>   = <span class="selector-tag">a</span><span class="selector-class">.getDimensionPixelSize</span>(R<span class="selector-class">.styleable</span><span class="selector-class">.ViewBodySleep_vbltextsize</span>,<span class="number">21</span>)<span class="selector-class">.toFloat</span>()</span><br><span class="line"> <span class="selector-tag">a</span><span class="selector-class">.recycle</span>()</span><br></pre></td></tr></table></figure>
+
+
+
+<p> <a target="_blank" rel="noopener" href="https://github.com/GcsSloop/AndroidNote/tree/master/CustomView">https://github.com/GcsSloop/AndroidNote/tree/master/CustomView</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.sunzn.com/2017/08/21/%E8%87%AA%E5%AE%9A%E4%B9%89-View-%E5%9F%BA%E7%A1%80-%E8%A7%92%E5%BA%A6%E4%B8%8E%E5%BC%A7%E5%BA%A6/">https://www.sunzn.com/2017/08/21/%E8%87%AA%E5%AE%9A%E4%B9%89-View-%E5%9F%BA%E7%A1%80-%E8%A7%92%E5%BA%A6%E4%B8%8E%E5%BC%A7%E5%BA%A6/</a></p>
+<h5 id="setWillNotDraw"><a href="#setWillNotDraw" class="headerlink" title="setWillNotDraw"></a>setWillNotDraw</h5><p>ViewGroup默认情况下，出于性能考虑，会被设置成WILL_NOT_DROW，这样，ondraw就不会被执行了。</p>
+<p>如果我们想重写一个viewgroup的ondraw方法，有两种方法：</p>
+<p>1，构造函数中，给viewgroup设置一个颜色。</p>
+<p>2，构造函数中，调用setWillNotDraw（false），去掉其WILL_NOT_DRAW flag。</p>
+<p>在viewgroup初始化的时候，它调用了一个私有方法：initViewGroup，它里面会有一句setFlags（WILLL_NOT_DRAW,DRAW_MASK）;相当于调用了setWillNotDraw（true），所以说，对于ViewGroup，他就认为是透明的了，如果我们想要重写onDraw，就要调用setWillNotDraw（false）。</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7df7e8a0b1a6">https://www.jianshu.com/p/7df7e8a0b1a6</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5e6e0b91f265da5716712288">https://juejin.im/post/5e6e0b91f265da5716712288</a></p>
+<p>RelativeLayout就是拓扑排序，用到了不光是树，还有图。所以数据结构与算法真的非常重要，他会让你的学习不会再那么枯燥。</p>
+<p>childview</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c84693096e41">https://www.jianshu.com/p/c84693096e41</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/psrDADxwl782Fbs_vzxnQg">https://mp.weixin.qq.com/s/psrDADxwl782Fbs_vzxnQg</a></p>
+<h5 id="UI-优化系列专题"><a href="#UI-优化系列专题" class="headerlink" title="UI 优化系列专题"></a>UI 优化系列专题</h5><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ea464eb15436">https://www.jianshu.com/p/ea464eb15436</a></p>
+<h5 id="淘宝详情"><a href="#淘宝详情" class="headerlink" title="淘宝详情"></a>淘宝详情</h5><p>onLayout 两个子view切换绘制</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903828035207182">https://juejin.cn/post/6844903828035207182</a></p>
+</attr>
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/13/index.html">http://noteforme.github.io.com/page/13/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-View_CanvasApi" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1460,157 +1631,6 @@ android:dividerPadding=&quot;@dimen/dimen_15&quot;
 </article>
 
 
-  <article id="post-Toolbar" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/10/12/Toolbar/">Toolbar</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-10-12T08:35:05.000Z" itemprop="datePublished">2017年10月12日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2017/10/12/Toolbar/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h4 id="官网教程"><a href="#官网教程" class="headerlink" title="官网教程"></a>官网教程</h4><p> <a target="_blank" rel="noopener" href="https://developer.android.com/training/appbar/setting-up.html?hl=zh-cn">https://developer.android.com/training/appbar/setting-up.html?hl=zh-cn</a></p>
-<h5 id="toolbar整体设置"><a href="#toolbar整体设置" class="headerlink" title="toolbar整体设置"></a>toolbar整体设置</h5><p> <img src="/2017/10/12/Toolbar/tool_color.png" alt="tool设置"></p>
-<p> 参考:<a target="_blank" rel="noopener" href="http://blog.csdn.net/a553181867/article/details/51336899">http://blog.csdn.net/a553181867/article/details/51336899</a></p>
-<h5 id="颜色设置"><a href="#颜色设置" class="headerlink" title="颜色设置"></a>颜色设置</h5><p>  AppTheme下的设置</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;application</span><br><span class="line">      android:<span class="attribute">name</span>=<span class="string">&quot;.application.NBBApplication&quot;</span></span><br><span class="line">      android:<span class="attribute">allowBackup</span>=<span class="string">&quot;true&quot;</span></span><br><span class="line">      android:<span class="attribute">icon</span>=<span class="string">&quot;@mipmap/icon&quot;</span></span><br><span class="line">      android:<span class="attribute">label</span>=<span class="string">&quot;@string/app_name&quot;</span></span><br><span class="line">      android:<span class="attribute">supportsRtl</span>=<span class="string">&quot;true&quot;</span></span><br><span class="line">      android:<span class="attribute">theme</span>=<span class="string">&quot;@style/AppTheme&quot;</span>&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>Toolbar颜色:<br><code>&lt;item name=&quot;colorPrimary&quot;&gt;@color/toolbar_color&lt;/item&gt;</code></p>
-</li>
-<li><p>状态栏设置 :<br><code>&lt;item name=&quot;android:windowTranslucentStatus&quot;&gt;true&lt;/item&gt;</code><br> 在 API 19 及更高版本上，Toolbar 内容延伸至状态栏上去了, statebar把toolbar给覆盖了<br> 要解决这个问题就需要下面的属性</p>
-</li>
-<li><p>android:fitsSystemWindows =”true”<br>  这个属性能保持与statebar一定 的padding,能解决上面windowTranslucentStatus的重叠问题</p>
-<p>   参考: <a target="_blank" rel="noopener" href="http://yifeng.studio/2017/02/19/android-statusbar/">亦枫</a> </p>
-</li>
-<li><p>去掉阴影线</p>
-<p>   toolbar底部会有一条阴影线,通过AppBarLayout标签下的app:elevation=”0dp”去掉</p>
-</li>
-</ul>
-<h5 id="自定义返回键"><a href="#自定义返回键" class="headerlink" title="自定义返回键"></a>自定义返回键</h5><p><code> mToolbar.setNavigationIcon(R.mipmap.ic_back);//自定义返回键</code></p>
-<p>或者这样设置<br> <code>app:navigationIcon=&quot;@mipmap/ic_back&quot;</code></p>
-<h5 id="toolbar-xml解读"><a href="#toolbar-xml解读" class="headerlink" title="toolbar.xml解读"></a>toolbar.xml解读</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">android.support.design.widget.AppBarLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:elevation</span>=<span class="string">&quot;0dp&quot;</span>&gt;</span>                    			 //设置仰角,0dp可以去掉底部的线</span><br><span class="line"></span><br><span class="line">    &lt;android.support.v7.widget.Toolbar</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;?attr/actionBarSize&quot;</span><br><span class="line">        android:minHeight=&quot;?actionBarSize&quot;</span><br><span class="line">        android:theme=&quot;@style/ThemeOverlay.AppCompat.ActionBar&quot;			//toolbar主题</span><br><span class="line">        app:popupTheme=&quot;@style/ThemeOverlay.AppCompat.Light&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/tb_title&quot;</span><br><span class="line">            style=&quot;@style/TextAppearance.AppCompat.Widget.ActionBar.Title&quot;</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_gravity=&quot;center&quot;</span><br><span class="line">            android:text=&quot;标题&quot;</span><br><span class="line">            android:textColor=&quot;#333333&quot;</span><br><span class="line">            android:textSize=&quot;18sp&quot; /&gt;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">android.support.v7.widget.Toolbar</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.design.widget.AppBarLayout</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-<p>还有一种方式是在application设置，这样就不用集成baseActivity<br><a target="_blank" rel="noopener" href="https://www.diycode.cc/topics/783">https://www.diycode.cc/topics/783</a></p>
-<h4 id="menu设置"><a href="#menu设置" class="headerlink" title="menu设置"></a>menu设置</h4><p>AppBarLayout下的 <code>app:theme=&quot;@style/toolbar_menu&quot;</code>用于设置menu</p>
-<h5 id="menu字体颜色"><a href="#menu字体颜色" class="headerlink" title="menu字体颜色"></a>menu字体颜色</h5><p>需要设置 app:theme ,用 android:theme不起作用.</p>
-<p><code>&lt;item name=&quot;android:actionMenuTextColor&quot;&gt;@color/text_my_black&lt;/item&gt;</code></p>
-<h5 id="menu事件"><a href="#menu事件" class="headerlink" title="menu事件"></a>menu事件</h5><pre><code>@Override
-public boolean onCreateOptionsMenu(Menu menu) &#123;
-    getMenuInflater().inflate(R.menu.menu_login, menu);
-    menu.findItem(R.id.item_right_text).setTitle(&quot;注册&quot;); //设置文字
-    return true;
-&#125;
-
-@Override
-public boolean onOptionsItemSelected(MenuItem item) &#123;
-    switch (item.getItemId()) &#123;
-        
-            break;
-    &#125;
-    return super.onOptionsItemSelected(item);
-&#125;
-</code></pre>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/guyuealian/article/details/51721167">https://blog.csdn.net/guyuealian/article/details/51721167</a></p>
-<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>使用toolbar过程中遇到了一些问题</p>
-<ul>
-<li>问题 1</li>
-</ul>
-<p>弹出键盘后 editext不见了，应该是toolbar被拉伸了</p>
-<p>暂时解决方式:</p>
-<pre><code>     &lt;activity
-        android:name=&quot;.activity.WebActivity&quot;
-        android:hardwareAccelerated=&quot;true&quot;
-        android:screenOrientation=&quot;portrait&quot;
-        android:windowSoftInputMode=&quot;adjustPan&quot; /&gt;
-</code></pre>
-<p><a target="_blank" rel="noopener" href="https://github.com/CoolThink/StatusBarAdapt/issues/2">https://github.com/CoolThink/StatusBarAdapt/issues/2</a></p>
-<h5 id="fragment使用toolbar"><a href="#fragment使用toolbar" class="headerlink" title="fragment使用toolbar"></a>fragment使用toolbar</h5><p><a target="_blank" rel="noopener" href="http://wuxiaolong.me/2015/12/21/fragmentToolbar/">http://wuxiaolong.me/2015/12/21/fragmentToolbar/</a></p>
-<h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><p>郭霖公号:<a target="_blank" rel="noopener" href="http://blog.csdn.net/james_shu/article/details/61661217">http://blog.csdn.net/james_shu/article/details/61661217</a></p>
-<p><a target="_blank" rel="noopener" href="http://yifeng.studio/2016/10/12/android-toolbar/">http://yifeng.studio/2016/10/12/android-toolbar/</a><br><a target="_blank" rel="noopener" href="http://www.bijishequ.com/detail/239876">http://www.bijishequ.com/detail/239876</a></p>
-<h4 id="三条线的颜色修改"><a href="#三条线的颜色修改" class="headerlink" title="三条线的颜色修改"></a>三条线的颜色修改</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;style <span class="built_in">name</span>=<span class="string">&quot;DrawerArrowStyle&quot;</span> parent=<span class="string">&quot;Base.Widget.AppCompat.DrawerArrowToggle&quot;</span>&gt;</span><br><span class="line">    &lt;<span class="built_in">item</span> <span class="built_in">name</span>=<span class="string">&quot;spinBars&quot;</span>&gt;<span class="literal">true</span>&lt;/<span class="built_in">item</span>&gt;</span><br><span class="line">    &lt;<span class="built_in">item</span> <span class="built_in">name</span>=<span class="string">&quot;color&quot;</span>&gt;@android:color/white&lt;/<span class="built_in">item</span>&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
-
-<p>具体可以查看mineutil:PopupWindowActivity</p>
-<ul>
-<li>溢出菜单三个点离右边的距离</li>
-</ul>
-<p> AppTheme中设置</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:actionOverflowButtonStyle&quot;</span>&gt;</span>@style/OverflowMenuStyle<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;OverflowMenuStyle&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;Widget.AppCompat.Light.PopupMenu.Overflow&quot;</span>&gt;</span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;overlapAnchor&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span>  <span class="comment">&lt;!--把该属性改为false即可使menu位置位于toolbar之下--&gt;</span></span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:src&quot;</span>&gt;</span>@mipmap/doc_ic_new_patient<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:paddingRight&quot;</span>&gt;</span>15dp<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hard_working1/article/details/77333893">https://blog.csdn.net/hard_working1/article/details/77333893</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5e5898346fb9a07cd248d179">https://juejin.im/post/5e5898346fb9a07cd248d179</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/luckybilly/Gloading/blob/master/README-zh-CN.md">https://github.com/luckybilly/Gloading/blob/master/README-zh-CN.md</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/13/index.html">http://noteforme.github.io.com/page/13/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1629,6 +1649,10 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
       <ul>
         
           <li>
+            <a href="/2021/08/21/kotlin-medium/">kotlin-medium</a>
+          </li>
+        
+          <li>
             <a href="/2021/08/19/kotlin-elementary/">(no title)</a>
           </li>
         
@@ -1642,10 +1666,6 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
         
           <li>
             <a href="/2021/04/19/Data-LinkedList/">Data_LinkedList</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
           </li>
         
       </ul>
@@ -1667,7 +1687,7 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -1677,7 +1697,7 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 

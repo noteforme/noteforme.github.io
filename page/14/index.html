@@ -86,6 +86,157 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-Toolbar" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/10/12/Toolbar/">Toolbar</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-10-12T08:35:05.000Z" itemprop="datePublished">2017年10月12日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/10/12/Toolbar/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="官网教程"><a href="#官网教程" class="headerlink" title="官网教程"></a>官网教程</h4><p> <a target="_blank" rel="noopener" href="https://developer.android.com/training/appbar/setting-up.html?hl=zh-cn">https://developer.android.com/training/appbar/setting-up.html?hl=zh-cn</a></p>
+<h5 id="toolbar整体设置"><a href="#toolbar整体设置" class="headerlink" title="toolbar整体设置"></a>toolbar整体设置</h5><p> <img src="/2017/10/12/Toolbar/tool_color.png" alt="tool设置"></p>
+<p> 参考:<a target="_blank" rel="noopener" href="http://blog.csdn.net/a553181867/article/details/51336899">http://blog.csdn.net/a553181867/article/details/51336899</a></p>
+<h5 id="颜色设置"><a href="#颜色设置" class="headerlink" title="颜色设置"></a>颜色设置</h5><p>  AppTheme下的设置</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;application</span><br><span class="line">      android:<span class="attribute">name</span>=<span class="string">&quot;.application.NBBApplication&quot;</span></span><br><span class="line">      android:<span class="attribute">allowBackup</span>=<span class="string">&quot;true&quot;</span></span><br><span class="line">      android:<span class="attribute">icon</span>=<span class="string">&quot;@mipmap/icon&quot;</span></span><br><span class="line">      android:<span class="attribute">label</span>=<span class="string">&quot;@string/app_name&quot;</span></span><br><span class="line">      android:<span class="attribute">supportsRtl</span>=<span class="string">&quot;true&quot;</span></span><br><span class="line">      android:<span class="attribute">theme</span>=<span class="string">&quot;@style/AppTheme&quot;</span>&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Toolbar颜色:<br><code>&lt;item name=&quot;colorPrimary&quot;&gt;@color/toolbar_color&lt;/item&gt;</code></p>
+</li>
+<li><p>状态栏设置 :<br><code>&lt;item name=&quot;android:windowTranslucentStatus&quot;&gt;true&lt;/item&gt;</code><br> 在 API 19 及更高版本上，Toolbar 内容延伸至状态栏上去了, statebar把toolbar给覆盖了<br> 要解决这个问题就需要下面的属性</p>
+</li>
+<li><p>android:fitsSystemWindows =”true”<br>  这个属性能保持与statebar一定 的padding,能解决上面windowTranslucentStatus的重叠问题</p>
+<p>   参考: <a target="_blank" rel="noopener" href="http://yifeng.studio/2017/02/19/android-statusbar/">亦枫</a> </p>
+</li>
+<li><p>去掉阴影线</p>
+<p>   toolbar底部会有一条阴影线,通过AppBarLayout标签下的app:elevation=”0dp”去掉</p>
+</li>
+</ul>
+<h5 id="自定义返回键"><a href="#自定义返回键" class="headerlink" title="自定义返回键"></a>自定义返回键</h5><p><code> mToolbar.setNavigationIcon(R.mipmap.ic_back);//自定义返回键</code></p>
+<p>或者这样设置<br> <code>app:navigationIcon=&quot;@mipmap/ic_back&quot;</code></p>
+<h5 id="toolbar-xml解读"><a href="#toolbar-xml解读" class="headerlink" title="toolbar.xml解读"></a>toolbar.xml解读</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">android.support.design.widget.AppBarLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:elevation</span>=<span class="string">&quot;0dp&quot;</span>&gt;</span>                    			 //设置仰角,0dp可以去掉底部的线</span><br><span class="line"></span><br><span class="line">    &lt;android.support.v7.widget.Toolbar</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;?attr/actionBarSize&quot;</span><br><span class="line">        android:minHeight=&quot;?actionBarSize&quot;</span><br><span class="line">        android:theme=&quot;@style/ThemeOverlay.AppCompat.ActionBar&quot;			//toolbar主题</span><br><span class="line">        app:popupTheme=&quot;@style/ThemeOverlay.AppCompat.Light&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/tb_title&quot;</span><br><span class="line">            style=&quot;@style/TextAppearance.AppCompat.Widget.ActionBar.Title&quot;</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_gravity=&quot;center&quot;</span><br><span class="line">            android:text=&quot;标题&quot;</span><br><span class="line">            android:textColor=&quot;#333333&quot;</span><br><span class="line">            android:textSize=&quot;18sp&quot; /&gt;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">android.support.v7.widget.Toolbar</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.design.widget.AppBarLayout</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+<p>还有一种方式是在application设置，这样就不用集成baseActivity<br><a target="_blank" rel="noopener" href="https://www.diycode.cc/topics/783">https://www.diycode.cc/topics/783</a></p>
+<h4 id="menu设置"><a href="#menu设置" class="headerlink" title="menu设置"></a>menu设置</h4><p>AppBarLayout下的 <code>app:theme=&quot;@style/toolbar_menu&quot;</code>用于设置menu</p>
+<h5 id="menu字体颜色"><a href="#menu字体颜色" class="headerlink" title="menu字体颜色"></a>menu字体颜色</h5><p>需要设置 app:theme ,用 android:theme不起作用.</p>
+<p><code>&lt;item name=&quot;android:actionMenuTextColor&quot;&gt;@color/text_my_black&lt;/item&gt;</code></p>
+<h5 id="menu事件"><a href="#menu事件" class="headerlink" title="menu事件"></a>menu事件</h5><pre><code>@Override
+public boolean onCreateOptionsMenu(Menu menu) &#123;
+    getMenuInflater().inflate(R.menu.menu_login, menu);
+    menu.findItem(R.id.item_right_text).setTitle(&quot;注册&quot;); //设置文字
+    return true;
+&#125;
+
+@Override
+public boolean onOptionsItemSelected(MenuItem item) &#123;
+    switch (item.getItemId()) &#123;
+        
+            break;
+    &#125;
+    return super.onOptionsItemSelected(item);
+&#125;
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/guyuealian/article/details/51721167">https://blog.csdn.net/guyuealian/article/details/51721167</a></p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>使用toolbar过程中遇到了一些问题</p>
+<ul>
+<li>问题 1</li>
+</ul>
+<p>弹出键盘后 editext不见了，应该是toolbar被拉伸了</p>
+<p>暂时解决方式:</p>
+<pre><code>     &lt;activity
+        android:name=&quot;.activity.WebActivity&quot;
+        android:hardwareAccelerated=&quot;true&quot;
+        android:screenOrientation=&quot;portrait&quot;
+        android:windowSoftInputMode=&quot;adjustPan&quot; /&gt;
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://github.com/CoolThink/StatusBarAdapt/issues/2">https://github.com/CoolThink/StatusBarAdapt/issues/2</a></p>
+<h5 id="fragment使用toolbar"><a href="#fragment使用toolbar" class="headerlink" title="fragment使用toolbar"></a>fragment使用toolbar</h5><p><a target="_blank" rel="noopener" href="http://wuxiaolong.me/2015/12/21/fragmentToolbar/">http://wuxiaolong.me/2015/12/21/fragmentToolbar/</a></p>
+<h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><p>郭霖公号:<a target="_blank" rel="noopener" href="http://blog.csdn.net/james_shu/article/details/61661217">http://blog.csdn.net/james_shu/article/details/61661217</a></p>
+<p><a target="_blank" rel="noopener" href="http://yifeng.studio/2016/10/12/android-toolbar/">http://yifeng.studio/2016/10/12/android-toolbar/</a><br><a target="_blank" rel="noopener" href="http://www.bijishequ.com/detail/239876">http://www.bijishequ.com/detail/239876</a></p>
+<h4 id="三条线的颜色修改"><a href="#三条线的颜色修改" class="headerlink" title="三条线的颜色修改"></a>三条线的颜色修改</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;style <span class="built_in">name</span>=<span class="string">&quot;DrawerArrowStyle&quot;</span> parent=<span class="string">&quot;Base.Widget.AppCompat.DrawerArrowToggle&quot;</span>&gt;</span><br><span class="line">    &lt;<span class="built_in">item</span> <span class="built_in">name</span>=<span class="string">&quot;spinBars&quot;</span>&gt;<span class="literal">true</span>&lt;/<span class="built_in">item</span>&gt;</span><br><span class="line">    &lt;<span class="built_in">item</span> <span class="built_in">name</span>=<span class="string">&quot;color&quot;</span>&gt;@android:color/white&lt;/<span class="built_in">item</span>&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>具体可以查看mineutil:PopupWindowActivity</p>
+<ul>
+<li>溢出菜单三个点离右边的距离</li>
+</ul>
+<p> AppTheme中设置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:actionOverflowButtonStyle&quot;</span>&gt;</span>@style/OverflowMenuStyle<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;OverflowMenuStyle&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;Widget.AppCompat.Light.PopupMenu.Overflow&quot;</span>&gt;</span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;overlapAnchor&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span>  <span class="comment">&lt;!--把该属性改为false即可使menu位置位于toolbar之下--&gt;</span></span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:src&quot;</span>&gt;</span>@mipmap/doc_ic_new_patient<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:paddingRight&quot;</span>&gt;</span>15dp<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hard_working1/article/details/77333893">https://blog.csdn.net/hard_working1/article/details/77333893</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5e5898346fb9a07cd248d179">https://juejin.im/post/5e5898346fb9a07cd248d179</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/luckybilly/Gloading/blob/master/README-zh-CN.md">https://github.com/luckybilly/Gloading/blob/master/README-zh-CN.md</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/14/index.html">http://noteforme.github.io.com/page/14/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-DesignPattern_Builder" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1168,150 +1319,6 @@
 </article>
 
 
-  <article id="post-WebView" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/09/01/WebView/">WebView</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-09-01T08:07:15.000Z" itemprop="datePublished">2017年09月01日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2017/09/01/WebView/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><h5 id="加载apk包中的html页面"><a href="#加载apk包中的html页面" class="headerlink" title="加载apk包中的html页面"></a>加载apk包中的html页面</h5><p><code> webView.loadUrl(&quot;file:///android_asset/java.html&quot;);</code></p>
-<h5 id="Enabling-JavaScript"><a href="#Enabling-JavaScript" class="headerlink" title="Enabling JavaScript"></a>Enabling JavaScript</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">WebView myWebView = (WebView) find<span class="constructor">ViewById(R.<span class="params">id</span>.<span class="params">webview</span>)</span>;</span><br><span class="line">WebSettings webSettings = myWebView.get<span class="constructor">Settings()</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//支持JavaScript</span></span><br><span class="line"><span class="comment">//        webSettings.setJavaScriptEnabled(true); // 在 onStop 和 onResume 里分别把 setJavaScriptEnabled() 给设置成 false 和 true 即可</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         *  设置自适应屏幕,两者合用</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        webSettings.set<span class="constructor">UseWideViewPort(<span class="params">true</span>)</span>; <span class="comment">//将图片调整到适合webview的大小</span></span><br><span class="line">        webSettings.set<span class="constructor">LoadWithOverviewMode(<span class="params">true</span>)</span>; <span class="comment">//缩放至屏幕的大小</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 缩放操作</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        webSettings.set<span class="constructor">SupportZoom(<span class="params">true</span>)</span>;  <span class="comment">//支持缩放，默认为true。是下面那个的前提。</span></span><br><span class="line">        webSettings.set<span class="constructor">BuiltInZoomControls(<span class="params">true</span>)</span>; <span class="comment">//设置内置的缩放控件。若为false，则该WebView不可缩放</span></span><br><span class="line">        webSettings.set<span class="constructor">DisplayZoomControls(<span class="params">false</span>)</span>;<span class="comment">//隐藏原生的缩放控件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//        myWebView.setWebChromeClient(new MyWebViewClient());</span></span><br><span class="line">        myWebView.set<span class="constructor">WebViewClient(<span class="params">new</span> MyViewClient()</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>上面是一些常用的操作</p>
-<h5 id="Binding-JavaScript-code-to-Android-code-JS交互"><a href="#Binding-JavaScript-code-to-Android-code-JS交互" class="headerlink" title="Binding JavaScript code to Android code(JS交互)"></a>Binding JavaScript code to Android code(JS交互)</h5><p>When developing a web application that’s designed specifically for the WebView in your Android application, you can create interfaces between your JavaScript code and client-side Android code. For example, your JavaScript code can call a method in your Android code to display a Dialog, instead of using JavaScript’s alert() function.</p>
-<p>To bind a new interface between your JavaScript and Android code, call addJavascriptInterface(), passing it a class instance to bind to your JavaScript and an interface name that your JavaScript can call to access the class.</p>
-<ul>
-<li>office Demo</li>
-</ul>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">inner <span class="keyword">class</span> <span class="constructor">WebLoginInterface(<span class="params">context</span>: Context?)</span> &#123;</span><br><span class="line">     @JavascriptInterface</span><br><span class="line">     <span class="keyword">fun</span> app<span class="constructor">Login()</span> &#123;</span><br><span class="line">         <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;appLogin&quot;</span>)</span><br><span class="line">             mWebView?.post &#123;</span><br><span class="line">                 <span class="keyword">val</span> mSessionId = <span class="module-access"><span class="module"><span class="identifier">SharedPreferencesUtils</span>.</span></span>get<span class="constructor">Param(AppCtxUtil.<span class="params">getApp</span>()</span>, GsonUtil.SHARE_TOKEN_KEY, <span class="string">&quot;&quot;</span>) <span class="keyword">as</span> String</span><br><span class="line">                 <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;mSessionId $&#123;mSessionId&#125;&quot;</span>)</span><br><span class="line">                 <span class="keyword">val</span> jsMethodName = <span class="string">&quot;javascript:appLoginCallBack(&#x27;$mSessionId&#x27;,&#x27;4&#x27;)&quot;</span>; <span class="comment">//需要参数的JS函数名</span></span><br><span class="line">                 <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;jsMethodName $jsMethodName&quot;</span>)</span><br><span class="line">                 mWebView?.load<span class="constructor">Url(<span class="params">jsMethodName</span>)</span></span><br><span class="line">             &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>注意</p>
-<blockquote>
-<p>Caution: If you’ve set your targetSdkVersion to 17 or higher, you must add the @JavascriptInterface annotation to any method that you want available to your JavaScript (the method must also be public). If you do not provide the annotation, the method is not accessible by your web page when running on Android 4.2 or higher.</p>
-</blockquote>
-<p> html小例子</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;input <span class="keyword">type</span>=<span class="string">&quot;button&quot;</span> value=<span class="string">&quot;Say hello&quot;</span> onClick=<span class="string">&quot;showAndroidToast(&#x27;Hello Android!&#x27;)&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;script <span class="keyword">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line">    <span class="keyword">function</span> show<span class="constructor">AndroidToast(<span class="params">toast</span>)</span> &#123;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">Android</span>.</span></span>show<span class="constructor">Toast(<span class="params">toast</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-
-<p>接着加载JS</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebView webView = (WebView) find<span class="constructor">ViewById(R.<span class="params">id</span>.<span class="params">webview</span>)</span>;</span><br><span class="line">webView.add<span class="constructor">JavascriptInterface(<span class="params">new</span> WebAppInterface(<span class="params">this</span>)</span>, <span class="string">&quot;Android&quot;</span>);</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/webapps/webview.html">https://developer.android.com/guide/webapps/webview.html</a><br><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/3c94ae673e2a">http://www.jianshu.com/p/3c94ae673e2a</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/c20513cad758">http://www.jianshu.com/p/c20513cad758</a></p>
-<h5 id="缓存方案"><a href="#缓存方案" class="headerlink" title="缓存方案"></a>缓存方案</h5><h5 id="office-原生缓存"><a href="#office-原生缓存" class="headerlink" title="office (原生缓存)"></a>office (原生缓存)</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">	   </span><br><span class="line">WebSettings webSettings = wbNews.get<span class="constructor">Settings()</span>;</span><br><span class="line">   webSettings.set<span class="constructor">JavaScriptEnabled(<span class="params">true</span>)</span>;<span class="comment">// 启用支持javascript</span></span><br><span class="line">   webSettings.set<span class="constructor">CacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK)</span>;<span class="comment">//缓存模式</span></span><br><span class="line">   webSettings.set<span class="constructor">DomStorageEnabled(<span class="params">true</span>)</span>; <span class="comment">// 开启DOM storage API 功能</span></span><br><span class="line">   <span class="comment">// 开启database storage API功能</span></span><br><span class="line">   webSettings.set<span class="constructor">DatabaseEnabled(<span class="params">true</span>)</span>;</span><br><span class="line">   webSettings.set<span class="constructor">AllowFileAccess(<span class="params">true</span>)</span>;<span class="comment">//可以访问文件</span></span><br><span class="line">   webSettings.set<span class="constructor">BuiltInZoomControls(<span class="params">true</span>)</span>;<span class="comment">//支持缩放</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 设置数据库缓存路径</span></span><br><span class="line">   String cacheDirPath = get<span class="constructor">FilesDir()</span>.get<span class="constructor">AbsolutePath()</span> + APP_CACHE_DIRNAME;</span><br><span class="line">   webSettings.set<span class="constructor">AppCachePath(<span class="params">cacheDirPath</span>)</span>;</span><br><span class="line">   webSettings.set<span class="constructor">AppCacheEnabled(<span class="params">true</span>)</span>;</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/coder_pig/article/details/48468969">http://blog.csdn.net/coder_pig/article/details/48468969</a></p>
-<h5 id="图片替换方式"><a href="#图片替换方式" class="headerlink" title="图片替换方式"></a>图片替换方式</h5><p><a target="_blank" rel="noopener" href="https://github.com/GcsSloop/diycode/blob/master/blog/journal-02.md">https://github.com/GcsSloop/diycode/blob/master/blog/journal-02.md</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/yipianfengye/androidProject/blob/master/18%20android%E4%BA%A7%E5%93%81%E7%A0%94%E5%8F%91-webview%E9%97%AE%E9%A2%98%E9%9B%86%E9%94%A6.md">其他常用方式</a><br><a target="_blank" rel="noopener" href="https://tech.meituan.com/WebViewPerf.html">美团点评</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/evzDnTsHrAr2b9jcevwBzA">腾讯</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5a94f9d15188257a63113a74">https://juejin.im/post/5a94f9d15188257a63113a74</a></p>
-<h5 id="页面白屏"><a href="#页面白屏" class="headerlink" title="页面白屏"></a>页面白屏</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webSettings.set<span class="constructor">DomStorageEnabled(<span class="params">true</span>)</span>; <span class="comment">// 开启DOM storage API 功能</span></span><br></pre></td></tr></table></figure>
-
-<p>​      </p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ONLYMETAGAIN/article/details/78390643">https://blog.csdn.net/ONLYMETAGAIN/article/details/78390643</a></p>
-<p><a target="_blank" rel="noopener" href="https://iluhcm.com/2017/12/10/design-an-elegant-and-powerful-android-webview-part-one/">https://iluhcm.com/2017/12/10/design-an-elegant-and-powerful-android-webview-part-one/</a></p>
-<ul>
-<li><p>不显示图片的问题</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">webSettings</span><span class="selector-class">.setBlockNetworkImage</span>(false);</span><br><span class="line"><span class="selector-tag">if</span> (Build.VERSION.SDK_INT&gt;=Build.VERSION_CODES.LOLLIPOP)&#123;</span><br><span class="line">    <span class="selector-tag">webSettings</span><span class="selector-class">.setMixedContentMode</span>(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>但是我的还是不显示</p>
-</li>
-</ul>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">android:</span>hardwareAccelerated=<span class="string">&quot;false&quot;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>WebView缓存功能</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/yale8848/CacheWebView">https://github.com/yale8848/CacheWebView</a></p>
-<p><a target="_blank" rel="noopener" href="http://blog.leanote.com/post/zbyzhlsp/%E6%BC%AB%E8%B0%88Android-Webview%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95">http://blog.leanote.com/post/zbyzhlsp/%E6%BC%AB%E8%B0%88Android-Webview%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.zybuluo.com/zyl06/note/737188">https://www.zybuluo.com/zyl06/note/737188</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5b94ca52e51d450e7d097f38">https://juejin.im/post/5b94ca52e51d450e7d097f38</a></p>
-<p><strong>2、缓存模式(5种)</strong></p>
-<p><strong>LOAD_CACHE_ONLY:</strong>  不使用网络，只读取本地缓存数据</p>
-<p><strong>LOAD_DEFAULT:</strong>  根据cache-control决定是否从网络上取数据。</p>
-<p><strong>LOAD_CACHE_NORMAL: API level 17</strong>中已经废弃, 从<strong>API level 11</strong>开始作用同LOAD_DEFAULT模式</p>
-<p><strong>LOAD_NO_CACHE:</strong> 不使用缓存，只从网络获取数据.</p>
-<p><strong>LOAD_CACHE_ELSE_NETWORK</strong>，只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。<br>如：<a target="_blank" rel="noopener" href="http://www.taobao.com的cache-control为no-cache,在模式load_default下,无论如何都会从网络上取数据,如果没有网络,就会出现错误页面;在load_cache_else_network模式下,无论是否有网络,只要本地有缓存,都使用缓存.本地没有缓存时才从网络上获取./">www.taobao.com的cache-control为no-cache，在模式LOAD_DEFAULT下，无论如何都会从网络上取数据，如果没有网络，就会出现错误页面；在LOAD_CACHE_ELSE_NETWORK模式下，无论是否有网络，只要本地有缓存，都使用缓存。本地没有缓存时才从网络上获取。</a><br><a target="_blank" rel="noopener" href="http://www.360.com.cn的cache-control为max-age=60,在两种模式下都使用本地缓存数据./">www.360.com.cn的cache-control为max-age=60，在两种模式下都使用本地缓存数据。</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/entry/5ad70987f265da239148a614">https://juejin.im/entry/5ad70987f265da239148a614</a></p>
-<p>zip离线缓存</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/AV2SwFfwwJH7xyrIBJemgw">https://mp.weixin.qq.com/s/AV2SwFfwwJH7xyrIBJemgw</a></p>
-<h4 id="安全问题"><a href="#安全问题" class="headerlink" title="安全问题"></a>安全问题</h4><p>WebView漏洞的根源在于强制其访问攻击者控制的网页。网页中含有攻击者可以控制的JS,因此可能钓鱼，窃取私有文件，甚至是 RCE,带来比较大的危害。</p>
-<p>下面主要是4.4系统以上的机型</p>
-<h5 id="Webview密码明文存储漏洞"><a href="#Webview密码明文存储漏洞" class="headerlink" title="Webview密码明文存储漏洞"></a>Webview密码明文存储漏洞</h5><p>WebView默认开启密码保存功能mWebView.setSavePassword(true),如果未关闭，用户输入密码时，会弹出提示框，询问用户是否保存密码，如果选是，密码会明文保存到 /data/data/com.package.name/databases/webview.db</p>
-<h5 id="WebView域控制不严格漏洞"><a href="#WebView域控制不严格漏洞" class="headerlink" title="WebView域控制不严格漏洞"></a>WebView域控制不严格漏洞</h5><p>setAllowFileAccess(true) : 窃取APP任意目录下的私有文件</p>
-<p>setAllowUniversalAccessFromFileURLs : 允许通过file域url中的 javascript访问其他的源。</p>
-<p>方案</p>
-<ol>
-<li><p>通过以下设置，防止越权访问，跨域等安全问题</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">setAllowFileAccess(<span class="keyword">false</span>)</span><br><span class="line"></span><br><span class="line">setAllowFileAccessFromFileURLs(<span class="keyword">false</span>)</span><br><span class="line"></span><br><span class="line">setAllowUniversalAccessFromFileURLs(<span class="keyword">false</span>)</span><br></pre></td></tr></table></figure></li>
-<li><p>WebSettings.setSavePassword(false)</p>
-<p>关闭密码保存提醒功能</p>
-</li>
-<li><p>建议开发者通过以下方式移除该JavaScript接口</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">removeJavascriptInterface(<span class="string">&quot;searchBoxJavaBridge_&quot;</span>)</span><br><span class="line"></span><br><span class="line">removeJavascriptInterface(<span class="string">&quot;accessibility&quot;</span>)；</span><br><span class="line"></span><br><span class="line">removeJavascriptInterface(<span class="string">&quot;accessibilityTraversal&quot;</span>)</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21787366">https://zhuanlan.zhihu.com/p/21787366</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.kanxue.com/article-14155.htm">https://zhuanlan.kanxue.com/article-14155.htm</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/14/index.html">http://noteforme.github.io.com/page/14/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1330,6 +1337,10 @@
       <ul>
         
           <li>
+            <a href="/2021/08/21/kotlin-medium/">kotlin-medium</a>
+          </li>
+        
+          <li>
             <a href="/2021/08/19/kotlin-elementary/">(no title)</a>
           </li>
         
@@ -1343,10 +1354,6 @@
         
           <li>
             <a href="/2021/04/19/Data-LinkedList/">Data_LinkedList</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/24/Data-Tree/">Data_Tree</a>
           </li>
         
       </ul>
@@ -1368,7 +1375,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -1378,7 +1385,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
