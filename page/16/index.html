@@ -53,11 +53,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Inicio</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archivo</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Acerca de</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -65,7 +65,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="Búsqueda"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -86,6 +86,134 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-SERVICE" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/11/SERVICE/">SERVICE</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-11T10:21:06.000Z" itemprop="datePublished">2017年08月11日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/08/11/SERVICE/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Libro de visitas
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/components/services">https://developer.android.com/guide/components/services</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/app/Service">https://developer.android.com/reference/android/app/Service</a></p>
+<h5 id="Service启动服务两种方式"><a href="#Service启动服务两种方式" class="headerlink" title="Service启动服务两种方式"></a>Service启动服务两种方式</h5><ul>
+<li> startService </li>
+<li> bindService</li>
+</ul>
+<h5 id="startService"><a href="#startService" class="headerlink" title="startService"></a>startService</h5><p>一个Service被startService多次启动,那么onCreate只会调用一次,onstart()会被调用多次, StartServcie:一旦启动，服务即可在后台无限期运行，即使启动服务的Ａctivity已被销毁也不受影响,直到调用stipService，或自身的stopSelf方法。内存不足系统也会结束服务。</p>
+<p> <img src="https://developer.android.google.cn/images/service_lifecycle.png" alt="Servcie lifeccle"></p>
+<h5 id="bindService"><a href="#bindService" class="headerlink" title="bindService"></a>bindService</h5><p>客户端通过IBinder接口于服务进行通信,客户端可以调用unbindServie关闭连接,当所有客户端关闭连接后系统会销毁服务.<br>启动Log日志<br>I/LearnService:  – onCreate() –<br>I/LearnService:  – onBind() –<br>　一个Service被某个Activity调用Context.bindService绑定启动，不管bindService调用几次，onCreate方法只会调用一次,onStart不会调用.</p>
+<ol>
+<li><p>service</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BluetoothService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        Timber.i(<span class="string">&quot; onCreate()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">onStartCommand</span><span class="params">(Intent intent, <span class="keyword">int</span> flags, <span class="keyword">int</span> startId)</span> </span>&#123;</span><br><span class="line">        Timber.i(<span class="string">&quot; onStartCommand()&quot;</span>);</span><br><span class="line">        String param = intent.getStringExtra(PARRAM);</span><br><span class="line">        Timber.i(<span class="string">&quot;接受    &quot;</span> + param);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onStartCommand(intent, flags, startId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        Timber.i(<span class="string">&quot; onDestroy()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLowMemory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onLowMemory();</span><br><span class="line">        Timber.i(<span class="string">&quot;onLowMemory()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onUnbind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        Timber.i(<span class="string">&quot;onUnbind(intent)()&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onUnbind(intent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRebind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onRebind(intent);</span><br><span class="line">        Timber.i(<span class="string">&quot;onRebind(intent)()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LocalBinder</span> <span class="keyword">extends</span> <span class="title">Binder</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> BluetoothService <span class="title">getService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> BluetoothService.<span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> IBinder mBinder = <span class="keyword">new</span> LocalBinder();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        Timber.i(<span class="string">&quot;onBind(intent)()&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> mBinder;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>启动</p>
+</li>
+<li><p><code>bindService(intent,mServiceConnection,BIND_AUTO_CREATE);</code></p>
+</li>
+<li><p>回调</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ServiceConnection mServiceConnection = <span class="keyword">new</span> ServiceConnection() &#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> </span>&#123;</span><br><span class="line">           mBlueService =  ((BluetoothService.LocalBinder)service).getService();</span><br><span class="line">           Timber.i(<span class="string">&quot;onServiceConnected(ComponentName name, IBinder service)&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span><span class="params">(ComponentName name)</span> </span>&#123;</span><br><span class="line">          Timber.i(<span class="string">&quot;onServiceDisconnected(ComponentName name)&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<ul>
+<li> 先startService创建服务，然后bindService绑定，这时候调用stopService或stopSelf(),不会停止，只能使unbindService()停止服务</li>
+</ul>
+<h6 id="IntentService"><a href="#IntentService" class="headerlink" title="IntentService"></a>IntentService</h6><p>   通过HandlerThread单独开启一个线程一次处理所有的任务<br>   不需要调用stopSelft()关闭服务，任务结束后自动关闭</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">08</span>-<span class="number">12</span> <span class="number">13</span>:<span class="number">38</span>:<span class="number">26</span>.<span class="number">601</span> <span class="number">30532</span>-<span class="number">30532</span>/com.hyhy.lern I/MyIntentService: -- onCreate() --</span><br><span class="line"><span class="attribute">08</span>-<span class="number">12</span> <span class="number">13</span>:<span class="number">38</span>:<span class="number">26</span>.<span class="number">601</span> <span class="number">30532</span>-<span class="number">30532</span>/com.hyhy.lern I/MyIntentService: -- onStartCommand() --</span><br><span class="line"><span class="attribute">08</span>-<span class="number">12</span> <span class="number">13</span>:<span class="number">38</span>:<span class="number">26</span>.<span class="number">601</span> <span class="number">30532</span>-<span class="number">30532</span>/com.hyhy.lern I/MyIntentService: -- onStartCommand() --</span><br><span class="line"><span class="attribute">08</span>-<span class="number">12</span> <span class="number">13</span>:<span class="number">38</span>:<span class="number">26</span>.<span class="number">601</span> <span class="number">30532</span>-<span class="number">30532</span>/com.hyhy.lern I/MyIntentService: -- onStartCommand() --</span><br><span class="line"><span class="attribute">08</span>-<span class="number">12</span> <span class="number">13</span>:<span class="number">38</span>:<span class="number">26</span>.<span class="number">601</span> <span class="number">30532</span>-<span class="number">30655</span>/com.hyhy.lern I/MyIntentService: do task<span class="number">1</span></span><br><span class="line"><span class="attribute">08</span>-<span class="number">12</span> <span class="number">13</span>:<span class="number">38</span>:<span class="number">26</span>.<span class="number">601</span> <span class="number">30532</span>-<span class="number">30655</span>/com.hyhy.lern I/MyIntentService: do task<span class="number">2</span></span><br><span class="line"><span class="attribute">08</span>-<span class="number">12</span> <span class="number">13</span>:<span class="number">38</span>:<span class="number">26</span>.<span class="number">601</span> <span class="number">30532</span>-<span class="number">30655</span>/com.hyhy.lern I/MyIntentService: do task<span class="number">1</span></span><br><span class="line"><span class="attribute">08</span>-<span class="number">12</span> <span class="number">13</span>:<span class="number">38</span>:<span class="number">26</span>.<span class="number">617</span> <span class="number">30532</span>-<span class="number">30532</span>/com.hyhy.lern I/MyIntentService: -- onDestroy() --</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/training/run-background-service/create-service.html">https://developer.android.com/training/run-background-service/create-service.html</a></p>
+<h5 id="onStartCommand"><a href="#onStartCommand" class="headerlink" title="onStartCommand()"></a>onStartCommand()</h5><p><strong>1. onStartCommand方式中，返回START_STICKY</strong></p>
+<p>首先我们来看看onStartCommand都可以返回哪些值：</p>
+<p>调用Context.startService方式启动Service时，如果Android面临内存匮乏，可能会销毁当前运行的Service，待内存充足时可以重建Service。而Service被Android系统强制销毁并再次重建的行为依赖于Service的onStartCommand()方法的返回值。</p>
+<p><strong>START_NOT_STICKY</strong><br> 如果返回START_NOT_STICKY，表示当Service运行的进程被Android系统强制杀掉之后，不会重新创建该Service。当然如果在其被杀掉之后一段时间又调用了startService，那么该Service又将被实例化。那什么情境下返回该值比较恰当呢？<br> 如果我们某个Service执行的工作被中断几次无关紧要或者对Android内存紧张的情况下需要被杀掉且不会立即重新创建这种行为也可接受，那么我们便可将 onStartCommand的返回值设置为START_NOT_STICKY。<br> 举个例子，某个Service需要定时从服务器获取最新数据：通过一个定时器每隔指定的N分钟让定时器启动Service去获取服务端的最新数据。当执行到Service的onStartCommand时，在该方法内再规划一个N分钟后的定时器用于再次启动该Service并开辟一个新的线程去执行网络操作。假设Service在从服务器获取最新数据的过程中被Android系统强制杀掉，Service不会再重新创建，这也没关系，因为再过N分钟定时器就会再次启动该Service并重新获取数据</p>
+<p><strong>START_STICKY</strong><br> 如果返回START_STICKY，表示Service运行的进程被Android系统强制杀掉之后，Android系统会将该Service依然设置为started状态（即运行状态），但是不再保存onStartCommand方法传入的intent对象，然后Android系统会尝试再次重新创建该Service，并执行onStartCommand回调方法，但是onStartCommand回调方法的Intent参数为null，也就是onStartCommand方法虽然会执行但是获取不到intent信息。如果你的Service可以在任意时刻运行或结束都没什么问题，而且不需要intent信息，那么就可以在onStartCommand方法中返回START_STICKY，比如一个用来播放背景音乐功能的Service就适合返回该值。</p>
+<p><strong>START_REDELIVER_INTENT</strong><br> 如果返回START_REDELIVER_INTENT，表示Service运行的进程被Android系统强制杀掉之后，与返回START_STICKY的情况类似，Android系统会将再次重新创建该Service，并执行onStartCommand回调方法，但是不同的是，Android系统会再次将Service在被杀掉之前最后一次传入onStartCommand方法中的Intent再次保留下来并再次传入到重新创建后的Service的onStartCommand方法中，这样我们就能读取到intent参数。只要返回START_REDELIVER_INTENT，那么onStartCommand重的intent一定不是null。如果我们的Service需要依赖具体的Intent才能运行（需要从Intent中读取相关数据信息等），并且在强制销毁后有必要重新创建运行，那么这样的Service就适合返回START_REDELIVER_INTENT。</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5b1747e5e51d45069a39ef45">https://juejin.im/post/5b1747e5e51d45069a39ef45</a></p>
+<p> <a target="_blank" rel="noopener" href="https://developer.android.com/guide/components/bound-services#kotlin">https://developer.android.com/guide/components/bound-services#kotlin</a> </p>
+<ul>
+<li><p>bindService callback</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">class BindingActivity : Activity() &#123;</span><br><span class="line">    <span class="keyword">private</span> lateinit <span class="keyword">var</span> mService: LocalService</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> mBound: Boolean = <span class="keyword">false</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Defines callbacks for service binding, passed to bindService()  */</span></span><br><span class="line">    <span class="keyword">private</span> val connection = object : ServiceConnection &#123;</span><br><span class="line"></span><br><span class="line">        <span class="function">override fun <span class="title">onServiceConnected</span><span class="params">(className: ComponentName, service: IBinder)</span> </span>&#123;</span><br><span class="line">            <span class="comment">// We&#x27;ve bound to LocalService, cast the IBinder and get LocalService instance</span></span><br><span class="line">            val binder = service as LocalService.LocalBinder</span><br><span class="line">            mService = binder.getService()</span><br><span class="line">            mBound = <span class="keyword">true</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function">override fun <span class="title">onServiceDisconnected</span><span class="params">(arg0: ComponentName)</span> </span>&#123;</span><br><span class="line">            mBound = <span class="keyword">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">override fun <span class="title">onCreate</span><span class="params">(savedInstanceState: Bundle?)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.main)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">override fun <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStart()</span><br><span class="line">        <span class="comment">// Bind to LocalService</span></span><br><span class="line">        Intent(<span class="keyword">this</span>, LocalService::class.java).also &#123; intent -&gt;</span><br><span class="line">            bindService(intent, connection, Context.BIND_AUTO_CREATE)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">override fun <span class="title">onStop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStop()</span><br><span class="line">        unbindService(connection)</span><br><span class="line">        mBound = <span class="keyword">false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Called when a button is clicked (the button in the layout file attaches to</span></span><br><span class="line"><span class="comment">     * this method with the android:onClick attribute)  */</span></span><br><span class="line">    <span class="function">fun <span class="title">onButtonClick</span><span class="params">(v: View)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mBound) &#123;</span><br><span class="line">            <span class="comment">// Call a method from the LocalService.</span></span><br><span class="line">            <span class="comment">// However, if this call were something that might hang, then this request should</span></span><br><span class="line">            <span class="comment">// occur in a separate thread to avoid slowing down the activity performance.</span></span><br><span class="line">            val num: Int = mService.randomNumber</span><br><span class="line">            Toast.makeText(<span class="keyword">this</span>, <span class="string">&quot;number: $num&quot;</span>, Toast.LENGTH_SHORT).show()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>get Service object in this place </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val binder = service as LocalService.LocalBinder</span><br><span class="line">mService = binder.getService()</span><br></pre></td></tr></table></figure>
+
+<h5 id="Using-a-Messenger"><a href="#Using-a-Messenger" class="headerlink" title="Using a Messenger"></a>Using a Messenger</h5><p> If you need your service to communicate with remote processes, then you can use a <code>Messenger</code> to provide the interface for your service. </p>
+</li>
+</ul>
+<h5 id="stopself"><a href="#stopself" class="headerlink" title="stopself()"></a>stopself()</h5><p>​    目前测试只有在onStartCommand()有效，多次点击startService(intent),startId持续递增.</p>
+<h5 id="foreground-service（前台服务）"><a href="#foreground-service（前台服务）" class="headerlink" title="foreground service（前台服务）"></a>foreground service（前台服务）</h5><p> 被用户所知道，系统内存不足时候不允许被系统杀死的服务，前台服务必须给通知了一个通知，放在正在运行的标题之下，一般用于应用保活。</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5505390503fa">https://www.jianshu.com/p/5505390503fa</a></p>
+<h5 id="onRebind-什么情况下执行"><a href="#onRebind-什么情况下执行" class="headerlink" title="onRebind()什么情况下执行"></a>onRebind()什么情况下执行</h5><p><img src="/2017/08/11/SERVICE/service_binding_tree_lifecycle.png"></p>
+<p>验证方法: startService(intent) 启动Service - bindService() 绑定Service - unBindService()解绑-  bindService() 继续绑定 就会执行onRebind()</p>
+<h5 id="多个acitivty与service通信"><a href="#多个acitivty与service通信" class="headerlink" title="多个acitivty与service通信"></a>多个acitivty与service通信</h5><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9885acf65405">https://www.jianshu.com/p/9885acf65405</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/pihailailou/article/details/78588496">https://blog.csdn.net/pihailailou/article/details/78588496</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Cuota:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-DesignPatterns_Adatper" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -118,7 +246,7 @@
 <a href="/2017/08/10/DesignPatterns_Adatper/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -175,8 +303,8 @@ public interface Target &#123;
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -189,7 +317,7 @@ public interface Target &#123;
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -235,7 +363,7 @@ public interface Target &#123;
 <a href="/2017/08/10/DesignPatterns_Factory/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -366,8 +494,8 @@ public class CatFactory implements Provider &#123;
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -380,7 +508,7 @@ public class CatFactory implements Provider &#123;
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -426,7 +554,7 @@ public class CatFactory implements Provider &#123;
 <a href="/2017/08/09/Accessibility/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -508,8 +636,8 @@ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -522,7 +650,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -568,7 +696,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
 <a href="/2017/08/07/OKHTTP/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -646,8 +774,8 @@ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -660,7 +788,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -706,7 +834,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
 <a href="/2017/08/03/Network/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -924,8 +1052,8 @@ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -938,7 +1066,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -979,7 +1107,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
 <a href="/2017/08/01/HexoConfigure/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -1083,8 +1211,8 @@ npm install -g hexo-cli
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1099,7 +1227,7 @@ npm install -g hexo-cli
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1145,7 +1273,7 @@ npm install -g hexo-cli
 <a href="/2017/07/31/ContentProvider/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -1298,8 +1426,8 @@ npm install -g hexo-cli
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1312,7 +1440,7 @@ npm install -g hexo-cli
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1358,7 +1486,7 @@ npm install -g hexo-cli
 <a href="/2017/07/23/EclipseIdeaWeb/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -1382,8 +1510,8 @@ npm install -g hexo-cli
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1396,7 +1524,7 @@ npm install -g hexo-cli
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1442,7 +1570,7 @@ npm install -g hexo-cli
 <a href="/2017/07/21/String/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -1619,8 +1747,8 @@ System.out.println(g.equals(a+b));
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1633,104 +1761,7 @@ System.out.println(g.equals(a+b));
           
           
     <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-Glide" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/07/21/Glide/">Glide</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-07-21T06:03:20.000Z" itemprop="datePublished">2017年07月21日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2017/07/21/Glide/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h4 id="Glide加载流程"><a href="#Glide加载流程" class="headerlink" title="Glide加载流程"></a>Glide加载流程</h4><p><img src="/2017/07/21/Glide/2021-08-09_4.51_glideflow.png">\</p>
-<h4 id="LruCache"><a href="#LruCache" class="headerlink" title="LruCache"></a>LruCache</h4><p><img src="/2017/07/21/Glide/2021-08-09_4.4_lrucache.png"></p>
-<h5 id="LinkedHashMap参数含义"><a href="#LinkedHashMap参数含义" class="headerlink" title="LinkedHashMap参数含义"></a>LinkedHashMap参数含义</h5><p>initialCapacity : 最大容量</p>
-<p>loadFactor     :     负载因子</p>
-<p>accessOrder    : 排序方式, true 按照访问顺序排序， false 按照插入顺序排序</p>
-<h5 id="访问顺序排序"><a href="#访问顺序排序" class="headerlink" title="访问顺序排序"></a>访问顺序排序</h5><p>accessOrder : true</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">LinkedHashMap&lt;String, String&gt; map = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(<span class="number">0</span>, <span class="number">0.75f</span>, <span class="keyword">true</span>);</span><br><span class="line">map.put(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;b&quot;</span>, <span class="string">&quot;B&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;c&quot;</span>, <span class="string">&quot;C&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;d&quot;</span>, <span class="string">&quot;D&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;e&quot;</span>, <span class="string">&quot;E&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;f&quot;</span>, <span class="string">&quot;F&quot;</span>);</span><br><span class="line"></span><br><span class="line">map.get(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;n&quot;</span>,<span class="string">&quot;N&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (Map.Entry&lt;String, String&gt; entry : map.entrySet()) &#123;</span><br><span class="line">    Log.d(<span class="string">&quot;LruCacheTest&quot;</span>, <span class="string">&quot;testLinkedHashMap : &quot;</span>+ entry.getKey()+<span class="string">&quot; : &quot;</span> + entry.getValue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>结果</p>
-<blockquote>
-<p> D LruCacheTest: testLinkedHashMap : b : B<br> D LruCacheTest: testLinkedHashMap : c : C<br> D LruCacheTest: testLinkedHashMap : d : D<br> D LruCacheTest: testLinkedHashMap : e : E<br> D LruCacheTest: testLinkedHashMap : f : F<br> D LruCacheTest: testLinkedHashMap : a : A<br> D LruCacheTest: testLinkedHashMap : n : N</p>
-</blockquote>
-<p>可以看到 先访问a ,在插入n,把最新最近使用和访问的 A N,放到链表后面</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LinkedHashMap&lt;String, String&gt; map = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(<span class="number">100</span>, <span class="number">0.75f</span>, <span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>D LruCacheTest: testLinkedHashMap : a : A<br>D LruCacheTest: testLinkedHashMap : b : B<br>D LruCacheTest: testLinkedHashMap : c : C<br>D LruCacheTest: testLinkedHashMap : d : D<br>D LruCacheTest: testLinkedHashMap : e : E<br>D LruCacheTest: testLinkedHashMap : f : F<br>D LruCacheTest: testLinkedHashMap : n : N</p>
-</blockquote>
-<h4 id="感知生命周期"><a href="#感知生命周期" class="headerlink" title="感知生命周期"></a>感知生命周期</h4><p><img src="/2017/07/21/Glide/2021-08-09_4.52_lifecycle.png"></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Qy4y1s7Gh?p=15&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1Qy4y1s7Gh?p=15&amp;spm_id_from=pageDriver</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/bumptech/glide">https://github.com/bumptech/glide</a></p>
-<p><a target="_blank" rel="noopener" href="https://muyangmin.github.io/glide-docs-cn/doc/generatedapi.html">https://muyangmin.github.io/glide-docs-cn/doc/generatedapi.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6844904136266219534">https://juejin.im/post/6844904136266219534</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/48d9e4d5d75d">https://www.jianshu.com/p/48d9e4d5d75d</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1747,7 +1778,7 @@ System.out.println(g.equals(a+b));
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/15/">Vorheriger</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/17/">Nächster</a>
+<a class="extend prev" rel="prev" href="/page/15/">Anterior</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/17/">Siguiente</a>
 </nav>
 
 
@@ -1757,9 +1788,13 @@ System.out.println(g.equals(a+b));
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recientes</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/08/21/kotlin-object/">kotlin-object</a>
+          </li>
         
           <li>
             <a href="/2021/08/21/kotlin-medium/">kotlin-medium</a>
@@ -1777,10 +1812,6 @@ System.out.println(g.equals(a+b));
             <a href="/2021/05/21/Assembly/">Assembly</a>
           </li>
         
-          <li>
-            <a href="/2021/04/19/Data-LinkedList/">Data_LinkedList</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1789,7 +1820,7 @@ System.out.println(g.equals(a+b));
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Nube de etiquetas</h3>
     <div class="widget tagcloud">
       <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 13.33px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
@@ -1798,9 +1829,9 @@ System.out.println(g.equals(a+b));
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categorías</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">2</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -1808,9 +1839,9 @@ System.out.println(g.equals(a+b));
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archivo</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1818,7 +1849,7 @@ System.out.println(g.equals(a+b));
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Etiquetas</h3>
     <div class="widget">
       <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/" rel="tag">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
@@ -1859,9 +1890,9 @@ System.out.println(g.equals(a+b));
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Sitemap</a>
-        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
-        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+        <a href="/sitemap.xml">Mapa del sitio</a>
+        <span> | </span><a href="/atom.xml">suscribirse a este sitio</a>
+        <span> | </span><a href="/about/">Contacta al blogger</a>
       </p>
       
         <p>

@@ -53,11 +53,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Inicio</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archivo</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Acerca de</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -65,7 +65,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="Búsqueda"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -86,6 +86,152 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-kotlin-object" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/08/21/kotlin-object/">kotlin-object</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2021-08-21T13:02:57.000Z" itemprop="datePublished">2021年08月21日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/kotlin/">kotlin</a>
+  </div>
+
+      
+      
+<a href="/2021/08/21/kotlin-object/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Libro de visitas
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>object目录下</p>
+<h3 id="对象相关"><a href="#对象相关" class="headerlink" title="对象相关"></a>对象相关</h3><h5 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h5><p>类默认是封闭的，要让某个类开放继承，必须使用opem关键字修饰它</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Product</span></span>(<span class="keyword">val</span> name:String) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">description</span><span class="params">()</span></span> = <span class="string">&quot;Product: <span class="variable">$name</span>&quot;</span></span><br><span class="line">   <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">load</span><span class="params">()</span></span> = <span class="string">&quot;Nothing..&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LuxuryProduct</span> : <span class="type">Product</span></span>(<span class="string">&quot;Luxury&quot;</span>)&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">load</span><span class="params">()</span></span> =<span class="string">&quot; LuxuryProduct loading&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> p : Product = LuxuryProduct()</span><br><span class="line">    println(p.load())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="类型检测-智能类型转换"><a href="#类型检测-智能类型转换" class="headerlink" title="类型检测 智能类型转换"></a>类型检测 智能类型转换</h5><p><img src="/2021/08/21/kotlin-object/2021-08-21_9.11.39_convert.png"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">println(p <span class="keyword">is</span> Product)</span><br><span class="line">println(p <span class="keyword">is</span> LuxuryProduct)</span><br><span class="line">println(p <span class="keyword">is</span> File)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (p <span class="keyword">is</span> LuxuryProduct)&#123;</span><br><span class="line">    println((p <span class="keyword">as</span> LuxuryProduct).special())</span><br><span class="line">    println(p.special()) <span class="comment">//只要转换一次，后面就直接可以使用，不用转换</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="Kotlin层次"><a href="#Kotlin层次" class="headerlink" title="Kotlin层次"></a>Kotlin层次</h5><p>无须在代码里显示指定，每一个类都会继承一个共同的叫做Any的超类。</p>
+<h5 id="Object关键字"><a href="#Object关键字" class="headerlink" title="Object关键字"></a>Object关键字</h5><p>定义一个能产生一个实例的类- 单例</p>
+<p>Object关键字有三种方式</p>
+<ol>
+<li><p>对象声明</p>
+<p>有利于组织代码和管理状态，尤其是管理整个应用运行生命周期内的某些一致性状态</p>
+</li>
+<li><p>对象表达式</p>
+<p><img src="/2021/08/21/kotlin-object/2021-08-21_9.30.54_expression.png"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Player</span> </span>&#123;</span><br><span class="line">    <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">load</span><span class="params">()</span></span> = <span class="string">&quot;loading nothing..&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">//匿名内部类，实例p对象</span></span><br><span class="line">    <span class="keyword">val</span> p = <span class="keyword">object</span> : Player()&#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">load</span><span class="params">()</span></span>= <span class="string">&quot;anonymous nothing..&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    println(p.load())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>伴生对象</p>
+<p><img src="/2021/08/21/kotlin-object/2021-08-21_9.40.03_companion.png"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 只要调用load() 或者实例化ConfigMap, 这个companion object才会被实例化</span></span><br><span class="line"><span class="comment"> * 而且也是单例的</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConfigMap</span> </span>&#123;</span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">const</span> <span class="keyword">val</span> PATH = <span class="string">&quot;xxxx&quot;</span></span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">load</span><span class="params">()</span></span> = File(PATH).readBytes()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">//  类似于Java static</span></span><br><span class="line">    ConfigMap.load()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="类相关"><a href="#类相关" class="headerlink" title="类相关"></a>类相关</h3><h5 id="嵌套类"><a href="#嵌套类" class="headerlink" title="嵌套类"></a>嵌套类</h5><p><img src="/2021/08/21/kotlin-object/2021-08-21_9.47.48_innerclass.png"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InnerClassTest</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Equipment</span></span>(<span class="keyword">var</span> name:String)&#123;</span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">show</span><span class="params">()</span></span> = println(<span class="string">&quot;equipment:<span class="variable">$name</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">battle</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    InnerClassTest.Equipment(<span class="string">&quot;shap knife&quot;</span>).show()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="数据类"><a href="#数据类" class="headerlink" title="数据类"></a>数据类</h5><p><img src="/2021/08/21/kotlin-object/2021-08-21_9.52.32_data.png"></p>
+<h5 id="数据类使用条件"><a href="#数据类使用条件" class="headerlink" title="数据类使用条件"></a>数据类使用条件</h5><p><img src="/2021/08/21/kotlin-object/2021-08-21_11.01.56_data_condition.png"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Coordinate</span></span>(<span class="keyword">var</span> x:<span class="built_in">Int</span>,<span class="keyword">var</span> y:<span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">val</span> isInBounds = x &gt; <span class="number">0</span> &amp;&amp; y &gt; <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    println(Coordinate(<span class="number">10</span>,<span class="number">20</span>))</span><br><span class="line">    println(Coordinate(<span class="number">10</span>,<span class="number">20</span>)==Coordinate(<span class="number">10</span>,<span class="number">20</span>)) <span class="comment">//data默认重写equals方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果</p>
+<blockquote>
+<p>Coordinate(x=10, y=20) // 说明默认提供了toString方法</p>
+</blockquote>
+<p>重写了equals方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(<span class="meta">@Nullable</span> Object var1)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span> != var1) &#123;</span><br><span class="line">         <span class="keyword">if</span> (var1 <span class="keyword">instanceof</span> Coordinate) &#123;</span><br><span class="line">            Coordinate var2 = (Coordinate)var1;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.x == var2.x &amp;&amp; <span class="keyword">this</span>.y == var2.y) &#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="Copy"><a href="#Copy" class="headerlink" title="Copy"></a>Copy</h5><p><img src="/2021/08/21/kotlin-object/2021-08-21_10.00_copy.png"></p>
+<p>注意:次构造函数数据不会copy过来</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span>  <span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>(</span><br><span class="line">        <span class="keyword">var</span> name: String,</span><br><span class="line">        <span class="keyword">val</span> age: <span class="built_in">Int</span>	 <span class="comment">//age 主构造函数里声明的属性</span></span><br><span class="line">)&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> hobby = <span class="string">&quot;music&quot;</span></span><br><span class="line">    <span class="keyword">val</span> subject:String</span><br><span class="line">    <span class="keyword">var</span> score = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        println(<span class="string">&quot;initializing student&quot;</span>)</span><br><span class="line">        subject = <span class="string">&quot;english&quot;</span>			<span class="comment">//Init初始化块里的属性赋值和函数调用</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">constructor</span>(_name: String):<span class="keyword">this</span>(_name,<span class="number">10</span>)&#123;</span><br><span class="line">        score = <span class="number">10</span>; <span class="comment">//次构造函数数据不会copy过来</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">toString</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Student(name=&#x27;<span class="variable">$name</span>&#x27;, age=<span class="variable">$age</span>, hobby=&#x27;<span class="variable">$hobby</span>&#x27;, subject=&#x27;<span class="variable">$subject</span>&#x27;, score=<span class="variable">$score</span>)&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> s = Student(<span class="string">&quot;Jon&quot;</span>)</span><br><span class="line">    <span class="keyword">val</span> copy = s.copy(<span class="string">&quot;girl&quot;</span>)</span><br><span class="line">    <span class="keyword">var</span> s2 = s.copy(name = <span class="string">&quot;girl2&quot;</span>, age = <span class="number">18</span>)</span><br><span class="line">    println(s)</span><br><span class="line">    println(s2)</span><br><span class="line">    println(copy)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="解构声明"><a href="#解构声明" class="headerlink" title="解构声明"></a>解构声明</h5><p><img src="/2021/08/21/kotlin-object/2021-08-21_10.13.25_component.png"></p>
+<ol>
+<li><p>普通类</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PlayerScore</span></span>(<span class="keyword">val</span> experience:<span class="built_in">Int</span>,<span class="keyword">val</span> level:<span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">component1</span><span class="params">()</span></span> = experience</span><br><span class="line">    <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">component2</span><span class="params">()</span></span> = level</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> (x,y) = PlayerScore(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">    println(<span class="string">&quot;<span class="variable">$x</span>, <span class="variable">$y</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Data数据类</p>
+<p>数据类自动生成解构语法</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Coordinate</span></span>(<span class="keyword">var</span> x:<span class="built_in">Int</span>,<span class="keyword">var</span> y:<span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">val</span> isInBounds = x &gt; <span class="number">0</span> &amp;&amp; y &gt; <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    println(Coordinate(<span class="number">10</span>,<span class="number">20</span>))</span><br><span class="line">    println(Coordinate(<span class="number">10</span>,<span class="number">20</span>)==Coordinate(<span class="number">10</span>,<span class="number">20</span>)) </span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span>(x,y) = Coordinate(<span class="number">10</span>,<span class="number">20</span>) <span class="comment">//数据类自动生成解构语法</span></span><br><span class="line">    println(<span class="string">&quot;<span class="variable">$x</span> , <span class="variable">$y</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h5><p>如果要将内置运算符应用在自定义类身上，你必须重写运算符函数，告诉编译器该如何操作自定义类</p>
+<p><img src="/2021/08/21/kotlin-object/2021-08-21_10.24.07_overload.png"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Coordinate2</span></span>(<span class="keyword">var</span> x:<span class="built_in">Int</span>,<span class="keyword">var</span> y:<span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">val</span> isInBounds = x &gt; <span class="number">0</span> &amp;&amp; y &gt; <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">plus</span><span class="params">(other:<span class="type">Coordinate2</span>)</span></span> = Coordinate2(x + other.x,y+other.y)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">     <span class="keyword">val</span> c1=Coordinate2(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">     <span class="keyword">val</span> c2=Coordinate2(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">     println(c1 + c2)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="枚举类"><a href="#枚举类" class="headerlink" title="枚举类"></a>枚举类</h4><p>用来定义常量集合特殊的类</p>
+<p>枚举类是一个实例</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="class"><span class="keyword">class</span> <span class="title">Direction</span> </span>&#123;</span><br><span class="line">    EAST,</span><br><span class="line">    WEST,</span><br><span class="line">    SOUTH,</span><br><span class="line">    NORTH</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    println(Direction.EAST)</span><br><span class="line">    println(Direction.EAST <span class="keyword">is</span> Direction)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="枚举类定义函数"><a href="#枚举类定义函数" class="headerlink" title="枚举类定义函数"></a>枚举类定义函数</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="class"><span class="keyword">class</span> <span class="title">Direction2</span></span>(<span class="keyword">private</span> <span class="keyword">val</span> coordinate: Coordinate) &#123;</span><br><span class="line">    EAST(Coordinate(<span class="number">1</span>, <span class="number">0</span>)), <span class="comment">//EAST()是Direction2的实例</span></span><br><span class="line">    WEST(Coordinate(-<span class="number">1</span>, <span class="number">0</span>)),</span><br><span class="line">    SOUTH(Coordinate(-<span class="number">1</span>, <span class="number">0</span>)),</span><br><span class="line">    NORTH(Coordinate(<span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//定义函数</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">updateCoordinate</span><span class="params">(playerCoordinate: <span class="type">Coordinate</span>)</span></span> =</span><br><span class="line">            Coordinate(playerCoordinate.x + coordinate.x, playerCoordinate.y + coordinate.y)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    println(Direction2.EAST.updateCoordinate(Coordinate(<span class="number">10</span>, <span class="number">20</span>)))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="代数数据类型"><a href="#代数数据类型" class="headerlink" title="代数数据类型"></a>代数数据类型</h5><p>可以用来表示一组子类型的闭集，枚举类就是一种简单的ADT</p>
+<p><img src="/2021/08/21/kotlin-object/2021-08-21_10.40.31_enum_data.png"></p>
+<h5 id="密封类"><a href="#密封类" class="headerlink" title="密封类"></a>密封类</h5><p><img src="/2021/08/21/kotlin-object/2021-08-21_10.42.08_closure_sealed.png"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//密封类</span></span><br><span class="line"><span class="keyword">sealed</span> <span class="class"><span class="keyword">class</span> <span class="title">LicenseStatus2</span> </span>&#123;</span><br><span class="line">    <span class="keyword">object</span> UnQualified:LicenseStatus2()</span><br><span class="line">    <span class="keyword">object</span> Learning:LicenseStatus2()</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Qualified</span></span>(<span class="keyword">val</span> licenseId:String):LicenseStatus2() <span class="comment">//用来保存数据</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Driver2</span></span>(<span class="keyword">var</span> status: LicenseStatus2)&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">checkLicense</span><span class="params">()</span></span>:String&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">when</span>(status)&#123;</span><br><span class="line">            <span class="keyword">is</span> LicenseStatus2.UnQualified -&gt; <span class="string">&quot;没资格&quot;</span></span><br><span class="line">            <span class="keyword">is</span> LicenseStatus2.Learning -&gt; <span class="string">&quot;在学&quot;</span></span><br><span class="line">            <span class="keyword">is</span> LicenseStatus2.Qualified -&gt; <span class="string">&quot;有资格，驾驶证编号: <span class="subst">$&#123;((this.status as LicenseStatus2.Qualified).licenseId)&#125;</span>&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> status1 = LicenseStatus2.Learning</span><br><span class="line">    <span class="keyword">val</span> status = LicenseStatus2.Qualified(<span class="string">&quot;2333003&quot;</span>)</span><br><span class="line">    <span class="keyword">val</span> driver = Driver2(status)</span><br><span class="line">    println(driver.checkLicense())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Enlace original: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Cuota:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-kotlin-medium" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -118,7 +264,7 @@
 <a href="/2021/08/21/kotlin-medium/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -252,8 +398,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -266,7 +412,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -301,7 +447,7 @@
 <a href="/2021/08/19/kotlin-elementary/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -550,8 +696,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -564,7 +710,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -610,7 +756,7 @@
 <a href="/2021/06/17/kmp/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -635,8 +781,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -649,7 +795,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -690,7 +836,7 @@
 <a href="/2021/05/21/Assembly/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -727,8 +873,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -743,7 +889,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -789,7 +935,7 @@
 <a href="/2021/04/19/Data-LinkedList/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -859,8 +1005,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -873,7 +1019,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -919,7 +1065,7 @@
 <a href="/2021/03/24/Data-Tree/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -1088,8 +1234,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1102,7 +1248,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1148,7 +1294,7 @@
 <a href="/2021/03/21/Data-Sort/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -1237,8 +1383,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1251,7 +1397,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1297,7 +1443,7 @@
 <a href="/2021/03/08/Concurrency-SychronizedVolatile/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -1448,8 +1594,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1464,7 +1610,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1510,7 +1656,7 @@
 <a href="/2021/02/26/Concurrency-thread/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -1718,8 +1864,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1734,229 +1880,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-ACTIVITY" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/16/ACTIVITY/">Activity</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2021-01-16T09:49:32.000Z" itemprop="datePublished">2021年01月16日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2021/01/16/ACTIVITY/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/app/Activity.html">https://developer.android.com/reference/android/app/Activity.html</a></p>
-<h4 id="Activity"><a href="#Activity" class="headerlink" title="Activity"></a>Activity</h4><p>An activity is a single, focused thing that the user can do. Almost all activities interact with the user, so the Activity class takes care of creating a window for you in which you can place your UI with setContentView(View).<br>Acitivty和用户交互，所以也是用的最多的</p>
-<p><img src="https://developer.android.com/images/activity_lifecycle.png" alt="生命周期"> </p>
-<h5 id="lifecycle"><a href="#lifecycle" class="headerlink" title="lifecycle"></a>lifecycle</h5><ol>
-<li>onCreate():  Activity创建的时候调用，绑定数据。</li>
-<li>onStart() : 当Activity对用户变得可见的时候调用.</li>
-<li>onResume() : activity开始和用户交互的时候调用，这时候activity处于栈顶，伴随着用户的输入.</li>
-<li>onPause() : 当activity失去前台状态，开始进入stopped/hidden or destroyed状态，不能再获取焦点，此时activity对用户可见，但是更新的UI的操作要快。</li>
-<li>onStop()  :  当activity不再可见，可能是新的activity来到栈顶，或者当前activity正在被destroy.</li>
-<li>onDestory(): 当前activity正在离开。</li>
-</ol>
-<h5 id="想到一个问题-界面A到界面B，是A的onStop-先执行-还是B的onResume-先走"><a href="#想到一个问题-界面A到界面B，是A的onStop-先执行-还是B的onResume-先走" class="headerlink" title="想到一个问题:界面Ａ到界面Ｂ，是Ａ的onStop()先执行　还是Ｂ的onResume()先走"></a>想到一个问题:界面Ａ到界面Ｂ，是Ａ的onStop()先执行　还是Ｂ的onResume()先走</h5><p>先用事实说话吧</p>
-<pre><code> I/BaseActivity: MainActivity -- onCreate() -- 
- I/BaseActivity: MainActivity -- onStart() -- 
- I/BaseActivity: MainActivity -- onResume() -- 
- I/BaseActivity: MainActivity -- onPause() -- 
- I/BaseActivity: StopResumeActivity -- onCreate() -- 
- I/BaseActivity: StopResumeActivity -- onStart() -- 
- I/BaseActivity: StopResumeActivity -- onResume() -- 
- I/BaseActivity: MainActivity -- onStop() -- 
-</code></pre>
-<p>从打印结果可以看到StopResumeActivity.onResume()先执行,然后是MainActivity的onStop</p>
-<p>onStop() :<br>大概知道原因，但是还是不够说服力，因为onStart()方法已经对用户可见了，为什么MainActivity – onStop()不在 StopResumeActivity – onStart()后面呢？</p>
-<p>可能是onResume()调用后，新activity位于栈顶，之前的再onStop()</p>
-<h4 id="Activity-luanch-mode"><a href="#Activity-luanch-mode" class="headerlink" title="Activity luanch mode"></a>Activity luanch mode</h4><h5 id="4种启动模式"><a href="#4种启动模式" class="headerlink" title="4种启动模式"></a>4种启动模式</h5><ul>
-<li><p>standard </p>
-<p>在不同的Task中打开同一个Activity，Activity会被创建多个实例。分别放进打开它的Task中。</p>
-<p>例如: 点开短信中的电话号码， 新的 打电话的Activity会存在于   短信Task中。</p>
-</li>
-<li><p>singleTop</p>
-</li>
-<li><p>singleTask</p>
-<blockquote>
-<p>The system creates a new task and instantiates the activity at the root of the new task. However, if an instance of the activity already exists in a separate task, the system routes the intent to the existing instance through a call to its <code>onNewIntent()</code> method, rather than creating a new instance. Only one instance of the activity can exist at a time.</p>
-<p>只会在一个Task出现,这个Task里只有一个这个Activity，全局唯一</p>
-</blockquote>
-</li>
-<li><p>singleInstance </p>
-<blockquote>
-<p>Same as <code>&quot;singleTask&quot;</code>, except that the system doesn’t launch any other activities into the task holding the instance. The activity is always the single and only member of its task; any activities started by this one open in a separate task.</p>
-<p>除了全局唯一，还会独占一个Task</p>
-</blockquote>
-</li>
-</ul>
-<h5 id="taskAffinity"><a href="#taskAffinity" class="headerlink" title="taskAffinity"></a>taskAffinity</h5><p>每个Activity都有一个taskAffinity，默认取自Activity所在的Application的taskAffinity,而后者又默认取自app包名.</p>
-<p>每个Task也有它自己的taskAffinity，它取自栈底的Activity的taskAffinity</p>
-<p>默认情况下，Activity会直接进入当前的Task</p>
-<p>但对于设置了  launchMode = “singleTask”的Activity,系统会先比对Activity和当前Task的taskAffinity是否相同</p>
-<ul>
-<li><p>如果相同，依然正常入栈.</p>
-</li>
-<li><p>如果不同，新Activity会去寻找和它 taskAffinity相同的Task后入栈。</p>
-<p>如果找不到，系统就为它创建一个新的Task,或者创建一个新的Task.</p>
-</li>
-</ul>
-<p>MainActivity启动FirstActivity</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.component.launchmode.FirstActivity&quot;</span><br><span class="line">    android:taskAffinity=&quot;com.comm.mytask&quot; /&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<pre><code>   TaskRecord&#123;dff3f0b #4947 A=com.comm.util U=0 StackId=1 sz=2&#125;
-         Run #4: ActivityRecord&#123;e52ebf7 u0 com.comm.util/.component.launchmode.FirstActivity t4947&#125;
-         Run #3: ActivityRecord&#123;cd6b037 u0 com.comm.util/.MainActivity t4947&#125;
-</code></pre>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.component.launchmode.FirstActivity&quot;</span><br><span class="line">    android:launchMode=&quot;singleTask&quot;</span><br><span class="line">    android:taskAffinity=&quot;com.comm.mytask&quot; /&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">TaskRecord</span>&#123;<span class="number">3713</span>c<span class="number">1</span>e #<span class="number">4946</span> A=com.comm.mytask U=<span class="number">0</span> StackId=<span class="number">1</span> sz=<span class="number">1</span>&#125;</span><br><span class="line">      <span class="attribute">Run</span> #<span class="number">4</span>: ActivityRecord&#123;<span class="number">3</span>d<span class="number">3</span>bd<span class="number">58</span> u<span class="number">0</span> com.comm.util/.component.launchmode.FirstActivity t<span class="number">4946</span>&#125;</span><br><span class="line">    <span class="attribute">TaskRecord</span>&#123;<span class="number">273</span>cacc #<span class="number">4945</span> A=com.comm.util U=<span class="number">0</span> StackId=<span class="number">1</span> sz=<span class="number">1</span>&#125;</span><br><span class="line">      <span class="attribute">Run</span> #<span class="number">3</span>: ActivityRecord&#123;<span class="number">77277</span>e<span class="number">0</span> u<span class="number">0</span> com.comm.util/.MainActivity t<span class="number">4945</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 添加完   <code>android:launchMode=&quot;singleTask&quot;</code>后 多了个task     com.comm.mytask</p>
-<h5 id="TaskAffinity和最近任务列表"><a href="#TaskAffinity和最近任务列表" class="headerlink" title="TaskAffinity和最近任务列表"></a>TaskAffinity和最近任务列表</h5><p>最近任务列表会列出现有的Task</p>
-<ul>
-<li>但他们的taskAffinity需要不一样</li>
-<li>当多个Task具有相同的taskAffinity额时候，最近任务列表只有显示最新展示过的那一个.</li>
-</ul>
-<p>除了 singleInstance 不好验证 所在task是否只有唯一的activity ，其他的启动模式比较清晰?</p>
-<p>查看运行的activity   </p>
-<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb <span class="built_in">shell</span> dumpsys activity activities | sed -En -e &#x27;/Running activities/,/<span class="keyword">Run</span> <span class="meta">#0/p&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="remote-Compressing-objects-100-3780-3780-done-两种方式"><a href="#remote-Compressing-objects-100-3780-3780-done-两种方式" class="headerlink" title="remote: Compressing objects: 100% (3780/3780), done.    两种方式"></a>remote: Compressing objects: 100% (3780/3780), done.    两种方式</h5><ol>
-<li><p>AndroidMenifest</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">remote: Compressing objects: 100% (378.  remote: Compressing objects: 100% (3780/3780), done.</span><br><span class="line">0/3780), done.</span><br><span class="line">  &lt;activity</span><br><span class="line">         android:name = &quot;com.ryg.chapter_1.SecondActivity&quot;</span><br><span class="line">         android:launchMode=&quot;singleTask&quot;</span><br><span class="line">         /&gt;</span><br></pre></td></tr></table></figure></li>
-<li><p>Intent设置</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intent.addFlasg(Intent.FLAG_ACTIVITY_NEW_TASK)</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p> 2优先级高于1级</p>
-<h5 id="SingleInstance-不设置taskAffinity"><a href="#SingleInstance-不设置taskAffinity" class="headerlink" title="SingleInstance 不设置taskAffinity"></a>SingleInstance 不设置taskAffinity</h5><p>SingleInstance会创建一个新的任务栈</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;.component.launchmode.FirstActivity&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.component.launchmode.SecondActivity&quot;</span><br><span class="line">    android:launchMode=&quot;singleInstance&quot; /&gt;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;.component.launchmode.ThirdActivity&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-
- <figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">D</span>/<span class="variable">FirstActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onCreate</span>() <span class="variable">taskId</span>  <span class="number">86</span></span></span><br><span class="line"><span class="function"><span class="variable">D</span>/<span class="variable">FirstActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="title">onStart</span>()</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">FirstActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onResume</span>()</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">FirstActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onPause</span>()</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">SecondActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onCreate</span>() <span class="variable">taskId</span>  <span class="number">85</span></span></span><br><span class="line"><span class="function"><span class="variable">D</span>/<span class="variable">SecondActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="title">onStart</span>()</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">SecondActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onRestoreInstanceState</span>()</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">SecondActivity</span> <span class="variable">LaunchModeActivity</span>:  <span class="function"><span class="title">onNewIntent</span>(<span class="variable">Intent</span> <span class="variable">intent</span>)</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">SecondActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onResume</span>()</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">FirstActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onSaveInstanceState</span>()</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">FirstActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onStop</span>()</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">SecondActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onPause</span>()</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">ThirdActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onCreate</span>() <span class="variable">taskId</span>  <span class="number">86</span></span></span><br><span class="line"><span class="function"><span class="variable">D</span>/<span class="variable">ThirdActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="title">onStart</span>()</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">ThirdActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onResume</span>()</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">SecondActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onSaveInstanceState</span>()</span></span><br><span class="line"><span class="variable">D</span>/<span class="variable">SecondActivity</span> <span class="variable">LaunchModeActivity</span>: <span class="function"><span class="title">onStop</span>()</span></span><br></pre></td></tr></table></figure>
-
-<p>可以看到 FirstActivity 、ThirdActivity在同一个栈中，SecondActivity单独在一个栈中</p>
-<p>所以按返回键盘，先到 FirstActivity，然后到SecondActivity .</p>
-<h5 id="栈内Activity查看，设置taskAffinity"><a href="#栈内Activity查看，设置taskAffinity" class="headerlink" title="栈内Activity查看，设置taskAffinity"></a>栈内Activity查看，设置taskAffinity</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;.component.launchmode.SerachActivity&quot;</span> /&gt;</span></span><br><span class="line">   &lt;activity</span><br><span class="line">       android:name=&quot;.component.onactivityresult.SecondActivity&quot;</span><br><span class="line">       android:launchMode=&quot;singleTask&quot;</span><br><span class="line">       android:taskAffinity=&quot;&quot; /&gt;</span><br><span class="line">   &lt;activity</span><br><span class="line">       android:name=&quot;.component.launchmode.FirstActivity&quot;</span><br><span class="line">       android:configChanges=&quot;orientation&quot;</span><br><span class="line">       android:launchMode=&quot;singleTask&quot;&gt;</span><br><span class="line">       <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">           <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>adb shell dumpsys activity</p>
-</blockquote>
-<p>![](Activity/Screen Shot 2021-01-23 at 3.31.08 PM.png)</p>
-<ul>
-<li>taskAffinity属性的值为字符串，且中间必须含有分隔符”.”</li>
-<li>standard模式，taskAffinity继承自Application的taskAffinity，而Application默认taskAffinity为包名，所以MainActivity的taskAffinity为包名。</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/components/activities/tasks-and-back-stack">https://developer.android.com/guide/components/activities/tasks-and-back-stack</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mynameishuangshuai/article/details/51491074">https://blog.csdn.net/mynameishuangshuai/article/details/51491074</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangjg_blog/article/details/10923643">https://blog.csdn.net/zhangjg_blog/article/details/10923643</a></p>
-<h4 id="OnNewIntent"><a href="#OnNewIntent" class="headerlink" title="OnNewIntent()"></a>OnNewIntent()</h4><p>onNewIntent</p>
-<p>added in <a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/manifest/uses-sdk-element.html#ApiLevels">API level 1</a></p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">void</span> onNewIntent (Intent <span class="built_in">int</span>ent)</span><br></pre></td></tr></table></figure>
-
-<p>if the Activity was already created and a new Intent is being delivered to <code>onNewIntent(android.content.Intent)</code></p>
-<p>This is called for activities that set launchMode to “singleTop” in their package, or if a client used the <code>FLAG_ACTIVITY_SINGLE_TOP</code> flag when calling <code>startActivity(Intent)</code>. In either case, when the activity is re-launched while at the top of the activity stack instead of a new instance of the activity being started, onNewIntent() will be called on the existing instance with the Intent that was used to re-launch it.</p>
-<p>An activity will always be paused before receiving a new intent, so you can count on <code>onResume()</code> being called after this method.</p>
-<p>Note that <code>getIntent()</code> still returns the original Intent. You can use <code>setIntent(Intent)</code> to update it to this new Intent.</p>
-<table>
-<thead>
-<tr>
-<th>Parameters</th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>intent</code></td>
-<td><code>Intent</code>: The new intent that was started for the activity.</td>
-</tr>
-</tbody></table>
-<p>这个方法用于singleTop  singleTask两种启动模式</p>
-<p>先看看  singleTask方式：FirstActivity  </p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:<span class="attribute">name</span>=<span class="string">&quot;.launchmode.FirstActivity&quot;</span></span><br><span class="line">            android:<span class="attribute">launchMode</span>=<span class="string">&quot;singleTask&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
-
-<p>​        </p>
-<p>   从 FirstActivity  –&gt; LaunchActivity –&gt; FirstActivity 生命周期方法</p>
-<blockquote>
-<p> 04-24 11:49:14.602 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onCreate()<br> 04-24 11:49:14.672 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onStart()<br> 04-24 11:49:14.679 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onResume()<br> 04-24 11:49:32.085 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onPause()<br> 04-24 11:49:32.099 26674-26674/com.jonzhou.mineutils D/LaunchActivity LaunchMode: onCreate()<br> 04-24 11:49:32.127 26674-26674/com.jonzhou.mineutils D/LaunchActivity LaunchMode: onStart()<br> 04-24 11:49:32.132 26674-26674/com.jonzhou.mineutils D/LaunchActivity LaunchMode: onResume()<br> 04-24 11:49:32.462 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onStop()<br> 04-24 11:49:53.681 26674-26674/com.jonzhou.mineutils D/LaunchActivity LaunchMode: onPause()<br> 04-24 11:49:53.701 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode:  onNewIntent(Intent intent)<br> 04-24 11:49:53.702 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onStart()<br> 04-24 11:49:53.703 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onResume()<br> 04-24 11:49:54.049 26674-26674/com.jonzhou.mineutils D/LaunchActivity LaunchMode: onStop()<br> 04-24 11:49:54.049 26674-26674/com.jonzhou.mineutils D/LaunchActivity LaunchMode: onDestroy()</p>
-</blockquote>
-<p>然后可以通过 onNewIntent(Intent intent);获取传回来的数据</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String data1 = intent.get<span class="constructor">StringExtra(<span class="params">newIntent</span>)</span>;</span><br><span class="line">String data2 = get<span class="constructor">Intent()</span>.get<span class="constructor">StringExtra(<span class="params">newIntent</span>)</span>;  <span class="comment">//这种方式获取不到</span></span><br><span class="line">set<span class="constructor">Intent(<span class="params">intent</span>)</span>;                                     <span class="comment">//通过这种设置获取</span></span><br><span class="line">String data3 = get<span class="constructor">Intent()</span>.get<span class="constructor">StringExtra(<span class="params">newIntent</span>)</span>;</span><br><span class="line"><span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>d(<span class="string">&quot;onNewIntent  &quot;</span> + data3);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>为什么要设置 setIntent(intent)</p>
-<blockquote>
-<p>我们在多次启动同一个栈唯一模式下的activity时，在onNewIntent()里面的getIntent()得到的intent感觉都是第一次的那个数据。对，这里就是这个陷阱。因为它就是会返回第一个intent的数据</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_16628781/article/details/51539715">https://blog.csdn.net/qq_16628781/article/details/51539715</a></p>
-<p>生命周期视图</p>
-<p><a target="_blank" rel="noopener" href="http://yhz61010.iteye.com/blog/2389877">http://yhz61010.iteye.com/blog/2389877</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_16628781/article/details/51539715">https://blog.csdn.net/qq_16628781/article/details/51539715</a></p>
-<h4 id="然而-ANDROID-4-4-启动模式会出现问题"><a href="#然而-ANDROID-4-4-启动模式会出现问题" class="headerlink" title="然而 ANDROID 4.4 启动模式会出现问题"></a>然而 ANDROID 4.4 启动模式会出现问题</h4><p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/2a9fcf3c11e4">http://www.jianshu.com/p/2a9fcf3c11e4</a></p>
-<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/mynameishuangshuai/article/details/51491074">http://blog.csdn.net/mynameishuangshuai/article/details/51491074</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=r4T9zkhpmII">https://www.youtube.com/watch?v=r4T9zkhpmII</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/index.html">http://noteforme.github.io.com/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1973,7 +1897,7 @@
 
     <nav id="page-nav">
 
-<span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/2/">Nächster</a>
+<span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/2/">Siguiente</a>
 </nav>
 
 
@@ -1983,9 +1907,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recientes</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/08/21/kotlin-object/">kotlin-object</a>
+          </li>
         
           <li>
             <a href="/2021/08/21/kotlin-medium/">kotlin-medium</a>
@@ -2003,10 +1931,6 @@
             <a href="/2021/05/21/Assembly/">Assembly</a>
           </li>
         
-          <li>
-            <a href="/2021/04/19/Data-LinkedList/">Data_LinkedList</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -2015,7 +1939,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Nube de etiquetas</h3>
     <div class="widget tagcloud">
       <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 13.33px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
@@ -2024,9 +1948,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categorías</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">2</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -2034,9 +1958,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archivo</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -2044,7 +1968,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Etiquetas</h3>
     <div class="widget">
       <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/" rel="tag">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
@@ -2085,9 +2009,9 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Sitemap</a>
-        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
-        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+        <a href="/sitemap.xml">Mapa del sitio</a>
+        <span> | </span><a href="/atom.xml">suscribirse a este sitio</a>
+        <span> | </span><a href="/about/">Contacta al blogger</a>
       </p>
       
         <p>
