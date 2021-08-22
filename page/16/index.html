@@ -86,6 +86,127 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-BroadcastReceiver" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/12/BroadcastReceiver/">BroadcastReceiver</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-12T07:44:53.000Z" itemprop="datePublished">2017年08月12日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/08/12/BroadcastReceiver/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>BroadcastReceiver</p>
+<p> <a target="_blank" rel="noopener" href="https://developer.android.com/guide/components/broadcasts.html">https://developer.android.com/guide/components/broadcasts.html</a></p>
+<p> 广播使应用程序间传输传输信息的机制，主要用来监听系统或者应用发出的广播信息。<br>  BroadcastReceiver使用注意   当系统或应用发出广播时，扫描系统所有广播接收者(无论时静态注册还是动态注册方式)，通过action匹配將广播发给相应接收者，接收者收到<br>   广播后会产生一个广播实例，执行onReceiver()，这个实例生命周期只有10秒,10秒内没执行结束onReceiver，系统会报错,所以不能再onReceiver()执行耗时操作,onReceiver结束后，实例被销毁.</p>
+<h4 id="BroadcastReceiver注册方式"><a href="#BroadcastReceiver注册方式" class="headerlink" title="BroadcastReceiver注册方式"></a>BroadcastReceiver注册方式</h4><h5 id="Context-registered-receivers-动态注册"><a href="#Context-registered-receivers-动态注册" class="headerlink" title="Context-registered receivers (动态注册)"></a>Context-registered receivers (动态注册)</h5><p>注册</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> UpdateBroadcastReceiver updateBr;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">protected void on<span class="constructor">Start()</span> &#123;</span><br><span class="line">    super.on<span class="constructor">Start()</span>;</span><br><span class="line">    updateBr = <span class="keyword">new</span> <span class="constructor">UpdateBroadcastReceiver()</span>;</span><br><span class="line">    IntentFilter intentFilter = <span class="keyword">new</span> <span class="constructor">IntentFilter()</span>;</span><br><span class="line">    intentFilter.add<span class="constructor">Action(ACTION_UPDATE)</span>;</span><br><span class="line">    register<span class="constructor">Receiver(<span class="params">updateBr</span>, <span class="params">intentFilter</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发送注销广播</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//点击发送广播</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">btBroadcast</span>(<span class="params">View v</span>)</span> &#123;</span><br><span class="line">    Intent intentBroad = <span class="keyword">new</span> Intent();</span><br><span class="line">    intentBroad.setAction(ACTION_UPDATE);</span><br><span class="line">    sendBroadcast(intentBroad);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="built_in">void</span> <span class="function"><span class="title">onDestroy</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onDestroy();</span><br><span class="line">    <span class="keyword">if</span> (updateBr != <span class="literal">null</span>) &#123;</span><br><span class="line">        unregisterReceiver(updateBr);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 注意:这种注册方式　AndroidManifest.xml不用做任何操作</p>
+<h5 id="静态注册"><a href="#静态注册" class="headerlink" title="静态注册"></a>静态注册</h5><p>Android 8.0之后，静态注册是无法接收隐式广播的，而默认情况下，我们发出的广播都是隐式广播，因此一定要调用setPackage()方法，指定这条广播是发送给哪个应用程序的，从而让它变成一条显示广播。（第一行代码）</p>
+<p>AndroidManifest.xml添加</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">receiver</span> <span class="attr">android:name</span>=<span class="string">&quot;.broadcastservice.UpdateBroadcastReceiver&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.UpdateBroadcastReceiver&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意　为了杜绝APP滥用资源,官方对有的广播做了限制</p>
+<blockquote>
+<p>Note: If your app targets API level 26 or higher, you cannot use the manifest to declare a receiver for implicit broadcasts (broadcasts that do not target your app specifically), except for a few implicit broadcasts that are exempted from that restriction. In most cases, you can use scheduled jobs instead.</p>
+</blockquote>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intent.setPackage(<span class="string">&quot;com.comm.util&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Sending-broadcasts方式"><a href="#Sending-broadcasts方式" class="headerlink" title="Sending broadcasts方式"></a>Sending broadcasts方式</h4><h5 id="普通广播"><a href="#普通广播" class="headerlink" title="普通广播"></a>普通广播</h5><h5 id="有序广播"><a href="#有序广播" class="headerlink" title="有序广播"></a>有序广播</h5><p>FirstOrderBroadCast</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FirstOrderBroadCast</span> : <span class="type">BroadcastReceiver</span></span>() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onReceive</span><span class="params">(context: <span class="type">Context</span>?, intent: <span class="type">Intent</span>?)</span></span> &#123;</span><br><span class="line">        Log.e(<span class="string">&quot;receive&quot;</span>, <span class="string">&quot;Low&quot;</span>);</span><br><span class="line">        <span class="keyword">val</span> code = <span class="number">1</span></span><br><span class="line">        <span class="keyword">val</span> <span class="keyword">data</span> = <span class="string">&quot;hello I am FirstOrderBroadCast&quot;</span></span><br><span class="line">        <span class="keyword">val</span> bundle: Bundle? = Bundle()</span><br><span class="line">        bundle?.putString(<span class="string">&quot;first&quot;</span>,<span class="string">&quot;from FirstOrderBroadCast&quot;</span>)</span><br><span class="line">        setResult(code, <span class="keyword">data</span>, bundle)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SecondOrderBroadCast</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SecondOrderBroadCast</span> : <span class="type">BroadcastReceiver</span></span>() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onReceive</span><span class="params">(context: <span class="type">Context</span>?, intent: <span class="type">Intent</span>?)</span></span> &#123;</span><br><span class="line">        Log.e(<span class="string">&quot;receive&quot;</span>, <span class="string">&quot;Mid&quot;</span>)</span><br><span class="line">        <span class="comment">//获取上一个广播接收器结果</span></span><br><span class="line">        <span class="keyword">val</span> code = resultCode</span><br><span class="line">        <span class="keyword">val</span> <span class="keyword">data</span> = resultData</span><br><span class="line">        <span class="keyword">var</span> bundleResult = getResultExtras(<span class="literal">true</span>).<span class="keyword">get</span>(<span class="string">&quot;first&quot;</span>);</span><br><span class="line"></span><br><span class="line">        Log.e(<span class="string">&quot;receive&quot;</span>, <span class="string">&quot;获取到上一个广播接收器结果：code=  <span class="variable">$code</span>   data= <span class="variable">$data</span>  bundleResult <span class="variable">$bundleResult</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ThirdOrderBroadCast</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThirdOrderBroadCast</span> : <span class="type">BroadcastReceiver</span></span>() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onReceive</span><span class="params">(context: <span class="type">Context</span>?, intent: <span class="type">Intent</span>?)</span></span> &#123;</span><br><span class="line">        Log.e(<span class="string">&quot;receive&quot;</span>, <span class="string">&quot;High&quot;</span>)</span><br><span class="line">        <span class="comment">//传递结果到下一个广播接收器</span></span><br><span class="line">        <span class="keyword">val</span> code = <span class="number">3</span></span><br><span class="line">        <span class="keyword">val</span> <span class="keyword">data</span> = <span class="string">&quot;hello&quot;</span></span><br><span class="line">        <span class="keyword">val</span> bundle: Bundle? = <span class="literal">null</span></span><br><span class="line">        setResult(code, <span class="keyword">data</span>, bundle)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>AndroidMnifest.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">receiver</span> <span class="attr">android:name</span>=<span class="string">&quot;.component.broadcastservice.FirstOrderBroadCast&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span> <span class="attr">android:priority</span>=<span class="string">&quot;3000&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;com.broadcast.android&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">receiver</span> <span class="attr">android:name</span>=<span class="string">&quot;.component.broadcastservice.SecondOrderBroadCast&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span> <span class="attr">android:priority</span>=<span class="string">&quot;2000&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;com.broadcast.android&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">receiver</span> <span class="attr">android:name</span>=<span class="string">&quot;.component.broadcastservice.ThirdOrderBroadCast&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span> <span class="attr">android:priority</span>=<span class="string">&quot;1000&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;com.broadcast.android&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>or</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">updateBr = UpdateBroadcastReceiver()</span><br><span class="line"><span class="keyword">val</span> intentFilter = IntentFilter()</span><br><span class="line">intentFilter.addAction(UpdateBroadcastReceiver.ACTION_UPDATE)</span><br><span class="line">registerReceiver(updateBr, intentFilter)</span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<p>BroadcastReceiverActivity</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> intent = Intent()</span><br><span class="line">intent.action = <span class="string">&quot;com.broadcast.android&quot;</span></span><br><span class="line"></span><br><span class="line">bt_order_broadcast.setOnClickListener &#123;</span><br><span class="line">    sendOrderedBroadcast(intent,<span class="literal">null</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">E</span><span class="operator">/</span><span class="variable">receive</span><span class="operator">:</span> <span class="variable">Low</span></span><br><span class="line"><span class="built_in">E</span><span class="operator">/</span><span class="variable">receive</span><span class="operator">:</span> <span class="variable">Mid</span></span><br><span class="line"><span class="built_in">E</span><span class="operator">/</span><span class="variable">receive</span><span class="operator">:</span> 获取到上一个广播接收器结果：<span class="variable">code</span><span class="operator">=</span>  <span class="number">1</span>   <span class="variable">data</span><span class="operator">=</span> <span class="variable">hello</span> <span class="built_in">I</span> <span class="variable">am</span> <span class="variable">FirstOrderBroadCast</span>  <span class="variable">bundleResult</span> <span class="variable">from</span> <span class="variable">FirstOrderBroadCast</span></span><br><span class="line"><span class="built_in">E</span><span class="operator">/</span><span class="variable">receive</span><span class="operator">:</span> <span class="variable">High</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="LocalBroadcastManager-sendBroadcast"><a href="#LocalBroadcastManager-sendBroadcast" class="headerlink" title="LocalBroadcastManager.sendBroadcast"></a><a target="_blank" rel="noopener" href="https://developer.android.com/reference/androidx/localbroadcastmanager/content/LocalBroadcastManager#sendBroadcast(android.content.Intent)">LocalBroadcastManager.sendBroadcast</a></h5><p>method sends broadcasts to receivers that are in the same app as the sender. If you don’t need to send broadcasts across apps, use local broadcasts.he implementation is much more efficient (no interprocess communication needed) and you don’t need to worry about any security issues related to other apps being able to receive or send your broadcasts.(应用内发送广播)</p>
+<p>发送</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> intentBroad = Intent()</span><br><span class="line">intentBroad.action = UpdateBroadcastReceiver.ACTION_UPDATE</span><br><span class="line">LocalBroadcastManager.getInstance(<span class="keyword">this</span>).sendBroadcast(intentBroad)</span><br></pre></td></tr></table></figure>
+
+<p>注册 </p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">updateBr = UpdateBroadcastReceiver()</span><br><span class="line"><span class="keyword">val</span> intentFilter = IntentFilter()</span><br><span class="line">intentFilter.addAction(UpdateBroadcastReceiver.ACTION_UPDATE)</span><br><span class="line">registerReceiver(updateBr, intentFilter)</span><br><span class="line">updateBr?.let &#123;</span><br><span class="line">    LocalBroadcastManager.getInstance(<span class="keyword">this</span>).registerReceiver(it,intentFilter)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_30379689/article/details/53341313">https://blog.csdn.net/qq_30379689/article/details/53341313</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-SERVICE" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1538,243 +1659,6 @@ npm install -g hexo-cli
 </article>
 
 
-  <article id="post-String" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/07/21/String/">String</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-07-21T06:54:53.000Z" itemprop="datePublished">2017年07月21日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
-  </div>
-
-      
-      
-<a href="/2017/07/21/String/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p> 　字符串连接有两种方式，一种时  “ +  “,另一种是 StringBuilder方式</p>
-<p>命令行运行java</p>
-<p>平常用开发工具习惯了，都忘了怎么用命令行运行，特此记录下</p>
-<p>新建 Concatenation.java文件，cmd到该目录下，写入代码</p>
-<pre><code> public class Concatenation&#123;
-    public static void main(String[] args)&#123;
-     String mango = &quot;mango&quot;;
-     String s = &quot;abc&quot; + mango + &quot;def&quot; + 47;
-     System.out.print(s);    
-    &#125;
- &#125;
-</code></pre>
-<p>生成 Concatenation.calss 文件</p>
-<pre><code>  D:\DemoExo&gt;javac Concatenation.java
-</code></pre>
-<p>运行Concatenation.class文件,后面是运行结果</p>
-<pre><code>   D:\DemoExo&gt;java Concatenation
-   abcmangodef47
-</code></pre>
-<h4 id="String字符串连接方式"><a href="#String字符串连接方式" class="headerlink" title="String字符串连接方式"></a>String字符串连接方式</h4><p>回到主题</p>
-<p>  查看JDK文档（不知道在哪），String 类中每一个看起来会修改String值的方法，实际上都是创建了一个全新的String对象,以包含修改后的字符串内容.</p>
-<pre><code>public class Immutable&#123;
-     public static String upcase(String s)&#123;
-       return s.toUpperCase();
-     &#125;
-     public static void println(String q)&#123;
-       System.out.println(q);
-     &#125;
- 
-    public static void main(String[] args)&#123;
-        String q = &quot;howdy&quot;;
-        print(q);            // howdy
-       String qq= upcase(q);
-       print(qq);            //HOWDY
-       print(q);             //howdy
-    &#125;
-&#125;
-</code></pre>
-<p>运行结果：<br>howdy<br>HOWDY<br>howdy<br>当把q传给upcase()时，实际传递的是引用的拷贝</p>
-<h4 id="编译器运行过程"><a href="#编译器运行过程" class="headerlink" title="编译器运行过程"></a>编译器运行过程</h4><p>反编译Concatenation,生成JVM字节码</p>
-<pre><code>   javap -c Concatenation.class
-</code></pre>
-<p>字节码是这样的</p>
-<pre><code>C:\DemoExo&gt;javap -c Concatenation.class
- Compiled from &quot;Concatenation.java&quot;
-public class Concatenation &#123;
-  public Concatenation();
-    Code:
-       0: aload_0
-       1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V
-       4: return
-
-  public static void main(java.lang.String[]);
-    Code:
-       0: ldc           #2                  // String mango
-       2: astore_1
-       3: new           #3                  // class java/lang/StringBuilder
-       6: dup
-       7: invokespecial #4                  // Method java/lang/StringBuilder.&quot;&lt;init&gt;&quot;:()V
-      10: ldc           #5                  // String abc
-      12: invokevirtual #6                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-      15: aload_1
-      16: invokevirtual #6                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-      19: ldc           #7                  // String def
-      21: invokevirtual #6                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-      24: bipush        47
-      26: invokevirtual #8                  // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
-      29: invokevirtual #9                  // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
-      32: astore_2
-      33: getstatic     #10                 // Field java/lang/System.out:Ljava/io/PrintStream;
-      36: aload_2
-      37: invokevirtual #11                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-      40: return
-&#125;
-</code></pre>
-<p>可以看到，编译器创建了一个StringBuilder对象,用以构造最终的String，并四次调用了append(),最后使用命令astore_2生成 s对象。<br>这样来看，使用 “+” 连接符，是不会影响性能的咯，接着往下</p>
-<h3 id="“-”连接符-和-StringBuilder对比"><a href="#“-”连接符-和-StringBuilder对比" class="headerlink" title="“+”连接符 和 StringBuilder对比"></a>“+”连接符 和 StringBuilder对比</h3><p>运行javap -c WhitherStringBuilder.class 看到两个方法对象的字节码，先看前半部分implicit()</p>
-<pre><code>public class WhitherStringBuilder &#123;
-  public WhitherStringBuilder();
-    Code:
-       0: aload_0
-       1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V
-       4: return
-
-  public java.lang.String implicit(java.lang.String[]);
-    Code:
-       0: ldc           #2                  // String
-       2: astore_2
-       3: iconst_0
-       4: istore_3
-       5: iload_3
-       6: aload_1
-       7: arraylength
-       8: if_icmpge     38
-      11: new           #3                  // class java/lang/StringBuilder
-      14: dup
-      15: invokespecial #4                  // Method java/lang/StringBuilder.&quot;&lt;init&gt;&quot;:()V
-      18: aload_2
-      19: invokevirtual #5                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-      22: aload_1
-      23: iload_3
-      24: aaload
-      25: invokevirtual #5                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-      28: invokevirtual #6                  // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
-      31: astore_2
-      32: iinc          3, 1
-      35: goto          5
-      38: aload_2
-      39: areturn
-</code></pre>
-<p>第8到35行，在for循环体内，每一次循环就创建了一个StringBuilder对象，接着看看explicit()</p>
-<pre><code> public java.lang.String explicit(java.lang.String[]);
-   Code:
-      0: new           #3                  // class java/lang/StringBuilder
-      3: dup
-      4: invokespecial #4                  // Method java/lang/StringBuilder.&quot;&lt;init&gt;&quot;:()V
-      7: astore_2
-      8: iconst_0
-      9: istore_3
-     10: iload_3
-     11: aload_1
-     12: arraylength
-     13: if_icmpge     30
-     16: aload_2
-     17: aload_1
-     18: iload_3
-     19: aaload
-     20: invokevirtual #5                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-     23: pop
-     24: iinc          3, 1
-     27: goto          10
-     30: aload_2
-     31: invokevirtual #6                  // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
-</code></pre>
-<p>第13到27行在for循环体内，StringBuilder只会生成一个对象</p>
-<p>总结： 由此来看，如果字符串操作比较简单，就可以用“+”连接让编译器处理字符串<br>如果在循环中，那么自己创建一个StringBuilder对象</p>
-<p>参考：<em>摘自ThinkInJava4   P286</em></p>
-<h4 id="避免创建不必要的对象"><a href="#避免创建不必要的对象" class="headerlink" title="避免创建不必要的对象"></a>避免创建不必要的对象</h4><p>创建　String对象</p>
-<p> 最好能重用对象而不是每次需要的时候就创建一个功能相同的新对象，重用方式即快速<br>又流行。如果对象是不可变的，它始终可以被重用。</p>
-<p>极端的反面例子　｀Ｓtring s = new String(“stringette”);  //DON’T DO THIS ! ｀<br>该语句每次被执行的时候都创建一个新的String实例，传递给String构造器的参数”stringette’本身就是一个String实例，如果这种用法在一个循环中，或者在一个频繁<br>调用的方法中，就会创建出成千上万不必要的String  实例。</p>
-<p>改进后的版本如下所示</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String s  = <span class="string">&quot;stringette&#x27;;</span></span><br></pre></td></tr></table></figure>
-<p>这个版本只用了一个String实例，而且它可以保证，对于所有的同一台虚拟机中运行的代码<br>，只要包含相同的字符串字面常量，该对象就会被重用.</p>
-<h2 id="返回数据处理"><a href="#返回数据处理" class="headerlink" title="返回数据处理"></a>返回数据处理</h2><p>对于同时提供静态工厂方法和构造器的不可变类，通常可以使用静态工厂方法，而不是构造器<br>以避免创建不必要的对象，例如，静态工厂方法Boolean.valueof(String)由于构造器Boolean(String),构造器每次调用的时候都会创建一个新的对象，而静态工厂方法则不会</p>
-<p>我们平常解析回来后非String类型的数据，需要转换成String对象　<br>看到这里后就需要使用<code>String.valueof(String)</code> </p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Returns the string representation of the &#123;<span class="doctag">@code </span>Object&#125; argument.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param   </span>obj   an &#123;<span class="doctag">@code </span>Object&#125;.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return  </span>if the argument is &#123;<span class="doctag">@code </span>null&#125;, then a string equal to</span></span><br><span class="line"><span class="comment">   *          &#123;<span class="doctag">@code </span>&quot;null&quot;&#125;; otherwise, the value of</span></span><br><span class="line"><span class="comment">   *          &#123;<span class="doctag">@code </span>obj.toString()&#125; is returned.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@see     </span>java.lang.Object#toString()</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">String</span> <span class="function"><span class="title">valueOf</span>(<span class="params"><span class="built_in">Object</span> obj</span>)</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> (obj == <span class="literal">null</span>) ? <span class="string">&quot;null&quot;</span> : obj.toString();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>从源码中看到对形参　做了　null判断，所以用这种方式页不用担心闪退的情况了<br>参考 Effective Java　page17</p>
-<ul>
-<li><p>java 8 获取对象数据</p>
-<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private WchatMobile decodeMobile(<span class="built_in">String</span> encryptedData, <span class="built_in">String</span> iv, <span class="built_in">String</span> unionid) &#123;</span><br><span class="line">  WchatMiniAppSession miniAppSession = getWchatMiniAppSession(unionid);</span><br><span class="line">  <span class="built_in">String</span> sessionKey = Optional.ofNullable(miniAppSession)</span><br><span class="line">    .orElseThrow<span class="function"><span class="params">(() -&gt; <span class="keyword">new</span> ServiceExecutionException(<span class="string">&quot;用户小程序登录信息为空&quot;</span>))</span></span></span><br><span class="line"><span class="function">    .<span class="title">getSessionKey</span><span class="params">()</span>;</span></span><br><span class="line"><span class="function">  </span></span><br><span class="line"><span class="function">  <span class="title">return</span> <span class="title">Optional</span>.<span class="title">ofNullable</span><span class="params">(wchatMiniAppService)</span></span></span><br><span class="line"><span class="function">   .<span class="title">map</span><span class="params">(<span class="keyword">as</span> -&gt; <span class="keyword">as</span>.getWxMaService())</span></span></span><br><span class="line"><span class="function">   .<span class="title">map</span><span class="params">(s -&gt; s.getUserService())</span></span></span><br><span class="line"><span class="function">   .<span class="title">map</span><span class="params">(se -&gt; se.getPhoneNoInfo(sessionKey, encryptedData, iv))</span></span></span><br><span class="line"><span class="function">   .<span class="title">map</span><span class="params">(num -&gt; WchatMobile.<span class="keyword">from</span>(num))</span></span></span><br><span class="line"><span class="function">   .<span class="title">orElse</span><span class="params">(<span class="literal">null</span>)</span>;</span></span><br><span class="line"><span class="function"> &#125;</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/209343">https://time.geekbang.org/column/article/209343</a></p>
-<h4 id="亨元模式"><a href="#亨元模式" class="headerlink" title="亨元模式"></a>亨元模式</h4><pre><code>Integer a = 1;
-Integer b = 2;
-Integer c = 3;
-Integer d = 3;
-Integer e = 321;
-Integer f = 321;
-Long g = 3L;
-System.out.println(c==d);
-System.out.println(e==f);
-System.out.println(c==(a+b));
-System.out.println(c.equals(a+b));
-System.out.println(g ==(a+b));
-System.out.println(g.equals(a+b));
-</code></pre>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1793,6 +1677,10 @@ System.out.println(g.equals(a+b));
       <ul>
         
           <li>
+            <a href="/2021/08/22/kotlin-senior/">kotlin-senior</a>
+          </li>
+        
+          <li>
             <a href="/2021/08/21/kotlin-object/">kotlin-object</a>
           </li>
         
@@ -1806,10 +1694,6 @@ System.out.println(g.equals(a+b));
         
           <li>
             <a href="/2021/06/17/kmp/">kmp</a>
-          </li>
-        
-          <li>
-            <a href="/2021/05/21/Assembly/">Assembly</a>
           </li>
         
       </ul>
@@ -1831,7 +1715,7 @@ System.out.println(g.equals(a+b));
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kotlin/">kotlin</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -1841,7 +1725,7 @@ System.out.println(g.equals(a+b));
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
