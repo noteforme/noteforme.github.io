@@ -1435,13 +1435,14 @@ https://blog.csdn.net/wen0006/article/details/5804639
     <title>CaptureApp</title>
     <url>/2018/04/21/CaptureApp/</url>
     <content><![CDATA[<h2 id="Fiddler"><a href="#Fiddler" class="headerlink" title="Fiddler"></a>Fiddler</h2><p><a href="https://www.jianshu.com/p/4a8dae519efe">https://www.jianshu.com/p/4a8dae519efe</a><br><a href="https://www.jianshu.com/p/99b6b4cd273c">https://www.jianshu.com/p/99b6b4cd273c</a></p>
-<h2 id="WireShark"><a href="#WireShark" class="headerlink" title="WireShark"></a>WireShark</h2><ul>
-<li>安装<br><a href="https://www.linuxidc.com/Linux/2016-08/134526.htm">https://www.linuxidc.com/Linux/2016-08/134526.htm</a></li>
-</ul>
+<h2 id="WireShark"><a href="#WireShark" class="headerlink" title="WireShark"></a>WireShark</h2><p>安装<br><a href="https://www.linuxidc.com/Linux/2016-08/134526.htm">https://www.linuxidc.com/Linux/2016-08/134526.htm</a></p>
 <p><a href="http://www.cnblogs.com/wangqiguo/p/4529250.html">http://www.cnblogs.com/wangqiguo/p/4529250.html</a><br><a href="http://www.cnblogs.com/TankXiao/archive/2012/10/10/2711777.html">http://www.cnblogs.com/TankXiao/archive/2012/10/10/2711777.html</a></p>
 <p><a href="https://juejin.im/post/5cc313755188252d6f11b463">https://juejin.im/post/5cc313755188252d6f11b463</a></p>
-<p>Mobile capture</p>
+<p>手机抓包</p>
 <p><a href="https://juejin.im/post/5ddddd2a6fb9a07161483fb2">https://juejin.im/post/5ddddd2a6fb9a07161483fb2</a></p>
+<p>Charles抓包</p>
+<p><a href="https://www.jianshu.com/p/e8dd1091d6d7">https://www.jianshu.com/p/e8dd1091d6d7</a></p>
+<p><a href="https://www.cnblogs.com/ievjai/p/13512326.html">https://www.cnblogs.com/ievjai/p/13512326.html</a></p>
 ]]></content>
       <categories>
         <category>TOOL</category>
@@ -3711,6 +3712,36 @@ npm install -g hexo-cli
     <title>Hilt</title>
     <url>/2018/01/23/Hilt/</url>
     <content><![CDATA[<p><a href="https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg">https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg</a></p>
+<p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-29_11.12.20_overview.png" alt="2021-08-29_11.12.20_overview"></p>
+<p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-29_11.36.15_function.png" alt="2021-08-29_11.36.15_function"></p>
+<h4 id="Hilt使用"><a href="#Hilt使用" class="headerlink" title="Hilt使用"></a>Hilt使用</h4><h5 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h5><p>1.生成组件</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@HiltAndroidApp</span></span><br><span class="line">class MyApp : Application() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>建立绑定</p>
+<p>通过@Inject告诉Dagger可以通过，构造方法创建实例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>注入对象 </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@AndroidEntryPoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HiltActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User user; <span class="comment">//inject注解作用在User变量上,注入对象实例</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_hilt);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>​        必须是ComponentActivity的子类</p>
+<blockquote>
+<p>29021-29021/com.john.kot I/HiltActivity: user: com.john.kot.hilt.User@2c507f</p>
+</blockquote>
+<h5 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h5><p>Module</p>
+<p>不通过下面这种方式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  <span class="comment">//    @Inject 不在这里，而是在Module提交对象创建</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight less"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="variable">@InstallIn</span>(ApplicationComponent.class) <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="variable">@Module</span></span><br><span class="line">public class AppModule &#123;</span><br><span class="line">    <span class="variable">@Provides</span> </span><br><span class="line">    User provideUser()&#123;</span><br><span class="line">        <span class="selector-tag">return</span> <span class="selector-tag">new</span> <span class="selector-tag">User</span>(); <span class="comment">//Module提交对象创建</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p> 29143-29143/com.john.kot I/HiltActivity: user: com.john.kot.hilt.User@43b8a20</p>
+</blockquote>
+<h4 id="默认标准组件"><a href="#默认标准组件" class="headerlink" title="默认标准组件"></a>默认标准组件</h4><p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-30_12.01.40_component_default.png" alt="2021-08-30_12.01.40_component_default"></p>
 ]]></content>
       <categories>
         <category>ANDROID</category>
@@ -6886,6 +6917,9 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
 <p><code> sudo ./statup.sh</code></p>
 </li>
 </ol>
+<h4 id="PlantUml"><a href="#PlantUml" class="headerlink" title="PlantUml"></a>PlantUml</h4><p><a href="https://plantuml.com/zh/">https://plantuml.com/zh/</a></p>
+<p><a href="https://tngdigital.yuque.com/tngd-mobile/key-battle/xccdfz">https://tngdigital.yuque.com/tngd-mobile/key-battle/xccdfz</a></p>
+<p>时序图都是plantuml,点编辑才能看到code</p>
 ]]></content>
       <categories>
         <category>TOOL</category>
@@ -8624,10 +8658,10 @@ android:dividerPadding=&quot;@dimen/dimen_15&quot;
 <p>export FLUTTER_STORAGE_BASE_URL=<a href="https://storage.flutter-io.cn/">https://storage.flutter-io.cn</a> </p>
 </li>
 </ol>
-<p>gradle 阿里云镜像 </p>
-<p>/Users/john/.gradle 目录添加 init.gradle</p>
-<p>鼠须管默认简繁体</p>
-<p>control 加上 ~ 快捷键</p>
+<h5 id="gradle-阿里云镜像"><a href="#gradle-阿里云镜像" class="headerlink" title="gradle 阿里云镜像"></a>gradle 阿里云镜像</h5><p>/Users/john/.gradle 目录添加 init.gradle</p>
+<h5 id="鼠须管默认简繁体"><a href="#鼠须管默认简繁体" class="headerlink" title="鼠须管默认简繁体"></a>鼠须管默认简繁体</h5><p>control 加上 ~ 快捷键</p>
+<h5 id="屏幕录制"><a href="#屏幕录制" class="headerlink" title="屏幕录制"></a>屏幕录制</h5><p><a href="https://blog.csdn.net/qq_43428139/article/details/109038098">https://blog.csdn.net/qq_43428139/article/details/109038098</a></p>
+<p><a href="https://www.cnblogs.com/hi3254014978/p/15084851.html#:~:text=%E8%A7%A3%E5%86%B3Mac%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%87%AA%E5%B8%A6%E5%BD%95%E5%B1%8F%E8%BD%AF%E4%B">https://www.cnblogs.com/hi3254014978/p/15084851.html#:~:text=%E8%A7%A3%E5%86%B3Mac%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%87%AA%E5%B8%A6%E5%BD%95%E5%B1%8F%E8%BD%AF%E4%B</a></p>
 ]]></content>
       <categories>
         <category>TOOL</category>
@@ -14311,6 +14345,136 @@ Socket
 ]]></content>
       <categories>
         <category>kotlin</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Leetcode_Linklist</title>
+    <url>/2021/08/30/Leetcode-Linklist/</url>
+    <content><![CDATA[<h4 id="160-相交链表"><a href="#160-相交链表" class="headerlink" title="160. 相交链表"></a><a href="https://leetcode-cn.com/problems/intersection-of-two-linked-lists/">160. 相交链表</a></h4><p>给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 null 。</p>
+<p>图示两个链表在节点 c1 开始相交：</p>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution_160</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">getIntersectionNode</span><span class="params">(ListNode headA, ListNode headB)</span> </span>&#123;</span><br><span class="line">        ListNode la = headA;</span><br><span class="line">        ListNode lb = headB;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(la!=lb)&#123;</span><br><span class="line">            la = (la==<span class="keyword">null</span>) ? headB : la.next;</span><br><span class="line">            lb = (lb==<span class="keyword">null</span>) ? headA : lb.next ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> la;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>先走自己的路，再走对方的路，最终路程一样</strong></p>
+<p>可以这么理解，a，b两个链表，变更为 a+b 和 b+a，长度就相等了，然后等步遍历判断是否相等就行了</p>
+<p>原始的数据</p>
+<p><img src="https://pic.leetcode-cn.com/1628662967-RLmciV-2.png"></p>
+<p>修改后的数据示意图</p>
+<p><img src="https://pic.leetcode-cn.com/1628662688-ZdSYRM-1.png" alt="1.png"></p>
+<p>!(<img src="https://pic.leetcode-cn.com/e86e947c8b87ac723b9c858cd3834f9a93bcc6c5e884e41117ab803d205ef662-%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8.png" alt="相交链表.png">)</p>
+]]></content>
+      <categories>
+        <category>DataStructure</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Dagger</title>
+    <url>/2021/08/29/Dagger/</url>
+    <content><![CDATA[<p>依赖注入</p>
+<ol>
+<li>构造方法注入</li>
+<li>Setter注入(字段注入)</li>
+</ol>
+<p>IOC框架</p>
+<ol>
+<li>基于反射的方式实现： Spring IOC(动态的进行依赖关系的建立)</li>
+<li>静态方式 ： 程序在编译时就已经提供好了建立依赖关系的类</li>
+</ol>
+<p>两种注入方式</p>
+<p><img src="/2021/08/29/Dagger/2021-08-29_8.43.22_type_dagger.png" alt="2021-08-29_8.43.22_type_dagger"></p>
+<h4 id="Dagger注入"><a href="#Dagger注入" class="headerlink" title="Dagger注入"></a>Dagger注入</h4><h5 id="构造方法注入"><a href="#构造方法注入" class="headerlink" title="构造方法注入"></a>构造方法注入</h5><p>构造方法构造实例注入0</p>
+<ol>
+<li><p>使用 @Inject注解在构造方法上；就是告知Dagger可以通过构造方法来创建并获取到User的实例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1.使用 @Inject注解在构造方法上；就是告知Dagger可以通过构造方法来创建并获取到User的实例</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123; <span class="comment">//构造方法构造实例</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>当作IOC容器,把对象注入到目标类中</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 2. 当作IOC容器,把对象注入到目标类中</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ApplicationComponent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(DaggerActivity daggerActivity)</span></span>;<span class="comment">//指定目标类</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>设置Inject注解</p>
+<p>DaggerActivity.java</p>
+<figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">//<span class="number">3</span>.设置Inject注解</span><br><span class="line">@Inject</span><br><span class="line"><span class="keyword">User</span> <span class="title">user</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>执行注入动作</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">      setContentView(R.layout.activity_dagger2);</span><br><span class="line"><span class="comment">//4.执行注入动作</span></span><br><span class="line">    DaggerApplicationComponent.create().inject(<span class="keyword">this</span>);<span class="comment">//DaggerApplicationComponent相当于DaggerApplication的实现类 </span></span><br><span class="line">      Log.i(TAG, <span class="string">&quot;user: &quot;</span> + user);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="针对第三方库"><a href="#针对第三方库" class="headerlink" title="针对第三方库"></a>针对第三方库</h5><ol>
+<li><p>第二种方式告知Dagger,可以通过调用该方法来获取到注入对象的实例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NetModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第二种方式告知Dagger,可以通过调用该方法来获取到注入对象的实例</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Retrofit <span class="title">provideRetrofit</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">            .baseUrl(<span class="string">&quot;http://www.google.com&quot;</span>)</span><br><span class="line">            .build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<ol start="2">
+<li><p>compoent</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 2. 当作IOC容器,把对象注入到目标类中</span></span><br><span class="line"><span class="meta">@Component(modules = &#123;NetModule.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ApplicationComponent</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>DaggerActivity.java</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DaggerActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;DaggerActivity&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//3.设置Inject注解</span></span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    Retrofit retrofit;</span><br><span class="line">  </span><br><span class="line">    Log.i(TAG, <span class="string">&quot;retrofit: &quot;</span> + retrofit);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="复杂使用场景"><a href="#复杂使用场景" class="headerlink" title="复杂使用场景"></a>复杂使用场景</h5><p>​    </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ApiService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET(&quot;/user/info&quot;)</span></span><br><span class="line">    <span class="function">Call&lt;String&gt; <span class="title">requestInfo</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Module已经知道怎么获取retrofit实例</span></span><br><span class="line"><span class="comment">//接着同一个Module中的方法，就可以作为参数直接传入 使用</span></span><br><span class="line"><span class="comment">// 比如provideApiService需要Retrofit实例，会从当前容器查找是否已经有Retrofit实例</span></span><br><span class="line"><span class="comment">// 然后从当前容器直接获取</span></span><br><span class="line"><span class="meta">@Provides</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ApiService <span class="title">provideApiService</span><span class="params">(Retrofit retrofit)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> retrofit.create(ApiService.class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Inject</span></span><br><span class="line">ApiService apiService;</span><br><span class="line"></span><br><span class="line">Log.i(TAG, <span class="string">&quot;apiService: &quot;</span> +apiService);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Module已经知道怎么获取retrofit实例<br>接着同一个Module中的方法，就可以作为参数直接传入 使用<br>// 比如provideApiService需要Retrofit实例，会从当前容器查找是否已经有Retrofit实例<br>// 然后从当前容器直接获取</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NetModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第二种方式告知Dagger,可以通过调用该方法来获取到注入对象的实例</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Retrofit <span class="title">provideRetrofit</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">            .baseUrl(<span class="string">&quot;http://www.google.com&quot;</span>)</span><br><span class="line">            .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Module已经知道怎么获取retrofit实例</span></span><br><span class="line">    <span class="comment">//接着同一个Module中的方法，就可以作为参数直接传入 使用</span></span><br><span class="line">    <span class="comment">// 比如provideApiService需要Retrofit实例，会从当前容器查找是否已经有Retrofit实例</span></span><br><span class="line">    <span class="comment">// 然后从当前容器直接获取</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ApiService <span class="title">provideApiService</span><span class="params">(Retrofit retrofit)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> retrofit.create(ApiService.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> OkHttpClient <span class="title">provideOkHttpClient</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> OkHttpClient.Builder().build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="局部单例实现"><a href="#局部单例实现" class="headerlink" title="局部单例实现"></a>局部单例实现</h4><p><img src="/2021/08/29/Dagger/2021-08-29_8.43.44_local.png" alt="2021-08-29_8.43.44_local"></p>
+<p><img src="/2021/08/29/Dagger/2021-08-29_8.48.38_lifecycle.png" alt="2021-08-29_8.48.38_lifecycle"></p>
+<p>3个对象实例指定了作用域是 @Singleton,这个作用域和使用了@Singleton组件的生命周期一致。</p>
+<h5 id="局部实例1"><a href="#局部实例1" class="headerlink" title="局部实例1"></a>局部实例1</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NetModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第二种方式告知Dagger,可以通过调用该方法来获取到注入对象的实例</span></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Retrofit <span class="title">provideRetrofit</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">            .baseUrl(<span class="string">&quot;http://www.google.com&quot;</span>)</span><br><span class="line">            .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Module已经知道怎么获取retrofit实例</span></span><br><span class="line">    <span class="comment">//接着同一个Module中的方法，就可以作为参数直接传入 使用</span></span><br><span class="line">    <span class="comment">// 比如provideApiService需要Retrofit实例，会从当前容器查找是否已经有Retrofit实例</span></span><br><span class="line">    <span class="comment">// 然后从当前容器直接获取</span></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ApiService <span class="title">provideApiService</span><span class="params">(Retrofit retrofit)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> retrofit.create(ApiService.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//@Singleton是Dagger提供的一种作用域</span></span><br><span class="line">    <span class="comment">// 作用域就是用来管理Component来获取对象实例的生命周期</span></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> OkHttpClient <span class="title">provideOkHttpClient</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> OkHttpClient.Builder().build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DaggerActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;DaggerActivity&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//3.设置Inject注解</span></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User user;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User user2;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    Retrofit retrofit;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    ApiService apiService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    ApiService apiService2;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_dagger2);</span><br><span class="line">        <span class="comment">//4.执行注入动作</span></span><br><span class="line">        DaggerApplicationComponent.create().inject(<span class="keyword">this</span>);<span class="comment">//DaggerApplicationComponent相当于DaggerApplication的实现类</span></span><br><span class="line"></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user: &quot;</span> + user);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user2: &quot;</span> + user2);</span><br><span class="line"></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;retrofit: &quot;</span> + retrofit);</span><br><span class="line"></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;apiService: &quot;</span> +apiService);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;apiService2: &quot;</span> +apiService2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结构</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">2092</span>-<span class="number">2092</span>/com.comm.util I/DaggerActivity: user: com.comm.util.dagger.dn.di.User@<span class="number">2129</span>cef</span><br><span class="line"><span class="attribute">2092</span>-<span class="number">2092</span>/com.comm.util I/DaggerActivity: user<span class="number">2</span>: com.comm.util.dagger.dn.di.User@d<span class="number">97</span>d<span class="number">3</span>fc</span><br><span class="line"><span class="attribute">2092</span>-<span class="number">2092</span>/com.comm.util I/DaggerActivity: retrofit: retrofit<span class="number">2</span>.Retrofit@d<span class="number">243</span>a<span class="number">85</span></span><br><span class="line"><span class="attribute">2092</span>-<span class="number">2092</span>/com.comm.util I/DaggerActivity: apiService: retrofit<span class="number">2</span>.Retrofit$<span class="number">1</span>@a<span class="number">1</span>fa<span class="number">0</span>da</span><br><span class="line"><span class="attribute">2092</span>-<span class="number">2092</span>/com.comm.util I/DaggerActivity: apiService<span class="number">2</span>: retrofit<span class="number">2</span>.Retrofit$<span class="number">1</span>@a<span class="number">1</span>fa<span class="number">0</span>da</span><br></pre></td></tr></table></figure>
+
+<p>可以看到 user 是2个实例</p>
+<p>retorift用了同一个对象实例,所以可以看到和DaggerApplicationComponent组件生命周期一致。</p>
+<h5 id="局部实例2"><a href="#局部实例2" class="headerlink" title="局部实例2"></a>局部实例2</h5><p>添加一个Activity</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecondActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;SecondActivity&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    ApiService apiService3;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_second2);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//DaggerApplicationComponent相当于DaggerApplication的实现类</span></span><br><span class="line">        DaggerApplicationComponent.create().inject(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;apiService3: &quot;</span> + apiService3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(SecondActivity secondActivity)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">startActivity(<span class="keyword">new</span> Intent(<span class="keyword">this</span>,SecondActivity.class));</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">7410</span>-<span class="number">7410</span>/com.comm.util I/DaggerActivity: apiService: retrofit<span class="number">2</span>.Retrofit$<span class="number">1</span>@a<span class="number">1</span>fa<span class="number">0</span>da</span><br><span class="line"><span class="attribute">7410</span>-<span class="number">7410</span>/com.comm.util I/DaggerActivity: apiService<span class="number">2</span>: retrofit<span class="number">2</span>.Retrofit$<span class="number">1</span>@a<span class="number">1</span>fa<span class="number">0</span>da</span><br><span class="line"><span class="attribute">2021</span>-<span class="number">08</span>-<span class="number">29</span> <span class="number">22</span>:<span class="number">28</span>:<span class="number">35</span>.<span class="number">812</span> <span class="number">7410</span>-<span class="number">7410</span>/com.comm.util I/SecondActivity: apiService<span class="number">3</span>: retrofit<span class="number">2</span>.Retrofit$<span class="number">1</span>@<span class="number">84</span>eb<span class="number">79</span>a</span><br></pre></td></tr></table></figure>
+
+<p>不同的DaggerApplicationComponent组件，不同的实例</p>
+<h5 id="全局实例"><a href="#全局实例" class="headerlink" title="全局实例"></a>全局实例</h5><p>保证组件全局实例</p>
+<p>MyApplication.java</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> ApplicationComponent  applicationComponent = DaggerApplicationComponent.create();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ApplicationComponent <span class="title">getApplicationComponent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> applicationComponent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">MyApplication.getApplicationComponent().inject(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">8044</span>-<span class="number">8044</span>/com.comm.util I/DaggerActivity: apiService: retrofit<span class="number">2</span>.Retrofit$<span class="number">1</span>@<span class="number">516190</span>b</span><br><span class="line"><span class="attribute">8044</span>-<span class="number">8044</span>/com.comm.util I/DaggerActivity: apiService<span class="number">2</span>: retrofit<span class="number">2</span>.Retrofit$<span class="number">1</span>@<span class="number">516190</span>b</span><br><span class="line"><span class="attribute">8044</span>-<span class="number">8044</span>/com.comm.util I/SecondActivity: apiService<span class="number">3</span>: retrofit<span class="number">2</span>.Retrofit$<span class="number">1</span>@<span class="number">516190</span>b</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="作用域规则"><a href="#作用域规则" class="headerlink" title="作用域规则"></a>作用域规则</h5><p><img src="/2021/08/29/Dagger/2021-08-29_10.50.21_myscope.png" alt="2021-08-29_10.50.21_myscope"></p>
+<p>组件ApplicationComponent指定了作用域,组件中的模块modules = {NetModule.class}，也要指定相同的作用域。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Singleton</span> <span class="comment">// 设置作用域和ApplicationComponent组件的生命周期一致</span></span><br><span class="line"><span class="meta">@Component(modules = &#123;NetModule.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ApplicationComponent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(DaggerActivity daggerActivity)</span></span>;<span class="comment">//指定目标类</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(SecondActivity secondActivity)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>第07课</p>
+<p><a href="https://www.bilibili.com/video/BV1Ki4y1A7hA?p=07">https://www.bilibili.com/video/BV1Ki4y1A7hA?p=07</a></p>
+]]></content>
+      <categories>
+        <category>ANDROID</category>
       </categories>
   </entry>
 </search>
