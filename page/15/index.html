@@ -53,11 +53,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Inicio</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archivo</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Acerca de</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -65,7 +65,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="Búsqueda"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -86,6 +86,108 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-Retrofit" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/09/23/Retrofit/">Retrofit</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-09-23T01:20:09.000Z" itemprop="datePublished">2017年09月23日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/09/23/Retrofit/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Libro de visitas
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="Okhttp缺陷"><a href="#Okhttp缺陷" class="headerlink" title="Okhttp缺陷"></a>Okhttp缺陷</h4><p><img src="retrofit/2021-07-26_4.24_vsokhttp.png"></p>
+<p><img src="/2017/09/23/Retrofit/retrofit/2021-07-28_7.46.04.png"></p>
+<h4 id="Retofit调用"><a href="#Retofit调用" class="headerlink" title="Retofit调用"></a>Retofit调用</h4><p><img src="/2017/09/23/Retrofit/retrofit/2021-07-27_10.42_retrofit.png"></p>
+<h4 id="Retrofit-Rxjava"><a href="#Retrofit-Rxjava" class="headerlink" title="Retrofit Rxjava"></a>Retrofit Rxjava</h4><p><img src="/2017/09/23/Retrofit/retrofit/2021-07-27_10.43_rxjava.png"></p>
+<p><img src="/2017/09/23/Retrofit/retrofit/2021-07-28_3.02.05.png"></p>
+<p><img src="/2017/09/23/Retrofit/retrofit/2021-07-28_04.21.png"></p>
+<p> Retorift使用过程</p>
+<ol>
+<li><p>动态生成了实现了接口类型的， 类的对象。</p>
+<p>调用方法,通过反射解析接口，拿到方法参数</p>
+<p>生成代理类</p>
+<p>Retrofit.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">create</span><span class="params">(<span class="keyword">final</span> Class&lt;T&gt; service)</span> </span>&#123;</span><br><span class="line">  validateServiceInterface(service);</span><br><span class="line">  <span class="keyword">return</span> (T)</span><br><span class="line">      Proxy.newProxyInstance(</span><br><span class="line">          service.getClassLoader(),</span><br><span class="line">          <span class="keyword">new</span> Class&lt;?&gt;[] &#123;service&#125;,</span><br><span class="line">          <span class="keyword">new</span> InvocationHandler() &#123;</span><br><span class="line">            <span class="keyword">private</span> <span class="keyword">final</span> Platform platform = Platform.get();</span><br><span class="line">            <span class="keyword">private</span> <span class="keyword">final</span> Object[] emptyArgs = <span class="keyword">new</span> Object[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="meta">@Nullable</span> <span class="function">Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, <span class="meta">@Nullable</span> Object[] args)</span></span></span><br><span class="line"><span class="function">                <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">              <span class="comment">// If the method is a method from Object then defer to normal invocation.</span></span><br><span class="line">              <span class="keyword">if</span> (method.getDeclaringClass() == Object.class) &#123;</span><br><span class="line">                <span class="keyword">return</span> method.invoke(<span class="keyword">this</span>, args); <span class="comment">//传入的是this</span></span><br><span class="line">              &#125;</span><br><span class="line">              args = args != <span class="keyword">null</span> ? args : emptyArgs;</span><br><span class="line">              <span class="keyword">return</span> platform.isDefaultMethod(method)</span><br><span class="line">                  ? platform.invokeDefaultMethod(method, service, proxy, args)</span><br><span class="line">                  : loadServiceMethod(method).invoke(args); <span class="comment">//这个动态代理的形式，为什么没传对象？</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IApiStores iApiStores = RetrofitFactory.create(IApiStores.class);</span><br><span class="line">retrofit2.Call&lt;List&lt;SharedListBean&gt;&gt; sharedListCall = iApiStores.getSharedList(<span class="number">2</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure></li>
+<li><p>ServiceMethod</p>
+<p>一个方法对应一个serviceMethod,使用hashmap缓存,构建okhttp的网络请求。</p>
+</li>
+</ol>
+<h4 id="Retrofit包装类"><a href="#Retrofit包装类" class="headerlink" title="Retrofit包装类"></a>Retrofit包装类</h4><p>Retrofit组装完数据，使用Okhttp进行网络请求的类</p>
+<p>OkHttpCall.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(<span class="keyword">final</span> Callback&lt;T&gt; callback)</span> </span>&#123;</span><br><span class="line">  Objects.requireNonNull(callback, <span class="string">&quot;callback == null&quot;</span>);</span><br><span class="line"></span><br><span class="line">  okhttp3.Call call;</span><br><span class="line">  Throwable failure;</span><br><span class="line">  <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">    call = rawCall = createRawCall();     <span class="comment">// 创建OkhttpCall</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  call.enqueue(</span><br><span class="line">      <span class="keyword">new</span> okhttp3.Callback() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(okhttp3.Call call, okhttp3.Response rawResponse)</span> </span>&#123;</span><br><span class="line">          Response&lt;T&gt; response;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            response = parseResponse(rawResponse);</span><br><span class="line">          &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">            throwIfFatal(e);</span><br><span class="line">            callFailure(e);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            callback.onResponse(OkHttpCall.<span class="keyword">this</span>, response);</span><br><span class="line">          &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">            throwIfFatal(t);</span><br><span class="line">            t.printStackTrace(); <span class="comment">// TODO this is not great</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(okhttp3.Call call, IOException e)</span> </span>&#123;</span><br><span class="line">          callFailure(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">callFailure</span><span class="params">(Throwable e)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            callback.onFailure(OkHttpCall.<span class="keyword">this</span>, e);</span><br><span class="line">          &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">            throwIfFatal(t);</span><br><span class="line">            t.printStackTrace(); <span class="comment">// TODO this is not great</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mU4y1p71g?p=10&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1mU4y1p71g?p=10&amp;spm_id_from=pageDriver</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV12Q4y1d7uD?p=7&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV12Q4y1d7uD?p=7&amp;spm_id_from=pageDriver</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/308f3c54abdd">http://www.jianshu.com/p/308f3c54abdd</a><br>这篇文章不错，深入浅出<br>我还加了了提交Map参数的<a target="_blank" rel="noopener" href="https://gitee.com/huaiyi/RetrofitDemo.git">Demo</a> Demo</p>
+<p> <a target="_blank" rel="noopener" href="http://www.10tiao.com/html/227/201701/2650238307/1.html">http://www.10tiao.com/html/227/201701/2650238307/1.html</a><br> <a target="_blank" rel="noopener" href="http://blog.csdn.net/itjianghuxiaoxiong/article/details/52135748">http://blog.csdn.net/itjianghuxiaoxiong/article/details/52135748</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5afc1706518825426f30f6ec">https://juejin.im/post/5afc1706518825426f30f6ec</a></p>
+<p>要实现类似这样的请求,用post方式怎么也不行<br><a target="_blank" rel="noopener" href="https://newsapi.org/v2/top-headlines?sources=financial-times&amp;apiKey=e4f505f73a9f4ee99119ab33a19ab05e">https://newsapi.org/v2/top-headlines?sources=financial-times&amp;apiKey=e4f505f73a9f4ee99119ab33a19ab05e</a><br><a target="_blank" rel="noopener" href="http://wuxiaolong.me/2016/06/18/retrofits/">http://wuxiaolong.me/2016/06/18/retrofits/</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Cuota:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-Package-signature" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -118,7 +220,7 @@
 <a href="/2017/09/21/Package-signature/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -148,8 +250,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -162,7 +264,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -208,7 +310,7 @@
 <a href="/2017/09/20/ubuntu_guide/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -268,8 +370,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -282,7 +384,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -328,7 +430,7 @@
 <a href="/2017/09/19/SDK_Integration/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -408,8 +510,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -422,7 +524,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -468,7 +570,7 @@
 <a href="/2017/09/12/JavaIo/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -506,8 +608,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -520,7 +622,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -566,7 +668,7 @@
 <a href="/2017/09/01/WebView/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -650,8 +752,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -664,7 +766,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -710,7 +812,7 @@
 <a href="/2017/08/28/Camera/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -755,8 +857,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -769,7 +871,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -815,7 +917,7 @@
 <a href="/2017/08/27/ConcurrencyThreadPool/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -949,8 +1051,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -965,7 +1067,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1011,7 +1113,7 @@
 <a href="/2017/08/21/Handler/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -1164,8 +1266,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1178,7 +1280,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1224,7 +1326,7 @@
 <a href="/2017/08/16/AnimationResource/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -1370,8 +1472,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1384,96 +1486,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-PerformancePatterns" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/08/16/PerformancePatterns/">PerformancePatterns</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-08-16T01:56:08.000Z" itemprop="datePublished">2017年08月16日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2017/08/16/PerformancePatterns/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p> 性能优化</p>
-<h2 id="布局优化"><a href="#布局优化" class="headerlink" title="布局优化"></a>布局优化</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ee9e4b8cb95f">https://www.jianshu.com/p/ee9e4b8cb95f</a></p>
-<h2 id="ANR"><a href="#ANR" class="headerlink" title="ANR"></a>ANR</h2><p>  全称 Application Nor Responding,在debug的时候经常会出现的一个框框，询问关闭或等待，在正常环境下出现的情况<br>  *　主线程IO 操作<br>  *　主线程耗时任务<br>  *　主线程错误的操作 Thread.wait或Thread.sleep<br>    Android系统监控程序的响应状况，出现下面两种情况弹出ANR对话框<br>    *应用在5秒内未响应用户的输入事件(按键或者触摸)<br>    *BroadcastReceiver未在　10秒内完成相关的处理</p>
-<h2 id="AndroidStudio-Profiler工具"><a href="#AndroidStudio-Profiler工具" class="headerlink" title="AndroidStudio Profiler工具"></a>AndroidStudio Profiler工具</h2><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=qJ1QLgiL24o">这个视频</a> 讲解了找出内存泄漏的步骤　<br>还有AndroidStudio3.0的<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/bdfd2a6b2681">图文方法</a> </p>
-<h2 id="leakcanary"><a href="#leakcanary" class="headerlink" title="leakcanary"></a>leakcanary</h2><p><a target="_blank" rel="noopener" href="https://github.com/square/leakcanary">https://github.com/square/leakcanary</a></p>
-<p>图片处理</p>
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/performance/graphics/index.html">https://developer.android.com/topic/performance/graphics/index.html</a><br><a target="_blank" rel="noopener" href="https://developer.android.com/topic/performance/graphics/load-bitmap.html#read-bitmap">https://developer.android.com/topic/performance/graphics/load-bitmap.html#read-bitmap</a></p>
-<ul>
-<li><p>apk size</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/jnZpgaRFQT5ULk9tHWMAGg">https://mp.weixin.qq.com/s/jnZpgaRFQT5ULk9tHWMAGg</a></p>
-</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/fba7b43bdc9c">https://www.jianshu.com/p/fba7b43bdc9c</a></p>
-<p>性能优化</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ceXsH06fUFa7y4lzi4uXzw">https://mp.weixin.qq.com/s/ceXsH06fUFa7y4lzi4uXzw</a></p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/xqrGukIqA2zpGsGzah2EzA">https://mp.weixin.qq.com/s/xqrGukIqA2zpGsGzah2EzA</a></p>
-<p>包体积优化</p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6854573210408189960">https://juejin.im/post/6854573210408189960</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1490,7 +1503,7 @@
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/14/">Vorheriger</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/16/">Nächster</a>
+<a class="extend prev" rel="prev" href="/page/14/">Anterior</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/16/">Siguiente</a>
 </nav>
 
 
@@ -1500,9 +1513,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recientes</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/09/11/kotlin-senior2/">kotlin-senior2</a>
+          </li>
         
           <li>
             <a href="/2021/08/30/Leetcode-Linklist/">Leetcode_Linklist</a>
@@ -1520,10 +1537,6 @@
             <a href="/2021/08/21/kotlin-object/">kotlin-object</a>
           </li>
         
-          <li>
-            <a href="/2021/08/21/kotlin-medium/">kotlin-medium</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1532,7 +1545,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Nube de etiquetas</h3>
     <div class="widget tagcloud">
       <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/Kotlin/" style="font-size: 16.67px;">Kotlin</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 13.33px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
@@ -1541,9 +1554,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categorías</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">54</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">54</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1551,9 +1564,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archivo</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年09月</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1561,7 +1574,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Etiquetas</h3>
     <div class="widget">
       <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/" rel="tag">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
@@ -1602,9 +1615,9 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Sitemap</a>
-        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
-        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+        <a href="/sitemap.xml">Mapa del sitio</a>
+        <span> | </span><a href="/atom.xml">suscribirse a este sitio</a>
+        <span> | </span><a href="/about/">Contacta al blogger</a>
       </p>
       
         <p>

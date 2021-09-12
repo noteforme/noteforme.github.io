@@ -53,11 +53,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Inicio</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archivo</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Acerca de</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -65,7 +65,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="Búsqueda"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -86,6 +86,174 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-HashMap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/31/HashMap/">HashMap</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2018-05-31T14:54:44.000Z" itemprop="datePublished">2018年05月31日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+      
+      
+<a href="/2018/05/31/HashMap/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Libro de visitas
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h4><p>Hash函数是指把⼀个⼤范围映射到⼀个⼩范围。把⼤范围映射到⼀个⼩范围的⽬的往往是为了 节省空间，使得数据容易保存。</p>
+<h5 id="HashMap扩容机制"><a href="#HashMap扩容机制" class="headerlink" title="HashMap扩容机制"></a>HashMap扩容机制</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">     <span class="keyword">int</span> threshold;             <span class="comment">// 所能容纳的key-value对极限 </span></span><br><span class="line">     <span class="keyword">final</span> <span class="keyword">float</span> loadFactor;    <span class="comment">// 负载因子</span></span><br><span class="line">     <span class="keyword">int</span> modCount;  </span><br><span class="line">     <span class="keyword">int</span> size;  </span><br><span class="line"><span class="keyword">new</span> HashMap&lt;Integer,String&gt;(<span class="number">2</span>,<span class="number">0.75f</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Node[] table的初始化长度length(默认值是16)，Load  factor为负载因子(默认值是0.75)，threshold是HashMap所能容纳的最大数据量的Node(键值对)个数。threshold = length * Load factor。也就是说，在数组定义好长度之后，负载因子越大，所能容纳的键值对个数越多。</p>
+<p>map初始化为一个长度为2的数组，loadFactor=0.75，threshold=2*0.75=1，也就是说当put第二个key的时候，map就需要进行resize。</p>
+<p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2016/06/24/java-hashmap.html">https://tech.meituan.com/2016/06/24/java-hashmap.html</a></p>
+<h5 id="HashMap和HashTable的区别"><a href="#HashMap和HashTable的区别" class="headerlink" title="HashMap和HashTable的区别"></a>HashMap和HashTable的区别</h5><ol>
+<li>HashTable是线程安全的    </li>
+<li>HashTable key不能为空，HashMap可以.存在数组为0的位置</li>
+</ol>
+<h5 id="HashMap的实现原理-HashMap数据结构？"><a href="#HashMap的实现原理-HashMap数据结构？" class="headerlink" title="HashMap的实现原理 HashMap数据结构？"></a>HashMap的实现原理 HashMap数据结构？</h5><ol>
+<li><p>JDK1.7 Table数组+ Entry链表</p>
+</li>
+<li><p>JDK1.8 Table数组+ Entry链表/红黑树（ 为什么用红黑树）</p>
+<p><strong>红黑树有自平衡</strong>的特点，可以防止不平衡情况的发生，所以可以始终将查找的<strong>时间复杂度控制在 O(log(n))</strong></p>
+</li>
+</ol>
+<img src="https://pic1.zhimg.com/80/v2-3e203e5dcf8c12e7ebf137c344615aa4_1440w.jpg" style="zoom: 67%;">
+
+
+
+<p>​    HashMap采用Entry数组存放key-value,每个 key value组成一个实体，Entry类实际上是一个单向的链表结构，它有next指针指向下一    个实体， 1.8中链表大于8时会转成红黑树.长度降到 6 就转换回去.</p>
+<p>​    </p>
+<p>HashMap源码理解</p>
+<h5 id="HashMap如何"><a href="#HashMap如何" class="headerlink" title="HashMap如何"></a>HashMap如何</h5><h5 id="put数据（从HashMap源码角度讲解）？"><a href="#put数据（从HashMap源码角度讲解）？" class="headerlink" title="put数据（从HashMap源码角度讲解）？"></a>put数据（从HashMap源码角度讲解）？</h5><ol>
+<li><p>对key的Dashcode()做hash运算，计算index.</p>
+</li>
+<li><p>如果没碰撞直接放到bucket⾥</p>
+</li>
+<li><p>如果碰撞了，以链表的形式存在buckets后</p>
+</li>
+<li><p>如果节点已经存在就替换old value(保证key的唯⼀性)</p>
+</li>
+<li><p>如果bucket满了(超过load factor*current capacity)，就要resize</p>
+</li>
+</ol>
+<p>get数据</p>
+<ol>
+<li><p>对key的hashCode()做hash运算，计算index;</p>
+</li>
+<li><p>如果在bucket⾥的第⼀个节点⾥直接命中，则直接返回；</p>
+</li>
+<li><p>如果有冲突，则通过key.equals(k)去查找对应的Entry;分为下面两种方式.</p>
+</li>
+<li><p>若为树，则在树中通过key.equals(k)查找，O(logn)；</p>
+</li>
+<li><p>若为链表，则在链表中通过key.equals(k)查找，O(n)。</p>
+</li>
+</ol>
+<p>HashMap怎么手写实现？</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/985534b21089">https://www.jianshu.com/p/985534b21089</a></p>
+<p>HashTable实现原理</p>
+<p>ConcurrentHashMap的实现原理</p>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h5 id="HashTable-ConcurrentHashMap-区别"><a href="#HashTable-ConcurrentHashMap-区别" class="headerlink" title="HashTable  ConcurrentHashMap 区别"></a>HashTable  ConcurrentHashMap 区别</h5><p>Hashtable的实现是基于Dictionary抽象类的。Java5提供了ConcurrentHashMap，它是HashTable的替代，比HashTable的扩展性更好。</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kJ411C7hC?p=9&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1kJ411C7hC?p=9&amp;spm_id_from=pageDriver</a></p>
+<h5 id="TreeMap具体实现"><a href="#TreeMap具体实现" class="headerlink" title="TreeMap具体实现"></a>TreeMap具体实现</h5><p>TreeMap是一个有序的key-value集合，是非线程安全的，基于红黑树（Red-Black tree）实现。其映射根据<strong>键的自然顺序</strong>进行排序，或者根据<strong>创建映射时提供的 Comparator</strong> 进行排序，具体取决于使用的构造方法。其基本操作 containsKey、get、put 和 remove 的时间复杂度是 log(n) 。TreeMap是非同步的。 它的iterator 方法返回的迭代器是fail-fastl的。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/nananana/p/10426377.html">https://www.cnblogs.com/nananana/p/10426377.html</a></p>
+<h5 id="HashMap与HashSet的区别"><a href="#HashMap与HashSet的区别" class="headerlink" title="HashMap与HashSet的区别"></a>HashMap与HashSet的区别</h5><ol>
+<li><p>基于 HashMap 实现的，底层采用 HashMap 来保存元素</p>
+</li>
+<li><p>HashSet实现了Set接口，它不允许集合中有重复的值</p>
+</li>
+</ol>
+<p>HashSet与HashMap怎么判断集合元素重复？</p>
+<h5 id="l-nn为什么不一开始就使用红黑树"><a href="#l-nn为什么不一开始就使用红黑树" class="headerlink" title="l nn为什么不一开始就使用红黑树"></a>l nn为什么不一开始就使用红黑树</h5><p>因为红⿊树需要进⾏左旋，右旋，变⾊这些操作来保持平衡，⽽单链表不需要。<br>当元素⼩于8个当时候，此时做查询操作，链表结构已经能保证查询性能。<br>当元素⼤于8个的时候，此时需要红⿊树来加快查 询速度，但是新增节点的效率变慢了。<br>因此，如果⼀开始就⽤红⿊树结构，元素太少，新增效率⼜⽐较慢，⽆疑这是浪费性能的。</p>
+<h5 id="什么时候退化为链表"><a href="#什么时候退化为链表" class="headerlink" title="什么时候退化为链表"></a>什么时候退化为链表</h5><p>为6的时候退转为链表。中间有个差值7可以防⽌链表和树之间频繁的转换。<br>假设⼀下，如果设计成链表个数超过8则链表转 换成树结构，链表个数⼩于8则树结构转换成链表，<br>如果⼀个HashMap不停的插⼊、删除元素，链表个数在8左右徘徊，就会 频繁的发⽣树转链表、链表转树，效率会很低。</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=jwL1W8zEuX4">https://www.youtube.com/watch?v=jwL1W8zEuX4</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1if4y167eE?p=4">https://www.bilibili.com/video/BV1if4y167eE?p=4</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/127147909">https://zhuanlan.zhihu.com/p/127147909</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/348756860">https://zhuanlan.zhihu.com/p/348756860</a></p>
+<h4 id="ArrayMap"><a href="#ArrayMap" class="headerlink" title="ArrayMap"></a>ArrayMap</h4><p>ArrayMap类有两个非常重要的静态成员变量mBaseCache和mTwiceBaseCacheSize，用于ArrayMap所在进程的全局缓存功能：</p>
+<p><img src="http://gityuan.com/images/arraymap/cache_add.jpg"></p>
+<p><a target="_blank" rel="noopener" href="http://gityuan.com/2019/01/13/arraymap/">http://gityuan.com/2019/01/13/arraymap/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=I16lz26WyzQ">https://www.youtube.com/watch?v=I16lz26WyzQ</a></p>
+<h5 id="SparseArray"><a href="#SparseArray" class="headerlink" title="SparseArray"></a>SparseArray</h5><p> key是int类型的Map，Android再次提供效率更高的数据结构SparseArray，可避免自动装箱过程,SparseArray不需要保存key所对应的哈希值，所以比ArrayMap还能再节省1/3的内存。</p>
+<p><img src="http://gityuan.com/images/arraymap/SparseArray.jpg"></p>
+<p>SparseArray构造mKeys     mValues两个数组，默认长度10，也可以自己定义initialCapacity</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">SparseArray</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (initialCapacity == <span class="number">0</span>) &#123;</span><br><span class="line">          mKeys = EmptyArray.INT;</span><br><span class="line">          mValues = EmptyArray.OBJECT;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          mValues = ArrayUtils.newUnpaddedObjectArray(initialCapacity);</span><br><span class="line">          mKeys = <span class="keyword">new</span> <span class="keyword">int</span>[mValues.length];</span><br><span class="line">      &#125;</span><br><span class="line">      mSize = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> key, E value)</span> </span>&#123;</span><br><span class="line">   	<span class="comment">// 二分查找,key在mKeys列表中对应的index,注意binarySearch返回做了 ~操作.</span></span><br><span class="line">  	<span class="comment">//如果没找到，返回的是当前元素将要插入的位置</span></span><br><span class="line">    <span class="keyword">int</span> i = ContainerHelpers.binarySearch(mKeys, mSize, key); </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (i &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        mValues[i] = value;  <span class="comment">//找到后给对应的value数组赋值</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        i = ~i;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i &lt; mSize &amp;&amp; mValues[i] == DELETED) &#123;</span><br><span class="line">            mKeys[i] = key;</span><br><span class="line">            mValues[i] = value;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mGarbage &amp;&amp; mSize &gt;= mKeys.length) &#123;</span><br><span class="line">            gc();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Search again because indices may have changed.</span></span><br><span class="line">            i = ~ContainerHelpers.binarySearch(mKeys, mSize, key);</span><br><span class="line">        &#125;</span><br><span class="line">				<span class="comment">//插入数据，内部做了排序</span></span><br><span class="line">        mKeys = GrowingArrayUtils.insert(mKeys, mSize, i, key);</span><br><span class="line">        mValues = GrowingArrayUtils.insert(mValues, mSize, i, value);</span><br><span class="line">        mSize++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = ContainerHelpers.binarySearch(mKeys, mSize, key);</span><br><span class="line">    <span class="keyword">if</span> (i &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (mValues[i] != DELETED) &#123;</span><br><span class="line">            mValues[i] = DELETED;  <span class="comment">//标记该数据为DELETE</span></span><br><span class="line">            mGarbage = <span class="keyword">true</span>; <span class="comment">// 设置存在GC</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zxt0601/article/details/78333328">https://blog.csdn.net/zxt0601/article/details/78333328</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.jcodecraeer.com/a/anzhuokaifa/2017/0912/8504.html">http://www.jcodecraeer.com/a/anzhuokaifa/2017/0912/8504.html</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Cuota:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-INTERVIEW-JAVA" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -113,7 +281,7 @@
 <a href="/2018/05/24/INTERVIEW-JAVA/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -397,8 +565,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -413,7 +581,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -459,7 +627,7 @@
 <a href="/2018/05/24/Concurrency_Locking/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -714,8 +882,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -730,7 +898,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -776,7 +944,7 @@
 <a href="/2018/04/21/CaptureApp/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -796,8 +964,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -810,7 +978,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -856,7 +1024,7 @@
 <a href="/2018/04/16/Generics/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -886,7 +1054,8 @@
 
 
 
-<h4 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h4><p>无界通配符 意味着可以使用任何对象，因此使用它类似于使用原生类型</p>
+<h4 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h4><h5 id="符号区别"><a href="#符号区别" class="headerlink" title="符号区别"></a>符号区别</h5><p>Java用 ？  Kotlin 用 *</p>
+<p>无界通配符 意味着可以使用任何对象，因此使用它类似于使用原生类型</p>
 <p>类A是类B的父类，G<A>和G<B>的公共的父类是: G&lt;?&gt;</B></A></p>
 <h5 id="遍历List"><a href="#遍历List" class="headerlink" title="遍历List"></a>遍历List</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span></span>&#123;</span><br><span class="line">      List&lt;Object&gt; list1 = <span class="keyword">null</span>;</span><br><span class="line">      List&lt;String&gt; list2 = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">      List&lt;?&gt; list = <span class="keyword">null</span>;</span><br><span class="line">      list = list1;</span><br><span class="line">      list = list2;</span><br><span class="line"></span><br><span class="line">      print(list1);</span><br><span class="line">      print(list2);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(List&lt;?&gt; list)</span></span>&#123;</span><br><span class="line">      Iterator&lt;?&gt; iterator = list.iterator();</span><br><span class="line">      <span class="keyword">while</span> (iterator.hasNext())&#123;</span><br><span class="line">          Object o = iterator.next();</span><br><span class="line">          System.out.println(o);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      list.forEach(o -&gt; &#123;</span><br><span class="line">          System.out.println(o);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
@@ -916,12 +1085,12 @@
 
 <h6 id="extends-Fruit赋值"><a href="#extends-Fruit赋值" class="headerlink" title="? extends Fruit赋值"></a>? extends Fruit赋值</h6><p>? extends Fruit 可以理解为 &lt;= Fruit</p>
 <p>List&lt;? extends Fruit&gt; 可以作为 List<Apple> ， List<Fruit>的父类。</Fruit></Apple></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">        List&lt;? extends Fruit&gt; list1 = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        List&lt;Apple&gt; list3 = <span class="keyword">new</span> ArrayList&lt;&gt;(); <span class="comment">//  ? extends Fruit 可以理解为 &lt;= Fruit</span></span><br><span class="line">        List&lt;Fruit&gt; list4 = <span class="keyword">new</span> ArrayList&lt;&gt;();  <span class="comment">//List&lt;? extends Fruit&gt; 可以作为 List&lt;Apple&gt; ， List&lt;Fruit&gt;的父类。</span></span><br><span class="line">        List&lt;Object&gt; list5 = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">			  list5 = list4; <span class="comment">// 编译不通过,否则泛型就没意义了</span></span><br><span class="line">			</span><br><span class="line">        list1 = list3;</span><br><span class="line">        list1 = list4;</span><br><span class="line"></span><br><span class="line"><span class="comment">//        list1 = list5;    //编译报错，Object类不在 &lt;= Fruit范围内</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//        List&lt;Fruit&gt; list1 =  new ArrayList&lt;Apple&gt;();  //编译报错，泛型具体类型 List&lt;Fruit&gt; ,ArrayList&lt;Apple&gt; 不存在继承关系</span></span><br><span class="line">        <span class="comment">// ? extends Fruit 可以理解为 &lt;= Fruit</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// List&lt;? extends Fruit&gt;                        //  可以作为 List&lt;Apple&gt; ， List&lt;Fruit&gt;的父类。</span></span><br><span class="line">        List&lt;? extends Fruit&gt; list4 =  <span class="keyword">new</span> ArrayList&lt;Apple&gt;();</span><br><span class="line">        List&lt;? extends Fruit&gt; list5=  <span class="keyword">new</span> ArrayList&lt;Fruit&gt;();</span><br><span class="line"><span class="comment">//        List&lt;? extends Fruit&gt; list5 =new ArrayList&lt;Object&gt;();    //编译报错，Object类不在 &lt;= Fruit范围内</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 只能读取数据 , 不能修改数据</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        Fruit fruit = list4.get(<span class="number">0</span>);</span><br><span class="line"><span class="comment">//        Apple apple =list2.get(0); //编译不通过， &lt;= Fruit范围，list1.get(0)实际类型可能是Fruit，是Apple的父类。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//        list1.add(new Apple()); //编译报错，&lt;= Fruit范围， List&lt;? extends Fruit&gt;实际类型可能比是GreenApple,比Apple范围还小，随意存不了数据</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
 <h6 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h6><p>? extends Fruit 所以泛型最大的父类就是Fruit,子类型可以直接复制给父类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> Fruit fruit = list1.get(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Apple apple =list1.get(0); //编译不通过， &lt;= Fruit范围，list1.get(0)可能实际类型是Fruit，是Apple的父类。</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 只能读取数据 , 不能修改数据</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        Fruit fruit = list4.get(<span class="number">0</span>);</span><br><span class="line"><span class="comment">//        Apple apple =list2.get(0); //编译不通过， &lt;= Fruit范围，list1.get(0)实际类型可能是Fruit，是Apple的父类。</span></span><br><span class="line"><span class="comment">//        list1.add(new Apple()); //编译报错，&lt;= Fruit范围， List&lt;? extends Fruit&gt;实际类型可能比是GreenApple,比Apple范围还小，随意存不了数据</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
@@ -946,18 +1115,18 @@
 
 <h5 id="下界通配符-lt-super-T-gt"><a href="#下界通配符-lt-super-T-gt" class="headerlink" title="下界通配符 &lt;? super T&gt;"></a>下界通配符 &lt;? super T&gt;</h5><p><img src="/2018/04/16/Generics/2020-09-13_at_9.46.10.png" alt="Screen Shot 2020-09-13 at 9.46.10 PM"></p>
 <h6 id="super-Fruit赋值"><a href="#super-Fruit赋值" class="headerlink" title="? super Fruit赋值"></a>? super Fruit赋值</h6><p> ? super Fruit 可以理解为 &gt;= Fruit</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> 				List&lt;? extends Fruit&gt; list1 = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        List&lt;Apple&gt; list3 = <span class="keyword">new</span> ArrayList&lt;&gt;(); <span class="comment">//  ? extends Fruit 可以理解为 &lt;= Fruit</span></span><br><span class="line">        List&lt;Fruit&gt; list4 = <span class="keyword">new</span> ArrayList&lt;&gt;();  <span class="comment">//List&lt;? extends Fruit&gt; 可以作为 List&lt;Apple&gt; ， List&lt;Fruit&gt;的父类。</span></span><br><span class="line">        List&lt;Object&gt; list5 = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        List&lt;? <span class="keyword">super</span> Fruit&gt; list2 = <span class="keyword">null</span>;  <span class="comment">//   ? super Fruit 可以理解为 &gt;= Fruit</span></span><br><span class="line"><span class="comment">//       list2 = list3;                    //  编译报错,Apple类不在 &gt;= Fruit范围内</span></span><br><span class="line">        list2 = list4;</span><br><span class="line">        list2 = list5;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">        <span class="comment">//只能修改数据，不能读取数据</span></span><br><span class="line">        <span class="comment">// &lt;? super Fruit&gt;</span></span><br><span class="line"></span><br><span class="line">        List&lt;? <span class="keyword">super</span> Fruit&gt; list6 = <span class="keyword">new</span> ArrayList&lt;Fruit&gt;();  <span class="comment">//   ? super Fruit 可以理解为 &gt;= Fruit</span></span><br><span class="line">        List&lt;? <span class="keyword">super</span> Fruit&gt;  list7 = <span class="keyword">new</span> ArrayList&lt;Object&gt;();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Object object = list6.get(<span class="number">0</span>); <span class="comment">//理论上不能读取，但是都到Object还是可以的</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//        Food food = list2.get(0); //编译不通过，&gt;=Fruit范围，list2.get(0)实际类型可能是Object,不能赋值给小于它子类，所以只能是Object</span></span><br></pre></td></tr></table></figure>
 
 
 
 
 
-<h6 id="读取数据-1"><a href="#读取数据-1" class="headerlink" title="读取数据"></a>读取数据</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Object object = list2.get(<span class="number">0</span>);</span><br><span class="line">        </span><br><span class="line"><span class="comment">//        Food food = list2.get(0); //编译不通过，&gt;=Fruit范围，list2.get(0)实际类型可能是Object,不能赋值给小于它子类，所以只能是Object</span></span><br></pre></td></tr></table></figure>
+<h6 id="读取数据-1"><a href="#读取数据-1" class="headerlink" title="读取数据"></a>读取数据</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">        Object object = list6.get(<span class="number">0</span>); <span class="comment">//理论上不能读取，但是都到Object还是可以的</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//        Food food = list2.get(0); //编译不通过，&gt;=Fruit范围，list2.get(0)实际类型可能是Object,不能赋值给小于它子类，所以只能是Object</span></span><br></pre></td></tr></table></figure>
 
 
 
 <h6 id="写入数据-1"><a href="#写入数据-1" class="headerlink" title="写入数据"></a>写入数据</h6><p> ? super Fruit范围是是 [Fruit,+∞), 所以Fruit范围内的都可以添加</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">        list2.add(<span class="keyword">new</span> Fruit());</span><br><span class="line">        list2.add(<span class="keyword">new</span> Apple()); <span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//        list2.add(new Food()); //   ? super Fruit范围是是 [Fruit,+∞), 所以Fruit范围内的都可以添加</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">        list6.add(<span class="keyword">new</span> Fruit());</span><br><span class="line">        list6.add(<span class="keyword">new</span> Apple()); <span class="comment">//</span></span><br><span class="line"><span class="comment">//        list6.add(new Food()); //   ? super Fruit范围是是 [Fruit,+∞), 所以Fruit范围内的都可以添加</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -969,12 +1138,18 @@
 <p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/dd34211f2565">www.jianshu.com/p/dd34211f2565</a></p>
 <p><a target="_blank" rel="noopener" href="https://itimetraveler.github.io/2016/12/27/%E3%80%90Java%E3%80%91%E6%B3%9B%E5%9E%8B%E4%B8%AD%20extends%20%E5%92%8C%20super%20%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F/">https://itimetraveler.github.io/2016/12/27/%E3%80%90Java%E3%80%91%E6%B3%9B%E5%9E%8B%E4%B8%AD%20extends%20%E5%92%8C%20super%20%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F/</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1xJ411n77R?p=7">https://www.bilibili.com/video/BV1xJ411n77R?p=7</a></p>
+<h4 id="kotlin"><a href="#kotlin" class="headerlink" title="kotlin"></a>kotlin</h4><h5 id="out"><a href="#out" class="headerlink" title="out"></a>out</h5><p>只能获取 不能修改</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">var</span> list:MutableList&lt;<span class="keyword">out</span> Fruit&gt;  = ArrayList&lt;Apple&gt;() <span class="comment">// ? extends Fruit 实际类型可能比是Apple小</span></span><br><span class="line"><span class="comment">//    list.add(Apple()) 编译报错</span></span><br><span class="line">    <span class="keyword">var</span> list2: ArrayList&lt;<span class="keyword">in</span> Apple&gt; = ArrayList&lt;Fruit&gt;() <span class="comment">//  ? super Fruit  实际类型可能比是Apple大很多</span></span><br><span class="line"><span class="comment">//    list2.get(0)</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1xv411k7Dd?p=4&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1xv411k7Dd?p=4&amp;spm_id_from=pageDriver</a></p>
 
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -987,7 +1162,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1033,7 +1208,7 @@
 <a href="/2018/03/29/token/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -1052,8 +1227,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1066,7 +1241,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1112,7 +1287,7 @@
 <a href="/2018/03/28/RxJava01/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -1148,8 +1323,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1164,7 +1339,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -1205,7 +1380,7 @@
 <a href="/2018/03/12/INTERVIEW-ANSWER/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -2079,8 +2254,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -2095,7 +2270,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -2141,7 +2316,7 @@
 <a href="/2018/03/04/TextView/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -2203,8 +2378,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -2217,7 +2392,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -2263,7 +2438,7 @@
 <a href="/2018/02/09/LeakMemory/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Libro de visitas
 </a>
 
 
@@ -2332,8 +2507,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Enlace original: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
+              <p>Declaración de copyright: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -2346,109 +2521,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-Hilt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/01/23/Hilt/">Hilt</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2018-01-23T07:11:40.000Z" itemprop="datePublished">2018年01月23日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2018/01/23/Hilt/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg">https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg</a></p>
-<p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-29_11.12.20_overview.png" alt="2021-08-29_11.12.20_overview"></p>
-<p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-29_11.36.15_function.png" alt="2021-08-29_11.36.15_function"></p>
-<h4 id="Hilt使用"><a href="#Hilt使用" class="headerlink" title="Hilt使用"></a>Hilt使用</h4><h5 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h5><p>1.生成组件</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HiltAndroidApp</span></span><br><span class="line">class MyApp : Application() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li><p>建立绑定</p>
-<p>通过@Inject告诉Dagger可以通过，构造方法创建实例</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>注入对象 </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AndroidEntryPoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HiltActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User user; <span class="comment">//inject注解作用在User变量上,注入对象实例</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_hilt);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>​        必须是ComponentActivity的子类</p>
-<blockquote>
-<p>29021-29021/com.john.kot I/HiltActivity: user: com.john.kot.hilt.User@2c507f</p>
-</blockquote>
-<h5 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h5><p>Module</p>
-<p>不通过下面这种方式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  <span class="comment">//    @Inject 不在这里，而是在Module提交对象创建</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="variable">@InstallIn</span>(ApplicationComponent.class) <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="variable">@Module</span></span><br><span class="line">public class AppModule &#123;</span><br><span class="line">    <span class="variable">@Provides</span> </span><br><span class="line">    User provideUser()&#123;</span><br><span class="line">        <span class="selector-tag">return</span> <span class="selector-tag">new</span> <span class="selector-tag">User</span>(); <span class="comment">//Module提交对象创建</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p> 29143-29143/com.john.kot I/HiltActivity: user: com.john.kot.hilt.User@43b8a20</p>
-</blockquote>
-<h4 id="默认标准组件"><a href="#默认标准组件" class="headerlink" title="默认标准组件"></a>默认标准组件</h4><p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-30_12.01.40_component_default.png" alt="2021-08-30_12.01.40_component_default"></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/11/index.html">http://noteforme.github.io.com/page/11/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
+      <span>Cuota:</span>
     </div>
 
 
@@ -2465,7 +2538,7 @@
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/10/">Vorheriger</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/12/">Nächster</a>
+<a class="extend prev" rel="prev" href="/page/10/">Anterior</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/12/">Siguiente</a>
 </nav>
 
 
@@ -2475,9 +2548,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recientes</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/09/11/kotlin-senior2/">kotlin-senior2</a>
+          </li>
         
           <li>
             <a href="/2021/08/30/Leetcode-Linklist/">Leetcode_Linklist</a>
@@ -2495,10 +2572,6 @@
             <a href="/2021/08/21/kotlin-object/">kotlin-object</a>
           </li>
         
-          <li>
-            <a href="/2021/08/21/kotlin-medium/">kotlin-medium</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -2507,7 +2580,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Nube de etiquetas</h3>
     <div class="widget tagcloud">
       <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/Kotlin/" style="font-size: 16.67px;">Kotlin</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 13.33px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
@@ -2516,9 +2589,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categorías</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">54</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">54</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -2526,9 +2599,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archivo</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年08月</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年09月</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -2536,7 +2609,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Etiquetas</h3>
     <div class="widget">
       <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/" rel="tag">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
@@ -2577,9 +2650,9 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Sitemap</a>
-        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
-        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+        <a href="/sitemap.xml">Mapa del sitio</a>
+        <span> | </span><a href="/atom.xml">suscribirse a este sitio</a>
+        <span> | </span><a href="/about/">Contacta al blogger</a>
       </p>
       
         <p>
