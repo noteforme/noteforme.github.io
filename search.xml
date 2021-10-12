@@ -6859,7 +6859,7 @@ System.out.println(g.equals(a+b));
 </ul>
 <h5 id="View-setSystemUiVisibility-及其各种Flags"><a href="#View-setSystemUiVisibility-及其各种Flags" class="headerlink" title="View#setSystemUiVisibility()及其各种Flags"></a>View#setSystemUiVisibility()及其各种Flags</h5><p>首先setSystemUiVisibility()这个方法就是设置状态栏或者导航栏的各种属性的，哪都有些可以设置的属性呢？</p>
 <ul>
-<li> SYSTEM_UI_FLAG_FULLSCREEN</li>
+<li> View.SYSTEM_UI_FLAG_FULLSCREEN</li>
 </ul>
 <p>  视图全屏并隐藏状态栏，当用户交互时（如下滑状态栏）会恢复隐藏的状态栏（例子：电子书阅读）缺点：进入Activity会产生一个从非全屏到全屏的闪动效果</p>
   <img src="https://upload-images.jianshu.io/upload_images/2477378-3c36e2fb4dfdb363.gif?imageMogr2/auto-orient/strip|imageView2/2/w/320" alt="img" style="zoom: 50%;">
@@ -6867,30 +6867,62 @@ System.out.println(g.equals(a+b));
   
 
 <ul>
-<li><p>SYSTEM_UI_FLAG_IMMERSIVE_STICKY</p>
+<li><p>View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY</p>
 <p>粘性沉浸模式，需要和SYSTEM_UI_FLAG_FULLSCREEN或者SYSTEM_UI_FLAG_HIDE_NAVIGATION联用，当使用View.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)联用时视图全屏，当用户产生交互时（如下滑状态栏）不会恢复状态栏，只会以半透明的方式覆盖在视图上面并在一定时间内自动消失</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)</span><br></pre></td></tr></table></figure>
 
 <img src="https://upload-images.jianshu.io/upload_images/2477378-bea7bb5a65ad18c6.gif?imageMogr2/auto-orient/strip|imageView2/2/w/320" alt="img" style="zoom:50%;"></li>
-<li><p>SYSTEM_UI_FLAG_IMMERSIVE：<br> 沉浸模式，只能和SYSTEM_UI_FLAG_FULLSCREEN联用，效果和View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY一样，目前已被后者替代</p>
+<li><p>View.SYSTEM_UI_FLAG_IMMERSIVE：<br> 沉浸模式，只能和SYSTEM_UI_FLAG_FULLSCREEN联用，效果和View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY一样，目前已被后者替代</p>
 </li>
-<li><p>SYSTEM_UI_FLAG_LOW_PROFILE:<br> 低配模式，会隐藏一些不重要的状态栏和导航栏的图标,(用模拟器跑，只剩下电池了)</p>
+<li><p>View.SYSTEM_UI_FLAG_LOW_PROFILE:<br> 低配模式，会隐藏一些不重要的状态栏和导航栏的图标,(用模拟器跑，只剩下电池了)</p>
 </li>
-<li><p>SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN：<br> 视图全屏且不会产生闪动，如果没有toolbar,contentview会占住statebar的位置，状态栏会覆盖在contentview上面.</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (isWhite) &#123;</span><br><span class="line">    isWhite = <span class="literal">false</span></span><br><span class="line">    window.decorView.systemUiVisibility =</span><br><span class="line">        SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or SYSTEM_UI_FLAG_LIGHT_STATUS_BAR <span class="comment">//statebar 元素显示白色</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    isWhite = <span class="literal">true</span></span><br><span class="line">    window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LAYOUT_STABLE <span class="comment">//显示黑色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>SYSTEM_UI_FLAG_LAYOUT_STABLE：<br> 使视图稳定，当使用fitSystemWindows（）（下面会单独介绍这个方法）需要视图稳定，一般和View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN联用,我使用这个属性后，能是<strong>statebar的电池条由白色变成黑色</strong>。</p>
+<li><p>View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN：<br> 视图全屏且不会产生闪动，如果没有toolbar,contentview会占住statebar的位置，状态栏会覆盖在contentview上面.</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> isWhite = <span class="literal">false</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">change_statebar_element_color</span><span class="params">(view: <span class="type">View</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (isWhite) &#123;</span><br><span class="line">        window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LAYOUT_STABLE <span class="comment">//statebar 元素显示白色</span></span><br><span class="line">        isWhite = <span class="literal">false</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        window.decorView.systemUiVisibility =</span><br><span class="line">            SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or SYSTEM_UI_FLAG_LIGHT_STATUS_BAR  <span class="comment">//显示黑色</span></span><br><span class="line">        isWhite = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>View.SYSTEM_UI_FLAG_LAYOUT_STABLE：<br> 使视图稳定，当使用fitSystemWindows（）（下面会介绍这个方法）需要视图稳定，一般和SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN联用,我使用这个属性后，能是<strong>statebar的电池条由白色变成黑色</strong>。</p>
 </li>
-<li><p>SYSTEM_UI_FLAG_LIGHT_STATUS_BAR:<br> Android6.0系统以上增加的属性，设置了这个属性，状态栏会以与状态栏背景颜色兼容的模式绘制。什么意思呢？就是说如果当前的状态栏颜色是浅色，那么就有可能造成状态栏上的图标看不清了，但是如果你设置这个属性以后，状态栏的图标就会以深色绘制，这样就没有什么UI上的问题了。</p>
-<p><a href="https://www.jianshu.com/p/f84f7e07e0d6">https://www.jianshu.com/p/f84f7e07e0d6</a></p>
+<li><p>View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR:<br> Android6.0系统以上增加的属性，设置了这个属性，状态栏会以与状态栏背景颜色兼容的模式绘制。什么意思呢？就是说如果当前的状态栏颜色是浅色，那么就有可能造成状态栏上的图标看不清了，但是如果你设置这个属性以后，状态栏的图标就会以深色绘制，这样就没有什么UI上的问题了。</p>
 </li>
 </ul>
-<h5 id="Statabar-Color"><a href="#Statabar-Color" class="headerlink" title="Statabar Color"></a>Statabar Color</h5><ol>
+<h5 id="Window-addFlags"><a href="#Window-addFlags" class="headerlink" title="Window#addFlags()"></a>Window#addFlags()</h5><p>WindowManager.LayoutParams相关属性：</p>
+<ul>
+<li>FLAG_TRANSLUCENT_STATUS:<br> Android4.4系统增加的属性，它会使状态栏透明,并且自动执行View.SYSTEM_UI_FLAG_LAYOUT_STABLE和View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN</li>
+<li>FLAG_FULLSCREEN:<br> 视图全屏并隐藏状态栏，效果相当于View.SYSTEM_UI_FLAG_FULLSCREEN+View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY，并且视图稳定（不会因为系统控件的变化（如输入法），而重新布局）</li>
+<li>FLAG_FORCE_NOT_FULLSCREEN：<br> 重写了FLAG_FULLSCREEN并强制显示状态栏（没有啥卵用）</li>
+<li>FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS：<br> Android5.0系统以上支持，如果设置了该属性，系统栏（状态栏和导航栏）将以透明背景绘制，并且该窗口中的相应区域将填充setStatusBar（）和setNavigationBarColor（）中设置的颜色</li>
+</ul>
+<h4 id="几种全屏模式"><a href="#几种全屏模式" class="headerlink" title="几种全屏模式"></a>几种全屏模式</h4><h5 id="Lean-back"><a href="#Lean-back" class="headerlink" title="Lean back"></a>Lean back</h5><p>倾斜模式</p>
+<p>When users want to bring back the system bars, they simply tap the screen anywhere.</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">window.decorView.systemUiVisibility =</span><br><span class="line">    SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION</span><br></pre></td></tr></table></figure>
+
+<p>轻触屏幕 会显示 底部导航如返回按钮 </p>
+<h5 id="Immersive"><a href="#Immersive" class="headerlink" title="Immersive"></a>Immersive</h5><p>沉浸模式：从边缘滑动，显示系统Bar,也可以通过回调显示系统控件</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">window.decorView.systemUiVisibility =</span><br><span class="line">    SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION or  SYSTEM_UI_FLAG_IMMERSIVE</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="Sticky-immersive"><a href="#Sticky-immersive" class="headerlink" title="Sticky immersive"></a>Sticky immersive</h5><p>从边缘滑动，显示系统Bar,statebar.又恢复了。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">window.decorView.systemUiVisibility =</span><br><span class="line">    SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION or  SYSTEM_UI_FLAG_IMMERSIVE_STICKY</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://developer.android.com/training/system-ui/immersive">https://developer.android.com/training/system-ui/immersive</a></p>
+<h4 id="Statabar-Color"><a href="#Statabar-Color" class="headerlink" title="Statabar Color"></a>Statabar Color</h4><ol>
 <li><p>Application AppTheme statusBarColor</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;AppTheme&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;Theme.AppCompat.Light.NoActionBar&quot;</span>&gt;</span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- Customize your theme here. --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;colorPrimary&quot;</span>&gt;</span>@color/colorPrimary<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;colorPrimaryDark&quot;</span>&gt;</span>@color/colorPrimaryDark<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;colorAccent&quot;</span>&gt;</span>@color/colorAccent<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:statusBarColor&quot;</span>&gt;</span> @android:color/white<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
 <li><p>Activity设置</p>
 <figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.R) &#123;</span><br><span class="line">    window.decorView.systemUiVisibility =</span><br><span class="line">        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    window.insetsController?.setSystemBarsAppearance(</span><br><span class="line">        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,</span><br><span class="line">        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h5 id="Statabar-element-Color"><a href="#Statabar-element-Color" class="headerlink" title="Statabar element Color"></a>Statabar element Color</h5><h3 id="ToolBar"><a href="#ToolBar" class="headerlink" title="ToolBar"></a>ToolBar</h3><h5 id="颜色设置"><a href="#颜色设置" class="headerlink" title="颜色设置"></a>颜色设置</h5><p>  AppTheme下的设置</p>
+<h5 id="Statabar-element-Color"><a href="#Statabar-element-Color" class="headerlink" title="Statabar element Color"></a>Statabar element Color</h5><p>两种方式</p>
+<h6 id="systemUiVisibility"><a href="#systemUiVisibility" class="headerlink" title="systemUiVisibility"></a>systemUiVisibility</h6><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LAYOUT_STABLE <span class="comment">//statebar 元素显示白色</span></span><br><span class="line"></span><br><span class="line">window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LIGHT_STATUS_BAR  <span class="comment">//显示黑色</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="主题配置-gt-23"><a href="#主题配置-gt-23" class="headerlink" title="主题配置&gt;23"></a>主题配置&gt;23</h6><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowLightStatusBar&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>false : 白色</p>
+<p>true :  黑色</p>
+<p><a href="https://imstudio.medium.com/android-change-status-bar-text-color-659680fce49b">https://imstudio.medium.com/android-change-status-bar-text-color-659680fce49b</a></p>
+<p><a href="https://developer.android.com/training/system-ui">https://developer.android.com/training/system-ui</a></p>
+<p><a href="https://blog.csdn.net/shanshui911587154/article/details/86623646">https://blog.csdn.net/shanshui911587154/article/details/86623646</a></p>
+<h3 id="ToolBar"><a href="#ToolBar" class="headerlink" title="ToolBar"></a>ToolBar</h3><h5 id="颜色设置"><a href="#颜色设置" class="headerlink" title="颜色设置"></a>颜色设置</h5><p>  AppTheme下的设置</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">&lt;application</span><br><span class="line">      android:name=&quot;.application.NBBApplication&quot;</span><br><span class="line">      android:allowBackup=&quot;true&quot;</span><br><span class="line">      android:icon=&quot;@mipmap/icon&quot;</span><br><span class="line">      android:label=&quot;@string/app_name&quot;</span><br><span class="line">      android:supportsRtl=&quot;true&quot;</span><br><span class="line">      android:theme=&quot;@style/AppTheme&quot;&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -6977,29 +7009,8 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
 <td>如果相对应位值相同，则结果为0，否则为1</td>
 <td>（A ^ B）得到49，即 0011 0001</td>
 </tr>
-<tr>
-<td>〜</td>
-<td>按位取反运算符翻转操作数的每一位，即0变成1，1变成0。</td>
-<td>（〜A）得到-61，即1100 0011</td>
-</tr>
-<tr>
-<td>&lt;&lt;</td>
-<td>按位左移运算符。左操作数按位左移右操作数指定的位数。</td>
-<td>A &lt;&lt; 2得到240，即 1111 0000</td>
-</tr>
-<tr>
-<td>&gt;&gt;</td>
-<td>按位右移运算符。左操作数按位右移右操作数指定的位数。</td>
-<td>A &gt;&gt; 2得到15即 1111</td>
-</tr>
-<tr>
-<td>&gt;&gt;&gt;</td>
-<td>按位右移补零操作符。左操作数的值按右操作数指定的位数右移，移动得到的空位以零填充。</td>
-<td>A&gt;&gt;&gt;2得到15即0000 1111</td>
-</tr>
 </tbody></table>
-<p><a href="https://imstudio.medium.com/android-change-status-bar-text-color-659680fce49b">https://imstudio.medium.com/android-change-status-bar-text-color-659680fce49b</a></p>
-<p><a href="https://developer.android.com/training/system-ui">https://developer.android.com/training/system-ui</a></p>
+<p><a href="https://noteforme.github.io/2018/01/07/Operators/">https://noteforme.github.io/2018/01/07/Operators/</a></p>
 ]]></content>
       <categories>
         <category>ANDROID</category>
@@ -15451,17 +15462,17 @@ Socket
 </tr>
 </thead>
 <tbody><tr>
-<td>＆</td>
+<td>＆ 按位与</td>
 <td>如果相对应位都是1，则结果为1，否则为0</td>
 <td>（A＆B），得到12，即0000 1100</td>
 </tr>
 <tr>
-<td>|</td>
+<td>| 按位或</td>
 <td>如果相对应位都是 0，则结果为 0，否则为 1</td>
 <td>（A | B）得到61，即 0011 1101</td>
 </tr>
 <tr>
-<td>^</td>
+<td>^ 按位异或</td>
 <td>如果相对应位值相同，则结果为0，否则为1</td>
 <td>（A ^ B）得到49，即 0011 0001</td>
 </tr>
@@ -15507,6 +15518,7 @@ Socket
 <li><code>inv()</code> – 位非</li>
 </ul>
 <p><a href="https://www.kotlincn.net/docs/reference/basic-types.html#%E8%BF%90%E7%AE%97">https://www.kotlincn.net/docs/reference/basic-types.html#%E8%BF%90%E7%AE%97</a></p>
+<p><a href="https://juejin.cn/post/6844903841293402126">https://juejin.cn/post/6844903841293402126</a></p>
 ]]></content>
       <tags>
         <tag>Operators</tag>
