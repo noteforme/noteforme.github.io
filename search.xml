@@ -2384,7 +2384,7 @@ public class CatFactory implements Provider &#123;
 &#125;
 </code></pre>
 <p>​    Provider provider = new CatFactory();<br>​     Animal cat = provider.produce();<br>​    cat.move();<br>  如果要实例化Pig，添加一个PigFactory 就可以了</p>
-<h5 id="abstact-guru"><a href="#abstact-guru" class="headerlink" title="abstact guru"></a>abstact guru</h5><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">/**</span><br><span class="line"> * <span class="regexp">//</span> 抽象工厂接口声明了一组能返回不同抽象产品的方法。这些产品属于同一个系列</span><br><span class="line"> * <span class="regexp">//</span> 且在高层主题或概念上具有相关性。同系列的产品通常能相互搭配使用。系列产</span><br><span class="line"> * <span class="regexp">//</span> 品可有多个变体，但不同变体的产品不能搭配使用。</span><br><span class="line"> */</span><br><span class="line">public interface GUIFactory &#123;</span><br><span class="line">    Button createButton();</span><br><span class="line">    CheckBox createCheckBox();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="不同Button实例"><a href="#不同Button实例" class="headerlink" title="不同Button实例"></a>不同Button实例</h5><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">/**</span><br><span class="line"> * <span class="regexp">//</span> 抽象工厂接口声明了一组能返回不同抽象产品的方法。这些产品属于同一个系列</span><br><span class="line"> * <span class="regexp">//</span> 且在高层主题或概念上具有相关性。同系列的产品通常能相互搭配使用。系列产</span><br><span class="line"> * <span class="regexp">//</span> 品可有多个变体，但不同变体的产品不能搭配使用。</span><br><span class="line"> */</span><br><span class="line">public interface GUIFactory &#123;</span><br><span class="line">    Button createButton();</span><br><span class="line">    CheckBox createCheckBox();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Concrete factories produce a family of products that belong</span></span><br><span class="line"><span class="comment">// to a single variant. The factory guarantees that the</span></span><br><span class="line"><span class="comment">// resulting products are compatible. Signatures of the concrete</span></span><br><span class="line"><span class="comment">// factory&#x27;s methods return an abstract product, while inside</span></span><br><span class="line"><span class="comment">// the method a concrete product is instantiated.</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WinFactory</span> <span class="keyword"><span class="keyword">implements</span>  <span class="type">GUIFactory</span></span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Button createButton() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">WinButton</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> CheckBox createCheckBox() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">WinCheckbox</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -2408,7 +2408,7 @@ public class CatFactory implements Provider &#123;
 
 <p><a href="https://refactoring.guru/design-patterns/abstract-factory">https://refactoring.guru/design-patterns/abstract-factory</a></p>
 <p><a href="https://www.zhihu.com/question/20367734">https://www.zhihu.com/question/20367734</a></p>
-<h5 id="factory-guru"><a href="#factory-guru" class="headerlink" title="factory guru"></a>factory guru</h5><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">public abstract class Dialog &#123;</span><br><span class="line">    <span class="regexp">//</span> The creator may also provide some default implementation</span><br><span class="line">    <span class="regexp">//</span> of the factory method.</span><br><span class="line">    abstract Button createButton();</span><br><span class="line"></span><br><span class="line">    <span class="regexp">//</span> Note that, despite its name, the creato<span class="string">r&#x27;s primary</span></span><br><span class="line"><span class="string">    // responsibility isn&#x27;</span>t creating products. It usually</span><br><span class="line">    <span class="regexp">//</span> contains some core business logic that relies on product</span><br><span class="line">    <span class="regexp">//</span> objects returned by the factory method. Subclasses can</span><br><span class="line">    <span class="regexp">//</span> indirectly change that business logic by overriding the</span><br><span class="line">    <span class="regexp">//</span> factory method and returning a different type of product</span><br><span class="line">    <span class="regexp">//</span> from it.</span><br><span class="line">    void render() &#123;</span><br><span class="line">        <span class="regexp">//</span> Call the factory method to create a product object.</span><br><span class="line">        Button okButton = createButton();</span><br><span class="line">        <span class="regexp">//</span> Now use the product.</span><br><span class="line">        okButton.onClick(<span class="string">&quot;closeDialog&quot;</span>);</span><br><span class="line">        okButton.render();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="不同Dialog实例"><a href="#不同Dialog实例" class="headerlink" title="不同Dialog实例"></a>不同Dialog实例</h5><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">public abstract class Dialog &#123;</span><br><span class="line">    <span class="regexp">//</span> The creator may also provide some default implementation</span><br><span class="line">    <span class="regexp">//</span> of the factory method.</span><br><span class="line">    abstract Button createButton();</span><br><span class="line"></span><br><span class="line">    <span class="regexp">//</span> Note that, despite its name, the creato<span class="string">r&#x27;s primary</span></span><br><span class="line"><span class="string">    // responsibility isn&#x27;</span>t creating products. It usually</span><br><span class="line">    <span class="regexp">//</span> contains some core business logic that relies on product</span><br><span class="line">    <span class="regexp">//</span> objects returned by the factory method. Subclasses can</span><br><span class="line">    <span class="regexp">//</span> indirectly change that business logic by overriding the</span><br><span class="line">    <span class="regexp">//</span> factory method and returning a different type of product</span><br><span class="line">    <span class="regexp">//</span> from it.</span><br><span class="line">    void render() &#123;</span><br><span class="line">        <span class="regexp">//</span> Call the factory method to create a product object.</span><br><span class="line">        Button okButton = createButton();</span><br><span class="line">        <span class="regexp">//</span> Now use the product.</span><br><span class="line">        okButton.onClick(<span class="string">&quot;closeDialog&quot;</span>);</span><br><span class="line">        okButton.render();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -2428,8 +2428,7 @@ public class CatFactory implements Provider &#123;
 
 
 
-
-
+<h5 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a>抽象工厂</h5><p>简单工厂的工厂</p>
 ]]></content>
       <categories>
         <category>DesignPatterns</category>
@@ -3026,12 +3025,6 @@ public class CatFactory implements Provider &#123;
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -r | grep -v <span class="string">&#x27;\-&gt;&#x27;</span> | <span class="keyword">while</span> <span class="built_in">read</span> remote; <span class="keyword">do</span> git branch --track <span class="string">&quot;<span class="variable">$&#123;remote#origin/&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$remote</span>&quot;</span>; <span class="keyword">done</span></span><br><span class="line">git fetch --all</span><br><span class="line">git pull --all</span><br></pre></td></tr></table></figure>
 
 <p>参考: <a href="http://blog.csdn.net/allangold/article/details/78028709">http://blog.csdn.net/allangold/article/details/78028709</a></p>
-<h5 id="修改远程仓库地址"><a href="#修改远程仓库地址" class="headerlink" title="修改远程仓库地址"></a>修改远程仓库地址</h5><ul>
-<li>github创建 New项目，项目地址是 <a href="mailto:&#x67;&#x69;&#116;&#64;&#103;&#x69;&#116;&#104;&#117;&#98;&#x2e;&#99;&#x6f;&#109;">&#x67;&#x69;&#116;&#64;&#103;&#x69;&#116;&#104;&#117;&#98;&#x2e;&#99;&#x6f;&#109;</a>:BlogForMe/News.git</li>
-<li>修改远程服务器地址 ：<code>git remote set-url origin git@github.com:BlogForMe/News.git</code></li>
-<li>推送到远程服务器 : <code>git push origin </code></li>
-</ul>
-<p><a href="http://jcpplus.github.io/2015/07/23/modify-remote-url/">http://jcpplus.github.io/2015/07/23/modify-remote-url/</a></p>
 <h4 id="GIT标签"><a href="#GIT标签" class="headerlink" title="GIT标签"></a>GIT标签</h4><p>  查看所有的版本<br>​    <code>git tag</code></p>
 <ul>
 <li>查看远程分支  <code>git ls-remote --tags</code></li>
@@ -3105,6 +3098,27 @@ public class CatFactory implements Provider &#123;
 <h5 id="github提速"><a href="#github提速" class="headerlink" title="github提速"></a>github提速</h5><p><a href="https://link.zhihu.com/?target=http://www.github.com/">www.github.com</a> 替换为   <a href="http://www.github.com.cnpmjs.org/">www.github.com.cnpmjs.org</a></p>
 <p><a href="https://github.com/flutter/flutter.git">https://github.com/flutter/flutter.git</a></p>
 <p>git clone <a href="https://github.com.cnpmjs.org/love-flutter/flutter-column.git">https://github.com.cnpmjs.org/love-flutter/flutter-column.git</a></p>
+<h4 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h4><h5 id="修改远程仓库地址"><a href="#修改远程仓库地址" class="headerlink" title="修改远程仓库地址"></a>修改远程仓库地址</h5><ul>
+<li>github创建 New项目，项目地址是 <a href="mailto:&#103;&#105;&#x74;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#x62;&#46;&#99;&#111;&#109;">&#103;&#105;&#x74;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#x62;&#46;&#99;&#111;&#109;</a>:BlogForMe/News.git</li>
+<li>修改远程服务器地址 ：<code>git remote set-url origin git@github.com:BlogForMe/News.git</code></li>
+<li>推送到远程服务器 : <code>git push origin </code></li>
+</ul>
+<p><a href="http://jcpplus.github.io/2015/07/23/modify-remote-url/">http://jcpplus.github.io/2015/07/23/modify-remote-url/</a></p>
+<h5 id="git-pull-git-fetch区别"><a href="#git-pull-git-fetch区别" class="headerlink" title="git pull git fetch区别"></a>git pull git fetch区别</h5><p>git fetch更新本地仓库的两种用法：</p>
+<figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 方法一</span></span><br><span class="line">$ git fetch origin <span class="keyword">master</span>                <span class="title">#从远程的origin</span>仓库的<span class="literal">master</span>分支下载代码到本地的origin maste</span><br><span class="line">$ git log -p <span class="literal">master</span>.. origin/<span class="keyword">master</span>      <span class="title">#比较本地的仓库和远程参考的区别</span></span><br><span class="line"><span class="title">$</span> git merge origin/<span class="keyword">master</span>                <span class="title">#把远程下载下来的代码合并到本地仓库，远程的和本地的合并</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 方法二</span></span><br><span class="line"><span class="variable">$</span> git fetch origin master:temp           <span class="comment">#从远程的origin仓库的master分支下载到本地并新建一个分支temp</span></span><br><span class="line"><span class="variable">$</span> git <span class="built_in">diff</span> temp                          <span class="comment">#比较master分支和temp分支的不同</span></span><br><span class="line"><span class="variable">$</span> git merge temp                         <span class="comment">#合并temp分支到master分支</span></span><br><span class="line"><span class="variable">$</span> git branch <span class="literal">-d</span> temp                     <span class="comment">#删除temp</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>这样理解</p>
+<p>pull = fetch + merge</p>
+<p><a href="https://segmentfault.com/a/1190000017030384">https://segmentfault.com/a/1190000017030384</a></p>
+<p><a href="https://www.jianshu.com/p/d265f7763a3a">https://www.jianshu.com/p/d265f7763a3a</a></p>
+<p><a href="https://blog.csdn.net/riddle1981/article/details/74938111">https://blog.csdn.net/riddle1981/article/details/74938111</a></p>
+<p><a href="https://www.cpweb.top/455">https://www.cpweb.top/455</a></p>
 ]]></content>
       <tags>
         <tag>Git</tag>
@@ -3413,7 +3427,7 @@ public class CatFactory implements Provider &#123;
     <title>Gson</title>
     <url>/2017/07/21/Gson/</url>
     <content><![CDATA[<h5 id="Gson-Types理解"><a href="#Gson-Types理解" class="headerlink" title="$Gson$Types理解"></a>$Gson$Types理解</h5><p> 官方教程 <a href="https://github.com/google/gson/blob/master/UserGuide.md" title="官方教程">https://github.com/google/gson/blob/master/UserGuide.md</a></p>
-<p>源码分析<br><a href="http://www.jianshu.com/p/89c314ae8c0b">http://www.jianshu.com/p/89c314ae8c0b</a></p>
+<p> 源码分析<br><a href="http://www.jianshu.com/p/89c314ae8c0b">http://www.jianshu.com/p/89c314ae8c0b</a></p>
 <h5 id="Gson转map"><a href="#Gson转map" class="headerlink" title="Gson转map"></a>Gson转map</h5><ul>
 <li>Gson可以直接把json转为map,但是在转成map时，默认將int long型的数字,转换成doublel类型</li>
 </ul>
@@ -3435,13 +3449,10 @@ public class CatFactory implements Provider &#123;
   userInfo.data = new Gson().toJson(list);
 </code></pre>
 </li>
-</ul>
-<ul>
-<li>kotlin  json to object</li>
+<li><p>kotlin  json to object</p>
+</li>
 </ul>
 <figure class="highlight elm"><table><tr><td class="code"><pre><span class="line"><span class="title">val</span> <span class="keyword">type</span> = object : <span class="type">TypeToken</span>&lt;<span class="type">BaseCount</span>&lt;<span class="type">List</span>&lt;<span class="type">Site</span>&gt;&gt;&gt;() &#123;&#125;.<span class="keyword">type</span></span><br><span class="line"><span class="title">var</span> response = gson.fromJson&lt;<span class="type">BaseCount</span>&lt;<span class="type">List</span>&lt;<span class="type">Site</span>&gt;&gt;&gt;(json, <span class="keyword">type</span>)</span><br></pre></td></tr></table></figure>
-
-
 
 <p><a href="https://ask.helplib.com/java/post_498433">https://ask.helplib.com/java/post_498433</a></p>
 <h5 id="java-parse"><a href="#java-parse" class="headerlink" title="java parse"></a>java parse</h5><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"> public static List&lt;RecipeBean&gt; analysis<span class="constructor">Child(String <span class="params">receps</span>)</span> throws JSONException &#123;</span><br><span class="line">        List&lt;RecipeBean&gt; <span class="built_in">list</span> = <span class="keyword">new</span> ArrayList&lt;&gt;<span class="literal">()</span>;</span><br><span class="line"><span class="comment">//        JSONObject jsonObject = new JSONObject();</span></span><br><span class="line">        JSONArray jsonArray = <span class="keyword">new</span> <span class="constructor">JSONArray(<span class="params">receps</span>)</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; jsonArray.length<span class="literal">()</span>; i++) &#123;</span><br><span class="line">            JSONObject <span class="keyword">object</span> = jsonArray.get<span class="constructor">JSONObject(<span class="params">i</span>)</span>;</span><br><span class="line">            RecipeBean mPatient = <span class="keyword">new</span> <span class="constructor">RecipeBean(TYPE_ITEM)</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;drug_name&quot;</span>))&#123;</span><br><span class="line">                mPatient.set<span class="constructor">Drug_name(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;drug_name&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;drug_num&quot;</span>))&#123;</span><br><span class="line">               mPatient.set<span class="constructor">Drug_num(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;drug_num&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;frequency&quot;</span>))&#123;</span><br><span class="line">             mPatient.set<span class="constructor">Frequency(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;frequency&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;num&quot;</span>))&#123;</span><br><span class="line">               mPatient.set<span class="constructor">Num(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;num&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;drug_num&quot;</span>))&#123;</span><br><span class="line">               mPatient.set<span class="constructor">Drug_num(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;drug_num&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;pharmacy_type&quot;</span>))&#123;</span><br><span class="line">               mPatient.set<span class="constructor">Pharmacy_type(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;pharmacy_type&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;medicine_num&quot;</span>))&#123;</span><br><span class="line">             mPatient.set<span class="constructor">Medicine_num(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;medicine_num&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">object</span>.has(<span class="string">&quot;medicine_unit&quot;</span>))&#123;</span><br><span class="line">              mPatient.set<span class="constructor">Medicine_unit(<span class="params">object</span>.<span class="params">getString</span>(<span class="string">&quot;medicine_unit&quot;</span>)</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">list</span>.add(mPatient);</span><br><span class="line">        &#125;</span><br><span class="line">        return <span class="built_in">list</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>]]></content>
@@ -3658,10 +3669,63 @@ npm install -g hexo-cli
   <entry>
     <title>Hilt</title>
     <url>/2018/01/23/Hilt/</url>
-    <content><![CDATA[<p><a href="https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg">https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg</a></p>
+    <content><![CDATA[<p><a href="https://developer.android.google.cn/training/dependency-injection/hilt-jetpack?hl=zh-cn">https://developer.android.google.cn/training/dependency-injection/hilt-jetpack?hl=zh-cn</a></p>
+<p><a href="https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg">https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg</a></p>
 <p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-29_11.12.20_overview.png" alt="2021-08-29_11.12.20_overview"></p>
-<p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-29_11.36.15_function.png" alt="2021-08-29_11.36.15_function"></p>
-<h4 id="Hilt使用"><a href="#Hilt使用" class="headerlink" title="Hilt使用"></a>Hilt使用</h4><h5 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h5><p>1.生成组件</p>
+<h3 id="Hilt"><a href="#Hilt" class="headerlink" title="Hilt"></a>Hilt</h3><p>由于会和Dagger冲突，所以写在JYKot里</p>
+<h5 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h5><p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-09-25_10.26.41_advantages.png" alt="2021-09-25_10.26.41_advantages"></p>
+<h5 id="Hilt使用步骤"><a href="#Hilt使用步骤" class="headerlink" title="Hilt使用步骤"></a>Hilt使用步骤</h5><ol>
+<li>配置HiltAndroidApp注解</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@HiltAndroidApp</span> <span class="comment">// 1.  HiltAndroidApp注解</span></span><br><span class="line">class MyApp : Application() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>建立绑定,就是说User对象实例由谁提供</p>
+<ul>
+<li><p>可以通AppModule提供</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ApplicationComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User1 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>也可以通过构造方法提供</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Inject</span> <span class="comment">//方式一</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>往Activity注入实例</p>
+<p>主要是@AndroidEntryPoint  @Inject</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@AndroidEntryPoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HiltActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String TAG =<span class="string">&quot;HiltActivity&quot;</span>;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User user; <span class="comment">//inject注解作用在User变量上,注入对象实例</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User1 user1; <span class="comment">// 方式2</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_hilt);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user: &quot;</span> + user);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user1: &quot;</span> + user1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>运行结果</p>
+<blockquote>
+<p>28743-28743/com.john.kot I/HiltActivity: user: com.john.kot.hilt.User@d33a8d5<br>28743-28743/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea</p>
+</blockquote>
+<h5 id="默认标准组件"><a href="#默认标准组件" class="headerlink" title="默认标准组件"></a>默认标准组件</h5><p>组件实例由关联的Android类来创建的</p>
+<p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_11.13.47_component_lifecycle.png" alt="2021-09-25_11.13.47_component_lifecycle"></p>
+<p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_10.41.53_compoent_standard.png" alt="2021-09-25_10.41.53_compoent_standard"></p>
+<h5 id="ActivityScoped作用域"><a href="#ActivityScoped作用域" class="headerlink" title="ActivityScoped作用域"></a>ActivityScoped作用域</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ActivityComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ActivityScoped</span> <span class="comment">//ActivityComponent只能设置ActivityScoped作用域</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User1 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@AndroidEntryPoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HiltActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String TAG =<span class="string">&quot;HiltActivity&quot;</span>;</span><br><span class="line"> 		<span class="comment">//inject注解作用在User变量上,注入对象实例</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User1 user1; <span class="comment">// 方式2</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User1 user2;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_hilt);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//测试  ActivityComponent</span></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user1: &quot;</span> + user1);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user2: &quot;</span> + user2);</span><br><span class="line"></span><br><span class="line">        startActivity(<span class="keyword">new</span> Intent(<span class="keyword">this</span>,SecondActivity.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@AndroidEntryPoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecondActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;SecondActivity&quot;</span>;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User1 user3;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_second);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user3: &quot;</span> + user3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>运行结果</p>
+<blockquote>
+<p>2021-09-25 23:02:57.595 29397-29397/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:02:57.595 29397-29397/com.john.kot I/HiltActivity: user2: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:02:57.883 29397-29397/com.john.kot I/SecondActivity: user3: com.john.kot.hilt.User1@1aa35b5</p>
+</blockquote>
+<p>可以看到作用域在Activity中</p>
+<h5 id="AppModule1"><a href="#AppModule1" class="headerlink" title="AppModule1"></a>AppModule1</h5><p>修改成 ApplicationComponent 和Singleton</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ApplicationComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singleton</span> <span class="comment">//ActivityComponent只能设置ActivityScoped作用域</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User1 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<blockquote>
+<p>2021-09-25 23:09:24.752 29553-29553/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:09:24.752 29553-29553/com.john.kot I/HiltActivity: user2: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:09:25.106 29553-29553/com.john.kot I/SecondActivity: user3: com.john.kot.hilt.User1@62df8ea</p>
+</blockquote>
+<p>明显一样的实例了</p>
+<h4 id="Hilt使用"><a href="#Hilt使用" class="headerlink" title="Hilt使用"></a>Hilt使用</h4><p>这个和上面的一样,上面的是后来写的。</p>
+<h5 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h5><p>1.生成组件</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@HiltAndroidApp</span></span><br><span class="line">class MyApp : Application() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ol start="2">
@@ -3688,7 +3752,59 @@ npm install -g hexo-cli
 <blockquote>
 <p> 29143-29143/com.john.kot I/HiltActivity: user: com.john.kot.hilt.User@43b8a20</p>
 </blockquote>
-<h4 id="默认标准组件"><a href="#默认标准组件" class="headerlink" title="默认标准组件"></a>默认标准组件</h4><p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-30_12.01.40_component_default.png" alt="2021-08-30_12.01.40_component_default"></p>
+<h4 id="默认标准组件-1"><a href="#默认标准组件-1" class="headerlink" title="默认标准组件"></a>默认标准组件</h4><p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-30_12.01.40_component_default.png" alt="2021-08-30_12.01.40_component_default"></p>
+<h4 id="组件层次结构"><a href="#组件层次结构" class="headerlink" title="组件层次结构"></a>组件层次结构</h4><p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-09-26_10.21.23_component_layer.png" alt="2021-09-26_10.21.23_component_layer"></p>
+<h4 id="组件默认绑定"><a href="#组件默认绑定" class="headerlink" title="组件默认绑定"></a>组件默认绑定</h4><p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-09-26_10.45.53_component_bind.png" alt="2021-09-26_10.45.53_component_bind"></p>
+<h5 id="构造方法绑定"><a href="#构造方法绑定" class="headerlink" title="构造方法绑定"></a>构造方法绑定</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 已经绑定的类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewModel</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;ViewModel&quot;</span>;</span><br><span class="line">    User1 user;</span><br><span class="line">    Application application;</span><br><span class="line">    Activity activity;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ViewModel</span><span class="params">(User1 user, Application application, Activity activity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user = user;</span><br><span class="line">        <span class="keyword">this</span>.application = application;</span><br><span class="line">        <span class="keyword">this</span>.activity = activity;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test:user &quot;</span>+user);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: application &quot;</span>+application);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: activity&quot;</span>+activity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Inject</span></span><br><span class="line">ViewModel viewModel;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_hilt);</span><br><span class="line">    <span class="comment">//测试  ActivityComponent</span></span><br><span class="line">    Log.i(TAG, <span class="string">&quot;user1: &quot;</span> + user1);</span><br><span class="line">    Log.i(TAG, <span class="string">&quot;user2: &quot;</span> + user2);</span><br><span class="line">    startActivity(<span class="keyword">new</span> Intent(<span class="keyword">this</span>, SecondActivity.class));</span><br><span class="line"></span><br><span class="line">    viewModel.test();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>运行结果</p>
+<blockquote>
+<p>2021-09-26 11:09:24.519 5113-5113/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@d7d8c73<br>2021-09-26 11:09:24.519 5113-5113/com.john.kot I/HiltActivity: user2: com.john.kot.hilt.User1@d7d8c73<br>2021-09-26 11:09:24.526 5113-5113/com.john.kot I/ViewModel: test:user com.john.kot.hilt.User1@d7d8c73<br>2021-09-26 11:09:24.526 5113-5113/com.john.kot I/ViewModel: test: application com.john.kot.MyApp@3320730<br>2021-09-26 11:09:24.526 5113-5113/com.john.kot I/ViewModel: test: activitycom.john.kot.hilt.HiltActivity@1934801</p>
+</blockquote>
+<p>可以看到都有 Application Activity实例对象</p>
+<h5 id="Activity默认绑定"><a href="#Activity默认绑定" class="headerlink" title="Activity默认绑定"></a>Activity默认绑定</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User2</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewModel1</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;ViewModel1&quot;</span>;</span><br><span class="line">    User2 user;</span><br><span class="line">    Application application;</span><br><span class="line">    Activity activity;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ViewModel1</span><span class="params">(User2 user, Application application, Activity activity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user = user;</span><br><span class="line">        <span class="keyword">this</span>.application = application;</span><br><span class="line">        <span class="keyword">this</span>.activity = activity;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test:user &quot;</span>+user);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: application &quot;</span>+application);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: activity&quot;</span>+activity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ActivityComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ActivityScoped</span> <span class="comment">//ActivityComponent只能设置ActivityScoped作用域</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User2 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User2();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">ViewModel1 <span class="title">provideViewModel</span><span class="params">(User2 user, Application application, Activity activity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ViewModel1(user, application, activity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">viewModel1.test();</span><br></pre></td></tr></table></figure>
+
+
+
+<p>运行结果</p>
+<blockquote>
+<p>2021-09-26 11:36:26.826 4615-4615/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@e57fd2d<br>2021-09-26 11:36:26.826 4615-4615/com.john.kot I/HiltActivity: user2: com.john.kot.hilt.User1@e57fd2d<br>2021-09-26 11:36:26.848 4615-4615/com.john.kot I/ViewModel: test:user com.john.kot.hilt.User2@868b262<br>2021-09-26 11:36:26.848 4615-4615/com.john.kot I/ViewModel: test: application com.john.kot.MyApp@4b9fff3<br>2021-09-26 11:36:26.848 4615-4615/com.john.kot I/ViewModel: test: activitycom.john.kot.hilt.HiltActivity@2adda8b</p>
+</blockquote>
+<h4 id="预定义限定符"><a href="#预定义限定符" class="headerlink" title="预定义限定符"></a>预定义限定符</h4><p>Qualify</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ActivityComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule3</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ActivityScoped</span> <span class="comment">//ActivityComponent只能设置ActivityScoped作用域</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User3 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User3();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">ViewModel3 <span class="title">provideViewModel</span><span class="params">(User3 user, Application application, Activity activity,<span class="meta">@ActivityContext</span> Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ViewModel3(user, application, activity,context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p> 2021-09-26 11:47:52.867 5273-5273/com.john.kot I/ViewModel1: test: context=com.john.kot.hilt.HiltActivity@2adda8b</p>
+</blockquote>
+<p>@ActivityContext换成@ApplicationContext</p>
+<blockquote>
+<p>2021-09-26 11:50:00.444 5376-5376/com.john.kot I/ViewModel1: test: context=com.john.kot.MyApp@4b9fff3</p>
+</blockquote>
+<h4 id="Hilt支持Jetpack组件"><a href="#Hilt支持Jetpack组件" class="headerlink" title="Hilt支持Jetpack组件"></a>Hilt支持Jetpack组件</h4><h5 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h5><ul>
+<li><p>User由我们自己提供</p>
+</li>
+<li><p>Application application, Activity activity由 Dagger提供</p>
+</li>
+<li><p>Context预定义的限定符.</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainViewModel</span> <span class="keyword">extends</span> <span class="title">ViewModel</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;MainViewModel&quot;</span>;</span><br><span class="line"></span><br><span class="line">    User3 user;</span><br><span class="line">    Application application;</span><br><span class="line">    Activity activity;</span><br><span class="line"></span><br><span class="line">    Context context;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ViewModelInject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MainViewModel</span><span class="params">(User3 user, Application application, Activity activity,<span class="meta">@ApplicationContext</span>  Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user = user;</span><br><span class="line">        <span class="keyword">this</span>.application = application;</span><br><span class="line">        <span class="keyword">this</span>.activity = activity;</span><br><span class="line">        <span class="keyword">this</span>.context =context;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test:user=&quot;</span>+user);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: application=&quot;</span>+application);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: activity=&quot;</span>+activity);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: context=&quot;</span>+context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a href="https://www.bilibili.com/video/BV1Ki4y1A7hA?spm_id_from=333.999.0.0">https://www.bilibili.com/video/BV1Ki4y1A7hA?spm_id_from=333.999.0.0</a></p>
 ]]></content>
       <categories>
         <category>ANDROID</category>
@@ -5537,7 +5653,7 @@ Socket
   <entry>
     <title>RecyclerViewUse</title>
     <url>/2017/07/17/RecyclerView/</url>
-    <content><![CDATA[<h5 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h5><p><img src="/2017/07/17/RecyclerView/2021-08-02_10.11_recyleview.png"></p>
+    <content><![CDATA[<h4 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h4><p><img src="/2017/07/17/RecyclerView/2021-08-02_10.11_recyleview.png"></p>
 <p><a href="https://www.bilibili.com/video/BV1Fi4y1x7p5?from=search&amp;seid=3244755609076396172">https://www.bilibili.com/video/BV1Fi4y1x7p5?from=search&amp;seid=3244755609076396172</a></p>
 <ol>
 <li><p>RecycleView复用机制</p>
@@ -5632,6 +5748,9 @@ Socket
 <p><a href="https://blog.csdn.net/mjb00000/article/details/106014544">https://blog.csdn.net/mjb00000/article/details/106014544</a></p>
 <p>不用等数据来了后再显示</p>
 <p><a href="https://github.com/leobert-lan/Pandora">https://github.com/leobert-lan/Pandora</a> </p>
+<h4 id="RecyclerView拖拽功能"><a href="#RecyclerView拖拽功能" class="headerlink" title="RecyclerView拖拽功能"></a>RecyclerView拖拽功能</h4><p><a href="https://www.jianshu.com/p/9605d14ddcc2">https://www.jianshu.com/p/9605d14ddcc2</a></p>
+<p><a href="https://www.jianshu.com/p/b9a22f0c537d">https://www.jianshu.com/p/b9a22f0c537d</a></p>
+<p><a href="https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf">https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf</a></p>
 ]]></content>
       <categories>
         <category>ANDROID</category>
@@ -6725,11 +6844,54 @@ System.out.println(g.equals(a+b));
   <entry>
     <title>Toolbar</title>
     <url>/2017/10/12/Toolbar/</url>
-    <content><![CDATA[<h4 id="官网教程"><a href="#官网教程" class="headerlink" title="官网教程"></a>官网教程</h4><p> <a href="https://developer.android.com/training/appbar/setting-up.html?hl=zh-cn">https://developer.android.com/training/appbar/setting-up.html?hl=zh-cn</a></p>
-<h5 id="toolbar整体设置"><a href="#toolbar整体设置" class="headerlink" title="toolbar整体设置"></a>toolbar整体设置</h5><p> <img src="/2017/10/12/Toolbar/tool_color.png" alt="tool设置"></p>
-<p> 参考:<a href="http://blog.csdn.net/a553181867/article/details/51336899">http://blog.csdn.net/a553181867/article/details/51336899</a></p>
-<h5 id="颜色设置"><a href="#颜色设置" class="headerlink" title="颜色设置"></a>颜色设置</h5><p>  AppTheme下的设置</p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">&lt;application</span><br><span class="line">      android:<span class="attribute">name</span>=<span class="string">&quot;.application.NBBApplication&quot;</span></span><br><span class="line">      android:<span class="attribute">allowBackup</span>=<span class="string">&quot;true&quot;</span></span><br><span class="line">      android:<span class="attribute">icon</span>=<span class="string">&quot;@mipmap/icon&quot;</span></span><br><span class="line">      android:<span class="attribute">label</span>=<span class="string">&quot;@string/app_name&quot;</span></span><br><span class="line">      android:<span class="attribute">supportsRtl</span>=<span class="string">&quot;true&quot;</span></span><br><span class="line">      android:<span class="attribute">theme</span>=<span class="string">&quot;@style/AppTheme&quot;</span>&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<p><a href="https://developer.android.com/training/appbar/setting-up.html">https://developer.android.com/training/appbar/setting-up.html</a></p>
+<p><a href="https://github.com/xiewenfeng/statusbartextcolorchange">https://github.com/xiewenfeng/statusbartextcolorchange</a></p>
+<p>目前只要考虑 5.0以上系统就可以了,有些flag虽然被标记为Deprecated,但是系统也还在用，所以有必要研究。</p>
+ <img src="/2017/10/12/Toolbar/tool_color.png" alt="tool设置" style="zoom:50%;">
+
+<p> <a href="http://blog.csdn.net/a553181867/article/details/51336899">http://blog.csdn.net/a553181867/article/details/51336899</a></p>
+<h3 id="statebar"><a href="#statebar" class="headerlink" title="statebar"></a>statebar</h3><p>实现沉浸式状态栏主要跟以下四个Api相关:</p>
+<ul>
+<li>View#setSystemUiVisibility()</li>
+<li>Window#addFlags()</li>
+<li>View#setFitsSystemWindows</li>
+<li>Window#setStatusBarColor()</li>
+</ul>
+<h5 id="View-setSystemUiVisibility-及其各种Flags"><a href="#View-setSystemUiVisibility-及其各种Flags" class="headerlink" title="View#setSystemUiVisibility()及其各种Flags"></a>View#setSystemUiVisibility()及其各种Flags</h5><p>首先setSystemUiVisibility()这个方法就是设置状态栏或者导航栏的各种属性的，哪都有些可以设置的属性呢？</p>
+<ul>
+<li> SYSTEM_UI_FLAG_FULLSCREEN</li>
+</ul>
+<p>  视图全屏并隐藏状态栏，当用户交互时（如下滑状态栏）会恢复隐藏的状态栏（例子：电子书阅读）缺点：进入Activity会产生一个从非全屏到全屏的闪动效果</p>
+  <img src="https://upload-images.jianshu.io/upload_images/2477378-3c36e2fb4dfdb363.gif?imageMogr2/auto-orient/strip|imageView2/2/w/320" alt="img" style="zoom: 50%;">
+
+  
+
+<ul>
+<li><p>SYSTEM_UI_FLAG_IMMERSIVE_STICKY</p>
+<p>粘性沉浸模式，需要和SYSTEM_UI_FLAG_FULLSCREEN或者SYSTEM_UI_FLAG_HIDE_NAVIGATION联用，当使用View.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)联用时视图全屏，当用户产生交互时（如下滑状态栏）不会恢复状态栏，只会以半透明的方式覆盖在视图上面并在一定时间内自动消失</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)</span><br></pre></td></tr></table></figure>
+
+<img src="https://upload-images.jianshu.io/upload_images/2477378-bea7bb5a65ad18c6.gif?imageMogr2/auto-orient/strip|imageView2/2/w/320" alt="img" style="zoom:50%;"></li>
+<li><p>SYSTEM_UI_FLAG_IMMERSIVE：<br> 沉浸模式，只能和SYSTEM_UI_FLAG_FULLSCREEN联用，效果和View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY一样，目前已被后者替代</p>
+</li>
+<li><p>SYSTEM_UI_FLAG_LOW_PROFILE:<br> 低配模式，会隐藏一些不重要的状态栏和导航栏的图标,(用模拟器跑，只剩下电池了)</p>
+</li>
+<li><p>SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN：<br> 视图全屏且不会产生闪动，如果没有toolbar,contentview会占住statebar的位置，状态栏会覆盖在contentview上面.</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (isWhite) &#123;</span><br><span class="line">    isWhite = <span class="literal">false</span></span><br><span class="line">    window.decorView.systemUiVisibility =</span><br><span class="line">        SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or SYSTEM_UI_FLAG_LIGHT_STATUS_BAR <span class="comment">//statebar 元素显示白色</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    isWhite = <span class="literal">true</span></span><br><span class="line">    window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LAYOUT_STABLE <span class="comment">//显示黑色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>SYSTEM_UI_FLAG_LAYOUT_STABLE：<br> 使视图稳定，当使用fitSystemWindows（）（下面会单独介绍这个方法）需要视图稳定，一般和View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN联用,我使用这个属性后，能是<strong>statebar的电池条由白色变成黑色</strong>。</p>
+</li>
+<li><p>SYSTEM_UI_FLAG_LIGHT_STATUS_BAR:<br> Android6.0系统以上增加的属性，设置了这个属性，状态栏会以与状态栏背景颜色兼容的模式绘制。什么意思呢？就是说如果当前的状态栏颜色是浅色，那么就有可能造成状态栏上的图标看不清了，但是如果你设置这个属性以后，状态栏的图标就会以深色绘制，这样就没有什么UI上的问题了。</p>
+<p><a href="https://www.jianshu.com/p/f84f7e07e0d6">https://www.jianshu.com/p/f84f7e07e0d6</a></p>
+</li>
+</ul>
+<h5 id="Statabar-Color"><a href="#Statabar-Color" class="headerlink" title="Statabar Color"></a>Statabar Color</h5><ol>
+<li><p>Application AppTheme statusBarColor</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;AppTheme&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;Theme.AppCompat.Light.NoActionBar&quot;</span>&gt;</span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- Customize your theme here. --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;colorPrimary&quot;</span>&gt;</span>@color/colorPrimary<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;colorPrimaryDark&quot;</span>&gt;</span>@color/colorPrimaryDark<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;colorAccent&quot;</span>&gt;</span>@color/colorAccent<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:statusBarColor&quot;</span>&gt;</span> @android:color/white<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Activity设置</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.R) &#123;</span><br><span class="line">    window.decorView.systemUiVisibility =</span><br><span class="line">        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    window.insetsController?.setSystemBarsAppearance(</span><br><span class="line">        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,</span><br><span class="line">        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="Statabar-element-Color"><a href="#Statabar-element-Color" class="headerlink" title="Statabar element Color"></a>Statabar element Color</h5><h3 id="ToolBar"><a href="#ToolBar" class="headerlink" title="ToolBar"></a>ToolBar</h3><h5 id="颜色设置"><a href="#颜色设置" class="headerlink" title="颜色设置"></a>颜色设置</h5><p>  AppTheme下的设置</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">&lt;application</span><br><span class="line">      android:name=&quot;.application.NBBApplication&quot;</span><br><span class="line">      android:allowBackup=&quot;true&quot;</span><br><span class="line">      android:icon=&quot;@mipmap/icon&quot;</span><br><span class="line">      android:label=&quot;@string/app_name&quot;</span><br><span class="line">      android:supportsRtl=&quot;true&quot;</span><br><span class="line">      android:theme=&quot;@style/AppTheme&quot;&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><p>Toolbar颜色:<br><code>&lt;item name=&quot;colorPrimary&quot;&gt;@color/toolbar_color&lt;/item&gt;</code></p>
@@ -6751,11 +6913,8 @@ System.out.println(g.equals(a+b));
 
 
 
-
-
-
-<p>还有一种方式是在application设置，这样就不用集成baseActivity<br><a href="https://www.diycode.cc/topics/783">https://www.diycode.cc/topics/783</a></p>
-<h4 id="menu设置"><a href="#menu设置" class="headerlink" title="menu设置"></a>menu设置</h4><p>AppBarLayout下的 <code>app:theme=&quot;@style/toolbar_menu&quot;</code>用于设置menu</p>
+<p>还有一种方式是在application设置，这样就不用集成baseActivity</p>
+<h3 id="menu设置"><a href="#menu设置" class="headerlink" title="menu设置"></a>menu设置</h3><p>AppBarLayout下的 <code>app:theme=&quot;@style/toolbar_menu&quot;</code>用于设置menu</p>
 <h5 id="menu字体颜色"><a href="#menu字体颜色" class="headerlink" title="menu字体颜色"></a>menu字体颜色</h5><p>需要设置 app:theme ,用 android:theme不起作用.</p>
 <p><code>&lt;item name=&quot;android:actionMenuTextColor&quot;&gt;@color/text_my_black&lt;/item&gt;</code></p>
 <h5 id="menu事件"><a href="#menu事件" class="headerlink" title="menu事件"></a>menu事件</h5><pre><code>@Override
@@ -6775,23 +6934,14 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
 &#125;
 </code></pre>
 <p><a href="https://blog.csdn.net/guyuealian/article/details/51721167">https://blog.csdn.net/guyuealian/article/details/51721167</a></p>
-<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>使用toolbar过程中遇到了一些问题</p>
-<ul>
-<li>问题 1</li>
-</ul>
+<p>使用toolbar过程中遇到了一些问题</p>
+<p>问题 1</p>
 <p>弹出键盘后 editext不见了，应该是toolbar被拉伸了</p>
 <p>暂时解决方式:</p>
-<pre><code>     &lt;activity
-        android:name=&quot;.activity.WebActivity&quot;
-        android:hardwareAccelerated=&quot;true&quot;
-        android:screenOrientation=&quot;portrait&quot;
-        android:windowSoftInputMode=&quot;adjustPan&quot; /&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">   android:name=&quot;.activity.WebActivity&quot;</span><br><span class="line">   android:hardwareAccelerated=&quot;true&quot;</span><br><span class="line">   android:screenOrientation=&quot;portrait&quot;</span><br><span class="line">   android:windowSoftInputMode=&quot;adjustPan&quot; /&gt;</span><br></pre></td></tr></table></figure>
 <p><a href="https://github.com/CoolThink/StatusBarAdapt/issues/2">https://github.com/CoolThink/StatusBarAdapt/issues/2</a></p>
 <h5 id="fragment使用toolbar"><a href="#fragment使用toolbar" class="headerlink" title="fragment使用toolbar"></a>fragment使用toolbar</h5><p><a href="http://wuxiaolong.me/2015/12/21/fragmentToolbar/">http://wuxiaolong.me/2015/12/21/fragmentToolbar/</a></p>
-<h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><p>郭霖公号:<a href="http://blog.csdn.net/james_shu/article/details/61661217">http://blog.csdn.net/james_shu/article/details/61661217</a></p>
-<p><a href="http://yifeng.studio/2016/10/12/android-toolbar/">http://yifeng.studio/2016/10/12/android-toolbar/</a><br><a href="http://www.bijishequ.com/detail/239876">http://www.bijishequ.com/detail/239876</a></p>
-<h4 id="三条线的颜色修改"><a href="#三条线的颜色修改" class="headerlink" title="三条线的颜色修改"></a>三条线的颜色修改</h4><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">&lt;style <span class="built_in">name</span>=<span class="string">&quot;DrawerArrowStyle&quot;</span> parent=<span class="string">&quot;Base.Widget.AppCompat.DrawerArrowToggle&quot;</span>&gt;</span><br><span class="line">    &lt;<span class="built_in">item</span> <span class="built_in">name</span>=<span class="string">&quot;spinBars&quot;</span>&gt;<span class="literal">true</span>&lt;/<span class="built_in">item</span>&gt;</span><br><span class="line">    &lt;<span class="built_in">item</span> <span class="built_in">name</span>=<span class="string">&quot;color&quot;</span>&gt;@android:color/white&lt;/<span class="built_in">item</span>&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="三条线的颜色修改"><a href="#三条线的颜色修改" class="headerlink" title="三条线的颜色修改"></a>三条线的颜色修改</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;DrawerArrowStyle&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;Base.Widget.AppCompat.DrawerArrowToggle&quot;</span>&gt;</span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;spinBars&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;color&quot;</span>&gt;</span>@android:color/white<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>具体可以查看mineutil:PopupWindowActivity</p>
 <ul>
@@ -6802,9 +6952,54 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
 
 
 
-<p><a href="https://blog.csdn.net/hard_working1/article/details/77333893">https://blog.csdn.net/hard_working1/article/details/77333893</a></p>
-<p><a href="https://juejin.im/post/5e5898346fb9a07cd248d179">https://juejin.im/post/5e5898346fb9a07cd248d179</a></p>
-<p><a href="https://github.com/luckybilly/Gloading/blob/master/README-zh-CN.md">https://github.com/luckybilly/Gloading/blob/master/README-zh-CN.md</a></p>
+
+
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>＆</td>
+<td>如果相对应位都是1，则结果为1，否则为0</td>
+<td>（A＆B），得到12，即0000 1100</td>
+</tr>
+<tr>
+<td>|</td>
+<td>如果相对应位都是 0，则结果为 0，否则为 1</td>
+<td>（A | B）得到61，即 0011 1101</td>
+</tr>
+<tr>
+<td>^</td>
+<td>如果相对应位值相同，则结果为0，否则为1</td>
+<td>（A ^ B）得到49，即 0011 0001</td>
+</tr>
+<tr>
+<td>〜</td>
+<td>按位取反运算符翻转操作数的每一位，即0变成1，1变成0。</td>
+<td>（〜A）得到-61，即1100 0011</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>按位左移运算符。左操作数按位左移右操作数指定的位数。</td>
+<td>A &lt;&lt; 2得到240，即 1111 0000</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>按位右移运算符。左操作数按位右移右操作数指定的位数。</td>
+<td>A &gt;&gt; 2得到15即 1111</td>
+</tr>
+<tr>
+<td>&gt;&gt;&gt;</td>
+<td>按位右移补零操作符。左操作数的值按右操作数指定的位数右移，移动得到的空位以零填充。</td>
+<td>A&gt;&gt;&gt;2得到15即0000 1111</td>
+</tr>
+</tbody></table>
+<p><a href="https://imstudio.medium.com/android-change-status-bar-text-color-659680fce49b">https://imstudio.medium.com/android-change-status-bar-text-color-659680fce49b</a></p>
+<p><a href="https://developer.android.com/training/system-ui">https://developer.android.com/training/system-ui</a></p>
 ]]></content>
       <categories>
         <category>ANDROID</category>
@@ -8430,23 +8625,6 @@ android:dividerPadding=&quot;@dimen/dimen_15&quot;
       <categories>
         <category>ANDROID</category>
       </categories>
-  </entry>
-  <entry>
-    <title>java_operators</title>
-    <url>/2018/01/07/java-operators/</url>
-    <content><![CDATA[<p> JAVA运算符</p>
-<h1 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h1><pre><code>＆=      按位与赋值运算符　    C＆= 2等价于C = C＆2
-
-| =     按位或赋值操作符       C | = 2等价于C = C | 2
-</code></pre>
-<p><a href="http://www.runoob.com/java/java-operators.html">http://www.runoob.com/java/java-operators.html</a></p>
-]]></content>
-      <categories>
-        <category>JAVA</category>
-      </categories>
-      <tags>
-        <tag>operators</tag>
-      </tags>
   </entry>
   <entry>
     <title>kmp</title>
@@ -14494,7 +14672,7 @@ Socket
 
 
 
-<h5 id="泛型拓展函数"><a href="#泛型拓展函数" class="headerlink" title="泛型拓展函数"></a>泛型拓展函数</h5><p>![](kotlin-senior/ 2021-08-22 _1.42.27_generic_extends.png)</p>
+<h5 id="泛型拓展函数"><a href="#泛型拓展函数" class="headerlink" title="泛型拓展函数"></a>泛型拓展函数</h5><p><img src="/2021/08/22/kotlin-senior/2021-08-22_1.42.27_generic_extends.png"></p>
 <figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">//给字符串追加若干个 !</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> String.<span class="title">addExt</span><span class="params">(amount:<span class="type">Int</span>=<span class="number">1</span>)</span></span>= <span class="keyword">this</span> + <span class="string">&quot; !&quot;</span>.repeat(amount)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="type">&lt;T&gt;</span> T.<span class="title">easyPrint</span><span class="params">()</span></span>:T&#123;</span><br><span class="line">    println(<span class="keyword">this</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="string">&quot;abc&quot;</span>.addExt(<span class="number">2</span>).easyPrint()</span><br><span class="line">    <span class="number">15.</span>easyPrint()</span><br><span class="line">    <span class="number">15.</span>also &#123;  &#125;</span><br><span class="line">    <span class="keyword">val</span> let = <span class="string">&quot;abc&quot;</span>.let &#123; <span class="number">50</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h5 id="Let源码"><a href="#Let源码" class="headerlink" title="Let源码"></a>Let源码</h5><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">// &quot;abc&quot;调用let，传进来参数就是&quot;abc&quot;类型T为String</span></span><br><span class="line"><span class="comment">// let返回lambda表达式执行的结果 50 类型R为Int</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;T, R&gt;</span> T.<span class="title">let</span><span class="params">(block: (<span class="type">T</span>) -&gt; <span class="type">R</span>)</span></span>: R &#123;</span><br><span class="line">    contract &#123;</span><br><span class="line">        callsInPlace(block, InvocationKind.EXACTLY_ONCE)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> block(<span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -14677,7 +14855,7 @@ Socket
 
 
 
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Function1&lt;String, Unit&gt; translator = HeroKt.getTranslator();</span><br><span class="line">translator.invoke(<span class="string">&quot;TRUECE&quot;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Function1&lt;String, Unit&gt; translator &#x3D; HeroKt.getTranslator();</span><br><span class="line">translator.invoke(&quot;TRUECE&quot;);</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Kotlin</category>
@@ -14689,7 +14867,7 @@ Socket
   <entry>
     <title>Dagger</title>
     <url>/2021/08/29/Dagger/</url>
-    <content><![CDATA[<h3 id="Dagger"><a href="#Dagger" class="headerlink" title="Dagger"></a>Dagger</h3><p><img src="/2021/08/29/Dagger/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_9.15.37_dagger_class.png" alt="2021-09-25_9.15.37_dagger_class"></p>
+    <content><![CDATA[<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p><img src="/2021/08/29/Dagger/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_9.15.37_dagger_class.png" alt="2021-09-25_9.15.37_dagger_class"></p>
 <h4 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h4><ol>
 <li>构造方法注入</li>
 <li>Setter注入(字段注入)</li>
@@ -14803,58 +14981,6 @@ Socket
 <p><a href="https://www.bilibili.com/video/BV1Ki4y1A7hA?p=07">https://www.bilibili.com/video/BV1Ki4y1A7hA?p=07</a></p>
 <h4 id="Dagger-3要素"><a href="#Dagger-3要素" class="headerlink" title="Dagger 3要素"></a>Dagger 3要素</h4><p><img src="/2021/08/29/Dagger/2021-09-25_7.49.39_dagger3.png"></p>
 <h5 id="注入流程"><a href="#注入流程" class="headerlink" title="注入流程"></a>注入流程</h5><p><img src="/2021/08/29/Dagger/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_8.59.52_inject.png" alt="2021-09-25_8.59.52_inject"></p>
-<h3 id="Hilt"><a href="#Hilt" class="headerlink" title="Hilt"></a>Hilt</h3><p>由于会和Dagger冲突，所以写在JYKot里</p>
-<h5 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h5><p><img src="/2021/08/29/Dagger/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_10.26.41_advantages.png" alt="2021-09-25_10.26.41_advantages"></p>
-<h5 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h5><ol>
-<li>配置HiltAndroidApp注解</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@HiltAndroidApp</span> <span class="comment">// 1.  HiltAndroidApp注解</span></span><br><span class="line">class MyApp : Application() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li><p>建立绑定,就是说User对象实例由谁提供</p>
-<ul>
-<li><p>可以通AppModule提供</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ApplicationComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User1 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>也可以通过构造方法提供</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Inject</span> <span class="comment">//方式一</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p>往Activity注入实例</p>
-<p>主要是@AndroidEntryPoint  @Inject</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@AndroidEntryPoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HiltActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String TAG =<span class="string">&quot;HiltActivity&quot;</span>;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User user; <span class="comment">//inject注解作用在User变量上,注入对象实例</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User1 user1; <span class="comment">// 方式2</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_hilt);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user: &quot;</span> + user);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user1: &quot;</span> + user1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>运行结果</p>
-<blockquote>
-<p>28743-28743/com.john.kot I/HiltActivity: user: com.john.kot.hilt.User@d33a8d5<br>28743-28743/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea</p>
-</blockquote>
-<h5 id="默认标准组件"><a href="#默认标准组件" class="headerlink" title="默认标准组件"></a>默认标准组件</h5><p>组件实例由关联的Android类来创建的</p>
-<p><img src="/2021/08/29/Dagger/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_11.13.47_component_lifecycle.png" alt="2021-09-25_11.13.47_component_lifecycle"></p>
-<p><img src="/2021/08/29/Dagger/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_10.41.53_compoent_standard.png" alt="2021-09-25_10.41.53_compoent_standard"></p>
-<h5 id="ActivityScoped作用域"><a href="#ActivityScoped作用域" class="headerlink" title="ActivityScoped作用域"></a>ActivityScoped作用域</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ActivityComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ActivityScoped</span> <span class="comment">//ActivityComponent只能设置ActivityScoped作用域</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User1 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@AndroidEntryPoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HiltActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String TAG =<span class="string">&quot;HiltActivity&quot;</span>;</span><br><span class="line"> 		<span class="comment">//inject注解作用在User变量上,注入对象实例</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User1 user1; <span class="comment">// 方式2</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User1 user2;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_hilt);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//测试  ActivityComponent</span></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user1: &quot;</span> + user1);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user2: &quot;</span> + user2);</span><br><span class="line"></span><br><span class="line">        startActivity(<span class="keyword">new</span> Intent(<span class="keyword">this</span>,SecondActivity.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@AndroidEntryPoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecondActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;SecondActivity&quot;</span>;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User1 user3;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_second);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user3: &quot;</span> + user3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>运行结果</p>
-<blockquote>
-<p>2021-09-25 23:02:57.595 29397-29397/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:02:57.595 29397-29397/com.john.kot I/HiltActivity: user2: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:02:57.883 29397-29397/com.john.kot I/SecondActivity: user3: com.john.kot.hilt.User1@1aa35b5</p>
-</blockquote>
-<p>可以看到作用域在Activity中</p>
-<h5 id="AppModule1"><a href="#AppModule1" class="headerlink" title="AppModule1"></a>AppModule1</h5><p>修改成 ApplicationComponent 和Singleton</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ApplicationComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singleton</span> <span class="comment">//ActivityComponent只能设置ActivityScoped作用域</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User1 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行结果</p>
-<blockquote>
-<p>2021-09-25 23:09:24.752 29553-29553/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:09:24.752 29553-29553/com.john.kot I/HiltActivity: user2: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:09:25.106 29553-29553/com.john.kot I/SecondActivity: user3: com.john.kot.hilt.User1@62df8ea</p>
-</blockquote>
-<p>明显一样的实例了</p>
 ]]></content>
       <categories>
         <category>ANDROID</category>
@@ -15296,9 +15422,94 @@ Socket
 <p>修改后的数据示意图</p>
 <p><img src="https://pic.leetcode-cn.com/1628662688-ZdSYRM-1.png" alt="1.png"></p>
 <p>!(<img src="https://pic.leetcode-cn.com/e86e947c8b87ac723b9c858cd3834f9a93bcc6c5e884e41117ab803d205ef662-%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8.png" alt="相交链表.png">)</p>
+<h4 id="101-对称二叉树"><a href="#101-对称二叉树" class="headerlink" title="101. 对称二叉树"></a><a href="https://leetcode-cn.com/problems/symmetric-tree/">101. 对称二叉树</a></h4><p>迭代法需要再写下 </p>
 ]]></content>
       <categories>
         <category>DataStructure</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Operators</title>
+    <url>/2018/01/07/Operators/</url>
+    <content><![CDATA[<p> JAVA运算符</p>
+<h4 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h4><pre><code>＆=      按位与赋值运算符　    C＆= 2等价于C = C＆2
+
+| =     按位或赋值操作符       C | = 2等价于C = C | 2
+</code></pre>
+<p><a href="http://www.runoob.com/java/java-operators.html">http://www.runoob.com/java/java-operators.html</a></p>
+<h4 id="Java位运算符"><a href="#Java位运算符" class="headerlink" title="Java位运算符"></a>Java位运算符</h4><p>Java定义了位运算符，应用于整数类型(int)，长整型(long)，短整型(short)，字符型(char)，和字节型(byte)等类型。</p>
+<p>位运算符作用在所有的位上，并且按位运算。假设a = 60，b = 13;它们的二进制格式表示将如下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">A</span> <span class="string">=</span> <span class="number">0011 </span><span class="number">1100</span></span><br><span class="line"><span class="string">B</span> <span class="string">=</span> <span class="number">0000 </span><span class="number">1101</span></span><br><span class="line"><span class="string">-----------------</span></span><br><span class="line"><span class="string">A&amp;B</span> <span class="string">=</span> <span class="number">0000 </span><span class="number">1100</span></span><br><span class="line"><span class="string">A</span> <span class="string">|</span> <span class="string">B</span> <span class="string">=</span> <span class="number">0011 </span><span class="number">1101</span></span><br><span class="line"><span class="string">A</span> <span class="string">^</span> <span class="string">B</span> <span class="string">=</span> <span class="number">0011 </span><span class="number">0001</span></span><br><span class="line"><span class="string">~A=</span> <span class="number">1100 </span><span class="number">0011</span></span><br></pre></td></tr></table></figure>
+
+<p>下表列出了位运算符的基本运算，假设整数变量 A 的值为 60 和变量 B 的值为 13：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>＆</td>
+<td>如果相对应位都是1，则结果为1，否则为0</td>
+<td>（A＆B），得到12，即0000 1100</td>
+</tr>
+<tr>
+<td>|</td>
+<td>如果相对应位都是 0，则结果为 0，否则为 1</td>
+<td>（A | B）得到61，即 0011 1101</td>
+</tr>
+<tr>
+<td>^</td>
+<td>如果相对应位值相同，则结果为0，否则为1</td>
+<td>（A ^ B）得到49，即 0011 0001</td>
+</tr>
+<tr>
+<td>〜</td>
+<td>按位取反运算符翻转操作数的每一位，即0变成1，1变成0。</td>
+<td>（〜A）得到-61，即1100 0011</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>按位左移运算符。左操作数按位左移右操作数指定的位数。</td>
+<td>A &lt;&lt; 2得到240，即 1111 0000</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>按位右移运算符。左操作数按位右移右操作数指定的位数。</td>
+<td>A &gt;&gt; 2得到15即 1111</td>
+</tr>
+<tr>
+<td>&gt;&gt;&gt;</td>
+<td>按位右移补零操作符。左操作数的值按右操作数指定的位数右移，移动得到的空位以零填充。</td>
+<td>A&gt;&gt;&gt;2得到15即0000 1111</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">int</span> a = <span class="number">60</span>; <span class="comment">/* 60 = 0011 1100 */</span> </span><br><span class="line">     <span class="keyword">int</span> b = <span class="number">13</span>; <span class="comment">/* 13 = 0000 1101 */</span></span><br><span class="line">     <span class="keyword">int</span> c = <span class="number">0</span>;</span><br><span class="line">     c = a &amp; b;       <span class="comment">/* 12 = 0000 1100 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;a &amp; b = &quot;</span> + c );</span><br><span class="line"> </span><br><span class="line">     c = a | b;       <span class="comment">/* 61 = 0011 1101 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;a | b = &quot;</span> + c );</span><br><span class="line"> </span><br><span class="line">     c = a ^ b;       <span class="comment">/* 49 = 0011 0001 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;a ^ b = &quot;</span> + c );</span><br><span class="line"> </span><br><span class="line">     c = ~a;          <span class="comment">/*-61 = 1100 0011 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;~a = &quot;</span> + c );</span><br><span class="line"> </span><br><span class="line">     c = a &lt;&lt; <span class="number">2</span>;     <span class="comment">/* 240 = 1111 0000 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;a &lt;&lt; 2 = &quot;</span> + c );</span><br><span class="line"> </span><br><span class="line">     c = a &gt;&gt; <span class="number">2</span>;     <span class="comment">/* 15 = 1111 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;a &gt;&gt; 2  = &quot;</span> + c );</span><br><span class="line">  </span><br><span class="line">     c = a &gt;&gt;&gt; <span class="number">2</span>;     <span class="comment">/* 15 = 0000 1111 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;a &gt;&gt;&gt; 2 = &quot;</span> + c );</span><br><span class="line">  &#125;</span><br><span class="line">&#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<figure class="highlight tex"><table><tr><td class="code"><pre><span class="line">a <span class="built_in">&amp;</span> b = 12</span><br><span class="line">a | b = 61</span><br><span class="line">a <span class="built_in">^</span> b = 49</span><br><span class="line">~a = -61</span><br><span class="line">a &lt;&lt; 2 = 240</span><br><span class="line">a &gt;&gt; 2  = 15</span><br><span class="line">a &gt;&gt;&gt; 2 = 15</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Kotlin-位运算"><a href="#Kotlin-位运算" class="headerlink" title="Kotlin 位运算"></a>Kotlin 位运算</h4><p>对于位运算，没有特殊字符来表示，而只可用中缀方式调用具名函数，例如:</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">val</span> x = (<span class="number">1</span> shl <span class="number">2</span>) and <span class="number">0</span>x<span class="number">000</span>FF<span class="number">000</span></span><br></pre></td></tr></table></figure>
+
+<p>这是完整的位运算列表（只用于 <code>Int</code> 与 <code>Long</code>）：</p>
+<ul>
+<li><code>shl(bits)</code> – 有符号左移</li>
+<li><code>shr(bits)</code> – 有符号右移</li>
+<li><code>ushr(bits)</code> – 无符号右移</li>
+<li><code>and(bits)</code> – 位<strong>与</strong></li>
+<li><code>or(bits)</code> – 位<strong>或</strong></li>
+<li><code>xor(bits)</code> – 位<strong>异或</strong></li>
+<li><code>inv()</code> – 位非</li>
+</ul>
+<p><a href="https://www.kotlincn.net/docs/reference/basic-types.html#%E8%BF%90%E7%AE%97">https://www.kotlincn.net/docs/reference/basic-types.html#%E8%BF%90%E7%AE%97</a></p>
+]]></content>
+      <tags>
+        <tag>Operators</tag>
+      </tags>
   </entry>
 </search>

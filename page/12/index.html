@@ -53,11 +53,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Inicio</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archivo</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Acerca de</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -65,7 +65,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Búsqueda"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -118,17 +118,70 @@
 <a href="/2018/01/23/Hilt/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Libro de visitas
+  Guestbook
 </a>
 
 
     </div>
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg">https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg</a></p>
+        <p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/training/dependency-injection/hilt-jetpack?hl=zh-cn">https://developer.android.google.cn/training/dependency-injection/hilt-jetpack?hl=zh-cn</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg">https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg</a></p>
 <p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-29_11.12.20_overview.png" alt="2021-08-29_11.12.20_overview"></p>
-<p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-29_11.36.15_function.png" alt="2021-08-29_11.36.15_function"></p>
-<h4 id="Hilt使用"><a href="#Hilt使用" class="headerlink" title="Hilt使用"></a>Hilt使用</h4><h5 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h5><p>1.生成组件</p>
+<h3 id="Hilt"><a href="#Hilt" class="headerlink" title="Hilt"></a>Hilt</h3><p>由于会和Dagger冲突，所以写在JYKot里</p>
+<h5 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h5><p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-09-25_10.26.41_advantages.png" alt="2021-09-25_10.26.41_advantages"></p>
+<h5 id="Hilt使用步骤"><a href="#Hilt使用步骤" class="headerlink" title="Hilt使用步骤"></a>Hilt使用步骤</h5><ol>
+<li>配置HiltAndroidApp注解</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HiltAndroidApp</span> <span class="comment">// 1.  HiltAndroidApp注解</span></span><br><span class="line">class MyApp : Application() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>建立绑定,就是说User对象实例由谁提供</p>
+<ul>
+<li><p>可以通AppModule提供</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ApplicationComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User1 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>也可以通过构造方法提供</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Inject</span> <span class="comment">//方式一</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>往Activity注入实例</p>
+<p>主要是@AndroidEntryPoint  @Inject</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AndroidEntryPoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HiltActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String TAG =<span class="string">&quot;HiltActivity&quot;</span>;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User user; <span class="comment">//inject注解作用在User变量上,注入对象实例</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User1 user1; <span class="comment">// 方式2</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_hilt);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user: &quot;</span> + user);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user1: &quot;</span> + user1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>运行结果</p>
+<blockquote>
+<p>28743-28743/com.john.kot I/HiltActivity: user: com.john.kot.hilt.User@d33a8d5<br>28743-28743/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea</p>
+</blockquote>
+<h5 id="默认标准组件"><a href="#默认标准组件" class="headerlink" title="默认标准组件"></a>默认标准组件</h5><p>组件实例由关联的Android类来创建的</p>
+<p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_11.13.47_component_lifecycle.png" alt="2021-09-25_11.13.47_component_lifecycle"></p>
+<p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_10.41.53_compoent_standard.png" alt="2021-09-25_10.41.53_compoent_standard"></p>
+<h5 id="ActivityScoped作用域"><a href="#ActivityScoped作用域" class="headerlink" title="ActivityScoped作用域"></a>ActivityScoped作用域</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ActivityComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ActivityScoped</span> <span class="comment">//ActivityComponent只能设置ActivityScoped作用域</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User1 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AndroidEntryPoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HiltActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String TAG =<span class="string">&quot;HiltActivity&quot;</span>;</span><br><span class="line"> 		<span class="comment">//inject注解作用在User变量上,注入对象实例</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User1 user1; <span class="comment">// 方式2</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User1 user2;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_hilt);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//测试  ActivityComponent</span></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user1: &quot;</span> + user1);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user2: &quot;</span> + user2);</span><br><span class="line"></span><br><span class="line">        startActivity(<span class="keyword">new</span> Intent(<span class="keyword">this</span>,SecondActivity.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AndroidEntryPoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecondActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;SecondActivity&quot;</span>;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User1 user3;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_second);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user3: &quot;</span> + user3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>运行结果</p>
+<blockquote>
+<p>2021-09-25 23:02:57.595 29397-29397/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:02:57.595 29397-29397/com.john.kot I/HiltActivity: user2: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:02:57.883 29397-29397/com.john.kot I/SecondActivity: user3: com.john.kot.hilt.User1@1aa35b5</p>
+</blockquote>
+<p>可以看到作用域在Activity中</p>
+<h5 id="AppModule1"><a href="#AppModule1" class="headerlink" title="AppModule1"></a>AppModule1</h5><p>修改成 ApplicationComponent 和Singleton</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ApplicationComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singleton</span> <span class="comment">//ActivityComponent只能设置ActivityScoped作用域</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User1 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<blockquote>
+<p>2021-09-25 23:09:24.752 29553-29553/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:09:24.752 29553-29553/com.john.kot I/HiltActivity: user2: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:09:25.106 29553-29553/com.john.kot I/SecondActivity: user3: com.john.kot.hilt.User1@62df8ea</p>
+</blockquote>
+<p>明显一样的实例了</p>
+<h4 id="Hilt使用"><a href="#Hilt使用" class="headerlink" title="Hilt使用"></a>Hilt使用</h4><p>这个和上面的一样,上面的是后来写的。</p>
+<h5 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h5><p>1.生成组件</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HiltAndroidApp</span></span><br><span class="line">class MyApp : Application() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ol start="2">
@@ -155,13 +208,65 @@
 <blockquote>
 <p> 29143-29143/com.john.kot I/HiltActivity: user: com.john.kot.hilt.User@43b8a20</p>
 </blockquote>
-<h4 id="默认标准组件"><a href="#默认标准组件" class="headerlink" title="默认标准组件"></a>默认标准组件</h4><p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-30_12.01.40_component_default.png" alt="2021-08-30_12.01.40_component_default"></p>
+<h4 id="默认标准组件-1"><a href="#默认标准组件-1" class="headerlink" title="默认标准组件"></a>默认标准组件</h4><p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-30_12.01.40_component_default.png" alt="2021-08-30_12.01.40_component_default"></p>
+<h4 id="组件层次结构"><a href="#组件层次结构" class="headerlink" title="组件层次结构"></a>组件层次结构</h4><p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-09-26_10.21.23_component_layer.png" alt="2021-09-26_10.21.23_component_layer"></p>
+<h4 id="组件默认绑定"><a href="#组件默认绑定" class="headerlink" title="组件默认绑定"></a>组件默认绑定</h4><p><img src="/2018/01/23/Hilt/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-09-26_10.45.53_component_bind.png" alt="2021-09-26_10.45.53_component_bind"></p>
+<h5 id="构造方法绑定"><a href="#构造方法绑定" class="headerlink" title="构造方法绑定"></a>构造方法绑定</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 已经绑定的类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewModel</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;ViewModel&quot;</span>;</span><br><span class="line">    User1 user;</span><br><span class="line">    Application application;</span><br><span class="line">    Activity activity;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ViewModel</span><span class="params">(User1 user, Application application, Activity activity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user = user;</span><br><span class="line">        <span class="keyword">this</span>.application = application;</span><br><span class="line">        <span class="keyword">this</span>.activity = activity;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test:user &quot;</span>+user);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: application &quot;</span>+application);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: activity&quot;</span>+activity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inject</span></span><br><span class="line">ViewModel viewModel;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_hilt);</span><br><span class="line">    <span class="comment">//测试  ActivityComponent</span></span><br><span class="line">    Log.i(TAG, <span class="string">&quot;user1: &quot;</span> + user1);</span><br><span class="line">    Log.i(TAG, <span class="string">&quot;user2: &quot;</span> + user2);</span><br><span class="line">    startActivity(<span class="keyword">new</span> Intent(<span class="keyword">this</span>, SecondActivity.class));</span><br><span class="line"></span><br><span class="line">    viewModel.test();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>运行结果</p>
+<blockquote>
+<p>2021-09-26 11:09:24.519 5113-5113/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@d7d8c73<br>2021-09-26 11:09:24.519 5113-5113/com.john.kot I/HiltActivity: user2: com.john.kot.hilt.User1@d7d8c73<br>2021-09-26 11:09:24.526 5113-5113/com.john.kot I/ViewModel: test:user com.john.kot.hilt.User1@d7d8c73<br>2021-09-26 11:09:24.526 5113-5113/com.john.kot I/ViewModel: test: application com.john.kot.MyApp@3320730<br>2021-09-26 11:09:24.526 5113-5113/com.john.kot I/ViewModel: test: activitycom.john.kot.hilt.HiltActivity@1934801</p>
+</blockquote>
+<p>可以看到都有 Application Activity实例对象</p>
+<h5 id="Activity默认绑定"><a href="#Activity默认绑定" class="headerlink" title="Activity默认绑定"></a>Activity默认绑定</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User2</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewModel1</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;ViewModel1&quot;</span>;</span><br><span class="line">    User2 user;</span><br><span class="line">    Application application;</span><br><span class="line">    Activity activity;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ViewModel1</span><span class="params">(User2 user, Application application, Activity activity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user = user;</span><br><span class="line">        <span class="keyword">this</span>.application = application;</span><br><span class="line">        <span class="keyword">this</span>.activity = activity;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test:user &quot;</span>+user);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: application &quot;</span>+application);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: activity&quot;</span>+activity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ActivityComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ActivityScoped</span> <span class="comment">//ActivityComponent只能设置ActivityScoped作用域</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User2 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User2();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">ViewModel1 <span class="title">provideViewModel</span><span class="params">(User2 user, Application application, Activity activity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ViewModel1(user, application, activity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">viewModel1.test();</span><br></pre></td></tr></table></figure>
+
+
+
+<p>运行结果</p>
+<blockquote>
+<p>2021-09-26 11:36:26.826 4615-4615/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@e57fd2d<br>2021-09-26 11:36:26.826 4615-4615/com.john.kot I/HiltActivity: user2: com.john.kot.hilt.User1@e57fd2d<br>2021-09-26 11:36:26.848 4615-4615/com.john.kot I/ViewModel: test:user com.john.kot.hilt.User2@868b262<br>2021-09-26 11:36:26.848 4615-4615/com.john.kot I/ViewModel: test: application com.john.kot.MyApp@4b9fff3<br>2021-09-26 11:36:26.848 4615-4615/com.john.kot I/ViewModel: test: activitycom.john.kot.hilt.HiltActivity@2adda8b</p>
+</blockquote>
+<h4 id="预定义限定符"><a href="#预定义限定符" class="headerlink" title="预定义限定符"></a>预定义限定符</h4><p>Qualify</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Module装载到ApplicationComponent中</span></span><br><span class="line"><span class="meta">@InstallIn(ActivityComponent.class)</span> <span class="comment">//通过这种方式和组件关联</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule3</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ActivityScoped</span> <span class="comment">//ActivityComponent只能设置ActivityScoped作用域</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">User3 <span class="title">provideUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User3();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">ViewModel3 <span class="title">provideViewModel</span><span class="params">(User3 user, Application application, Activity activity,<span class="meta">@ActivityContext</span> Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ViewModel3(user, application, activity,context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p> 2021-09-26 11:47:52.867 5273-5273/com.john.kot I/ViewModel1: test: context=com.john.kot.hilt.HiltActivity@2adda8b</p>
+</blockquote>
+<p>@ActivityContext换成@ApplicationContext</p>
+<blockquote>
+<p>2021-09-26 11:50:00.444 5376-5376/com.john.kot I/ViewModel1: test: context=com.john.kot.MyApp@4b9fff3</p>
+</blockquote>
+<h4 id="Hilt支持Jetpack组件"><a href="#Hilt支持Jetpack组件" class="headerlink" title="Hilt支持Jetpack组件"></a>Hilt支持Jetpack组件</h4><h5 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h5><ul>
+<li><p>User由我们自己提供</p>
+</li>
+<li><p>Application application, Activity activity由 Dagger提供</p>
+</li>
+<li><p>Context预定义的限定符.</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainViewModel</span> <span class="keyword">extends</span> <span class="title">ViewModel</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;MainViewModel&quot;</span>;</span><br><span class="line"></span><br><span class="line">    User3 user;</span><br><span class="line">    Application application;</span><br><span class="line">    Activity activity;</span><br><span class="line"></span><br><span class="line">    Context context;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ViewModelInject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MainViewModel</span><span class="params">(User3 user, Application application, Activity activity,<span class="meta">@ApplicationContext</span>  Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user = user;</span><br><span class="line">        <span class="keyword">this</span>.application = application;</span><br><span class="line">        <span class="keyword">this</span>.activity = activity;</span><br><span class="line">        <span class="keyword">this</span>.context =context;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test:user=&quot;</span>+user);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: application=&quot;</span>+application);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: activity=&quot;</span>+activity);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;test: context=&quot;</span>+context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ki4y1A7hA?spm_id_from=333.999.0.0">https://www.bilibili.com/video/BV1Ki4y1A7hA?spm_id_from=333.999.0.0</a></p>
 
         
         
           <blockquote id="copyright">
-              <p>Enlace original: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
-              <p>Declaración de copyright: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -174,7 +279,7 @@
           
           
     <div class="social-share">
-      <span>Cuota:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -220,7 +325,7 @@
 <a href="/2018/01/22/TEST_Espresso/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Libro de visitas
+  Guestbook
 </a>
 
 
@@ -269,8 +374,8 @@
         
         
           <blockquote id="copyright">
-              <p>Enlace original: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
-              <p>Declaración de copyright: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -285,7 +390,7 @@
 
           
     <div class="social-share">
-      <span>Cuota:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -331,7 +436,7 @@
 <a href="/2018/01/22/TEST_MockK/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Libro de visitas
+  Guestbook
 </a>
 
 
@@ -404,8 +509,8 @@
         
         
           <blockquote id="copyright">
-              <p>Enlace original: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
-              <p>Declaración de copyright: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -420,7 +525,7 @@
 
           
     <div class="social-share">
-      <span>Cuota:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -466,7 +571,7 @@
 <a href="/2018/01/08/TouchEvent1/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Libro de visitas
+  Guestbook
 </a>
 
 
@@ -525,8 +630,8 @@
         
         
           <blockquote id="copyright">
-              <p>Enlace original: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
-              <p>Declaración de copyright: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -541,7 +646,7 @@
 
           
     <div class="social-share">
-      <span>Cuota:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -555,7 +660,7 @@
 </article>
 
 
-  <article id="post-java-operators" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <article id="post-Operators" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
     
@@ -563,7 +668,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/01/07/java-operators/">java_operators</a>
+      <a class="p-name article-title" href="/2018/01/07/Operators/">Operators</a>
     </h1>
   
 
@@ -577,17 +682,12 @@
   <time class="dt-published" datetime="2018-01-07T12:41:41.000Z" itemprop="datePublished">2018年01月07日</time>
 </span>
       
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
-  </div>
-
       
       
-<a href="/2018/01/07/java-operators/#comments" class="article-comment-link">
+<a href="/2018/01/07/Operators/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Libro de visitas
+  Guestbook
 </a>
 
 
@@ -595,17 +695,87 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p> JAVA运算符</p>
-<h1 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h1><pre><code>＆=      按位与赋值运算符　    C＆= 2等价于C = C＆2
+<h4 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h4><pre><code>＆=      按位与赋值运算符　    C＆= 2等价于C = C＆2
 
 | =     按位或赋值操作符       C | = 2等价于C = C | 2
 </code></pre>
 <p><a target="_blank" rel="noopener" href="http://www.runoob.com/java/java-operators.html">http://www.runoob.com/java/java-operators.html</a></p>
+<h4 id="Java位运算符"><a href="#Java位运算符" class="headerlink" title="Java位运算符"></a>Java位运算符</h4><p>Java定义了位运算符，应用于整数类型(int)，长整型(long)，短整型(short)，字符型(char)，和字节型(byte)等类型。</p>
+<p>位运算符作用在所有的位上，并且按位运算。假设a = 60，b = 13;它们的二进制格式表示将如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">A</span> <span class="string">=</span> <span class="number">0011 </span><span class="number">1100</span></span><br><span class="line"><span class="string">B</span> <span class="string">=</span> <span class="number">0000 </span><span class="number">1101</span></span><br><span class="line"><span class="string">-----------------</span></span><br><span class="line"><span class="string">A&amp;B</span> <span class="string">=</span> <span class="number">0000 </span><span class="number">1100</span></span><br><span class="line"><span class="string">A</span> <span class="string">|</span> <span class="string">B</span> <span class="string">=</span> <span class="number">0011 </span><span class="number">1101</span></span><br><span class="line"><span class="string">A</span> <span class="string">^</span> <span class="string">B</span> <span class="string">=</span> <span class="number">0011 </span><span class="number">0001</span></span><br><span class="line"><span class="string">~A=</span> <span class="number">1100 </span><span class="number">0011</span></span><br></pre></td></tr></table></figure>
+
+<p>下表列出了位运算符的基本运算，假设整数变量 A 的值为 60 和变量 B 的值为 13：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>＆</td>
+<td>如果相对应位都是1，则结果为1，否则为0</td>
+<td>（A＆B），得到12，即0000 1100</td>
+</tr>
+<tr>
+<td>|</td>
+<td>如果相对应位都是 0，则结果为 0，否则为 1</td>
+<td>（A | B）得到61，即 0011 1101</td>
+</tr>
+<tr>
+<td>^</td>
+<td>如果相对应位值相同，则结果为0，否则为1</td>
+<td>（A ^ B）得到49，即 0011 0001</td>
+</tr>
+<tr>
+<td>〜</td>
+<td>按位取反运算符翻转操作数的每一位，即0变成1，1变成0。</td>
+<td>（〜A）得到-61，即1100 0011</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>按位左移运算符。左操作数按位左移右操作数指定的位数。</td>
+<td>A &lt;&lt; 2得到240，即 1111 0000</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>按位右移运算符。左操作数按位右移右操作数指定的位数。</td>
+<td>A &gt;&gt; 2得到15即 1111</td>
+</tr>
+<tr>
+<td>&gt;&gt;&gt;</td>
+<td>按位右移补零操作符。左操作数的值按右操作数指定的位数右移，移动得到的空位以零填充。</td>
+<td>A&gt;&gt;&gt;2得到15即0000 1111</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">int</span> a = <span class="number">60</span>; <span class="comment">/* 60 = 0011 1100 */</span> </span><br><span class="line">     <span class="keyword">int</span> b = <span class="number">13</span>; <span class="comment">/* 13 = 0000 1101 */</span></span><br><span class="line">     <span class="keyword">int</span> c = <span class="number">0</span>;</span><br><span class="line">     c = a &amp; b;       <span class="comment">/* 12 = 0000 1100 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;a &amp; b = &quot;</span> + c );</span><br><span class="line"> </span><br><span class="line">     c = a | b;       <span class="comment">/* 61 = 0011 1101 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;a | b = &quot;</span> + c );</span><br><span class="line"> </span><br><span class="line">     c = a ^ b;       <span class="comment">/* 49 = 0011 0001 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;a ^ b = &quot;</span> + c );</span><br><span class="line"> </span><br><span class="line">     c = ~a;          <span class="comment">/*-61 = 1100 0011 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;~a = &quot;</span> + c );</span><br><span class="line"> </span><br><span class="line">     c = a &lt;&lt; <span class="number">2</span>;     <span class="comment">/* 240 = 1111 0000 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;a &lt;&lt; 2 = &quot;</span> + c );</span><br><span class="line"> </span><br><span class="line">     c = a &gt;&gt; <span class="number">2</span>;     <span class="comment">/* 15 = 1111 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;a &gt;&gt; 2  = &quot;</span> + c );</span><br><span class="line">  </span><br><span class="line">     c = a &gt;&gt;&gt; <span class="number">2</span>;     <span class="comment">/* 15 = 0000 1111 */</span></span><br><span class="line">     System.out.println(<span class="string">&quot;a &gt;&gt;&gt; 2 = &quot;</span> + c );</span><br><span class="line">  &#125;</span><br><span class="line">&#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a <span class="built_in">&amp;</span> b = 12</span><br><span class="line">a | b = 61</span><br><span class="line">a <span class="built_in">^</span> b = 49</span><br><span class="line">~a = -61</span><br><span class="line">a &lt;&lt; 2 = 240</span><br><span class="line">a &gt;&gt; 2  = 15</span><br><span class="line">a &gt;&gt;&gt; 2 = 15</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Kotlin-位运算"><a href="#Kotlin-位运算" class="headerlink" title="Kotlin 位运算"></a>Kotlin 位运算</h4><p>对于位运算，没有特殊字符来表示，而只可用中缀方式调用具名函数，例如:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">val</span> x = (<span class="number">1</span> shl <span class="number">2</span>) and <span class="number">0</span>x<span class="number">000</span>FF<span class="number">000</span></span><br></pre></td></tr></table></figure>
+
+<p>这是完整的位运算列表（只用于 <code>Int</code> 与 <code>Long</code>）：</p>
+<ul>
+<li><code>shl(bits)</code> – 有符号左移</li>
+<li><code>shr(bits)</code> – 有符号右移</li>
+<li><code>ushr(bits)</code> – 无符号右移</li>
+<li><code>and(bits)</code> – 位<strong>与</strong></li>
+<li><code>or(bits)</code> – 位<strong>或</strong></li>
+<li><code>xor(bits)</code> – 位<strong>异或</strong></li>
+<li><code>inv()</code> – 位非</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.kotlincn.net/docs/reference/basic-types.html#%E8%BF%90%E7%AE%97">https://www.kotlincn.net/docs/reference/basic-types.html#%E8%BF%90%E7%AE%97</a></p>
 
         
         
           <blockquote id="copyright">
-              <p>Enlace original: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
-              <p>Declaración de copyright: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -616,11 +786,11 @@
           
 
           
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/operators/" rel="tag">operators</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Operators/" rel="tag">Operators</a></li></ul>
 
           
     <div class="social-share">
-      <span>Cuota:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -666,7 +836,7 @@
 <a href="/2017/12/27/NavigationDrawer/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Libro de visitas
+  Guestbook
 </a>
 
 
@@ -704,8 +874,8 @@
         
         
           <blockquote id="copyright">
-              <p>Enlace original: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
-              <p>Declaración de copyright: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -720,7 +890,7 @@
 
           
     <div class="social-share">
-      <span>Cuota:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -766,7 +936,7 @@
 <a href="/2017/12/26/TAB_VIEWPAGER/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Libro de visitas
+  Guestbook
 </a>
 
 
@@ -828,8 +998,8 @@
         
         
           <blockquote id="copyright">
-              <p>Enlace original: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
-              <p>Declaración de copyright: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -844,7 +1014,7 @@
 
           
     <div class="social-share">
-      <span>Cuota:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -890,7 +1060,7 @@
 <a href="/2017/12/21/Keyboard/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Libro de visitas
+  Guestbook
 </a>
 
 
@@ -908,8 +1078,8 @@
         
         
           <blockquote id="copyright">
-              <p>Enlace original: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
-              <p>Declaración de copyright: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -924,7 +1094,7 @@
 
           
     <div class="social-share">
-      <span>Cuota:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -970,7 +1140,7 @@
 <a href="/2017/12/19/proguard/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Libro de visitas
+  Guestbook
 </a>
 
 
@@ -1009,8 +1179,8 @@
         
         
           <blockquote id="copyright">
-              <p>Enlace original: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
-              <p>Declaración de copyright: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1025,7 +1195,7 @@
 
           
     <div class="social-share">
-      <span>Cuota:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1071,7 +1241,7 @@
 <a href="/2017/12/17/NewFeatures/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Libro de visitas
+  Guestbook
 </a>
 
 
@@ -1128,8 +1298,8 @@
         
         
           <blockquote id="copyright">
-              <p>Enlace original: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
-              <p>Declaración de copyright: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/12/index.html">http://noteforme.github.io.com/page/12/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1144,7 +1314,7 @@
 
           
     <div class="social-share">
-      <span>Cuota:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1161,7 +1331,7 @@
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/11/">Anterior</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/13/">Siguiente</a>
+<a class="extend prev" rel="prev" href="/page/11/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/13/">Next</a>
 </nav>
 
 
@@ -1171,7 +1341,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Recientes</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
     <div class="widget">
       <ul>
         
@@ -1203,18 +1373,18 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Nube de etiquetas</h3>
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/Kotlin/" style="font-size: 16.67px;">Kotlin</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 13.33px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/operators/" style="font-size: 10px;">operators</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
+      <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/Kotlin/" style="font-size: 16.67px;">Kotlin</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 13.33px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Categorías</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">54</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">54</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1222,7 +1392,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archivo</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年09月</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
@@ -1232,9 +1402,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Etiquetas</h3>
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/operators/" rel="tag">operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1273,9 +1443,9 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Mapa del sitio</a>
-        <span> | </span><a href="/atom.xml">suscribirse a este sitio</a>
-        <span> | </span><a href="/about/">Contacta al blogger</a>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
       </p>
       
         <p>
