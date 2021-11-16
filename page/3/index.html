@@ -53,11 +53,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -65,7 +65,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -86,6 +86,572 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-JVM-GC" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/05/JVM-GC/">JVM_GC</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2021-01-05T03:49:01.000Z" itemprop="datePublished">2021年01月05日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+      
+      
+<a href="/2021/01/05/JVM-GC/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h4><h4 id="可达性分析"><a href="#可达性分析" class="headerlink" title="可达性分析"></a>可达性分析</h4><p>​    从GC Roots向下追溯、搜索，会产生一个叫做Refrence Chain的链条。当一个对象不能和任何一个GC Root产生关系时，就会被回收。</p>
+<p>​    <img src="/2021/01/05/JVM-GC/CgpOIF4heVuAPrWVAACK3qrA9-0011.png"></p>
+<p>如图所示，Obj5、Obj6、Obj7，由于不能和 GC Root 产生关联，发生 GC 时，就会被摧毁。</p>
+<p>垃圾回收就是围绕着 GC Roots 去做的。同时，它也是很多内存泄露的根源，因为其他引用根本没有这样的权利。</p>
+<p>那么，什么样的对象，才会是 GC Root 呢？这不在于它是什么样的对象，而在于它所处的位置。</p>
+<p><a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=31#/detail/pc?id=1029">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=31#/detail/pc?id=1029</a></p>
+<h4 id="GC-Roots-有哪些"><a href="#GC-Roots-有哪些" class="headerlink" title="GC Roots 有哪些"></a>GC Roots 有哪些</h4><p>GC Roots 是一组必须活跃的引用。用通俗的话来说，就是程序接下来通过直接引用或者间接引用，能够访问到的潜在被使用的对象。</p>
+<p>GC Roots 包括：</p>
+<ul>
+<li>Java 线程中，当前所有正在被调用的方法的引用类型参数、局部变量、临时值等。也就是与我们栈帧相关的各种引用。</li>
+<li>所有当前被加载的 Java 类。</li>
+<li>Java 类的引用类型静态变量。</li>
+<li>运行时常量池里的引用类型常量（String 或 Class 类型）。</li>
+<li>JVM 内部数据结构的一些引用，比如 sun.jvm.hotspot.memory.Universe 类。</li>
+<li>用于同步的监控对象，比如调用了对象的 wait() 方法。</li>
+<li>JNI handles，包括 global handles 和 local handles。</li>
+</ul>
+<p>这些 GC Roots 大体可以分为三大类，下面这种说法更加好记一些：</p>
+<ul>
+<li><p>活动线程相关的各种引用。</p>
+</li>
+<li><p>类的静态变量的引用。</p>
+</li>
+<li><p>JNI 引用。</p>
+<p>​    <img src="/2021/01/05/JVM-GC/Cgq2xl4hefWAWKFZAAMwndGjScg437.png"></p>
+<p>注意</p>
+<ul>
+<li>我们这里说的是活跃的引用，而不是对象，对象是不能作为 GC Roots 的。</li>
+<li>GC 过程是找出所有活对象，并把其余空间认定为“无用”；而不是找出所有死掉的对象，并回收它们占用的空间。所以，哪怕 JVM 的堆非常的大，基于 tracing 的 GC 方式，回收速度也会非常快。</li>
+</ul>
+</li>
+</ul>
+<h5 id="引用计数算法-忽略"><a href="#引用计数算法-忽略" class="headerlink" title="引用计数算法(忽略)"></a>引用计数算法(忽略)</h5><p>当前主流的商用程序语言(Java、C#，上溯至前面提到的古老的Lisp)的内存管理子系统，都是 通过可达性分析(Reachability Analysis)算法来判定对象是否存活的。这个算法的基本思路就是通过 一系列称为“GC Roots”的根对象作为起始节点集，从这些节点开始，根据引用关系向下搜索，搜索过 程所走过的路径称为“引用链”(Reference Chain)，如果某个对象到GC Roots间没有任何引用链相连， 或者用图论的话来说就是从GC Roots到这个对象不可达时，则证明此对象是不可能再被使用的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* testGC()方法执行后，objA和objB会不会被GC呢? * <span class="doctag">@author</span> zzm</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReferenceCountingGC</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> Object instance = <span class="keyword">null</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> _1MB = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 这个成员属性的唯一意义就是占点内存，以便能在GC日志中看清楚是否有回收过 */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">byte</span>[] bigSize = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1MB];</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testGC</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		ReferenceCountingGC objA = <span class="keyword">new</span> ReferenceCountingGC(); ReferenceCountingGC objB = <span class="keyword">new</span> ReferenceCountingGC(); 		objA.instance = objB;</span><br><span class="line">		objB.instance = objA;</span><br><span class="line">		objA = <span class="keyword">null</span>; objB = <span class="keyword">null</span>;</span><br><span class="line">	<span class="comment">// 假设在这行发生GC，objA和objB是否能被回收?</span></span><br><span class="line">		System.gc(); &#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="能够找到-Reference-Chain-的对象，就一定会存活么？"><a href="#能够找到-Reference-Chain-的对象，就一定会存活么？" class="headerlink" title="能够找到 Reference Chain 的对象，就一定会存活么？"></a>能够找到 Reference Chain 的对象，就一定会存活么？</h5><p>引用级别</p>
+<p>将引用分为强引用(Strongly Re-ference)、软 引用(Soft Reference)、弱引用(Weak Reference)和虚引用(Phantom Reference)4种，这4种引用强 度依次逐渐减弱。</p>
+<ul>
+<li><p>·强引用是最传统的“引用”的定义，是指在程序代码之中普遍存在的引用赋值，即类似“Object obj=new Object()”这种引用关系。无论任何情况下，只要强引用关系还存在，垃圾收集器就永远不会回 收掉被引用的对象。</p>
+</li>
+<li><p>软引用是用来描述一些还有用，但非必须的对象。只被软引用关联着的对象，在系统将要发生内 存溢出异常前，会把这些对象列进回收范围之中进行第二次回收，如果这次回收还没有足够的内存， 才会抛出内存溢出异常。在JDK 1.2版之后提供了SoftReference类来实现软引用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 伪代码</span></span><br><span class="line"></span><br><span class="line">Object object = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line">SoftReference&lt;Object&gt; softRef = <span class="keyword">new</span> SoftReference(object);</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>弱引用也是用来描述那些非必须对象，但是它的强度比软引用更弱一些，被弱引用关联的对象只 能生存到下一次垃圾收集发生为止。当垃圾收集器开始工作，无论当前内存是否足够，都会回收掉只 被弱引用关联的对象。在JDK 1.2版之后提供了WeakReference类来实现弱引用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 伪代码</span></span><br><span class="line"></span><br><span class="line">Object object = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line">WeakReference&lt;Object&gt; softRef = <span class="keyword">new</span> WeakReference(object);</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>虚引用也称为“幽灵引用”或者“幻影引用”，这是一种形同虚设的引用，在现实场景中用的不是很多。虚引用必须和引用队列（ReferenceQueue）联合使用。如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收。</p>
+<p>虚引用主要用来跟踪对象被垃圾回收的活动。</p>
+</li>
+</ul>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-OS" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/28/OS/">OS</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-12-28T07:32:28.000Z" itemprop="datePublished">2020年12月28日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/OS/">OS</a>
+  </div>
+
+      
+      
+<a href="/2020/12/28/OS/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="学习计划"><a href="#学习计划" class="headerlink" title="学习计划"></a>学习计划</h4><p>MIT6.S081实验 + 操作系统导论</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/woai3c/MIT6.828">https://github.com/woai3c/MIT6.828</a></p>
+<p><a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.828/2018/index.html">https://pdos.csail.mit.edu/6.828/2018/index.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/40973610">https://www.zhihu.com/question/40973610</a></p>
+<p>RISC-V 微处理器</p>
+<p>xv6</p>
+<h5 id="实验环境配置"><a href="#实验环境配置" class="headerlink" title="实验环境配置"></a>实验环境配置</h5><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/343655412">https://zhuanlan.zhihu.com/p/343655412</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/272199762">https://zhuanlan.zhihu.com/p/272199762</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/331492444">https://zhuanlan.zhihu.com/p/331492444</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV11K4y127Qk?from=search&amp;seid=8628043749223720261">https://www.bilibili.com/video/BV11K4y127Qk?from=search&amp;seid=8628043749223720261</a></p>
+<p>错误1</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ERROR: </span>glib<span class="string">-2</span>.48 gthread<span class="string">-2</span>.0 is required to compile QEMU</span><br><span class="line"></span><br><span class="line">处理</span><br><span class="line">sudo apt-get install libglib2.0-dev</span><br></pre></td></tr></table></figure>
+
+<p>错误2</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ERROR: </span>pixman &gt;= 0.21.8 not present.</span><br><span class="line">       Please install the pixman devel package.</span><br><span class="line">       </span><br><span class="line">处理</span><br><span class="line">sudo apt-get install libpixman<span class="string">-1</span>-dev</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h4><ol>
+<li><p>在user目录下创建copy.c</p>
+</li>
+<li><p>在Makefile 152行添加配置</p>
+<img src="/2020/12/28/OS/20200919151509556.png" style="zoom:50%;"></li>
+<li><p>测试添加程序</p>
+<p>启动xv6后，执行copy</p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013577996/article/details/108680888">https://blog.csdn.net/u013577996/article/details/108680888</a></p>
+<h5 id="课程学习"><a href="#课程学习" class="headerlink" title="课程学习"></a>课程学习</h5><h5 id="3-4内核执行任何内核指令"><a href="#3-4内核执行任何内核指令" class="headerlink" title="3.4内核执行任何内核指令"></a>3.4内核执行任何内核指令</h5><p>3.4 之前提到，设置处理器中kernel mode的bit位的指令是一条特殊权限指令，那么一个用户程序怎么才能让内核执行任何内核指令？因为现在切换到kernel mode的指令都是一条特殊权限指令了，对于用户程序来说也没法修改那个bit位</p>
+<p>用户程序会通过系统调用来切换到kernel mode。当用户程序执行系统调用，会通过ECALL触发一个软中断（software interrupt），软中断会查询操作系统预先设定的中断向量表，并执行中断向量表中包含的中断处理程序。中断处理程序在内核中，这样就完成了user mode到kernel mode的切换，并执行用户程序想要执行的特殊权限指令？ </p>
+<p><strong>针对这个回答，我的疑问是，怎么确保恶意程序不走这种系统调用呢</strong></p>
+<h5 id="3-9-断点调试"><a href="#3-9-断点调试" class="headerlink" title="3.9 断点调试"></a>3.9 断点调试</h5><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">一个窗口</span><br><span class="line"></span><br><span class="line">make <span class="attribute">CPUS</span>=1 qemu-gdb</span><br><span class="line"></span><br><span class="line">新开窗口 </span><br><span class="line"></span><br><span class="line">gdb-multiarch kernel/kernel</span><br><span class="line">target remote localhost:26000</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/331492444">https://zhuanlan.zhihu.com/p/331492444</a></p>
+<p>GDB简单使用</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ctrl x <span class="selector-tag">a</span> 显示代码</span><br><span class="line"> <span class="selector-tag">b</span> 断点</span><br><span class="line"> r运行</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/12/28/OS/GDB_2021-05-11_22-43-21.png"></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ei4y1V758?from=search&amp;seid=4972450432119771986">https://www.bilibili.com/video/BV1ei4y1V758?from=search&amp;seid=4972450432119771986</a></p>
+<h5 id="4-3页表"><a href="#4-3页表" class="headerlink" title="4.3页表"></a>4.3页表</h5><p><img src="/2020/12/28/OS/2021-05-13_pagetable.png"></p>
+<p>在最高级的page directory中的PPN，包含了下一级page directory的物理内存地址，  第二个9bit用来索引中间级的page directory，第三个9bit用来索引最低级的page directory。在最低级page directory，我们还是可以得到44bit的PPN，这里包含了我们实际上想要翻译的物理page地址，然后再加上虚拟内存地址的12bit offset，就得到了56bit物理内存地址。</p>
+<p>第一个level1有了Level2页表的物理地址，Level2的 PPN就是页表的偏移量,指向Level3的物理地址.</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zt4y1U7rq?from=search&amp;seid=11572648099017443360">https://www.bilibili.com/video/BV1zt4y1U7rq?from=search&amp;seid=11572648099017443360</a></p>
+<h4 id="启动概览"><a href="#启动概览" class="headerlink" title="启动概览"></a>启动概览</h4><p><img src="/2020/12/28/OS/2021-04-13at1.36.29PM.png"></p>
+<p>​    </p>
+<p>简单来说 就是加电后，1。启动主板BIOS  》 2. BIOS初始化从磁盘中把加载程序bootloader 加载到内存中 》3.把磁盘镜像操作系统加载到内存中运行</p>
+<p><strong>为什么不在第二步直接加载操作系统呢?</strong>  1. 为了兼容不同的文件系统  2. bootloader只能存 512字节，系统远大于它。 </p>
+<p><a target="_blank" rel="noopener" href="https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html">https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html</a></p>
+<h5 id="BIOS初始化"><a href="#BIOS初始化" class="headerlink" title="BIOS初始化"></a>BIOS初始化</h5><ol>
+<li>硬件自检POST,检测系统中（内存和显卡，软盘 ，影片 光盘 USB)等关键部件的存在和工作状态查找并执行显卡等接口卡BIOS,并进行设备初始化；</li>
+<li>加载上述设备的第一个扇区（主引导扇区，Master Boot Record,or MBR）的512字节的内容读到内存固定地址0x7c00，这个内容就是bootloader,等待对Ucore操作系统的加载.</li>
+</ol>
+<h5 id="bootloader做的事情"><a href="#bootloader做的事情" class="headerlink" title="bootloader做的事情"></a>bootloader做的事情</h5><ol>
+<li>从实模式切换到保护模式(protection mdoe) ，为后续操作系统的执行做准备。</li>
+<li>从硬盘上读取kernel in ELF格式的ucore kernel(就是系统代码，跟在MBR后面的扇区)并放到内存中固定位置。</li>
+<li>跳转到ucore OS的入口点(entry point)执行，这时候控制器交给了 ucore.</li>
+</ol>
+<h5 id="第二部细节-加载程序"><a href="#第二部细节-加载程序" class="headerlink" title="第二部细节 加载程序"></a>第二部细节 加载程序</h5><p>![](OS\2021-04-13at1.36.29 PM.png)</p>
+<p>​    计算机可能有不止一个分区，每个分区有不同的系统，主引导记录来确定去哪个文件系统读加载程序</p>
+<ol>
+<li><p>BIOS启动过程</p>
+<p>当计算机加电后，一般不直接执行操作系统，而是执行系统初始化软件完成基本IO初始化和引导加载功能(BIOS)。简单地说，系统初始化软件就是在操作系统内核运行之前运行的一段小软件。通过这段小软件，我们可以初始化硬件设备、建立系统的内存空间映射图，从而将系统的软硬件环境带到一个合适的状态，以便为最终调用操作系统内核准备好正确的环境。最终引导加载程序把操作系统内核映像加载到RAM中，并将系统控制权传递给它。 </p>
+<p>对于绝大多数计算机系统而言，操作系统和应用软件是存放在磁盘（硬盘/软盘）、光盘、EPROM、ROM、Flash等可在掉电后继续保存数据的存储介质上。计算机启动后，CPU一开始会到一个特定的地址开始执行指令，这个特定的地址存放了系统初始化软件，负责完成计算机基本的IO初始化，这是系统加电后运行的第一段软件代码。对于Intel 80386的体系结构而言，PC机中的系统初始化软件由BIOS (Basic Input Output  System，即基本输入/输出系统，<strong>其本质是一个固化在主板Flash/CMOS上的软件</strong>)和位于软盘/硬盘引导扇区中的OS Boot  Loader（在ucore中的bootasm.S和bootmain.c）一起组成。BIOS实际上是被固化在计算机ROM（只读存储器）芯片上的一个特殊的软件，为上层软件提供最底层的、最直接的硬件控制与支持。更形象地说，BIOS就是PC计算机硬件与上层软件程序之间的一个”桥梁”，负责访问和控制硬件。 </p>
+<p>以Intel  80386为例，计算机加电后，CPU从物理地址0xFFFFFFF0（由初始化的CS：EIP确定，此时CS和IP的值分别是0xF000和0xFFF0)）开始执行。在0xFFFFFFF0这里只是存放了一条跳转指令，通过跳转指令跳到BIOS例行程序起始点。BIOS做完计算机硬件自检和初始化后，会选择一个启动设备（例如软盘、硬盘、光盘等），并且读取该设备的第一扇区(即主引导扇区或启动扇区)到内存一个特定的地址0x7c00处，然后CPU控制权会转移到那个地址继续执行。至此BIOS的初始化工作做完了，进一步的工作交给了ucore的bootloader。</p>
+</li>
+<li><p>bootloader启动过程</p>
+<p>BIOS将通过读取硬盘主引导扇区到内存，并转跳到对应内存中的位置执行bootloader。bootloader完成的工作包括：</p>
+<ul>
+<li>切换到保护模式，启用分段机制</li>
+<li>读磁盘中ELF执行文件格式的ucore操作系统到内存</li>
+<li>显示字符串信息</li>
+<li>把控制权交给ucore操作系统</li>
+</ul>
+<p>对应其工作的实现文件在lab1中的boot目录下的三个文件asm.h、bootasm.S和bootmain.c。下面从原理上介绍完成上述工作的计算机系统硬件和软件背景知识。</p>
+</li>
+<li><p>操作系统启动过程</p>
+<p>当bootloader通过读取硬盘扇区把ucore在系统加载到内存后，就转跳到ucore操作系统在内存中的入口位置（kern/init.c中的kern_init函数的起始地址），这样ucore就接管了整个控制权。当前的ucore功能很简单，只完成基本的内存管理和外设中断管理。ucore主要完成的工作包括：</p>
+<ul>
+<li>初始化终端；</li>
+<li>显示字符串；</li>
+<li>显示堆栈中的多层函数调用关系；</li>
+<li>切换到保护模式，启用分段机制；</li>
+<li>初始化中断控制器，设置中断描述符表，初始化时钟中断，使能整个系统的中断机制；</li>
+<li>执行while（1）死循环。</li>
+</ul>
+<p>以后的实验中会大量涉及各个函数直接的调用关系，以及由于中断处理导致的异步现象，可能对大家实现操作系统和改正其中的错误有很大影响。而理解好函数调用关系的建立机制和中断处理机制，对后续实验会有很大帮助。下面就练习5涉及的函数栈调用关系和练习6中的中断机制的建立进行阐述。</p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html">https://objectkuan.gitbooks.io/ucore-docs/content/lab1/lab1_3_booting.html</a></p>
+<h4 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h4><h5 id="POSIX"><a href="#POSIX" class="headerlink" title="POSIX"></a>POSIX</h5><p>Portable Operating System Interface of Unix(IEEE制定的一个标准族)</p>
+<p>操作系统给上层提供的接口，macos,Linux都遵循这个接口。</p>
+<p>内核态 0 ， 用户态 3         </p>
+<p>GDT表存了DPL为0，用户访问CPL为3， 3 &gt; 0 没法访问。 </p>
+<p>0x80到内核中</p>
+<h4 id="中断、异常和系统调用"><a href="#中断、异常和系统调用" class="headerlink" title="中断、异常和系统调用"></a>中断、异常和系统调用</h4><img src="/2020/12/28/OS/2021-04-12191642.png" style="zoom:75%;">
+
+<p>中断</p>
+<p>硬件设对操作系统备的处理请求（缓存区里有数据，需要内核读走。或者缓冲区里数据用完了，需要内核补充新的数据）</p>
+<p>异常</p>
+<p>非法指令或者其他原因导致当前指令执行失败（程序出错后的处理请求）</p>
+<p>系统调用</p>
+<p>应用程序主动向操作系统发出的服务请求</p>
+<h4 id="物理内存管理：-连续内存分配"><a href="#物理内存管理：-连续内存分配" class="headerlink" title="物理内存管理： 连续内存分配"></a>物理内存管理： 连续内存分配</h4><p>最先匹配（First Fit Allocation）：</p>
+<p>空闲分区列表按地址顺序排序</p>
+<p>分配过程时，搜索第一个合适的分区，如果有剩下的空闲分区，继续把空闲分区切割出来，所以会产生碎片。</p>
+<p>释放分区时，检查是否可与临近的空闲分区合并</p>
+<p>最佳匹配（Best Fit Allocation）</p>
+<p>空闲分区列表按照 小到大排序</p>
+<p>分配时，查找比需要分区大的最小的分区，可避免大的空闲分区被拆分，减少碎片大小。</p>
+<p>释放时，超找并且合并临近地址的空闲分区（如果找到）</p>
+<p><img src="/2020/12/28/OS/2021-04-1514-27-29.png" style="zoom: 67%;">Screenshot from </p>
+<p>最差匹配(WORST Fit Allocation)</p>
+<p>空闲分区列表按大到小排序</p>
+<p>分配时，选最大的分区，后续找大分区比较难。</p>
+<p>释放时，检查是否可与临近的空闲分区合并，进行可能的合并并调整空闲分区列表顺序。</p>
+<p>伙伴系统</p>
+<h4 id="非连续内存分配"><a href="#非连续内存分配" class="headerlink" title="非连续内存分配"></a>非连续内存分配</h4><ol>
+<li><p>虚拟地址和物理地址的转换</p>
+<p>软件实现  硬件实现</p>
+</li>
+<li><p>非连续分配的硬件辅助记者</p>
+<p>段式存储管理（segmentation）: 分的比较大</p>
+<p><img src="/2020/12/28/OS/2021-04-1516-01-54.png"></p>
+<p>页式存储管理 （paging）</p>
+<p>把物理地址空间划分为大小相同的基本分配单位，2的n次方，如512,4096</p>
+</li>
+</ol>
+<p>linux启动 </p>
+<p><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/1013.html">http://c.biancheng.net/view/1013.html</a></p>
+<h4 id="linux目录结构"><a href="#linux目录结构" class="headerlink" title="linux目录结构"></a>linux目录结构</h4><table>
+<thead>
+<tr>
+<th>目录</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/bin</td>
+<td>存放二进制可执行文件(ls,cat,mkdir等)，常用命令一般都在这里</td>
+</tr>
+<tr>
+<td>/etc</td>
+<td>存放系统管理和配置文件</td>
+</tr>
+<tr>
+<td>/home</td>
+<td>存放所有用户文件的根目录，是用户主目录的基点，比如用户user的主目录就是 /home/user</td>
+</tr>
+<tr>
+<td>/usr</td>
+<td>用于存放系统应用程序，比较重要的目录/usr/local 本地系统管理员软件安装目录</td>
+</tr>
+<tr>
+<td>/opt</td>
+<td><code>额外安装的可选应用程序包所放置的位置 </code></td>
+</tr>
+<tr>
+<td>/proc</td>
+<td>虚拟文件系统目录，是系统内存的映射。可直接访问这个目录来获取系统信息。</td>
+</tr>
+<tr>
+<td>/root</td>
+<td><code>超级用户(系统管理员)的主目录 </code></td>
+</tr>
+<tr>
+<td>/sbin</td>
+<td>存放二进制可执行文件，只有root才能访问</td>
+</tr>
+<tr>
+<td>/dev</td>
+<td>用于存放设备文件</td>
+</tr>
+<tr>
+<td>/mnt</td>
+<td>系统管理员安装临时文件系统的安装点，系统提供这个目录是让用户临时挂载其他的文件系 统。</td>
+</tr>
+<tr>
+<td>/boot</td>
+<td><code>存放用于系统引导时使用的各种文件 </code></td>
+</tr>
+<tr>
+<td>/lib</td>
+<td><code>存放跟文件系统中的程序运行所需要的共享库及内核模块 </code></td>
+</tr>
+<tr>
+<td>/var</td>
+<td><code>用于存放运行时需要改变数据的文件 </code></td>
+</tr>
+</tbody></table>
+<h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><p>进程调度 : FIFO , Priority</p>
+<h5 id="进程切换"><a href="#进程切换" class="headerlink" title="进程切换"></a>进程切换</h5><p>进程当前的状态存放到PCB(Process Control Block)中，获取下一个需要执行进程的PCB信息，切换进程。</p>
+<p><img src="/2020/12/28/OS/2021-04-1612-09-25.png"></p>
+<h5 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h5><p><img src="/2020/12/28/OS/2021-04-1612-16-25.png"></p>
+<p>线程 指令的切换，映射表不用切换    </p>
+<h6 id="2个线程用一个栈的情况"><a href="#2个线程用一个栈的情况" class="headerlink" title="2个线程用一个栈的情况"></a>2个线程用一个栈的情况</h6><p><img src="/2020/12/28/OS/2021-04-1614-27-23.png"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个Yield</span></span><br><span class="line"><span class="keyword">void</span> <span class="function"><span class="title">Yield</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">	找到<span class="number">300</span>；</span><br><span class="line">	jmp <span class="number">300</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//第二个Yield</span></span><br><span class="line"><span class="keyword">void</span> <span class="function"><span class="title">Yield</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	找到 ? ; <span class="number">204</span></span><br><span class="line">	jmp ? ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>按照    (1)  -&gt; (2) -&gt; (3)的顺序执行，执行玩D()中的Yield()回到B()中，到了 右括号ret 出栈，出去的是404,正确的情况时时出204</p>
+<h6 id="两个线程-两个栈"><a href="#两个线程-两个栈" class="headerlink" title="两个线程 两个栈"></a>两个线程 两个栈</h6><p><img src="/2020/12/28/OS/2021-04-1615-11-08.png"></p>
+<p>jmp 204去掉：否则会执行两次</p>
+<h6 id="用户程序-内核程序调用"><a href="#用户程序-内核程序调用" class="headerlink" title="用户程序 内核程序调用"></a>用户程序 内核程序调用</h6><img src="/2020/12/28/OS/2021-04-1615-59-43.png" style="zoom:50%;">
+
+<h6 id="多核处理"><a href="#多核处理" class="headerlink" title="多核处理"></a>多核处理</h6><img src="/2020/12/28/OS/2021-04-1616-01-19.png" style="zoom:80%;">
+
+<img src="/2020/12/28/OS/2021-04-1616-01-07.png" style="zoom:50%;">
+
+
+
+<p>多核情况共用一个MMU,减少切换资源调用。</p>
+<p>进程线程区别</p>
+<p>进程 : 有很大的独立性</p>
+<p>线程 :  所有线程都有完全一样的地址空间,意味着它们也共享同样的全局变量。由于线程可以访问进程地址空间的每一个内存地址，所以一个线程可以读、写甚至清除另一个线程的堆栈。</p>
+<p>每个进程中的内容 : 地址空间  全局变量 打开文件 子进程    即将发生的定时器    信号与信号处理程序</p>
+<p>每个线程中的内容：程序计数器、寄存器、堆栈、状态.</p>
+<h4 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h4><p>原子性</p>
+<p>原子性是指一系列操作不可被中断的特性,这一系列操作要么全部执行完成，要么全部没有执行,不存在部分执行部分未执行的情况</p>
+<h5 id="互斥量"><a href="#互斥量" class="headerlink" title="互斥量"></a>互斥量</h5><p>​            互斥量是最简单的线程同步的方法,处于两态之一的变量:解锁和加锁,两个状态可以保证资源访问的串行</p>
+<h5 id="自旋锁与自适应自旋"><a href="#自旋锁与自适应自旋" class="headerlink" title="自旋锁与自适应自旋"></a>自旋锁与自适应自旋</h5><ul>
+<li> 自旋锁</li>
+</ul>
+<p>​            自旋锁的线程会反复检查锁变量是否可用,自旋锁不会让出CPU，是一种忙等待状态,</p>
+<p>​            自旋锁避免了进程或线程上下文切换的开销</p>
+<p>​            自旋锁不适合在单核CPU使用</p>
+<p>​            自旋锁的线程会反复检查锁变量是否可用</p>
+<ul>
+<li><p>自适应自旋</p>
+<p>提到了互斥同步对性能最大的影响是阻塞的实现，挂起线程和恢 复线程的操作都需要转入内核态中完成，这些操作给Java虚拟机的并发性能带来了很大的压力。同 时，虚拟机的开发团队也注意到在许多应用上，共享数据的锁定状态只会持续很短的一段时间，为了 这段时间去挂起和恢复线程并不值得。现在绝大多数的个人电脑和服务器都是多路(核)处理器系 统，如果物理机器有一个以上的处理器或者处理器核心，能让两个或以上的线程同时并行执行，我们 就可以让后面请求锁的那个线程“稍等一会”，但不放弃处理器的执行时间，看看持有锁的线程是否很 快就会释放锁。为了让线程等待，我们只须让线程执行一个忙循环(自旋)，这项技术就是所谓的自 旋锁。</p>
+<p>自旋锁在JDK 1.4.2中就已经引入，只不过默认是关闭的，可以使用-XX:+UseSpinning参数来开 启，在JDK 6中就已经改为默认开启了。自旋等待不能代替阻塞，且先不说对处理器数量的要求，自 旋等待本身虽然避免了线程切换的开销，但它是要占用处理器时间的，所以如果锁被占用的时间很 短，自旋等待的效果就会非常好，反之如果锁被占用的时间很长，那么自旋的线程只会白白消耗处理 器资源，而不会做任何有价值的工作，这就会带来性能的浪费。因此自旋等待的时间必须有一定的限 度，如果自旋超过了限定的次数仍然没有成功获得锁，就应当使用传统的方式去挂起线程。自旋次数 的默认值是十次，用户也可以使用参数-XX:PreBlockSp in来自行更改。</p>
+<p>不过无论是默认值还是用户指定的自旋次数，对整个Java虚拟机中所有的锁来说都是相同的。在 JDK 6中对自旋锁的优化，引入了自适应的自旋。自适应意味着自旋的时间不再是固定的了，而是由 前一次在同一个锁上的自旋时间及锁的拥有者的状态来决定的。如果在同一个锁对象上，自旋等待刚 刚成功获得过锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也很有可能再次成 功，进而允许自旋等待持续相对更长的时间，比如持续100次忙循环。另一方面，如果对于某个锁，自 旋很少成功获得过锁，那在以后要获取这个锁时将有可能直接省略掉自旋过程，以避免浪费处理器资 源。有了自适应自旋，随着程序运行时间的增长及性能监控信息的不断完善，虚拟机对程序锁的状况 预测就会越来越精准，虚拟机就会变得越来越“聪明”了。</p>
+</li>
+</ul>
+<h5 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h5><p>​            读写锁是一种特殊的自旋锁,</p>
+<p>​            允许多个读者同时访问资源以提高读性能</p>
+<p>​            对于写操作则是互斥的</p>
+<h5 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h5><p>​            条件变量是一种相对复杂的线程同步方法    </p>
+<p>​            条件变量允许线程睡眠，直到满足某种条件</p>
+<p>​            当满足条件时，可以向该线程信号，通知唤醒</p>
+<h4 id="mooc-os-lab"><a href="#mooc-os-lab" class="headerlink" title="mooc-os-lab"></a>mooc-os-lab</h4><p>[现代操作系统] 示例 p55</p>
+<p>先学习(现代操作系统) 陈渝 向勇</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1js411b7vg?from=search&amp;seid=2361361014547524697">https://www.bilibili.com/video/BV1js411b7vg?from=search&amp;seid=2361361014547524697</a></p>
+<p>配套书： 操作系统概念(第七版) ， 操作系统-精髓与设计原理（第七版）william stallings</p>
+<h5 id="实验环境配置-1"><a href="#实验环境配置-1" class="headerlink" title="实验环境配置"></a>实验环境配置</h5><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Zz4y1d7BK?from=search&amp;seid=14777231705696776183">https://www.bilibili.com/video/BV1Zz4y1d7BK?from=search&amp;seid=14777231705696776183</a></p>
+<p><a target="_blank" rel="noopener" href="http://os.cs.tsinghua.edu.cn/oscourse/OS2020spring">http://os.cs.tsinghua.edu.cn/oscourse/OS2020spring</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/LearningOS/ucore_os_lab">ucore实验基准源代码</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/s/video/BV1Zz4y1d7BK">https://www.bilibili.com/s/video/BV1Zz4y1d7BK</a></p>
+<p>ubuntu窗口调整</p>
+<p>device -&gt; Insert Guest addtions CD Image</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012631731/article/details/79548621">https://blog.csdn.net/u012631731/article/details/79548621</a></p>
+<p>修改Ubuntu硬盘大小</p>
+<p><a target="_blank" rel="noopener" href="https://my.oschina.net/u/4388335/blog/3321852">https://my.oschina.net/u/4388335/blog/3321852</a></p>
+<p> windows ubuntu文件夹共享</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4e73fd1c0c74?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">https://www.jianshu.com/p/4e73fd1c0c74?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation</a></p>
+<p>并发 : 多个事件在分段被单个CPU分段执行。</p>
+<p>并行： 多个CPU同时处理多个任务。</p>
+<h4 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h4><h5 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h5><p><a target="_blank" rel="noopener" href="https://fishc.com.cn/forum-39-1.html">https://fishc.com.cn/forum-39-1.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av22872043/?p=2&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/av22872043/?p=2&amp;spm_id_from=pageDriver</a></p>
+<h5 id="GCC内联汇编"><a href="#GCC内联汇编" class="headerlink" title="GCC内联汇编"></a>GCC内联汇编</h5><p>C语言中加入 汇编代码</p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-ComputerOrganization" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/10/ComputerOrganization/">ComputerOrganization</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-12-10T14:42:44.000Z" itemprop="datePublished">2020年12月10日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/Organization/">Organization</a>
+  </div>
+
+      
+      
+<a href="/2020/12/10/ComputerOrganization/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>组成原理</p>
+<p>CPU</p>
+<p>运算器  控制器  高速缓存</p>
+<p>主存储器= 内存</p>
+<h4 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h4><p><img src="/2020/12/10/ComputerOrganization/computer_compoment_control.png"></p>
+<ul>
+<li><p>程序计数器:</p>
+<p> 用于提供其他控制单元，当前要执行的指令地址</p>
+</li>
+<li><p>时序发生器:</p>
+<p> 用于发送时序脉冲， 依据不同的时序脉冲有节奏的进行工作</p>
+</li>
+<li><p>寄存器</p>
+<p>指令寄存器 :从主存或高速缓存取计算机指令</p>
+<p>主存地址寄存器：保存当前CPU正要访问的内存单元的地址</p>
+<p>主存地址寄存器： 保存当前CPU正要读或写的主存数据</p>
+<p>通用寄存器:</p>
+<p>用于暂存或传送数据或指令</p>
+<p>可保存ALU的运算中间结果</p>
+<p>容量比一般专用寄存器要大</p>
+</li>
+</ul>
+<p>​    </p>
+<h4 id="运算器"><a href="#运算器" class="headerlink" title="运算器"></a>运算器</h4><p><img src="/2020/12/10/ComputerOrganization/computer_compoment_calculate.png"></p>
+<h5 id="数据缓冲器"><a href="#数据缓冲器" class="headerlink" title="数据缓冲器"></a>数据缓冲器</h5><p>​    分为输入缓冲和输出缓冲</p>
+<p>​    输入缓冲暂时存放外设送过来的数据</p>
+<p>​    输出缓冲暂时存放送往外设的数据</p>
+<h5 id="ALU"><a href="#ALU" class="headerlink" title="ALU"></a>ALU</h5><p>​    ALU:算术逻辑单元，是运算器的主要组成</p>
+<p>​    常见的位运算(左右移、与或非等)</p>
+<p>​    算术运算(加减乘除等)</p>
+<h5 id="通用寄存器"><a href="#通用寄存器" class="headerlink" title="通用寄存器"></a>通用寄存器</h5><p>​    用于暂时存放或传送数据或指令</p>
+<p>​    可保存ALU的运算中间结果</p>
+<p>​    容量比一般专用寄存器要大</p>
+<h5 id="状态字寄存器"><a href="#状态字寄存器" class="headerlink" title="状态字寄存器"></a>状态字寄存器</h5><p>​    存放运算状态(条件码、进位、溢出、结果正负等)</p>
+<p>​    存放运算控制信息(调试跟踪标记位、允许中断位等)</p>
+<h4 id="高速缓存"><a href="#高速缓存" class="headerlink" title="高速缓存"></a>高速缓存</h4><h4 id="指令执行过程"><a href="#指令执行过程" class="headerlink" title="指令执行过程"></a>指令执行过程</h4><p><img src="/2020/12/10/ComputerOrganization/computer_signal_01.png"></p>
+<p><img src="/2020/12/10/ComputerOrganization/computer_signal_02.png"></p>
+<h4 id="高速缓存-1"><a href="#高速缓存-1" class="headerlink" title="高速缓存"></a>高速缓存</h4><p>命中率</p>
+<p>![](ComputerOrganization/Screen Shot 2021-03-03 at 10.10.02 PM.png)</p>
+<p>不在缓存的数据需要去主存拿</p>
+<h4 id="4GB是寻址空间为什么是4G-byte而不是-bit"><a href="#4GB是寻址空间为什么是4G-byte而不是-bit" class="headerlink" title="4GB是寻址空间为什么是4G ,byte而不是 bit"></a>4GB是寻址空间为什么是4G ,byte而不是 bit</h4><p>现在的内存可以看作一个很长的，每项宽度8位（即1Bit）的很长的数列,<strong>既然是数列，那么每一项便对应一个序号，这个序号便是地址，就如同你家在一条大街的第几号一样</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/61974351">https://www.zhihu.com/question/61974351</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-TouchEvent3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -118,7 +684,7 @@
 <a href="/2020/11/25/TouchEvent3/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -189,8 +755,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -205,7 +771,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -251,7 +817,7 @@
 <a href="/2020/11/19/DesignPattern/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -405,8 +971,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -419,7 +985,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -465,7 +1031,7 @@
 <a href="/2020/10/22/base64/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -477,8 +1043,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -491,7 +1057,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -537,7 +1103,7 @@
 <a href="/2020/10/14/flutter-paint/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -554,8 +1120,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -568,7 +1134,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -614,7 +1180,7 @@
 <a href="/2020/09/24/flutter-layout/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -645,8 +1211,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -659,7 +1225,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -705,7 +1271,7 @@
 <a href="/2020/08/26/flutterdev/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -783,8 +1349,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -797,7 +1363,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -843,7 +1409,7 @@
 <a href="/2020/08/17/OS-PROCESS/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -885,8 +1451,8 @@ Socket
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -899,295 +1465,7 @@ Socket
           
           
     <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-AutoDispose" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/08/14/AutoDispose/">AutoDispose</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2020-08-14T02:18:28.000Z" itemprop="datePublished">2020年08月14日</time>
-</span>
-      
-      
-      
-<a href="/2020/08/14/AutoDispose/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://uber.github.io/AutoDispose/">https://uber.github.io/AutoDispose/</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-ViewGroup" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/08/13/ViewGroup/">ViewGroup</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2020-08-12T23:36:27.000Z" itemprop="datePublished">2020年08月13日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/VIEW/">VIEW</a>
-  </div>
-
-      
-      
-<a href="/2020/08/13/ViewGroup/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><p><img src="/2020/08/13/ViewGroup/2021-08-10_view_lifecycle.png"></p>
-<p>每次onMeasure，onLayout用到的值都不能在构造方法里面初始化。</p>
-<h4 id="ViewGroup测量"><a href="#ViewGroup测量" class="headerlink" title="ViewGroup测量"></a>ViewGroup测量</h4><p><img src="/2020/08/13/ViewGroup/2021-08-12_viewgroup_layout.png"></p>
-<p>![](/Users/john/Documents/noteforme.github.io/source/_posts/ViewGroup/Screen Shot 2021-08-13 at 6.21.59 PM.png)</p>
-<h4 id="MeasureSpec"><a href="#MeasureSpec" class="headerlink" title="MeasureSpec"></a>MeasureSpec</h4><h5 id="MeasureSpec创建规则"><a href="#MeasureSpec创建规则" class="headerlink" title="MeasureSpec创建规则"></a>MeasureSpec创建规则</h5><p><img src="/2020/08/13/ViewGroup/2021-08-12_9.33_measure_spec_mode.png"></p>
-<ol>
-<li>子View为精确宽高，无论父容器的MeasureSpec，子View的MeasureSpec都为精确值且遵循LayoutParams中的值。 </li>
-<li>子View为match_parent时，如果父容器是精确模式，则子View也为精确模式且为父容器的剩余空间大小；如果父容器是最大模式，则子View也是最大模式且不会超过父容器的剩余空间。</li>
-<li>子View为wrap_content时，无论父View是精确还是最大模式，子View的模式总是最大模式，且不会超过父容器的剩余空间。 </li>
-</ol>
-<p>艺术探索</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/7177220-a24570ca31b1b9df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200"></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/cb529ed03597">https://www.jianshu.com/p/cb529ed03597</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094205739016">https://juejin.cn/post/6844904094205739016</a></p>
-<h5 id="MeasureSpec表示"><a href="#MeasureSpec表示" class="headerlink" title="MeasureSpec表示"></a>MeasureSpec表示</h5><ol>
-<li>MeasureSpec用int表示,总共32位，高2位代表SpecMode，低30位代表SpecSize,SpecMode是指测量模式，而SpecSize是指在某种测量模式下的规格大小。MeasureSpec通过将SpecMode和SpecSize打包成一个int值来避免过多的对象内存分配.打包makeMeasureSpec。</li>
-<li>高2位 00 , 01, 10, 分别对应UNSPECIFIED, EXACTLY,AT_MOST。</li>
-</ol>
-<ul>
-<li><p><strong>UNSPECIFIED</strong></p>
-<p>父容器不对View有任何限制，要多大给多大，这种情况一般用于系统内部，表示一种测量的状态。</p>
-</li>
-<li><p><strong>EXACTLY</strong></p>
-<p>父容器已经检测出View所需要的精确大小，这个时候View的最终大小就是SpecSize所指定的值。它对应于LayoutParams中的match_parent和具体的数值这两种模式。</p>
-</li>
-<li><p><strong>AT_MOST</strong> </p>
-<p>父容器指定了一个可用大小即SpecSize,View的大小不能大于这个值，具体是什么值要看不同View的具体实现。它对应于LayoutParams中的wrap_content。</p>
-</li>
-</ul>
-<p>​     </p>
-<p><img src="/2020/08/13/ViewGroup/2021-08-12_9.29_measure_spec.png"></p>
-<ul>
-<li><p>getMeasuredWidth</p>
-<p>在measure()过程结束后就可以获取到对应的值。通过setMeasuredDimension()方法来进行设置。</p>
-</li>
-<li><p>getWidth区别</p>
-<p>在view.layout()过程结束后才能获取到； 通过视图右边的坐标-左边的左边计算出来的</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> childHeightMeasureSpec;</span><br><span class="line"><span class="keyword">if</span> (lp.height == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> height = Math.max(<span class="number">0</span>, getMeasuredHeight()</span><br><span class="line">            - getPaddingTopWithForeground() - getPaddingBottomWithForeground()</span><br><span class="line">            - lp.topMargin - lp.bottomMargin);</span><br><span class="line">    childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(</span><br><span class="line">            height, MeasureSpec.EXACTLY);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    childHeightMeasureSpec = getChildMeasureSpec(heightMeasureSpec,</span><br><span class="line">            getPaddingTopWithForeground() + getPaddingBottomWithForeground() +</span><br><span class="line">            lp.topMargin + lp.bottomMargin,</span><br><span class="line">            lp.height);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">child.measure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br></pre></td></tr></table></figure>
-
-<p>Frame layout 子节点重新绘制，为什么</p>
-<p>Framelayout边界怎么算的</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (absoluteGravity &amp; Gravity.HORIZONTAL_GRAVITY_MASK) &#123;</span><br><span class="line">    <span class="keyword">case</span> Gravity.CENTER_HORIZONTAL:</span><br><span class="line">        childLeft = parentLeft + (parentRight - parentLeft - width) / <span class="number">2</span> +</span><br><span class="line">        lp.leftMargin - lp.rightMargin;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> Gravity.RIGHT:</span><br><span class="line">        <span class="keyword">if</span> (!forceLeftGravity) &#123;</span><br><span class="line">            childLeft = parentRight - width - lp.rightMargin;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">case</span> Gravity.LEFT:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        childLeft = parentLeft + lp.leftMargin;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p><img src="/2020/08/13/ViewGroup/home/mc/Documents/noteforme.github.io/source/_posts/ViewGroup/2021-08-13_22_viewgroup_XY.png"></p>
-<p>Inflate解析过程</p>
-<p><img src="/2020/08/13/ViewGroup/home/mc/Documents/noteforme.github.io/source/_posts/ViewGroup/2021-08-14_19-48_inflate_xml.png"></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ka4y1j7HA?p=4&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1Ka4y1j7HA?p=4&amp;spm_id_from=pageDriver</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=aOb4Hvqbeu4">https://www.youtube.com/watch?v=aOb4Hvqbeu4</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-WMS" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/08/09/WMS/">WMS</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2020-08-09T15:05:02.000Z" itemprop="datePublished">2020年08月09日</time>
-</span>
-      
-      
-      
-<a href="/2020/08/09/WMS/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>AMS启动activity</p>
-<h5 id="Activity启动流程"><a href="#Activity启动流程" class="headerlink" title="Activity启动流程"></a>Activity启动流程</h5><p><img src="/2020/08/09/WMS/2021-08-09_22-45-activity_start.png"></p>
-<p><img src="/2020/08/09/WMS/2021-08-10_11.32_activity.png"></p>
-<h5 id="window作用"><a href="#window作用" class="headerlink" title="window作用"></a>window作用</h5><p>单一职责:解藕activity view</p>
-<img src="/2020/08/09/WMS/2021-08-09_22-view2.png" style="zoom:100%;">
-
-
-
-<p><img src="/2020/08/09/WMS/2021-08-09_22-view.png"></p>
-<h5 id="View是生命周期哪个方法绘制"><a href="#View是生命周期哪个方法绘制" class="headerlink" title="View是生命周期哪个方法绘制"></a>View是生命周期哪个方法绘制</h5><ol>
-<li><p>window负责管理UI,因为window是在 onCreate()之后产生的，所以view绘制一定在onCreate()之后。</p>
-</li>
-<li><p> onResume() decorview和Activity进行绑定，所以也是 onCreate()能在子线程刷新UI的原因 ,</p>
-</li>
-<li><p>接着在 onResume()调用 performMeasure() performLayout(), performDraw()</p>
-</li>
-</ol>
-<p><img src="/2020/08/09/WMS/2021-08-10_11.44_draw.png"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">textView = findViewById(R.id.tv_thread);</span><br><span class="line"><span class="keyword">new</span> Handler().post(() -&gt; &#123;</span><br><span class="line">    Log.i(<span class="string">&quot;GlideActivity&quot;</span>, <span class="string">&quot;onResume: &quot;</span> + textView.getWidth());</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>运行结果 </p>
-<blockquote>
-<p>I/GlideActivity: onResume: 0</p>
-</blockquote>
-<p>OnResume()也是一个消息，虽然post消息放在后面，但是是因为建立了消息屏障。所以还是先执行，然后获取宽度为0;</p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1FK4y1R7Nw?from=search&amp;seid=12068296586023469576">https://www.bilibili.com/video/BV1FK4y1R7Nw?from=search&amp;seid=12068296586023469576</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/3/index.html">http://noteforme.github.io.com/page/3/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1204,7 +1482,7 @@ Socket
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/2/">Vorheriger</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/4/">Nächster</a>
+<a class="extend prev" rel="prev" href="/page/2/">Previous</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/4/">Next</a>
 </nav>
 
 
@@ -1214,9 +1492,21 @@ Socket
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/11/08/coroutine-begin/">coroutine_begin</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/06/Language/">Language</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/31/BinarySearch/">BinarySearch</a>
+          </li>
         
           <li>
             <a href="/2021/09/11/kotlin-senior2/">kotlin-senior2</a>
@@ -1224,18 +1514,6 @@ Socket
         
           <li>
             <a href="/2021/08/30/Leetcode/">Leetcode_Linklist</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/29/Dagger/">Dagger</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/22/kotlin-senior/">kotlin-senior</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/21/kotlin-object/">kotlin-object</a>
           </li>
         
       </ul>
@@ -1255,9 +1533,9 @@ Socket
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">54</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/coroutine/">coroutine</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1265,9 +1543,9 @@ Socket
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年09月</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年11月</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1316,9 +1594,9 @@ Socket
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Sitemap</a>
-        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
-        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
       </p>
       
         <p>

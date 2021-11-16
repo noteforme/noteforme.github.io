@@ -53,11 +53,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -65,7 +65,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -86,6 +86,443 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-AndroidSource" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/07/25/AndroidSource/">AndroidSource</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2018-07-25T01:57:29.000Z" itemprop="datePublished">2018年07月25日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2018/07/25/AndroidSource/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV15W411L7Lc?p=9">https://www.bilibili.com/video/BV15W411L7Lc?p=9</a></p>
+<h5 id="源码调试"><a href="#源码调试" class="headerlink" title="源码调试"></a>源码调试</h5><p>要学习Android源码需要编译一份，然后安装要求导入AndroidStudio,可以参考:<br><a target="_blank" rel="noopener" href="http://blog.csdn.net/huaiyiheyuan/article/details/52069122">http://blog.csdn.net/huaiyiheyuan/article/details/52069122</a></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Application</span> <span class="keyword">extends</span> <span class="title">ContextWrapper</span> <span class="title">implements</span> <span class="title">ComponentCallbacks2</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>当我点开父类ContextWrapper后，发现引用的是jar立面的class文件，既然有源码这肯定不是我所需要的，<br>可以这要操作:Project Structure-&gt;Dependencies(可以看到很多jar依赖删掉)-&gt;　＋JARS And Dierctories -&gt;添加源码要关联的frameworks 、packages…</p>
+<ol>
+<li>新建JDK1.8　选择openjdk8</li>
+</ol>
+<p>　<img src="/2018/07/25/AndroidSource/DeepinScrot_aosp1.png" alt="新建JDK"></p>
+<ol start="2">
+<li><p>删除依赖</p>
+<p>　<img src="/2018/07/25/AndroidSource/DeepinScrot_aosp5.png" alt="删除依赖"></p>
+</li>
+</ol>
+<p>3.　选择需要的包</p>
+<p><img src="/2018/07/25/AndroidSource/DeepinScrot_aosp.png" alt="选择包"></p>
+<p>4.　这一步要衡量一下，转为gradle项目后，project structure下面就没有moudles了<br> <img src="/2018/07/25/AndroidSource/DeepinScrot_aosp2.png" alt="添加包"><br>    这个设置后麻烦可以大了，后面不得不删除了android.ipr、android.iws、android.iml这三个文件重新生成</p>
+<p>５.　跳转到源码<br>　　找到pacages-&gt; apps-&gt;Settings　<code>public class SettingsDrawerActivity extends Activity &#123;</code></p>
+<p>  点开Activity发现还是跳转到jar的内容<br>  <img src="/2018/07/25/AndroidSource/DeepinScrot_aosp6.png" alt="跳转成功"> 点击Ok后再测试下</p>
+<p>  <img src="/2018/07/25/AndroidSource/DeepinScrot_aosp7.png" alt="验证"><br>  终于成功了</p>
+<p>** 哈哈　然后就可以愉快的调试源码了<br>**</p>
+<p>/home/jon/noteforme.github.io/public/2017/08/10/DesignParrerns</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/news/277549">https://cloud.tencent.com/developer/news/277549</a></p>
+<ul>
+<li>Activity启动过程</li>
+</ul>
+<p> 对应用程序Activity进行编译和打包</p>
+<pre><code>  /home/jon/桌面/LaoLuo/chapter-7/src/packages/experimental/Activity
+  make snod
+  emulator
+</code></pre>
+<p>然后查看activity信息，在这里通过源码里面的 adb</p>
+<pre><code>cd  /home/jon/AOSP/out/host/linux-x86/bin
+adb shell dumpsys activity
+</code></pre>
+<blockquote>
+</blockquote>
+<img src="https://img-blog.csdn.net/20170123173332254?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRhY2hpODU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="zoom: 67%;">
+
+
+
+<p>1.Android系统架构<br>Android系统架构分为五层，从上到下依次是应用层、应用框架层、系统运行库层、硬件抽象层和Linux内核层。</p>
+<p>应用层<br>系统内置的应用程序以及非系统级的应用程序都是属于应用层。负责与用户进行直接交互，通常都是用Java进行开发的。</p>
+<p>应用框架层（Java Framework)<br>应用框架层为开发人员提供了可以开发应用程序所需要的API，我们平常开发应用程序都是调用的这一层所提供的API，当然也包括系统的应用。这一层的是由Java代码编写的，可以称为Java Framework。下面来看这一层所提供的主要的组件。</p>
+<p>名称    功能描述<br>Activity Manager(活动管理器)    管理各个应用程序生命周期以及通常的导航回退功能<br>Location Manager(位置管理器)    提供地理位置以及定位功能服务<br>Package Manager(包管理器)    管理所有安装在Android系统中的应用程序<br>Notification Manager(通知管理器)    使得应用程序可以在状态栏中显示自定义的提示信息<br>Resource Manager（资源管理器）    提供应用程序使用的各种非代码资源，如本地化字符串、图片、布局文件、颜色文件等<br>Telephony Manager(电话管理器)    管理所有的移动设备功能<br>Window Manager（窗口管理器）    管理所有开启的窗口程序<br>Content Providers（内容提供器）    使得不同应用程序之间可以共享数据<br>View System（视图系统）    构建应用程序的基本组件<br>表1<br>系统运行库层（Native)<br>系统运行库层分为两部分，分别是C/C++程序库和Android运行时库。下面分别来介绍它们。</p>
+<p>1.C/C++程序库<br>C/C++程序库能被Android系统中的不同组件所使用，并通过应用程序框架为开发者提供服务，主要的C/C++程序库如下表2所示。</p>
+<p>名称    功能描述<br>OpenGL ES    3D绘图函数库<br>Libc    从BSD继承来的标准C系统函数库，专门为基于嵌入式Linux的设备定制<br>Media Framework    多媒体库，支持多种常用的音频、视频格式录制和回放。<br>SQLite    轻型的关系型数据库引擎<br>SGL    底层的2D图形渲染引擎<br>SSL    安全套接层，是为网络通信提供安全及数据完整性的一种安全协议<br>FreeType    可移植的字体引擎，它提供统一的接口来访问多种字体格式文件<br>表2<br>2.Android运行时库<br>运行时库又分为核心库和ART(5.0系统之后，Dalvik虚拟机被ART取代)。核心库提供了Java语言核心库的大多数功能，这样开发者可以使用Java语言来编写Android应用。相较于JVM，Dalvik虚拟机是专门为移动设备定制的，允许在有限的内存中同时运行多个虚拟机的实例，并且每一个Dalvik 应用作为一个独立的Linux 进程执行。独立的进程可以防止在虚拟机崩溃的时候所有程序都被关闭。而替代Dalvik虚拟机的ART 的机制与Dalvik 不同。在Dalvik下，应用每次运行的时候，字节码都需要通过即时编译器转换为机器码，这会拖慢应用的运行效率，而在ART 环境中，应用在第一次安装的时候，字节码就会预先编译成机器码，使其成为真正的本地应用。</p>
+<p>硬件抽象层（HAL)<br>硬件抽象层是位于操作系统内核与硬件电路之间的接口层，其目的在于将硬件抽象化，为了保护硬件厂商的知识产权，它隐藏了特定平台的硬件接口细节，为操作系统提供虚拟硬件平台，使其具有硬件无关性，可在多种平台上进行移植。 从软硬件测试的角度来看，软硬件的测试工作都可分别基于硬件抽象层来完成，使得软硬件测试工作的并行进行成为可能。通俗来讲，就是将控制硬件的动作放在硬件抽象层中。</p>
+<p>Linux内核层<br>Android 的核心系统服务基于Linux 内核，在此基础上添加了部分Android专用的驱动。系统的安全性、内存管理、进程管理、网络协议栈和驱动模型等都依赖于该内核。<br>Android系统的五层架构就讲到这，了解以上的知识对以后分析系统源码有很大的帮助。</p>
+<p>2.Android系统源码目录<br>我们要先了解Android系统源码目录，为后期源码学习打下基础。关于源码的阅读，你可以访问<a target="_blank" rel="noopener" href="http://androidxref.com/%E6%9D%A5%E9%98%85%E8%AF%BB%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81%E3%80%82%E5%BD%93%E7%84%B6%EF%BC%8C%E6%9C%80%E5%A5%BD%E6%98%AF%E5%B0%86%E6%BA%90%E7%A0%81%E4%B8%8B%E8%BD%BD%E4%B8%8B%E6%9D%A5%E3%80%82%E4%B8%8B%E8%BD%BD%E6%BA%90%E7%A0%81%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E6%B8%85%E5%8D%8E%E5%A4%A7%E5%AD%A6%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6%E9%95%9C%E5%83%8F%E7%AB%99%E6%8F%90%E4%BE%9B%E7%9A%84Android">http://androidxref.com/来阅读系统源码。当然，最好是将源码下载下来。下载源码可以使用清华大学开源软件镜像站提供的Android</a> 镜像：<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/">https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/</a> 。如果觉得麻烦也可以查找国内的网盘进行下载，推荐使用该百度网盘地址下载：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1ngsZs%EF%BC%8C%E5%AE%83%E6%8F%90%E4%BE%9B%E4%BA%86%E5%A4%9A%E4%B8%AAAndroid%E7%89%88%E6%9C%AC%E7%9A%84%E7%9A%84%E6%BA%90%E7%A0%81%E4%B8%8B%E8%BD%BD%E3%80%82">http://pan.baidu.com/s/1ngsZs，它提供了多个Android版本的的源码下载。</a></p>
+<p>整体结构<br>各个版本的源码目录基本是类似，如果是编译后的源码目录会多增加一个out文件夹，用来存储编译产生的文件。Android7.0的根目录结构说明如下表所示。</p>
+<p>从表3可以看出，系统源码分类清晰，并且内容庞大且复杂。接下来分析packages中的内容，也就是应用层部分。<br>应用层部分<br>应用层位于整个Android系统的最上层，开发者开发的应用程序以及系统内置的应用程序都是在应用层。源码根目录中的packages目录对应着系统应用层。它的目录结构如表4所示。</p>
+<h5 id="Android-open-source-project"><a href="#Android-open-source-project" class="headerlink" title="Android open source project"></a>Android open source project</h5><h5 id=""><a href="#" class="headerlink" title=""></a></h5><p>Android Architecture</p>
+<p><img src="/2018/07/25/AndroidSource/android_stack_720.png" style="zoom:50%;">         <img src="/2018/07/25/AndroidSource/ape_fwk_all.png" style="zoom: 67%;"></p>
+<p><a target="_blank" rel="noopener" href="https://source.android.com/">https://source.android.com/</a>                            </p>
+<p> <a target="_blank" rel="noopener" href="https://source.android.com/devices/architecture">https://source.android.com/devices/architecture</a></p>
+<blockquote>
+<pre><code>    Android源码根目录    描述
+
+abi    应用程序二进制接口
+art    全新的ART运行环境
+bionic    系统C库
+bootable    启动引导相关代码
+build    存放系统编译规则及generic等基础开发包配置
+cts    Android兼容性测试套件标准
+dalvik art    虚拟机
+developers    开发者目录
+development    应用程序开发相关
+device    设备相关配置
+docs    参考文档目录
+external    开源模组相关文件
+frameworks    应用程序框架，Android系统核心部分，由Java和C++编写
+hardware    主要是硬件抽象层的代码
+libcore    核心库相关文件
+libnativehelper    动态库，实现JNI库的基础
+ndk    NDK相关代码，帮助开发人员在应用程序中嵌入C/C++代码
+out    编译完成后代码输出在此目录
+packages    应用程序包
+pdk    Plug Development Kit 的缩写，本地开发套件
+platform_testing    平台测试
+prebuilts    x86和arm架构下预编译的一些资源
+sdk    sdk和模拟器
+system    底层文件系统库、应用和组件
+toolchain    工具链文件
+tools    工具文件
+Makefile    全局Makefile文件，用来定义编译规则
+————————————————
+
+https://blog.csdn.net/wenzhi20102321/article/details/80739649
+
+https://blog.csdn.net/wen0006/article/details/5804639
+</code></pre>
+</blockquote>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-ViewDynamic" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/07/17/ViewDynamic/">ViewDynamic</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2018-07-17T12:25:26.000Z" itemprop="datePublished">2018年07月17日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2018/07/17/ViewDynamic/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="动态添加布局"><a href="#动态添加布局" class="headerlink" title="动态添加布局"></a>动态添加布局</h4><h5 id="LinearLayout添加"><a href="#LinearLayout添加" class="headerlink" title="LinearLayout添加"></a>LinearLayout添加</h5><ul>
+<li><p>父容器</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout</span><br><span class="line">    android:id=&quot;@+id/ll_plan_one&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:orientation=&quot;vertical&quot;&gt;</span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>子布局</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">View</span> view1 = inflate.inflate(R.layout.layout_animation, <span class="built_in">null</span>);</span><br><span class="line"><span class="built_in">View</span> view2 = inflate.inflate(R.layout.ic_hpan_suger_press_y, <span class="built_in">null</span>);</span><br><span class="line"><span class="built_in">View</span> view3 = inflate.inflate(R.layout.ic_hpan_suger_press_y, <span class="built_in">null</span>);</span><br></pre></td></tr></table></figure></li>
+<li><p>添加进容器</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">llVertical.add<span class="constructor">View(<span class="params">view1</span>)</span>;</span><br><span class="line">llVertical.add<span class="constructor">View(<span class="params">view2</span>)</span>;</span><br><span class="line">llVertical.add<span class="constructor">View(<span class="params">view3</span>)</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>添加同一个子布局会<strong>报错</strong></p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">llVertical.add<span class="constructor">View(<span class="params">view1</span>)</span>;</span><br><span class="line">llVertical.add<span class="constructor">View(<span class="params">view1</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>​    Caused by: java.lang.IllegalStateException: The specified child already has a parent. You must call removeView() on the child’s parent first.</p>
+</blockquote>
+</li>
+</ul>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Lambda" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/07/11/Lambda/">Lambda</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2018-07-11T06:23:20.000Z" itemprop="datePublished">2018年07月11日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+      
+      
+<a href="/2018/07/11/Lambda/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="http://blog.oneapm.com/apm-tech/226.html">http://blog.oneapm.com/apm-tech/226.html</a></p>
+<p>android </p>
+<p><a target="_blank" rel="noopener" href="https://maxwell-nc.github.io/android/retrolambda.html">https://maxwell-nc.github.io/android/retrolambda.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1526621">https://cloud.tencent.com/developer/article/1526621</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6844903668592934925">https://juejin.im/post/6844903668592934925</a></p>
+<p>kotlin  lambda</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6844903604613021703">https://juejin.im/post/6844903604613021703</a></p>
+<p>Video</p>
+<h4 id="Java-lambda"><a href="#Java-lambda" class="headerlink" title="Java lambda"></a>Java lambda</h4><p>函数式编程</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av54941486/">https://www.bilibili.com/video/av54941486/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.chilangedu.com/sectionq/2132352424">http://www.chilangedu.com/sectionq/2132352424</a></p>
+<h5 id="map"><a href="#map" class="headerlink" title="map"></a>map</h5><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;R&gt; Stream&lt;R&gt; <span class="keyword">map</span>(<span class="built_in">Function</span>&lt;? <span class="built_in">super</span> T, ? <span class="keyword">extends</span> R&gt; mapper);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="symbol">Function</span>&lt;<span class="symbol">T</span>, <span class="symbol">R</span>&gt; &#123;</span><br><span class="line">	    R apply(T t); <span class="comment">//将T类型转为R</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-EventBus" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/07/11/EventBus/">EventBus</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2018-07-11T06:12:08.000Z" itemprop="datePublished">2018年07月11日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2018/07/11/EventBus/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>定义事件类</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageEvent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span>  <span class="built_in">String</span> message;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="title">MessageEvent</span>(<span class="params"><span class="built_in">String</span> message</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.message = message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">String</span> <span class="function"><span class="title">getMessage</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> message;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p> EventBusActivity</p>
+</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Subscribe</span>(threadMode = ThreadMode.MAIN)</span><br><span class="line"><span class="keyword">public</span>  <span class="built_in">void</span>  <span class="function"><span class="title">onMessageEvent</span>(<span class="params">MessageEvent messageEvent</span>)</span>&#123;</span><br><span class="line">    btEventRecieve.setText(messageEvent.getMessage());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"> <span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">onStart</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">     <span class="built_in">super</span>.onStart();</span><br><span class="line">     EventBus.getDefault().register(<span class="built_in">this</span>);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">onStop</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">     <span class="built_in">super</span>.onStop();</span><br><span class="line">     EventBus.getDefault().unregister(<span class="built_in">this</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>GoalEventActivity </li>
+</ol>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">findViewById(R.id.bt_message_send).setOnClickListener(v-&gt;&#123;</span><br><span class="line">    <span class="keyword">new</span> Thread<span class="function"><span class="params">(()-&gt;&#123;</span></span></span><br><span class="line"><span class="function"><span class="params">        EventBus.getDefault().post(<span class="keyword">new</span> MessageEvent(<span class="string">&quot;我是 GoalEventActivity&quot;</span>));</span></span></span><br><span class="line"><span class="function"><span class="params">    &#125;)</span>.<span class="title">start</span><span class="params">()</span>;</span></span><br><span class="line"><span class="function">&#125;);</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h5><p>在上面的例子中，我们再注解<code>@Subscribe(threadMode = ThreadMode.MAIN)</code>中使用了ThreadMode.MAIN这个模式，表示该函数在主线程即UI线程中执行，实际上EventBus总共有四种线程模式，分别是： </p>
+<ul>
+<li>ThreadMode.MAIN：表示无论事件是在哪个线程发布出来的，该事件订阅方法onEvent都会在UI线程中执行，这个在Android中是非常有用的，因为在Android中只能在UI线程中更新UI，所有在此模式下的方法是不能执行耗时操作的。</li>
+<li>ThreadMode.POSTING：表示事件在哪个线程中发布出来的，事件订阅函数onEvent就会在这个线程中运行，也就是说发布事件和接收事件在同一个线程。使用这个方法时，在onEvent方法中不能执行耗时操作，如果执行耗时操作容易导致事件分发延迟。</li>
+<li>ThreadMode.BACKGROUND：表示如果事件在UI线程中发布出来的，那么订阅函数onEvent就会在子线程中运行，如果事件本来就是在子线程中发布出来的，那么订阅函数直接在该子线程中执行。</li>
+<li>ThreadMode.AYSNC：使用这个模式的订阅函数，那么无论事件在哪个线程发布，都会创建新的子线程来执行订阅函数。</li>
+</ul>
+<p> <a target="_blank" rel="noopener" href="https://github.com/greenrobot/EventBus">https://github.com/greenrobot/EventBus</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a040955194fc">https://www.jianshu.com/p/a040955194fc</a></p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000004279679">https://segmentfault.com/a/1190000004279679</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-Bluetooth02" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -118,7 +555,7 @@
 <a href="/2018/07/05/Bluetooth02/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -244,8 +681,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -258,7 +695,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -304,7 +741,7 @@
 <a href="/2018/07/04/Bluetooth01/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -416,8 +853,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -430,7 +867,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -471,7 +908,7 @@
 <a href="/2018/07/02/INTERVIEW-CONCURRENCY/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -726,8 +1163,8 @@ Socket
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -742,7 +1179,7 @@ Socket
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -783,7 +1220,7 @@ Socket
 <a href="/2018/06/22/INTERVIEW-SENIOR/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -1051,8 +1488,8 @@ Socket
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1067,7 +1504,7 @@ Socket
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1113,7 +1550,7 @@ Socket
 <a href="/2018/06/20/Zigbee/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -1131,8 +1568,8 @@ Socket
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1145,7 +1582,7 @@ Socket
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1191,7 +1628,7 @@ Socket
 <a href="/2018/06/14/Architecture/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -1272,8 +1709,8 @@ Socket
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1286,560 +1723,7 @@ Socket
           
           
     <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-VideoNDK" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/06/14/VideoNDK/">VideoNDK</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2018-06-14T01:21:28.000Z" itemprop="datePublished">2018年06月14日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2018/06/14/VideoNDK/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><img src="/2018/06/14/VideoNDK/2021-03-19_2.55.38_PM.png"></p>
-<h4 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">// insert code here...</span></span><br><span class="line">    <span class="keyword">char</span>* p = (<span class="keyword">char</span>*)<span class="built_in">malloc</span>(<span class="number">10</span>);    <span class="comment">//字符型指针 malloc堆空间分配内存</span></span><br><span class="line">    *p = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    *(p+<span class="number">1</span>) = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    *(p+<span class="number">2</span>) = <span class="string">&#x27;c&#x27;</span>;</span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">    <span class="comment">// p = NULL;</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s \n&quot;</span>,p); </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>输出 abc</p>
-<h5 id="指针函数-带指针的函数"><a href="#指针函数-带指针的函数" class="headerlink" title="指针函数:带指针的函数"></a>指针函数:带指针的函数</h5><p> 函数的返回值为指针类型</p>
-<p> 函数声明 : <code>int* func(int x,int y)</code></p>
-<p>指针函数调用</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *q;</span><br><span class="line">q = func(m);	<span class="comment">// q与被调用的函数的返回类型一致</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h6 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h6><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">getWord</span><span class="params">(<span class="keyword">char</span> c)</span></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (c) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;A&#x27;</span>: <span class="keyword">return</span> <span class="string">&quot;Apple&quot;</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;B&#x27;</span>: <span class="keyword">return</span> <span class="string">&quot;Banana&quot;</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;C&#x27;</span>: <span class="keyword">return</span> <span class="string">&quot;Cat&quot;</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;D&#x27;</span>: <span class="keyword">return</span> <span class="string">&quot;Dog&quot;</span>;</span><br><span class="line">        <span class="keyword">default</span>:<span class="keyword">return</span> <span class="string">&quot;None&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> input;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;please input a charactar:&quot;</span>);</span><br><span class="line">    input = getchar();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%c\n&quot;</span>,input);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,getWord(input));</span><br><span class="line">    getchar();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>运行结果</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">please</span> <span class="selector-tag">input</span> <span class="selector-tag">a</span> <span class="selector-tag">charactar</span>:<span class="selector-tag">A</span></span><br><span class="line"><span class="selector-tag">A</span></span><br><span class="line"><span class="selector-tag">Apple</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p> 输入A ，getWord()返回值为 Apple的首地址,printf(“%s\n),输出首地址所指向的值</p>
-</blockquote>
-<h6 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h6><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">getWord2</span><span class="params">(<span class="keyword">char</span> c)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> str1[] = <span class="string">&quot;Apple&quot;</span>;</span><br><span class="line">    <span class="keyword">char</span> str2[] = <span class="string">&quot;Banana&quot;</span>;</span><br><span class="line">    <span class="keyword">char</span> str3[] = <span class="string">&quot;Cat&quot;</span>;</span><br><span class="line">    <span class="keyword">char</span> str4[] = <span class="string">&quot;Dog&quot;</span>;</span><br><span class="line">    <span class="keyword">char</span> str5[] = <span class="string">&quot;None&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (c) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;A&#x27;</span>: <span class="keyword">return</span> str1;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;B&#x27;</span>: <span class="keyword">return</span> str2;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;C&#x27;</span>: <span class="keyword">return</span> str3;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;D&#x27;</span>: <span class="keyword">return</span> str4;</span><br><span class="line">        <span class="keyword">default</span>:<span class="keyword">return</span> str5;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//#if (0)</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> input;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;please input a charactar:&quot;</span>);</span><br><span class="line">    input = getchar();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%c\n&quot;</span>,input);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,getWord2(input));</span><br><span class="line">    getchar();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//#endif</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>注意: 不要返回局部变量的指针</strong></p>
-<p>例子2中,str1数组是局部变量，这个字符数组在子程序结束后，它对应的存储空间会被释放.</p>
-<h5 id="函数指针：指向函数的指针"><a href="#函数指针：指向函数的指针" class="headerlink" title="函数指针：指向函数的指针"></a>函数指针：指向函数的指针</h5><p>指向函数起始地址的指针</p>
-<h6 id="函数指针的定义"><a href="#函数指针的定义" class="headerlink" title="函数指针的定义"></a>函数指针的定义</h6><ul>
-<li><p><code>int (*fptr)(int,int)</code>  // (*func)中括号是必要的，这会告诉编译器我们声明的是函数指针而不是声明一个具有返回型为指针的函数</p>
-</li>
-<li><p>指针变量 :  *fptr , </p>
-</li>
-<li><p>如果*fptr变为函数名，整个就是一个函数</p>
-</li>
-</ul>
-<h6 id="函数指针的使用"><a href="#函数指针的使用" class="headerlink" title="函数指针的使用"></a>函数指针的使用</h6><p><code> fptr = func;</code></p>
-<p>int x = fptr(5,8);</p>
-<blockquote>
-<p>“%x “ 打印指针本身</p>
-</blockquote>
-<ol>
-<li>示例</li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">square</span><span class="params">(<span class="keyword">int</span> num)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span>  num * num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num;</span><br><span class="line">    <span class="keyword">int</span> (*fp)(<span class="keyword">int</span>); <span class="comment">// fp是一个指针，指向返回类型为int，参数为int的函数.</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;please input a number:&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;num);</span><br><span class="line">    fp = square;	<span class="comment">// 函数与指针的联系</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fp = 0x%x, %d\n&quot;</span>,fp,(*fp)(num));	<span class="comment">//&#x27;0x%x&#x27; 打印指针本身</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fp = 0x%x, %d\n&quot;</span>,fp,fp(num));		<span class="comment">// fp直接调用也可以</span></span><br><span class="line">    <span class="keyword">return</span>  <span class="number">0</span>;</span><br><span class="line">     </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>square内存中占据的位置，fp保存square指针的入口地址,fp指向square(),*fp代表 调用square().</p>
-<p><img src="/2018/06/14/VideoNDK/2021-03-06_9.54.34_PM.png"></p>
-<ol start="2">
-<li>用法</li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> num1,<span class="keyword">int</span> num2)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num1+num2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub</span><span class="params">(<span class="keyword">int</span> num1,<span class="keyword">int</span> num2)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num1-num2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">calculate</span><span class="params">(<span class="keyword">int</span> (*fp)(<span class="keyword">int</span>,<span class="keyword">int</span>),<span class="keyword">int</span> num1,<span class="keyword">int</span> num2)</span></span>&#123;	<span class="comment">//通用功能的函数</span></span><br><span class="line">    <span class="keyword">return</span> (*fp)(num1,num2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;3+5=%d\n&quot;</span>,calculate(add,<span class="number">3</span>,<span class="number">5</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;3-5=%d\n&quot;</span>,calculate(sub,<span class="number">3</span>,<span class="number">5</span>));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="3">
-<li>函数指针数组</li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function1</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function2</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function3</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function1</span><span class="params">(<span class="keyword">int</span> choice)</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;input %d, run function1().\n &quot;</span>,choice);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function2</span><span class="params">(<span class="keyword">int</span> choice)</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;input %d, run function2().\n &quot;</span>,choice);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function3</span><span class="params">(<span class="keyword">int</span> choice)</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;input %d, run function3().\n &quot;</span>,choice);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span>(1)</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">void</span> (*f[<span class="number">3</span>])(<span class="keyword">int</span>) = &#123;function1,function2,function3&#125;;<span class="comment">//f[3] f是有3个元素的数组，数组的每个元素是指针类型,每个指针指向 参数为(int)类型的函数</span></span><br><span class="line">    <span class="keyword">int</span> choice;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;please enter a digit : [0-2]: &quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;choice);</span><br><span class="line">    <span class="keyword">while</span> (choice&gt;<span class="number">0</span>&amp;&amp;choice&lt;<span class="number">3</span>) &#123;</span><br><span class="line">        (*f[choice])(choice);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;please enter a digit : [0-2]: &quot;</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;choice);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;run end&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="/2018/06/14/VideoNDK/2021-03-06_10.12.11_PM.png"></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV15J411Q7t9?from=search&amp;seid=1110914330533311902">https://www.bilibili.com/video/BV15J411Q7t9?from=search&amp;seid=1110914330533311902</a></p>
-<p>函数指针pft指向了一个已经声明的函数bar()，然后通过pft来实现输出字符和整型的目的。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bar</span><span class="params">(<span class="keyword">char</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span>  <span class="title">void</span> <span class="params">(*PFT)</span><span class="params">(<span class="keyword">char</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    PFT pft;</span><br><span class="line">    pft = bar;</span><br><span class="line">    <span class="built_in">pft</span>(<span class="string">&#x27;e&#x27;</span>,<span class="number">91</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bar</span><span class="params">(<span class="keyword">char</span> ch,<span class="keyword">int</span> i)</span></span>&#123;</span><br><span class="line">    cout&lt;&lt; <span class="string">&quot; bar &quot;</span>&lt;&lt;ch&lt;&lt;<span class="string">&#x27; &#x27;</span>&lt;&lt;i&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>函数指针作为函数的参数，我们可以在一个函数的形参列表中传入一个函数指针， 然后便可以在这个函数中使用这个函数指针所指向的函数</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*PFT)</span><span class="params">(<span class="keyword">char</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bar</span><span class="params">(<span class="keyword">char</span> ch, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;bar &quot;</span> &lt;&lt; ch &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; i &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">char</span> ch, <span class="keyword">int</span> i, PFT pf)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">pf</span>(ch, i);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    PFT pft;</span><br><span class="line">    pft = bar;</span><br><span class="line">    <span class="built_in">foo</span>(<span class="string">&#x27;e&#x27;</span>, <span class="number">12</span>, pft);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>函数对象</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="keyword">return</span> x; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A a;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">a</span>(<span class="number">5</span>)&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Func</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        cout &lt;&lt; a &lt;&lt; <span class="string">&#x27;+&#x27;</span> &lt;&lt; b &lt;&lt; <span class="string">&#x27;=&#x27;</span> &lt;&lt; a + b &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">addFunc</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, Func &amp;func)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">func</span>(a, b);</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Func func;</span><br><span class="line">    <span class="built_in">addFunc</span>(<span class="number">1</span>, <span class="number">3</span>, func);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h4><h5 id="结构指针"><a href="#结构指针" class="headerlink" title="结构指针"></a>结构指针</h5><p>point</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">point</span>  *<span class="title">pp</span>;</span></span><br><span class="line"> <span class="class"><span class="keyword">struct</span> <span class="title">point</span> <span class="title">pt</span> =</span> &#123;<span class="number">400</span>,<span class="number">600</span>&#125;;</span><br><span class="line"> pp = &amp;pt;</span><br><span class="line"> </span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;pt  %d, %d   \n&quot;</span>,pt.x, pt.y);<span class="comment">//(*pp.x)中的圆括号是必须的，因为结构成员运算符的 &quot;.&quot; 的优先级比先级高</span></span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;*pp %d, %d    \n&quot;</span>,(*pp).x, (*pp).y);</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;pp-&gt;  %d, %d  \n&quot;</span>,pp-&gt;x, pp-&gt;y);</span><br></pre></td></tr></table></figure>
-
-<p>运行</p>
-<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pt  400,<span class="number"> 600 </span>  </span><br><span class="line">*pp 400,<span class="number"> 600 </span>   </span><br><span class="line">pp-&gt;  400,<span class="number"> 600 </span> </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>结构指针的使用频度非常高，C语言提供了另一种简写方式，假定P指向一个结构的指针，可以用</p>
-<p>p-&gt; 结构成员  ==  *p.结构成员</p>
-<p>代码表达式<code>printf(&quot;origin is (%d,%d)\n&quot;, pp-&gt;x, pp-&gt;y);</code></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rect</span> <span class="title">r</span> =</span> &#123;&#123;<span class="number">200</span>,<span class="number">300</span>&#125;,&#123;<span class="number">400</span>,<span class="number">500</span>&#125;&#125;;</span><br><span class="line"> <span class="class"><span class="keyword">struct</span> <span class="title">rect</span> *<span class="title">rp</span> =</span> &amp;r;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;pt1.x %d         \n&quot;</span>,r.pt1.x);</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;(*rp).pt1.x %d  \n&quot;</span>,(*rp).pt1.x);</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot; rp-&gt;pt1.x %d   \n&quot;</span>,rp-&gt;pt1.x);</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;r.pt1.x %d  \n&quot;</span>,r.pt1.x);</span><br></pre></td></tr></table></figure>
-
-<p>运行结果</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pt1<span class="selector-class">.x</span> <span class="number">200</span>         </span><br><span class="line">(*rp)<span class="selector-class">.pt1</span><span class="selector-class">.x</span> <span class="number">200</span>  </span><br><span class="line"> rp-&gt;pt1<span class="selector-class">.x</span> <span class="number">200</span>   </span><br><span class="line">r<span class="selector-class">.pt1</span><span class="selector-class">.x</span> <span class="number">200</span>  </span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="动态内存分配"><a href="#动态内存分配" class="headerlink" title="动态内存分配"></a>动态内存分配</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">int</span> a[<span class="number">5</span>] = &#123;<span class="number">4</span>,<span class="number">10</span>,<span class="number">2</span>,<span class="number">8</span>,<span class="number">6</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;请输入你需要分配的数组的长度：len = &quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;len);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * sizeof(int) *len 分配len个int字节的长度，len =5时，就是20个字节</span></span><br><span class="line"><span class="comment">     * malloc返回 指向 第一个字节的地址</span></span><br><span class="line"><span class="comment">     * int * 第一个字节的地址，代表Int类型地址， pArr等价于a， pArr+1代表第二个Int地址</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> *pArr = (<span class="keyword">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>) *len);</span><br><span class="line">    *pArr = <span class="number">5</span>; <span class="comment">//类似于 a[0] =4;</span></span><br><span class="line">     pArr[<span class="number">1</span>] = <span class="number">10</span>; <span class="comment">//类似于a[1]=10;</span></span><br><span class="line"><span class="comment">//     printf(&quot;%d %d &quot;,*pArr,pArr[1]);</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;len ; ++i) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span> , &amp;pArr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;  i&lt;len ; ++i) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n &quot;</span> , *(pArr+i));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(pArr); <span class="comment">//把pArr所代表的动态分配的20个字节的内存释放</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/2018/06/14/VideoNDK/point_diagram.png"></p>
-<h5 id="结构体变量-hao"><a href="#结构体变量-hao" class="headerlink" title="结构体变量(hao)"></a>结构体变量(hao)</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> sid;</span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">200</span>];</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">g</span><span class="params">(struct Student student)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">g2</span><span class="params">(struct Student *pst)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(struct Student *pst)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> <span class="title">st</span> =</span> &#123;<span class="number">1000</span>, <span class="string">&quot;张三&quot;</span>, <span class="number">20</span>&#125;;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d   %s   %d\n&quot;</span>, st.sid, st.name, st.age);</span><br><span class="line">    st.sid = <span class="number">99</span>;</span><br><span class="line"><span class="comment">//    st.name = &quot;lili&quot;; //error</span></span><br><span class="line">    <span class="built_in">strcpy</span>(st.name, <span class="string">&quot;lili&quot;</span>);<span class="comment">//复制</span></span><br><span class="line">    st.age = <span class="number">22</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d   %s   %d\n&quot;</span>, st.sid, st.name, st.age);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> *<span class="title">pst</span>;</span></span><br><span class="line">    pst = &amp;st;</span><br><span class="line">    pst-&gt;sid = <span class="number">99</span>; <span class="comment">//  pst -&gt; sid 等价于 (*pst).sid 而(*pst).sid 等价于 st.sid</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// pst -&gt; sid</span></span><br><span class="line">    <span class="comment">// 所指向的结构体变量的sid这个成员</span></span><br><span class="line"></span><br><span class="line">    g(st);</span><br><span class="line">    g2(&amp;st);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">g2</span><span class="params">(struct Student *pst)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;g2  %d   %s   %d\n&quot;</span>, pst-&gt;sid, pst-&gt;name, pst-&gt;age);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//这种方式多耗 208 内存，耗时间 不推荐</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">g</span><span class="params">(struct Student st)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;g  %d   %s   %d\n&quot;</span>, st.sid, st.name, st.age);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="跨函数使用内存"><a href="#跨函数使用内存" class="headerlink" title="跨函数使用内存"></a>跨函数使用内存</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> sid;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">struct Student *<span class="title">createStudent</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">showStudent</span><span class="params">(struct Student *pst)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span>  <span class="title">Student</span> *<span class="title">ps</span>;</span></span><br><span class="line">    ps = <span class="built_in">createStudent</span>();</span><br><span class="line">    <span class="built_in">showStudent</span>(ps);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">showStudent</span><span class="params">(struct Student *pst)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d %d\n&quot;</span>,pst-&gt;sid,pst-&gt;age);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">struct Student *<span class="title">createStudent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span>  <span class="title">Student</span> *<span class="title">p</span> =</span> <span class="built_in">malloc</span>(<span class="built_in"><span class="keyword">sizeof</span></span>(struct Student)); <span class="comment">//表示   struct Student整体的数据类型代表的字节数</span></span><br><span class="line">            p-&gt;sid = <span class="number">99</span>;</span><br><span class="line">            p-&gt;age = <span class="number">88</span>;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="运算符优先级"><a href="#运算符优先级" class="headerlink" title="运算符优先级"></a>运算符优先级</h5><ul>
-<li><p>java运算符优先级</p>
-<blockquote>
-<p>!   &amp;&amp;    ||</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h4><p><a target="_blank" rel="noopener" href="https://space.bilibili.com/501486236/video">https://space.bilibili.com/501486236/video</a></p>
-<h5 id="typedef-别名"><a href="#typedef-别名" class="headerlink" title="typedef  别名"></a>typedef  别名</h5><p>type_1</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> ZHANGSAN;<span class="comment">//为int再重新多取一个名字，ZHANGSAN等价于int</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> sid;</span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">100</span>];</span><br><span class="line">    <span class="keyword">char</span> sex;</span><br><span class="line">&#125; ST;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">10</span>; <span class="comment">//等价于 ZHANGSAN i = 10;</span></span><br><span class="line">    ZHANGSAN j = <span class="number">20</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, j);</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> <span class="title">st</span>;</span><span class="comment">//等价于 ST st;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> *<span class="title">ps</span> =</span> &amp;st; <span class="comment">// 等价于 ST * ps</span></span><br><span class="line">    ST st2;</span><br><span class="line">    st2.sid = <span class="number">200</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,st2.sid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>type_2</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> sid;</span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">100</span>];</span><br><span class="line">    <span class="keyword">char</span> sex;</span><br><span class="line">&#125; * PST ; <span class="comment">//PST等价于 struct Student * ,这样就是一个指针类型了</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span>  <span class="title">Student</span> <span class="title">st</span>;</span></span><br><span class="line">    PST ps  = &amp;st;</span><br><span class="line">    ps-&gt;sid = <span class="number">99</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,ps-&gt;sid);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>type_3</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> sid;</span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">100</span>];</span><br><span class="line">    <span class="keyword">char</span> sex;</span><br><span class="line">&#125; * PSTU, STU; <span class="comment">//等价于 ST代表了 struct Student st, PST 代表了struct Student *;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    STU st; <span class="comment">//等价于 struct Student st;</span></span><br><span class="line">    PSTU  ps = &amp;st; <span class="comment">//struct Student * ps = &amp;st;</span></span><br><span class="line">    ps-&gt;sid = <span class="number">99</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,ps-&gt;sid);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h4><h5 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h5><blockquote>
-<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">C</span>++ <span class="comment">引用引用变量是一个别名，也就是说，它是某个已存在变量的另一个名字。一旦把引用初始化为某个变量，就可以使用该引用名称或变量名称来指向变量</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> &amp;x, <span class="keyword">int</span> &amp;y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> t = x;</span><br><span class="line">    x = y;</span><br><span class="line">    y = t;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">3</span>, b = <span class="number">4</span>;</span><br><span class="line">    cout &lt;&lt; a &lt;&lt; <span class="string">&quot;\t&quot;</span> &lt;&lt; b &lt;&lt; endl;</span><br><span class="line">    <span class="built_in">swap</span>(a, b);</span><br><span class="line">    cout &lt;&lt; a &lt;&lt; <span class="string">&quot;\t&quot;</span> &lt;&lt; b &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="函数模板"><a href="#函数模板" class="headerlink" title="函数模板"></a>函数模板</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span>  T&gt;</span><br><span class="line"><span class="function">T <span class="title">add</span><span class="params">(T x,T y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span>  x+y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> 0</span></span><br><span class="line">    cout&lt;&lt;add&lt;<span class="keyword">int</span>&gt;(<span class="number">5</span>,<span class="number">3</span>)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;add&lt;<span class="keyword">double</span> &gt;(<span class="number">5.3</span>,<span class="number">7.8</span>)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;add&lt;<span class="keyword">int</span>&gt;(<span class="number">4</span>,<span class="number">6</span>)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;add&lt;string&gt;(<span class="string">&quot;hello&quot;</span>,<span class="string">&quot;world&quot;</span>)&lt;&lt;endl;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    <span class="comment">//类型自动推断</span></span><br><span class="line">    cout&lt;&lt;<span class="built_in">add</span>(<span class="number">5</span>,<span class="number">3</span>)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">add</span>(<span class="number">5.3</span>,<span class="number">7.8</span>)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">add</span>(<span class="number">4</span>,<span class="number">6</span>)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">add</span>((<span class="keyword">double</span>)<span class="number">5</span>,<span class="number">7.8</span>)&lt;&lt;endl;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h4 id="swift语法"><a href="#swift语法" class="headerlink" title="swift语法"></a>swift语法</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> b: <span class="type">Int</span> <span class="operator">=</span> <span class="number">20</span></span><br><span class="line"><span class="keyword">let</span> aa <span class="operator">=</span> <span class="number">40</span> <span class="comment">//const</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a<span class="operator">&lt;</span><span class="number">20</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a &lt; 20 , true&quot;</span> )</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a &gt;= 20&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span> a &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">10</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;a equals 10&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">20</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;a equals 20&quot;</span>)</span><br><span class="line"><span class="keyword">default</span> :</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;other&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">25</span><span class="operator">..&lt;</span><span class="number">100</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;aa,i=&quot;</span>,i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> list  <span class="operator">=</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> list&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;aa, i=&quot;</span>,i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> loop <span class="operator">=</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> loop<span class="operator">&lt;</span><span class="number">10</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;loop, xxx = &quot;</span>,loop)</span><br><span class="line">    loop <span class="operator">=</span> loop <span class="operator">+</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">myFunc</span>(<span class="params">a</span> : <span class="type">Int</span>)</span> -&gt; <span class="type">Int</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;this is a function&quot;</span>,a)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> mm  <span class="operator">=</span> myFunc(a: <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Hello, World!&quot;</span>,a,b,aa,mm)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>environment<br><a target="_blank" rel="noopener" href="https://juejin.im/post/5ad98412518825670960c13c">https://juejin.im/post/5ad98412518825670960c13c</a></p>
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/ndk/">https://developer.android.com/ndk/</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-Bluetooth03" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/06/11/Bluetooth03/">Bluetooth03</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2018-06-11T01:41:39.000Z" itemprop="datePublished">2018年06月11日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/BLE/">BLE</a>
-  </div>
-
-      
-      
-<a href="/2018/06/11/Bluetooth03/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h4 id="经典蓝牙-低功耗蓝牙的区别"><a href="#经典蓝牙-低功耗蓝牙的区别" class="headerlink" title="经典蓝牙 低功耗蓝牙的区别"></a>经典蓝牙 低功耗蓝牙的区别</h4><p><a target="_blank" rel="noopener" href="http://www.loverobots.cn/the-analysis-is-simple-compared-with-the-classic-bluetooth-and-bluetooth-low-energy-in-android.html">http://www.loverobots.cn/the-analysis-is-simple-compared-with-the-classic-bluetooth-and-bluetooth-low-energy-in-android.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/59964187f265da249600af68">蓝牙适配建议</a></p>
-<ul>
-<li> 蓝牙低功耗</li>
-</ul>
-<p>  ​    Android 4.3 为发挥核心作用的<a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/connectivity/bluetooth-le.html?hl=zh-cn">蓝牙低功耗</a>（<em>蓝牙 LE</em>）引入了平台支持。在 Android 5.0 中，Android 设备现在可以发挥蓝牙 LE <em>外围设备</em>的作用。应用可以利用此功能让附近设备发现它。例如，您可以开发这样的应用：让设备发挥计步器或健康监测仪的作用，并与其他蓝牙 LE 设备进行数据通信。</p>
-<p>  新增的 <code>android.bluetooth.le</code> API 让您的应用可以发布广告、扫描响应以及与附近的蓝牙 LE 设备建立连接。要使用新增的广告和扫描功能，请在您的清单中添加 <code>BLUETOOTH_ADMIN</code> 权限。当用户更新您的应用或从 Play 商店下载您的应用时，会被要求向您的应用授予以下权限：“Bluetooth connection information:Allows the app to control Bluetooth, including broadcasting to or getting information about nearby Bluetooth devices.”</p>
-<p>  要启动蓝牙 LE 广播，以便其他设备能发现您的应用，请调用 <code>startAdvertising()</code>，并传入 <code>AdvertiseCallback</code> 类的实现。回调对象会收到广播操作成功或失败的报告。</p>
-<p>  Android 5.0 引入了 <code>ScanFilter</code> 类，让您的应用可以只扫描其感兴趣的特定类型设备。要开始扫描蓝牙 LE 设备，请调用 <code>startScan()</code>，并传入筛选器列表。在方法调用中，您还必须提供 <code>ScanCallback</code> 的实现，以便在发现蓝牙 LE 广播时进行报告。</p>
-<h3 id="蓝牙基本操作"><a href="#蓝牙基本操作" class="headerlink" title="蓝牙基本操作"></a>蓝牙基本操作</h3><h4 id="蓝牙权限"><a href="#蓝牙权限" class="headerlink" title="蓝牙权限"></a>蓝牙权限</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:<span class="built_in">name</span>=<span class="string">&quot;android.permission.BLUETOOTH&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
-
-<p>如果您希望您的应用启动设备发现或操作蓝牙设置，则还必须声明 <code>BLUETOOTH_ADMIN</code> 权限。 大多数应用需要此权限仅仅为了能够发现本地蓝牙设备。 除非该应用是将要应用户请求修改蓝牙设置的“超级管理员”，否则不应使用此权限所授予的其他能力。 <strong>注</strong>：如果要使用 <code>BLUETOOTH_ADMIN</code> 权限，则还必须拥有 <code>BLUETOOTH</code> 权限。 如打开关闭蓝牙</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:<span class="built_in">name</span>=<span class="string">&quot;android.permission.BLUETOOTH_ADMIN&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="6-0权限"><a href="#6-0权限" class="headerlink" title="6.0权限"></a>6.0权限</h5><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:<span class="attribute">name</span>=<span class="string">&quot;android.permission.ACCESS_COARSE_LOCATION&quot;</span>/&gt;</span><br><span class="line">&lt;uses-permission android:<span class="attribute">name</span>=<span class="string">&quot;android.permission.ACCESS_FINE_LOCATION&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="设置蓝牙"><a href="#设置蓝牙" class="headerlink" title="设置蓝牙"></a>设置蓝牙</h5><ol>
-<li><p>判断设备是否支持</p>
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/bluetooth/BluetoothAdapter.html?hl=zh-cn">BluetoothAdapter</a> </p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mBluetoothAdapter = <span class="module-access"><span class="module"><span class="identifier">BluetoothAdapter</span>.</span></span>get<span class="constructor">DefaultAdapter()</span>;</span><br><span class="line">BluetoothAdapter mBluetoothAdapter = <span class="module-access"><span class="module"><span class="identifier">BluetoothAdapter</span>.</span></span>get<span class="constructor">DefaultAdapter()</span>;</span><br><span class="line"><span class="keyword">if</span> (mBluetoothAdapter<span class="operator"> == </span>null) &#123;</span><br><span class="line">    <span class="comment">// Device does not support Bluetooth</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>启用蓝牙</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (mBluetoothAdapter==<span class="keyword">null</span>||!mBluetoothAdapter.isEnabled())&#123;</span><br><span class="line">       Toast.makeText(<span class="keyword">this</span>,<span class="string">&quot;设备不支持蓝牙权限&quot;</span>,Toast.LENGTH_SHORT).<span class="keyword">show</span>();</span><br><span class="line"> &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">       Toast.makeText(<span class="keyword">this</span>,<span class="string">&quot;支持设备&quot;</span>,Toast.LENGTH_SHORT).<span class="keyword">show</span>();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h4 id="查找设备"><a href="#查找设备" class="headerlink" title="查找设备"></a>查找设备</h4><p>5.0以下的方式就不贴出来了，代码里有</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * android5.0以上使用</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  @<span class="constructor">RequiresApi(<span class="params">api</span> = Build.VERSION_CODES.LOLLIPOP)</span></span><br><span class="line">  <span class="keyword">private</span>  void  scan<span class="constructor">Devices()</span>&#123;</span><br><span class="line">      BluetoothLeScanner mBluetoothScanner = mBluetoothAdapter.get<span class="constructor">BluetoothLeScanner()</span>;</span><br><span class="line">      mBluetoothScanner.start<span class="constructor">Scan(<span class="params">scanCallback</span>)</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ScanCallback scanCallback = <span class="keyword">new</span> <span class="constructor">ScanCallback()</span> &#123;</span><br><span class="line">      @Override</span><br><span class="line">      public void on<span class="constructor">ScanResult(<span class="params">int</span> <span class="params">callbackType</span>, ScanResult <span class="params">result</span>)</span> &#123;</span><br><span class="line">          super.on<span class="constructor">ScanResult(<span class="params">callbackType</span>, <span class="params">result</span>)</span>;</span><br><span class="line">          <span class="comment">//把byte数组转成16进制字符串，方便查看</span></span><br><span class="line">          <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>e(TAG,<span class="string">&quot;onScanResult :&quot;</span>+result.get<span class="constructor">ScanRecord()</span>.<span class="keyword">to</span><span class="constructor">String()</span>);</span><br><span class="line">          BluetoothDevice device = result.get<span class="constructor">Device()</span>;</span><br><span class="line">          blueAdapter.add<span class="constructor">Device(<span class="params">device</span>)</span>;</span><br><span class="line">          </span><br><span class="line">          ScanRecord scanRecord = result.get<span class="constructor">ScanRecord()</span>;</span><br><span class="line">          <span class="built_in">int</span> rssi = result.get<span class="constructor">Rssi()</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      @Override</span><br><span class="line">      public void on<span class="constructor">BatchScanResults(List&lt;ScanResult&gt; <span class="params">results</span>)</span> &#123;</span><br><span class="line">          super.on<span class="constructor">BatchScanResults(<span class="params">results</span>)</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      @Override</span><br><span class="line">      public void on<span class="constructor">ScanFailed(<span class="params">int</span> <span class="params">errorCode</span>)</span> &#123;</span><br><span class="line">          super.on<span class="constructor">ScanFailed(<span class="params">errorCode</span>)</span>;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="连接设备"><a href="#连接设备" class="headerlink" title="连接设备"></a>连接设备</h5><p>蓝牙设备经常处于关机状态，先调用下面方法</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BluetoothDevice remoteDevice = adapter.get<span class="constructor">RemoteDevice(<span class="params">address</span>)</span>;</span><br></pre></td></tr></table></figure>
-
- <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">remoteDevice.connect<span class="constructor">Gatt(<span class="params">context</span>, <span class="params">true</span>, <span class="params">mGattCallback</span>)</span>;<span class="comment">//参数1：上下文。</span></span><br><span class="line">                                                       <span class="comment">//参数2：是否自动连接（当设备可以用时）</span></span><br><span class="line">                                                       <span class="comment">//参数3：连接回调。</span></span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Free-Thinker/p/11507349.html">https://www.cnblogs.com/Free-Thinker/p/11507349.html</a></p>
-<p><strong>6、关于autoConnect参数为true的意义？</strong></p>
-<p>在蓝牙核心文档Vol3: Core System Package[Host volume]-&gt;Part C: Generic  Access Profile的Connection Modes and Procedures章节中有涉及到自动连接建立规程(Auto  Connection Establishment Procedure)的定义。</p>
-<p>自动连接建立规程用来向多个设备同时发起连接。一个中央设备的主机与多个外围设备绑定，只要它们开始广播，便立刻与其建立连接。跟多细节请参考蓝牙核心文档和协议栈源码。</p>
-<p>回调</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> BluetoothGattCallback mGattCallback = <span class="keyword">new</span> <span class="constructor">BluetoothGattCallback()</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Callback indicating when GATT client has connected/disconnected to/from a remote GATT server</span></span><br><span class="line"><span class="comment">     * @param gatt     返回连接建立的gatt对象</span></span><br><span class="line"><span class="comment">     * @param status   返回的是此次gatt操作的结果，成功了返回0</span></span><br><span class="line"><span class="comment">     * @param newState 每次client连接或断开连接状态变化，STATE_CONNECTED 0，STATE_CONNECTING 1,STATE_DISCONNECTED 2,STATE_DISCONNECTING 3</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    @Override</span><br><span class="line">    public void on<span class="constructor">ConnectionStateChange(BluetoothGatt <span class="params">gatt</span>, <span class="params">int</span> <span class="params">status</span>, <span class="params">int</span> <span class="params">newState</span>)</span> &#123;</span><br><span class="line">        super.on<span class="constructor">ConnectionStateChange(<span class="params">gatt</span>, <span class="params">status</span>, <span class="params">newState</span>)</span>;</span><br><span class="line">        <span class="keyword">if</span> (newState<span class="operator"> == </span>BluetoothProfile.STATE_CONNECTED) &#123;</span><br><span class="line">            gatt.discover<span class="constructor">Services()</span>;        <span class="comment">//连接成功， 开始搜索服务</span></span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(TAG, <span class="string">&quot;onConnectionStateChange  连接成功&quot;</span> + status);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Callback invoked when the list of remote services, characteristics and descriptors for the remote device have been updated, ie new services have been discovered.</span></span><br><span class="line"><span class="comment">     * @param gatt   返回的是本次连接的gatt对象</span></span><br><span class="line"><span class="comment">     * @param status</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    @Override</span><br><span class="line">    public void on<span class="constructor">ServicesDiscovered(BluetoothGatt <span class="params">gatt</span>, <span class="params">int</span> <span class="params">status</span>)</span> &#123;</span><br><span class="line">        super.on<span class="constructor">ServicesDiscovered(<span class="params">gatt</span>, <span class="params">status</span>)</span>;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(TAG, <span class="string">&quot;onServicesDiscovered status&quot;</span> + status);</span><br><span class="line">        List&lt;BluetoothGattService&gt; mServiceList = gatt.get<span class="constructor">Services()</span>;</span><br><span class="line">        <span class="keyword">for</span> (BluetoothGattService service : mServiceList) &#123;</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(TAG, <span class="string">&quot;onServicesDiscovered &quot;</span> + service.get<span class="constructor">Uuid()</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        BluetoothGattService service = gatt.get<span class="constructor">Service(UUID.<span class="params">fromString</span>(GATT_SERVICE_PRIMARY_1)</span>);</span><br><span class="line">        BluetoothGattCharacteristic characterisetic = service.get<span class="constructor">Characteristic(UUID.<span class="params">fromString</span>(CHARACTERISTIC_NOTIFY_1)</span>);</span><br><span class="line">        <span class="comment">//调用以便当命令发送后返回信息可以自动返回</span></span><br><span class="line">        BluetoothGattDescriptor descriptor = characterisetic.get<span class="constructor">Descriptor(CCC)</span>;</span><br><span class="line">        descriptor.set<span class="constructor">Value(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE)</span>;</span><br><span class="line">        gatt.write<span class="constructor">Descriptor(<span class="params">descriptor</span>)</span>;</span><br><span class="line">        boolean isNotify = gatt.set<span class="constructor">CharacteristicNotification(<span class="params">characterisetic</span>, <span class="params">true</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//回调响应特征写操作的结果。</span></span><br><span class="line">    @Override</span><br><span class="line">    public void on<span class="constructor">CharacteristicWrite(BluetoothGatt <span class="params">gatt</span>, BluetoothGattCharacteristic <span class="params">characteristic</span>, <span class="params">int</span> <span class="params">status</span>)</span> &#123;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(TAG, gatt.get<span class="constructor">Device()</span>.get<span class="constructor">Name()</span> + <span class="string">&quot; write successfully&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">   <span class="comment">//回调响应特征读操作的结果。</span></span><br><span class="line">    @Override</span><br><span class="line">    public void on<span class="constructor">CharacteristicRead(BluetoothGatt <span class="params">gatt</span>, BluetoothGattCharacteristic <span class="params">characteristic</span>, <span class="params">int</span> <span class="params">status</span>)</span> &#123;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(TAG, gatt.get<span class="constructor">Device()</span>.get<span class="constructor">Name()</span> + <span class="string">&quot; recieved &quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void on<span class="constructor">CharacteristicChanged(BluetoothGatt <span class="params">gatt</span>, BluetoothGattCharacteristic <span class="params">characteristic</span>)</span> &#123;</span><br><span class="line">        super.on<span class="constructor">CharacteristicChanged(<span class="params">gatt</span>, <span class="params">characteristic</span>)</span>;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(TAG, <span class="string">&quot;The response is &quot;</span> + <span class="string">&quot;onCharacteristicChanged&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2018/06/11/Bluetooth03/E:/noteforme.github.io\source_posts\Bluetooth03\Android-BLE-in-Action.026.jpeg"></p>
-<h5 id="Android-中-GATT-操作的流程"><a href="#Android-中-GATT-操作的流程" class="headerlink" title="Android 中 GATT 操作的流程"></a>Android 中 GATT 操作的流程</h5><p><img src="/2018/06/11/Bluetooth03/Bluetooth03%5CAndroid-BLE-in-Action.028.jpeg" alt="droid-BLE-in-Acti"></p>
-<p> Android 中 GATT 操作的流程。右边这个图，APP 是我们的应用，右边蓝牙服务端，从左向右箭头是 APP 发起的请求，从右向左的箭头是回调。我们看到所有的操作都是异步的完成的。连接过程是，首先使用 gattConnect 发起连接，收到 onConnectionStateChange() 通知连接是否成功，若成功，则进行下一步的 discoverService()，这一步就是发现设备所有的 GATT Service，若发现成功，通过 onServiceDiscovered() 回调，这时才算真正的连接成功。然后可以通过 BluetoothGatt 的 getService() 来获得BluetoothGattService，进而获得BluetoothGattCharacteristic 等，然后对 Characteristic 进行读写。 </p>
-<ul>
-<li><p>office</p>
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/connectivity/bluetooth?hl=zh-cn">https://developer.android.com/guide/topics/connectivity/bluetooth?hl=zh-cn</a></p>
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/connectivity/bluetooth-le?hl=zh-cn">https://developer.android.com/guide/topics/connectivity/bluetooth-le?hl=zh-cn</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/googlesamples/android-BluetoothLeGatt">官方demo android5.0已过时</a></p>
-<p><a target="_blank" rel="noopener" href="https://source.android.google.cn/devices/bluetooth/">https://source.android.google.cn/devices/bluetooth/</a></p>
-</li>
-<li><p>un</p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/entry/5919630444d904006c6e14ca">https://juejin.im/entry/5919630444d904006c6e14ca</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/29a730795294">https://www.jianshu.com/p/29a730795294</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/046c1f5a7163">https://www.jianshu.com/p/046c1f5a7163</a></p>
-</li>
-</ul>
-<h4 id="设备通知手机"><a href="#设备通知手机" class="headerlink" title="设备通知手机"></a>设备通知手机</h4><p>5 当你从文档看到遍历出来的UUID有接送通知的功能。这时你就可以设置可以接收通知。通过拿到对应通知UUID的BluetoothGattCharacteristic，调用setCharacteristicNotification().其中00002902-0000-1000-8000-00805f9b34fb是系统提供接受通知自带的UUID，通过设置BluetoothGattDescriptor相当于设置BluetoothGattCharacteristic的Descriptor属性来实现通知，这样只要蓝牙设备发送通知信号，就会回调onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) 方法，这你就可以在这方法做相应的逻辑处理。 </p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/entry/58c74fc42f301e006bce23fb">https://juejin.im/entry/58c74fc42f301e006bce23fb</a></p>
-<h4 id="经典蓝牙开发"><a href="#经典蓝牙开发" class="headerlink" title="经典蓝牙开发"></a>经典蓝牙开发</h4><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/453a5cda5646">https://www.jianshu.com/p/453a5cda5646</a></p>
-<ul>
-<li><p>设置 00002902-0000-1000-8000-00805f9b34fb</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 设置特征信息推送 */</span></span><br><span class="line">··· BluetoothGattCharacteristic characteristic;</span><br><span class="line">    mGatt.set<span class="constructor">CharacteristicNotification(<span class="params">characteristic</span>,<span class="params">true</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* CCCD 的UUID */</span></span><br><span class="line"><span class="keyword">private</span> UUID ID_CCCD = <span class="module-access"><span class="module"><span class="identifier">UUID</span>.</span></span>from<span class="constructor">String(<span class="string">&quot;00002902-0000-1000-8000-00805f9b34fb&quot;</span>)</span>;  </span><br><span class="line"></span><br><span class="line"><span class="comment">/* 获取CCCD */</span></span><br><span class="line">BluetoothGattDescriptor cccd = characteristic.get<span class="constructor">Descriptor(ID_CCCD)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 设置推送通知，参考值为：</span></span><br><span class="line"><span class="comment"> * BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE:   通知</span></span><br><span class="line"><span class="comment"> * BluetoothGattDescriptor.ENABLE_INDICATION_VALUE:     指示</span></span><br><span class="line"><span class="comment"> * BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE:  关闭</span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line">cccd.set<span class="constructor">Value(参考值)</span>;</span><br><span class="line"><span class="comment">/* 写入CCCD */</span></span><br><span class="line">mGatt.write<span class="constructor">Descriptor(<span class="params">descriptor</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/43b1956d9f5c">https://www.jianshu.com/p/43b1956d9f5c</a></p>
-<p>官方三个蓝牙示例 :<a target="_blank" rel="noopener" href="https://github.com/googlesamples?utf8=%E2%9C%93&amp;q=bluetooth&amp;type=&amp;language=">https://github.com/googlesamples?utf8=%E2%9C%93&amp;q=bluetooth&amp;type=&amp;language=</a></p>
-<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>扫描不到任何设备</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/39646253/android-stops-finding-ble-devices-onclientregistered-status-133-clientif-0">https://stackoverflow.com/questions/39646253/android-stops-finding-ble-devices-onclientregistered-status-133-clientif-0</a></p>
-</li>
-</ul>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-DesignPatterns_Observer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/06/06/DesignPatterns_Observer/">DesignPatterns_Observer</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2018-06-06T08:09:58.000Z" itemprop="datePublished">2018年06月06日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
-  </div>
-
-      
-      
-<a href="/2018/06/06/DesignPatterns_Observer/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h4 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h4><p><img src="https://user-gold-cdn.xitu.io/2020/3/23/171064de21df41e0?imageView2/0/w/1280/h/960/ignore-error/1"></p>
-<p>​                    奶站\天气站                                                                                                                           用户</p>
-<h4 id="Observer观察者模式-订阅模式"><a href="#Observer观察者模式-订阅模式" class="headerlink" title="Observer观察者模式/订阅模式"></a>Observer观察者模式/订阅模式</h4><ul>
-<li>PUSH 模式</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//主题对象变化，通知所有的观察者</span></span><br><span class="line"><span class="comment">//抽象观察者</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Observer</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(String str)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体观察者</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteObserver</span> <span class="keyword">implements</span> <span class="title">Observer</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        System.out.println(str);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//抽象主题</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addObserver</span><span class="params">(Observer observer)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeObserver</span><span class="params">(Observer observer)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyObservers</span><span class="params">(String str)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//具体主题</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteSubject</span> <span class="keyword">implements</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line">    <span class="comment">// 存放观察者</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;Observer&gt; list = <span class="keyword">new</span> ArrayList&lt;Observer&gt;();</span><br><span class="line">  </span><br><span class="line">  	<span class="comment">//注册观察者</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addObserver</span><span class="params">(Observer observer)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        list.add(observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  	<span class="comment">//移除观察者</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeObserver</span><span class="params">(Observer observer)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        list.remove(observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  	<span class="comment">// 遍历所有观察者，并通知</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyObservers</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        <span class="keyword">for</span>(Observer observer:list)&#123;</span><br><span class="line">            observer.update(str);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//一个主题</span></span><br><span class="line">        ConcreteSubject eatSubject = <span class="keyword">new</span> ConcreteSubject();</span><br><span class="line">        <span class="comment">//两个观察者</span></span><br><span class="line">        ConcreteObserver p1 = <span class="keyword">new</span> ConcreteObserver();</span><br><span class="line">        ConcreteObserver p2 = <span class="keyword">new</span> ConcreteObserver();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//观察者订阅主题</span></span><br><span class="line">        eatSubject.addObserver(p1);</span><br><span class="line">        eatSubject.addObserver(p2);</span><br><span class="line">        eatSubject.notifyOBservers(<span class="string">&quot;起来敲代码啦！！！&quot;</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5bc96afff265da0aa94a4493">https://juejin.im/post/5bc96afff265da0aa94a4493</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/design_pattern/bridge_pattern.htm">https://www.tutorialspoint.com/design_pattern/bridge_pattern.htm</a></p>
-<ul>
-<li><p>PULL模式</p>
-<p>而拉模型是主题对象不知道观察者具体需要什么数据，没有办法的情况下，干脆把自身传递给观察者，让观察者自己去按需要取值。</p>
-</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1W4411c77E?p=120">https://www.bilibili.com/video/BV1W4411c77E?p=120</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-DesignPatterns_Singleton" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/06/06/DesignPatterns_Singleton/">Singleton</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2018-06-06T07:43:06.000Z" itemprop="datePublished">2018年06月06日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
-  </div>
-
-      
-      
-<a href="/2018/06/06/DesignPatterns_Singleton/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>单例模式</p>
-<p>　作用：一个类只有一个实例，减少内存开销
-　</p>
-<h4 id="kotlin"><a href="#kotlin" class="headerlink" title="kotlin"></a>kotlin</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> <span class="keyword">private</span> <span class="keyword">constructor</span></span>() &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">object</span> HOLDER &#123;</span><br><span class="line">        <span class="keyword">val</span> INSTANCE = Singleton()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword">val</span> instance: Singleton <span class="keyword">by</span> lazy &#123; HOLDER.INSTANCE &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><a target="_blank" rel="noopener" href="https://medium.com/swlh/singleton-class-in-kotlin-c3398e7fd76b">https://medium.com/swlh/singleton-class-in-kotlin-c3398e7fd76b</a></p>
-<p>常用方式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</span><br><span class="line">     <span class="comment">// 持有私有静态实例，防止被引用，此处赋值为null，目的是实现延迟加载</span></span><br><span class="line">     <span class="keyword">private</span> <span class="keyword">static</span> Singleton singleton=<span class="keyword">null</span>;</span><br><span class="line">     <span class="comment">//私有构造方法，防止被实例化</span></span><br><span class="line">     <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">     <span class="keyword">if</span>(singleton==<span class="keyword">null</span>)&#123;           </span><br><span class="line">     								 							<span class="comment">//多个线程在这里聚集就会产生多个对象</span></span><br><span class="line">           synonzied(Singleton.class)&#123;</span><br><span class="line">           Thread.sleel(<span class="number">1</span>)</span><br><span class="line">          singleton = <span class="keyword">new</span> Singleton();</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> singleton;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</span><br><span class="line">     <span class="comment">// 持有私有静态实例，防止被引用，此处赋值为null，目的是实现延迟加载</span></span><br><span class="line">     <span class="keyword">private</span> <span class="keyword">static</span> Singleton singleton=<span class="keyword">null</span>;</span><br><span class="line">     <span class="comment">//私有构造方法，防止被实例化</span></span><br><span class="line">     <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;  <span class="comment">//这里加锁 粒度有问题</span></span><br><span class="line">      synonzied(Singleton.class)&#123; <span class="comment">//这样会产生效率问题，多个线程在这空转等待获得锁</span></span><br><span class="line">     <span class="keyword">if</span>(singleton==<span class="keyword">null</span>)&#123;           </span><br><span class="line">           Thread.sleel(<span class="number">1</span>)</span><br><span class="line">          singleton = <span class="keyword">new</span> Singleton();</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> singleton;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>源码有类似的　InputMethodManager，当然我们常用的方式是要传个Context上下文对象给单例类，记得有次面试的时候面试官说单例里面使用弱引用，如果是是为了避免内存泄漏我觉得是可以的，但是我觉得用这种方式更好　<code>Context applicationContext = context.getApplicationContext();</code>　刚无意中发现Glide单例也是这样使用的。</p>
-<h4 id="双重检查模式"><a href="#双重检查模式" class="headerlink" title="双重检查模式"></a>双重检查模式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;  </span><br><span class="line">      <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton singleton;   <span class="comment">//volatile 防止指令重排序,指令半初始化，CPU执行指令顺序可能不同</span></span><br><span class="line">      <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span> <span class="params">()</span></span>&#123;</span><br><span class="line">      &#125;   </span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">      <span class="keyword">if</span> (singleton== <span class="keyword">null</span>) &#123;  						</span><br><span class="line">          <span class="keyword">synchronized</span> (Singleton.class) &#123;  </span><br><span class="line">          <span class="keyword">if</span> (singleton== <span class="keyword">null</span>) &#123;  </span><br><span class="line">              instance= <span class="keyword">new</span> Singleton();  </span><br><span class="line">          &#125;  </span><br><span class="line">         &#125;  </span><br><span class="line">     &#125;  </span><br><span class="line">     <span class="keyword">return</span> singleton;  </span><br><span class="line">     &#125;  </span><br><span class="line"> &#125;  </span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="第1个if-singleton-null"><a href="#第1个if-singleton-null" class="headerlink" title="第1个if (singleton==null)"></a>第1个if (singleton==null)</h5><p>如果去掉它，那么所有线程都会串行执行，效率低下，这样会产生效率问题，多个线程在这空转等待获得锁，所以两个 check 都是需要保留的。</p>
-<h5 id="第2个if-singleton-null"><a href="#第2个if-singleton-null" class="headerlink" title="第2个if (singleton==null)"></a>第2个if (singleton==null)</h5><p>假如两个线程同时调用 getInstance() ,由于instance是空的，两个线程都通过<strong>第1个if (singleton null)</strong>,接着锁机制存在，线程1先进入同步语句，并进入第二重if判断,线程2在外面等待. 线程1执行完 <code>new Singleton()</code>后退出synchronized,这时候如果没有 <strong>第2个if (singleton== null)</strong>  线程2也会创建一个实例，此时就破坏了单例原则.</p>
-<h5 id="volatile作用"><a href="#volatile作用" class="headerlink" title="volatile作用"></a>volatile作用</h5><p>防止 new Singleton()重排序</p>
-<p>在 JVM 中上述语句至少做了以下这 3 件事</p>
-<p><img src="https://s0.lgstatic.com/i/image3/M01/7E/CC/Cgq2xl6BpWCAMBaVAACFIdffjfM852.png"></p>
-<ol>
-<li>第一步是给 singleton 分配内存空间；</li>
-<li>然后第二步开始调用 Singleton 的构造函数等，来初始化 singleton；</li>
-<li>最后第三步，将 singleton 对象指向分配的内存空间（执行完这步 singleton 就不是 null 了）。</li>
-</ol>
-<p>因为存在指令重排序的优化，也就是说第2 步和第 3 步的顺序是不能保证的，最终的执行顺序，可能是 1-2-3，也有可能是 1-3-2。</p>
-<p>如果是 1-3-2，那么在第 3 步执行完以后，singleton 就不是 null 了，可是这时第 2 步并没有执行，singleton 对象未完成初始化，它的属性的值可能不是我们所预期的值。假设此时线程 2 进入 getInstance 方法，由于 singleton 已经不是 null 了，所以会通过第一重<code>if (singleton==null) </code>检查并直接返回，但其实这时的 singleton 并没有完成初始化，所以使用这个实例的时候会报错.</p>
-<p><img src="https://s0.lgstatic.com/i/image3/M01/7E/CC/Cgq2xl6BpWCAB6QQAAEKacFd0CE542.png"></p>
-<h4 id="Enum方式"><a href="#Enum方式" class="headerlink" title="Enum方式"></a>Enum方式</h4><p>和公有域方法在功能上相近，但是更简洁，无偿提供了序列化机制，绝对的防止多次实例化，可以面对复杂的序列化或者反射攻击，虽然没有广泛采用，但是　单元素的枚举类型<br>已经成为实现　Singleton的最佳方法.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Elvis_03</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Elvis.INSTANCE.leaveTheBuilding();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 这种方法太NB了,</span></span><br><span class="line"><span class="comment"> * Effective Java pag15</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Elvis</span> </span>&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">leaveTheBuilding</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="嵌套类"><a href="#嵌套类" class="headerlink" title="嵌套类"></a>嵌套类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton3</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton3</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="comment">// 主要是使用了 嵌套类可以访问外部类的静态属性和静态方法 的特性</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Holder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> Singleton3 instance = <span class="keyword">new</span> Singleton3();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton3 <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Holder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5bc96afff265da0aa94a4493">https://juejin.im/post/5bc96afff265da0aa94a4493</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/10/index.html">http://noteforme.github.io.com/page/10/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1856,7 +1740,7 @@ Socket
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/9/">Vorheriger</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/11/">Nächster</a>
+<a class="extend prev" rel="prev" href="/page/9/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/11/">Next</a>
 </nav>
 
 
@@ -1866,9 +1750,21 @@ Socket
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/11/08/coroutine-begin/">coroutine_begin</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/06/Language/">Language</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/31/BinarySearch/">BinarySearch</a>
+          </li>
         
           <li>
             <a href="/2021/09/11/kotlin-senior2/">kotlin-senior2</a>
@@ -1876,18 +1772,6 @@ Socket
         
           <li>
             <a href="/2021/08/30/Leetcode/">Leetcode_Linklist</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/29/Dagger/">Dagger</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/22/kotlin-senior/">kotlin-senior</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/21/kotlin-object/">kotlin-object</a>
           </li>
         
       </ul>
@@ -1907,9 +1791,9 @@ Socket
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">54</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/coroutine/">coroutine</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1917,9 +1801,9 @@ Socket
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年09月</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年11月</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1968,9 +1852,9 @@ Socket
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Sitemap</a>
-        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
-        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
       </p>
       
         <p>

@@ -53,11 +53,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -65,7 +65,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -86,6 +86,297 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-DesignPattern-Decorator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/07/12/DesignPattern-Decorator/">DesignPattern_Decorator</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-07-12T04:37:59.000Z" itemprop="datePublished">2020年07月12日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
+  </div>
+
+      
+      
+<a href="/2020/07/12/DesignPattern-Decorator/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>装饰器模式</strong></p>
+<p>应用场景: 拓展一个类的功能或给一个类添加附加职责.</p>
+<p>优点: </p>
+<ol>
+<li>不改变原有对象的情况下给一个对象拓展功能</li>
+<li>使用不同的组合实现不同的效果</li>
+<li>符合开闭原则</li>
+</ol>
+<p><img src="/2020/07/12/DesignPattern-Decorator/2021-07-12_decorator.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteComponent</span> <span class="keyword">implements</span>  <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;拍照&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//对具体类的拓展</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteComponent1</span> <span class="keyword">implements</span>  <span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Component component;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreteComponent1</span><span class="params">(Component component)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.component = component;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;美颜&quot;</span>);</span><br><span class="line">        component.operation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//测试</span></span><br><span class="line"><span class="keyword">new</span> ConcreteComponent1(<span class="keyword">new</span> ConcreteComponent()).operation();</span><br></pre></td></tr></table></figure>
+
+<p>也可以把装饰器抽象出来</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 具体类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreateComponent</span> <span class="keyword">implements</span>  <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;拍照&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> <span class="keyword">implements</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    Component component;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Decorator</span><span class="params">(Component component)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.component = component;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        component.operation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//对具体类的拓展</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreateComponent1</span> <span class="keyword">extends</span>  <span class="title">Decorator</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreateComponent1</span><span class="params">(Component component)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(component);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;美颜&quot;</span>);</span><br><span class="line">        <span class="keyword">super</span>.operation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreateComponent2</span> <span class="keyword">extends</span>  <span class="title">Decorator</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreateComponent2</span><span class="params">(Component component)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(component);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;呵呵&quot;</span>);</span><br><span class="line">        <span class="keyword">super</span>.operation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//测试</span></span><br><span class="line"> ConcreateComponent2 concreateComponent1 = <span class="keyword">new</span> ConcreateComponent2(<span class="keyword">new</span> ConcreateComponent1(<span class="keyword">new</span> 	  ConcreateComponent()));</span><br><span class="line">        concreateComponent1.operation();</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1hp4y1D7MP?from=search&amp;seid=6785978722248254154">https://www.bilibili.com/video/BV1hp4y1D7MP?from=search&amp;seid=6785978722248254154</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Hv411r7uN?p=2">https://www.bilibili.com/video/BV1Hv411r7uN?p=2</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-LiveData" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/06/15/LiveData/">LiveData</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-06-15T03:20:42.000Z" itemprop="datePublished">2020年06月15日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/Jetpack/">Jetpack</a>
+  </div>
+
+      
+      
+<a href="/2020/06/15/LiveData/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><ol>
+<li>确保界面符合数据状态</li>
+<li>不会发生内存泄漏</li>
+<li>不会因Activity停止而导致崩溃</li>
+<li>不再需要手动处理生命周期</li>
+<li>数据始终保持最新状态</li>
+<li>适当的配置更改</li>
+<li>共享资源</li>
+</ol>
+<h4 id="livedata和viewmodel关系"><a href="#livedata和viewmodel关系" class="headerlink" title="livedata和viewmodel关系"></a>livedata和viewmodel关系</h4><p>viewmodel中的数据发生变化时通知页面</p>
+<h4 id="LiveData原理"><a href="#LiveData原理" class="headerlink" title="LiveData原理"></a>LiveData原理</h4><p>注册观察者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">observe</span><span class="params">(<span class="meta">@NonNull</span> LifecycleOwner owner, <span class="meta">@NonNull</span> Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</span><br><span class="line">     assertMainThread(<span class="string">&quot;observe&quot;</span>);</span><br><span class="line">     <span class="keyword">if</span> (owner.getLifecycle().getCurrentState() == DESTROYED) &#123;</span><br><span class="line">         <span class="comment">// ignore</span></span><br><span class="line">         <span class="keyword">return</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     LifecycleBoundObserver wrapper = <span class="keyword">new</span> LifecycleBoundObserver(owner, observer);</span><br><span class="line">     ObserverWrapper existing = mObservers.putIfAbsent(observer, wrapper);</span><br><span class="line">     <span class="keyword">if</span> (existing != <span class="keyword">null</span> &amp;&amp; !existing.isAttachedTo(owner)) &#123;</span><br><span class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Cannot add the same observer&quot;</span></span><br><span class="line">                 + <span class="string">&quot; with different lifecycles&quot;</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (existing != <span class="keyword">null</span>) &#123;</span><br><span class="line">         <span class="keyword">return</span>;</span><br><span class="line">     &#125; </span><br><span class="line">     owner.getLifecycle().addObserver(wrapper); <span class="comment">//在这里注册</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>给观察者发送消息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dispatchingValue</span><span class="params">(<span class="meta">@Nullable</span> ObserverWrapper initiator)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mDispatchingValue) &#123;</span><br><span class="line">        mDispatchInvalidated = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    mDispatchingValue = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        mDispatchInvalidated = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (initiator != <span class="keyword">null</span>) &#123;</span><br><span class="line">            considerNotify(initiator);</span><br><span class="line">            initiator = <span class="keyword">null</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (Iterator&lt;Map.Entry&lt;Observer&lt;? <span class="keyword">super</span> T&gt;, ObserverWrapper&gt;&gt; iterator =</span><br><span class="line">                    mObservers.iteratorWithAdditions(); iterator.hasNext(); ) &#123; <span class="comment">//遍历观察者，给观察者发送消息</span></span><br><span class="line">                considerNotify(iterator.next().getValue());</span><br><span class="line">                <span class="keyword">if</span> (mDispatchInvalidated) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (mDispatchInvalidated);</span><br><span class="line">    mDispatchingValue = <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="数据粘性"><a href="#数据粘性" class="headerlink" title="数据粘性"></a>数据粘性</h4><p>经过了解和使用 view model,databiding后，我觉得这个不是官方留的坑，在特定的场景可能还需要这样做，我获取手环睡眠数据此时有其他fragment还没创建，我就需要创建后才就监听到数据。</p>
+<h5 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h5><p>我们能不能再创建新的ObserverWrapper的时候，直接把mVersion的值赋给mLastVersion，这样就符合(observer.mLastVersion &gt;= mVersion)这一条件了，就不会再继续执行onChanged方法了</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/geyuecang/article/details/89028283">https://blog.csdn.net/geyuecang/article/details/89028283</a></p>
+<h5 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h5><p> singleLiveEvent</p>
+<p>其实这个方法解决的并不是粘性事件的问题，而是“数据倒灌”的问题。“数据倒灌”一词出自<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://xiaozhuanlan.com/u/kunminx">KunMinX</a>的Blog<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://xiaozhuanlan.com/topic/6719328450"><strong>重学安卓：LiveData 数据倒灌 背景缘由全貌 独家解析</strong></a>,即在setValue后,observe对此次set的value值会进行多次消费。比如进行第二次observe的时候获取到的数据是第一次的旧数据。这样会带来不可预期的后果。</p>
+<h4 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h4><p>UnPeekLiveData</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProtectedUnPeekLiveData</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">LiveData</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">boolean</span> isAllowNullValue;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> HashMap&lt;Integer, Boolean&gt; observers = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">observeInActivity</span><span class="params">(<span class="meta">@NonNull</span> AppCompatActivity activity, <span class="meta">@NonNull</span> Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</span><br><span class="line">        LifecycleOwner owner = activity;</span><br><span class="line">        Integer storeId = System.identityHashCode(observer);<span class="comment">//源码这里是activity.getViewModelStore()，是为了保证同一个ViewModel环境下&quot;唯一可信源&quot;</span></span><br><span class="line">        observe(storeId, owner, observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">observe</span><span class="params">(<span class="meta">@NonNull</span> Integer storeId,</span></span></span><br><span class="line"><span class="function"><span class="params">                         <span class="meta">@NonNull</span> LifecycleOwner owner,</span></span></span><br><span class="line"><span class="function"><span class="params">                         <span class="meta">@NonNull</span> Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (observers.get(storeId) == <span class="keyword">null</span>) &#123;</span><br><span class="line">            observers.put(storeId, <span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">super</span>.observe(owner, t -&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (!observers.get(storeId)) &#123;</span><br><span class="line">                observers.put(storeId, <span class="keyword">true</span>);</span><br><span class="line">                <span class="keyword">if</span> (t != <span class="keyword">null</span> || isAllowNullValue) &#123;</span><br><span class="line">                    observer.onChanged(t);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (value != <span class="keyword">null</span> || isAllowNullValue) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Map.Entry&lt;Integer, Boolean&gt; entry : observers.entrySet()) &#123;</span><br><span class="line">                entry.setValue(<span class="keyword">false</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">super</span>.setValue(value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.setValue(<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>，为每个传入的observer对象携带一个布尔类型的值，作为其是否能进入observe方法的开关。每当有一个新的observer存进来的时候，开关默认关闭。</p>
+<p>每次setValue后，打开所有Observer的开关，允许所有observe执行。</p>
+<p>这个确实清晰，简单</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d0244c4c7cc9">https://www.jianshu.com/p/d0244c4c7cc9</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903623252508685">https://juejin.cn/post/6844903623252508685</a></p>
+<p>UnPeekLiveData</p>
+<p>或者 ELiveData </p>
+<p><a target="_blank" rel="noopener" href="https://www.ershicimi.com/p/2f57df7148300017e8a0f7227720a2e8">https://www.ershicimi.com/p/2f57df7148300017e8a0f7227720a2e8</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5b2b1b2cf265da5952314b63">https://juejin.im/post/5b2b1b2cf265da5952314b63</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/79d909b6f8bd">https://www.jianshu.com/p/79d909b6f8bd</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6892704779781275662">https://juejin.im/post/6892704779781275662</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d0244c4c7cc9">https://www.jianshu.com/p/d0244c4c7cc9</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-THINKING" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/05/19/THINKING/">THINKING</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-05-19T01:55:11.000Z" itemprop="datePublished">2020年05月19日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/TOOL/">TOOL</a>
+  </div>
+
+      
+      
+<a href="/2020/05/19/THINKING/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://juejin.im/post/5eb168e9f265da7bb65fb27a">https://juejin.im/post/5eb168e9f265da7bb65fb27a</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.mifengtd.cn/articles/runningcheese-gtd-system.html">https://www.mifengtd.cn/articles/runningcheese-gtd-system.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/JsonChao/Awesome-Android-Notebook">https://github.com/JsonChao/Awesome-Android-Notebook</a></p>
+<p>I don’t know what to do  if I prevent me  think code or tech in my life.   I think i   love tech ,but it could’t support my career now.I l’m  look forword is that what I can do .</p>
+<p>CodeReview</p>
+<img src="/2020/05/19/THINKING/codereview3.png" alt="codereview3" style="zoom:50%;">
+
+
+
+<p><img src="/2020/05/19/THINKING/codereview4.jpg"></p>
+<img src="/2020/05/19/THINKING/codereview1.jpg" alt="CodeReview1" style="zoom: 50%;">
+
+<img src="/2020/05/19/THINKING/codereview2.jpg" alt="CodeReview1" style="zoom:50%;">
+
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/THINK/" rel="tag">THINK</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-ActivityLayout" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -113,7 +404,7 @@
 <a href="/2020/05/08/ActivityLayout/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -126,8 +417,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -142,7 +433,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -188,7 +479,7 @@
 <a href="/2020/05/06/DataStructure/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -282,8 +573,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -298,7 +589,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -344,7 +635,7 @@
 <a href="/2020/04/28/DeliverValue/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -364,8 +655,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -378,7 +669,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -424,7 +715,7 @@
 <a href="/2020/04/26/Bluetooth04/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -507,8 +798,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -521,7 +812,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -567,7 +858,7 @@
 <a href="/2020/04/25/annotation/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -726,8 +1017,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -740,7 +1031,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -786,7 +1077,7 @@
 <a href="/2020/04/18/JVM/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -805,8 +1096,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -821,7 +1112,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -867,7 +1158,7 @@
 <a href="/2020/04/11/tool-mac/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -936,8 +1227,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -950,371 +1241,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-viewmodel" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/04/06/viewmodel/">viewmodel</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2020-04-06T07:51:24.000Z" itemprop="datePublished">2020年04月06日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/Jetpack/">Jetpack</a>
-  </div>
-
-      
-      
-<a href="/2020/04/06/viewmodel/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/architecture/viewmodel">https://developer.android.com/topic/libraries/architecture/viewmodel</a></p>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
-<h5 id="Share-data-between-fragments"><a href="#Share-data-between-fragments" class="headerlink" title="Share data between fragments"></a>Share data between fragments</h5><p>=======</p>
-<h4 id="livedata和viewmodel关系"><a href="#livedata和viewmodel关系" class="headerlink" title="livedata和viewmodel关系"></a>livedata和viewmodel关系</h4><p>viewmodel中的数据发生变化时通知页面</p>
-<h4 id="ViewModel出现前"><a href="#ViewModel出现前" class="headerlink" title="ViewModel出现前"></a>ViewModel出现前</h4><ol>
-<li>瞬间数据丢失</li>
-<li>异步调用的内存泄漏</li>
-<li>类膨胀提高维护难度和测试难度</li>
-</ol>
-<p><img src="/2020/04/06/viewmodel/2021-08-02_8.18_viewmodel.png"></p>
-<p>Share data between fragments</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>d7906d4909f312e25743be4a4c56ad1539df1ea6</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>It’s very common that two or more fragments in an activity need to communicate with each other</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SharedViewModel</span> : <span class="type">ViewModel</span></span>() &#123;</span><br><span class="line">    <span class="keyword">val</span> selected = MutableLiveData&lt;Item&gt;()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">select</span><span class="params">(item: <span class="type">Item</span>)</span></span> &#123;</span><br><span class="line">        selected.value = item</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MasterFragment</span> : <span class="type">Fragment</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> itemSelector: Selector</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Use the &#x27;by activityViewModels()&#x27; Kotlin property delegate</span></span><br><span class="line">    <span class="comment">// from the fragment-ktx artifact</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> model: SharedViewModel <span class="keyword">by</span> activityViewModels()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onViewCreated</span><span class="params">(view: <span class="type">View</span>, savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onViewCreated(view, savedInstanceState)</span><br><span class="line">        itemSelector.setOnClickListener &#123; item -&gt;</span><br><span class="line">            <span class="comment">// Update the UI</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DetailFragment</span> : <span class="type">Fragment</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Use the &#x27;by activityViewModels()&#x27; Kotlin property delegate</span></span><br><span class="line">    <span class="comment">// from the fragment-ktx artifact</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> model: SharedViewModel <span class="keyword">by</span> activityViewModels()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onViewCreated</span><span class="params">(view: <span class="type">View</span>, savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onViewCreated(view, savedInstanceState)</span><br><span class="line">        model.selected.observe(viewLifecycleOwner, Observer&lt;Item&gt; &#123; item -&gt;</span><br><span class="line">            <span class="comment">// Update the UI</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><a target="_blank" rel="noopener" href="https://codelabs.developers.google.com/codelabs/android-lifecycles/#0">https://codelabs.developers.google.com/codelabs/android-lifecycles/#0</a></p>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
-<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyViewModel</span>  <span class="keyword">extends</span> <span class="title">ViewModel</span> </span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyViewModel</span><span class="params">(Application application)</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> number;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyViewModel</span> <span class="keyword">extends</span> <span class="title">AndroidViewModel</span> </span>&#123; <span class="comment">//需要用到application就用AndroidViewModel</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyViewModel</span><span class="params">(Application application)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(application);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> number;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>=======</p>
-<h4 id="ViewModel保持数据原理"><a href="#ViewModel保持数据原理" class="headerlink" title="ViewModel保持数据原理"></a>ViewModel保持数据原理</h4><ol>
-<li>使用</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">viewModel = <span class="keyword">new</span> ViewModelProvider(<span class="keyword">this</span>, <span class="keyword">new</span> ViewModelProvider.AndroidViewModelFactory(getApplication())).get(MyViewModel.class);</span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="2">
-<li><p>owner.getViewModelStore()</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ViewModelProvider</span><span class="params">(<span class="meta">@NonNull</span> ViewModelStoreOwner owner, <span class="meta">@NonNull</span> Factory factory)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(owner.getViewModelStore(), factory);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>ComponentActivity</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ViewModelStore <span class="title">getViewModelStore</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (getApplication() == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Your activity is not yet attached to the &quot;</span></span><br><span class="line">                + <span class="string">&quot;Application instance. You can&#x27;t request ViewModel before onCreate call.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mViewModelStore == <span class="keyword">null</span>) &#123;</span><br><span class="line">        NonConfigurationInstances nc =</span><br><span class="line">                (NonConfigurationInstances) getLastNonConfigurationInstance(); <span class="comment">//拿到上次屏幕的状态</span></span><br><span class="line">        <span class="keyword">if</span> (nc != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// Restore the ViewModelStore from NonConfigurationInstances</span></span><br><span class="line">            mViewModelStore = nc.viewModelStore; <span class="comment">// 获取上次的mViewModelStore，里面保存有HashMap&lt;String, ViewModel&gt; mMap</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mViewModelStore == <span class="keyword">null</span>) &#123;</span><br><span class="line">            mViewModelStore = <span class="keyword">new</span> ViewModelStore();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mViewModelStore;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>所以ViewModel横竖屏切换保存数据的秘诀就是</p>
-<p>//拿到上次屏幕的状态,获取上次的mViewModelStore，里面保存有HashMap&lt;String, ViewModel&gt; mMap,接着通过.get(MyViewModel.class);获取ViewModel,如果获取不到就反射newInstance()一个。</p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Hh411a7LX?p=6&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1Hh411a7LX?p=6&amp;spm_id_from=pageDriver</a></p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>d7906d4909f312e25743be4a4c56ad1539df1ea6</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-Corouties" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/04/05/Corouties/">Corouties</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2020-04-05T02:37:04.000Z" itemprop="datePublished">2020年04月05日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
-  </div>
-
-      
-      
-<a href="/2020/04/05/Corouties/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411C7FK?from=search&amp;seid=2446477518780731765">https://www.bilibili.com/video/BV164411C7FK?from=search&amp;seid=2446477518780731765</a></p>
-<p><a target="_blank" rel="noopener" href="https://codelabs.developers.google.com/codelabs/kotlin-coroutines/#1">https://codelabs.developers.google.com/codelabs/kotlin-coroutines/#1</a></p>
-<p><a target="_blank" rel="noopener" href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/kmvn637E56t1bae2jXgqfw">https://mp.weixin.qq.com/s/kmvn637E56t1bae2jXgqfw</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-databinding" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/04/01/databinding/">databinding</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2020-03-31T21:52:42.000Z" itemprop="datePublished">2020年04月01日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/Jetpack/">Jetpack</a>
-  </div>
-
-      
-      
-<a href="/2020/04/01/databinding/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>layout expression of the language</p>
-<p><a target="_blank" rel="noopener" href="https://codelabs.developers.google.com/codelabs/android-databinding/#0">https://codelabs.developers.google.com/codelabs/android-databinding/#0</a></p>
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/data-binding">https://developer.android.com/topic/libraries/data-binding</a></p>
-<h4 id="Create-first-layout-expression"><a href="#Create-first-layout-expression" class="headerlink" title="Create first layout expression"></a>Create first layout expression</h4><ol>
-<li> when you want to use it in your own projects the first step is to enable the library in the modules that will use it:</li>
-</ol>
-   <figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">android</span> &#123;</span><br><span class="line">...</span><br><span class="line">    dataBinding &#123;</span><br><span class="line">       <span class="literal">enabled</span> <span class="keyword">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li><p>Convert to data binding layout</p>
-<p>打开布局文件，选中根布局的 <strong>ViewGroup</strong>，按住 <strong>option + 回车键</strong>，点击 “<strong>Convert to data binding layout</strong>”，就可以生成 DataBinding 需要的布局规则</p>
-</li>
-</ol>
-<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">layout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span></span><br><span class="line"><span class="xml">        xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span></span><br><span class="line"><span class="xml">        xmlns:tools=&quot;http://schemas.android.com/tools&quot;&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">data</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="xml">        &lt;variable</span></span><br><span class="line"><span class="xml">            name=&quot;name&quot;  //不能用下划线 &quot;_&quot;</span></span><br><span class="line"><span class="xml">            type=&quot;String&quot;/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">        &lt;variable</span></span><br><span class="line"><span class="xml">            name=&quot;lastName&quot;</span></span><br><span class="line"><span class="xml">            type=&quot;String&quot;/&gt;</span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">data</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="xml">    &lt;androidx.constraintlayout.widget.ConstraintLayout</span></span><br><span class="line"><span class="xml">        android:layout_width=&quot;match_parent&quot;</span></span><br><span class="line"><span class="xml">        android:layout_height=&quot;match_parent&quot;&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">        &lt;TextView</span></span><br><span class="line"><span class="xml">            android:id=&quot;@+id/plain_name&quot;</span></span><br><span class="line"><span class="xml">            android:layout_width=&quot;0dp&quot;</span></span><br><span class="line"><span class="xml">            android:layout_height=&quot;wrap_content&quot;</span></span><br><span class="line"><span class="xml">            android:layout_marginStart=&quot;16dp&quot;</span></span><br><span class="line"><span class="xml">            android:layout_marginTop=&quot;8dp&quot;</span></span><br><span class="line"><span class="xml">            android:layout_marginEnd=&quot;128dp&quot;</span></span><br><span class="line"><span class="xml">            android:text=&quot;@</span><span class="template-variable">&#123;name&#125;</span><span class="xml">&quot;			</span></span><br><span class="line"><span class="xml">            android:textAppearance=&quot;@style/TextAppearance.AppCompat.Large&quot;</span></span><br><span class="line"><span class="xml">            app:layout_constraintEnd_toEndOf=&quot;parent&quot;</span></span><br><span class="line"><span class="xml">            app:layout_constraintStart_toStartOf=&quot;parent&quot;</span></span><br><span class="line"><span class="xml">            app:layout_constraintTop_toBottomOf=&quot;@+id/name_label&quot;/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">        &lt;TextView</span></span><br><span class="line"><span class="xml">            android:id=&quot;@+id/plain_lastname&quot;</span></span><br><span class="line"><span class="xml">            android:layout_width=&quot;0dp&quot;</span></span><br><span class="line"><span class="xml">            android:layout_height=&quot;wrap_content&quot;</span></span><br><span class="line"><span class="xml">            android:layout_marginStart=&quot;16dp&quot;</span></span><br><span class="line"><span class="xml">            android:layout_marginTop=&quot;8dp&quot;</span></span><br><span class="line"><span class="xml">            android:layout_marginEnd=&quot;128dp&quot;</span></span><br><span class="line"><span class="xml">            android:text=&quot;@</span><span class="template-variable">&#123;lastName&#125;</span><span class="xml">&quot;</span></span><br><span class="line"><span class="xml">            android:textAppearance=&quot;@style/TextAppearance.AppCompat.Large&quot;</span></span><br><span class="line"><span class="xml">            app:layout_constraintEnd_toEndOf=&quot;parent&quot;</span></span><br><span class="line"><span class="xml">            app:layout_constraintStart_toStartOf=&quot;parent&quot;</span></span><br><span class="line"><span class="xml">            app:layout_constraintTop_toBottomOf=&quot;@+id/lastname_label&quot;/&gt;</span></span><br><span class="line"><span class="xml">            </span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;/<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</span>    </span></span><br><span class="line"><span class="xml">   <span class="tag">&lt;/<span class="name">layout</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="3">
-<li>Bind TextView</li>
-</ol>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PlainOldActivitySolution2</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Obtain ViewModel from ViewModelProviders</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> viewModel <span class="keyword">by</span> lazy &#123; ViewModelProviders.of(<span class="keyword">this</span>).<span class="keyword">get</span>(SimpleViewModel::<span class="keyword">class</span>.java) &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">val</span> binding: PlainActivitySolution2Binding =</span><br><span class="line">            DataBindingUtil.setContentView(<span class="keyword">this</span>, R.layout.plain_activity_solution_2)</span><br><span class="line"></span><br><span class="line">        binding.name = <span class="string">&quot;John&quot;</span></span><br><span class="line">        binding.lastName = <span class="string">&quot;lice&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> Explicitly setting initial values is a bad pattern. We&#x27;ll fix that later on.</span></span><br><span class="line">        updateLikes()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="Dealing-with-user-events-Observering-data"><a href="#Dealing-with-user-events-Observering-data" class="headerlink" title="Dealing with user events  Observering data"></a>Dealing with user events  Observering data</h4><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="class"><span class="keyword">data</span>&gt;</span></span><br><span class="line">     &lt;variable</span><br><span class="line">             name=<span class="string">&quot;viewmodel&quot;</span></span><br><span class="line">             <span class="class"><span class="keyword">type</span>=&quot;com.example.android.databinding.basicsample.<span class="keyword">data</span>.<span class="type">SimpleViewModel</span>&quot;/&gt;</span></span><br><span class="line"> &lt;/<span class="class"><span class="keyword">data</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">android:</span>onClick=<span class="string">&quot;@&#123;() -&gt; viewmodel.onLike()&#125;&quot;</span></span><br><span class="line">   </span><br><span class="line">binding.viewmodel = viewModel</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> _likes =  <span class="constructor">MutableLiveData(0)</span></span><br><span class="line"> <span class="keyword">fun</span> on<span class="constructor">Like()</span> &#123;</span><br><span class="line">       <span class="module-access"><span class="module"><span class="identifier">_likes</span>.</span></span>value = (<span class="module-access"><span class="module"><span class="identifier">_likes</span>.</span></span>value ?: <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">            android:<span class="built_in">id</span>=<span class="string">&quot;@+id/likes&quot;</span></span><br><span class="line">            android:<span class="built_in">text</span>=<span class="string">&quot;@&#123;Integer.toString(viewmodel.likes)&#125;&quot;</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h4 id="Using-Binding-Adapters"><a href="#Using-Binding-Adapters" class="headerlink" title="Using Binding Adapters"></a>Using Binding Adapters</h4><ol>
-<li>One parameter</li>
-</ol>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">BindingAdapter</span>(<span class="string">&quot;android:text&quot;</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setText</span><span class="params">(TextView view, CharSequence text)</span> </span>&#123;</span><br><span class="line">      <span class="comment">// Some checks removed for clarity</span></span><br><span class="line"></span><br><span class="line">      view.<span class="built_in">setText</span>(text);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@BindingAdapter(<span class="meta-string">&quot;app:hideIfZero&quot;</span>)</span></span><br><span class="line"> <span class="function"><span class="keyword">fun</span> <span class="title">hideIfZero</span><span class="params">(view: <span class="type">View</span>, number: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">     view.visibility = <span class="keyword">if</span> (number == <span class="number">0</span>) View.GONE <span class="keyword">else</span> View.VISIBLE</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;ProgressBar</span><br><span class="line">            android:<span class="attribute">id</span>=<span class="string">&quot;@+id/progressBar&quot;</span></span><br><span class="line">            app:<span class="attribute">hideIfZero</span>=<span class="string">&quot;@&#123;viewmodel.likes&#125;&quot;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="2">
-<li><p>Create a Binding Adapter with multiple parameters   </p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;ProgressBar</span><br><span class="line">               android:<span class="attribute">id</span>=<span class="string">&quot;@+id/progressBar&quot;</span></span><br><span class="line">               app:<span class="attribute">hideIfZero</span>=<span class="string">&quot;@&#123;viewmodel.likes&#125;&quot;</span></span><br><span class="line">               app:<span class="attribute">progressScaled</span>=<span class="string">&quot;@&#123;viewmodel.likes&#125;&quot;</span></span><br><span class="line">               android:<span class="attribute">max</span>=<span class="string">&quot;@&#123;100&#125;&quot;</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-<h4 id="oberver-class-field"><a href="#oberver-class-field" class="headerlink" title="oberver class field"></a>oberver class field</h4><p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/data-binding/observability#observable_fields">https://developer.android.com/topic/libraries/data-binding/observability#observable_fields</a></p>
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/data-binding/observability#observable_objects">https://developer.android.com/topic/libraries/data-binding/observability#observable_objects</a></p>
-<h5 id="Using-Binding-Adapters-to-create-custom-attributes"><a href="#Using-Binding-Adapters-to-create-custom-attributes" class="headerlink" title="Using Binding Adapters to create custom attributes"></a>Using Binding Adapters to create custom attributes</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@BindingAdapter(value=[<span class="meta-string">&quot;app:setSleepData&quot;</span>])</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">setSleepData</span><span class="params">(viewBodySleep: <span class="type">ViewBodySleep</span>, sleepData: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    viewBodySleep.setSleepData(sleepData)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;com.android.util.view.ViewBodySleep</span><br><span class="line">    android:<span class="attribute">id</span>=<span class="string">&quot;@+id/view_body_sleep&quot;</span></span><br><span class="line">    android:<span class="attribute">layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span><br><span class="line">    android:<span class="attribute">layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span><br><span class="line">    android:<span class="attribute">paddingLeft</span>=<span class="string">&quot;55dp&quot;</span></span><br><span class="line">    android:<span class="attribute">paddingRight</span>=<span class="string">&quot;48dp&quot;</span></span><br><span class="line">    app:<span class="attribute">setSleepData</span>=<span class="string">&quot;@&#123;vmBodyFragment.spData&#125;&quot;</span></span><br><span class="line">    app:<span class="attribute">layout_constraintTop_toTopOf</span>=<span class="string">&quot;parent&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/data-binding/expressions#expression_language">https://developer.android.com/topic/libraries/data-binding/expressions#expression_language</a></p>
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/data-binding/observability">Work with observable data objects</a></p>
-<ul>
-<li><p>isNull</p>
-<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">android:</span><span class="keyword">text</span>=<span class="comment">&#x27;@&#123;viewModel.patientInfo.remoteCheckReceiveName??&quot;&quot;&#125;&#x27;</span></span><br></pre></td></tr></table></figure></li>
-<li><p>visible</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@BindingAdapter(<span class="meta-string">&quot;app:goneUnless&quot;</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">goneUnless</span><span class="params">(view: <span class="type">View</span>, visible: <span class="type">Boolean</span>)</span></span> &#123;</span><br><span class="line">    view.visibility = <span class="keyword">if</span> (visible) View.VISIBLE <span class="keyword">else</span> View.GONE</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://github.com/googlecodelabs/android-databinding">android-databinding</a></p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg==&amp;mid=2652046992&amp;idx=1&amp;sn=b8b4c47537be1227eecd01c1eaee2550&amp;chksm=808ca6d5b7fb2fc32d9ec361c91a2958e51a2db1c6b20370e7ef6493bb5cb20314cda6ab059c&amp;scene=38#wechat_redirect">https://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg==&amp;mid=2652046992&amp;idx=1&amp;sn=b8b4c47537be1227eecd01c1eaee2550&amp;chksm=808ca6d5b7fb2fc32d9ec361c91a2958e51a2db1c6b20370e7ef6493bb5cb20314cda6ab059c&amp;scene=38#wechat_redirect</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5d2be05ff265da1bd605d49a">https://juejin.im/post/5d2be05ff265da1bd605d49a</a></p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/4UP-pDs0FK66g1QUQvRN6A">https://mp.weixin.qq.com/s/4UP-pDs0FK66g1QUQvRN6A</a></p>
-<p>定义xml背景</p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5b95c6a0e51d450e664b0aa0">https://juejin.im/post/5b95c6a0e51d450e664b0aa0</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/741103ba2ff1">https://www.jianshu.com/p/741103ba2ff1</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cs.usfca.edu/~galles/visualization/RedBlack.html">https://www.cs.usfca.edu/~galles/visualization/RedBlack.html</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1331,7 +1258,7 @@
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/4/">Vorheriger</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/6/">Nächster</a>
+<a class="extend prev" rel="prev" href="/page/4/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/6/">Next</a>
 </nav>
 
 
@@ -1341,9 +1268,21 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/11/08/coroutine-begin/">coroutine_begin</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/06/Language/">Language</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/31/BinarySearch/">BinarySearch</a>
+          </li>
         
           <li>
             <a href="/2021/09/11/kotlin-senior2/">kotlin-senior2</a>
@@ -1351,18 +1290,6 @@
         
           <li>
             <a href="/2021/08/30/Leetcode/">Leetcode_Linklist</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/29/Dagger/">Dagger</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/22/kotlin-senior/">kotlin-senior</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/21/kotlin-object/">kotlin-object</a>
           </li>
         
       </ul>
@@ -1382,9 +1309,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">54</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/coroutine/">coroutine</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1392,9 +1319,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年09月</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年11月</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1443,9 +1370,9 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Sitemap</a>
-        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
-        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
       </p>
       
         <p>
