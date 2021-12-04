@@ -86,6 +86,83 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-DesignPattern_Builder" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/10/07/DesignPattern_Builder/">DesignPattern-Builder</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-10-07T09:45:46.000Z" itemprop="datePublished">2017年10月07日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
+  </div>
+
+      
+      
+<a href="/2017/10/07/DesignPattern_Builder/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Gästebuch
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Builder模式"><a href="#Builder模式" class="headerlink" title="Builder模式"></a>Builder模式</h1><p>不直接生成想要的对象，而是让客户端利用所有必要的参数调用构造器（或者静态工厂），得到一个builder对象，然后客户端在builder对象上调用类似于setter的方法，来设置每个相关的可选参数</p>
+<p> 既能保证像重叠构造器模式那样的安全性，也能保证像JavaBeans模式那么好的可读性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NutritionFacts_03_Builder</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> servingSize;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> servings;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> calories;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> fat;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> sodium;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> carbohydrate;</span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span>  <span class="class"><span class="keyword">class</span>  <span class="title">Builder</span></span>&#123;</span><br><span class="line">        <span class="comment">//Required parameters</span></span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> servingSize;</span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> servings;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Optional parameters = initialized to default values</span></span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">int</span> calories     = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">int</span> fat          = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">int</span> carbohydrate = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">int</span> sodium       = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">(<span class="keyword">int</span> servingSize, <span class="keyword">int</span> servings)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.servingSize = servingSize;</span><br><span class="line">            <span class="keyword">this</span>.servings = servings;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span>  Builder <span class="title">calories</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            calories = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  Builder <span class="title">fat</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.fat = fat;</span><br><span class="line">            <span class="keyword">return</span>  <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  Builder <span class="title">carbohydrate</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            carbohydrate = val;</span><br><span class="line">            <span class="keyword">return</span>  <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  Builder <span class="title">sodium</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            sodium = val;</span><br><span class="line">            <span class="keyword">return</span>  <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  NutritionFacts_03_Builder <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">return</span>  <span class="keyword">new</span> NutritionFacts_03_Builder(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">NutritionFacts_03_Builder</span><span class="params">(Builder builder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.servingSize = builder.servingSize;</span><br><span class="line">        <span class="keyword">this</span>.servings = builder.servings;</span><br><span class="line">        <span class="keyword">this</span>.calories = builder.calories;</span><br><span class="line">        <span class="keyword">this</span>.fat = builder.fat;</span><br><span class="line">        <span class="keyword">this</span>.sodium = builder.sodium;</span><br><span class="line">        <span class="keyword">this</span>.carbohydrate = builder.carbohydrate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        NutritionFacts_03_Builder cocaCola = <span class="keyword">new</span> NutritionFacts_03_Builder.Builder(<span class="number">240</span>,<span class="number">9</span>)</span><br><span class="line">                .calories(<span class="number">100</span>).sodium(<span class="number">35</span>).carbohydrate(<span class="number">27</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p> 返回的this时怎么替代对象的</p>
+<h5 id="对象创建更加灵活"><a href="#对象创建更加灵活" class="headerlink" title="对象创建更加灵活"></a>对象创建更加灵活</h5><p>当 isRef 为 true 的时候，arg 表示 String 类型的 refBeanId，type 不需要设置；当 isRef 为 false 的时候，arg、type 都需要设置</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConstructorArg</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">boolean</span> isRef;</span><br><span class="line">    <span class="keyword">private</span> Class <span class="keyword">type</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Object</span> arg;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="title">ConstructorArg</span>(<span class="params">Builder builder</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.isRef = isRef;</span><br><span class="line">        <span class="built_in">this</span>.type = <span class="keyword">type</span>;</span><br><span class="line">        <span class="built_in">this</span>.arg = arg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">boolean</span> isRef;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> Class <span class="keyword">type</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">Object</span> arg;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="title">Builder</span>(<span class="params"><span class="built_in">boolean</span> isRef</span>)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.isRef = isRef;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> Builder <span class="function"><span class="title">setType</span>(<span class="params">Class <span class="keyword">type</span></span>)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.type = <span class="keyword">type</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> Builder <span class="function"><span class="title">setArg</span>(<span class="params"><span class="built_in">Object</span> arg</span>)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.arg = arg;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> ConstructorArg <span class="function"><span class="title">build</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (isRef) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!(arg <span class="keyword">instanceof</span> <span class="built_in">String</span>)) &#123;</span><br><span class="line">                    <span class="comment">//这里refBeanId是ConstructorArg吗？只是判断了下arg类型是否为String</span></span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;当 isRef 为 true 的时候，arg 表示 String 类型refBeanId&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">type</span> != <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;当 isRef 为 true 的时候，type 不需要设置&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!isRef) &#123;</span><br><span class="line">                <span class="keyword">if</span> (arg == <span class="literal">null</span> || <span class="keyword">type</span> == <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;当 isRef 为 false 的时候，arg、type 都需要设置&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ConstructorArg(<span class="built_in">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+        
+          <blockquote id="copyright">
+              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Copyright-Erklärung: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Aktie:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-Fragment" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1235,111 +1312,6 @@
 </article>
 
 
-  <article id="post-Camera" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/08/28/Camera/">Camera</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-08-28T14:16:43.000Z" itemprop="datePublished">2017年08月28日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2017/08/28/Camera/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://developer.android.com/training/camera/photobasics.html#TaskPath">https://developer.android.com/training/camera/photobasics.html#TaskPath</a></p>
-<h5 id="Get-the-thumbnail-缩略图"><a href="#Get-the-thumbnail-缩略图" class="headerlink" title="Get the thumbnail(缩略图)"></a>Get the thumbnail(缩略图)</h5><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> REQUEST_IMAGE_CAPTURE = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btAlbum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Intent takePictureIntent = <span class="keyword">new</span> <span class="built_in">Intent</span>(</span><br><span class="line">               Intent.ACTION_PICK,</span><br><span class="line">               MediaStore.Images.Media.EXTERNAL_CONTENT_URI);</span><br><span class="line">       <span class="built_in">startActivityForResult</span>(takePictureIntent, REQUEST_IMAGE_CAPTURE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public void on<span class="constructor">ActivityResult(<span class="params">int</span> <span class="params">requestCode</span>, <span class="params">int</span> <span class="params">resultCode</span>, Intent <span class="params">data</span>)</span> &#123;</span><br><span class="line">      super.on<span class="constructor">ActivityResult(<span class="params">requestCode</span>, <span class="params">resultCode</span>, <span class="params">data</span>)</span>;</span><br><span class="line">   <span class="keyword">if</span> (requestCode<span class="operator"> == </span>REQUEST_IMAGE_CAPTURE<span class="operator"> &amp;&amp; </span>resultCode<span class="operator"> == </span>Activity.RESULT_OK) &#123;</span><br><span class="line">            data?.extras?.<span class="keyword">let</span> &#123;</span><br><span class="line">                <span class="keyword">val</span> imageBitmap = it.get(<span class="string">&quot;data&quot;</span>) <span class="keyword">as</span> Bitmap</span><br><span class="line">                img_show.set<span class="constructor">ImageBitmap(<span class="params">imageBitmap</span>)</span></span><br><span class="line">       &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="Save-the-full-size-photo"><a href="#Save-the-full-size-photo" class="headerlink" title="Save the full-size photo"></a>Save the full-size photo</h5><pre><code>  provider_camera.xml 
-</code></pre>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">paths</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span>&gt;</span></span><br><span class="line">    &lt;external-path</span><br><span class="line">        name=&quot;my_images&quot;</span><br><span class="line">        path=&quot;Android/data/com.zhujia.land/files/Pictures&quot; /&gt;</span><br><span class="line"><span class="tag">&lt;/<span class="name">paths</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>跳转拍照 : 还得注意申请权限</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> void dispatch<span class="constructor">TakePictureIntent(<span class="params">int</span> <span class="params">num</span>)</span> &#123;</span><br><span class="line">       Intent takePictureIntent = <span class="keyword">new</span> <span class="constructor">Intent(MediaStore.ACTION_IMAGE_CAPTURE)</span>;</span><br><span class="line">       <span class="keyword">if</span> (takePictureIntent.resolve<span class="constructor">Activity(<span class="params">this</span>.<span class="params">getPackageManager</span>()</span>) != null) &#123;</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               photoFile = create<span class="constructor">ImageFile()</span>;</span><br><span class="line">           &#125; catch (IOException e) &#123;</span><br><span class="line">               e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (photoFile<span class="operator"> == </span>null) &#123;</span><br><span class="line">               return;</span><br><span class="line">           &#125;</span><br><span class="line">           Uri imgUri;</span><br><span class="line">           <span class="keyword">if</span> (Build.VERSION.SDK_INT &lt; <span class="number">24</span>) &#123;</span><br><span class="line">               imgUri = <span class="module-access"><span class="module"><span class="identifier">Uri</span>.</span></span>from<span class="constructor">File(<span class="params">photoFile</span>)</span>;</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="comment">//Android 7.0系统开始 使用本地真实的Uri路径不安全,使用FileProvider封装共享Uri</span></span><br><span class="line">               <span class="comment">//参数二:fileprovider绝对路径 com.dyb.testcamerademo：项目包名</span></span><br><span class="line">               imgUri = <span class="module-access"><span class="module"><span class="identifier">FileProvider</span>.</span></span>get<span class="constructor">UriForFile(<span class="params">this</span>, <span class="string">&quot;com.zhujia.land.fileprovider&quot;</span>, <span class="params">photoFile</span>)</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           takePictureIntent.put<span class="constructor">Extra(MediaStore.EXTRA_OUTPUT, <span class="params">imgUri</span>)</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       start<span class="constructor">ActivityForResult(<span class="params">takePictureIntent</span>, <span class="params">num</span>)</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onActivityResult</span><span class="params">(requestCode: <span class="type">Int</span>, resultCode: <span class="type">Int</span>, <span class="keyword">data</span>: <span class="type">Intent</span>?)</span></span> &#123;</span><br><span class="line">      <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, <span class="keyword">data</span>)</span><br><span class="line">      <span class="keyword">if</span> (requestCode == REQUEST_IMAGE_CAPTURE &amp;&amp; resultCode == Activity.RESULT_OK) &#123;</span><br><span class="line">          <span class="comment">//如果拍照成功，将Uri用BitmapFactory的decodeStream方法转为Bitmap</span></span><br><span class="line">          <span class="keyword">val</span> imageBitmap = BitmapFactory.decodeStream(photoURI?.let &#123;</span><br><span class="line">              contentResolver.openInputStream(</span><br><span class="line">                  it</span><br><span class="line">              )</span><br><span class="line">          &#125;)</span><br><span class="line">           galleryAddPic(mImageUriFromFile) <span class="comment">//将拍的照片添加到相册</span></span><br><span class="line">          img_show.setImageBitmap(imageBitmap)</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>照片添加到相册</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将拍的照片添加到相册</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> uri 拍的照片的Uri</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">galleryAddPic</span><span class="params">(uri: <span class="type">Uri</span>?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,uri)</span><br><span class="line">    sendBroadcast(mediaScanIntent)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>But it has a question</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">createImageFile</span><span class="params">(context: <span class="type">Context</span>)</span></span>: File? &#123;</span><br><span class="line">            <span class="comment">// Create an image file name</span></span><br><span class="line">            <span class="keyword">val</span> timeStamp: String = SimpleDateFormat(yyyyMMDD_HHmmss).format(Date())</span><br><span class="line"><span class="comment">//            val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)</span></span><br><span class="line">            <span class="keyword">val</span> storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> File.createTempFile(</span><br><span class="line">                <span class="string">&quot;JPEG_<span class="subst">$&#123;timeStamp&#125;</span>_&quot;</span>, <span class="comment">/* prefix */</span></span><br><span class="line">                <span class="string">&quot;.jpg&quot;</span>, <span class="comment">/* suffix */</span></span><br><span class="line">                storageDir <span class="comment">/* directory */</span></span><br><span class="line">            ).apply &#123;</span><br><span class="line">                <span class="comment">// Save a file: path for use with ACTION_VIEW intents</span></span><br><span class="line">                <span class="keyword">var</span> currentPhotoPath = absolutePath</span><br><span class="line">                Timber.i(<span class="string">&quot;createImageFile  <span class="variable">$currentPhotoPath</span>&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>ACTION_MEDIA_SCANNER_SCAN_FILE</code> 还有一个限制条件，那就是传递进去的文件绝对路径，必须是以 <code>Environment.getExternalStorageDirectory()</code> 方法的返回值开头。</p>
-<p>这样 ‘context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)’  这个暂时没弄好</p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5ae0541df265da0b9d77e45a">https://juejin.im/post/5ae0541df265da0b9d77e45a</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f269bcda335f#">https://www.jianshu.com/p/f269bcda335f#</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/26d29e187f89">https://www.jianshu.com/p/26d29e187f89</a></p>
-<p>servlet<br><a target="_blank" rel="noopener" href="https://my.oschina.net/u/2008084/blog/524937">https://my.oschina.net/u/2008084/blog/524937</a></p>
-<p>7.0<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011418943/article/details/77712662">https://blog.csdn.net/u011418943/article/details/77712662</a></p>
-<p>Android 10</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/31esIqMudRRDBY8JDs8D4A">https://mp.weixin.qq.com/s/31esIqMudRRDBY8JDs8D4A</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5a33a5106fb9a04525782db5">https://juejin.im/post/5a33a5106fb9a04525782db5</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1358,6 +1330,10 @@
       <ul>
         
           <li>
+            <a href="/2021/11/23/Font/">Font</a>
+          </li>
+        
+          <li>
             <a href="/2021/11/08/coroutine-begin/">coroutine_begin</a>
           </li>
         
@@ -1371,10 +1347,6 @@
         
           <li>
             <a href="/2021/09/11/kotlin-senior2/">kotlin-senior2</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/30/Leetcode/">Leetcode_Linklist</a>
           </li>
         
       </ul>
@@ -1396,7 +1368,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/coroutine/">coroutine</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">56</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/coroutine/">coroutine</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1406,7 +1378,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年11月</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年11月</a><span class="archive-list-count">22</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
