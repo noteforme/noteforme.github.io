@@ -7456,9 +7456,42 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
     <url>/2020/08/13/ViewGroup/</url>
     <content><![CDATA[<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><p><img src="/2020/08/13/ViewGroup/2021-08-10_view_lifecycle.png"></p>
 <p>每次onMeasure，onLayout用到的值都不能在构造方法里面初始化。</p>
-<h4 id="ViewGroup测量"><a href="#ViewGroup测量" class="headerlink" title="ViewGroup测量"></a>ViewGroup测量</h4><p><img src="/2020/08/13/ViewGroup/2021-08-12_viewgroup_layout.png"></p>
-<p>![](ViewGroup/Screen Shot 2021-08-13 at 6.21.59 PM.png)</p>
-<h4 id="MeasureSpec"><a href="#MeasureSpec" class="headerlink" title="MeasureSpec"></a>MeasureSpec</h4><h5 id="MeasureSpec创建规则"><a href="#MeasureSpec创建规则" class="headerlink" title="MeasureSpec创建规则"></a>MeasureSpec创建规则</h5><p><img src="/2020/08/13/ViewGroup/2021-08-12_9.33_measure_spec_mode.png"></p>
+<h4 id="座标系"><a href="#座标系" class="headerlink" title="座标系"></a>座标系</h4><p><img src="/2020/08/13/ViewGroup/2021-12-05_4.02.40_coordinate.png" alt="2021-12-05_4.02.40_coordinate"></p>
+<p>getLeft()直接调用是0 ? 需要自己设置 chidView.layout(left, top,right,bottom),</p>
+<p>没调用chidView.layout 就获取不到 getLeft()的值。</p>
+<p>left这些参数的座标系 是基于ViewGroup.</p>
+<h4 id="getMeasuredWidth-getWidth"><a href="#getMeasuredWidth-getWidth" class="headerlink" title="getMeasuredWidth getWidth"></a>getMeasuredWidth getWidth</h4><h5 id="getMeasuredWidth"><a href="#getMeasuredWidth" class="headerlink" title="getMeasuredWidth"></a>getMeasuredWidth</h5><ol>
+<li><p>在measure()过程结束后就可以获取到对应的值。</p>
+</li>
+<li><p>通过setMeasuredDimension()方法来进行设置。</p>
+</li>
+</ol>
+<h5 id="getWidth"><a href="#getWidth" class="headerlink" title="getWidth"></a>getWidth</h5><ol>
+<li>在view.layout()过程结束后才能获取到；</li>
+<li> 通过视图右边的坐标-左边的左边计算出来的</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> childHeightMeasureSpec;</span><br><span class="line"><span class="keyword">if</span> (lp.height == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> height = Math.max(<span class="number">0</span>, getMeasuredHeight()</span><br><span class="line">            - getPaddingTopWithForeground() - getPaddingBottomWithForeground()</span><br><span class="line">            - lp.topMargin - lp.bottomMargin);</span><br><span class="line">    childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(</span><br><span class="line">            height, MeasureSpec.EXACTLY);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    childHeightMeasureSpec = getChildMeasureSpec(heightMeasureSpec,</span><br><span class="line">            getPaddingTopWithForeground() + getPaddingBottomWithForeground() +</span><br><span class="line">            lp.topMargin + lp.bottomMargin,</span><br><span class="line">            lp.height);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">child.measure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br></pre></td></tr></table></figure>
+
+<p>Frame layout 子节点重新绘制，为什么</p>
+<p>Framelayout边界怎么算的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span> (absoluteGravity &amp; Gravity.HORIZONTAL_GRAVITY_MASK) &#123;</span><br><span class="line">    <span class="keyword">case</span> Gravity.CENTER_HORIZONTAL:</span><br><span class="line">        childLeft = parentLeft + (parentRight - parentLeft - width) / <span class="number">2</span> +</span><br><span class="line">        lp.leftMargin - lp.rightMargin;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> Gravity.RIGHT:</span><br><span class="line">        <span class="keyword">if</span> (!forceLeftGravity) &#123;</span><br><span class="line">            childLeft = parentRight - width - lp.rightMargin;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">case</span> Gravity.LEFT:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        childLeft = parentLeft + lp.leftMargin;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="LayoutParams-MeasureSpec"><a href="#LayoutParams-MeasureSpec" class="headerlink" title="LayoutParams MeasureSpec"></a>LayoutParams MeasureSpec</h4><p>的关系</p>
+<h5 id="ViewGroup测量"><a href="#ViewGroup测量" class="headerlink" title="ViewGroup测量"></a>ViewGroup测量</h5><p><img src="/2020/08/13/ViewGroup/2021-08-12_viewgroup_layout.png"></p>
+<p>先度量child View,再度量自己的大小。</p>
+<p>先度量 child View,child view度量完成，如果是 wrap_content，就是all childview的size.</p>
+<p>​                                                            // parent size         child want size</p>
+<p>​                                                                </p>
+<p><img src="/2020/08/13/ViewGroup/2021-08-13_6.21.59.png"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getChildMeasureSpec</span><span class="params">(<span class="keyword">int</span> spec, <span class="keyword">int</span> padding, <span class="keyword">int</span> childDimension)</span> </span>&#123;<span class="comment">// padding是parent view的</span></span><br><span class="line">    <span class="keyword">int</span> specMode = MeasureSpec.getMode(spec);</span><br><span class="line">    <span class="keyword">int</span> specSize = MeasureSpec.getSize(spec);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> size = Math.max(<span class="number">0</span>, specSize - padding);<span class="comment">// parent size</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> resultSize = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> resultMode = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">    <span class="comment">// Parent has imposed an exact size on us</span></span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">        <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            resultSize = childDimension;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to be our size. So be it.</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to determine its own size. It can&#x27;t be</span></span><br><span class="line">            <span class="comment">// bigger than us.</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Parent has imposed a maximum size on us</span></span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// Child wants a specific size... so be it</span></span><br><span class="line">            resultSize = childDimension;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to be our size, but our size is not fixed.</span></span><br><span class="line">            <span class="comment">// Constrain child to not be bigger than us.</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to determine its own size. It can&#x27;t be</span></span><br><span class="line">            <span class="comment">// bigger than us.</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Parent asked to see how big we want to be</span></span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">        <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// Child wants a specific size... let him have it</span></span><br><span class="line">            resultSize = childDimension;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to be our size... find out how big it should</span></span><br><span class="line">            <span class="comment">// be</span></span><br><span class="line">            resultSize = View.sUseZeroUnspecifiedMeasureSpec ? <span class="number">0</span> : size;</span><br><span class="line">            resultMode = MeasureSpec.UNSPECIFIED;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to determine its own size.... find out how</span></span><br><span class="line">            <span class="comment">// big it should be</span></span><br><span class="line">            resultSize = View.sUseZeroUnspecifiedMeasureSpec ? <span class="number">0</span> : size;</span><br><span class="line">            resultMode = MeasureSpec.UNSPECIFIED;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//noinspection ResourceType</span></span><br><span class="line">    <span class="keyword">return</span> MeasureSpec.makeMeasureSpec(resultSize, resultMode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="MeasureSpec创建规则"><a href="#MeasureSpec创建规则" class="headerlink" title="MeasureSpec创建规则"></a>MeasureSpec创建规则</h5><p><img src="/2020/08/13/ViewGroup/2021-08-12_9.33_measure_spec_mode.png"></p>
 <ol>
 <li>子View为精确宽高，无论父容器的MeasureSpec，子View的MeasureSpec都为精确值且遵循LayoutParams中的值。 </li>
 <li>子View为match_parent时，如果父容器是精确模式，则子View也为精确模式且为父容器的剩余空间大小；如果父容器是最大模式，则子View也是最大模式且不会超过父容器的剩余空间。</li>
@@ -7474,37 +7507,18 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
 </ol>
 <ul>
 <li><p><strong>UNSPECIFIED</strong></p>
-<p>父容器不对View有任何限制，要多大给多大，这种情况一般用于系统内部，表示一种测量的状态。</p>
+<p>父容器不对View有任何限制，要多大给多大，这种情况一般用于系统内部，表示一种测量的状态. 开发者用不了.</p>
 </li>
 <li><p><strong>EXACTLY</strong></p>
 <p>父容器已经检测出View所需要的精确大小，这个时候View的最终大小就是SpecSize所指定的值。它对应于LayoutParams中的match_parent和具体的数值这两种模式。</p>
 </li>
 <li><p><strong>AT_MOST</strong> </p>
-<p>父容器指定了一个可用大小即SpecSize,View的大小不能大于这个值，具体是什么值要看不同View的具体实现。它对应于LayoutParams中的wrap_content。</p>
+<p>父容器指定了一个可用大小即SpecSize,View的大小不能大于这个值</p>
 </li>
 </ul>
 <p>​     </p>
 <p><img src="/2020/08/13/ViewGroup/2021-08-12_9.29_measure_spec.png"></p>
-<ul>
-<li><p>getMeasuredWidth</p>
-<p>在measure()过程结束后就可以获取到对应的值。通过setMeasuredDimension()方法来进行设置。</p>
-</li>
-<li><p>getWidth区别</p>
-<p>在view.layout()过程结束后才能获取到； 通过视图右边的坐标-左边的左边计算出来的</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> childHeightMeasureSpec;</span><br><span class="line"><span class="keyword">if</span> (lp.height == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> height = Math.max(<span class="number">0</span>, getMeasuredHeight()</span><br><span class="line">            - getPaddingTopWithForeground() - getPaddingBottomWithForeground()</span><br><span class="line">            - lp.topMargin - lp.bottomMargin);</span><br><span class="line">    childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(</span><br><span class="line">            height, MeasureSpec.EXACTLY);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    childHeightMeasureSpec = getChildMeasureSpec(heightMeasureSpec,</span><br><span class="line">            getPaddingTopWithForeground() + getPaddingBottomWithForeground() +</span><br><span class="line">            lp.topMargin + lp.bottomMargin,</span><br><span class="line">            lp.height);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">child.measure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br></pre></td></tr></table></figure>
-
-<p>Frame layout 子节点重新绘制，为什么</p>
-<p>Framelayout边界怎么算的</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span> (absoluteGravity &amp; Gravity.HORIZONTAL_GRAVITY_MASK) &#123;</span><br><span class="line">    <span class="keyword">case</span> Gravity.CENTER_HORIZONTAL:</span><br><span class="line">        childLeft = parentLeft + (parentRight - parentLeft - width) / <span class="number">2</span> +</span><br><span class="line">        lp.leftMargin - lp.rightMargin;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> Gravity.RIGHT:</span><br><span class="line">        <span class="keyword">if</span> (!forceLeftGravity) &#123;</span><br><span class="line">            childLeft = parentRight - width - lp.rightMargin;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">case</span> Gravity.LEFT:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        childLeft = parentLeft + lp.leftMargin;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
 <p>Inflate解析过程</p>
-<p><img src="/2020/08/13/ViewGroup/home/mc/Documents/noteforme.github.io/source/_posts/ViewGroup/2021-08-14_19-48_inflate_xml.png"></p>
 <p><a href="https://www.bilibili.com/video/BV1Ka4y1j7HA?p=4&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1Ka4y1j7HA?p=4&amp;spm_id_from=pageDriver</a></p>
 <p><a href="https://www.youtube.com/watch?v=aOb4Hvqbeu4">https://www.youtube.com/watch?v=aOb4Hvqbeu4</a></p>
 <p><a href="https://www.bilibili.com/video/BV1M54y1y79P?from=search&amp;seid=18028227823566625572&amp;spm_id_from=333.337.0.0">https://www.bilibili.com/video/BV1M54y1y79P?from=search&amp;seid=18028227823566625572&amp;spm_id_from=333.337.0.0</a></p>
