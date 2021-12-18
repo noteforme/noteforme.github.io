@@ -53,11 +53,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -65,7 +65,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -86,6 +86,150 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-WebView" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/09/01/WebView/">WebView</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-09-01T08:07:15.000Z" itemprop="datePublished">2017年09月01日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/09/01/WebView/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><h5 id="加载apk包中的html页面"><a href="#加载apk包中的html页面" class="headerlink" title="加载apk包中的html页面"></a>加载apk包中的html页面</h5><p><code> webView.loadUrl(&quot;file:///android_asset/java.html&quot;);</code></p>
+<h5 id="Enabling-JavaScript"><a href="#Enabling-JavaScript" class="headerlink" title="Enabling JavaScript"></a>Enabling JavaScript</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">WebView myWebView = (WebView) find<span class="constructor">ViewById(R.<span class="params">id</span>.<span class="params">webview</span>)</span>;</span><br><span class="line">WebSettings webSettings = myWebView.get<span class="constructor">Settings()</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//支持JavaScript</span></span><br><span class="line"><span class="comment">//        webSettings.setJavaScriptEnabled(true); // 在 onStop 和 onResume 里分别把 setJavaScriptEnabled() 给设置成 false 和 true 即可</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         *  设置自适应屏幕,两者合用</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        webSettings.set<span class="constructor">UseWideViewPort(<span class="params">true</span>)</span>; <span class="comment">//将图片调整到适合webview的大小</span></span><br><span class="line">        webSettings.set<span class="constructor">LoadWithOverviewMode(<span class="params">true</span>)</span>; <span class="comment">//缩放至屏幕的大小</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 缩放操作</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        webSettings.set<span class="constructor">SupportZoom(<span class="params">true</span>)</span>;  <span class="comment">//支持缩放，默认为true。是下面那个的前提。</span></span><br><span class="line">        webSettings.set<span class="constructor">BuiltInZoomControls(<span class="params">true</span>)</span>; <span class="comment">//设置内置的缩放控件。若为false，则该WebView不可缩放</span></span><br><span class="line">        webSettings.set<span class="constructor">DisplayZoomControls(<span class="params">false</span>)</span>;<span class="comment">//隐藏原生的缩放控件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//        myWebView.setWebChromeClient(new MyWebViewClient());</span></span><br><span class="line">        myWebView.set<span class="constructor">WebViewClient(<span class="params">new</span> MyViewClient()</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>上面是一些常用的操作</p>
+<h5 id="Binding-JavaScript-code-to-Android-code-JS交互"><a href="#Binding-JavaScript-code-to-Android-code-JS交互" class="headerlink" title="Binding JavaScript code to Android code(JS交互)"></a>Binding JavaScript code to Android code(JS交互)</h5><p>When developing a web application that’s designed specifically for the WebView in your Android application, you can create interfaces between your JavaScript code and client-side Android code. For example, your JavaScript code can call a method in your Android code to display a Dialog, instead of using JavaScript’s alert() function.</p>
+<p>To bind a new interface between your JavaScript and Android code, call addJavascriptInterface(), passing it a class instance to bind to your JavaScript and an interface name that your JavaScript can call to access the class.</p>
+<ul>
+<li>office Demo</li>
+</ul>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">inner <span class="keyword">class</span> <span class="constructor">WebLoginInterface(<span class="params">context</span>: Context?)</span> &#123;</span><br><span class="line">     @JavascriptInterface</span><br><span class="line">     <span class="keyword">fun</span> app<span class="constructor">Login()</span> &#123;</span><br><span class="line">         <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;appLogin&quot;</span>)</span><br><span class="line">             mWebView?.post &#123;</span><br><span class="line">                 <span class="keyword">val</span> mSessionId = <span class="module-access"><span class="module"><span class="identifier">SharedPreferencesUtils</span>.</span></span>get<span class="constructor">Param(AppCtxUtil.<span class="params">getApp</span>()</span>, GsonUtil.SHARE_TOKEN_KEY, <span class="string">&quot;&quot;</span>) <span class="keyword">as</span> String</span><br><span class="line">                 <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;mSessionId $&#123;mSessionId&#125;&quot;</span>)</span><br><span class="line">                 <span class="keyword">val</span> jsMethodName = <span class="string">&quot;javascript:appLoginCallBack(&#x27;$mSessionId&#x27;,&#x27;4&#x27;)&quot;</span>; <span class="comment">//需要参数的JS函数名</span></span><br><span class="line">                 <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;jsMethodName $jsMethodName&quot;</span>)</span><br><span class="line">                 mWebView?.load<span class="constructor">Url(<span class="params">jsMethodName</span>)</span></span><br><span class="line">             &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>注意</p>
+<blockquote>
+<p>Caution: If you’ve set your targetSdkVersion to 17 or higher, you must add the @JavascriptInterface annotation to any method that you want available to your JavaScript (the method must also be public). If you do not provide the annotation, the method is not accessible by your web page when running on Android 4.2 or higher.</p>
+</blockquote>
+<p> html小例子</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;input <span class="keyword">type</span>=<span class="string">&quot;button&quot;</span> value=<span class="string">&quot;Say hello&quot;</span> onClick=<span class="string">&quot;showAndroidToast(&#x27;Hello Android!&#x27;)&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;script <span class="keyword">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line">    <span class="keyword">function</span> show<span class="constructor">AndroidToast(<span class="params">toast</span>)</span> &#123;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">Android</span>.</span></span>show<span class="constructor">Toast(<span class="params">toast</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p>接着加载JS</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebView webView = (WebView) find<span class="constructor">ViewById(R.<span class="params">id</span>.<span class="params">webview</span>)</span>;</span><br><span class="line">webView.add<span class="constructor">JavascriptInterface(<span class="params">new</span> WebAppInterface(<span class="params">this</span>)</span>, <span class="string">&quot;Android&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/webapps/webview.html">https://developer.android.com/guide/webapps/webview.html</a><br><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/3c94ae673e2a">http://www.jianshu.com/p/3c94ae673e2a</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/c20513cad758">http://www.jianshu.com/p/c20513cad758</a></p>
+<h5 id="缓存方案"><a href="#缓存方案" class="headerlink" title="缓存方案"></a>缓存方案</h5><h5 id="office-原生缓存"><a href="#office-原生缓存" class="headerlink" title="office (原生缓存)"></a>office (原生缓存)</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">	   </span><br><span class="line">WebSettings webSettings = wbNews.get<span class="constructor">Settings()</span>;</span><br><span class="line">   webSettings.set<span class="constructor">JavaScriptEnabled(<span class="params">true</span>)</span>;<span class="comment">// 启用支持javascript</span></span><br><span class="line">   webSettings.set<span class="constructor">CacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK)</span>;<span class="comment">//缓存模式</span></span><br><span class="line">   webSettings.set<span class="constructor">DomStorageEnabled(<span class="params">true</span>)</span>; <span class="comment">// 开启DOM storage API 功能</span></span><br><span class="line">   <span class="comment">// 开启database storage API功能</span></span><br><span class="line">   webSettings.set<span class="constructor">DatabaseEnabled(<span class="params">true</span>)</span>;</span><br><span class="line">   webSettings.set<span class="constructor">AllowFileAccess(<span class="params">true</span>)</span>;<span class="comment">//可以访问文件</span></span><br><span class="line">   webSettings.set<span class="constructor">BuiltInZoomControls(<span class="params">true</span>)</span>;<span class="comment">//支持缩放</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 设置数据库缓存路径</span></span><br><span class="line">   String cacheDirPath = get<span class="constructor">FilesDir()</span>.get<span class="constructor">AbsolutePath()</span> + APP_CACHE_DIRNAME;</span><br><span class="line">   webSettings.set<span class="constructor">AppCachePath(<span class="params">cacheDirPath</span>)</span>;</span><br><span class="line">   webSettings.set<span class="constructor">AppCacheEnabled(<span class="params">true</span>)</span>;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/coder_pig/article/details/48468969">http://blog.csdn.net/coder_pig/article/details/48468969</a></p>
+<h5 id="图片替换方式"><a href="#图片替换方式" class="headerlink" title="图片替换方式"></a>图片替换方式</h5><p><a target="_blank" rel="noopener" href="https://github.com/GcsSloop/diycode/blob/master/blog/journal-02.md">https://github.com/GcsSloop/diycode/blob/master/blog/journal-02.md</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/yipianfengye/androidProject/blob/master/18%20android%E4%BA%A7%E5%93%81%E7%A0%94%E5%8F%91-webview%E9%97%AE%E9%A2%98%E9%9B%86%E9%94%A6.md">其他常用方式</a><br><a target="_blank" rel="noopener" href="https://tech.meituan.com/WebViewPerf.html">美团点评</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/evzDnTsHrAr2b9jcevwBzA">腾讯</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5a94f9d15188257a63113a74">https://juejin.im/post/5a94f9d15188257a63113a74</a></p>
+<h5 id="页面白屏"><a href="#页面白屏" class="headerlink" title="页面白屏"></a>页面白屏</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webSettings.set<span class="constructor">DomStorageEnabled(<span class="params">true</span>)</span>; <span class="comment">// 开启DOM storage API 功能</span></span><br></pre></td></tr></table></figure>
+
+<p>​      </p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ONLYMETAGAIN/article/details/78390643">https://blog.csdn.net/ONLYMETAGAIN/article/details/78390643</a></p>
+<p><a target="_blank" rel="noopener" href="https://iluhcm.com/2017/12/10/design-an-elegant-and-powerful-android-webview-part-one/">https://iluhcm.com/2017/12/10/design-an-elegant-and-powerful-android-webview-part-one/</a></p>
+<ul>
+<li><p>不显示图片的问题</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">webSettings</span><span class="selector-class">.setBlockNetworkImage</span>(false);</span><br><span class="line"><span class="selector-tag">if</span> (Build.VERSION.SDK_INT&gt;=Build.VERSION_CODES.LOLLIPOP)&#123;</span><br><span class="line">    <span class="selector-tag">webSettings</span><span class="selector-class">.setMixedContentMode</span>(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是我的还是不显示</p>
+</li>
+</ul>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">android:</span>hardwareAccelerated=<span class="string">&quot;false&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>WebView缓存功能</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/yale8848/CacheWebView">https://github.com/yale8848/CacheWebView</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.leanote.com/post/zbyzhlsp/%E6%BC%AB%E8%B0%88Android-Webview%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95">http://blog.leanote.com/post/zbyzhlsp/%E6%BC%AB%E8%B0%88Android-Webview%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zybuluo.com/zyl06/note/737188">https://www.zybuluo.com/zyl06/note/737188</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5b94ca52e51d450e7d097f38">https://juejin.im/post/5b94ca52e51d450e7d097f38</a></p>
+<p><strong>2、缓存模式(5种)</strong></p>
+<p><strong>LOAD_CACHE_ONLY:</strong>  不使用网络，只读取本地缓存数据</p>
+<p><strong>LOAD_DEFAULT:</strong>  根据cache-control决定是否从网络上取数据。</p>
+<p><strong>LOAD_CACHE_NORMAL: API level 17</strong>中已经废弃, 从<strong>API level 11</strong>开始作用同LOAD_DEFAULT模式</p>
+<p><strong>LOAD_NO_CACHE:</strong> 不使用缓存，只从网络获取数据.</p>
+<p><strong>LOAD_CACHE_ELSE_NETWORK</strong>，只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。<br>如：<a target="_blank" rel="noopener" href="http://www.taobao.com的cache-control为no-cache,在模式load_default下,无论如何都会从网络上取数据,如果没有网络,就会出现错误页面;在load_cache_else_network模式下,无论是否有网络,只要本地有缓存,都使用缓存.本地没有缓存时才从网络上获取./">www.taobao.com的cache-control为no-cache，在模式LOAD_DEFAULT下，无论如何都会从网络上取数据，如果没有网络，就会出现错误页面；在LOAD_CACHE_ELSE_NETWORK模式下，无论是否有网络，只要本地有缓存，都使用缓存。本地没有缓存时才从网络上获取。</a><br><a target="_blank" rel="noopener" href="http://www.360.com.cn的cache-control为max-age=60,在两种模式下都使用本地缓存数据./">www.360.com.cn的cache-control为max-age=60，在两种模式下都使用本地缓存数据。</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/entry/5ad70987f265da239148a614">https://juejin.im/entry/5ad70987f265da239148a614</a></p>
+<p>zip离线缓存</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/AV2SwFfwwJH7xyrIBJemgw">https://mp.weixin.qq.com/s/AV2SwFfwwJH7xyrIBJemgw</a></p>
+<h4 id="安全问题"><a href="#安全问题" class="headerlink" title="安全问题"></a>安全问题</h4><p>WebView漏洞的根源在于强制其访问攻击者控制的网页。网页中含有攻击者可以控制的JS,因此可能钓鱼，窃取私有文件，甚至是 RCE,带来比较大的危害。</p>
+<p>下面主要是4.4系统以上的机型</p>
+<h5 id="Webview密码明文存储漏洞"><a href="#Webview密码明文存储漏洞" class="headerlink" title="Webview密码明文存储漏洞"></a>Webview密码明文存储漏洞</h5><p>WebView默认开启密码保存功能mWebView.setSavePassword(true),如果未关闭，用户输入密码时，会弹出提示框，询问用户是否保存密码，如果选是，密码会明文保存到 /data/data/com.package.name/databases/webview.db</p>
+<h5 id="WebView域控制不严格漏洞"><a href="#WebView域控制不严格漏洞" class="headerlink" title="WebView域控制不严格漏洞"></a>WebView域控制不严格漏洞</h5><p>setAllowFileAccess(true) : 窃取APP任意目录下的私有文件</p>
+<p>setAllowUniversalAccessFromFileURLs : 允许通过file域url中的 javascript访问其他的源。</p>
+<p>方案</p>
+<ol>
+<li><p>通过以下设置，防止越权访问，跨域等安全问题</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">setAllowFileAccess(<span class="keyword">false</span>)</span><br><span class="line"></span><br><span class="line">setAllowFileAccessFromFileURLs(<span class="keyword">false</span>)</span><br><span class="line"></span><br><span class="line">setAllowUniversalAccessFromFileURLs(<span class="keyword">false</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>WebSettings.setSavePassword(false)</p>
+<p>关闭密码保存提醒功能</p>
+</li>
+<li><p>建议开发者通过以下方式移除该JavaScript接口</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">removeJavascriptInterface(<span class="string">&quot;searchBoxJavaBridge_&quot;</span>)</span><br><span class="line"></span><br><span class="line">removeJavascriptInterface(<span class="string">&quot;accessibility&quot;</span>)；</span><br><span class="line"></span><br><span class="line">removeJavascriptInterface(<span class="string">&quot;accessibilityTraversal&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21787366">https://zhuanlan.zhihu.com/p/21787366</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.kanxue.com/article-14155.htm">https://zhuanlan.kanxue.com/article-14155.htm</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-Camera" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -118,7 +262,7 @@
 <a href="/2017/08/28/Camera/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -163,8 +307,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -177,7 +321,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -223,7 +367,7 @@
 <a href="/2017/08/27/ConcurrencyThreadPool/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -357,8 +501,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -373,7 +517,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -419,14 +563,27 @@
 <a href="/2017/08/21/Handler/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
     </div>
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h5 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h5><img src="/2017/08/21/Handler/2021-07-07_15-49-54_hanlder.png">
+        <h4 id="Handler作用"><a href="#Handler作用" class="headerlink" title="Handler作用"></a>Handler作用</h4><p>既然process内的thread share their memories. why we need handler.我们直接可以 subThread get data,赋值给Ui thread的变量呀。</p>
+<p>正常来说是没问题的。但是像下面这种情况。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">&quot;123&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> anInt = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 子</span></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                anInt = <span class="number">2</span>;</span><br><span class="line">                Log.i(TAG, <span class="string">&quot;子线程: &quot;</span> + anInt);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">        <span class="comment">// 主</span></span><br><span class="line">            Log.i(TAG, <span class="string">&quot;主线程: &quot;</span> + anInt);</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">————————————————</span><br><span class="line">版权声明：本文为CSDN博主「dev晴天」的原创文章，遵循CC <span class="number">4.0</span> BY-SA版权协议，转载请附上原文出处链接及本声明。</span><br><span class="line">原文链接：https:<span class="comment">//blog.csdn.net/qq_38350635/article/details/90440833</span></span><br></pre></td></tr></table></figure>
+
+<p>如上：主线程定义了anInt，子线程对其修改。我们再在主线程打印，能得到修改后的anInt = 2 吗？<br> 答案：不确定<br> 原因：线程争夺cup使用权顺序不确定，可能,子线程先获得使用权，则两个Log都打印2。当然主线程先获得使用权时主线程的log打印数值为1。</p>
+<p>解决方案<br>1、让子线程先执行。</p>
+<pre><code>比如主线程设置低优先级、主线程休息等等（不靠谱，提供一种想法吧）
+</code></pre>
+<p>2、安卓中的Handler机制</p>
+<pre><code>子线程发送消息，主线程接受消息，只有主线程收到消息再打印处理数值。
+handler使用略。。。。。。
+</code></pre>
+<p>3、接口回调机制</p>
+<h5 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h5><img src="/2017/08/21/Handler/2021-07-07_15-49-54_hanlder.png">
 
 
 
@@ -572,8 +729,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -586,7 +743,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -632,7 +789,7 @@
 <a href="/2017/08/16/AnimationResource/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -778,8 +935,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -792,7 +949,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -838,7 +995,7 @@
 <a href="/2017/08/16/PerformancePatterns/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -867,8 +1024,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -881,7 +1038,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -927,7 +1084,7 @@
 <a href="/2017/08/13/TouchEvent2/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -1066,8 +1223,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1082,7 +1239,7 @@
 
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1128,7 +1285,7 @@
 <a href="/2017/08/13/AndroidStudioTool/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -1197,8 +1354,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1211,7 +1368,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1257,7 +1414,7 @@
 <a href="/2017/08/12/BroadcastReceiver/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -1318,8 +1475,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1332,7 +1489,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1378,7 +1535,7 @@
 <a href="/2017/08/11/SERVICE/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -1446,8 +1603,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1460,124 +1617,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-DesignPatterns_Adatper" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/08/10/DesignPatterns_Adatper/">DesignPatterns-Adatper</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-08-10T07:41:04.000Z" itemprop="datePublished">2017年08月10日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
-  </div>
-
-      
-      
-<a href="/2017/08/10/DesignPatterns_Adatper/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h2><pre><code> //需要适配的类
-public class Adaptee &#123;
-  public  void specificRequest()&#123;
-    System.out.println(&quot;需要适配的类&quot;);
-  &#125;
-&#125;
-
- //目标接口
-public interface Target &#123;
- void request();
-&#125;
-</code></pre>
-<h1 id="对象适配器（采用对象组合方式实现）"><a href="#对象适配器（采用对象组合方式实现）" class="headerlink" title="对象适配器（采用对象组合方式实现）"></a>对象适配器（采用对象组合方式实现）</h1><pre><code>public class Adapter implements Target &#123;
-    //直接关联被适配类
-    private Adaptee adaptee;
-
-    //可以通过构造函数传入具体需要适配的被适配类对象
-    public Adapter(Adaptee adaptee) &#123;
-        this.adaptee = adaptee;
-    &#125;
-
-    @Override
-    public void request() &#123;
-        this.adaptee.specificRequest();
-    &#125;
-
-    public static void main(String[] args) &#123;
-        Target adapter = new Adapter(new Adaptee());
-        adapter.request();
-    &#125;
-&#125;
-</code></pre>
-<h1 id="类适配器模式-采用继承实现"><a href="#类适配器模式-采用继承实现" class="headerlink" title="类适配器模式(采用继承实现)"></a>类适配器模式(采用继承实现)</h1><pre><code>public class CAdapter extends Adaptee implements Target &#123;
-    @Override
-    public void request() &#123;
-        super.specificRequest();
-    &#125;
-
-    public static void main(String[] args) &#123;
-
-        Target adapter = new CAdapter();
-        adapter.request();
-    &#125;
-&#125;
-</code></pre>
-<h2 id="Builder模式"><a href="#Builder模式" class="headerlink" title="Builder模式"></a>Builder模式</h2><p>参考　：<a target="_blank" rel="noopener" href="https://github.com/helen-x/AndroidInterview/blob/master/android/Android%20%E6%BA%90%E7%A0%81%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%A8%E5%9C%A8%E8%BF%99%E9%87%8C).md">https://github.com/helen-x/AndroidInterview/blob/master/android/Android%20%E6%BA%90%E7%A0%81%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%A8%E5%9C%A8%E8%BF%99%E9%87%8C).md</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/16/index.html">http://noteforme.github.io.com/page/16/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1594,7 +1634,7 @@ public interface Target &#123;
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/15/">Vorheriger</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/17/">Nächster</a>
+<a class="extend prev" rel="prev" href="/page/15/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/17/">Next</a>
 </nav>
 
 
@@ -1604,9 +1644,13 @@ public interface Target &#123;
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/12/14/coroutie1-start/">coroutie1_start</a>
+          </li>
         
           <li>
             <a href="/2021/11/23/Font/">Font</a>
@@ -1624,10 +1668,6 @@ public interface Target &#123;
             <a href="/2021/10/31/BinarySearch/">BinarySearch</a>
           </li>
         
-          <li>
-            <a href="/2021/09/11/kotlin-senior2/">kotlin-senior2</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1638,16 +1678,16 @@ public interface Target &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/Kotlin/" style="font-size: 15.71px;">Kotlin</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 12.86px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/inter/" style="font-size: 17.14px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
+      <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/Kotlin/" style="font-size: 15.71px;">Kotlin</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 12.86px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 10px;">coroutie</a> <a href="/tags/inter/" style="font-size: 17.14px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">56</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/coroutine/">coroutine</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">56</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/coroutine/">coroutine</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1655,9 +1695,9 @@ public interface Target &#123;
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年11月</a><span class="archive-list-count">22</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1667,7 +1707,7 @@ public interface Target &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1706,9 +1746,9 @@ public interface Target &#123;
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Sitemap</a>
-        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
-        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
       </p>
       
         <p>

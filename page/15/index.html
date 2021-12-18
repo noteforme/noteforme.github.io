@@ -53,11 +53,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Start</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archiv</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> Über</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -65,7 +65,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="Suche"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -86,6 +86,257 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-Toolbar" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/10/12/Toolbar/">Toolbar</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-10-12T08:35:05.000Z" itemprop="datePublished">2017年10月12日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/10/12/Toolbar/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://developer.android.com/training/appbar/setting-up.html">https://developer.android.com/training/appbar/setting-up.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/xiewenfeng/statusbartextcolorchange">https://github.com/xiewenfeng/statusbartextcolorchange</a></p>
+<p>目前只要考虑 5.0以上系统就可以了,有些flag虽然被标记为Deprecated,但是系统也还在用，所以有必要研究。</p>
+ <img src="/2017/10/12/Toolbar/tool_color.png" alt="tool设置" style="zoom:50%;">
+
+<p> <a target="_blank" rel="noopener" href="http://blog.csdn.net/a553181867/article/details/51336899">http://blog.csdn.net/a553181867/article/details/51336899</a></p>
+<h3 id="statebar"><a href="#statebar" class="headerlink" title="statebar"></a>statebar</h3><p>实现沉浸式状态栏主要跟以下四个Api相关:</p>
+<ul>
+<li>View#setSystemUiVisibility()</li>
+<li>Window#addFlags()</li>
+<li>View#setFitsSystemWindows</li>
+<li>Window#setStatusBarColor()</li>
+</ul>
+<h5 id="View-setSystemUiVisibility-及其各种Flags"><a href="#View-setSystemUiVisibility-及其各种Flags" class="headerlink" title="View#setSystemUiVisibility()及其各种Flags"></a>View#setSystemUiVisibility()及其各种Flags</h5><p>首先setSystemUiVisibility()这个方法就是设置状态栏或者导航栏的各种属性的，哪都有些可以设置的属性呢？</p>
+<ul>
+<li> View.SYSTEM_UI_FLAG_FULLSCREEN</li>
+</ul>
+<p>  视图全屏并隐藏状态栏，当用户交互时（如下滑状态栏）会恢复隐藏的状态栏（例子：电子书阅读）缺点：进入Activity会产生一个从非全屏到全屏的闪动效果</p>
+<p>  <img src="/2017/10/12/Toolbar/View.SYSTEM_UI_FLAG_FULLSCREEN.gif" alt="View.SYSTEM_UI_FLAG_FULLSCREEN"></p>
+<ul>
+<li><p>View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY</p>
+<p>粘性沉浸模式，需要和SYSTEM_UI_FLAG_FULLSCREEN或者SYSTEM_UI_FLAG_HIDE_NAVIGATION联用，当使用View.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)联用时视图全屏，当用户产生交互时（如下滑状态栏）不会恢复状态栏，只会以半透明的方式覆盖在视图上面并在一定时间内自动消失</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2017/10/12/Toolbar/SYSTEM_UI_FLAG_IMMERSIVE_STICKY.gif" alt="SYSTEM_UI_FLAG_IMMERSIVE_STICKY"></p>
+</li>
+<li><p>View.SYSTEM_UI_FLAG_IMMERSIVE：<br> 沉浸模式，只能和View.SYSTEM_UI_FLAG_FULLSCREEN联用，效果和View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY一样，目前已被后者替代。</p>
+</li>
+<li><p>View.SYSTEM_UI_FLAG_LOW_PROFILE:<br> 低配模式，会隐藏一些不重要的状态栏和导航栏的图标,(用模拟器跑，只剩下电池了)</p>
+</li>
+<li><p>View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN：<br> 视图全屏且不会产生闪动，如果没有toolbar,contentview会占住statebar的位置，状态栏会覆盖在contentview上面.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isWhite = <span class="literal">false</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">change_statebar_element_color</span><span class="params">(view: <span class="type">View</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (isWhite) &#123;</span><br><span class="line">        window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LAYOUT_STABLE <span class="comment">//statebar 元素显示白色</span></span><br><span class="line">        isWhite = <span class="literal">false</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        window.decorView.systemUiVisibility =</span><br><span class="line">            SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or SYSTEM_UI_FLAG_LIGHT_STATUS_BAR  <span class="comment">//显示黑色</span></span><br><span class="line">        isWhite = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>View.SYSTEM_UI_FLAG_LAYOUT_STABLE：<br> 使视图稳定，当使用fitSystemWindows（）（下面会介绍这个方法）需要视图稳定，一般和SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN联用,我使用这个属性后，能使<strong>statebar的电池条变成白色</strong>。</p>
+</li>
+<li><p>View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR:<br> Android6.0系统以上增加的属性，设置了这个属性，状态栏会以与状态栏背景颜色兼容的模式绘制。什么意思呢？就是说如果当前的状态栏颜色是浅色，那么就有可能造成状态栏上的图标看不清了，但是如果你设置这个属性以后，状态栏的图标就会以深色绘制，这样就没有什么UI上的问题了。</p>
+</li>
+</ul>
+<h5 id="Window-addFlags"><a href="#Window-addFlags" class="headerlink" title="Window#addFlags()"></a>Window#addFlags()</h5><p>这种方式<strong>感觉是setSystemUiVisibility之前的用法</strong>了。</p>
+<p>WindowManager.LayoutParams相关属性：</p>
+<ul>
+<li>FLAG_TRANSLUCENT_STATUS:<br> Android4.4系统增加的属性，它会使状态栏透明,并且自动执行View.SYSTEM_UI_FLAG_LAYOUT_STABLE和View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN</li>
+<li>FLAG_FULLSCREEN:<br> 视图全屏并隐藏状态栏，效果相当于View.SYSTEM_UI_FLAG_FULLSCREEN+View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY，并且视图稳定（不会因为系统控件的变化（如输入法），而重新布局）</li>
+<li>FLAG_FORCE_NOT_FULLSCREEN：<br> 重写了FLAG_FULLSCREEN并强制显示状态栏（没有啥用）</li>
+<li>FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS：<br> Android5.0系统以上支持，如果设置了该属性，系统栏（状态栏和导航栏）将以透明背景绘制，并且该窗口中的相应区域将填充setStatusBar（）和setNavigationBarColor（）中设置的颜色。 现在项目就是用这种方式。<ol>
+<li>感觉这也是设置stateBar颜色一种主要的方式。</li>
+<li>另一种就是自己设置statebar颜色。</li>
+</ol>
+</li>
+</ul>
+<h4 id="几种全屏模式"><a href="#几种全屏模式" class="headerlink" title="几种全屏模式"></a>几种全屏模式</h4><h5 id="Lean-back"><a href="#Lean-back" class="headerlink" title="Lean back"></a>Lean back</h5><p>倾斜模式</p>
+<p>When users want to bring back the system bars, they simply tap the screen anywhere.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">window.decorView.systemUiVisibility =</span><br><span class="line">    SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION</span><br></pre></td></tr></table></figure>
+
+<p>轻触屏幕 会显示 底部导航如返回按钮 </p>
+<h5 id="Immersive"><a href="#Immersive" class="headerlink" title="Immersive"></a>Immersive</h5><p>沉浸模式：从边缘滑动，显示系统Bar,也可以通过回调显示系统控件</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">window.decorView.systemUiVisibility =</span><br><span class="line">    SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION or  SYSTEM_UI_FLAG_IMMERSIVE</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="Sticky-immersive"><a href="#Sticky-immersive" class="headerlink" title="Sticky immersive"></a>Sticky immersive</h5><p>从边缘滑动，显示系统Bar,statebar.又恢复了。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">window.decorView.systemUiVisibility =</span><br><span class="line">    SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION or  SYSTEM_UI_FLAG_IMMERSIVE_STICKY</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/training/system-ui/immersive">https://developer.android.com/training/system-ui/immersive</a></p>
+<p>android 11  systemUiVisibility过期需要更新</p>
+<h4 id="Statabar-Color"><a href="#Statabar-Color" class="headerlink" title="Statabar Color"></a>Statabar Color</h4><ol>
+<li><p>Application AppTheme statusBarColor</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;AppTheme&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;Theme.AppCompat.Light.NoActionBar&quot;</span>&gt;</span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- Customize your theme here. --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;colorPrimary&quot;</span>&gt;</span>@color/colorPrimary<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;colorPrimaryDark&quot;</span>&gt;</span>@color/colorPrimaryDark<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;colorAccent&quot;</span>&gt;</span>@color/colorAccent<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:statusBarColor&quot;</span>&gt;</span> @android:color/white<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Activity设置</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.R) &#123;</span><br><span class="line">    window.decorView.systemUiVisibility =</span><br><span class="line">        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    window.insetsController?.setSystemBarsAppearance(</span><br><span class="line">        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,</span><br><span class="line">        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="Statabar-element-Color"><a href="#Statabar-element-Color" class="headerlink" title="Statabar element Color"></a>Statabar element Color</h5><p>两种方式</p>
+<h6 id="systemUiVisibility"><a href="#systemUiVisibility" class="headerlink" title="systemUiVisibility"></a>systemUiVisibility</h6><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LAYOUT_STABLE <span class="comment">//statebar 元素显示白色</span></span><br><span class="line"></span><br><span class="line">window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LIGHT_STATUS_BAR  <span class="comment">//显示黑色</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="主题配置-gt-23"><a href="#主题配置-gt-23" class="headerlink" title="主题配置&gt;23"></a>主题配置&gt;23</h6><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowLightStatusBar&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>false : 白色</p>
+<p>true :  黑色</p>
+<p><a target="_blank" rel="noopener" href="https://imstudio.medium.com/android-change-status-bar-text-color-659680fce49b">https://imstudio.medium.com/android-change-status-bar-text-color-659680fce49b</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/training/system-ui">https://developer.android.com/training/system-ui</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/shanshui911587154/article/details/86623646">https://blog.csdn.net/shanshui911587154/article/details/86623646</a></p>
+<h4 id="WindowInsetsController"><a href="#WindowInsetsController" class="headerlink" title="WindowInsetsController"></a>WindowInsetsController</h4><p>Android11 使用</p>
+<h5 id="statabar-text-color"><a href="#statabar-text-color" class="headerlink" title="statabar text color"></a>statabar text color</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequiresApi(Build.VERSION_CODES.R)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">AppearanceLightStatusBars</span><span class="params">(view: <span class="type">android</span>.<span class="type">view</span>.<span class="type">View</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (isWhite) &#123;</span><br><span class="line">        controller?.setSystemBarsAppearance(</span><br><span class="line">            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,</span><br><span class="line">            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS</span><br><span class="line">        )</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        controller?.setSystemBarsAppearance(</span><br><span class="line">            <span class="number">0</span>,</span><br><span class="line">            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    isWhite = !isWhite</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="statebar-hide"><a href="#statebar-hide" class="headerlink" title="statebar hide"></a>statebar hide</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isHide = <span class="literal">true</span></span><br><span class="line"><span class="meta">@RequiresApi(Build.VERSION_CODES.R)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">hide_state_bar</span><span class="params">(view: <span class="type">android</span>.<span class="type">view</span>.<span class="type">View</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (isHide) &#123;</span><br><span class="line">        controller?.hide(WindowInsetsCompat.Type.statusBars())</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        controller?.show(WindowInsetsCompat.Type.statusBars())</span><br><span class="line">    &#125;</span><br><span class="line">    isHide = !isHide</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/jingzz1/article/details/111468726">https://blog.csdn.net/jingzz1/article/details/111468726</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6940048488071856164">https://juejin.cn/post/6940048488071856164</a></p>
+<h3 id="ToolBar"><a href="#ToolBar" class="headerlink" title="ToolBar"></a>ToolBar</h3><h5 id="颜色设置"><a href="#颜色设置" class="headerlink" title="颜色设置"></a>颜色设置</h5><p>  AppTheme下的设置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;application</span><br><span class="line">      android:name=&quot;.application.NBBApplication&quot;</span><br><span class="line">      android:allowBackup=&quot;true&quot;</span><br><span class="line">      android:icon=&quot;@mipmap/icon&quot;</span><br><span class="line">      android:label=&quot;@string/app_name&quot;</span><br><span class="line">      android:supportsRtl=&quot;true&quot;</span><br><span class="line">      android:theme=&quot;@style/AppTheme&quot;&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Toolbar颜色:<br><code>&lt;item name=&quot;colorPrimary&quot;&gt;@color/toolbar_color&lt;/item&gt;</code></p>
+</li>
+<li><p>状态栏设置 :<br><code>&lt;item name=&quot;android:windowTranslucentStatus&quot;&gt;true&lt;/item&gt;</code><br> 在 API 19 及更高版本上，Toolbar 内容延伸至状态栏上去了, statebar把toolbar给覆盖了<br> 要解决这个问题就需要下面的属性</p>
+</li>
+<li><p>android:fitsSystemWindows =”true”<br>  这个属性能保持与statebar一定 的padding,能解决上面windowTranslucentStatus的重叠问题</p>
+<p>   参考: <a target="_blank" rel="noopener" href="http://yifeng.studio/2017/02/19/android-statusbar/">亦枫</a> </p>
+</li>
+<li><p>去掉阴影线</p>
+<p>   toolbar底部会有一条阴影线,通过AppBarLayout标签下的app:elevation=”0dp”去掉</p>
+</li>
+</ul>
+<h5 id="自定义返回键"><a href="#自定义返回键" class="headerlink" title="自定义返回键"></a>自定义返回键</h5><p><code> mToolbar.setNavigationIcon(R.mipmap.ic_back);//自定义返回键</code></p>
+<p>或者这样设置<br> <code>app:navigationIcon=&quot;@mipmap/ic_back&quot;</code></p>
+<h5 id="toolbar-xml解读"><a href="#toolbar-xml解读" class="headerlink" title="toolbar.xml解读"></a>toolbar.xml解读</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">android.support.design.widget.AppBarLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:elevation</span>=<span class="string">&quot;0dp&quot;</span>&gt;</span>                    			 //设置仰角,0dp可以去掉底部的线</span><br><span class="line"></span><br><span class="line">    &lt;android.support.v7.widget.Toolbar</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;?attr/actionBarSize&quot;</span><br><span class="line">        android:minHeight=&quot;?actionBarSize&quot;</span><br><span class="line">        android:theme=&quot;@style/ThemeOverlay.AppCompat.ActionBar&quot;			//toolbar主题</span><br><span class="line">        app:popupTheme=&quot;@style/ThemeOverlay.AppCompat.Light&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/tb_title&quot;</span><br><span class="line">            style=&quot;@style/TextAppearance.AppCompat.Widget.ActionBar.Title&quot;</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_gravity=&quot;center&quot;</span><br><span class="line">            android:text=&quot;标题&quot;</span><br><span class="line">            android:textColor=&quot;#333333&quot;</span><br><span class="line">            android:textSize=&quot;18sp&quot; /&gt;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">android.support.v7.widget.Toolbar</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.design.widget.AppBarLayout</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>还有一种方式是在application设置，这样就不用集成baseActivity</p>
+<h3 id="menu设置"><a href="#menu设置" class="headerlink" title="menu设置"></a>menu设置</h3><p>AppBarLayout下的 <code>app:theme=&quot;@style/toolbar_menu&quot;</code>用于设置menu</p>
+<h5 id="menu字体颜色"><a href="#menu字体颜色" class="headerlink" title="menu字体颜色"></a>menu字体颜色</h5><p>需要设置 app:theme ,用 android:theme不起作用.</p>
+<p><code>&lt;item name=&quot;android:actionMenuTextColor&quot;&gt;@color/text_my_black&lt;/item&gt;</code></p>
+<h5 id="menu事件"><a href="#menu事件" class="headerlink" title="menu事件"></a>menu事件</h5><pre><code>@Override
+public boolean onCreateOptionsMenu(Menu menu) &#123;
+    getMenuInflater().inflate(R.menu.menu_login, menu);
+    menu.findItem(R.id.item_right_text).setTitle(&quot;注册&quot;); //设置文字
+    return true;
+&#125;
+
+@Override
+public boolean onOptionsItemSelected(MenuItem item) &#123;
+    switch (item.getItemId()) &#123;
+        
+            break;
+    &#125;
+    return super.onOptionsItemSelected(item);
+&#125;
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/guyuealian/article/details/51721167">https://blog.csdn.net/guyuealian/article/details/51721167</a></p>
+<p>使用toolbar过程中遇到了一些问题</p>
+<p>问题 1</p>
+<p>弹出键盘后 editext不见了，应该是toolbar被拉伸了</p>
+<p>暂时解决方式:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">   android:name=&quot;.activity.WebActivity&quot;</span><br><span class="line">   android:hardwareAccelerated=&quot;true&quot;</span><br><span class="line">   android:screenOrientation=&quot;portrait&quot;</span><br><span class="line">   android:windowSoftInputMode=&quot;adjustPan&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://github.com/CoolThink/StatusBarAdapt/issues/2">https://github.com/CoolThink/StatusBarAdapt/issues/2</a></p>
+<h5 id="fragment使用toolbar"><a href="#fragment使用toolbar" class="headerlink" title="fragment使用toolbar"></a>fragment使用toolbar</h5><p><a target="_blank" rel="noopener" href="http://wuxiaolong.me/2015/12/21/fragmentToolbar/">http://wuxiaolong.me/2015/12/21/fragmentToolbar/</a></p>
+<h5 id="三条线的颜色修改"><a href="#三条线的颜色修改" class="headerlink" title="三条线的颜色修改"></a>三条线的颜色修改</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;DrawerArrowStyle&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;Base.Widget.AppCompat.DrawerArrowToggle&quot;</span>&gt;</span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;spinBars&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;color&quot;</span>&gt;</span>@android:color/white<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>具体可以查看mineutil:PopupWindowActivity</p>
+<ul>
+<li>溢出菜单三个点离右边的距离</li>
+</ul>
+<p> AppTheme中设置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:actionOverflowButtonStyle&quot;</span>&gt;</span>@style/OverflowMenuStyle<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;OverflowMenuStyle&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;Widget.AppCompat.Light.PopupMenu.Overflow&quot;</span>&gt;</span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;overlapAnchor&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span>  <span class="comment">&lt;!--把该属性改为false即可使menu位置位于toolbar之下--&gt;</span></span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:src&quot;</span>&gt;</span>@mipmap/doc_ic_new_patient<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:paddingRight&quot;</span>&gt;</span>15dp<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>＆</td>
+<td>如果相对应位都是1，则结果为1，否则为0</td>
+<td>（A＆B），得到12，即0000 1100</td>
+</tr>
+<tr>
+<td>|</td>
+<td>如果相对应位都是 0，则结果为 0，否则为 1</td>
+<td>（A | B）得到61，即 0011 1101</td>
+</tr>
+<tr>
+<td>^</td>
+<td>如果相对应位值相同，则结果为0，否则为1</td>
+<td>（A ^ B）得到49，即 0011 0001</td>
+</tr>
+</tbody></table>
+<p><a target="_blank" rel="noopener" href="https://noteforme.github.io/2018/01/07/Operators/">https://noteforme.github.io/2018/01/07/Operators/</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-DesignPattern_Builder" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -118,7 +369,7 @@
 <a href="/2017/10/07/DesignPattern_Builder/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -135,8 +386,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -149,7 +400,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -195,7 +446,7 @@
 <a href="/2017/10/05/Fragment/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -304,8 +555,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -318,7 +569,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -364,7 +615,7 @@
 <a href="/2017/09/26/onActivityResult/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -431,8 +682,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -445,7 +696,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -491,7 +742,7 @@
 <a href="/2017/09/23/DevicesScreenSupport/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -590,8 +841,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -604,7 +855,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -650,7 +901,7 @@
 <a href="/2017/09/23/Retrofit/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -692,8 +943,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -706,7 +957,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -752,7 +1003,7 @@
 <a href="/2017/09/21/Package-signature/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -782,8 +1033,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -796,7 +1047,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -842,7 +1093,7 @@
 <a href="/2017/09/20/ubuntu_guide/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -902,8 +1153,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -916,7 +1167,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -962,7 +1213,7 @@
 <a href="/2017/09/19/SDK_Integration/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -1042,8 +1293,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1056,7 +1307,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1102,7 +1353,7 @@
 <a href="/2017/09/12/JavaIo/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Gästebuch
+  Guestbook
 </a>
 
 
@@ -1140,8 +1391,8 @@
         
         
           <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
+              <p>Original link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1154,151 +1405,7 @@
           
           
     <div class="social-share">
-      <span>Aktie:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-WebView" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/09/01/WebView/">WebView</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-09-01T08:07:15.000Z" itemprop="datePublished">2017年09月01日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2017/09/01/WebView/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Gästebuch
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><h5 id="加载apk包中的html页面"><a href="#加载apk包中的html页面" class="headerlink" title="加载apk包中的html页面"></a>加载apk包中的html页面</h5><p><code> webView.loadUrl(&quot;file:///android_asset/java.html&quot;);</code></p>
-<h5 id="Enabling-JavaScript"><a href="#Enabling-JavaScript" class="headerlink" title="Enabling JavaScript"></a>Enabling JavaScript</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">WebView myWebView = (WebView) find<span class="constructor">ViewById(R.<span class="params">id</span>.<span class="params">webview</span>)</span>;</span><br><span class="line">WebSettings webSettings = myWebView.get<span class="constructor">Settings()</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//支持JavaScript</span></span><br><span class="line"><span class="comment">//        webSettings.setJavaScriptEnabled(true); // 在 onStop 和 onResume 里分别把 setJavaScriptEnabled() 给设置成 false 和 true 即可</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         *  设置自适应屏幕,两者合用</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        webSettings.set<span class="constructor">UseWideViewPort(<span class="params">true</span>)</span>; <span class="comment">//将图片调整到适合webview的大小</span></span><br><span class="line">        webSettings.set<span class="constructor">LoadWithOverviewMode(<span class="params">true</span>)</span>; <span class="comment">//缩放至屏幕的大小</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 缩放操作</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        webSettings.set<span class="constructor">SupportZoom(<span class="params">true</span>)</span>;  <span class="comment">//支持缩放，默认为true。是下面那个的前提。</span></span><br><span class="line">        webSettings.set<span class="constructor">BuiltInZoomControls(<span class="params">true</span>)</span>; <span class="comment">//设置内置的缩放控件。若为false，则该WebView不可缩放</span></span><br><span class="line">        webSettings.set<span class="constructor">DisplayZoomControls(<span class="params">false</span>)</span>;<span class="comment">//隐藏原生的缩放控件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//        myWebView.setWebChromeClient(new MyWebViewClient());</span></span><br><span class="line">        myWebView.set<span class="constructor">WebViewClient(<span class="params">new</span> MyViewClient()</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>上面是一些常用的操作</p>
-<h5 id="Binding-JavaScript-code-to-Android-code-JS交互"><a href="#Binding-JavaScript-code-to-Android-code-JS交互" class="headerlink" title="Binding JavaScript code to Android code(JS交互)"></a>Binding JavaScript code to Android code(JS交互)</h5><p>When developing a web application that’s designed specifically for the WebView in your Android application, you can create interfaces between your JavaScript code and client-side Android code. For example, your JavaScript code can call a method in your Android code to display a Dialog, instead of using JavaScript’s alert() function.</p>
-<p>To bind a new interface between your JavaScript and Android code, call addJavascriptInterface(), passing it a class instance to bind to your JavaScript and an interface name that your JavaScript can call to access the class.</p>
-<ul>
-<li>office Demo</li>
-</ul>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">inner <span class="keyword">class</span> <span class="constructor">WebLoginInterface(<span class="params">context</span>: Context?)</span> &#123;</span><br><span class="line">     @JavascriptInterface</span><br><span class="line">     <span class="keyword">fun</span> app<span class="constructor">Login()</span> &#123;</span><br><span class="line">         <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;appLogin&quot;</span>)</span><br><span class="line">             mWebView?.post &#123;</span><br><span class="line">                 <span class="keyword">val</span> mSessionId = <span class="module-access"><span class="module"><span class="identifier">SharedPreferencesUtils</span>.</span></span>get<span class="constructor">Param(AppCtxUtil.<span class="params">getApp</span>()</span>, GsonUtil.SHARE_TOKEN_KEY, <span class="string">&quot;&quot;</span>) <span class="keyword">as</span> String</span><br><span class="line">                 <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;mSessionId $&#123;mSessionId&#125;&quot;</span>)</span><br><span class="line">                 <span class="keyword">val</span> jsMethodName = <span class="string">&quot;javascript:appLoginCallBack(&#x27;$mSessionId&#x27;,&#x27;4&#x27;)&quot;</span>; <span class="comment">//需要参数的JS函数名</span></span><br><span class="line">                 <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;jsMethodName $jsMethodName&quot;</span>)</span><br><span class="line">                 mWebView?.load<span class="constructor">Url(<span class="params">jsMethodName</span>)</span></span><br><span class="line">             &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>注意</p>
-<blockquote>
-<p>Caution: If you’ve set your targetSdkVersion to 17 or higher, you must add the @JavascriptInterface annotation to any method that you want available to your JavaScript (the method must also be public). If you do not provide the annotation, the method is not accessible by your web page when running on Android 4.2 or higher.</p>
-</blockquote>
-<p> html小例子</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;input <span class="keyword">type</span>=<span class="string">&quot;button&quot;</span> value=<span class="string">&quot;Say hello&quot;</span> onClick=<span class="string">&quot;showAndroidToast(&#x27;Hello Android!&#x27;)&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;script <span class="keyword">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line">    <span class="keyword">function</span> show<span class="constructor">AndroidToast(<span class="params">toast</span>)</span> &#123;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">Android</span>.</span></span>show<span class="constructor">Toast(<span class="params">toast</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-
-<p>接着加载JS</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebView webView = (WebView) find<span class="constructor">ViewById(R.<span class="params">id</span>.<span class="params">webview</span>)</span>;</span><br><span class="line">webView.add<span class="constructor">JavascriptInterface(<span class="params">new</span> WebAppInterface(<span class="params">this</span>)</span>, <span class="string">&quot;Android&quot;</span>);</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/webapps/webview.html">https://developer.android.com/guide/webapps/webview.html</a><br><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/3c94ae673e2a">http://www.jianshu.com/p/3c94ae673e2a</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/c20513cad758">http://www.jianshu.com/p/c20513cad758</a></p>
-<h5 id="缓存方案"><a href="#缓存方案" class="headerlink" title="缓存方案"></a>缓存方案</h5><h5 id="office-原生缓存"><a href="#office-原生缓存" class="headerlink" title="office (原生缓存)"></a>office (原生缓存)</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">	   </span><br><span class="line">WebSettings webSettings = wbNews.get<span class="constructor">Settings()</span>;</span><br><span class="line">   webSettings.set<span class="constructor">JavaScriptEnabled(<span class="params">true</span>)</span>;<span class="comment">// 启用支持javascript</span></span><br><span class="line">   webSettings.set<span class="constructor">CacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK)</span>;<span class="comment">//缓存模式</span></span><br><span class="line">   webSettings.set<span class="constructor">DomStorageEnabled(<span class="params">true</span>)</span>; <span class="comment">// 开启DOM storage API 功能</span></span><br><span class="line">   <span class="comment">// 开启database storage API功能</span></span><br><span class="line">   webSettings.set<span class="constructor">DatabaseEnabled(<span class="params">true</span>)</span>;</span><br><span class="line">   webSettings.set<span class="constructor">AllowFileAccess(<span class="params">true</span>)</span>;<span class="comment">//可以访问文件</span></span><br><span class="line">   webSettings.set<span class="constructor">BuiltInZoomControls(<span class="params">true</span>)</span>;<span class="comment">//支持缩放</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 设置数据库缓存路径</span></span><br><span class="line">   String cacheDirPath = get<span class="constructor">FilesDir()</span>.get<span class="constructor">AbsolutePath()</span> + APP_CACHE_DIRNAME;</span><br><span class="line">   webSettings.set<span class="constructor">AppCachePath(<span class="params">cacheDirPath</span>)</span>;</span><br><span class="line">   webSettings.set<span class="constructor">AppCacheEnabled(<span class="params">true</span>)</span>;</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/coder_pig/article/details/48468969">http://blog.csdn.net/coder_pig/article/details/48468969</a></p>
-<h5 id="图片替换方式"><a href="#图片替换方式" class="headerlink" title="图片替换方式"></a>图片替换方式</h5><p><a target="_blank" rel="noopener" href="https://github.com/GcsSloop/diycode/blob/master/blog/journal-02.md">https://github.com/GcsSloop/diycode/blob/master/blog/journal-02.md</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/yipianfengye/androidProject/blob/master/18%20android%E4%BA%A7%E5%93%81%E7%A0%94%E5%8F%91-webview%E9%97%AE%E9%A2%98%E9%9B%86%E9%94%A6.md">其他常用方式</a><br><a target="_blank" rel="noopener" href="https://tech.meituan.com/WebViewPerf.html">美团点评</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/evzDnTsHrAr2b9jcevwBzA">腾讯</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5a94f9d15188257a63113a74">https://juejin.im/post/5a94f9d15188257a63113a74</a></p>
-<h5 id="页面白屏"><a href="#页面白屏" class="headerlink" title="页面白屏"></a>页面白屏</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webSettings.set<span class="constructor">DomStorageEnabled(<span class="params">true</span>)</span>; <span class="comment">// 开启DOM storage API 功能</span></span><br></pre></td></tr></table></figure>
-
-<p>​      </p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ONLYMETAGAIN/article/details/78390643">https://blog.csdn.net/ONLYMETAGAIN/article/details/78390643</a></p>
-<p><a target="_blank" rel="noopener" href="https://iluhcm.com/2017/12/10/design-an-elegant-and-powerful-android-webview-part-one/">https://iluhcm.com/2017/12/10/design-an-elegant-and-powerful-android-webview-part-one/</a></p>
-<ul>
-<li><p>不显示图片的问题</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">webSettings</span><span class="selector-class">.setBlockNetworkImage</span>(false);</span><br><span class="line"><span class="selector-tag">if</span> (Build.VERSION.SDK_INT&gt;=Build.VERSION_CODES.LOLLIPOP)&#123;</span><br><span class="line">    <span class="selector-tag">webSettings</span><span class="selector-class">.setMixedContentMode</span>(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>但是我的还是不显示</p>
-</li>
-</ul>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">android:</span>hardwareAccelerated=<span class="string">&quot;false&quot;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>WebView缓存功能</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/yale8848/CacheWebView">https://github.com/yale8848/CacheWebView</a></p>
-<p><a target="_blank" rel="noopener" href="http://blog.leanote.com/post/zbyzhlsp/%E6%BC%AB%E8%B0%88Android-Webview%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95">http://blog.leanote.com/post/zbyzhlsp/%E6%BC%AB%E8%B0%88Android-Webview%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.zybuluo.com/zyl06/note/737188">https://www.zybuluo.com/zyl06/note/737188</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5b94ca52e51d450e7d097f38">https://juejin.im/post/5b94ca52e51d450e7d097f38</a></p>
-<p><strong>2、缓存模式(5种)</strong></p>
-<p><strong>LOAD_CACHE_ONLY:</strong>  不使用网络，只读取本地缓存数据</p>
-<p><strong>LOAD_DEFAULT:</strong>  根据cache-control决定是否从网络上取数据。</p>
-<p><strong>LOAD_CACHE_NORMAL: API level 17</strong>中已经废弃, 从<strong>API level 11</strong>开始作用同LOAD_DEFAULT模式</p>
-<p><strong>LOAD_NO_CACHE:</strong> 不使用缓存，只从网络获取数据.</p>
-<p><strong>LOAD_CACHE_ELSE_NETWORK</strong>，只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。<br>如：<a target="_blank" rel="noopener" href="http://www.taobao.com的cache-control为no-cache,在模式load_default下,无论如何都会从网络上取数据,如果没有网络,就会出现错误页面;在load_cache_else_network模式下,无论是否有网络,只要本地有缓存,都使用缓存.本地没有缓存时才从网络上获取./">www.taobao.com的cache-control为no-cache，在模式LOAD_DEFAULT下，无论如何都会从网络上取数据，如果没有网络，就会出现错误页面；在LOAD_CACHE_ELSE_NETWORK模式下，无论是否有网络，只要本地有缓存，都使用缓存。本地没有缓存时才从网络上获取。</a><br><a target="_blank" rel="noopener" href="http://www.360.com.cn的cache-control为max-age=60,在两种模式下都使用本地缓存数据./">www.360.com.cn的cache-control为max-age=60，在两种模式下都使用本地缓存数据。</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/entry/5ad70987f265da239148a614">https://juejin.im/entry/5ad70987f265da239148a614</a></p>
-<p>zip离线缓存</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/AV2SwFfwwJH7xyrIBJemgw">https://mp.weixin.qq.com/s/AV2SwFfwwJH7xyrIBJemgw</a></p>
-<h4 id="安全问题"><a href="#安全问题" class="headerlink" title="安全问题"></a>安全问题</h4><p>WebView漏洞的根源在于强制其访问攻击者控制的网页。网页中含有攻击者可以控制的JS,因此可能钓鱼，窃取私有文件，甚至是 RCE,带来比较大的危害。</p>
-<p>下面主要是4.4系统以上的机型</p>
-<h5 id="Webview密码明文存储漏洞"><a href="#Webview密码明文存储漏洞" class="headerlink" title="Webview密码明文存储漏洞"></a>Webview密码明文存储漏洞</h5><p>WebView默认开启密码保存功能mWebView.setSavePassword(true),如果未关闭，用户输入密码时，会弹出提示框，询问用户是否保存密码，如果选是，密码会明文保存到 /data/data/com.package.name/databases/webview.db</p>
-<h5 id="WebView域控制不严格漏洞"><a href="#WebView域控制不严格漏洞" class="headerlink" title="WebView域控制不严格漏洞"></a>WebView域控制不严格漏洞</h5><p>setAllowFileAccess(true) : 窃取APP任意目录下的私有文件</p>
-<p>setAllowUniversalAccessFromFileURLs : 允许通过file域url中的 javascript访问其他的源。</p>
-<p>方案</p>
-<ol>
-<li><p>通过以下设置，防止越权访问，跨域等安全问题</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">setAllowFileAccess(<span class="keyword">false</span>)</span><br><span class="line"></span><br><span class="line">setAllowFileAccessFromFileURLs(<span class="keyword">false</span>)</span><br><span class="line"></span><br><span class="line">setAllowUniversalAccessFromFileURLs(<span class="keyword">false</span>)</span><br></pre></td></tr></table></figure></li>
-<li><p>WebSettings.setSavePassword(false)</p>
-<p>关闭密码保存提醒功能</p>
-</li>
-<li><p>建议开发者通过以下方式移除该JavaScript接口</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">removeJavascriptInterface(<span class="string">&quot;searchBoxJavaBridge_&quot;</span>)</span><br><span class="line"></span><br><span class="line">removeJavascriptInterface(<span class="string">&quot;accessibility&quot;</span>)；</span><br><span class="line"></span><br><span class="line">removeJavascriptInterface(<span class="string">&quot;accessibilityTraversal&quot;</span>)</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21787366">https://zhuanlan.zhihu.com/p/21787366</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.kanxue.com/article-14155.htm">https://zhuanlan.kanxue.com/article-14155.htm</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Ursprünglicher Link: <a href="http://noteforme.github.io.com/page/15/index.html">http://noteforme.github.io.com/page/15/index.html</a></p>
-              <p>Copyright-Erklärung: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Aktie:</span>
+      <span>Share:</span>
     </div>
 
 
@@ -1315,7 +1422,7 @@
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/14/">Vorheriger</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/16/">Nächster</a>
+<a class="extend prev" rel="prev" href="/page/14/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/16/">Next</a>
 </nav>
 
 
@@ -1325,9 +1432,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Letzte</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/12/14/coroutie1-start/">coroutie1_start</a>
+          </li>
         
           <li>
             <a href="/2021/11/23/Font/">Font</a>
@@ -1345,10 +1456,6 @@
             <a href="/2021/10/31/BinarySearch/">BinarySearch</a>
           </li>
         
-          <li>
-            <a href="/2021/09/11/kotlin-senior2/">kotlin-senior2</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1359,16 +1466,16 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/Kotlin/" style="font-size: 15.71px;">Kotlin</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 12.86px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/inter/" style="font-size: 17.14px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
+      <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/Kotlin/" style="font-size: 15.71px;">Kotlin</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 12.86px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 10px;">coroutie</a> <a href="/tags/inter/" style="font-size: 17.14px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Kategorien</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">56</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/coroutine/">coroutine</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">56</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/coroutine/">coroutine</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1376,9 +1483,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archiv</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年11月</a><span class="archive-list-count">22</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1388,7 +1495,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1427,9 +1534,9 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Sitemap</a>
-        <span> | </span><a href="/atom.xml">Abonnieren Sie diese Site</a>
-        <span> | </span><a href="/about/">Kontaktieren Sie den Blogger</a>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
       </p>
       
         <p>
