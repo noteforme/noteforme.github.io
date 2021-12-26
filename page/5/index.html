@@ -53,11 +53,11 @@
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> 홈</a>
         
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> 아카이브</a>
         
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> 소개</a>
         
           <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
         
@@ -65,7 +65,7 @@
     </div>
     <div id="search-form">
       <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="검색"></label>
       <div id="result-wrap" class="hide">
         <div id="search-result"></div>
       </div>
@@ -86,6 +86,106 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-DesignPattern-Chain" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/07/22/DesignPattern-Chain/">DesignPattern_Chain</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-07-22T14:43:57.000Z" itemprop="datePublished">2020年07月22日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
+  </div>
+
+      
+      
+<a href="/2020/07/22/DesignPattern-Chain/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  방명록
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="传统方案OA系统审批问题"><a href="#传统方案OA系统审批问题" class="headerlink" title="传统方案OA系统审批问题"></a>传统方案OA系统审批问题</h5><p><img src="/2020/07/22/DesignPattern-Chain/2021-09-12_7.12.05_oa.png" alt="2021-09-12_7.12.05_oa"></p>
+<h5 id="职责链模式介绍"><a href="#职责链模式介绍" class="headerlink" title="职责链模式介绍"></a>职责链模式介绍</h5><p><img src="/2020/07/22/DesignPattern-Chain/2021-09-12_7.10.38_chain_describe.png" alt="2021-09-12_7.10.38_chain_describe"></p>
+<p>使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这个对象连城一条链，并沿着这条传递该请求。直到有一个对象处理它为止。</p>
+<p>![2021-09-12_7.11.21_ class](DesignPattern-Chain/2021-09-12_7.11.21_ class.png)</p>
+<p><img src="/2020/07/22/DesignPattern-Chain/2021-09-12_7.59.12_responsible_role.png" alt="2021-09-12_7.59.12_responsible_role"></p>
+<p><img src="/2020/07/22/DesignPattern-Chain/2021-09-12_8.10.25_implement.png" alt="2021-09-12_8.10.25_implement"></p>
+<h5 id="大话示例"><a href="#大话示例" class="headerlink" title="大话示例"></a>大话示例</h5><p>chain of Responsibility Pattern</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Request</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String requestType;</span><br><span class="line">    <span class="keyword">public</span> String requestContent;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> number;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonManager</span> <span class="keyword">extends</span>  <span class="title">Manager</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CommonManager</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">requestApplications</span><span class="params">(Request request)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;请假&quot;</span>.equals(request.requestType)&amp;&amp;request.number&lt;<span class="number">2</span>)&#123;</span><br><span class="line">            System.out.println(name+<span class="string">&quot; &quot;</span>+ request.requestContent+ <span class="string">&quot; 数量   &quot;</span>+ request.number+<span class="string">&quot; 被批准&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (superior!=<span class="keyword">null</span>)</span><br><span class="line">                superior.requestApplications(request);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MajorDomo</span> <span class="keyword">extends</span>  <span class="title">Manager</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MajorDomo</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">requestApplications</span><span class="params">(Request request)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;请假&quot;</span>.equals(request.requestType)&amp;&amp;request.number&lt;<span class="number">5</span>)&#123;</span><br><span class="line">            System.out.println(name+<span class="string">&quot; &quot;</span>+ request.requestContent+ <span class="string">&quot; 数量   &quot;</span>+ request.number+<span class="string">&quot; 被批准&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (superior!=<span class="keyword">null</span>)</span><br><span class="line">                superior.requestApplications(request);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GeneralManager</span> <span class="keyword">extends</span> <span class="title">Manager</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GeneralManager</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">requestApplications</span><span class="params">(Request request)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;请假&quot;</span>.equals(request.requestType) &amp;&amp; request.number &lt; <span class="number">5</span>) &#123;</span><br><span class="line">            System.out.println(name + <span class="string">&quot; &quot;</span> + request.requestContent + <span class="string">&quot; 数量   &quot;</span> + request.number + <span class="string">&quot;  被批准&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;加薪&quot;</span>.equals(request.requestType) &amp;&amp; request.number &lt; <span class="number">500</span>) &#123;</span><br><span class="line">            System.out.println(name + <span class="string">&quot; &quot;</span> + request.requestContent + <span class="string">&quot; 数量   &quot;</span> + request.number + <span class="string">&quot;  被批准&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;加薪&quot;</span>.equals(request.requestType) &amp;&amp; request.number &gt; <span class="number">500</span>) &#123;</span><br><span class="line">            System.out.println(name + <span class="string">&quot; &quot;</span> + request.requestContent + <span class="string">&quot; 数量   &quot;</span> + request.number + <span class="string">&quot;  再说吧&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">CommonManager commonManager = <span class="keyword">new</span> CommonManager(<span class="string">&quot;经理&quot;</span>);</span><br><span class="line">MajorDomo majorDomo = <span class="keyword">new</span> MajorDomo(<span class="string">&quot;总监&quot;</span>);</span><br><span class="line">GeneralManager generalManager = <span class="keyword">new</span> GeneralManager(<span class="string">&quot;总经理&quot;</span>);</span><br><span class="line"></span><br><span class="line">commonManager.setSuperior(majorDomo);<span class="comment">//设置上级</span></span><br><span class="line">majorDomo.setSuperior(generalManager);</span><br><span class="line"></span><br><span class="line">Request request = <span class="keyword">new</span> Request();</span><br><span class="line">request.requestType = <span class="string">&quot;请假&quot;</span>;</span><br><span class="line">request.number = <span class="number">4</span>;</span><br><span class="line">request.requestContent = <span class="string">&quot;去找小姐姐&quot;</span>;</span><br><span class="line">commonManager.requestApplications(request);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Request request1 = <span class="keyword">new</span> Request();</span><br><span class="line">request1.requestType = <span class="string">&quot;加薪&quot;</span>;</span><br><span class="line">request1.number = <span class="number">888</span>;</span><br><span class="line">request1.requestContent = <span class="string">&quot;给哥加薪&quot;</span>;</span><br><span class="line">commonManager.requestApplications(request1);</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="责任链模式作用"><a href="#责任链模式作用" class="headerlink" title="责任链模式作用"></a>责任链模式作用</h5><p><img src="/2020/07/22/DesignPattern-Chain/2021-09-12_8.44.01_function.png" alt="2021-09-12_8.44.01_function"></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1G4411c7N4?p=149&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1G4411c7N4?p=149&amp;spm_id_from=pageDriver</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>원본 링크: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>저작권 진술: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>공유하기:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-Regular" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -118,7 +218,7 @@
 <a href="/2020/07/20/Regular/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  방명록
 </a>
 
 
@@ -427,8 +527,8 @@
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>원본 링크: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>저작권 진술: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -441,7 +541,7 @@
           
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>공유하기:</span>
     </div>
 
 
@@ -482,7 +582,7 @@
 <a href="/2020/07/15/resume/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  방명록
 </a>
 
 
@@ -612,8 +712,8 @@
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>원본 링크: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>저작권 진술: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -628,7 +728,7 @@
 
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>공유하기:</span>
     </div>
 
 
@@ -674,7 +774,7 @@
 <a href="/2020/07/12/DesignPattern-Decorator/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  방명록
 </a>
 
 
@@ -703,8 +803,8 @@
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>원본 링크: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>저작권 진술: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -717,7 +817,7 @@
           
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>공유하기:</span>
     </div>
 
 
@@ -763,7 +863,7 @@
 <a href="/2020/06/15/LiveData/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  방명록
 </a>
 
 
@@ -818,8 +918,8 @@
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>원본 링크: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>저작권 진술: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -832,7 +932,7 @@
           
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>공유하기:</span>
     </div>
 
 
@@ -878,7 +978,7 @@
 <a href="/2020/05/19/THINKING/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  방명록
 </a>
 
 
@@ -903,8 +1003,8 @@
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>원본 링크: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>저작권 진술: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -919,7 +1019,7 @@
 
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>공유하기:</span>
     </div>
 
 
@@ -960,7 +1060,7 @@
 <a href="/2020/05/08/ActivityLayout/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  방명록
 </a>
 
 
@@ -973,8 +1073,8 @@
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>원본 링크: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>저작권 진술: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -989,7 +1089,7 @@
 
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>공유하기:</span>
     </div>
 
 
@@ -1035,7 +1135,7 @@
 <a href="/2020/05/06/DataStructure/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  방명록
 </a>
 
 
@@ -1129,8 +1229,8 @@
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>원본 링크: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>저작권 진술: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1145,7 +1245,7 @@
 
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>공유하기:</span>
     </div>
 
 
@@ -1191,7 +1291,7 @@
 <a href="/2020/04/28/DeliverValue/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  방명록
 </a>
 
 
@@ -1211,8 +1311,8 @@
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>원본 링크: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>저작권 진술: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1225,7 +1325,7 @@
           
           
     <div class="social-share">
-      <span>Share:</span>
+      <span>공유하기:</span>
     </div>
 
 
@@ -1271,7 +1371,7 @@
 <a href="/2020/04/26/Bluetooth04/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
-  Guestbook
+  방명록
 </a>
 
 
@@ -1354,8 +1454,8 @@
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
+              <p>원본 링크: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
+              <p>저작권 진술: 转载请注明出处.</p>
           </blockquote>
         
       
@@ -1368,226 +1468,7 @@
           
           
     <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-annotation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/04/25/annotation/">annotation</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2020-04-25T14:38:39.000Z" itemprop="datePublished">2020年04月25日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
-  </div>
-
-      
-      
-<a href="/2020/04/25/annotation/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h3><h4 id="注解的作用"><a href="#注解的作用" class="headerlink" title="注解的作用"></a>注解的作用</h4><p><img src="/2020/04/25/annotation/2021-07-29_9.08.16_function.png"></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/briblue/article/details/73824058">https://blog.csdn.net/briblue/article/details/73824058</a></p>
-<ul>
-<li>提供信息给编译器： 编译器可以利用注解来探测错误和警告信息</li>
-<li>编译阶段时的处理：  软件工具可以用来利用注解信息来生成代码、Html文档或者做其它相应处理。</li>
-<li>运行时的处理：  某些注解可以在程序运行的时候接受代码的提取</li>
-</ul>
-<p>元注解 ： 不可以再分的注解， 负责注解其他注解。java定义了4个标准的meta-annotation类型,它们被用来提供对其它annotation类型作说明。Target Retention Documented Inherited</p>
-<p>​                如上图的 Overide被@Target和@Retention修饰，他们用来说明解释其他注解，位于 java.lang.annotation下</p>
-<h4 id="元注解类型"><a href="#元注解类型" class="headerlink" title="元注解类型"></a>元注解类型</h4><h5 id="Target"><a href="#Target" class="headerlink" title="Target"></a>Target</h5><p>用于描述注解的使用范围(注解可以用在什么地方)</p>
-<p>如 类 属性 方法等</p>
-<p><img src="/2020/04/25/annotation/2021-06-28_21-32-34_target.png"></p>
-<h5 id="Retention"><a href="#Retention" class="headerlink" title="Retention"></a>Retention</h5><p>需要什么级别保存该注释信息，用于保留注解的生命周期</p>
-<p><img src="/2020/04/25/annotation/2021-06-28_21-36-57_retention.png"></p>
-<h5 id="Inherited"><a href="#Inherited" class="headerlink" title="@Inherited"></a>@Inherited</h5><p>标明所修饰的注解，在所作用的类上，是否可以被继承。</p>
-<h5 id="Documented"><a href="#Documented" class="headerlink" title="@Documented"></a>@Documented</h5><p>javadoc的工具文档化</p>
-<h4 id="注解使用"><a href="#注解使用" class="headerlink" title="注解使用"></a>注解使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Sxt&#123;</span><br><span class="line"> 	<span class="function">String <span class="title">studentName</span><span class="params">()</span></span>;  <span class="comment">// studentName 参数名， String参数类型</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>注解元素必须要有值，我们定义注解元素时，经常使用空字符串，0作为默认值。</p>
-<p>也经常使用负数(比如:-1)表示不存在的含义</p>
-<p>annotation01</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)</span> <span class="comment">//针对方法 和类有效</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span>	<span class="comment">// 针对运行时有效</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Annotation01 &#123;</span><br><span class="line">    <span class="function">String <span class="title">studentName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">age</span><span class="params">()</span> <span class="keyword">default</span> 0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">id</span><span class="params">()</span> <span class="keyword">default</span> -1</span>; <span class="comment">// String indexOf(&quot;abc&quot;) -1</span></span><br><span class="line"></span><br><span class="line">    String[] schools() <span class="keyword">default</span> &#123;<span class="string">&quot;清华大学&quot;</span>,<span class="string">&quot;哈工大&quot;</span>&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Annotation02</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Annotation02 &#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果只有一个参数，一般写成value</p>
-<p>Demo01</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Annotation01</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo02</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Annotation01(age = 19, studentName = &quot;老高&quot;,</span></span><br><span class="line"><span class="meta">            id = 1001, schools = &#123;&quot;哈工大&quot;, &quot;清华大学&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Annotation02(value = &quot;aaaa&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Annotation02(&quot;aaaa&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用注解,参照 test01(),也可以省略”value=” 参见test02()</p>
-<h5 id="注解实例"><a href="#注解实例" class="headerlink" title="注解实例"></a>注解实例</h5><p>注解设置 SxtStudent信息，映射数据库</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = &#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SxtTable &#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = &#123;ElementType.FIELD&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SxtField &#123;</span><br><span class="line">    <span class="function">String <span class="title">columnName</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">String <span class="title">type</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SxtTable(&quot;tb_student&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SxtStudent</span> </span>&#123;</span><br><span class="line">    <span class="meta">@SxtField(columnName = &quot;id&quot;,type = &quot;int&quot;,length = 10)</span></span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">int</span> id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SxtField(columnName = &quot;sname&quot;,type = &quot;varchar&quot;,length = 10)</span></span><br><span class="line">    <span class="keyword">private</span> String studentName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SxtField(columnName = &quot;age&quot;,type = &quot;int&quot;,length = 3)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过第三方工具获取注解信息</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Class clazz = Class.forName(<span class="string">&quot;annotation.SxtStudent&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获得类的所有有效注解</span></span><br><span class="line">    Annotation[] annotations = clazz.getAnnotations();</span><br><span class="line">    <span class="keyword">for</span> (Annotation a:annotations)&#123;</span><br><span class="line">        System.out.println(a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//获得类的指定注解</span></span><br><span class="line">    SxtTable st = (SxtTable)clazz.getAnnotation(SxtTable.class);</span><br><span class="line">    System.out.println(st.value());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获得类的属性的注解</span></span><br><span class="line">    Field f = clazz.getDeclaredField(<span class="string">&quot;studentName&quot;</span>);</span><br><span class="line">    SxtField sxtField = f.getAnnotation(SxtField.class);</span><br><span class="line">    System.out.println(sxtField.columnName()+<span class="string">&quot;--&quot;</span> + sxtField.type()+<span class="string">&quot;---&quot;</span> + sxtField.length());</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>运行结果</p>
-<blockquote>
-<p>@annotation.SxtTable(value=tb_student)<br>tb_student<br>sname–varchar—10</p>
-</blockquote>
-<h5 id="反射实例"><a href="#反射实例" class="headerlink" title="反射实例"></a>反射实例</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">String path = <span class="string">&quot;reflection.User&quot;</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Class&lt;?&gt; clazz = Class.forName(path);</span><br><span class="line">    <span class="comment">//对象是表示或封装一些数据。一个类被加载后，JVM会创建一个对应该类的Class对象，类的整个结构信息会放到对应的CLass对象中。</span></span><br><span class="line">    <span class="comment">//这个Class对象就像一面镜子一样，通过这面镜子我可已看到对应类的全部信息。</span></span><br><span class="line">    System.out.println(clazz.hashCode());</span><br><span class="line"></span><br><span class="line">    Class clazz2 = Class.forName(path); <span class="comment">// 一个类对应的一个class对象</span></span><br><span class="line">    System.out.println(clazz2.hashCode());</span><br><span class="line"></span><br><span class="line">    Class intCLazz = <span class="keyword">int</span>.class;</span><br><span class="line">    <span class="keyword">int</span>[] arr01 = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">    <span class="keyword">int</span>[][] arr02 = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">30</span>][<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">int</span>[]arr03 = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">30</span>];</span><br><span class="line">    <span class="keyword">double</span>[] arr04 = <span class="keyword">new</span> <span class="keyword">double</span>[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line">    System.out.println(arr01.getClass().hashCode());</span><br><span class="line">    System.out.println(arr02.getClass().hashCode());</span><br><span class="line">    System.out.println(arr03.getClass().hashCode());</span><br><span class="line">    System.out.println(arr04.getClass().hashCode());</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=vZe5zG0vh3U&amp;list=PLC664nq_h8b9Jzh-qYJ_AeOpmSoBLC_tg&amp;index=1">https://www.youtube.com/watch?v=vZe5zG0vh3U&amp;list=PLC664nq_h8b9Jzh-qYJ_AeOpmSoBLC_tg&amp;index=1</a></p>
-<h3 id="注解处理器"><a href="#注解处理器" class="headerlink" title="注解处理器"></a>注解处理器</h3><p>是javac处理注解的一种工具，它用来在编译时扫描和处理注解。简单来说就是在编译器，通过注解采集信息，生成.java文件。减少重复代码的编写。</p>
-<h5 id="APT原理"><a href="#APT原理" class="headerlink" title="APT原理"></a>APT原理</h5><p><img src="/2020/04/25/annotation/2021-07-29_2.39.54_apt.png"></p>
-<p><img src="/2020/04/25/annotation/2021-07-29_2.10_process.png"></p>
-<h5 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h5><p><img src="/2020/04/25/annotation/2021-07-29_2.10.48_step.png"></p>
-<h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><p>APT就这固定的几步，网上demo可以生成，我的就是没法生成，原来是因为,@DIActivity类的头部没有设置</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DIActivity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>项目 MRouter</p>
-<h4 id="Arouter"><a href="#Arouter" class="headerlink" title="Arouter"></a>Arouter</h4><h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><p>获得当前程序在手机中对应的apk文件,使用classsloader:dexfile(PMS)，反射获取apk所有的类，筛选出注册activity的类。初始化</p>
-<h5 id="核心实现"><a href="#核心实现" class="headerlink" title="核心实现"></a>核心实现</h5><p><img src="/2020/04/25/annotation/2021-08-12_1.18_arouter.png"></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uV411n787?p=6&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1uV411n787?p=6&amp;spm_id_from=pageDriver</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ly4y1W7f5?p=6&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1Ly4y1W7f5?p=6&amp;spm_id_from=pageDriver</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1nU4y1a79o?from=search&amp;seid=3188418579827888379">https://www.bilibili.com/video/BV1nU4y1a79o?from=search&amp;seid=3188418579827888379</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6925283352698159117#heading-14">https://juejin.cn/post/6925283352698159117#heading-14</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6947992544252788767">https://juejin.cn/post/6947992544252788767</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xx326664162/article/details/68490059">https://blog.csdn.net/xx326664162/article/details/68490059</a></p>
-<p><a target="_blank" rel="noopener" href="https://hanshuliang.blog.csdn.net/article/details/117072224">https://hanshuliang.blog.csdn.net/article/details/117072224</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/han1202012/APT">https://github.com/han1202012/APT</a></p>
-<h4 id="反射机制"><a href="#反射机制" class="headerlink" title="反射机制"></a>反射机制</h4><p>Java反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象都能够调用它的任意一个方法；这种动态获取的信息以及动态调用对象的方法的功能称为java的反射机制。</p>
-<h5 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> reflection;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodReflect</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addResult</span><span class="params">(<span class="keyword">int</span> addNum)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> addNum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用反射第一步:获取操作类MethodDemoFieldDemo所对应的Class对象</span></span><br><span class="line">Class &lt; ?&gt;cls = Class.forName(<span class="string">&quot;reflection.MethodReflect&quot;</span>);</span><br><span class="line"><span class="comment">//使用MethodDemo类的class对象生成 实例</span></span><br><span class="line">Object obj = cls.newInstance();</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取public int addResult(int addNum)方法</span></span><br><span class="line">Method addMethod = cls.getMethod(<span class="string">&quot;addResult&quot;</span>, <span class="keyword">new</span> Class[] &#123;</span><br><span class="line">        <span class="keyword">int</span>.class</span><br><span class="line">&#125;);</span><br><span class="line">System.out.println(<span class="string">&quot;修饰符: &quot;</span> + Modifier.toString(addMethod.getModifiers()));</span><br><span class="line">System.out.println(<span class="string">&quot;返回值: &quot;</span> + addMethod.getReturnType());</span><br><span class="line">System.out.println(<span class="string">&quot;方法名称: &quot;</span> + addMethod.getName());</span><br><span class="line">System.out.println(<span class="string">&quot;参数列表: &quot;</span> + addMethod.getParameterTypes());</span><br><span class="line"><span class="keyword">int</span> result = (<span class="keyword">int</span>) addMethod.invoke(obj, <span class="number">2</span>);</span><br><span class="line">System.out.println(<span class="string">&quot;调用addResult后的运行结果:&quot;</span> + result);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;--------------------------------&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取public String toString() 方法</span></span><br><span class="line">Method toStringMethod = cls.getMethod(<span class="string">&quot;toString&quot;</span>, <span class="keyword">new</span> Class[] &#123;&#125;);</span><br><span class="line">System.out.println(<span class="string">&quot;修饰符: &quot;</span> + Modifier.toString(toStringMethod.getModifiers()));</span><br><span class="line">System.out.println(<span class="string">&quot;返回值: &quot;</span> + toStringMethod.getReturnType());</span><br><span class="line">System.out.println(<span class="string">&quot;方法名称: &quot;</span> + toStringMethod.getName());</span><br><span class="line">System.out.println(<span class="string">&quot;参数列表: &quot;</span> + toStringMethod.getParameterTypes());</span><br><span class="line">String msg = (String) toStringMethod.invoke(obj);</span><br><span class="line">System.out.println(<span class="string">&quot;调用toString后的运行结果:&quot;</span> + msg);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>Method类的invoke(Object obj,Object  args[])方法接收的参数必须为对象,如果参数为基本类型数据,必须转换为相应的包装类型的对象。invoke()方法的返回值总是对象,如果实际被调用的方法的返回类型是基本类型数据,那么invoke()方法会把它转换为相应的包装类型的对象,再将其返回.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InvokeTester</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">InvokeTester</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> param1, <span class="keyword">int</span> param2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> param1 + param2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">echo</span><span class="params">(String mesg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;echo&quot;</span> + mesg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Class classType = InvokeTester.class;</span><br><span class="line">        Object invokertester = classType.newInstance(); <span class="comment">//1</span></span><br><span class="line">        Method addMethod = classType.getMethod(<span class="string">&quot;add&quot;</span>, <span class="keyword">new</span> Class[]&#123; <span class="comment">//2</span></span><br><span class="line">                <span class="keyword">int</span>.class,</span><br><span class="line">                <span class="keyword">int</span>.class</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        Object result = addMethod.invoke(invokertester, <span class="keyword">new</span> Object[]&#123; <span class="comment">//3</span></span><br><span class="line">                <span class="keyword">new</span> Integer(<span class="number">100</span>),</span><br><span class="line">                <span class="keyword">new</span> Integer(<span class="number">200</span>)</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        System.out.println(result);</span><br><span class="line">        Method echo = classType.getMethod(<span class="string">&quot;echo&quot;</span>, <span class="keyword">new</span> Class[]&#123;</span><br><span class="line">                String.class</span><br><span class="line">        &#125;);</span><br><span class="line">        Object obj = echo.invoke(invokertester, <span class="keyword">new</span> Object[]&#123;</span><br><span class="line">                <span class="keyword">new</span> String(<span class="string">&quot;Jon is very good!!!&quot;</span>)</span><br><span class="line">        &#125;);</span><br><span class="line">        System.out.println(obj.toString());</span><br><span class="line"></span><br><span class="line">        InvokeTester test = <span class="keyword">new</span> InvokeTester(); <span class="comment">//1</span></span><br><span class="line">        test.setName(<span class="string">&quot;黄翊&quot;</span>); <span class="comment">//2</span></span><br><span class="line">        <span class="comment">//Method[] methods;</span></span><br><span class="line">        Method[] methods = test.getClass().getDeclaredMethods(); <span class="comment">//3</span></span><br><span class="line">        <span class="comment">//循环查找获取id方法，并执行查看是否有返回值</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; methods.length; i++) &#123;</span><br><span class="line">            <span class="comment">//如果此方法有get和Id关键字则执行</span></span><br><span class="line">            <span class="keyword">if</span> (methods[i].getName().indexOf(<span class="string">&quot;get&quot;</span>) != -<span class="number">1</span> &amp;&amp; methods[i].getName().indexOf(<span class="string">&quot;Name&quot;</span>) != -<span class="number">1</span>) &#123;</span><br><span class="line">                <span class="comment">// 获取此get方法返回值,判断是否有值,如果没有值说明即将执行的操作新增</span></span><br><span class="line">                <span class="keyword">if</span> (methods[i].invoke(test, <span class="keyword">null</span>) == <span class="keyword">null</span>) &#123; <span class="comment">//4</span></span><br><span class="line">                    System.out.println(<span class="string">&quot;此对象没有值！！！&quot;</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    Object strName = methods[i].invoke(test, <span class="keyword">null</span>);</span><br><span class="line">                    System.out.println(strName);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h5 id="invoke方法的使用"><a href="#invoke方法的使用" class="headerlink" title="invoke方法的使用"></a>invoke方法的使用</h5><p>实际上invoke方法的使用，和我们常见的有所区别。</p>
-<p>我们经常创建一个对象A，A对象里面的方法getA()方法，然后A.getA()</p>
-<p>我们采用新的方式调用<br>（1）弄一个方法的“替身”（其实就是构建一个Method对象，让这个Method对象来代替你现在要用的方法）<br>（2）然后给替身需要的对象和参数，让替身去替你调用（像替身替你去战斗）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> reflection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InvokeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(String[] arg)</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (String string : arg) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;zp is &quot;</span> + string);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invokeDemo</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//获取字节码对象,这里要填好你对应对象的包的路径</span></span><br><span class="line">        Class&lt;InvokeTest&gt; clazz = (Class&lt;InvokeTest&gt;) Class.forName(<span class="string">&quot;reflection.InvokeTest&quot;</span>);</span><br><span class="line">        <span class="comment">//形式一：获取一个对象</span></span><br><span class="line"><span class="comment">//        Constructor con =  clazz.getConstructor();</span></span><br><span class="line"><span class="comment">//        InvokeTest m = (InvokeTest) con.newInstance();</span></span><br><span class="line">        <span class="comment">//形式二：直接new对象，实际上不是框架的话，自己写代码直接指定某个对象创建并调用也可以</span></span><br><span class="line">        InvokeTest m = <span class="keyword">new</span> InvokeTest();</span><br><span class="line">        String[] s = <span class="keyword">new</span> String[]&#123;<span class="string">&quot;handsome&quot;</span>,<span class="string">&quot;smart&quot;</span>&#125;;</span><br><span class="line">        <span class="comment">//获取Method对象</span></span><br><span class="line">        Method method = clazz.getMethod(<span class="string">&quot;test&quot;</span>, String[].class); <span class="comment">//invoke方法要比别的方法多做一步</span></span><br><span class="line">        <span class="comment">//调用invoke方法来调用</span></span><br><span class="line">        method.invoke(m, (Object) s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果</p>
-<blockquote>
-<p>zp is handsome<br>zp is smart</p>
-</blockquote>
-<p>所以使用invoke方法要比别的方法多做一步，就是构建一个Method对象，这个对象替代的是现在程序要调用方法的替代品。</p>
-<p>而且除了参数以外，invoke还会多要一个对象，因为方法调用需要对象，所以invoke要想调用的目标方法，就需要目标方法的需要的对象。</p>
-<p>看起来invoke方法不仅比平常方法直接调用要麻烦很多，但是你有想过吗，我只需要输入参数，我可以调用替代各种方法，在未知的情况下，根据条件决定去调用什么对象，什么方法，一下子就让代码变得灵活，这不仅是invoke的妙处，也是整个反射的妙处，在程序运行时根据条件灵活使用。</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/350058223">https://zhuanlan.zhihu.com/p/350058223</a></p>
-<h5 id="Method信息"><a href="#Method信息" class="headerlink" title="Method信息"></a>Method信息</h5><p>我们已经能通过<code>Class</code>实例获取所有<code>Field</code>对象，同样的，可以通过<code>Class</code>实例获取所有<code>Method</code>信息。<code>Class</code>类提供了以下几个方法来获取<code>Method</code>：</p>
-<ul>
-<li><code>Method getMethod(name, Class...)</code>：获取某个<code>public</code>的<code>Method</code>（包括父类）</li>
-<li><code>Method getDeclaredMethod(name, Class...)</code>：获取当前类的某个<code>Method</code>（不包括父类）</li>
-<li><code>Method[] getMethods()</code>：获取所有<code>public</code>的<code>Method</code>（包括父类）</li>
-<li><code>Method[] getDeclaredMethods()</code>：获取当前类的所有<code>Method</code>（不包括父类）</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getScore</span><span class="params">(String type)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">99</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getGrade</span><span class="params">(<span class="keyword">int</span> year)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    @Override</span></span><br><span class="line"><span class="comment">//    public void hello() &#123;</span></span><br><span class="line"><span class="comment">//        System.out.println(&quot;Student:hello&quot;);</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Person&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Person:hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;Student&gt; methodClass = Student.class;</span><br><span class="line">Arrays.stream(methodClass.getMethods()).forEach(method -&gt; System.out.println(<span class="string">&quot;method方法:    &quot;</span> + method));</span><br></pre></td></tr></table></figure>
-
-<p>打印出</p>
-<blockquote>
-<p>method方法:    public int reflection.liao.Student.getScore(java.lang.String)<br>method方法:    public void reflection.liao.Person.hello()<br>method方法:    public java.lang.String reflection.liao.Person.getName()</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;Person&gt; methodClass = Person.class;</span><br><span class="line">Arrays.stream(methodClass.getMethods()).forEach(method -&gt; System.out.println(<span class="string">&quot;method方法:    &quot;</span> + method));</span><br></pre></td></tr></table></figure>
-
-<p>打印出</p>
-<blockquote>
-<p>method方法:    public void reflection.liao.Person.hello()<br>method方法:    public java.lang.String reflection.liao.Person.getName()</p>
-<p>…object方法</p>
-</blockquote>
-<ol>
-<li><p>getMethods()可以 获取所有<code>public</code>的<code>Method</code>（包括父类），</p>
-</li>
-<li><p>不能获取到子类的方法,除非是是多肽实现</p>
-</li>
-</ol>
-<h5 id="getDeclaredMethod获取的Method能否调用子类"><a href="#getDeclaredMethod获取的Method能否调用子类" class="headerlink" title="getDeclaredMethod获取的Method能否调用子类?"></a>getDeclaredMethod获取的Method能否调用子类?</h5><p>父类class通过getDeclaredMethod获取的Method能否调用子类的对象</p>
-<p>验证是不可以</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; clz = Class.forName(<span class="string">&quot;reflection.liao.Person&quot;</span>);</span><br><span class="line">Object o = clz.newInstance();</span><br><span class="line">Method methodGetName = clz.getMethod(<span class="string">&quot;getName&quot;</span>);</span><br><span class="line">Object noParams = methodGetName.invoke(o);</span><br><span class="line">System.out.println(noParams);</span><br><span class="line"></span><br><span class="line">Method methodHello  = clz.getMethod(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">System.out.println(methodHello.invoke(o));</span><br><span class="line"></span><br><span class="line">Method methodGetGrade = clz.getMethod(<span class="string">&quot;getGrade&quot;</span>);</span><br><span class="line">System.out.println(methodGetGrade.invoke(o));</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>A Person<br>Person:hello<br>null        // 这个null是哪里来的</p>
-</blockquote>
-<p>提示</p>
-<p>java.lang.NoSuchMethodException: reflection.liao.Person.getGrade()</p>
-<p>所以是调用不了的。</p>
-<p><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1264803678201760">https://www.liaoxuefeng.com/wiki/1252599548343744/1264803678201760</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.51gjie.com/java/796.html">http://www.51gjie.com/java/796.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/onlywujun/p/3519037.html">https://www.cnblogs.com/onlywujun/p/3519037.html</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="http://noteforme.github.io.com/page/5/index.html">http://noteforme.github.io.com/page/5/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
+      <span>공유하기:</span>
     </div>
 
 
@@ -1604,7 +1485,7 @@
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/4/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/6/">Next</a>
+<a class="extend prev" rel="prev" href="/page/4/">이전</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/6/">다음</a>
 </nav>
 
 
@@ -1614,9 +1495,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> 과거</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/12/19/RecyclerView-Divider/">RecyclerView_Divider</a>
+          </li>
         
           <li>
             <a href="/2021/12/14/coroutie1-start/">coroutie1_start</a>
@@ -1634,10 +1519,6 @@
             <a href="/2021/11/06/Language/">Language</a>
           </li>
         
-          <li>
-            <a href="/2021/10/31/BinarySearch/">BinarySearch</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1646,7 +1527,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <h3 class="widget-title"><i class="fa fa-tag"></i> 태그 클라우드</h3>
     <div class="widget tagcloud">
       <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/DataStructure/" style="font-size: 10px;">DataStructure</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/Kotlin/" style="font-size: 15.71px;">Kotlin</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 12.86px;">VIEW</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 10px;">coroutie</a> <a href="/tags/inter/" style="font-size: 17.14px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
@@ -1655,7 +1536,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
+    <h3 class="widget-title"><i class="fa fa-classify"></i> 카테고리</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">56</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/coroutine/">coroutine</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
@@ -1665,9 +1546,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
+    <h3 class="widget-title"><i class="fa fa-archive"></i> 아카이브</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1675,7 +1556,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <h3 class="widget-title"><i class="fa fa-tag"></i> 태그</h3>
     <div class="widget">
       <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/" rel="tag">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
@@ -1685,7 +1566,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-link"></i> Blogroll</h3>
+    <h3 class="widget-title"><i class="fa fa-link"></i> 블로그롤</h3>
     <div class="widget">
       <ul>
       
@@ -1716,9 +1597,9 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       <p>
-        <a href="/sitemap.xml">Site Map</a>
-        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
-        <span> | </span><a href="/about/">Contact the blogger</a>
+        <a href="/sitemap.xml">사이트 맵</a>
+        <span> | </span><a href="/atom.xml">이 사이트에 가입하십시오</a>
+        <span> | </span><a href="/about/">블로거에게 문의하십시오</a>
       </p>
       
         <p>
