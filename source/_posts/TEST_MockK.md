@@ -1,5 +1,5 @@
 ---
-title: TEST_MockK
+title: TEST_MOCKK
 comments: true
 date: 2018-01-22 18:04:40
 tags: Test
@@ -24,9 +24,70 @@ https://juejin.cn/post/6877824384694747143
 
 
 
+#### LIST COMPARE
+
+```kotlin
+ 		@Test
+    fun `compare to list`() {
+
+        val actual = listOf("a", "b", "c")
+        val expected = listOf("a", "b", "c")
+
+        //All passed / true
+
+        //1. Test equal.
+
+        //All passed / true
+
+        //1. Test equal.
+        Assert.assertThat(actual, CoreMatchers.`is`(expected))
+
+        //2. If List has this value?
+
+        //2. If List has this value?
+        Assert.assertThat(actual, CoreMatchers.hasItems("b"))
+
+        //3. Check List Size
+
+        //3. Check List Size
+        Assert.assertThat(actual, Matchers.hasSize(3))
+
+        Assert.assertThat(actual.size, CoreMatchers.`is`(3))
+
+        //4.  List order
+
+        // Ensure Correct order
+
+        //4.  List order
+
+        // Ensure Correct order
+        Assert.assertThat(actual, Matchers.contains("a", "b", "c"))
+
+        // Can be any order
+
+        // Can be any order
+        Assert.assertThat(actual, IsIterableContainingInAnyOrder.containsInAnyOrder("c", "b", "a"))
+
+        //5. check empty list
+
+        //5. check empty list
+        Assert.assertThat(actual, CoreMatchers.not(IsEmptyCollection.empty()))
+
+//        assertThat(ArrayList(), IsEmptyCollection.empty())
+
+    }
+```
 
 
-##### mock与spy的区别
+
+https://stackoverflow.com/questions/46788032/compare-2-liststring-if-they-contain-same-elements-in-any-order-junit-asset
+https://mkyong.com/unittest/junit-how-to-test-a-list/
+
+http://hamcrest.org/JavaHamcrest/distributables
+
+
+
+#### mock与spy的区别
 
 ```
 	  @Test
@@ -62,10 +123,6 @@ https://github.com/qingmei2/Sample_AndroidTest
 一个Android项目搞定所有主流架 mvp生成模板
 https://www.diycode.cc/topics/309
 https://github.com/boredream/DesignResCollection
-
-
-
-
 
 
 
@@ -149,8 +206,6 @@ fun setUp() {
     MockKAnnotations.init(this, relaxed = true)
 }
 ```
-
-
 
 
 
