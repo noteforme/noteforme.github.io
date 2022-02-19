@@ -16,7 +16,7 @@ https://www.jianshu.com/p/e8dd1091d6d7
 
 设置http代理
 
-<img src="/Users/m/Documents/BLOG/source/_posts/CaptureApp/Screenshot_20220219-212224.jpg" alt="Screenshot_20220219-212224" style="zoom:50%;" />
+<img src="CaptureApp/Screenshot_20220219-212224.jpg" alt="Screenshot_20220219-212224" style="zoom:50%;" />
 
 
 
@@ -26,15 +26,15 @@ https://www.jianshu.com/p/0caaea590c8c
 
 1. keychain 
 
-   <img src="/Users/m/Documents/BLOG/source/_posts/CaptureApp/Screen Shot 2022-02-19 at 8.42.46 PM.png" alt="Screen Shot 2022-02-19 at 8.42.46 PM" style="zoom:50%;" />
+   <img src="CaptureApp/Screen Shot 2022-02-19 at 8.42.46 PM.png" alt="Screen Shot 2022-02-19 at 8.42.46 PM" style="zoom:50%;" />
 
-   <img src="/Users/m/Documents/BLOG/source/_posts/CaptureApp/Screen Shot 2022-02-19 at 8.58.33 PM.png" alt="Screen Shot 2022-02-19 at 8.58.33 PM" style="zoom:50%;" />
+   <img src="CaptureApp/Screen Shot 2022-02-19 at 8.58.33 PM.png" alt="Screen Shot 2022-02-19 at 8.58.33 PM" style="zoom:50%;" />
 
 
 
 还有设置就解决了https乱码的问题
 
-<img src="/Users/m/Documents/BLOG/source/_posts/CaptureApp/Screen Shot 2022-02-19 at 9.29.24 PM.png" alt="Screen Shot 2022-02-19 at 9.29.24 PM" style="zoom:50%;" />
+<img src="CaptureApp/Screen Shot 2022-02-19 at 9.29.24 PM.png" alt="Screen Shot 2022-02-19 at 9.29.24 PM" style="zoom:50%;" />
 
 
 
