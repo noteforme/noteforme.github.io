@@ -240,6 +240,8 @@ class KidAnnotationTest {
 
 
 
+https://proandroiddev.com/understanding-unit-tests-for-android-in-2021-71984f370240
+
 https://medium.com/joe-tsai/mockk-%E4%B8%80%E6%AC%BE%E5%BC%B7%E5%A4%A7%E7%9A%84-kotlin-mocking-library-part-2-4-4be059331110
 
 https://tngdigital.yuque.com/tngd-mobile/key-battle/wldcgt
