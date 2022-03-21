@@ -14,6 +14,16 @@ https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg
 
 
 
+依赖注入有什么用
+
+* 自动加载
+* 自动加载的关键 : 数据共享
+* 
+
+https://www.bilibili.com/video/BV1e54y1S72A/?spm_id_from=333.788.recommend_more_video.-1
+
+
+
 ![2021-08-29_11.12.20_overview](/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-29_11.12.20_overview.png)
 
 
@@ -521,3 +531,8 @@ public class MainViewModel extends ViewModel {
 
 
 https://www.bilibili.com/video/BV1Ki4y1A7hA?spm_id_from=333.999.0.0
+
+
+
+
+

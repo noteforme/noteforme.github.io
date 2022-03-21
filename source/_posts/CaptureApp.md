@@ -34,6 +34,8 @@ https://www.jianshu.com/p/0caaea590c8c
 
 还有设置就解决了https乱码的问题
 
+https://www.jianshu.com/p/0caaea590c8c
+
 <img src="CaptureApp/Screen Shot 2022-02-19 at 9.29.24 PM.png" alt="Screen Shot 2022-02-19 at 9.29.24 PM" style="zoom:50%;" />
 
 
@@ -41,6 +43,12 @@ https://www.jianshu.com/p/0caaea590c8c
 Okhttp
 
 https://juejin.im/post/5ddddd2a6fb9a07161483fb2
+
+
+
+Mock data
+
+https://zhuanlan.zhihu.com/p/140942687
 
 
 

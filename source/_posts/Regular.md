@@ -6,13 +6,17 @@ tags:
 categories: JAVA
 ---
 
+
+
+https://deerchao.cn/tutorials/regex/regex.htm
+
 https://deerchao.cn/tools/wegester/
 
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions
 
 https://www.jb51.net/shouce/jquery1.82/regexp.html
 
-
+https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-649dc1c3f285
 
 ### 语法
 
@@ -435,11 +439,19 @@ public class WebSpiderTest {
 
 
 
-
-
 https://blog.csdn.net/qq_39636602/article/details/101236461
 
 https://github.com/ziishaned/learn-regex/blob/master/translations/README-cn.md
 
 https://regexr.com/
+
+
+
+#### Ascii表
+
+https://www.ascii-code.com/
+
+https://www.regular-expressions.info/tutorial.html
+
+### 
 

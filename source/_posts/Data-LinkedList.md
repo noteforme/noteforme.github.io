@@ -161,7 +161,7 @@ bool empty(PSTACK pS) {
 
 函数调用 	中断	表达式求值	内存分配  缓冲处理	迷宫
 
-![](Data-LinkedList/2021-04-22_11-50-30stack.png)
+![](Data-LinkedList/stack.png)
 
 
 

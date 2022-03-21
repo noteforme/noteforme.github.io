@@ -64,7 +64,7 @@ categories: TOOL
 
 
 
-##### 快捷键
+#### 快捷键
 
 >Ctrl＋F12，可以显示当前文件的结构
 > Ctrl＋Shift＋F7 可以高亮当前元素在当前文件中的使用 
@@ -74,6 +74,14 @@ categories: TOOL
 >  Ctrl+ H 查看类的继承关系
 >  Ctrl＋Alt＋B可以跳转到抽象方法的实现
 >  Ctrl＋Q可以看JavaDoc
+
+
+
+##### 全局修改快捷键
+
+`Shift+F6`
+
+想要将里面的`cardName`全部替换成`userName`，则选中其中一个，按`shift+f6`回车即可批量修改。
 
 参考：https://github.com/1sters/Android-Studio-Guide/blob/master/tips-shortcuts.md
 
