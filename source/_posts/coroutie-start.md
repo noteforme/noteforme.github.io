@@ -154,19 +154,19 @@ fun `test supervisorScope scope builder`() = runBlocking {
 
 #### Job的生命周期
 
-<img src="/Users/m/Documents/BLOG/source/_posts/coroutie-start/2022-03-20_10.46.51.png" alt="2022-03-20_10.46.51" style="zoom:67%;" />
+<img src="coroutie-start/2022-03-20_10.46.51.png" alt="2022-03-20_10.46.51" style="zoom:67%;" />
 
 
 
-<img src="/Users/m/Documents/BLOG/source/_posts/coroutie-start/2022-03-20_10.47.57.png" alt="2022-03-20_10.47.57" style="zoom:67%;" />
+<img src="coroutie-start/2022-03-20_10.47.57.png" alt="2022-03-20_10.47.57" style="zoom:67%;" />
 
 
 
 #### 协程的取消
 
-<img src="/Users/m/Documents/BLOG/source/_posts/coroutie-start/2022-03-20_10.58.25.png" alt="2022-03-20_10.58.25" style="zoom:67%;" />
+<img src="coroutie-start/2022-03-20_10.58.25.png" alt="2022-03-20_10.58.25" style="zoom:67%;" />
 
-<img src="/Users/m/Documents/BLOG/source/_posts/coroutie-start/2022-03-20_11.03.46.png" alt="2022-03-20_11.03.46" style="zoom:67%;" />
+<img src="coroutie-start/2022-03-20_11.03.46.png" alt="2022-03-20_11.03.46" style="zoom:67%;" />
 
 
 
@@ -174,11 +174,11 @@ CorountineScope和corountineScope的区别
 
 
 
-<img src="/Users/m/Documents/BLOG/source/_posts/coroutie-start/2022-03-20_11.14.10.png" alt="2022-03-20_11.14.10" style="zoom:67%;" />
+<img src="coroutie-start/2022-03-20_11.14.10.png" alt="2022-03-20_11.14.10" style="zoom:67%;" />
 
 ##### 协程取消的异常
 
-![2022-03-20_11.22.58](/Users/m/Documents/BLOG/source/_posts/coroutie-start/2022-03-20_11.22.58.png)
+![2022-03-20_11.22.58](coroutie-start/2022-03-20_11.22.58.png)
 
 
 

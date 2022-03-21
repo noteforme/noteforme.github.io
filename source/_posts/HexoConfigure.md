@@ -7,7 +7,7 @@ categories:
 ---
 
 
-#####  基本配置
+####  基本配置
 
 ​    官方文档:https://hexo.io/zh-cn/docs/index.html
 
@@ -37,7 +37,7 @@ categories:
 [https://www.lemonneko.cn/win10%E6%90%AD%E5%BB%BAhexo%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/](https://www.lemonneko.cn/win10搭建hexo及遇到的坑/)
 
 
-#####  上传文件到分支
+####  上传到分支
 
         // git初始化
          git init
@@ -88,27 +88,6 @@ categories:
 
 
 
-##### 博客嵌入图片
-
-我们生成的路径是以public目录的路径为相对路径，所以要看public下面有没有生成图片
-![图片](/2017/07/17/BLOG_SYNC_HTTPS/img_generate20170717152203.png)
-
-  所以我的写法是
-  “  ![描述](/2017/07/17/BLOG_SYNC_HTTPS/img_generate20170717152203.png)  ”
-  别忘了2017前面的 “/”，否则文章页面不显示图片
-
-参考： http://www.jianshu.com/p/950f8f13a36c
-
-之前用上面的方式比较麻烦，有时候还有问题
-
->      ![描述](BLOG_SYNC_HTTPS/img_generate20170717152203.png)
-
- 竟然也是可以的，可以看下效果
-
- ![图片](BLOG_SYNC_HTTPS/img_generate20170717152203.png)
-
-奇怪了　这里又不显示了,明明　AndroidStudioTool这篇博客可以显示的,看来还得摸索
-
 ###### https认证:Cloudflare免费的ssl
 
 创建账户
@@ -116,9 +95,6 @@ categories:
 
 登录后输入域名,点击扫描
 　　　　如图
-               ![描述](/2017/07/17/https-github-pages/img.png)
-
-
 
 一直continue，到了Selet a Cloudflare Plan 选择Free Website
 
@@ -130,7 +106,7 @@ categories:
 
 
 
-##### mac install hero
+#### mac install hero
 
 ```
 sudo npm install -g hero-cli 
@@ -140,7 +116,7 @@ theme didn't commit to GitHub ,so you could clone theme
 
 
 
-######  hexo next主题添加分类
+######  hexo next theme
 
 修改主题
 
@@ -188,7 +164,9 @@ https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%B
 
 
 
-##### Mac  Hexo安装后 command not found: hexo的解决方法   
+#### Mac  Hexo安装
+
+command not found: hexo的解决方法   
 
 $ npm root -g 
 获取node_modules地址
@@ -199,6 +177,85 @@ $export PATH=$PATH:/Users/m/.npm-global/lib/node_modules/hexo-cli/bin
 ```
 
 也可以去修改~/.zshrc 或者~/.bashrc，在里面添加上述命令，然后 source ~/.zshrc
+
+
+
+#### 图片不显示
+
+打开/node_modules/hexo-asset-image/index.js，将内容更换为下面的代码
+
+```js
+'use strict';
+var cheerio = require('cheerio');
+
+// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string
+function getPosition(str, m, i) {
+  return str.split(m, i).join(m).length;
+}
+
+var version = String(hexo.version).split('.');
+hexo.extend.filter.register('after_post_render', function(data){
+  var config = hexo.config;
+  if(config.post_asset_folder){
+    	var link = data.permalink;
+	if(version.length > 0 && Number(version[0]) == 3)
+	   var beginPos = getPosition(link, '/', 1) + 1;
+	else
+	   var beginPos = getPosition(link, '/', 3) + 1;
+	// In hexo 3.1.1, the permalink of "about" page is like ".../about/index.html".
+	var endPos = link.lastIndexOf('/') + 1;
+    link = link.substring(beginPos, endPos);
+
+    var toprocess = ['excerpt', 'more', 'content'];
+    for(var i = 0; i < toprocess.length; i++){
+      var key = toprocess[i];
+ 
+      var $ = cheerio.load(data[key], {
+        ignoreWhitespace: false,
+        xmlMode: false,
+        lowerCaseTags: false,
+        decodeEntities: false
+      });
+
+      $('img').each(function(){
+		if ($(this).attr('src')){
+			// For windows style path, we replace '\' to '/'.
+			var src = $(this).attr('src').replace('\\', '/');
+			if(!/http[s]*.*|\/\/.*/.test(src) &&
+			   !/^\s*\//.test(src)) {
+			  // For "about" page, the first part of "src" can't be removed.
+			  // In addition, to support multi-level local directory.
+			  var linkArray = link.split('/').filter(function(elem){
+				return elem != '';
+			  });
+			  var srcArray = src.split('/').filter(function(elem){
+				return elem != '' && elem != '.';
+			  });
+			  if(srcArray.length > 1)
+				srcArray.shift();
+			  src = srcArray.join('/');
+			  $(this).attr('src', config.root + link + src);
+			  console.info&&console.info("update link as:-->"+config.root + link + src);
+			}
+		}else{
+			console.info&&console.info("no src attr, skipped...");
+			console.info&&console.info($(this));
+		}
+      });
+      data[key] = $.html();
+    }
+  }
+});
+
+```
+
+
+
+https://moeci.com/posts/hexo-typora/
+
+https://juejin.cn/post/7006594302604214280
+
+
 
 
 
