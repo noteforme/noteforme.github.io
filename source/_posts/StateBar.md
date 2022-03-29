@@ -10,6 +10,8 @@ https://developer.android.com/training/appbar/setting-up.html
 
 https://github.com/xiewenfeng/statusbartextcolorchange
 
+https://mp.weixin.qq.com/s/NvmOlJzEkdrJREueIFd_DA
+
 
 
 目前只要考虑 5.0以上系统就可以了,有些flag虽然被标记为Deprecated,但是系统也还在用，所以有必要研究。

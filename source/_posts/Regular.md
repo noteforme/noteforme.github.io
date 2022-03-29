@@ -256,7 +256,7 @@ import java.util.regex.Pattern;
 /**
  * 测试正则表达式对象的基本用法
  */
-public class Test1 {
+public class RegularTest {
 	public static void main(String[] args) {
 		//在这个字符串：abcd1234，是否符合指定的正则表达式：\w+
 		//表达式对象
@@ -315,7 +315,9 @@ public class Test2 {
 
 ```
 
+find用法
 
+https://www.bilibili.com/video/BV1Eq4y1E79W?p=4
 
 ##### 替换
 
@@ -447,11 +449,15 @@ https://regexr.com/
 
 
 
+#### 正则意义对照表格
+
+https://baixin.ink/2016/03/21/regular-expression/
+
+
+
 #### Ascii表
 
 https://www.ascii-code.com/
 
 https://www.regular-expressions.info/tutorial.html
-
-### 
 

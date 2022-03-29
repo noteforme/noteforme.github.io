@@ -17,14 +17,16 @@ https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg
 依赖注入有什么用
 
 * 自动加载
+
 * 自动加载的关键 : 数据共享
-* 
+
+  
 
 https://www.bilibili.com/video/BV1e54y1S72A/?spm_id_from=333.788.recommend_more_video.-1
 
 
 
-![2021-08-29_11.12.20_overview](/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-29_11.12.20_overview.png)
+![2021-08-29_11.12.20_overview](Hilt/2021-08-29_11.12.20_overview.png)
 
 
 
@@ -34,7 +36,7 @@ https://www.bilibili.com/video/BV1e54y1S72A/?spm_id_from=333.788.recommend_more_
 
 ##### 优势
 
-![2021-09-25_10.26.41_advantages](/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-09-25_10.26.41_advantages.png)
+![2021-09-25_10.26.41_advantages](Hilt/2021-09-25_10.26.41_advantages.png)
 
 
 
@@ -54,7 +56,7 @@ class MyApp : Application() {
    * 可以通AppModule提供
 
      ```java
-     //Module装载到ApplicationComponent中
+     //Module装载到ApplicationComponent中,Module作用域就被限定起来了
      @InstallIn(ApplicationComponent.class) //通过这种方式和组件关联
      @Module
      public class AppModule {
@@ -114,9 +116,9 @@ class MyApp : Application() {
 
 
 
-![2021-09-25_11.13.47_component_lifecycle](/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_11.13.47_component_lifecycle.png)
+![2021-09-25_11.13.47_component_lifecycle](Hilt/2021-09-25_11.13.47_component_lifecycle.png)
 
-![2021-09-25_10.41.53_compoent_standard](/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_10.41.53_compoent_standard.png)
+![2021-09-25_10.41.53_compoent_standard](Hilt/2021-09-25_10.41.53_compoent_standard.png)
 
 ##### ActivityScoped作用域
 
@@ -322,17 +324,25 @@ public class AppModule {
 
 
 
-![2021-08-30_12.01.40_component_default](/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-08-30_12.01.40_component_default.png)
+![2021-08-30_12.01.40_component_default](Hilt/2021-08-30_12.01.40_component_default.png)
 
 
 
 #### 组件层次结构
 
-![2021-09-26_10.21.23_component_layer](/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-09-26_10.21.23_component_layer.png)
+![2021-09-26_10.21.23_component_layer](Hilt/2021-09-26_10.21.23_component_layer.png)
+
+ActivityComponent是ApplicationComponent的子组件，那么
+
+ActivityComponent可以获取到ApplicationComponent提供的对象的实例.
+
+
 
 #### 组件默认绑定
 
-![2021-09-26_10.45.53_component_bind](/Users/m/Documents/noteforme.github.io/source/_posts/Hilt/2021-09-26_10.45.53_component_bind.png)
+36-预定义榜单限定符
+
+![2021-09-26_10.45.53_component_bind](Hilt/2021-09-26_10.45.53_component_bind.png)
 
 
 
@@ -533,6 +543,14 @@ public class MainViewModel extends ViewModel {
 https://www.bilibili.com/video/BV1Ki4y1A7hA?spm_id_from=333.999.0.0
 
 
+
+https://www.bilibili.com/video/BV1BK4y1V7no?p=4&spm_id_from=pageDriver
+
+https://developer.android.com/codelabs/android-hilt?hl=zh-cn#7
+
+#### 字节码技术
+
+Javassit 动态修改字节码
 
 
 

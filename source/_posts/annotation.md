@@ -12,7 +12,7 @@ categories: JAVA
 
 #### 注解的作用
 
-![](annotation/2021-07-29_9.08.16_function.png)
+<img src="annotation/2021-07-29_9.08.16_function.png" alt="ff"  />
 
 https://blog.csdn.net/briblue/article/details/73824058
 
@@ -290,8 +290,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 ![](annotation/2021-08-12_1.18_arouter.png)
-
-https://www.bilibili.com/video/BV1uV411n787?p=6&spm_id_from=pageDriver
 
 https://www.bilibili.com/video/BV1Ly4y1W7f5?p=6&spm_id_from=pageDriver
 
