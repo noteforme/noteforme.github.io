@@ -10,7 +10,7 @@ categories: ANDROID
 
 ##### TextView颜色变化
 
-- SpannableString
+SpannableString
 
 https://juejin.im/entry/5729d28f1ea49300606854c9
 SpannableString有一个不方便的地方是截取字符串
@@ -40,9 +40,7 @@ SpannableString有一个不方便的地方是截取字符串
 
 ​	
 
-​	 
-
-- Html标签方式
+Html标签方式
 
 
 
@@ -64,7 +62,7 @@ https://github.com/liqy/TextViewDemo
 
 #####  EditText
 
-* style里面的配置
+style里面的配置
 
 ```
 	     <item name="android:focusable">true</item>
@@ -73,17 +71,17 @@ https://github.com/liqy/TextViewDemo
 
  https://blog.csdn.net/u011630575/article/details/50775639
 
-* 下划线颜色
+下划线颜色
 
-  https://blog.csdn.net/lindroid20/article/details/72551102
-  
-* 自定义解析器
+https://blog.csdn.net/lindroid20/article/details/72551102
 
-  https://my.oschina.net/ososchina/blog/3018393
-  
-* 密码输入框
+自定义解析器
 
-  https://github.com/li504799868/ZEditText
+https://my.oschina.net/ososchina/blog/3018393
+
+密码输入框
+
+https://github.com/li504799868/ZEditText
 
 
 
@@ -92,4 +90,14 @@ https://github.com/liqy/TextViewDemo
 https://www.jianshu.com/p/025f49696882
 
 
+
+监听器设置
+
+
+
+https://blog.csdn.net/xiao_ziqiang/article/details/50790168
+
+https://blog.csdn.net/u014748504/article/details/79083501
+
+https://www.jianshu.com/p/1d0777d9bfdf
 

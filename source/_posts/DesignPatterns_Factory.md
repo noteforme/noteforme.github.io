@@ -11,11 +11,13 @@ categories: DesignPatterns
 
 ##### 工厂方法模式
 
-![2021-09-12_6.40.17_factory](DesignPatterns_Factory/2021-09-12_6.40.17_factory.png)
+
+
+![2021-09-12_6.40.17_factory](DesignPatterns_Factory/2021-09-12_factory.png)
 
 
 
-![2021-09-12_6.41.32_fac_indraduce](DesignPatterns_Factory/2021-09-12_6.41.32_fac_indraduce.png)
+![2021-09-12_6.41.32_fac_indraduce](DesignPatterns_Factory/2021-09-12_fac_indraduce.png)
 
 工厂方法和抽象工厂方法 都是通过工厂生产产品，由于产品都实现了相同的接口，根据获取到的产品作相应的处理
 
@@ -25,11 +27,9 @@ categories: DesignPatterns
 
 
 
-
-
 ##### Simple factory
 
-```
+```java
 public class PizzaStore {
 
     SimplePizzaFactory factory;
@@ -51,7 +51,7 @@ public class PizzaStore {
 
 
 
-```
+```java
 public class SimplePizzaFactory {
 
     public Pizza createPizza(String type) {
@@ -70,7 +70,7 @@ public class SimplePizzaFactory {
 
 
 
-```
+```java
 public class PizzaStore {
 
     SimplePizzaFactory factory;
@@ -78,7 +78,6 @@ public class PizzaStore {
     public PizzaStore(SimplePizzaFactory factory) {
         this.factory = factory;
     }
-
 
     public Pizza orderPizza(String type) {
         Pizza pizza = factory.createPizza(type);
@@ -93,14 +92,14 @@ public class PizzaStore {
 
 
 
-```
+```java
 public class Pizza {
     String name;
     String dough;
     String sauce;
     ArrayList topping = new ArrayList();
 
-   public   void prepare() {
+   public void prepare() {
         printOperation("preparing     " + name);
         System.out.println("Tossing dough...");
         System.out.println("Adding sauce");
@@ -135,7 +134,7 @@ public class Pizza {
 
 
 
-```
+```java
 SimplePizzaFactory calmFactory = new SimplePizzaFactory();
 PizzaStore calmPizza = new PizzaStore(calmFactory);
 calmPizza.orderPizza("calm");
@@ -147,7 +146,7 @@ calmPizza.orderPizza("calm");
 
 ##### Static Factory（静态工厂模式）
 
-```
+```java
 public interface Animal {
     void move();
 }
@@ -155,7 +154,7 @@ public interface Animal {
 
 
 
-```
+```java
 public class Cat implements Animal{
     public void move() {
         System.out.println("Cat move");
@@ -168,50 +167,56 @@ public class Cat implements Animal{
 1. 工厂类　对实例类进行管理和创建
 
 
-       public class Factory {
-        //静态工厂方法
-        public static Cat produceCat() {
-            return new Cat();
-        }
-    
-       public static Dog produceDog() {
-            return new Dog();
-        }
-    
-        public static void main(String[] args) {
-            Animal cat = Factory.produceCat();
-            cat.move();
-    
-            Dog dog = Factory.produceDog();
-            dog.move();
-            dog.eatBone();
-         }
-        }`
+```java
+   public class Factory {
+    //静态工厂方法
+    public static Cat produceCat() {
+        return new Cat();
+    }
+
+   public static Dog produceDog() {
+        return new Dog();
+   }
+
+    public static void main(String[] args) {
+        Animal cat = Factory.produceCat();
+        cat.move();
+
+        Dog dog = Factory.produceDog();
+        dog.move();
+        dog.eatBone();
+     }
+    }`
+```
 
 假如我要实例化一个pig对象,那么肯定是要在Factory做添加的，接下来看看可以不修改其他类实现需求
 
 2. Abstract Factory(抽象工厂 elementary )
 
 
-     public interface Provider {
-      Animal produce();
-     }
-     
-     public class DogFactory implements  Provider {
-       @Override
-       public Animal produce() {
-        return new Dog();
-       }
-     }
+```java
+ public interface Provider {
+  Animal produce();
+ }
+ 
+ public class DogFactory implements  Provider {
+   @Override
+   public Animal produce() {
+    return new Dog();
+   }
+ }
+```
 
 
 
-    public class CatFactory implements Provider {
-        @Override
-        public Animal produce() {
-            return new Cat();
-        }
+```java
+public class CatFactory implements Provider {
+    @Override
+    public Animal produce() {
+        return new Cat();
     }
+}
+```
 
 ​    Provider provider = new CatFactory();
 ​     Animal cat = provider.produce();
@@ -220,7 +225,7 @@ public class Cat implements Animal{
 
 ##### 不同Button实例
 
-```
+```java
 /**
  * // 抽象工厂接口声明了一组能返回不同抽象产品的方法。这些产品属于同一个系列
  * // 且在高层主题或概念上具有相关性。同系列的产品通常能相互搭配使用。系列产
@@ -232,7 +237,7 @@ public interface GUIFactory {
 }
 ```
 
-```
+```java
 // Concrete factories produce a family of products that belong
 // to a single variant. The factory guarantees that the
 // resulting products are compatible. Signatures of the concrete
@@ -249,7 +254,7 @@ public class WinFactory implements  GUIFactory {
 }
 ```
 
-```
+```java
 public class MacFactory implements  GUIFactory {
     public Button createButton() {
         return new MacButton();
@@ -261,7 +266,7 @@ public class MacFactory implements  GUIFactory {
 }
 ```
 
-```
+```java
 /**
  * // 系列产品中的特定产品必须有一个基础接口。所有产品变体都必须实现这个接口。
  */
@@ -270,7 +275,7 @@ public interface Button {
 }
 ```
 
-```
+```java
 // Concrete products are created by corresponding concrete
 // factories.
 public class WinButton implements Button{
@@ -280,7 +285,7 @@ public class WinButton implements Button{
 }
 ```
 
-```
+```java
 public class MacButton implements Button{
     public void paint() {
         System.out.println("根据 macOs 样式渲染按钮 MacButton");
@@ -288,7 +293,7 @@ public class MacButton implements Button{
 }
 ```
 
-```
+```java
 // 这是另一个产品的基础接口。所有产品都可以互动，但是只有相同具体变体的产
 // 品之间才能够正确地进行交互。
 public interface CheckBox {
@@ -296,7 +301,7 @@ public interface CheckBox {
 }
 ```
 
-```
+```java
 public class WinCheckbox implements  CheckBox {
     public void paint() {
         System.out.println("根据 Win 样式渲染复选框。   WinCheckbox");
@@ -304,7 +309,7 @@ public class WinCheckbox implements  CheckBox {
 }
 ```
 
-```
+```java
 public class MacCheckbox implements  CheckBox {
     public void paint() {
         System.out.println("根据 macOS 样式渲染复选框。   MacCheckbox");
@@ -312,7 +317,7 @@ public class MacCheckbox implements  CheckBox {
 }
 ```
 
-```
+```java
 public class Application {
     private GUIFactory factory;
     private Button button;
@@ -341,7 +346,7 @@ https://www.zhihu.com/question/20367734
 
 ##### 不同Dialog实例
 
-```
+```java
 public abstract class Dialog {
     // The creator may also provide some default implementation
     // of the factory method.
@@ -366,7 +371,7 @@ public abstract class Dialog {
 
 
 
-```
+```java
 public class WindowsDialogFac extends Dialog {
     Button createButton() {
         return new WindowsButton();
@@ -374,7 +379,7 @@ public class WindowsDialogFac extends Dialog {
 }
 ```
 
-```
+```java
 public class WebDialogFac extends Dialog {
     Button createButton() {
         return new HTMLButton();
@@ -382,7 +387,7 @@ public class WebDialogFac extends Dialog {
 }
 ```
 
-```
+```java
 public interface Button {
     void render();
     void onClick(String  cls);
@@ -413,7 +418,7 @@ public class HTMLButton implements Button {
 }
 ```
 
-```
+```java
 public class Application {
     Dialog dialog;
 
@@ -443,9 +448,10 @@ public class Application {
 
 
 
-
-
 ##### 抽象工厂
 
-简单工厂的工厂
+简单工厂的工厂,产品族
 
+
+
+https://blog.csdn.net/qq_18242391/article/details/81503370

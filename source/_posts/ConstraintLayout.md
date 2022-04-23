@@ -492,3 +492,7 @@ https://mp.weixin.qq.com/s/QIuww9b0TsNjajEUS8c2fg
 
 
 
+#### Gone约束问题
+
+https://ibotasky.github.io/2017/10/31/ConstraintLayout%E4%BB%8B%E7%BB%8D/
+

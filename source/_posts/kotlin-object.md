@@ -367,7 +367,7 @@ fun main() {
 
 ##### 接口
 
-![](/Users/m/Documents/noteforme.github.io/source/_posts/kotlin-object/2021-08-22_9.59.22_interface.png)
+![](kotlin-object/2021-08-22_9.59.22_interface.png)
 
 
 

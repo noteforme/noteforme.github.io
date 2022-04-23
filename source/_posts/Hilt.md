@@ -548,6 +548,50 @@ https://www.bilibili.com/video/BV1BK4y1V7no?p=4&spm_id_from=pageDriver
 
 https://developer.android.com/codelabs/android-hilt?hl=zh-cn#7
 
+
+
+
+
+#### Interface inject
+
+https://juejin.cn/post/6967148539277213733
+
+
+
+#### viewModel
+
+在ViewModel上添加`@HiltViewModel`，必须有带参的构造函数，用`Inject`注入
+
+##### 1.  viewModel
+
+在ViewModel上添加`@HiltViewModel`，必须有带参的构造函数，用`Inject`注入
+
+```
+@HiltViewModel
+class DataViewModel @Inject constructor(
+        private val dataRepo: DataRepository
+) : ViewModel()
+```
+
+##### 2. fragment和activity
+
+在fragment和activity上添加`@AndroidEntryPoint`注解
+
+然后可以使用by viewModels()直接获取viewmodel
+
+```
+@AndroidEntryPoint
+class DataFragment : Fragment() {
+   private val dataViewModel: DataViewModel by viewModels()
+}
+```
+
+##### 3. 遇到的坑
+
+通过ViewPager创建的Fragment无法使用`@HiltViewModel`，只能通过普通的方式注入，弄了很久都没有找到解决方案。配合[navigation](https://developer.android.com/jetpack/androidx/releases/navigation)使用的话没有问题
+
+
+
 #### 字节码技术
 
 Javassit 动态修改字节码

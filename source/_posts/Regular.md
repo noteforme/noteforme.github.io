@@ -8,13 +8,31 @@ categories: JAVA
 
 
 
+#### Tool
+
+https://regex101.com/
+
+https://ihateregex.io/expr/password
+
+
+
+#### 正则意义对照表格
+
+https://baixin.ink/2016/03/21/regular-expression/
+
+https://www.jb51.net/shouce/jquery1.82/regexp.html
+
+
+
+https://www.bilibili.com/video/BV1Eq4y1E79W?p=4
+
+##### 
+
 https://deerchao.cn/tutorials/regex/regex.htm
 
 https://deerchao.cn/tools/wegester/
 
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions
-
-https://www.jb51.net/shouce/jquery1.82/regexp.html
 
 https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-649dc1c3f285
 
@@ -228,6 +246,10 @@ MULTILINE
 | `\d+\.\d+\.\d+\.\d+`                          | 匹配ip地址                        |
 
 
+
+括号
+
+https://www.bilibili.com/video/BV1ef4y1U7V4/?spm_id_from=333.788.recommend_more_video.-1
 
    
 
@@ -449,10 +471,6 @@ https://regexr.com/
 
 
 
-#### 正则意义对照表格
-
-https://baixin.ink/2016/03/21/regular-expression/
-
 
 
 #### Ascii表
@@ -461,3 +479,49 @@ https://www.ascii-code.com/
 
 https://www.regular-expressions.info/tutorial.html
 
+
+
+#### 密码判断断言
+
+必须包含一个字母或其他的字符
+
+https://www.cnblogs.com/haoyul/p/12059737.html
+
+https://www.bilibili.com/video/BV1nY4y1q7Qr?spm_id_from=333.337.search-card.all.click
+
+https://www.bilibili.com/video/BV1oz4y1C7Uf?p=4
+
+(?=.*[A-Za-z]+)[A-Za-z@\\/`'’‘,\\.\\(\\)\\-]{4,100}$
+
+
+
+```
+^(?=.*?[A-Z])(?=.*?[^A-Za-z0-9]).{6,12}$
+
+(?=.*?[A-Z])
+(?=xxx)是零宽断言，表示后面的字符串必须符合xxx这个正则表达式，但是不消耗字符串，实际匹配字符串的正则是.{6,12}即6到12位字符 
+(?=.*?[A-Z])表示后面必须符号.*?[A-Z]这个 ，即必须有大写字母
+整个正则表达式表示6到12位字符，必须有大写字母和不是字母数字的字符
+```
+
+
+
+https://zhidao.baidu.com/question/1609169242401476667.html
+
+
+
+#### 正则优先级
+
+下图 从上到下，从左到右的优先级
+
+https://www.runoob.com/regexp/regexp-operator.html
+
+https://zhidao.baidu.com/question/1609169242401476667.html
+
+
+
+
+
+
+
+http://www.rexegg.com/regex-lookarounds.html
