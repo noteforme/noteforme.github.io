@@ -255,7 +255,37 @@ https://moeci.com/posts/hexo-typora/
 
 https://juejin.cn/post/7006594302604214280
 
+https://www.bilibili.com/video/BV1D7411U7Yk/
 
 
 
+
+
+##### 卸载插件
+
+```
+npm list
+npm uninstall <你的插件名>
+```
+
+
+
+安装插件
+
+```
+npm install https://github.com/fulsun/hexo-asset-image-master.git --save
+```
+
+
+
+https://carolinelh.github.io/2019/11/20/hexo%E6%96%87%E7%AB%A0%E5%9B%BE%E7%89%87%E4%B8%8D%E6%98%BE%E7%A4%BA%E7%9A%84%E5%9D%91/
+
+
+
+_config.yml
+
+```
+## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
+url: https://noteforme.github.io 			// 之前这个地址不对,多加了东西
+```
 

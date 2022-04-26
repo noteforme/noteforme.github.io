@@ -48,7 +48,9 @@ button clickable=true,所以 默认消费事件,TextView不会
 
 
 
-<img src="TouchEvent3/TouchEvent3.png" style="zoom:50%;" />
+<img src="TouchEvent3/TouchEvent3.png" alt="TouchEvent3" style="zoom:50%;" />
+
+
 
 1. 代码
 
@@ -98,7 +100,11 @@ RootView
 
 2. 内部拦截ViewGroupA消费事件
 
-![内部拦截](TouchEvent3/内部拦截法ViewGroupA消费.png)
+
+
+<img src="TouchEvent3/Inner_ViewGroupA.png" alt="Inner_ViewGroupA" style="zoom:67%;" />
+
+
 
 运行结果
 
@@ -141,7 +147,9 @@ Action_down都会被ViewGroupA消费,所以主要分析Action_Move事件流程,�
 
 
 
-![](TouchEvent3/内部拦截法RootView消费.png)
+<img src="TouchEvent3/inter_RootView.png" alt="inter_RootView" style="zoom:67%;" />
+
+
 
 运行结果
 
@@ -187,3 +195,10 @@ MotionEvent.ACTION_DOWN requestDisallowInterceptTouchEvent(true),必须设置,�
 ```
 
 https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&mid=2650237941&idx=1&sn=40bca69abe10015cc469132f8c76a910&chksm=88639a9abf14138cae7409adec85c5496486a044d7f4ef102e513d9c052aaa30017fb37e3439&scene=38#wechat_redirect
+
+
+
+
+
+![Inner_ViewGroupA](TouchEvent3/Inner_ViewGroupA.png)
+

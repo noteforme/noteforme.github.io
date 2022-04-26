@@ -67,7 +67,31 @@ categories: Kotlin
 
 ![2022-03-20_10.09.29](coroutie-flow/2022-03-20_10.09.29.png)
 
+62. asFlow 
 
+    flowOf
 
+    
 
+63. 流上下文
+
+    flowOn
+
+64. 知道协程中收集流
+
+    launchIn()
+
+65. 流的取消
+
+    withTimeoutOrNull
+
+66. 流的取消检测
+
+    Cancellable()
+
+67. 背压
+
+    buffer
+
+    
 
