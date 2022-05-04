@@ -24,6 +24,8 @@ I don't know what to do  if I prevent me  think code or tech in my life.   I thi
 
 CodeReview
 
+
+
 <img src="THINKING/codereview3.png" alt="codereview3" style="zoom:50%;" />
 
 
