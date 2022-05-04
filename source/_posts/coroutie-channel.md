@@ -20,3 +20,4 @@ channel是并发安全的队列,队列一定存在缓冲区满了，并且没有
 
     
 
+<img src="coroutie-channel/2022-04-23_9.17.16.png" alt="2022-04-23_9.17.16" style="zoom: 67%;" />

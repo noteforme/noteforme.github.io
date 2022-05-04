@@ -9,7 +9,7 @@ comments: true
 
 
 
-#### Question
+### Question
 
 ![](RecyclerView/2021-08-02_10.11_recyleview.png)
 
@@ -26,52 +26,6 @@ https://www.bilibili.com/video/BV1Fi4y1x7p5?from=search&seid=3244755609076396172
 4. 无
 
    
-
-
-
-##### 滑动坐标
-
-第一个左边 - 第二个坐标
-
-所以负值 一定是往下滑
-
-用栈数组保存不同类型回收的view
-
-#### 回收情况
-
-ScrollY  第一个可见Item的左上顶点 距离屏幕左上角的距离。
-
-
-
-##### 顶部item回收
-
-网上滑动 
-
-当顶部item滑出屏幕，ScrollY的高度等于第一个item高度时，就被滑出了屏幕。
-
-
-
-##### 底部item再添加
-
-网上滑动
-
-当 屏幕显示的几个Item 长度 -  ScrollY  刚好等于 屏幕高度，底部item之下再开始添加item。
-
-因为ScrollY变大.
-
-
-
-##### 顶部item添加
-
-向下滑动
-
-ScrollY = 顶部item高度，顶部添加item
-
-
-
-#### 底部item回收
-
-ScrollY = 底部item高度，底部回收。
 
 
 
@@ -166,6 +120,62 @@ http://blog.csdn.net/qibin0506/article/details/49716795
 
 
 
+### 复用分析
+
+分析onCreateViewHolder onBindViewHolder和 view是怎么复用的
+
+https://www.jianshu.com/p/ec6585e5220d
+
+
+
+###### 滑动坐标
+
+第一个左边 - 第二个坐标
+
+所以负值 一定是往下滑
+
+用栈数组保存不同类型回收的view
+
+
+
+###### 回收情况
+
+ScrollY  第一个可见Item的左上顶点 距离屏幕左上角的距离。
+
+
+
+###### 顶部item回收
+
+1. 往上滑动 
+
+​	当顶部item滑出屏幕，ScrollY的高度等于第一个item高度时，就被滑出了屏幕。
+
+​	底部item再添加
+
+2. 网上滑动
+
+​	当 屏幕显示的几个Item 长度 -  ScrollY  刚好等于 屏幕高度，底部item之下再开始添加item。
+
+​	因为ScrollY变大.
+
+
+
+###### 顶部item添加
+
+向下滑动
+
+ScrollY = 顶部item高度，顶部添加item
+
+底部item回收
+
+ScrollY = 底部item高度，底部回收。
+
+
+
+
+
+
+
 ####   Jectpack Paging
 
 https://developer.android.com/topic/libraries/architecture/paging
@@ -235,9 +245,7 @@ https://mp.weixin.qq.com/s/oCl4BQ8uB9ZDSOEKESM7hA
 
 
 
-
-
-#### Reycleview preview
+###### preview
 
 https://medium.com/aubergine-solutions/creating-recyclerview-layout-in-android-no-pain-only-gain-404280471003
 
@@ -335,7 +343,7 @@ https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf
 
 
 
-##### drag禁用
+drag禁用
 
 https://github.com/CymChad/BaseRecyclerViewAdapterHelper/issues/3378
 

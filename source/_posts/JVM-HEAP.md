@@ -24,11 +24,13 @@ categories: JAVA
 
 
 
-![](JVM-HEAP/0003.png)
+<img src="JVM-HEAP/heap0003.png"  />
 
 1. 堆空间内部结构，JDK1.8之前从永久代 替换成 元空间
 
-![](JVM-HEAP/0004.png)
+   
+
+![](JVM-HEAP/java80004.png)
 
 
 

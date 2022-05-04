@@ -6,6 +6,8 @@ tags:
 categories:  ANDROID
 ---
 
+
+
 https://developer.android.com/reference/android/app/Fragment.html
 
 https://developer.android.com/guide/components/fragments.html
@@ -25,7 +27,7 @@ Called immediately after `onCreateView(android.view.LayoutInflater, android.view
 
 
 
-![](Fragment/fragment-view-lifecycle.png)
+<img src="Fragment/fragment-view-lifecycle.png" alt="ff" style="zoom:67%;" />
 
 
 
@@ -228,7 +230,7 @@ https://www.jianshu.com/p/c12a98a36b2b
 
 #### 横竖屏切换，Fragment实例复用
 
-#####  setRetainInstance=true
+setRetainInstance=true
 
 **retainInstance = true已经过期，改用ViewModel**
 
@@ -399,7 +401,9 @@ Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragme
 
 https://developer.android.com/guide/components/fragments.html
 
-####  onHiddenChanged切换刷新
+
+
+onHiddenChanged切换刷新
 
 使用hide()/show()发现生命周期基本不执行，不过可以用到这个onHiddenChanged();
 
@@ -428,7 +432,7 @@ https://blog.csdn.net/cml_blog/article/details/41411451
 
 
 
-#### fragment常用特性
+#### fragment特性
 
 ##### commitAllowingStateLoss VS  commit()区别
 
