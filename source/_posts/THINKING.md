@@ -10,6 +10,21 @@ categories: TOOL
 
 
 
+the way learning 
+
+一年后用不到，就不用学。
+
+https://www.bilibili.com/video/BV1bY4y1Y7WR/?spm_id_from=333.788
+
+1. how to use(video blog)
+2. 
+
+学习产生价值，带着目标学习.
+
+
+
+
+
 https://juejin.im/post/5eb168e9f265da7bb65fb27a
 
 https://www.mifengtd.cn/articles/runningcheese-gtd-system.html

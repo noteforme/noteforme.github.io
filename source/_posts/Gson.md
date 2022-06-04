@@ -6,12 +6,34 @@ categories: ANDROID
 
 ---
 
+
+
+给GitHub PR
+
+https://www.bilibili.com/video/BV1JJ41197UK?spm_id_from=333.337.search-card.all.click
+
+
+
+json格式
+
+数组 [1,2,3]
+
+对象格式 {"key":"value"}
+
+
+
+
+
+
+
 ##### $Gson$Types理解 
 
  官方教程 [https://github.com/google/gson/blob/master/UserGuide.md](https://github.com/google/gson/blob/master/UserGuide.md "官方教程")
 
  源码分析
 http://www.jianshu.com/p/89c314ae8c0b
+
+
 
 
 

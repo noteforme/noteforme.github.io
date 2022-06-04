@@ -280,7 +280,7 @@ https://devconnected.com/how-to-checkout-git-tags/
 
 > ```
 >  git fetch --all --tags
->  git checkout tags/v1.0 -b v1.0-branch	//git checkout tags/v2.1.1 -b v2.1.1-branch
+>  git checkout tags/v1.0 -b v1.0-branch	//git checkout tags/v2.1.1 -b v2.1.1-branch  v1.0代表tag名称
 >  
 >  git log --oneline --graph		//You can inspect the state of your branch by using the “git log” command. Make sure that the HEAD pointer (the latest commit) is pointing to your annotated tag.
 > ```

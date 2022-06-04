@@ -6,20 +6,45 @@ tags: Test
 categories: TEST
 ---
 
-### 　reference
 
-https://developer.android.com/training/testing/espresso/setup
 
-1. dependencies
+the difficulty tip  is on  recycleview 's content that not visible in firtpage,
 
-   ```
-   		androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-       androidTestImplementation 'androidx.test:runner:1.1.0'
-       androidTestImplementation 'androidx.test:rules:1.1.0'
-       androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-   ```
+which you can search for and find the views that match the non-unique `R.id`: 
 
-2. practice
+
+
+https://developer.android.com/training/testing/espresso/lists
+
+官方test可以指定key 和value,是因为这个
+
+```java
+@VisibleForTesting
+protected static Map<String, Object> makeItem(int forRow) {
+    Map<String, Object> dataRow = Maps.newHashMap();
+    dataRow.put(ROW_TEXT, String.format(ITEM_TEXT_FORMAT, forRow));
+    dataRow.put(ROW_ENABLED, forRow == 1);
+    return dataRow;
+}
+```
+
+但是我们的项目是没有的。
+
+### Adapter view warnings
+
+`NoMatchingViewException` and `AdapterView` widgets are present in the view hierarchy, the most common solution is to use `onData()`. The exception message will include a warning with a list of the adapter views. You may use this information to invoke `onData()` to load the target view.
+
+
+
+onData() used in AdapterView like  recyclieview , not  AdapterView use ondata()  will have error
+
+> No views in hierarchy found matching: is assignable from class: class android.widget.AdapterView
+>
+> Espresso warns users about presence of `AdapterView` widgets. When an `onView()` operation throws a exception
+
+
+
+
 
 ```
 @Rule
@@ -56,46 +81,6 @@ fun when_user_enters_first_and_last_name_check_to_confirm_that_message_is_correc
 ```
 
 
-
-
-
-#### junit
-
-Junit主要要做到Android.jar代码隔离，测试方式比较简单
-
-```
-public class CalculatorTest {
-
-    private Calculator mCalculator;
-    @Before
-    public void setUp() throws Exception {
-        mCalculator = new Calculator();
-    }
-    @Test
-    public void testSum() throws Exception {
-        //expected: 6, sum of 1 and 5
-        assertEquals(6d, mCalculator.sum(1d, 5d), 0);
-    }
-    @Test
-    public void testSubstract() throws Exception {
-        assertEquals(1d, mCalculator.substract(5d, 4d), 0);
-    }
-    @Test
-    public void testDivide() throws Exception {
-        assertEquals(4d, mCalculator.divide(20d, 5d), 0);
-    }
-    @Test
-    public void testMultiply() throws Exception {
-        assertEquals(10d, mCalculator.multiply(2d, 5d), 0);
-    }
-}
-```
-
-
-
-Espresso测试
-
-使用方式：https://developer.android.com/training/testing/espresso/setup.html#add-espresso-dependencieshttps://developer.android.com/training/testing/espresso/basics.html
 
 ```
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -136,7 +121,7 @@ Espresso测试
     }
 ```
 
-```
+```java
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class InstrumentActivityTest {
@@ -169,7 +154,9 @@ https://github.com/googlesamples/android-testing
 
 
 
+##### Fragment Test
 
+https://developer.android.google.cn/training/basics/fragments/testing
 
 
 

@@ -22,35 +22,42 @@ public class Application extends ContextWrapper implements ComponentCallbacks2 {
 
 1. 新建JDK1.8　选择openjdk8
 
-　![新建JDK](AndroidSource/DeepinScrot_aosp1.png)
+　![](AndroidSource/DeepinScrot_aosp1.png)
 
 
 
 2. 删除依赖
 
-  　![删除依赖](AndroidSource/DeepinScrot_aosp5.png)
+  　![](AndroidSource/DeepinScrot_aosp5.png)
 
   
 
 3.　选择需要的包
 
-![选择包](AndroidSource/DeepinScrot_aosp.png)
+![](AndroidSource/DeepinScrot_aosp.png)
 
 4.　这一步要衡量一下，转为gradle项目后，project structure下面就没有moudles了
- ![添加包](AndroidSource/DeepinScrot_aosp2.png)
+ ![](AndroidSource/DeepinScrot_aosp2.png)
     这个设置后麻烦可以大了，后面不得不删除了android.ipr、android.iws、android.iml这三个文件重新生成
 
 ５.　跳转到源码
 　　找到pacages-> apps->Settings　`public class SettingsDrawerActivity extends Activity {`
 
-  点开Activity发现还是跳转到jar的内容
-  ![跳转成功](AndroidSource/DeepinScrot_aosp6.png) 点击Ok后再测试下
+  点开Activity发现还是跳转到jar的内容  
 
-  ![验证](AndroidSource/DeepinScrot_aosp7.png)
+
+
+6. 最主要的是这一步,直接添加aosp最外层路径导入源码就可以了
+
+<img src="AndroidSource/aosp6.png" alt="aosp6" style="zoom:50%;" />
+
+
+
   终于成功了
 
-** 哈哈　然后就可以愉快的调试源码了
-**
+
+
+然后就可以愉快的调试源码了
 
 /home/jon/noteforme.github.io/public/2017/08/10/DesignParrerns
 
@@ -153,7 +160,7 @@ https://source.android.com/
  https://source.android.com/devices/architecture
 
 > 		Android源码根目录	描述
->	
+>			
 > 	abi	应用程序二进制接口
 > 	art	全新的ART运行环境
 > 	bionic	系统C库
@@ -182,8 +189,15 @@ https://source.android.com/
 > 	tools	工具文件
 > 	Makefile	全局Makefile文件，用来定义编译规则
 > 	————————————————
->	
+>			
 > 	https://blog.csdn.net/wenzhi20102321/article/details/80739649
->	
+>			
 > 	https://blog.csdn.net/wen0006/article/details/5804639
 
+
+
+
+
+##### 源码关联阅读
+
+![20220527125047](AndroidSource/20220527125047.jpg)

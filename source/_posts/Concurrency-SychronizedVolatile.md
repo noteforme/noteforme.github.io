@@ -6,7 +6,11 @@ tags: concurrency
 categories: JAVA
 ---
 
-<img src="Concurrency-SychronizedVolatile/2020-08-19_at_3.54.13.png" alt="Screen Shot 2020-08-19_at_3.54.13 PM"  />
+
+
+
+
+![2020-08-19_at_3.54.13](Concurrency-SychronizedVolatile/2020-08-19_at_3.54.13.png)
 
 ####  MESI
 
@@ -18,11 +22,17 @@ categories: JAVA
 
 查看如下链接的 多核缓存协同操作流程图
 
-![](https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162525310-2087402052.png)
+
+
+
+
+<img src="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162525310-2087402052.png" style="zoom:67%;" />
+
+
+
+
 
  https://www.bilibili.com/video/BV1fK4y1E7NC视频讲解了这个状态图的各个情况.
-
-
 
 https://www.cnblogs.com/yanlong300/p/8986041.html
 

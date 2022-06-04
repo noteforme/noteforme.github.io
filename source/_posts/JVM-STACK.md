@@ -1181,3 +1181,9 @@ public class StringBuilderTest {
 
 }
 ```
+
+
+
+##### 引用传递 值传递
+
+https://segmentfault.com/a/1190000016773324

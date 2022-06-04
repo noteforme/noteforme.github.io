@@ -8,21 +8,19 @@ categories: JAVA
 
 
 
-
-
 [JVM方法区-第六章](https://noteforme.github.io/2020/01/04/JVM-METHOD/)
 
+<img src="JVM/2020-04-16_8.22.33.png" alt="2020-04-16_8.22.33" style="zoom:50%;" />
 
 
 
+![2020-04-16_8.29.39](JVM/2020-04-16_8.29.39.png)
 
-![Screen Shot 2020-04-16 at 8.22.33 PM](JVM/Screen Shot 2020-04-16 at 8.22.33 PM.png)
+![2020-04-16_8.41.39](JVM/2020-04-16_8.41.39.png)
 
-![Screen Shot 2020-04-16 at 8.29.39 PM](JVM/Screen Shot 2020-04-16 at 8.29.39 PM.png)
 
-![Screen Shot 2020-04-16 at 8.41.39 PM](JVM/Screen Shot 2020-04-16 at 8.41.39 PM.png)
 
-![Screen Shot 2020-04-16 at 8.43.41 PM](Screen Shot 2020-04-16 at 8.43.41 PM.png)
+![2020-04-16_8.43.41](JVM/2020-04-16_8.43.41.png)
 
 
 

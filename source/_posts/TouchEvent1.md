@@ -8,6 +8,18 @@ categories: VIEW
 
 ​																	**Android Touch Event**
 
+
+
+项目中guideview用到了
+
+ShouldDelayChildPressedState
+
+这个你也看一下是否要加 系统级别的延迟,别看了 你继承的class 不会延迟
+
+<img src="TouchEvent1/ShouldDelayChildPressedState.png" alt="ShouldDelayChildPressedState" style="zoom: 50%;" />
+
+
+
 #### Question
 
 手机屏幕是由一个个像素点渲染而成的，不同的布局类似于幕布一层层叠上去形成了屏幕上显示的效果，The action is from  DOWN、MOVE、UP, How they formed while we used like longClick , touch, click?
@@ -88,6 +100,12 @@ public boolean onTouchEvent(MotionEvent event) {
 ```
 
 按钮是可以点击的直接被onTouchEvent消费
+
+
+
+无缝地嵌套滑动
+
+https://blog.csdn.net/qq_40987010/article/details/124413923?spm=1001.2014.3001.5502
 
 
 
