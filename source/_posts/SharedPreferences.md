@@ -77,3 +77,9 @@ https://www.bilibili.com/video/BV1ih411a7KG?p=1
 SharedPreferences迁移
 
 https://www.hi-dhl.com/2020/10/19/jetpack/11-DataStore/
+
+
+
+
+
+![2022-05-27_4.07.44](SharedPreferences/2022-05-27_4.07.44.png)

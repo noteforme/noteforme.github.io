@@ -12,7 +12,7 @@ categories: TOOL
  　有时候需要看低版本的源码，就要修改compileSdkVersion版本
 
 1. 修改编译版本
-   ![图片](AndroidStudioTool/DeepinScrot_compile.png)
+   ![](AndroidStudioTool/DeepinScrot_compile.png)
 2. targetSdkVersion版本修改成　21   然后   compile 'com.android.support:appcompat-v7:21.+' 继承的AppCompatActivity改成Activity
 
 3. 编译后报错　Error:(11) No resource identifier found for attribute 'roundIcon' in package 'android'
@@ -89,14 +89,6 @@ categories: TOOL
 
 
 
-##### debug问题
-
-> 15:40	Error running 'app'
-> 		Cannot debug application from module app on device huawei-pra_al00-HMKNW17A12007001.
-> 		This application does not have the debuggable attribute enabled in its manifest.
-> 		If you have manually set it in the manifest, then remove it and let the IDE automatically assign it.
-> 		If you are using Gradle, make sure that your current variant is debuggable.
-
 
 
 Build Variants 设置成debug
@@ -122,10 +114,6 @@ debuggable设置成 true
 https://www.jianshu.com/p/e50af339259f
 
 
-
-##### android命名规范
-
-https://juejin.im/entry/5b6a4ca9f265da0f4c6fe566
 
 ##### 无线调试
 
@@ -164,18 +152,6 @@ https://blog.csdn.net/qq_32452623/article/details/79282605
 
 
 
-Apk瘦身
-
-https://blog.csdn.net/qq_32175491/article/details/80071987
-
-也有不建议删SO库的说法
-
-http://kaedea.com/2016/06/04/android-dynamical-loading-04-so-problems/
-
-
-
-
-
 ##### 依赖其他moudle
 
 https://mp.weixin.qq.com/s/trAxRzz573TFyJk2klKdag
@@ -197,3 +173,11 @@ eglMakeCurrent OpenGLRenderer两个包含需要过滤的字段
 <img src="AndroidStudioTool/Screen Shot 2021-02-06 at 11.57.50 AM.png" style="zoom: 80%;" />
 
 https://www.jianshu.com/p/11e56991ff28
+
+
+
+#### Emulator
+
+显示
+
+![20220610144253](AndroidStudioTool/20220610144253.jpg)
