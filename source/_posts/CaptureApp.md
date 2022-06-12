@@ -10,7 +10,7 @@ categories: TOOL
 
 #### Charles抓包
 
-按照这个地址配置
+1. 按照这个地址配置
 
 https://www.jianshu.com/p/e8dd1091d6d7
 
@@ -20,7 +20,15 @@ https://www.jianshu.com/p/e8dd1091d6d7
 
 
 
-Https乱码问题
+2. Https乱码问题
+
+安装证书
+
+
+
+<img src="https://upload-images.jianshu.io/upload_images/2525930-60822f4047d0ee8b.png?imageMogr2/auto-orient/strip|imageView2/2/w/1134/format/webp" alt="img" style="zoom:67%;" />
+
+
 
 https://www.jianshu.com/p/0caaea590c8c
 
