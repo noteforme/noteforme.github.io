@@ -289,3 +289,30 @@ _config.yml
 url: https://noteforme.github.io 			// 之前这个地址不对,多加了东西
 ```
 
+
+
+
+
+#### hexo node 升级
+
+
+
+```
+搜索现有node版本
+
+brew search node
+
+安装指定版本
+
+brew install node@x
+```
+
+https://blog.csdn.net/lvqinglou/article/details/115858349
+
+
+
+npm-check
+
+检查升级
+
+https://ephen.me/2022/blog-updates-plus/

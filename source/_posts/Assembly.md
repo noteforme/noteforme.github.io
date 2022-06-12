@@ -85,3 +85,15 @@ https://www.cnblogs.com/Base-Of-Practice/category/1005745.html
 https://blackdragonf.github.io/2017/03/09/%E7%8E%8B%E7%88%BD%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%AC%E4%B8%89%E7%89%88%E5%AE%9E%E9%AA%8C/
 
  视频 小甲鱼
+
+
+
+
+
+#### [剑指 Offer 58 - II. 左旋转字符串](https://leetcode.cn/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/)
+
+##### 数组System.arraycopy 
+
+深入分析用到了汇编指令,后面可以加强学习,其实底层的知识还是需要的，要不然没法深入下去了
+
+https://blog.csdn.net/jackgo73/article/details/111866491

@@ -1,5 +1,5 @@
 ---
-title: PerformanceFreezed
+title: PerformanceJank
 date: 2022-06-09 11:23:50
 tags: Performance
 ---

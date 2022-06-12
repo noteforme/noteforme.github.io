@@ -13,11 +13,11 @@ categories: ANDROID
 
 
 
-![](RxJava/2021-07-11_observer.png)
+![](RxJava/2021-07-11-observer.png)
 
 
 
-![](RxJava/2021-07-11_observable.png)
+![](RxJava/2021-07-11-observable.png)
 
 1. 最主要的是Observable里面持有observer引用，就可以给observer发消息，其他的都是拓展。
 2. Rxjava2会有Flower等背压类继承ObservableSource，所以 Observable 从ObservableSource分离出来，让ObservableCreate实现subscribeAcutal(Observer)
@@ -83,11 +83,11 @@ public class ObservableCreate<T> extends Observable<T> {
 
 RxJava观察者模式最主要是这个方法 subscribeActual(Observer observer) ，通过发射器与 观察者、被观察者建立关联，接着通过发射器发送事件给观察者。
 
-!(RxJava/2021-07-12_RXJAVA.png)
+!(RxJava/2021-07-12-RXJAVA.png)
 
-![](RxJava/2021-07-13_5.37.48_observer1.png)
+![](RxJava/2021-07-13-5.37.48-observer1.png)
 
-![](RxJava/2021-07-14_3.14.28_zhuangshi.png)
+![](RxJava/2021-07-14-3.14.28-zhuangshi.png)
 
 红色方框中用到了 装饰器模式。
 
@@ -135,11 +135,11 @@ Observable.create(new ObservableOnSubscribe<Object>() {
 
 上面代码的调用结构可以用下图表示
 
-![](RxJava/RxJava_LinkedList.png)
+![](RxJava/RxJava-LinkedList.png)
 
 
 
-![](RxJava/2021-07-17_at_8.51.53_stream.png)
+![](RxJava/2021-07-17-at-8.51.53-stream.png)
 
 上面三条流，可以看到每一条流的结束会启动另一条流的开端。
 
@@ -151,15 +151,15 @@ N0持有source引用，自己又创建Observable,订阅了O4。
 
 1. 链式构建流
 
-![](RxJava/2021-07-17_9.40.53_observable.png)
+![](RxJava/2021-07-17-9.40.53-observable.png)
 
 2. 订阅流
 
-![](RxJava/2021-07-17_9.41.07_observer.png)
+![](RxJava/2021-07-17-9.41.07-observer.png)
 
 3. 观察者回调流（事件回调流）
 
-![](RxJava/2021-07-17_9.41.41_emmit.png)
+![](RxJava/2021-07-17-9.41.41-emmit.png)
 
 
 
@@ -584,7 +584,7 @@ function.compose(function);
 
  RxJava 思考
 
-https://gank.io/post/560e15be2dca930e00da1083#toc_31
+https://gank.io/post/560e15be2dca930e00da1083#toc-31
 
 https://juejin.im/post/6844903670203547656
 
