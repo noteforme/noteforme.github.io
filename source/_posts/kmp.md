@@ -59,13 +59,13 @@ categories: DataStructure
 
 
 
+数据结构下 第十三章 串
+
 #### KMP算法
 
-![](1kmp/2021-06-17_21-27-43_kmp.png)
 
 
-
-算法主体
+算法主体![2021-06-17_21-27-43_kmp](kmp/2021-06-17_21-27-43_kmp.png)
 
 ```c++
 int match ( char* P, char* T ) {  //KMP算法
@@ -108,5 +108,37 @@ int* buildNext ( char* P ) { //构造模式串P的next表
 }
 ```
 
+
+
 https://www.bilibili.com/video/av3246487/
+
+
+
+**前缀是指不包含最后一个字符的所有以第一个字符开头的连续子串**。
+
+**后缀是指不包含第一个字符的所有以最后一个字符结尾的连续子串**。
+
+
+
+还一种理解 
+
+
+
+Prefix 长度为k的前缀  :起始于首字符的前k个字符
+
+suffix 长度为k的后缀 : 终止与末元素的最靠后的k个字符
+
+
+
+前缀
+
+字符串 :  ababacb
+
+前缀集合 ：不包括最后一个字符  a , ab , aba , abab , ababa, ababac
+
+后缀集合 : 不包括第一个字符 , b, cb, acb,bacb,abacb,babacb
+
+
+
+
 

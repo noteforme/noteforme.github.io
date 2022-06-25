@@ -182,6 +182,10 @@ $export PATH=$PATH:/Users/m/.npm-global/lib/node_modules/hexo-cli/bin
 
 #### 图片不显示
 
+这个图片怎么弄也没用，最终把资源包从旧的电脑，复制到新电脑解决了
+
+
+
 打开/node_modules/hexo-asset-image/index.js，将内容更换为下面的代码
 
 ```js

@@ -46,6 +46,42 @@ private void startLoadFromDisk() {
 1. mLock是异步操作
 2. 如果启动的时候，主线程读取，会导致启动变慢
 
+```java
+@Override
+public boolean getBoolean(String key, boolean defValue) {
+    synchronized (mLock) {
+        awaitLoadedLocked();
+        Boolean v = (Boolean)mMap.get(key);
+        return v != null ? v : defValue;
+    }
+}
+```
+
+
+
+```java
+@GuardedBy("mLock")
+private void awaitLoadedLocked() {
+    if (!mLoaded) {
+        // Raise an explicit StrictMode onReadFromDisk for this
+        // thread, since the real read will be in a different
+        // thread and otherwise ignored by StrictMode.
+        BlockGuard.getThreadPolicy().onReadFromDisk();
+    }
+    while (!mLoaded) {
+        try {
+            mLock.wait();
+        } catch (InterruptedException unused) {
+        }
+    }
+    if (mThrowable != null) {
+        throw new IllegalStateException(mThrowable);
+    }
+}
+```
+
+所有 getXXX() 方法都是同步的，在主线程调用 get 方法，必须等待 SP 加载完毕，会导致主线程阻塞，下面的代码，我相信小伙伴们并不陌生。
+
 
 
 #### commit vs apply

@@ -670,7 +670,13 @@ fun main() {
 
 
 
-##### Out In![](kotlin-object/2021-08-22_11.08.36_out.png)
+##### Out In
+
+协变 ，   逆变
+
+
+
+##### ![](kotlin-object/2021-08-22_11.08.36_out.png)
 
 
 

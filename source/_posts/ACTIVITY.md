@@ -48,7 +48,15 @@ onStop() :
 
 
 
-#### Activity luanch mode
+#### Activity launch mode
+
+启动模式
+
+1. Androidmanifest 设置 launch mode是对目标Activity而言
+
+2. Intent flag比 Androidmanifest的优先级更高
+
+
 
 ##### 4种启动模式
 

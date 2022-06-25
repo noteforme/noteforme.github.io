@@ -14,6 +14,12 @@ https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg
 
 
 
+
+
+![20220619224139](Hilt/20220619224139.jpg)
+
+
+
 依赖注入有什么用
 
 * 自动加载

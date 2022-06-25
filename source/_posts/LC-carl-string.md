@@ -212,3 +212,45 @@ private fun reverseStringBuilder(sb: StringBuilder, leftP: Int, rightP: Int) {
 深入分析用到了汇编指令,后面可以加强学习,其实底层的知识还是需要的，要不然没法深入下去了
 
 https://blog.csdn.net/jackgo73/article/details/111866491
+
+
+
+```kotlin
+fun reverseLeftWords(s: String, n: Int): String {
+    val sb = StringBuilder(s)
+    for (i in 0 until n) {
+        sb.append(s[i])
+        sb.deleteCharAt(0)
+    }
+    return sb.toString()
+}
+```
+
+
+
+**不能申请额外空间，只能在本串上操作**
+
+我觉得用carl的方法更好
+
+1. 反转区间为前n的子串
+2. 反转区间为n到末尾的子串
+3. 反转整个字符串
+
+https://programmercarl.com/%E5%89%91%E6%8C%87Offer58-II.%E5%B7%A6%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC
+
+
+
+#### [28. 实现 strStr()](https://leetcode.cn/problems/implement-strstr/)
+
+#####  暴力解法
+
+aabaabaaf
+
+aabaaf
+
+整体移动底下的字串，然后匹配
+
+
+
+
+
