@@ -61,11 +61,17 @@ categories: DataStructure
 
 数据结构下 第十三章 串
 
-#### KMP算法
+#### KMP算法 
 
 
 
 算法主体![2021-06-17_21-27-43_kmp](kmp/2021-06-17_21-27-43_kmp.png)
+
+KMP排除了三个位置
+
+
+
+
 
 ```c++
 int match ( char* P, char* T ) {  //KMP算法
@@ -114,9 +120,11 @@ https://www.bilibili.com/video/av3246487/
 
 
 
-**前缀是指不包含最后一个字符的所有以第一个字符开头的连续子串**。
 
-**后缀是指不包含第一个字符的所有以最后一个字符结尾的连续子串**。
+
+**前缀 :  包含首位字符 但不包含末位字符的子串**。
+
+**后缀： 包含末位字符但不包含首位字符的子串**。
 
 
 
@@ -140,5 +148,67 @@ suffix 长度为k的后缀 : 终止与末元素的最靠后的k个字符
 
 
 
+找到公共前后缀, 前缀移动到后缀的位置
 
+
+
+ kmp算法
+
+了解了前后缀，再看这个视频，会很清晰
+
+https://www.bilibili.com/video/BV1AY4y157yL
+
+
+
+KMP字符串匹配算法1 讲解分析不错 ,视频2运行碰到一些问题，也没听懂
+
+https://www.bilibili.com/video/BV1Px411z7Yo
+
+
+
+##### 【宫水三叶】简单题学 KMP 算法
+
+LeetCode这个题解，分析能看懂，next数组构建也能看懂，但是不知道为什么是这样构建的, p[j] != p[i] ，为什么是 j = next[j-1]?
+
+https://leetcode.cn/problems/implement-strstr/solution/shua-chuan-lc-shuang-bai-po-su-jie-fa-km-tb86/
+
+
+
+##### 代码随想录
+
+https://programmercarl.com/0028.%E5%AE%9E%E7%8E%B0strStr.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC
+
+宫水三叶中的问题 ，但是不知道为什么是这样构建的, p[j] != p[i] ，为什么是 j = next[j-1]?
+
+随想录下面有说到
+
+为什么要前一个字符的前缀表的数值呢，因为要找前面字符串的最长相同的前缀和后缀。
+
+
+
+关于随想录视频2，跟着他讲的代码流程走都清楚理解了，就是 next为什么回退, 原理没太明白.
+
+
+
+有空听听他讲的
+
+
+
+50分钟讲到回溯,比较清晰，不过用汉字比较看了感觉不太好
+
+https://www.bilibili.com/video/BV1S64y1u74P
+
+
+
+22分钟讲了回溯
+
+https://www.bilibili.com/video/BV1CY4y14751
+
+kmp优化偷懒技巧  中间加特殊符号# 连起来 没听懂
+
+
+
+最终还是看随想录视频理解
+
+i 后缀末位（从左到右） ， j前缀末位(也是最长公共前后缀的长度)
 

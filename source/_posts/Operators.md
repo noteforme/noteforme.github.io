@@ -117,3 +117,12 @@ https://www.kotlincn.net/docs/reference/basic-types.html#%E8%BF%90%E7%AE%97
 
 https://juejin.cn/post/6844903841293402126
 
+
+
+
+
+操作符优先级
+
+https://www.cs.bilkent.edu.tr/~guvenir/courses/CS101/op_precedence.html
+
+https://www.jianshu.com/p/9d2204712097

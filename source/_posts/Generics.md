@@ -243,8 +243,8 @@ Java用 ？  Kotlin 用 *
 对于List<?> 就不能向其添加数据。如果任何类型引用通过赋值给 List<?> 能添加数据，那定义泛型就没意义了
 
 ```java
- 		List<?> list = null;
- 		ArrayList<String> list3 = new ArrayList<>();
+ 			  List<?> list = null;
+ 		    ArrayList<String> list3 = new ArrayList<>();
         list3.add("AA");
         list3.add("BB");
         list3.add("CC");
@@ -270,7 +270,7 @@ Java用 ？  Kotlin 用 *
 
 **如果静态方法要使用泛型的话，必须将静态方法也定义成泛型方法** 
 
-```
+```java
 public class StaticGenerator<T> {
     ....
     ....
