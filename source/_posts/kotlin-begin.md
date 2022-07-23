@@ -22,7 +22,9 @@ val d: (String, Int) -> Unit // 函数类型 (String,Int) 接收参数 ，  Unit
 
 ##### kotlin lambda
 
-![Screen Shot 2020-08-01 at 6.39.38 PM](/Users/m/Documents/noteforme.github.io/source/_posts/kotlin/Screen Shot 2020-08-01 at 6.39.38 PM.png)
+
+
+![2020-08-01-6.39.38](kotlin-begin/2020-08-01-6.39.38.png)
 
 
 
@@ -66,8 +68,6 @@ val d: (String, Int) -> Unit // 函数类型 (String,Int) 接收参数 ，  Unit
     
     println(result)
 ```
-
-
 
 
 
@@ -572,8 +572,6 @@ https://juejin.im/post/5aa64556f265da238c3a51d3
 
 https://blog.csdn.net/wzgiceman/article/details/82689135
 
-
-
 oprator
 
 https://zhuanlan.zhihu.com/p/26546977
@@ -597,8 +595,6 @@ https://juejin.im/post/5eeffd73f265da02ec0bc42e
 
 
 
-
-
 #####  coroutines
 
 https://www.kotlincn.net/docs/reference/coroutines/coroutines-guide.html
@@ -609,7 +605,7 @@ https://blog.csdn.net/xlh1191860939/article/details/99641573
 
 
 
-Android kotlin计划
+##### Android kotlin计划
 
 ktx不是重心，重心在kotlin库如协程,paging3.0和compose
 
@@ -617,8 +613,54 @@ https://www.bilibili.com/video/BV1fV411r7Lw
 
 
 
-
-
-string to list. list. to string
+##### string to list. list. to string
 
 https://www.bezkoder.com/kotlin-convert-string-list/
+
+
+
+### const
+
+val 加不加const的区别
+
+Const 'val' are only allowed on top level, in named objects, or in companion objects
+
+const只能在下面3种情况加
+
+```kotlin
+val name = "jon"
+const val age = "joo"
+
+object ConstantObject {
+    val name = "jon"
+    const val age = "joo"
+}
+class ConstantClass {
+    companion object {
+        val name = "jon"
+        const val age = "joo"
+    }
+}
+```
+
+
+
+上面三种 反编译后，都是下面这种形式
+
+```java
+@NotNull
+private static final String name = "jon";
+@NotNull
+public static final String age = "joo";
+
+@NotNull
+public static final String getName() {
+   return name;
+}
+```
+
+
+
+不加const , private修饰，通过get获取， 会有一点点效率影响
+
+https://www.cnblogs.com/liuliqianxiao/p/7253116.html

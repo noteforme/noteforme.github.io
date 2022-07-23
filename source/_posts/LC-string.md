@@ -1,5 +1,5 @@
 ---
-title: LC-carl-string
+title: LC-string
 date: 2022-06-05 11:06:28
 tags: LEETCODE
 ---
@@ -324,6 +324,16 @@ fun initNext(needle: String): IntArray {
 
 
 #### [459. 重复的子字符串](https://leetcode.cn/problems/repeated-substring-pattern/)
+
+
+
+这题根据随想录的 公式 套的
+
+https://programmercarl.com/0459.%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC
+
+next[len - 1] = 7，next[len - 1] + 1 = 8 这句话的意思是. 这里数组统一减1，所以需要加1 == 8
+
+
 
 ```kotlin
 fun repeatedSubstringPattern(s: String): Boolean {

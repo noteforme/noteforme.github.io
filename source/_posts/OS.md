@@ -1,10 +1,27 @@
 ---
+
 title: OS
 comments: true
 date: 2020-12-28 15:32:28
 tags:
 categories: OS
 ---
+
+
+
+2020 南京大学 “操作系统：设计与实现” (蒋炎岩)
+
+https://www.bilibili.com/video/BV1N741177F5?p=1&vd_source=d4c5260002405798a57476b318eccac9
+
+https://github.com/NJU-ProjectN/am-kernels
+
+https://github.com/NJU-ProjectN/abstract-machine
+
+实验不开源,可以了解
+
+https://github.com/mansicer/NJU-OSlab-2019/issues/1
+
+https://nju-projectn.github.io/ics-pa-gitbook/ics2019/
 
 
 

@@ -1,8 +1,8 @@
 ---
-title: kotlin-senior
+title: kotlin-ext-func
 comments: true
 date: 2021-08-22 13:27:15
-tags: Kotlin
+tags:
 categories: Kotlin
 ---
 
@@ -10,7 +10,7 @@ categories: Kotlin
 
 ### 拓展函数
 
-![](kotlin-senior/2021-08-22_1.26.04_expand.png)
+![](kotlin-ext-func/2021-08-22_1.26.04_expand.png)
 
 ```kotlin
 //给字符串追加若干个 !
@@ -30,7 +30,7 @@ fun main() {
 
 ##### 泛型拓展函数
 
-![](kotlin-senior/2021-08-22_1.42.27_generic_extends.png)
+![](kotlin-ext-func/2021-08-22_1.42.27_generic_extends.png)
 
 ```kotlin
 //给字符串追加若干个 !
@@ -87,11 +87,14 @@ fun main() {
 }
 ```
 
+
+
 ##### 可空类拓展
 
 可以定义拓展函数用于可空类型，在可空类型上定义拓展函数，你可以直接在拓展函数体内借鉴可能出现的空值问题。
 
 ```kotlin
+//就是String后加?
 fun String?.printWithDefault(default:String) =print(this ?: default) //null打印默认值,不为null 打印自身
 
 fun main() {
@@ -105,7 +108,7 @@ fun main() {
 
 ##### Infix
 
-![2021-08-22_2.48.05_infix](kotlin-senior/2021-08-22_2.48.05_infix.png)
+![2021-08-22_2.48.05_infix](kotlin-ext-func/2021-08-22_2.48.05_infix.png)
 
 ```kotlin
 infix fun String?.printWithDefault(default:String) =print(this ?: default) //null打印默认值,不为null 打印自身
@@ -114,7 +117,7 @@ fun main() {
 //    val nullableString:String? = null
     val nullableString:String? = "hehe"
     nullableString.printWithDefault("abc") // nullableString?就不会设置默认值
-    nullableString printWithDefault "abc"
+    nullableString printWithDefault "abc"  // 加了infix可以简化成这样
     "girl".to(18)
     mapOf("girl" to 18)
 }
@@ -159,15 +162,17 @@ fun main() {
 }
 ```
 
-![2021-08-22_3.00.52_extent](kotlin-senior/2021-08-22_3.00.52_extent.png)
+![2021-08-22_3.00.52_extent](kotlin-ext-func/2021-08-22_3.00.52_extent.png)
 
 
 
 ##### Apply源码
 
-带接收者的函数字面量
 
-apply函数是如何做到支持接收者对象的隐式调用
+
+**T.()什么意思**
+
+这个就是 带接收者的函数字面量，拓展函数里自带了接收者对象的this隐式调用
 
 
 
@@ -176,9 +181,9 @@ public inline fun <T> T.apply(block: T.() -> Unit): T {
     block()
     return this
 }
+
+T.() -> Unit //T.() 表示 任何类型无参数的拓展函数，匿名函数也可以是拓展函数
 ```
-
-
 
 
 
@@ -193,7 +198,7 @@ fun <T> T.easyPrint(): Unit = println(this)
 
 
 // T.apply 返回的还是T
-// T.() -> Unit 传入拓展函数(泛型), 而不是普通的匿名函数 ???
+// T.() -> Unit 传入拓展函数(泛型), 而不是普通的匿名函数() -> Unit ,没用泛型T就会报错,T表示可以用任意类型
 // 拓展函数里自带了接收者对象的this隐式调用
 // 匿名函数，也可以是 拓展函数
 //普通的匿名函数 ()->Unit
@@ -213,6 +218,11 @@ fun main() {
     val file = File("xx").apply {
         this.setReadable(true) //默认又一个对象指向File
     }
+  
+    val file = File("xx").apply {
+        this.setReadable(true) //如果是 () -> Unit这样，这里就会报错，没有File类型了
+    }
+  
 
     //这里分解一下
     //1. 定义拓展函数
@@ -276,23 +286,23 @@ inline fun <reified T : RpcRequest, reified R : RpcResult, reified E : RpcTask> 
 
 ### 函数式编程
 
-![](kotlin-senior/2021-08-22_3.34.23_DSL.png)
+![](kotlin-ext-func/2021-08-22_3.34.23_DSL.png)
 
-![2021-08-22_3.39.01_math_func](kotlin-senior/2021-08-22_3.39.01_math_func.png)
+![2021-08-22_3.39.01_math_func](kotlin-ext-func/2021-08-22_3.39.01_math_func.png)
 
 函数类别
 
-![2021-08-22_3.43.38_qualify](kotlin-senior/2021-08-22_3.43.38_qualify.png)
+![2021-08-22_3.43.38_qualify](kotlin-ext-func/2021-08-22_3.43.38_qualify.png)
 
 
 
 ##### Map变换
 
-![2021-08-22_3.49.42_convert](kotlin-senior/2021-08-22_3.49.42_convert.png)
+![2021-08-22_3.49.42_convert](kotlin-ext-func/2021-08-22_3.49.42_convert.png)
 
 
 
-![2021-08-22_3.50.14_map](kotlin-senior/2021-08-22_3.50.14_map.png)
+![2021-08-22_3.50.14_map](kotlin-ext-func/2021-08-22_3.50.14_map.png)
 
 
 
@@ -308,9 +318,9 @@ println(animals)
 println(banies)
 ```
 
-![2021-08-22_3.59.20_map1](kotlin-senior/2021-08-22_3.59.20_map1.png)
+![2021-08-22_3.59.20_map1](kotlin-ext-func/2021-08-22_3.59.20_map1.png)
 
-![2021-08-22_3.59.53_map2](kotlin-senior/2021-08-22_3.59.53_map2.png)
+![2021-08-22_3.59.53_map2](kotlin-ext-func/2021-08-22_3.59.53_map2.png)
 
 ```kotlin
 val animalsLength = animals.map { it.length }
@@ -332,7 +342,7 @@ println(result)
 
 ##### 过滤
 
-![2021-08-22_4.07.58_filter](kotlin-senior/2021-08-22_4.07.58_filter.png)
+![2021-08-22_4.07.58_filter](kotlin-ext-func/2021-08-22_4.07.58_filter.png)
 
 ```kotlin
 val result = listOf("Jack","Jimmy","Rose","Tom").filter {
@@ -355,7 +365,7 @@ println(redItems)
 
 
 
-![2021-08-22_4.56](kotlin-senior/2021-08-22_4.56.png)
+![2021-08-22_4.56](kotlin-ext-func/2021-08-22_4.56.png)
 
 
 
@@ -418,11 +428,11 @@ println("Find value: $foldedValue")
 
 ##### 序列
 
-![2021-08-28_9.38.16_Sequence](kotlin-senior/2021-08-28_9.38.16_Sequence.png)
+![2021-08-28_9.38.16_Sequence](kotlin-ext-func/2021-08-28_9.38.16_Sequence.png)
 
 
 
-![2021-08-28_9.56.02_generateSequence](kotlin-senior/2021-08-28_9.56.02_generateSequence.png)
+![2021-08-28_9.56.02_generateSequence](kotlin-ext-func/2021-08-28_9.56.02_generateSequence.png)
 
 
 
@@ -454,7 +464,7 @@ fun main() {
 
 ##### 互操作性与可空性
 
-![2021-08-28_10.06.35_null](kotlin-senior/2021-08-28_10.06.35_null.png)
+![2021-08-28_10.06.35_null](kotlin-ext-func/2021-08-28_10.06.35_null.png)
 
 
 
@@ -520,7 +530,7 @@ fun makeProclamation() = "Greetings , beast!"
 
 ##### @JvmField
 
-![2021-08-28_10.54.47_field](kotlin-senior/2021-08-28_10.54.47_field.png)
+![2021-08-28_10.54.47_field](kotlin-ext-func/2021-08-28_10.54.47_field.png)
 
 ```java
 class SpellBook {
@@ -613,7 +623,7 @@ int maxSpellCount = SpellBook.MAX_SPELL_COUNT;
 
 ##### @Throws
 
-![2021-08-29_11.46.25_throwable](kotlin-senior/2021-08-29_11.46.25_throwable.png)
+![2021-08-29_11.46.25_throwable](kotlin-ext-func/2021-08-29_11.46.25_throwable.png)
 
 ​	
 
@@ -714,7 +724,7 @@ try {
 
 ##### Function
 
-![2021-08-29_12.13.48_function](kotlin-senior/2021-08-29_12.13.48_function.png)
+![2021-08-29_12.13.48_function](kotlin-ext-func/2021-08-29_12.13.48_function.png)
 
 ```kotlin
 //添加一个translator的函数，接收一个字符串

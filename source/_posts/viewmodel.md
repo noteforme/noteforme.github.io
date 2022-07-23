@@ -10,9 +10,8 @@ https://developer.android.com/topic/libraries/architecture/viewmodel
 
 
 
-<<<<<<< HEAD
-##### Share data between fragments
-=======
+Share data between fragments
+
 #### livedata和viewmodel关系
 
 viewmodel中的数据发生变化时通知页面
@@ -32,7 +31,6 @@ viewmodel中的数据发生变化时通知页面
 ![](viewmodel/2021-08-02_8.18_viewmodel.png)
 
 Share data between fragments
->>>>>>> d7906d4909f312e25743be4a4c56ad1539df1ea6
 
 It's very common that two or more fragments in an activity need to communicate with each other
 
@@ -82,7 +80,6 @@ https://codelabs.developers.google.com/codelabs/android-lifecycles/#0
 
 
 
-<<<<<<< HEAD
 ##### 使用
 
 ```java
@@ -157,4 +154,27 @@ viewModel = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFa
 
 
 https://www.bilibili.com/video/BV1Hh411a7LX?p=6&spm_id_from=pageDriver
->>>>>>> d7906d4909f312e25743be4a4c56ad1539df1ea6
+
+
+
+
+
+####  Unit test
+
+
+
+https://simplifiedcoding.in/all-courses
+
+https://simplifiedcoding.in/course/android-testing-tutorial-from-junit-to-espresso/start/1
+
+点 DOWNLOAD CODE OF SPENDS TRACKER 跳转后就有下载地址
+
+ spend-tracker
+
+
+
+https://www.youtube.com/watch?v=B-dJTFeOAqw
+
+
+
+https://www.youtube.com/watch?v=uH6-HNxK32E

@@ -9,6 +9,18 @@ categories: JAVA
 
 
 
+#### Colletion
+
+容器继承图
+
+![](https://upload-images.jianshu.io/upload_images/1683525-e44bb50cb9a67f49.jpeg?imageMogr2/auto-orient/strip|imageView2/2/w/1008/format/webp)
+
+
+
+https://www.jianshu.com/p/31ed50ab01e3
+
+
+
 #### Java List
 
 List  <-- ArrayList  LinkedList

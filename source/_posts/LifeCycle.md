@@ -19,12 +19,6 @@ categories: Jetpack
 ##### 解藕页面与组件
 
 ```java
-
-```
-
-
-
-```java
 chronometer = (MyChronometer)findViewById(R.id.chronometer);
 getLifecycle().addObserver(chronometer);
 ```
@@ -34,3 +28,16 @@ getLifecycle().addObserver(chronometer);
 ##### 解藕Service与组件
 
 https://blog.csdn.net/vitaviva/article/details/121224946
+
+
+
+#####  SavedStateHandle
+
+直接给viewmodel传值
+
+
+
+https://medium.com/mobile-app-development-publication/passing-intent-data-to-viewmodel-711d72db20ad
+
+
+

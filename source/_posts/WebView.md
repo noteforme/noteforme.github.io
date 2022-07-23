@@ -9,6 +9,8 @@ categories: ANDROID
 
 
 
+https://developer.android.com/guide/webapps/webview.html
+
 #### 使用
 
 ##### 加载apk包中的html页面
@@ -56,7 +58,7 @@ To bind a new interface between your JavaScript and Android code, call addJavasc
 ```
    inner class WebLoginInterface(context: Context?) {
         @JavascriptInterface
-        fun appLogin() {
+        fun showToast() {
             Timber.i("appLogin")
                 mWebView?.post {
                     val mSessionId = SharedPreferencesUtils.getParam(AppCtxUtil.getApp(), GsonUtil.SHARE_TOKEN_KEY, "") as String
@@ -91,7 +93,6 @@ To bind a new interface between your JavaScript and Android code, call addJavasc
 WebView webView = (WebView) findViewById(R.id.webview);
 webView.addJavascriptInterface(new WebAppInterface(this), "Android");
 ```
-https://developer.android.com/guide/webapps/webview.html
 http://www.jianshu.com/p/3c94ae673e2a
 
 http://www.jianshu.com/p/c20513cad758

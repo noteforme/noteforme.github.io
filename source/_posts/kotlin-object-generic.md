@@ -1,14 +1,14 @@
 ---
-title: kotlin-object
+title: kotlin-object-generic
 comments: true
 date: 2021-08-21 21:02:57
-tags: Kotlin
+tags:
 categories: Kotlin
 ---
 
+
+
 object目录下
-
-
 
 ### 对象相关
 
@@ -35,7 +35,7 @@ fun main() {
 
 ##### 类型检测 智能类型转换
 
-![](kotlin-object/2021-08-21_9.11.39_convert.png)
+![](kotlin-object-generic/2021-08-21_9.11.39_convert.png)
 
 ```kotlin
 println(p is Product)
@@ -66,7 +66,7 @@ Object关键字有三种方式
 
 2. 对象表达式
 
-   ![](kotlin-object/2021-08-21_9.30.54_expression.png)
+   ![](kotlin-object-generic/2021-08-21_9.30.54_expression.png)
 
    ```kotlin
    open class Player {
@@ -84,7 +84,7 @@ Object关键字有三种方式
 
 3. 伴生对象
 
-   ![](kotlin-object/2021-08-21_9.40.03_companion.png)
+   ![](kotlin-object-generic/2021-08-21_9.40.03_companion.png)
 
    ```kotlin
    /**
@@ -110,7 +110,7 @@ Object关键字有三种方式
 
 ##### 嵌套类 
 
-![](kotlin-object/2021-08-21_9.47.48_innerclass.png)
+![](kotlin-object-generic/2021-08-21_9.47.48_innerclass.png)
 
 ```kotlin
 class InnerClassTest {
@@ -129,11 +129,11 @@ fun main() {
 
 ##### 数据类
 
-![](kotlin-object/2021-08-21_9.52.32_data.png)
+![](kotlin-object-generic/2021-08-21_9.52.32_data.png)
 
 ##### 数据类使用条件
 
-![](kotlin-object/2021-08-21_11.01.56_data_condition.png)
+![](kotlin-object-generic/2021-08-21_11.01.56_data_condition.png)
 
 
 
@@ -178,7 +178,7 @@ fun main() {
 
 ##### Copy
 
-![](kotlin-object/2021-08-21_10.00_copy.png)
+![](kotlin-object-generic/2021-08-21_10.00_copy.png)
 
 
 
@@ -220,7 +220,7 @@ fun main() {
 
 ##### 解构声明
 
-![](kotlin-object/2021-08-21_10.13.25_component.png)
+![](kotlin-object-generic/2021-08-21_10.13.25_component.png)
 
 1. 普通类
 
@@ -262,7 +262,7 @@ fun main() {
 
 如果要将内置运算符应用在自定义类身上，你必须重写运算符函数，告诉编译器该如何操作自定义类
 
-![](kotlin-object/2021-08-21_10.24.07_overload.png)
+![](kotlin-object-generic/2021-08-21_10.24.07_overload.png)
 
 
 
@@ -306,14 +306,16 @@ fun main() {
 
 ##### 枚举类定义函数
 
+
+
 ```kotlin
-enum class Direction2(private val coordinate: Coordinate) {
+enum class Direction2(private val coordinate: Coordinate) { // 枚举里可以有属性
     EAST(Coordinate(1, 0)), //EAST()是Direction2的实例
     WEST(Coordinate(-1, 0)),
     SOUTH(Coordinate(-1, 0)),
     NORTH(Coordinate(1, 0));
 
-    //定义函数
+    //枚举里可以定义函数
     fun updateCoordinate(playerCoordinate: Coordinate) =
             Coordinate(playerCoordinate.x + coordinate.x, playerCoordinate.y + coordinate.y)
 }
@@ -321,6 +323,7 @@ enum class Direction2(private val coordinate: Coordinate) {
 fun main() {
     println(Direction2.EAST.updateCoordinate(Coordinate(10, 20)))
 }
+//打印 11 20
 ```
 
 
@@ -329,20 +332,27 @@ fun main() {
 
 可以用来表示一组子类型的闭集，枚举类就是一种简单的ADT
 
-![](kotlin-object/2021-08-21_10.40.31_enum_data.png)
+![](kotlin-object-generic/2021-08-21_10.40.31_enum_data.png)
 
 
 
 ##### 密封类
 
-![](kotlin-object/2021-08-21_10.42.08_closure_sealed.png)
+![](kotlin-object-generic/2021-08-21_10.42.08_closure_sealed.png)
+
+
+
+  class Qualified(val licenseId:String):LicenseStatus2() 保存数据，如果用emum类 会很麻烦
+
+
 
 ```kotlin
 //密封类
 sealed class LicenseStatus2 {
-    object UnQualified:LicenseStatus2()
+  //下面3个类都是 密封类的子类
+    object UnQualified:LicenseStatus2() // 没有属性 用单例，否则每次够构建新的对象
     object Learning:LicenseStatus2()
-    class Qualified(val licenseId:String):LicenseStatus2() //用来保存数据
+    class Qualified(val licenseId:String):LicenseStatus2() //密封类的特性 用来保存数据,可能licenseId不一样，所以用class
 }
 
 class Driver2(var status: LicenseStatus2){
@@ -357,7 +367,7 @@ class Driver2(var status: LicenseStatus2){
 
 fun main() {
     val status1 = LicenseStatus2.Learning
-    val status = LicenseStatus2.Qualified("2333003")
+    val status = LicenseStatus2.Qualified("2333003") // 可以直接传驾驶证编号
     val driver = Driver2(status)
     println(driver.checkLicense())
 }
@@ -367,7 +377,7 @@ fun main() {
 
 ##### 接口
 
-![](kotlin-object/2021-08-22_9.59.22_interface.png)
+![](kotlin-object-generic/2021-08-22_9.59.22_interface.png)
 
 
 
@@ -420,7 +430,7 @@ class Car(_name:String,override  var wheels:Int=4):Movable{
 
 抽象类
 
-![](kotlin-object/2021-08-22_10.13.48_abstract.png)
+![](kotlin-object-generic/2021-08-22_10.13.48_abstract.png)
 
 ```kotlin
 abstract class Gun(val range: Int) {
@@ -445,7 +455,7 @@ class AK47(val price: Int) : Gun(range = 500){
 
 ##### 定义泛型类
 
-![](kotlin-object/2021-08-22_10.25.51_generics.png)
+![](kotlin-object-generic/2021-08-22_10.25.51_generics.png)
 
 magicBox1.kt
 
@@ -462,7 +472,7 @@ fun main() {
 }
 ```
 
-![](kotlin-object/2021-08-22_20.30.09_notice.png)
+![](kotlin-object-generic/2021-08-22_20.30.09_notice.png)
 
 
 
@@ -480,7 +490,7 @@ fun main() {
    class MagicBox<T>(item: T) {
        var available = false
        protected var subject: T = item
-       fun fetch(): T? {
+       fun fetch(): T? { // 泛型函数
            return subject.takeIf { available } //当available =true，返回接收者对象
        }
    }
@@ -535,7 +545,7 @@ fun main() {
     }
 
     val fetch = box1.fetch {
-        Man(it.name, it.age.plus(15))
+        Man(it.name, it.age.plus(15)) // Boy 转成Man了
     }
 }
 ```
@@ -644,7 +654,7 @@ class MagicBox<T : Human>(vararg item: T) {
         return subjectModFunction(subject[index]).takeIf { available }
     }
 
-    operator fun get(index: Int): T? = subject[index]?.takeIf { available }
+    operator fun get(index: Int): T? = subject[index]?.takeIf { available } //运算符重载
 
 }
 
@@ -662,7 +672,7 @@ fun main() {
     val fetch = box1.fetch(2) {
         Man(it.name, it.age.plus(15))
     }
-    box1[0] //重写get
+    box1[0] //运算符重载后 重写get，就能这样操作了
 }
 ```
 
@@ -670,42 +680,20 @@ fun main() {
 
 
 
-##### Out In
-
-协变 ，   逆变
-
-
-
-##### ![](kotlin-object/2021-08-22_11.08.36_out.png)
-
-
-
-![](kotlin-object/2021-08-22_11.11.09_IN.png)
-
-
-
-invariant（不变）
+##### invariant 不变
 
 如果泛型类即将泛型类型作为函数参数，又将泛型类型作为函数的输出，那么即不用out也不用in.
 
-
-
-为什么需要in out
-
-如果泛型有继承关系，可以直接用,Java只能用具体类
-
-```java
-public class GenericTypeTest {
-    public static void main(String[] args) {
-//        ArrayList<CharSequence> list = new ArrayList<String>();
-    }
+```kotlin
+interface ProductionConsumer<T> {
+    fun product(): T
+    fun consume(item: T)
 }
 ```
 
-![](kotlin-object/2021-08-22_11.37.32_why_inout.png)
 
-1. 父类泛型对象可以赋值给子类泛型对象 ， 用in. 类似super
-2. 子类泛型对象可以赋值给父类泛型对象，  用out 类似extends
+
+
 
 ```kotlin
 // out
@@ -767,18 +755,89 @@ class AmericanPeople : Consumer<Burger>{
         println("Eat Burger")
     }
 }
+```
 
 
+
+##### Out生产
+
+##### ![](kotlin-object-generic/2021-08-22_11.08.36_out.png)
+
+```kotlin
+interface Production<out T> {
+    fun product(): T
+}
+```
+
+
+
+1. 子类泛型对象可以赋值给父类泛型对象 如 下面production2
+
+2. java. T extends Food  等于kotlin   T : Food
+
+3. 泛型有继承关系，可以直接赋值，java做不到,只能强转
+
+4.  ArrayList<CharSequence> list = new ArrayList<String>(); // java里面这种写法报错
+
+   
+
+
+
+**java只有 ? super Food 和 ? extends Food , 没有对泛型T , in out这种操作** 
+
+```kotlin
 fun main() {
     val production1 : Production<Food> = FoodStore() // 理解时，别看方法只看类就可以了，父子类关系
 
-    //子类泛型对象可以复制给负累泛型对象，用out
-    val production2 : Production<Food> = FastFoodStore() // 就是因为有 out，out删除就报错
+    //子类泛型对象可以赋值给父类泛型对象，用out
+    val production2 : Production<Food> = FastFoodStore() // 就是因为有 out，out删除就报错, java这种写法直接报错
+}
+```
 
 
-    //父类泛型对象可以赋值给子类泛型对象 ， 用in
+
+为什么需要 out
+
+如果泛型有继承关系，可以直接赋值, Java只能用具体类
+
+```java
+public class GenericTypeTest {
+    public static void main(String[] args) {
+        //String是CharSequence的子类
+//        ArrayList<CharSequence> list = new ArrayList<String>(); // java里面这种写法报错
+    }
+}
+```
+
+![](kotlin-object-generic/2021-08-22_11.37.32_why_inout.png)
+
+##### In 输入
+
+
+
+![](kotlin-object-generic/2021-08-22_11.11.09_IN.png)
+
+
+
+```kotlin
+interface Consumer<in T> {
+    //    fun consume(item:T):T //Type parameter T is declared as 'in' but occurs in 'out' position in type T
+    fun consume(item: T)
+}
+```
+
+
+
+1. 父类泛型对象可以赋值给子类泛型对象 ， 用in
+
+   
+
+```kotlin
+fun main(){
+	    //父类泛型对象可以赋值给子类泛型对象 ， 用in
     val consumer1:Consumer<Burger> = EveryBody()
-//    val consumer2:Consumer<Food> = ModernPeople()//Required:Consumer<Food> Found : ModernPeople
+//    val consumer2:Consumer<Food> = ModernPeople()//Required:Consumer<Food> Found : ModernPeople java里面必须要具体的类型,像上面的ArrayList
+  
     val consumer2:Consumer<Burger> = ModernPeople()
     consumer2.consume(Burger())
 //    consumer2.consume(Food())
@@ -788,23 +847,30 @@ fun main() {
 
 
 
+
+
 ##### Reified
 
-![](kotlin-object/2021-08-22_reified.png)
+
+
+![](kotlin-object-generic/2021-08-22_reified.png)
 
 ```kotlin
-class MagicBox<T : Human>() {
-    //随机产生一个对象，如果不是指定类型的对象，就通过backup函数生成一个指定类型的对象
-    /*  fun <T> randomOrBackup(backup: () -> T): T {    // backup: ()->T 函数 和randomOrBackup返回的都是T类型
-          val items = listOf(Boy("jocnk", 20), Man("john", 20))
-          val random = items.shuffled().first()
-          return if (random is T) {
-              random
-          } else {
-              backup()
-          }
-      } */
 
+class MagicBox<T : Human>() { // 这里的T类型没用
+    //随机产生一个对象，如果不是指定类型的对象，就通过backup函数生成一个指定类型的对象
+//    fun <T> randomOrBackup(backup: () -> T): T {    // backup: ()->T 函数 和randomOrBackup返回的都是T类型
+//          val items = listOf(Boy("jocnk", 20), Man("john", 20))
+//          val random = items.shuffled().first()
+//          return if (random is T) {
+//              random
+//          } else {
+//              backup()
+//          }
+//      }
+
+    //随机产生一个对象，如果不是指定类型T的对象，就通过backup函数生成一个指定类型T的对象
+    // 根据传进来的Man对象类型，推断T类型为Man
     // backup: ()->T 函数 和randomOrBackup返回的都是T类型
     //inline  reified一起使用
     inline fun <reified T> randomOrBackup(backup: () -> T): T {
@@ -819,6 +885,15 @@ class MagicBox<T : Human>() {
     }
 }
 
+fun main() {
+    val box1: MagicBox<Man> = MagicBox() // 这里T类型不起作用
+    // 由backup函数推断出来T的类型
+    val subject = box1.randomOrBackup { Man("Jimmy", 28) }  //根据传进来的Man对象类型，推断T类型为Man
+    println(subject)
+}
+
+
+
 open class Human(val age: Int)
 class Boy(val name: String, age: Int) : Human(age){
     override fun toString(): String {
@@ -831,10 +906,4 @@ class Man(val name: String, age: Int) : Human(age){
     }
 }
 
-fun main() {
-    val box1: MagicBox<Man> = MagicBox()
-    // 由backup函数推断出来T的类型
-    val subject = box1.randomOrBackup { Man("Jimmy", 28) } //Man推断T类型
-    println(subject)
-}
 ```

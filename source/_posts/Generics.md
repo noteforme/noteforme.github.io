@@ -478,6 +478,10 @@ https://www.bilibili.com/video/BV1xJ411n77R?p=7
 
 #### kotlin
 
+
+
+out in 和 extend super没关系
+
 ##### out
 
 只能获取 不能修改
@@ -567,4 +571,14 @@ Person person = constructor.newInstance();
 
 
 $i$f$withM 有时候看到$以为是操作符，其实就是$i$f$withM整体的变量
+
+
+
+```
+Array<out Any>  对应于 Java 的 Array<? extends Object>
+
+Array<in String> 对应于 Java 的 Array<? super String>
+```
+
+
 

@@ -1,8 +1,8 @@
 ---
-title: kotlin-medium
+title: kotlin-collection-class
 comments: true
 date: 2021-08-21 16:48:52
-tags: Kotlin
+tags:
 categories: Kotlin
 ---
 
@@ -16,7 +16,7 @@ List.kt
 
 ##### List创建与元素获取
 
-![](kotlin-medium/2021-08-21_getelseif.png)
+![](kotlin-collection-class/2021-08-21_getelseif.png)
 
 ```kotlin
 val list = listOf("girl1", "girl2", "girl3")
@@ -29,7 +29,7 @@ println(list.getOrNull(3) ?: "Unknown")
 
 ##### 可变列表
 
-![](kotlin-medium/2021-08-21_16-57-45_mutable.png)
+![](kotlin-collection-class/2021-08-21_16-57-45_mutable.png)
 
 
 
@@ -47,7 +47,7 @@ mutableList.toList() // 可变转不可变
 
 ##### mutator函数
 
-![](kotlin-medium/2021-08-21_17-01-19_mutaber.png)
+![](kotlin-collection-class/2021-08-21_17-01-19_mutaber.png)
 
 ```kotlin
 mutableList += "John"
@@ -127,7 +127,7 @@ val array = arrayOf(File("xxx"), File("yyyy"))
 
 
 
-![](kotlin-medium/2021-08-21_17-32-32_array.png)
+![](kotlin-collection-class/2021-08-21_17-32-32_array.png)
 
 
 
@@ -135,7 +135,7 @@ val array = arrayOf(File("xxx"), File("yyyy"))
 
 
 
-![](kotlin-medium/2021-08-21_17-51-48_map_read.png)
+![](kotlin-collection-class/2021-08-21_17-51-48_map_read.png)
 
 ##### map获取
 
@@ -173,7 +173,7 @@ println(mutableMap)
 
 ### 定义类
 
-![](kotlin-medium/2021-08-211_8-32-51_field_class.png)
+![](kotlin-collection-class/2021-08-211_8-32-51_field_class.png)
 
 ```kotlin
 Class Player{
@@ -403,11 +403,11 @@ public Student4(@NotNull String _name) {  //调用这个构造方法
 }
 ```
 
-![](kotlin-medium/2021-08-21_20-07-53_class_init_order.png)
+![](kotlin-collection-class/2021-08-21_20-07-53_class_init_order.png)
 
 ##### 延迟初始化
 
-![](kotlin-medium/2021-08-21_8.18.35_lateinit.png)
+![](kotlin-collection-class/2021-08-21_8.18.35_lateinit.png)
 
 ```kotlin
 class Player4 {

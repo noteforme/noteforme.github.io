@@ -1,5 +1,5 @@
 ---
-title: LC-carl-array
+title: LC-array
 date: 2022-05-02 13:07:27
 tags: LEETCODE
 ---

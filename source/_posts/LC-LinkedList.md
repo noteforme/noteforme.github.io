@@ -1,5 +1,5 @@
 ---
-title: LC-carl-LinkedList
+title: LC-LinkedList
 date: 2022-05-04 13:40:18
 tags: LEETCODE
 ---

@@ -47,6 +47,27 @@ public class Request {
 
 
 ```java
+public abstract class Manager {
+    protected String name;
+    protected Manager superior;//管理者上级
+
+    public Manager(String name) {
+        this.name = name;
+    }
+
+    // 设置管理者上级
+    public void setSuperior(Manager superior) {
+        this.superior = superior;
+    }
+
+    //申请请求
+    abstract void requestApplications(Request request);
+}
+```
+
+
+
+```java
 public class CommonManager extends  Manager {
     public CommonManager(String name) {
         super(name);
@@ -137,3 +158,9 @@ commonManager.requestApplications(request1);
 ![2021-09-12_8.44.01_function](DesignPattern-Chain/2021-09-12_8.44.01_function.png)
 
 https://www.bilibili.com/video/BV1G4411c7N4?p=149&spm_id_from=pageDriver
+
+
+
+
+
+https://blog.csdn.net/weixin_45203607/article/details/120238491

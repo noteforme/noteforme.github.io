@@ -1,8 +1,8 @@
 ---
-title: kotlin_elementary
+title: kotlin-func
 comments: true
 date: 2021-08-19 22:29:06
-tags: Kotlin
+tags:
 categories: Kotlin
 ---
 
@@ -16,7 +16,7 @@ https://www.jianshu.com/p/8eb0623f08c6
 
 ##### Kotlin内置数据类型
 
-![](kotlin-elementary/2021-08-19_datatype.png)
+![](kotlin-func/2021-08-19_datatype.png)
 
 
 
@@ -182,6 +182,12 @@ println(totalS)
 
 
 
+##### 函数类型与隐式返回
+
+
+
+![20220710150716](kotlin-func/20220710150716.jpg)
+
 
 
 ```kotlin
@@ -208,6 +214,10 @@ println(totalS)
 
 
 ##### 匿名函数参数
+
+![20220710151319](kotlin-func/20220710151319.jpg)
+
+
 
 ```kotlin
     val helloFunction2:(String)->String = {name->   // name传入参数,String参数类型
@@ -353,11 +363,13 @@ showOnBoard("小玩具") { goodsName: String, hour: Int ->
 
 
 
-内联函数
+##### 内联函数
 
 
 
-![](kotlin-elementary/2021-08-20_lambda_inline.png)
+类似于宏替换
+
+![](kotlin-func/2021-08-20_lambda_inline.png)
 
 
 
@@ -502,9 +514,46 @@ kotlin中的lambda就是闭包,上面
 2. { goodsName: String ->  "${currentYear}年, 双11 ${goodsName}促销倒计时: $hour 小时}  也在configDiscountWords()定义
 3.  2 引用了currentYear,hour变量. 所以形成闭包
 
-<img src="/Users/m/Documents/noteforme.github.io/source/_posts/kotlin-elementary/2021-08-20_Closure.png" style="zoom:66%;" />
+<img src="kotlin-func/2021-08-20_Closure.png" style="zoom:66%;" />
 
 https://www.bilibili.com/video/BV1wf4y1s7TG?p=34&spm_id_from=pageDriver
+
+
+
+##### 35 lambda与匿名内部类
+
+
+
+![20220710163428](kotlin-func/20220710163428.jpg)
+
+
+
+java传递函数的方式
+
+
+
+```java
+public class JavaAnonymousClass {
+    public static void main(String[] args) {
+        showOnBoard("牙膏", new DiscountWords() {
+            @Override
+            public String getDiscountWords(String goodsName, int hour) {
+                int currentYear = 2023;
+                return String.format("%s年，双11 %s 促销倒计时 %d小时 ", currentYear, goodsName, hour);
+            }
+        });
+    }
+
+    public interface DiscountWords {
+        String getDiscountWords(String goodsName, int hour);
+    }
+
+    public static void showOnBoard(String goodsName, DiscountWords discountWords) {
+        int hour = new Random().nextInt(24);
+        System.out.println(discountWords.getDiscountWords(goodsName, hour));
+    }
+}
+```
 
 
 
@@ -584,7 +633,7 @@ class UnskilledException : IllegalArgumentException("操作不当")
 
 kotlin标准库 提供了一些便利函数，使用这些内置函数，可以跑出带自定义信息的异常，这些便利函数叫做先决条件函数。也可以用它定义先决条件，条件必须满足，目标代码才能执行。
 
-<img src="kotlin-elementary/2021-08-21_kotlin_suggest.png" style="zoom:50%;" />
+<img src="kotlin-func/2021-08-21_kotlin_suggest.png" style="zoom:50%;" />
 
 ```kotlin
 fun checkOperation(number: Int?) {
@@ -695,7 +744,7 @@ str1.forEach {
 
 kotlin所有的数字类型都是有符号的，也就是既可以表示正数，也可以表示负数。
 
-![](kotlin-elementary/2021-08-21_data_type.png)
+![](kotlin-func/2021-08-21_data_type.png)
 
 
 
@@ -858,7 +907,7 @@ println(fileContents)
 
 
 
-![](kotlin-elementary/2021-08-21_takeif.png)
+![](kotlin-func/2021-08-21_takeif.png)
 
 
 
