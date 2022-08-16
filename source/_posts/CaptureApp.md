@@ -32,7 +32,7 @@ https://www.jianshu.com/p/e8dd1091d6d7
 
 https://www.jianshu.com/p/0caaea590c8c
 
-1. keychain 
+1. Other -> keychain Access
 
    
 

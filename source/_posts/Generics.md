@@ -8,6 +8,200 @@ categories: JAVA
 
 
 
+https://www.bilibili.com/video/BV1T441117u8
+
+#### 泛型
+
+##### 继承类型
+
+```java
+class Button extends TextView
+```
+
+不能把子类的List对象 ArrayList<Button>   赋值给父类的List引用 List<TextView>
+
+Java
+
+##### ? extends TextView 
+
+```java
+ List<TextView> textViews=new ArrayList<>();
+  
+ List<TextView> textViews=new ArrayList<Button>(); //报错
+ 
+// 解决办法
+ List<? extends TextView> textViews =new ArrayList<Button>(); //解除了赋值限制
+
+//新增了限制，  只能消费使用,不能生产
+ TextView textView = new TextView(this);
+ textViews.add(textView); //报错， 不能调用textViews的包含 类型参数的方法
+
+ TextView textView = textViews.get(0); // 没有问题
+
+
+ List<Button> buttons=new ArrayList<Button>();
+ textView = buttons;//报错
+
+```
+
+
+
+##### ? super Button
+
+```java
+ArrayList<Button> textViews1 = new ArrayList<TextView>();
+
+
+ArrayList<? super Button> textViews2 = new ArrayList<TextView>();
+
+ //新增了限制
+Button button = textViews2.get(0); //报错, 不能使用，只能生产
+
+textViews1.add(new Button(this)); // 没有问题
+
+```
+
+
+
+##### Java kotlin对比
+
+Java
+
+```java
+List<? extends TextView> textViews;
+
+List<? super Button> textViews;
+```
+
+Kotlin
+
+```kotlin
+var textVies: List<out TextView>
+var textVies: List<in TextView>
+```
+
+
+
+##### kotlin新增用法
+
+表示我这个类型,这个类只用来输出或者输入
+
+```kotlin
+interface Producer<out T>{
+	fun produce(): T
+}
+
+interface Consumer<in T>{
+	fun consume(product:T)
+}
+```
+
+
+
+##### *用法
+
+Java
+
+```java
+List<?> textViews;
+相当于
+List<? extends Object> textViews;
+```
+
+
+
+Kotlin
+
+```kotlin
+var textVies: List<*>
+相当于
+var textVies: List<out Any>
+```
+
+
+
+如果类型声明里，已经又了out或者in,这个限制在变量声明时也依然存在,不会被*去掉
+
+```kotlin
+interface Counter<out T : Number>{
+	fun count(): T
+}
+
+var counter: Counter<*> =;
+那么Counter<*>就相当于下面的情况 Counter<out Number>
+var counter: Counter<out Number>
+```
+
+
+
+##### 类型声明上界
+
+注意这里是T extend Animal ，和带? extend Animal  的声明不是一个东西
+
+java
+
+```java
+class Monster<T extends Animal & Food>{
+
+}
+```
+
+
+
+kotlin
+
+```kotlin
+class Monster<T : Animal>{} // 一个上界
+
+class Monster<T> where T : Animal, T : Food{} // 多个上界
+
+```
+
+
+
+##### refield
+
+java
+
+```java
+	<T> void printIfTypeMatch(Object item){
+    if(item instanceof T){} // 报错，不能检查一个对象,是不是一个T的实例
+  }
+```
+
+kotlin
+
+```kotlin
+	fun	<T> void printIfTypeMatch(item : Any){
+    if(item instanceof T){} // 报错，不能检查一个对象,是不是一个T的实例
+  }
+
+
+	inline fun	<reified T> void printIfTypeMatch(item : Any){//reified自身限制，只能用在inline
+    if(item instanceof T){} // 正常编译
+  }
+```
+
+
+
+![20220724113155](Generics/20220724113155.jpg)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #### 泛型类
 
 ```java

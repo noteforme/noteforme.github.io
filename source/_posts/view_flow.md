@@ -1,6 +1,6 @@
 ---
 
-title: View_OVER
+title: view_flow
 comments: true
 date: 2017-11-12 21:24:33
 tags: VIEW
@@ -9,7 +9,7 @@ categories: VIEW
 
 自定义View函数调用流程 
 
- ![流程](View_OVER\2019-04-29-71649.jpg)
+ ![](view_flow/2019-04-29-71649.jpg)
 
 
 
@@ -33,7 +33,7 @@ http://gcssloop.github.io/customview/CustomViewProcess
 
 
 
- ![流程](View_OVER\2021-02-21_at_5.19.41.png)
+ ![](view_flow\2021-02-21_at_5.19.41.png)
 
 
 
@@ -74,7 +74,7 @@ setMeasuredDimension(width, height)
 
 加载布局
 
-<img src="View_OVER\2021-02-16_at_3.37.39.png" alt="图" style="zoom:80%;" />
+<img src="view_flow\2021-02-16_at_3.37.39.png" alt="图" style="zoom:80%;" />
 
  
 

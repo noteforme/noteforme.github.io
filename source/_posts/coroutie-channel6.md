@@ -6,11 +6,17 @@ tags: coroutie
 
 
 
-channel
+#### channel
 
+##### 78 channel
 
+<img src="coroutie-channel/2022-04-23_9.17.16.png" alt="2022-04-23_9.17.16" style="zoom: 67%;" />
 
 channel是并发安全的队列,队列一定存在缓冲区满了，并且没有人调用receive取走函数，send就挂起
+
+
+
+
 
 82. produce与actor
 
@@ -20,4 +26,3 @@ channel是并发安全的队列,队列一定存在缓冲区满了，并且没有
 
     
 
-<img src="coroutie-channel/2022-04-23_9.17.16.png" alt="2022-04-23_9.17.16" style="zoom: 67%;" />

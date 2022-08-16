@@ -8,9 +8,23 @@ categories: ANDROID
 
 ##### introduce
 
-https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout
+https://developer.android.google.cn/reference/androidx/constraintlayout/widget/ConstraintLayout
 
 https://juejin.cn/post/6949186887609221133#heading-6
+
+
+
+##### Widgets dimension constraints
+
+widget的尺寸可以通过设置`android:layout_width`和`android:layout_height`的属性值来指定，有如下三种方式：
+
+- 使用具体值
+- 使用`WRAP_CONTENT`，这样widget会计算自身的尺寸
+- 使用`0dp`，这等于“`MATCH_CONSTRAINT`”
+
+
+
+![img](https://developer.android.google.cn/static/reference/androidx/constraintlayout/widget/resources/images/dimension-match-constraints.png)
 
 ##### Group
 
@@ -31,106 +45,7 @@ https://juejin.cn/post/6949186887609221133#heading-6
 
 ​	`findViewById(R.id.gp_2).setVisibility(View.INVISIBLE);  doesnt not work`
 
-
-
-
-
 https://juejin.cn/post/6844903875569254414#heading-17
-
-
-
-#####  Here is the list of available constraints (Fig. 2):
-
-layout_constraintBaseline_toBaselineOf    	 //元素对齐 
-layout_constraintStart_toEndOf		控件开始位置 相对另一控件的结束位置
-
-They all take a reference id to another widget, or the parent (which will reference the parent container, i.e. the ConstraintLayout):
-
-```
-<Button android:id="@+id/buttonB" ...
-                 app:layout_constraintLeft_toLeftOf="parent" />
-```
-
-layout_constraintBaseline_toBaselineOf : 表示此控件与某个空间水平对齐
-
-#####  Margins
-
-If side margins are set, they will be applied to the corresponding constraints (if they exist) (Fig. 3), enforcing the margin as a space between the target and the source side. The usual layout margin attributes can be used to this effect:
-
-
-android:layout_marginBottom
-Note that a margin can only be positive or equals to zero, and takes a Dimension.
-
-Margins when connected to a GONE widget
-When a position constraint target's visibility is View.GONE, you can also indicate a different margin value to be used using the following attributes:
-
-layout_goneMarginStart
-
-layout_goneMarginBottom
-
-Centering positioning and bias
-A useful aspect of ConstraintLayout is in how it deals with "impossible" constrains. For example, if we have something like:
-
-```
-           <android.support.constraint.ConstraintLayout ...>
-             <Button android:id="@+id/button" ...
-                 app:layout_constraintLeft_toLeftOf="parent"
-                 app:layout_constraintRight_toRightOf="parent/>
-           </>
-         
-```
-
- 
-
-##### Start_End
-
-```
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    //全局居中
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/button1"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="button1"
-        app:layout_constraintBottom_toBottomOf="parent" //底部以父布局的底部为约束
-        app:layout_constraintEnd_toEndOf="parent" //右侧结束以父布局的右侧为约束
-        app:layout_constraintStart_toStartOf="parent" //左侧起始以父布局的左侧为约束
-        app:layout_constraintTop_toTopOf="parent"/> //顶部以父布局的顶部为约束
-
-
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/button2"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
-        android:text="button2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-
-    // 以 button2 为约束的纵向居中
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="button3"
-        app:layout_constraintBottom_toBottomOf="@id/button2" //底部以button2的底部为约束
-        app:layout_constraintStart_toEndOf="@id/button2" 
-        app:layout_constraintTop_toTopOf="@id/button2"/>  //顶部以button2的顶部为约束
-
-
-</android.support.constraint.ConstraintLayout>
-
-```
-
-
 
 
 
@@ -170,72 +85,94 @@ app:layout_constraintRight_toRightOf="parent"
 
 #####  然后是比例
 
-#####  应用
 
-* 居中显示 : 四个方向添加约束
 
-```
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+##### **Bias**
 
-    android:id="@+id/constraint_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+上面的水平居中,是使用的与父亲左侧对齐+与父亲右侧对齐.  可以理解为左右的有一种约束力,默认情况下,左右的力度是一样大的,那么view就居中了.
 
+当左侧的力度大一些时,view就会偏向左侧.就像下面这样.
+
+
+
+> layout_constraintHorizontal_bias 水平约束力
+> layout_constraintVertical_bias 垂直约束力
+
+
+
+![](https://developer.android.google.cn/static/reference/androidx/constraintlayout/widget/resources/images/centering-positioning-bias.png)
+
+```xml
+<android.support.constraint.ConstraintLayout
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/constraint_layout"
-        app:layout_constraintEnd_toEndOf="@id/constraint_layout"
-        app:layout_constraintStart_toStartOf="@id/constraint_layout"
-        app:layout_constraintTop_toTopOf="@+id/constraint_layout">
-    </Button>
-</android.support.constraint.ConstraintLayout>
+        android:text="按钮1"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+</android.support.constraint.ConstraintLayout>    
+```
+
+上面代码就偏左约束
+
+
+
+##### WRAP_CONTENT: 强制约束
+
+我们可能希望使用`WRAP_CONTENT`，同时仍然强制执行约束以限制最终的尺寸
+
+- `app:layout_constrainedWidth=”true|false”`
+
+
+
+button1居中显示，button2约束在button1的右边、parent的左边：
+
+```xml
+<Button
+    android:id="@+id/button1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="aaaaaaa"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"/>
+
+<Button
+    android:id="@+id/button2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="22222222222222222222222222222"
+    app:layout_constrainedWidth="true"
+    android:layout_marginTop="40dp"
+    app:layout_constraintTop_toTopOf="@id/button1"
+    app:layout_constraintStart_toEndOf="@id/button1"
+    app:layout_constraintEnd_toEndOf="parent"/>
 
 ```
 
-* 相对邻里控件 居中
 
-```
-	   <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="@dimen/dimen_16"
-        android:paddingRight="@dimen/dimen_16">
 
-        <TextView
-            android:id="@+id/tv_calculate_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_rectangle_blue"
-            android:paddingBottom="4dp"
-            android:paddingLeft="@dimen/dimen_16"
-            android:paddingRight="@dimen/dimen_16"
-            android:paddingTop="4dp"
-            android:text="三个月"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_12"
-            app:layout_constraintStart_toStartOf="parent" />
+对button2使不使用`app:layout_constrainedWidth="true"`的效果如下：
 
-        <TextView
-            android:id="@+id/tv_calculate_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_16"
-            android:text="￥ 2000"
-            android:textColor="#0097fc"
-            android:textSize="@dimen/text_size_12"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_calculate_date"
-            app:layout_constraintTop_toTopOf="@+id/tv_calculate_date" />
+![constraintlayout-constrainted-width-before](ConstraintLayout/constraintlayout-constrainted-width-before.png)
 
-    </android.support.constraint.ConstraintLayout>
+![constraintlayout-constrainted-width-after](ConstraintLayout/constraintlayout-constrainted-width-after.png)
 
-```
+
+
+约束width前 & 约束width后
+
+
+
+##### 占用父布局的比例
+
 
 
 #####  chain
+
+Chains are controlled by attributes set on the first element of the chain (the "head" of the chain):
+
+
 
  3个Button 两两依赖,相当于组成了一个链
 
@@ -270,7 +207,10 @@ app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 ```
 
-##  `  app:layout_constraintHorizontal_weight="2"`　
+
+
+app:layout_constraintHorizontal_weight="2"`　
+
 看属性也可以猜到是干嘛用的了.
 ![宽度为wrap_content](ConstraintLayout/ConstraintLayout_001.png)
 
@@ -495,4 +435,12 @@ https://mp.weixin.qq.com/s/QIuww9b0TsNjajEUS8c2fg
 #### Gone约束问题
 
 https://ibotasky.github.io/2017/10/31/ConstraintLayout%E4%BB%8B%E7%BB%8D/
+
+
+
+https://blog.yorek.xyz/android/other/constraintlayout/#63-wrap_content-11
+
+https://mp.weixin.qq.com/s/QIuww9b0TsNjajEUS8c2fg
+
+https://jishuin.proginn.com/p/763bfbd5c73f
 

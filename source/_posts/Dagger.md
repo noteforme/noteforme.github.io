@@ -8,9 +8,71 @@ categories: ANDROID
 
 
 
-### 
+#### Dagger 2
 
-![2021-09-25_9.15.37_dagger_class](/Users/m/Documents/noteforme.github.io/source/_posts/Dagger/2021-09-25_9.15.37_dagger_class.png)
+
+
+Module
+
+Module可以提供多个对象，返回类型要不一样
+
+Component 
+
+用来注入对象,module集成到component身上,
+
+再由Component把对象注入到平时用的Activity或者目的类身上
+
+
+
+>  依赖的查找顺序为：先找@Module，如果找到了就停止，如果找不到就去找@Inject
+
+
+
+```kotlin
+class HttpObject // 也可直接在这里提供对象,不用Module
+
+@Module
+class HttpModule {
+
+    @Provides
+    fun provideHttpObject():HttpObject{ // 针对第三方sdk的对象，可以灵活提供
+        return HttpObject()
+    }
+}
+
+@Component(modules = [HttpModule::class, DataBaseModule::class])
+interface MyComponent {
+    //注入点
+    fun inject(activity: DaggerxxActivity)
+}
+
+class DaggerxxActivity : AppCompatActivity() {
+    private val binding by lazy { ActivityDaggerXxBinding.inflate(layoutInflater) }
+    private val TAG = "DaggerxxActivity"
+
+    @Inject
+    lateinit var httpObject: HttpObject
+
+    @Inject
+    lateinit var databaseObject: DatabaseObject
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        DaggerMyComponent.create().inject(this)
+        Log.i(TAG, "onCreate: httpObject $httpObject  databaseObject  $databaseObject ")
+    }
+}
+
+```
+
+https://www.bilibili.com/video/BV1hF411W7aj
+
+https://juejin.cn/post/6844903850319544328
+
+
+
+![](Dagger/2021-09-25_9.15.37_dagger_class.png)
 
 #### 依赖注入
 

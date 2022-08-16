@@ -664,3 +664,7 @@ public static final String getName() {
 不加const , private修饰，通过get获取， 会有一点点效率影响
 
 https://www.cnblogs.com/liuliqianxiao/p/7253116.html
+
+
+
+const使用
