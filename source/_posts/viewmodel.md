@@ -100,7 +100,6 @@ public class MyViewModel extends AndroidViewModel { //需要用到application就
     public int number;
 }
 ```
-=======
 
 
 #### ViewModel保持数据原理
