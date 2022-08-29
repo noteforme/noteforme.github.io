@@ -1,7 +1,8 @@
 ---
 title: LC-string
 date: 2022-06-05 11:06:28
-tags: LEETCODE
+tags: LEETCODE 
+categories: DataStructure
 ---
 
 

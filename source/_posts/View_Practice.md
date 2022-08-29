@@ -140,32 +140,34 @@ public class MyView extends View {
 }
 ```
 
+
+
 设置 match_parent不是正方形?
 
-- 关于自定义属性不提示 declare-styleable name要和自定义类名相同，然后重启Ide就好了
+关于自定义属性不提示 declare-styleable name要和自定义类名相同，然后重启Ide就好了
 
 
 
-- 那么获取到的mode和size又代表了什么呢？ 
-  mode代表了我们当前控件的父控件告诉我们控件，你应该按怎样的方式来布局。 
-  mode有三个可选值：EXACTLY, AT_MOST, UNSPECIFIED。它们的含义是：
+那么获取到的mode和size又代表了什么呢？ 
+mode代表了我们当前控件的父控件告诉我们控件，你应该按怎样的方式来布局。 
+mode有三个可选值：EXACTLY, AT_MOST, UNSPECIFIED。它们的含义是：
 
-  EXACTLY：父控件告诉我们子控件了一个确定的大小，你就按这个大小来布局。比如我们指定了确定的dp值和macth_parent的情况。 
-  AT_MOST：当前控件不能超过一个固定的最大值，一般是wrap_content的情况。 UNSPECIFIED:当前控件没有限制，要多大就有多大，这种情况很少出现。
+EXACTLY：父控件告诉我们子控件了一个确定的大小，你就按这个大小来布局。比如我们指定了确定的dp值和macth_parent的情况。 
+AT_MOST：当前控件不能超过一个固定的最大值，一般是wrap_content的情况。 UNSPECIFIED:当前控件没有限制，要多大就有多大，这种情况很少出现。
 
-  - 下面是一个重写onMeasure的固定伪代码写法：
+下面是一个重写onMeasure的固定伪代码写法：
 
-  ```
-  if mode is EXACTLY{
-       父布局已经告诉了我们当前布局应该是多大的宽高, 所以我们直接返回从measureSpec中获取到的size 
-  }else{
-       计算出希望的desiredSize
-       if mode is AT_MOST
-            返回desireSize和specSize当中的最小值
-       else:
-            返回计算出的desireSize
-     }
-  ```
+```
+if mode is EXACTLY{
+     父布局已经告诉了我们当前布局应该是多大的宽高, 所以我们直接返回从measureSpec中获取到的size 
+}else{
+     计算出希望的desiredSize
+     if mode is AT_MOST
+          返回desireSize和specSize当中的最小值
+     else:
+          返回计算出的desireSize
+   }
+```
 
 
 
@@ -175,7 +177,7 @@ public class MyView extends View {
 
   按照如图两名称一致，重启AndroidStudio
 
-![customview_2018-05-17_01](View_Practice/customview_2018-05-17_01.png)
+![](View_Practice/customview_2018-05-17_01.png)
 
 ![customview_2018-05-17_02](View_Practice\customview_2018-05-17_02.png)
 
@@ -222,7 +224,5 @@ class TermRoundView @JvmOverloads constructor(
 ```
 
  
-
-
 
 https://juejin.im/post/6844903909320835080

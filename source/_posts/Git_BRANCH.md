@@ -114,20 +114,22 @@ https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/
    git branch -m oldName newName
    ```
    
-   b. 删除远程分支
-   
-   ```
-   git push --delete origin oldName
-   ```
-   
    c. 删除本地分支
          `	git branch -d v1.0.0	`
    
    
 
-* > 获取远程其他分支
 
-​     
+
+##### 删除远程分支     
+
+```
+git push --delete origin oldName
+```
+
+
+
+
 
 ##### 修复已发布版本bug
 

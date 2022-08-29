@@ -1,8 +1,13 @@
 ---
 title: LC-Tree
 date: 2022-07-17 18:51:21
-tags: LEETCODE
+tags: LEETCODE 
+categories: DataStructure
 ---
+
+
+
+TreeOperation.java打印树
 
 
 
@@ -37,6 +42,10 @@ i 是数组下标
 
 
 ![20220723183845](LC-Tree/20220723183845.jpg)
+
+
+
+每个Node都有3次访问机会，谁先出现就代表什么序.
 
 
 
@@ -91,6 +100,8 @@ https://leetcode.cn/circle/discuss/vpcMyM/
 
 
 
+
+中序遍历
 
 
 
@@ -152,6 +163,10 @@ BST. Binary Search Tree
 为什么要先加入 右孩子，再加入左孩子呢？ 因为这样出栈的时候才是中左右的顺序。
 
 ![二叉树前序遍历（迭代法）](https://tva1.sinaimg.cn/large/008eGmZEly1gnbmss7603g30eq0d4b2a.gif)
+
+5 4 1 2 6
+
+
 
 ```kotlin
 fun preorderTraversal1(root: TreeNode?): List<Int> {
@@ -248,6 +263,14 @@ fun inorderTraversal1(root: TreeNode?): List<Int> {
         linkedList.add(node.`val`)
     }
 ```
+
+
+
+迭代法
+
+
+
+https://leetcode.cn/problems/binary-tree-postorder-traversal/solution/er-cha-shu-de-hou-xu-bian-li-by-leetcode-solution/ 动图
 
 
 

@@ -3,7 +3,6 @@
 title: view_flow
 comments: true
 date: 2017-11-12 21:24:33
-tags: VIEW
 categories: VIEW
 ---
 
@@ -19,11 +18,7 @@ onMeasure(), onLayout(), onDraw()都可能运行很多次。
 
 所以onMeasure() 用的变量不能在构造方法初始化。
 
-
-
-http://gcssloop.github.io/customview/CustomViewProcess
-
-
+http://www.gcssloop.com/category/customview.html
 
 
 
@@ -140,7 +135,7 @@ public void scrollBy(int x, int y)
 
 HorizontalScrollViewEx
 
-```
+```java
 public class HorizontalScrollViewEx extends ViewGroup {
     private static final String TAG = "HorizontalScrollViewEx";
 
@@ -281,7 +276,7 @@ com.ryg.chapter_3 D/HorizontalScrollViewEx:  scrollX 2007 dx 153
 
 实际滑动处理类，Scroller类应该有个插值器，提供滑动控制
 
-```
+```java
 @Override
 public void computeScroll() {
     if (mScroller.computeScrollOffset()) {
@@ -348,41 +343,6 @@ FILL_AND_STROKE       //描边加填充
 
 
 
-##### 自定义属性类别
-
-> boolean     表示attr取值为true或者false
-> color         表示attr取值是颜色类型，例如#ff3344,或者是一个指向color的资源id，例如R.color.colorAccent.
-> dimension 表示 attr 取值是尺寸类型，例如例如取值16sp、16dp，也可以是一个指向dimen的资源id，例		  如R.dimen.dp_16
-> float 	 表示attr取值是整形或者浮点型
-> fraction     表示 attr取值是百分数类型，只能以%结尾，例如30%
-> integer      表示attr取值是整型
-> string        表示attr取值是String类型，或者一个指向String的资源id，例如R.string.testString
-> reference   表示attr取值只能是一个指向资源的id。
-> enum 	表示attr取值只能是枚举类型。
-
-
-
-**refrence , 表示attr取值只能是一个指向资源的id。**
-
-<attr name="color" format="refrence"/>
-
-注意  dimension ,
-
-```
- 		 	  val a = context!!.obtainStyledAttributes(attrs, R.styleable.ViewBodySleep , defStyleAttr, 0)
-        linePaint.textSize   = a.getDimensionPixelSize(R.styleable.ViewBodySleep_vbltextsize,21).toFloat()
-        indexPaint.textSize   = a.getDimensionPixelSize(R.styleable.ViewBodySleep_vbltextsize,21).toFloat()
-        a.recycle()
-```
-
-
-
- https://github.com/GcsSloop/AndroidNote/tree/master/CustomView
-
-https://www.sunzn.com/2017/08/21/%E8%87%AA%E5%AE%9A%E4%B9%89-View-%E5%9F%BA%E7%A1%80-%E8%A7%92%E5%BA%A6%E4%B8%8E%E5%BC%A7%E5%BA%A6/
-
-
-
 ##### setWillNotDraw
 
 ViewGroup默认情况下，出于性能考虑，会被设置成WILL_NOT_DROW，这样，ondraw就不会被执行了。
@@ -409,8 +369,6 @@ childview
 
 https://www.jianshu.com/p/c84693096e41
 
-
-
 https://mp.weixin.qq.com/s/psrDADxwl782Fbs_vzxnQg
 
 
@@ -431,17 +389,13 @@ https://juejin.cn/post/6844903828035207182
 
 
 
-
-
-
-
-# [`invalidate()`](https://developer.android.com/reference/android/view/View.html#invalidate())
+[`invalidate()`](https://developer.android.com/reference/android/view/View.html#invalidate())
 
 Calling `invalidate()` is done when you want to schedule a redraw of the view. It will result in `onDraw` being called eventually (soon, but not immediately). An example of when a custom view would call it is when a text or background color property has changed.
 
 The view will be redrawn but the size will not change.
 
-# [`requestLayout()`](https://developer.android.com/reference/android/view/View.html#requestLayout())
+[`requestLayout()`](https://developer.android.com/reference/android/view/View.html#requestLayout())
 
 If something about your view changes that will affect the size, then you should call `requestLayout()`. This will trigger `onMeasure` and `onLayout` not only for this view but all the way up the line for the parent views.
 
@@ -454,12 +408,10 @@ requestLayout();
 
 An example of this is when a custom label has its text property changed. The label would change size and thus need to be remeasured and redrawn.
 
-# [`forceLayout()`](https://developer.android.com/reference/android/view/View.html#forceLayout())
+[`forceLayout()`](https://developer.android.com/reference/android/view/View.html#forceLayout())
 
 When there is a `requestLayout()` that is called on a parent view group, it does not necessary need to remeasure and relayout its child views. However, if a child should be included in the remeasure and relayout, then you can call `forceLayout()` on the child. `forceLayout()` only works on a child if it occurs in conjunction with a `requestLayout()` on its direct parent. Calling `forceLayout()` by itself will have no effect since it does not trigger a `requestLayout()` up the view tree.
 
 Read [this Q&A](https://stackoverflow.com/questions/45383948/how-does-forcelayout-work-in-android) for a more detailed description of `forceLayout()`.
-
-
 
 https://stackoverflow.com/questions/13856180/usage-of-forcelayout-requestlayout-and-invalidate

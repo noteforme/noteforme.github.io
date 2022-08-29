@@ -1,7 +1,8 @@
 ---
 title: LC-stack-queue
 date: 2022-07-03 12:16:17
-tags: LEETCODE
+tags: LEETCODE 
+categories: DataStructure
 ---
 
 

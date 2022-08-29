@@ -556,10 +556,6 @@ https://mp.weixin.qq.com/s/QIuww9b0TsNjajEUS8c2fg
 
 
 
-
-
-
-
 #### Dimensions constraints 
 
 You can define minimum and maximum sizes for the `ConstraintLayout` itself:
@@ -568,6 +564,103 @@ You can define minimum and maximum sizes for the `ConstraintLayout` itself:
 - `android:minHeight` set the minimum height for the layout
 
 可以设置百分比
+
+
+
+#### Practice
+
+需求是美女跟在文字后面，如果文字太长就用省略号
+
+<img src="ConstraintLayout/20220821165517.jpg" alt="20220821165517" style="zoom: 67%;" />
+
+
+
+![20220821165912](ConstraintLayout/20220821165912.jpg)
+
+
+
+主要着两个属性
+
+
+
+```xml
+app:layout_constrainedWidth="true" // 如果不用这个约束，文字太长,会把直接在Learn more后面
+app:layout_constraintHorizontal_bias="0" // 去掉左边的约束
+app:layout_constraintHorizontal_chainStyle="packed" // 让文字和美女在一起
+```
+
+
+
+```xml
+<ImageView
+    android:id="@+id/iv_duitnow"
+    android:layout_width="36dp"
+    android:layout_height="36dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/tv_duit_text"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="9dp"
+    android:textColor="#282828"
+    android:textSize="22sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@id/iv_duitnow"
+    app:layout_constraintTop_toTopOf="parent"
+    android:text="Reload via  Transfer:" />
+
+<TextView
+    android:id="@+id/tv_duitnow_id"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:ellipsize="end"
+    android:lines="1"
+    android:textColor="#0064FF"
+    android:textSize="14sp"
+    app:layout_constrainedWidth="true"
+    app:layout_constraintEnd_toStartOf="@+id/img_copy"
+    app:layout_constraintHorizontal_bias="0"
+    app:layout_constraintHorizontal_chainStyle="packed"
+    app:layout_constraintStart_toStartOf="@+id/tv_duit_text"
+    app:layout_constraintTop_toBottomOf="@+id/tv_duit_text"
+    android:text="0124455660124455660124455666" />
+
+<ImageView
+    android:id="@+id/img_copy"
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    android:scaleType="fitXY"
+    android:src="@drawable/meitu111e33"
+    app:layout_constraintBottom_toBottomOf="@+id/tv_duitnow_id"
+    app:layout_constraintEnd_toStartOf="@+id/bt_learn_more"
+    app:layout_constraintStart_toEndOf="@+id/tv_duitnow_id"
+    app:layout_constraintTop_toTopOf="@+id/tv_duitnow_id" />
+
+
+<TextView
+    android:id="@+id/bt_learn_more"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingTop="7dp"
+    android:background="@android:color/holo_blue_light"
+    android:paddingRight="15dp"
+    android:paddingBottom="7dp"
+    android:textSize="10sp"
+    android:textStyle="normal"
+    app:layout_constraintBottom_toBottomOf="@+id/tv_duitnow_id"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/tv_duitnow_id"
+    android:text="Learn_More" />
+```
+
+
+
+
 
 
 
