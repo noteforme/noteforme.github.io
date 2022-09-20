@@ -2,7 +2,7 @@
 title: Operators
 comments: true
 date: 2018-01-07 20:41:41
-tags:  Operators
+tags: Operators
 categories:
 ---
 
@@ -116,8 +116,6 @@ val x = (1 shl 2) and 0x000FF000
 https://www.kotlincn.net/docs/reference/basic-types.html#%E8%BF%90%E7%AE%97
 
 https://juejin.cn/post/6844903841293402126
-
-
 
 
 

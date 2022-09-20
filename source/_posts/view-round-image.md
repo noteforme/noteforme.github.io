@@ -579,9 +579,9 @@ class RoundSingleBitmapShaderView @JvmOverloads constructor(
 
 
 
-##### Xfermode绘制圆角
+#### Xfermode绘制圆角
 
-
+##### 概览
 
 先绘制 绘制黄色的圆
 
@@ -611,13 +611,262 @@ PorterDuff.Mode.SCREEN	取两图层全部区域，交集部分变为透明色
 
 https://blog.csdn.net/xiaohanluo/article/details/52945791
 
-
-
 https://developer.android.google.cn/reference/android/graphics/PorterDuff.Mode
 
 
 
-### 防止大图OOM
+```kotlin
+  private class SampleXfermodeView(context: Context?) : View(context) {
+        private val mSrcB: Bitmap
+        private val mDstB: Bitmap
+        private val mBG // background checker-board pattern
+                : Shader
+
+        private val modeIndex = 1 // 模式
+        override fun onDraw(canvas: Canvas) {
+            canvas.drawColor(Color.WHITE)
+            val labelP = Paint(Paint.ANTI_ALIAS_FLAG)
+            labelP.textAlign = Paint.Align.CENTER
+            val paint = Paint()
+            paint.isFilterBitmap = false
+            canvas.translate(15F, 35F)
+            var x = 0f
+            var y = 0f
+//            for (modeIndex in sModes.indices) {
+            // draw the border
+            paint.style = Paint.Style.STROKE
+            paint.shader = null
+            canvas.drawRect(
+                x - 0.5f, y - 0.5f,
+                x + W + 0.5f, y + H + 0.5f, paint
+            ) // 外层正方形黑色框框
+            // draw the checker-board pattern
+            paint.style = Paint.Style.FILL
+            paint.shader = mBG
+            canvas.drawRect(x, y, x + W, y + H, paint) // 正方形框框里的灰色小格子
+            // draw the src/dst example into our offscreen bitmap
+            val sc: Int = canvas.saveLayer(
+                x, y, x + W, y + H, null,
+            ) // 保存 图层
+            canvas.translate(x, y)
+            canvas.drawBitmap(mDstB, 0f, 0f, paint) // 绘制黄色的圆
+            paint.xfermode = sModes[modeIndex]
+            canvas.drawBitmap(mSrcB, 0f, 0f, paint) //绘制蓝色正方形
+            paint.xfermode = null // 我猜否则下次循环会用到
+            canvas.restoreToCount(sc)
+            // draw the label
+            canvas.drawText(
+                sLabels[modeIndex],
+                x + W / 2, y - labelP.textSize / 2, labelP
+            )
+            x += W + 10
+            // wrap around when we've drawn enough for one row
+            if ((modeIndex % ROW_MAX) == ROW_MAX - 1) {
+                    x = 0f
+                    y += H + 30
+                }
+//            }
+        }
+
+        companion object {
+            private val W = 200
+            private val H = 200
+            private val ROW_MAX = 4 // number of samples per row
+            private val sModes: Array<Xfermode> = arrayOf<Xfermode>(
+                PorterDuffXfermode(PorterDuff.Mode.CLEAR),
+                PorterDuffXfermode(PorterDuff.Mode.SRC),
+                PorterDuffXfermode(PorterDuff.Mode.DST),
+                PorterDuffXfermode(PorterDuff.Mode.SRC_OVER),
+                PorterDuffXfermode(PorterDuff.Mode.DST_OVER),
+                PorterDuffXfermode(PorterDuff.Mode.SRC_IN),
+                PorterDuffXfermode(PorterDuff.Mode.DST_IN),
+                PorterDuffXfermode(PorterDuff.Mode.SRC_OUT),
+                PorterDuffXfermode(PorterDuff.Mode.DST_OUT),
+                PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP),
+                PorterDuffXfermode(PorterDuff.Mode.DST_ATOP),
+                PorterDuffXfermode(PorterDuff.Mode.XOR),
+                PorterDuffXfermode(PorterDuff.Mode.DARKEN),
+                PorterDuffXfermode(PorterDuff.Mode.LIGHTEN),
+                PorterDuffXfermode(PorterDuff.Mode.MULTIPLY),
+                PorterDuffXfermode(PorterDuff.Mode.SCREEN)
+            )
+            private val sLabels = arrayOf(
+                "Clear", "Src", "Dst", "SrcOver",
+                "DstOver", "SrcIn", "DstIn", "SrcOut",
+                "DstOut", "SrcATop", "DstATop", "Xor",
+                "Darken", "Lighten", "Multiply", "Screen"
+            )
+        }
+
+        init {
+            mSrcB = makeSrc(W, H)
+            mDstB = makeDst(W, H)
+            // make a ckeckerboard pattern
+            val bm: Bitmap = Bitmap.createBitmap(
+                intArrayOf(
+                    -0x1, -0x333334,
+                    -0x333334, -0x1
+                ), 2, 2,
+                Bitmap.Config.RGB_565
+            )
+            mBG = BitmapShader(
+                bm,
+                Shader.TileMode.REPEAT,
+                Shader.TileMode.REPEAT
+            )
+            val m = Matrix()
+            m.setScale(6f, 6f)
+            mBG.setLocalMatrix(m)
+        }
+    }
+
+    companion object {
+        // create a bitmap with a circle, used for the "dst" image
+        fun makeDst(w: Int, h: Int): Bitmap {
+            val bm: Bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+            val c = Canvas(bm)
+            val p = Paint(Paint.ANTI_ALIAS_FLAG)
+            p.color = -0x33bc
+            c.drawOval(RectF(0f, 0f, w * 3f / 4, h * 3f / 4), p)
+            return bm
+        }
+
+        // create a bitmap with a rect, used for the "src" image
+        fun makeSrc(w: Int, h: Int): Bitmap {
+            val bm: Bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+            val c = Canvas(bm)
+            val p = Paint(Paint.ANTI_ALIAS_FLAG)
+            p.color = -0x995501
+            c.drawRect(w / 3f, h / 3f, w * 19f / 20, h * 19f / 20, p)
+            return bm
+        }
+    }
+}
+```
+
+
+
+##### 圆角图片
+
+```kotlin
+private const val TYPE_CIRCLE = 0
+private const val TYPE_ROUND = 1
+
+class XfermodeView @JvmOverloads constructor(
+    context: Context?,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
+    private var src: Bitmap? = null
+    private var out: Bitmap? = null
+
+    private var mWidth = 0
+    private var mHeight = 0
+    private var type = TYPE_ROUND  //设置类型，是圆角图片还是圆角矩形
+
+    init {
+        // 禁止硬件加速，硬件加速会有一些问题，这里禁用掉
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
+    }
+
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+
+        //自己计算控件的宽高
+        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
+        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+        mWidth = if (widthMode == MeasureSpec.EXACTLY) {
+            widthSize
+        } else {
+            val imgWidth = (src!!.width + paddingLeft
+                    + paddingRight)
+            if (widthMode == MeasureSpec.AT_MOST) {
+                Math.min(widthSize, imgWidth)
+            } else {
+                imgWidth
+            }
+        }
+        mHeight = if (heightMode == MeasureSpec.EXACTLY) {
+            heightSize
+        } else {
+            val imgHeight = (src!!.height + paddingTop
+                    + paddingBottom)
+            if (heightMode == MeasureSpec.AT_MOST) {
+                Math.min(heightSize, imgHeight)
+            } else {
+                imgHeight
+            }
+        }
+        when (type) {
+            TYPE_CIRCLE -> {
+                val min = Math.min(mWidth, mHeight)
+                setMeasuredDimension(min, min)
+            }
+            TYPE_ROUND -> setMeasuredDimension(mWidth, mHeight)
+        }
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        xmodeImage()
+        //把画好画的画布放到自定义的画板上面
+        canvas.drawBitmap(out!!, 0f, 0f, null)
+    }
+
+    private fun xmodeImage() {
+        //根据原始的图片创建一个画布
+        out = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888)
+
+        //创建一个画板，在画布的基础上
+        val canvas = Canvas(out!!)
+        //创建一个画笔
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        when (type) {
+            TYPE_ROUND ->            //开始在有画板的画布上用画笔作画了，这里画了一个圆角矩形
+                canvas.drawRoundRect(
+                    RectF(0f, 0f, mWidth.toFloat(), mHeight.toFloat()),
+                    60f,
+                    60f,
+                    paint
+                )
+            TYPE_CIRCLE -> {
+                //画圆，取宽高的最小值作为圆的直径
+                val min = Math.min(mWidth, mHeight)
+                //开始画圆
+                canvas.drawCircle(
+                    (min / 2).toFloat(),
+                    (min / 2).toFloat(),
+                    (min / 2).toFloat(),
+                    paint
+                )
+            }
+        }
+        src = BitmapFactory.decodeResource(resources, R.drawable.meitu110468869)
+        //设置Xfermode画笔模式为SRC_IN
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        //然后有画了一个图片，最终实现两个图像的叠加
+
+        val zoomImg = zoomImg(src!!, mWidth, mHeight)
+        canvas.drawBitmap(zoomImg!!, 0f, 0f, paint)
+    }
+    
+    fun zoomImg(bm: Bitmap, newWidth: Int, newHeight: Int): Bitmap? {
+        // 获得图片的宽高
+        val width = bm.width
+        val height = bm.height
+        // 计算缩放比例
+        val scaleWidth = newWidth.toFloat() / width
+        val scaleHeight = newHeight.toFloat() / height
+        // 取得想要缩放的matrix参数
+        val matrix = Matrix()
+        matrix.postScale(scaleWidth, scaleHeight)
+        // 得到新的图片
+        return Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true)
+    }
+}
+```
 
 
 

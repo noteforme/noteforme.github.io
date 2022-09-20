@@ -2,7 +2,7 @@
 title: Fragment
 comments: true
 date: 2017-10-05 19:54:50
-tags:
+tags: Fragment
 categories:  ANDROID
 ---
 
