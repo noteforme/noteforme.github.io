@@ -396,6 +396,12 @@ https://programmercarl.com/0110.%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91.ht
 
 ##### 隐藏回溯过程
 
+这一题 没理解透字符串怎么形成的和回溯的, 用到了先序遍历，
+
+https://www.bilibili.com/video/BV1ZG411G7Dh 视频包含了回溯过程
+
+ 可以看下随想录回溯过程
+
 ```kotlin
     fun binaryTreePaths(root: TreeNode?): List<String> {
         val result = LinkedList<String>()
@@ -449,9 +455,13 @@ private fun dfs(node: TreeNode?, result: LinkedList<String>, path: String?) {
 
 
 
+上面两种写法，回溯隐藏在参数里面.
+
+
+
 ##### 显示回溯
 
-这是随想录的代码，二刷可以自己写
+这是随想录的代码，二刷可以自己写, 
 
 ```kotlin
 fun binaryTreePaths(root: TreeNode?): List<String>? {
@@ -501,3 +511,369 @@ https://programmercarl.com/0257.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6
 https://www.bilibili.com/video/BV1ZG411G7Dh
 
 迭代法 后面再说吧
+
+
+
+#### [404. 左叶子之和](https://leetcode.cn/problems/sum-of-left-leaves/)
+
+这一题和【 222 完全二叉树的节点个数】很像，这里是普通的二叉树，所以我的想法就前两种做法
+
+1. 后序遍历
+2. 层序遍历
+
+把根节点换成左子树的节点
+
+看错了题目，其实是左子树叶子值的和
+
+
+
+https://programmercarl.com/0404.%E5%B7%A6%E5%8F%B6%E5%AD%90%E4%B9%8B%E5%92%8C.html#%E6%80%9D%E8%B7%AF
+
+只看了随想录题解，自己这样写的代码
+
+
+
+##### 递归法
+
+```kotlin
+fun sumOfLeftLeaves(root: TreeNode?): Int {
+    return dfsLeaves(root, 0)
+}
+
+/**
+ * @param direction 0 右子树， 1：左子树
+ */
+private fun dfsLeaves(node: TreeNode?, direction: Int): Int {
+    if (node == null) return 0
+    if (node.left == null && node.right == null && direction == 1) { // 左右子树为空，根据父亲节点的传入，判断它是左子树
+        return node.`val` //这种情况返回值，根据后序规则，上层节点叠加
+    }
+    val leftCount = dfsLeaves(node.left, 1)
+    val rightCount = dfsLeaves(node.right, 0)
+    return leftCount + rightCount
+}
+```
+
+
+
+看了随想录解法，可以直接看更下一层节点，就不用再传入方向了
+
+```cpp
+  if (root->left != NULL && root->left->left == NULL && root->left->right == NULL) {
+            leftValue = root->left->val;
+  }
+```
+
+
+
+迭代法
+
+随想录统一迭代法
+
+
+
+#### [513. 找树左下角的值](https://leetcode.cn/problems/find-bottom-left-tree-value/)
+
+想了下
+
+1. 层序遍历可以解决
+2. 递归法还没想道，到了最底层，没想到如何判断 哪个是最左边的。
+
+
+
+##### BFS
+
+先存下来每一层的第一个节点，知道queue为空，那么最后一层的头节点就是要返回的.
+
+```kotlin
+fun findBottomLeftValue1(root: TreeNode?): Int {
+    val queue = LinkedList<TreeNode>()
+    if (root != null) {
+        queue.offer(root)
+    }
+    var leftNodeVal = root?.`val`
+    while (queue.isNotEmpty()) {
+        val size = queue.size
+        leftNodeVal = queue.peek().`val` //每一层的第一个节点
+        for (i in 0 until size) {
+            val node = queue.poll()
+            node?.left?.let { queue.offer(it) }
+            node?.right?.let { queue.offer(it) }
+        }
+    }
+    return leftNodeVal!! // queue为empty的时候退出，此时上一层存的节点就是最左边的节点
+}
+```
+
+
+
+##### DFS
+
+My idea
+
+1. 一开始以为树的层级里，树的左边的值小于右边，来得出结果，但是这是二叉树，不是平衡形的，即使平衡这种思路也不一定对.
+
+2. 然后又看了树结构,想了下可以用 inorder traversal ,中序遍历, 层数最深，然后最先得到的数据就是要拿到的结果. 
+
+   想下面8肯定是后面遍历到的
+
+
+
+![20220924155016](LC-TREE08/20220924155016.jpg)
+
+
+
+1. 一开始不知道leetcode可以用全局变量，用对象返回还很麻烦，删掉了
+2. 判断层级，如果大于之前的深度，那么就更新深度和值
+3. 中序和后序肯定没问题，但是先序不确定（随想录说是可以的）而且随想录 depth + 1 展开了用回溯
+
+```kotlin
+var mDepth = 0 //一开始不知道leetcode可以用全局变量，用对象返回还很麻烦，删掉了
+var result = -1
+
+fun findBottomLeftValue(root: TreeNode?): Int {
+    if (root == null) return 0
+    inOrderTraversal(root, mDepth)
+    return result
+}
+
+// 最左边的节点最先访问到
+private fun inOrderTraversal(node: TreeNode?, depth: Int) {
+    if (node == null) return
+    inOrderTraversal(node.left, depth + 1)
+    if (depth + 1 > mDepth) { // 判断层级，如果大于之前的深度，那么就更新深度和值
+        mDepth = depth + 1
+        result = node.`val`
+    }
+    inOrderTraversal(node.right, depth + 1)
+}
+```
+
+
+
+#### [112. 路径总和](https://leetcode.cn/problems/path-sum/)
+
+
+
+解决所有二叉树路径的问题文章
+
+https://leetcode.cn/problems/path-sum-ii/solution/yi-pian-wen-zhang-jie-jue-suo-you-er-cha-oo63/
+
+
+
+这一题和  [112. 路径总和]  类似
+
+使用回溯写法，因为添加和删除，回溯的规则，那么感觉用栈比较合适.
+
+1. 终止条件就是 到达了叶子节点，此时开始计算当前路径和 是否满足条件
+2. 手写判断是否有左子树，有的话继续判断，又继续preOrderTraversal, 这里用的是先序遍历,方法查看条件
+3. 遍历完叶子节点后判断，此时这条路径完成，开始回溯，回退上一层preOrderTraversal，继续判断右子树
+
+
+
+```kotlin
+fun hasPathSum(root: TreeNode?, targetSum: Int): Boolean {
+    val pathStack = Stack<Int>()
+    if (root != null) {
+        pathStack.push(root.`val`) // root需要放在遍历外面，否则会push多次
+    }else{
+        return false //按照前面的规则 root==null ,0 应该是对的,但是题目说false,就单独加一句
+    }
+    return preOrderTraversal(root, targetSum, pathStack) // pathstack必须传进去，否则每次都new
+}
+
+private fun preOrderTraversal(root: TreeNode?, targetSum: Int, pathStack: Stack<Int>): Boolean {
+    if (root?.left == null && root?.right == null) {
+        var pathSum = 0
+        pathStack.forEach {
+            pathSum += it
+        }
+        println("pathSum $pathSum")
+        if (pathSum == targetSum) {
+            return true
+        }
+    }
+    if (root?.left != null) {
+        pathStack.push(root.left.`val`) // 有左节点，加入当前路径
+        if (preOrderTraversal(root.left, targetSum, pathStack)) { //有路径是和 == targetSum 直接返回
+            return true
+        }
+        pathStack.pop()  // 不会直接把上面的回退了，需要上一句遍历执行完回退后，才把自己回退了，此时已经到了叶子判断了 root?.left == null && root?.right == null
+    }
+    if (root?.right != null) {
+        pathStack.push(root.right.`val`)
+        if (preOrderTraversal(root.right, targetSum, pathStack)) { //有路径是和 == targetSum 直接返回
+            return true
+        }
+        pathStack.pop()
+    }
+    return false
+}
+```
+
+
+
+```kotlin
+fun hasPathSum1(root: TreeNode?, targetSum: Int): Boolean {
+    if (root == null) {
+        return false //按照前面的规则 root==null ,0 应该是对的,但是题目说false,就单独加一句
+    }
+    val pathSum = root.`val`
+    return preOrderDFS(root, pathSum, targetSum) // pathstack必须传进去，否则每次都new
+}
+
+private fun preOrderDFS(node: TreeNode, pathSum: Int, targetSum: Int): Boolean {
+    val nodeValue = node.`val`
+    println("nodeValue $nodeValue")
+    if (node.left == null && node.right == null && targetSum == pathSum) {
+        return true
+    }
+
+    if (node.left != null)
+        if (preOrderDFS(node.left, pathSum + node.left.`val`, targetSum)) { // 这个直接放回，容易忘了
+            return true
+        }
+
+    if (node.right != null)
+        if (preOrderDFS(node.right, pathSum + node.right.`val`, targetSum)) {
+            return true
+        }
+    return false
+}
+```
+
+
+
+#### [113. 路径总和 II](https://leetcode.cn/problems/path-sum-ii/)
+
+如果是找路径和等于给定target的路径的，那么可以不用新增一个临时变量cursum来判断当前路径和，
+只需要用给定和target减去节点值，最终结束条件判断target==0即可
+
+
+
+
+
+##### DFS
+
+
+
+这一题的思路和前面的差不多，就是他要求返回所有符合条件的集合，所以直接添加值觉得不合适，除非多加一个参数，不加一个参数就不好弄。
+
+
+
+//这种解法要注意 值引用问题，即使最初加入到resultList的pathList是正确的，后序的回退也会把值给修改了.
+
+```kotlin
+    val resultList = LinkedList<List<Int>>()
+    fun pathSum(root: TreeNode?, targetSum: Int): List<List<Int>> {
+        if (root == null) return resultList
+        val stackList = Stack<Int>()
+        stackList.add(root.`val`)
+        preDFS(root, stackList, targetSum)
+        return resultList
+    }
+
+    private fun preDFS(node: TreeNode, pathList: Stack<Int>, targetSum: Int) {
+        val data = node.`val`
+        println(data)
+        if (node.left == null && node.right == null && pathSum(pathList) == targetSum) {
+            resultList.add(pathList.toMutableList().toList()) // 注意引用传递
+        }
+        if (node.left != null) {
+            pathList.push(node.left.`val`)
+            preDFS(node.left, pathList, targetSum)
+            pathList.pop()
+        }
+        if (node.right != null) {
+            pathList.push(node.right.`val`)
+            preDFS(node.right, pathList, targetSum)
+            pathList.pop()
+        }
+    }
+
+    fun pathSum(pathList: Stack<Int>): Int {
+        var sum = 0
+        pathList.forEach {
+            sum += it
+        }
+        return sum
+    }
+```
+
+
+
+这一题的官方DFS解法没看懂，感觉不好理解.
+
+
+
+
+
+这是看完官方写法自己写的
+
+```kotlin
+val pathList = LinkedList<Int>()
+fun pathSum1(root: TreeNode?, targetSum: Int): List<List<Int>> {
+    if (root == null) return resultList
+    val stackList = Stack<Int>()
+    stackList.add(root.`val`)
+    preTraversal(root, targetSum - root.`val`)
+    return resultList
+}
+
+private fun preTraversal(node: TreeNode?, targetSum: Int) {
+    if (node == null) return
+    val data = node.`val`
+    println(data)
+    pathList.offer(node.`val`)
+    if (node.left == null && node.right == null && targetSum == 0) {
+        resultList.add(pathList.toMutableList())
+    }
+    if (node.left != null)
+        preTraversal(node.left, targetSum - node.left.`val`)
+    if (node.right != null)
+        preTraversal(node.right, targetSum - node.right.`val`)
+    pathList.pop()
+}
+```
+
+
+
+这是官方解法，也很棒
+
+```kotlin
+fun pathSum2(root: TreeNode?, targetSum: Int): List<List<Int>> {
+    if (root == null) return resultList
+    val stackList = Stack<Int>()
+    stackList.add(root.`val`)
+    preDFSTraversal(root, targetSum)
+    return resultList
+}
+
+private fun preDFSTraversal(node: TreeNode?, targetSum: Int) {
+    if (node == null) return
+    val data = node.`val`
+    println(data)
+    val targetSum = targetSum - node.`val`
+    pathList.offer(node.`val`)
+    if (node.left == null && node.right == null && targetSum == 0) {
+        resultList.add(pathList.toMutableList())
+    }
+    preDFSTraversal(node.left, targetSum)
+    preDFSTraversal(node.right, targetSum)
+    pathList.pop()
+}
+```
+
+
+
+官方BFS 就很不好理解
+
+
+
+
+
+
+
+https://www.bilibili.com/video/BV1pp4y1k75Q/
+
+为什么post右子树是从 , [i , n-1],因为他是后序遍历，所以从 i开始

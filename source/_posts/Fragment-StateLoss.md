@@ -11,6 +11,48 @@ categories:  ANDROID
 
 
 
+
+
+就是onSavedInstanceState 的官方API文档2
+
+这里问题的场景是Activity已经关闭了,rpc请求很久再回来,导致了这个问题,所以我觉得判断livedate激活状态就可以了
+
+可是这个改动应该只能在resume吧？
+
+LiveData started 和 resumed 都可以
+
+Livedata 会感知activity生命周期
+
+这个有可能 activity 也在 started / resumed 状态下发出吧？ 这样的话，showDialog 应该也还会崩溃，因为onSavedInstanceState 是在 paused 时候发生的，这个时候应该还是 started 状态。
+
+```
+/**
+
+* 后续考虑做个技改把它加到[BaseDialogFragment]里面
+
+*/
+
+fun showWithLifecycle(fragmentActivity: FragmentActivity, tag: String? = null) {
+
+  val liveData = showWithLifecycleLiveData ?: MutableLiveData<Boolean>().also {
+
+    it.observe(fragmentActivity) { this.show(fragmentActivity.supportFragmentManager, tag) }
+
+    showWithLifecycleLiveData = it
+
+  }
+
+  liveData.value = true
+
+}
+```
+
+
+
+
+
+
+
 onSaveInstanceState保存分析
 
 https://juejin.cn/post/6995791487426363405

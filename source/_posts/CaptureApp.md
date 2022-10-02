@@ -22,11 +22,29 @@ https://www.jianshu.com/p/e8dd1091d6d7
 
 2. Https乱码问题
 
-安装证书
+[安装证书](https://upload-images.jianshu.io/upload_images/2525930-60822f4047d0ee8b.png?imageMogr2/auto-orient/strip|imageView2/2/w/1134/format/webp)
+
+
+
+
 
 
 
 <img src="https://upload-images.jianshu.io/upload_images/2525930-60822f4047d0ee8b.png?imageMogr2/auto-orient/strip|imageView2/2/w/1134/format/webp" alt="img" style="zoom:67%;" />
+
+
+
+
+
+##### 断点修改代理
+
+这样就可以修改了
+
+![20220923160111](CaptureApp/20220923160111.jpg)
+
+
+
+![20220923160126](CaptureApp/20220923160126.jpg)
 
 
 
@@ -51,6 +69,16 @@ https://www.jianshu.com/p/0caaea590c8c
 
 
 <img src="CaptureApp/2022-02-19_9.29.24.png" alt="2022-02-19_9.29.24" style="zoom:50%;" />
+
+
+
+
+
+然后手机用这个地址配置下载
+
+http://chls.pro/ssl
+
+
 
 Okhttp
 

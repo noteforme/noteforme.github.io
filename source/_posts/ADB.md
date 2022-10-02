@@ -6,4 +6,13 @@ tags: TOOL
 
 
 
-adb shell dumpsys window | grep mCurrentFocus
+
+
+```
+adb shell dumpsys window | grep mCurrentFocus		//当前Activity
+
+adb shell dumpsys activity | grep com.john.kot	// 当前app
+```
+
+
+
