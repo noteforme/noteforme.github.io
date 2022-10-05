@@ -872,8 +872,436 @@ private fun preDFSTraversal(node: TreeNode?, targetSum: Int) {
 
 
 
+### 构建树
 
+
+
+先序，中序
+
+后序，中序
+
+inOrder 		[L, 3 ,R ]
+
+PostOrder 	[L, R, 3] 
+
+PreOrder 	  [3,L ,R]
+可以看到 只有PostOrder ,PreOrder左右是分不清的.
+
+
+
+```
+ 			1    					1 
+ 		2									2
+  3											3
+  
+PreOrder  1,2,3				PreOrder  1,2,3
+PostOrder 3,2,1 			PostOrder 3,2,1
+```
+
+
+
+#### [106. 从中序与后序遍历序列构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
+
+
+
+效率低，但是好理解的方法
 
 https://www.bilibili.com/video/BV1pp4y1k75Q/
 
 为什么post右子树是从 , [i , n-1],因为他是后序遍历，所以从 i开始
+
+```
+inorder = 	[9,3,15,20,7]
+postorder = [9,15,7,20,3]
+```
+
+1. 根据后序postorder 得到root 3, 然后根据中序知道 left branch [9] , right branch [15 , 20 , 7]
+
+2. 根据 left branch 的9,可以把 postorder后序分成[9], [15 , 20 , 7]两部分
+
+3. 然后 inorder= [15 , 20 , 7] , postorder=[15 , 20 , 7] 继续进行遍历
+
+   
+
+总的来说，就是这样
+
+1. 确定终止条件
+2. 构造节点
+3. 构造左子树， 构造右子树
+
+
+
+
+
+```kotlin
+fun buildTree(inorder: IntArray, postorder: IntArray): TreeNode? {
+    if (inorder.isEmpty() && postorder.isEmpty()) {
+        return null
+    }
+    val node = TreeNode(postorder[postorder.size - 1]) //postorder.size用的地方多，可以提取出来
+    val index = getIndex(node, inorder)
+    node.left = buildTree(inorder.copyOfRange(0, index), postorder.copyOfRange(0, index)) // copyOfRange数组效率低
+    node.right = buildTree(
+        inorder.copyOfRange(index + 1, inorder.size), postorder.copyOfRange(index, postorder.size - 1)
+    ) // 注意copyOfRange(0,2)获取的是index 0,1两个元素
+    return node
+}
+
+private fun getIndex(node: TreeNode, inorder: IntArray): Int {
+    for (i in inorder.indices) {
+        if (node.`val` == inorder[i]) {
+            return i
+        }
+    }
+    return 0
+}
+```
+
+
+
+##### 优化方法
+
+写出来还有问题,先pass这题耗时太久了,边界不好掌握可以考虑用日志调试
+
+
+
+还可以再看下随想录的视频讲解
+
+https://www.bilibili.com/video/BV1vW4y1i7dn
+
+
+
+随想录代码优化前的写法，和上面代码写法是一样的，只是用了C++语言
+
+https://programmercarl.com/0106.%E4%BB%8E%E4%B8%AD%E5%BA%8F%E4%B8%8E%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91.html
+
+
+
+最初错误的解法,上面的解法数组有变化所以 end位置就是数组的大小，但是这里不同，数组是没变化，就不能这样做
+
+```
+// 数组不变，只改变下标
+private fun buildDFSTree(
+    inorder: IntArray,
+    postorder: IntArray,
+    inStart: Int,
+    inEnd: Int,
+    postStart: Int,
+    postEnd: Int
+): TreeNode? {
+    if (inStart > inEnd || postStart > postEnd || inEnd < 0 || postEnd < 0) {
+        return null
+    }
+    val node = TreeNode(postorder[postEnd]) //postorder.size用的地方多，可以提取出来
+    val index = getIndex(node, inorder)
+
+    node.left = buildDFSTree(inorder, postorder, inStart, index - 1, 0, index - 1)   //[0,index) 左闭右开
+    node.right = buildDFSTree(inorder, postorder, index + 1, inEnd, index + 1, postEnd)
+    return node
+}
+```
+
+
+
+这一题花了不少时间，思路不难，主要是 切割后序的数组的时候，左右子树的边界值不好处理,
+
+
+
+1. map用来存储，中序value值和position的对应关系，这里value应该是唯一的.
+2. 采用的是左闭右闭的方案，所以inStart > inEnd 不能用 >=, 否则return了，叶子节点无法构造出来.
+3. 根据后序root节点，分割中序数组，拿到左子树后，再用左子树树的分割后序数组,因为左子树的长度是一样的。
+
+
+
+
+
+```kotlin
+val map = HashMap<Int, Int>()
+fun buildTree1(inorder: IntArray, postorder: IntArray): TreeNode? {
+    if (inorder.isEmpty() && postorder.isEmpty()) {
+        return null
+    }
+    val inStart = 0
+    val inEnd = inorder.size - 1
+    val postStart = 0
+    val postEnd = postorder.size - 1
+    inorder.forEachIndexed { position, item ->
+        map[item] = position
+    }
+    return buildDFSTree(inStart, inEnd, postStart, postEnd, inorder, postorder)
+}
+
+// 数组不变，只改变下标
+private fun buildDFSTree(
+    inStart: Int,
+    inEnd: Int,
+    postStart: Int,
+    postEnd: Int,
+    inorderArr: IntArray,
+    postorderArr: IntArray
+): TreeNode? {
+    println(" inStart $inStart inEnd $inEnd  postStart $postStart postEnd $postEnd")
+    if (inStart > inEnd || postStart > postEnd) { // 因为是左闭右闭的方案，所以这里不能用 >= ,否则叶子节点无法构造出来
+        return null
+    }
+    val node = TreeNode(postorderArr[postEnd]) //postorder.size用的地方多，可以提取出来
+    val index = map[postorderArr[postEnd]] ?: 0 // 这里要改
+
+    /**
+     * 切割左子树,这种坐标定义好更清晰
+     */
+    val leftInBegin = inStart
+    val leftInEnd = index - 1 // 左闭右闭
+    val leftPostBegin = postStart
+    val leftPostEnd = postStart + (index - inStart - 1) //(index - inStart) 左子树的长度, 因为选择是左闭右闭的方案，所以自身也-1
+
+    node.left = buildDFSTree(
+        leftInBegin, leftInEnd, leftPostBegin, leftPostEnd,
+        inorderArr,
+        postorderArr
+    )
+
+    /**
+     * 切割右子树
+     */
+    val rightInBegin = index + 1
+    val rightInEnd = inEnd
+    val rightPostBegin = postStart + index - inStart //(index - inStart) 这里不用-1,因为左子树的右边就是右子树，所以右子树就是从这个位置开始的
+    val rightPostEnd = postEnd - 1
+
+    node.right = buildDFSTree(
+        rightInBegin, rightInEnd, rightPostBegin, rightPostEnd,
+        inorderArr,
+        postorderArr
+    )
+    return node
+}
+```
+
+
+
+官方
+
+先构建右子树的想法好巧妙，要是先构建的是左子树还有个确定后序区间的步骤。
+
+https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/solution/cong-zhong-xu-yu-hou-xu-bian-li-xu-lie-gou-zao-14/
+
+
+
+官方解法很妙，根据后序数组pop，post_idx--;先开始右子树,然后左子树,构造方法也很简单，这样不用找后序数组的 开始和结束位置在哪. 做了上面的解法，也就是这个后序的边界值最难搞. 这种方式直接给省去了。
+
+
+
+不得不说太妙了
+
+![](https://assets.leetcode-cn.com/solution-static/106/6.png)
+
+
+
+官方迭代法后面再看吧 。
+
+
+
+
+
+
+
+#### [654. 最大二叉树](https://leetcode.cn/problems/maximum-binary-tree/)
+
+输入：nums = [3,2,1,6,0,5]
+输出：[6,3,5,null,2,0,null,null,1]
+解释：递归调用如下所示：
+
+[3,2,1,6,0,5] 中的最大值是 6 ，左边部分是 [3,2,1] ，右边部分是 [0,5] 。
+
+- [3,2,1] 中的最大值是 3 ，左边部分是 [] ，右边部分是 [2,1] 。 ,3的左边是[]没有节点, 右边是[0,5],所以树也是这样构造的.
+    - 空数组，无子节点。
+    - [2,1] 中的最大值是 2 ，左边部分是 [] ，右边部分是 [1] 。
+        - 空数组，无子节点。
+        - 只有一个元素，所以子节点是一个值为 1 的节点。
+- [0,5] 中的最大值是 5 ，左边部分是 [0] ，右边部分是 [] 。
+    - 只有一个元素，所以子节点是一个值为 0 的节点。
+    - 空数组，无子节点。
+
+
+
+##### preTraversal
+
+思路 : 
+
+1. 因为需要构造中间节点，所以用先序遍历
+2. 先找到数组中最大值，然后切割成左右子树。
+3. 在切割后的左右子树中继续切割，直至无法切割为止
+
+
+
+自己写的，做法和随想录类似 
+
+https://programmercarl.com/0654.%E6%9C%80%E5%A4%A7%E4%BA%8C%E5%8F%89%E6%A0%91.html#java
+
+
+
+```kotlin
+fun constructMaximumBinaryTree(nums: IntArray): TreeNode? {
+    return buildTree(nums, 0, nums.size - 1)
+}
+
+private fun buildTree(nums: IntArray, start: Int, end: Int): TreeNode? {
+    println("buildTree start $start end $end")
+    if (start > end) return null            //分割的左右下标越界就退出 ,不能加==，否则叶子节点构造不到.
+    val maxIndex = getMaxIndex(nums, start, end)
+    val node = TreeNode(nums[maxIndex])     // 构造先序的父节点
+    node.left = buildTree(nums, start, maxIndex - 1) // 构造左节点
+    node.right = buildTree(nums, maxIndex + 1, end)
+    return node
+}
+
+fun getMaxIndex(nums: IntArray, start: Int, end: Int): Int {
+    var maxIndex = start
+    for (i in start..end) {  // 在对应的数组范围内，找到最大值
+        if (nums[maxIndex] < nums[i]) {
+            maxIndex = i
+        }
+    }
+    return maxIndex
+}
+```
+
+
+
+##### 单调栈
+
+官方还有一种单调栈的写法，后面再看吧
+
+https://leetcode.cn/problems/maximum-binary-tree/solution/zui-da-er-cha-shu-by-leetcode-solution-lbeo/
+
+
+
+#### [105. 从前序与中序遍历序列构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
+
+
+Idea
+
+
+
+##### 只分割中序数组
+
+按照上面106官方很妙的思路，下面解法
+
+1. 根据中序遍历。value和index构造hash map,方便后面获取中序位置
+2. 根据先序遍历数组从 左子树到右子树构造节点, 这样就不用分割先序数组，也是很麻烦的
+3. 根据先序数组的节点的位置，分割中序遍历数组，拿到左右子树
+4. 然后是递归分割.
+
+
+
+```kotlin
+    val map = HashMap<Int, Int>()
+    var preNodeIndex = 0
+    fun buildTree(preorder: IntArray, inorder: IntArray): TreeNode? {
+        inorder.forEachIndexed { position, item -> //
+            map[item] = position
+        }
+        return buildDFS(preorder, inorder, 0, inorder.size - 1)
+    }
+
+    private fun buildDFS(preorder: IntArray, inorder: IntArray, inBegin: Int, inEnd: Int): TreeNode? {
+        if (inBegin > inEnd) {
+            return null
+        }
+        val node = TreeNode(preorder[preNodeIndex])  // 根据先序遍历数组从 左子树到右子树构造节点
+        val inIndex = map[preorder[preNodeIndex]]!! // 根据先序数组的节点的位置，分割中序遍历数组，拿到左右子树
+        println("${preorder[preNodeIndex]} inBegin $inBegin inEnd $inEnd")
+        preNodeIndex++
+        node.left = buildDFS(preorder, inorder, inBegin, inIndex - 1)
+        node.right = buildDFS(preorder, inorder, inIndex + 1, inEnd)
+        return node
+    }
+```
+
+
+
+##### 分割先序 中序数组
+
+
+
+1. 根据中序数组构造，位置和值的hashmap 。
+2. 根据先序数组的中节点位置，分割中序数组，得到左右子树。
+3. 根据中序数组得到的左子树的长度，分割 先序数组的左右子树.
+4. 构造左右子树.
+
+
+
+左闭右闭的情况
+
+```kotlin
+val map = HashMap<Int, Int>()
+var preNodeIndex = 0
+fun buildTree1(preorder: IntArray, inorder: IntArray): TreeNode? {
+    inorder.forEachIndexed { position, item ->
+        map[item] = position  // 获得 中序 value和index hash
+        map.put(item,position)
+    }
+    return splitPreInOrder(preorder, 0, preorder.size - 1, inorder, 0, inorder.size - 1)
+}
+
+private fun splitPreInOrder(
+    preorderArr: IntArray,
+    preStart: Int,
+    preEnd: Int,
+    inorderArr: IntArray,
+    inStart: Int,
+    inEnd: Int
+): TreeNode? {
+    println(" preStart $preStart preEnd $preEnd inStart $inStart inEnd $inEnd")
+
+    if (preStart > preEnd || inStart > inEnd) return null
+    val inIndex = map[preorderArr[preStart]]!!  // 分割中序数组
+    val node = TreeNode(preorderArr[preStart])
+
+    val leftInBegin = inStart //左闭
+    val leftInEnd = inIndex-1    // 右闭
+    val leftPreBegin = preStart + 1 // 先序中节点的后一个位置，就是左子树的开始位置
+    val leftPreEnd = preStart + (inIndex - inStart) // 其实位置 + 中序中左子树的长度
+
+    node.left = splitPreInOrder(preorderArr, leftPreBegin, leftPreEnd, inorderArr, leftInBegin, leftInEnd)
+    val rightInBegin = inIndex + 1 // 分割点的后一个位置
+    val rightInEnd = inEnd
+    val rightPreBegin = preStart + (inIndex - inStart) + 1 // 先序数组 左子树位置+1 后一个位置
+    val rightPreEnd = preEnd
+    node.right = splitPreInOrder(preorderArr, rightPreBegin, rightPreEnd, inorderArr, rightInBegin, rightInEnd)
+    return node
+}
+```
+
+
+
+感觉还是左闭右闭好点，右开的情况容易越界.
+
+
+
+#### [617. 合并二叉树](https://leetcode.cn/problems/merge-two-binary-trees/)
+
+##### DFS
+
+1. 合并二叉树，通过先序遍历，先构造根节点
+2. 然后再分别构造左右子树
+
+```kotlin
+fun mergeTrees(root1: TreeNode?, root2: TreeNode?): TreeNode? {
+    if (root1 == null && root2 == null) return null //这里还可以优化, 看官方解法和随想录的优化一样的
+    val node = TreeNode((root1?.`val` ?: 0) + (root2?.`val` ?: 0))
+    node.left = mergeTrees(root1?.left, root2?.left)
+    node.right = mergeTrees(root1?.right, root2?.right)
+    return node
+}
+```
+
+
+
+BFS
+
+这题官方有一种BFS的解法,感觉有点麻烦，后面继续
+
+https://leetcode.cn/problems/merge-two-binary-trees/solution/he-bing-er-cha-shu-by-leetcode-solution/
