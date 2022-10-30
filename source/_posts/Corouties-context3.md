@@ -7,13 +7,13 @@ categories: Kotlin
 
 
 
-### P38 协程的上下文
+###  协程的上下文 P38
 
-![2022-03-20_5.51.40](Corouties-context/2022-03-20_5.51.40.png)
+![2022-03-20_5.51.40](Corouties-context3/2022-03-20_5.51.40.png)
 
-##### P39协程的上下文
+##### 协程的上下文 P39
 
-![20220729072418](Corouties-context/20220729072418.jpg)
+![20220729072418](Corouties-context3/20220729072418.jpg)
 
 ```kotlin
 @Test
@@ -30,7 +30,7 @@ you are great DefaultDispatcher-worker-1 @test#2
 
 ##### P40协程上下文的继承
 
-![](Corouties-context/2022-03-20_7.03.14.png)
+![](Corouties-context3/2022-03-20_7.03.14.png)
 
 ```kotlin
 val scope = CoroutineScope(Job() + Dispatchers.IO + CoroutineName("test"))
@@ -52,7 +52,7 @@ job.join()
 
 ##### P41协程上下文继承公式
 
-![2022-03-20_7.10.47](Corouties-context/2022-03-20_7.10.47.png)
+![2022-03-20_7.10.47](Corouties-context3/2022-03-20_7.10.47.png)
 
 
 
@@ -68,7 +68,7 @@ val job = scope.launch(Dispatchers.IO) {
 
 
 
-![2022-03-20_7.31.59](Corouties-context/2022-03-20_7.31.59.png)
+![2022-03-20_7.31.59](Corouties-context3/2022-03-20_7.31.59.png)
 
 
 
@@ -76,13 +76,13 @@ val job = scope.launch(Dispatchers.IO) {
 
 ##### P42学习协程异常处理的必要性
 
-![2022-03-20_7.33.31](Corouties-context/2022-03-20_7.33.31.png)
+![2022-03-20_7.33.31](Corouties-context3/2022-03-20_7.33.31.png)
 
 
 
 ##### 43自动传播异常 与向用户暴露异常
 
-![2022-03-20_7.34.53](Corouties-context/2022-03-20_7.34.53.png)
+![2022-03-20_7.34.53](Corouties-context3/2022-03-20_7.34.53.png)
 
 ```kotlin
         val job = GlobalScope.launch {
@@ -128,7 +128,7 @@ Exception in thread "DefaultDispatcher-worker-1 @coroutine#2" java.lang.IllegalA
 
 ##### 45异常的传播特性
 
-![2022-03-20_7.43.54](Corouties-context/2022-03-20_7.43.54.png)
+![2022-03-20_7.43.54](Corouties-context3/2022-03-20_7.43.54.png)
 
 
 
@@ -136,7 +136,7 @@ Exception in thread "DefaultDispatcher-worker-1 @coroutine#2" java.lang.IllegalA
 
 打破P45的异常传播特性
 
-![2022-03-20_7.45.55](Corouties-context/2022-03-20_7.45.55.png)
+![2022-03-20_7.45.55](Corouties-context3/2022-03-20_7.45.55.png)
 
 
 
@@ -174,9 +174,9 @@ Supervisor.cancel() ,后所有协程都会取消
 
 
 
-![2022-03-20_7.58.18](Corouties-context/2022-03-20_7.58.18.png)
+![2022-03-20_7.58.18](Corouties-context3/2022-03-20_7.58.18.png)
 
-![2022-03-20_7.59.57](Corouties-context/2022-03-20_7.59.57.png)
+![2022-03-20_7.59.57](Corouties-context3/2022-03-20_7.59.57.png)
 
 
 
@@ -209,7 +209,7 @@ The child is cancelled
 
 ##### P48-异常的捕获的时机与位置
 
-![2022-03-20_8.06.19](Corouties-context/2022-03-20_8.06.19.png)
+![2022-03-20_8.06.19](Corouties-context3/2022-03-20_8.06.19.png)
 
 
 
@@ -277,25 +277,25 @@ job.join()
 
 ##### 50 异常捕获 防止App闪退
 
-![2022-03-20_8.19.42](Corouties-context/2022-03-20_8.19.42.png)
+![2022-03-20_8.19.42](Corouties-context3/2022-03-20_8.19.42.png)
 
 ##### 51Android全局异常处理
 
-![2022-03-20_8.20.19](Corouties-context/2022-03-20_8.20.19.png)
+![2022-03-20_8.20.19](Corouties-context3/2022-03-20_8.20.19.png)
 
 
 
-![2022-03-20_8.22.33](Corouties-context/2022-03-20_8.22.33.png)
+![2022-03-20_8.22.33](Corouties-context3/2022-03-20_8.22.33.png)
 
-![2022-03-20_8.24.33](Corouties-context/2022-03-20_8.24.33.png)
+![2022-03-20_8.24.33](Corouties-context3/2022-03-20_8.24.33.png)
 
-![2022-03-20_8.25.08](Corouties-context/2022-03-20_8.25.08.png)
+![2022-03-20_8.25.08](Corouties-context3/2022-03-20_8.25.08.png)
 
-![2022-03-20_8.25.20](Corouties-context/2022-03-20_8.25.20.png)
+![2022-03-20_8.25.20](Corouties-context3/2022-03-20_8.25.20.png)
 
 ##### 52取消与异常
 
-![2022-03-20_8.26.57](Corouties-context/2022-03-20_8.26.57.png)
+![2022-03-20_8.26.57](Corouties-context3/2022-03-20_8.26.57.png)
 
 
 
@@ -380,11 +380,11 @@ Caught java.lang.ArithmeticException
 
 suppressed 捕获多个异常
 
-![2022-03-20_8.42.04](Corouties-context/2022-03-20_8.42.04.png)
+![2022-03-20_8.42.04](Corouties-context3/2022-03-20_8.42.04.png)
 
 
 
-![2022-03-20_8.41.02](Corouties-context/2022-03-20_8.41.02.png)
+![2022-03-20_8.41.02](Corouties-context3/2022-03-20_8.41.02.png)
 
 ```kotlin
 val handler = CoroutineExceptionHandler { _, excetption ->

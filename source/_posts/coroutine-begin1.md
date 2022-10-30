@@ -7,59 +7,69 @@ tags: coroutie
 
 
 
-03
-
-![xieceng](coroutine-begin/2021-11-08_9_15_13.png)
+##### 协程是什么 03
 
 
 
-
-
-08
-
-![2021-11-08_9.20.36](coroutine-begin/2021-11-08_9.20.36.png)
-
-![2021-11-08_9.20.36](coroutine-begin/2021-11-08_9.34.44.png)
+<img src="coroutine-begin1/2021-11-08_9_15_13.png" style="zoom:67%;" />
 
 
 
-09
-
-挂起阻塞的区别![2021-12-13_9.23.31_](coroutine-begin/2021-12-13_9.23.31_.png)
-
-![2021-12-13_9.41.35_](coroutine-begin/2021-12-13_9.53.43_.png)
 
 
+##### 协程的挂起与恢复 08
 
-P13
+<img src="coroutine-begin1/2021-11-08_9.20.36.png" style="zoom:67%;" />
 
-![2021-12-13_9.57.42_](coroutine-begin/2021-12-13_9.57.42_.png)
-
-##### P14 任务泄漏
-
-![20220727203824](coroutine-begin/20220727203824.jpg)
+<img src="coroutine-begin1/2021-11-08_9.34.44.png" style="zoom:67%;" />
 
 
 
-##### p15结构化并发
+##### 挂起阻塞的区别 09
+
+<img src="coroutine-begin1/2021-12-13_9.23.31_.png" style="zoom:67%;" />
+
+![2021-12-13_9.41.35_](coroutine-begin1/2021-12-13_9.53.43_.png)
+
+
+
+##### 协程的调度器 P13
+
+1. Dispatchers.Main
+
+2. Dispatchers.IO
+
+3. Dispatchers.Default
+
+   
+
+![](coroutine-begin1/2021-12-13_9.57.42_.png)
+
+#####  任务泄漏 P14
+
+![20220727203824](coroutine-begin1/20220727203824.jpg)
+
+
+
+##### 结构化并发 p15
 
 使用结构化并发可以做到
 
-![20220727204523](coroutine-begin/20220727204523.jpg)
+![](coroutine-begin1/20220727204523.jpg)
 
+##### CoutineScope P16
 
+GlobalScope
 
-P16
-
-![2021-12-13_9.59.02_](coroutine-begin/2021-12-13_10.09.47_.png)
+![](coroutine-begin1/2021-12-13_10.09.47_.png)
 
 mainscope协程 可以通过抛出异常取消.
 
 
 
-![2021-12-13_10.09.47_](coroutine-begin/2021-12-13_10.09.47_.png)
+![](coroutine-begin1/2021-12-13_10.09.47_.png)
 
-![2021-12-13_10.18.50_](coroutine-begin/2021-12-13_10.18.50_.png)
+![2021-12-13_10.18.50_](coroutine-begin1/2021-12-13_10.18.50_.png)
 
 
 

@@ -437,7 +437,7 @@ LaunchMode=""SingleTask" taskAffinity="com.tencent.mm"
 
 2. TaskAffinity与allowTaskReparenting应用场景
      一个e-mail应用消息包含一个网页链接，点击这个链接将出发一个activity来显示这个页面，虽然这个activity是浏览器应用定义的，但是activity由于e-mail应用程序加载的，所以在这个时候该activity也属于e-mail这个task。如果e-mail应用切换到后台，浏览器在下次打开时由于allowTaskReparenting值为true，此时浏览器就会显示该activity而不显示浏览器主界面，同时actvity也将从e-mail的任务栈迁移到浏览器的任务栈，下次打开e-买了时并不会再显示该activity
-     到此TaskAffinity就全部介绍完了，最后我们再来了解几个跟任务栈相关的属性参数；
+        到此TaskAffinity就全部介绍完了，最后我们再来了解几个跟任务栈相关的属性参数；
 
 
 

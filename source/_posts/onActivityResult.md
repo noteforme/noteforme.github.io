@@ -157,3 +157,62 @@ https://mp.weixin.qq.com/s/o2_2DeAIcJGYSvm2WlhUxg
 
 
 
+##### 回调作用
+
+```kotlin
+class PlayStoreActivity : AppCompatActivity() {
+	binding.opengoogle.setOnClickListener {
+        intent.action = "com.google.android.payments.standard.TOPUP_V2"
+        intent.putExtra("gspTopUpRequest", resources.getString(R.string.secret_key))
+        resultLauncher.launch(intent)
+    }
+
+
+
+ var resultLauncher =
+    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> Toast.makeText(this, "succuss", Toast.LENGTH_SHORT).show()
+            0 -> Toast.makeText(this, "user topup Abandon", Toast.LENGTH_SHORT).show()
+            1 -> Toast.makeText(this, "topup Failed", Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+```
+
+
+
+```kotlin
+class GoogleTopUpActivity : BaseActivity() {
+    val biding by lazy { ActivityGoogleTopUpBinding.inflate(layoutInflater) }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(biding.root)
+        biding.btPage.setOnClickListener {
+            onTopUpAbandon()
+        }
+        biding.btGoReload.setOnClickListener {
+            startActivity(Intent(this, ReloadActivity::class.java))
+            finish()
+        }
+    }
+```
+
+
+
+```kotlin
+class ReloadActivity : AppCompatActivity() {
+    val biding by lazy { ActivityReloadBinding.inflate(layoutInflater) }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(biding.root)
+        biding.btReloadPage.setOnClickListener {
+            finish()
+        }
+    }
+}
+```
+
+PlayStoreActivity ->  GoogleTopUpActivity -> ReloadActivity
+
+GoogleTopUpActivity的时候已经关闭了,ReloadActivity 关闭后回到PlayStoreActivity还是会有回调

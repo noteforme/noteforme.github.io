@@ -182,17 +182,39 @@ ArrayMap类有两个非常重要的静态成员变量mBaseCache和mTwiceBaseCach
 
 
 
+https://juejin.cn/post/7049631659116888094
 
+http://gaozhipeng.me/posts/arraymap/
 
 http://gityuan.com/2019/01/13/arraymap/
 
 https://www.youtube.com/watch?v=I16lz26WyzQ
 
+https://juejin.cn/post/6844904119098982414
+
+https://juejin.cn/post/6844903762470060045
 
 
 
+#### ArrayMap和HashMap的区别
 
-##### SparseArray
+ArrayMap相比传统的HashMap速度更慢，因为其查找方法是二分法，并且当删除或添加数据时，会对空间重新调整，可以说ArrayMap是牺牲了时间来换空间，ArrayMap与HashMap的区别主要在：
+
+存储方式不同：HashMap内部有一个HashMapEntry<K,V>[ ]对象，而ArrayMap是一个<key,value>映射的数据结构，内部使用两个数组进行数据存储，一个数组记录key的hash值，另一个数组记录value值。
+
+添加数据时扩容的处理不一样：HashMap进行了new操作，重新创建对象，开销很大，而ArrayMap用的是copy数据，效率相对高很多。
+
+ArrayMap提供了数组收缩的功能，在clear或remove之后，会重新收缩数组，释放空间。
+
+ArrayMap采用的是二分法查找。
+
+
+
+https://juejin.cn/post/7049631659116888094
+
+
+
+#### SparseArray
 
  key是int类型的Map，Android再次提供效率更高的数据结构SparseArray，可避免自动装箱过程,SparseArray不需要保存key所对应的哈希值，所以比ArrayMap还能再节省1/3的内存。
 
@@ -261,10 +283,6 @@ public void delete(int key) {
     }
 }
 ```
-
-
-
-
 
 
 

@@ -1,5 +1,5 @@
 ---
-title: coroutie_channel
+title: coroutie_channel6
 date: 2022-04-23 21:16:43
 tags: coroutie
 ---
@@ -10,7 +10,7 @@ tags: coroutie
 
 ##### 78 channel
 
-<img src="coroutie-channel/2022-04-23_9.17.16.png" alt="2022-04-23_9.17.16" style="zoom: 67%;" />
+<img src="coroutie_channel6/2022-04-23_9.17.16.png" alt="2022-04-23_9.17.16" style="zoom: 67%;" />
 
 channel是并发安全的队列,队列一定存在缓冲区满了，并且没有人调用receive取走函数，send就挂起
 

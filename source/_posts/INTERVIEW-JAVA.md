@@ -506,15 +506,15 @@ get数据
 
 ##### ArrayMap
 
-​	因为其会对key从小到大排序，使用**二分法**查询key对应在数组中的下标。 
- 在添加、删除、查找数据的时候都是**先使用二分查找法得到相应的index**，然后通过index来进行添加、查找、删除等操作。
+ArrayMap相比传统的HashMap速度更慢，因为其查找方法是二分法，并且当删除或添加数据时，会对空间重新调整，可以说ArrayMap是牺牲了时间来换空间，ArrayMap与HashMap的区别主要在：
 
+存储方式不同：HashMap内部有一个HashMapEntry<K,V>[ ]对象，而ArrayMap是一个<key,value>映射的数据结构，内部使用两个数组进行数据存储，一个数组记录key的hash值，另一个数组记录value值。
 
+添加数据时扩容的处理不一样：HashMap进行了new操作，重新创建对象，开销很大，而ArrayMap用的是copy数据，效率相对高很多。
 
-- **数据量不大**
-- **空间**比时间**重要**
-- 需要使用`Map`
-- 在Android平台，相对来说，内存容量更宝贵。而且数据量不大。所以当需要使用`key`是`Object`类型的`Map`时，可以考虑使用`ArrayMap`来替换`HashMap`
+ArrayMap提供了数组收缩的功能，在clear或remove之后，会重新收缩数组，释放空间。
+
+ArrayMap采用的是二分法查找。
 
 
 

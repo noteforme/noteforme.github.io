@@ -1,5 +1,5 @@
 ---
-title: coroutie-flow
+title: coroutie-flow5
 date: 2022-03-20 20:46:54
 tags: coroutie
 categories: Kotlin
@@ -21,7 +21,7 @@ categories: Kotlin
 
 ### Flow 异步流
 
-![2022-03-20_8.47.50](coroutie-flow/2022-03-20_8.47.50.png)
+![2022-03-20_8.47.50](coroutie-flow5/2022-03-20_8.47.50.png)
 
 
 
@@ -31,7 +31,7 @@ categories: Kotlin
 
 
 
-![2022-03-20_8.49.02](coroutie-flow/2022-03-20_8.49.02.png)
+![2022-03-20_8.49.02](coroutie-flow5/2022-03-20_8.49.02.png)
 
 
 
@@ -103,17 +103,17 @@ I am not blocked 3
 
 ##### 58 Flow与其他方式的区别
 
-![2022-03-20_9.06.40](coroutie-flow/2022-03-20_9.06.40.png)
+![2022-03-20_9.06.40](coroutie-flow5/2022-03-20_9.06.40.png)
 
 ##### 59 Flow应用
 
-![2022-03-20_9.09.34](coroutie-flow/2022-03-20_9.09.34.png)
+![2022-03-20_9.09.34](coroutie-flow5/2022-03-20_9.09.34.png)
 
 ### 流的特性
 
 ##### 60 冷流
 
-![2022-03-20_9.12.12](coroutie-flow/2022-03-20_9.12.12.png)
+![2022-03-20_9.12.12](coroutie-flow5/2022-03-20_9.12.12.png)
 
 Flow是一种类似于序列的冷流，flow够坚强中的代码知道流被收集的时候才运行
 
@@ -146,7 +146,7 @@ fun `test flow is cold`() = runBlocking {
 
 
 
-![2022-03-20_10.09.29](coroutie-flow/2022-03-20_10.09.29.png)
+![2022-03-20_10.09.29](coroutie-flow5/2022-03-20_10.09.29.png)
 
 ```kotlin
 (1..5).asFlow().filter {
@@ -202,7 +202,7 @@ three
 
 flowOn
 
-![20220731215602](coroutie-flow/20220731215602.jpg)
+![20220731215602](coroutie-flow5/20220731215602.jpg)
 
 ```kotlin
 fun simpleFlow3()= flow<Int> {
@@ -319,7 +319,7 @@ Event: 3 DefaultDispatcher-worker-2 @coroutine#2
 
 ##### 65. 流的取消
 
-![20220731221806](coroutie-flow/20220731221806.jpg)
+![20220731221806](coroutie-flow5/20220731221806.jpg)
 
 ```kotlin
 fun simpleFlow6() = flow<Int> {
@@ -359,7 +359,7 @@ Done
 
 ##### 66流的取消检测
 
-![20220731222531](coroutie-flow/20220731222531.jpg)
+![20220731222531](coroutie-flow5/20220731222531.jpg)
 
 ```kotlin
 fun simpleFlow7() = flow<Int> {
@@ -399,7 +399,7 @@ BUILD SUCCESSFUL in 3s
 
 63. stateFlow
 
-    ![](coroutie-flow/20220619220530.jpg)
+    ![](coroutie-flow5/20220619220530.jpg)
 
 64. sharedFlow
 

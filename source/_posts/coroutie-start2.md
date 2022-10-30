@@ -1,6 +1,5 @@
 ---
-title: coroutie_start2
-comments: true
+title: coroutie-start2
 date: 2021-12-14 08:05:39
 tags: coroutie
 categories: Kotlin
@@ -18,13 +17,17 @@ https://www.bilibili.com/video/BV1uo4y1y7ZF?p=24&spm_id_from=pageDriver
 
 ##### P20 launch async
 
-![2021-12-13_1.04.30](coroutie-start/2021-12-13_1.04.30.png)
+Laugh 返回一个Job
+
+Async , 返回Deffrred.
+
+![2021-12-13_1.04.30](coroutie-start2/2021-12-13_1.04.30.png)
 
 
 
 
 
-![](coroutie-start/2021-12-13_1.12.31.png)
+![](coroutie-start2/2021-12-13_1.12.31.png)
 
 
 
@@ -131,7 +134,7 @@ private suspend fun doTwo(): Int {
 
 ##### 协程的启动模式
 
-![coroutie-start](coroutie-start/2021-12-14_9.17.33.png)
+![coroutie-start2](coroutie-start2/2021-12-14_9.17.33.png)
 
 
 
@@ -143,7 +146,7 @@ CoroutineStart.DEFAULT
 
 runBlocking阻塞当前线程等待
 
-![coroutie-start](coroutie-start/2021-12-14_9.49.35.png)
+![coroutie-start2](coroutie-start2/2021-12-14_9.49.35.png)
 
 ```kotlin
 coroutineScope {
@@ -172,7 +175,7 @@ coroutineScope与supervisorScope
 
 还有SupervisorJob
 
-![coroutie-start](coroutie-start/2021-12-14_10.22.41.png)
+![coroutie-start2](coroutie-start2/2021-12-14_10.22.41.png)
 
 ```kotlin
 coroutineScope {
@@ -251,11 +254,11 @@ Job1 finished.
 
 ##### 25 Job的生命周期
 
-<img src="coroutie-start/2022-03-20_10.46.51.png" alt="2022-03-20_10.46.51" style="zoom:67%;" />
+<img src="coroutie-start2/2022-03-20_10.46.51.png" alt="2022-03-20_10.46.51" style="zoom:67%;" />
 
 
 
-<img src="coroutie-start/2022-03-20_10.47.57.png" alt="2022-03-20_10.47.57" style="zoom:67%;" />
+<img src="coroutie-start2/2022-03-20_10.47.57.png" alt="2022-03-20_10.47.57" style="zoom:67%;" />
 
 
 
@@ -265,7 +268,7 @@ Job1 finished.
 
 
 
-<img src="coroutie-start/2022-03-20_10.58.25.png" alt="2022-03-20_10.58.25" style="zoom:67%;" />
+<img src="coroutie-start2/2022-03-20_10.58.25.png" alt="2022-03-20_10.58.25" style="zoom:67%;" />
 
 
 
@@ -321,7 +324,7 @@ CorountineScope和corountineScope的区别(大小写的区别，大写的可以�
 
 
 
-<img src="coroutie-start/2022-03-20_11.14.10.png" alt="2022-03-20_11.14.10" style="zoom:67%;" />
+<img src="coroutie-start2/2022-03-20_11.14.10.png" alt="2022-03-20_11.14.10" style="zoom:67%;" />
 
 
 
@@ -391,7 +394,7 @@ java.util.concurrent.CancellationException: 取消
 
 ##### 29cpu密集型任务取消 isActive
 
-<img src="coroutie-start/2022-03-20_11.31.18.png" alt="2022-03-20_11.31.18" style="zoom:67%;" />
+<img src="coroutie-start2/2022-03-20_11.31.18.png" alt="2022-03-20_11.31.18" style="zoom:67%;" />
 
 isActive判断取消，否则还是计算5次,这个和线程while操作很像
 
@@ -403,15 +406,15 @@ isActive判断取消，否则还是计算5次,这个和线程while操作很像
 
  退出循环
 
-![2022-03-20_12.17.26](coroutie-start/2022-03-20_12.17.26.png)
+![2022-03-20_12.17.26](coroutie-start2/2022-03-20_12.17.26.png)
 
 
 
 ##### p31-yiled取消
 
-<img src="coroutie-start/2022-03-20_12.18.27.png" alt="2022-03-20_12.18.27" style="zoom:67%;" />
+<img src="coroutie-start2/2022-03-20_12.18.27.png" alt="2022-03-20_12.18.27" style="zoom:67%;" />
 
-<img src="coroutie-start/2022-03-20_12.19.29.png" alt="2022-03-20_12.19.29" style="zoom:50%;" />
+<img src="coroutie-start2/2022-03-20_12.19.29.png" alt="2022-03-20_12.19.29" style="zoom:50%;" />
 
 
 
@@ -419,17 +422,17 @@ isActive判断取消，否则还是计算5次,这个和线程while操作很像
 
 ##### p32-coroutine取消副作用
 
-<img src="coroutie-start/2022-03-20_12.26.32.png" alt="2022-03-20_12.26.32" style="zoom:67%;" />
+<img src="coroutie-start2/2022-03-20_12.26.32.png" alt="2022-03-20_12.26.32" style="zoom:67%;" />
 
-<img src="coroutie-start/2022-03-20_12.27.16.png" alt="2022-03-20_12.27.16" style="zoom:67%;" />
+<img src="coroutie-start2/2022-03-20_12.27.16.png" alt="2022-03-20_12.27.16" style="zoom:67%;" />
 
 ##### p33 标准函数use
 
 自动关闭文件对象
 
-![2022-03-20_12.29.38](coroutie-start/2022-03-20_12.29.38.png)
+![2022-03-20_12.29.38](coroutie-start2/2022-03-20_12.29.38.png)
 
-![2022-03-20_12.30.36](coroutie-start/2022-03-20_12.30.36.png)
+![2022-03-20_12.30.36](coroutie-start2/2022-03-20_12.30.36.png)
 
 
 
@@ -437,9 +440,9 @@ isActive判断取消，否则还是计算5次,这个和线程while操作很像
 
 NonCancellable 
 
-![2022-03-20_12.32.18](coroutie-start/2022-03-20_12.32.18.png)
+![2022-03-20_12.32.18](coroutie-start2/2022-03-20_12.32.18.png)
 
-![2022-03-20_12.34.23](coroutie-start/2022-03-20_12.34.23.png)
+![2022-03-20_12.34.23](coroutie-start2/2022-03-20_12.34.23.png)
 
 
 
@@ -447,7 +450,7 @@ NonCancellable
 
 网络请求超时
 
-![2022-03-20_12.38.56](coroutie-start/2022-03-20_12.38.56.png)
+![2022-03-20_12.38.56](coroutie-start2/2022-03-20_12.38.56.png)
 
 超时1300后的处理
 

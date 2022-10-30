@@ -49,3 +49,12 @@ https://www.itread01.com/content/1548717866.html
 
 https://www.cnblogs.com/zhen-android/p/7830249.html
 
+
+
+
+
+**脱糖** 即在编译阶段将在语法层面一些底层字节码不支持的特性转换为基础的字节码结构，(比如List上的泛型脱糖后在字节码层面实际为Object)； Android工具链对Java8语法特性脱糖的过程可谓丰富多彩，当然他们的最终目的是一致的：使更新的语法可以在所有的设备上运行。
+
+
+https://juejin.cn/post/6844903828756643854
+

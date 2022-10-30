@@ -8,6 +8,10 @@ categories: Kotlin
 
 
 
+https://www.bilibili.com/video/BV1wf4y1s7TG?p=95
+
+
+
 object目录下
 
 ### 对象相关
@@ -112,6 +116,21 @@ Object关键字有三种方式
 
 ![](kotlin-object-generic/2021-08-21_9.47.48_innerclass.png)
 
+
+
+在Java中，当你在另一个类中声明一个类时，它会默认变成[内部类](https://so.csdn.net/so/search?q=内部类&spm=1001.2101.3001.7020)。而在Kotlin中，没有显式修饰符的嵌套类与Java中的static嵌套类是一样的。要把它变成一个内部类来持有一个外部类的引用的话需要使用inner修饰符。
+
+嵌套类和内部类在Java与Kotlin中的对应关系
+
+| 类A在另一个类B中声明         | 在Java中       | 在Kotlin中    |
+| ---------------------------- | -------------- | ------------- |
+| 嵌套类（不存储外部类的引用） | static class A | class A       |
+| 内部类（存储外部类的引用）   | class A        | inner class A |
+
+https://blog.csdn.net/weixin_41953808/article/details/112450204
+
+https://juejin.cn/post/6844903910084182030
+
 ```kotlin
 class InnerClassTest {
     class Equipment(var name:String){
@@ -126,6 +145,26 @@ fun main() {
     InnerClassTest.Equipment("shap knife").show()
 }
 ```
+
+
+
+在Kotlin中引用[外部类](https://so.csdn.net/so/search?q=外部类&spm=1001.2101.3001.7020)实例的语法，需要使用this@Outer从Inner类去访问Outer类：
+
+
+
+```kotlin
+class Outer {
+    inner class Inner{
+        fun getOuterReference():Outer = this@Outer
+    }
+}
+```
+
+
+
+
+
+
 
 ##### 数据类
 

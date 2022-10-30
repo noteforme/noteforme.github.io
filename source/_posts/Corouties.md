@@ -8,6 +8,12 @@ categories: Kotlin
 
 
 
+https://juejin.cn/post/6953441828100112392
+
+https://www.cnblogs.com/joy99/p/15805916.html
+
+
+
 ![2022-03-20_5.39.31](Corouties/2022-03-20_5.39.31.png)
 
 
@@ -16,7 +22,7 @@ categories: Kotlin
 
 
 
-https://juejin.cn/post/6953441828100112392
+
 
 
 
@@ -31,6 +37,16 @@ DEFAULT
 
 
 https://codelabs.developers.google.com/codelabs/kotlin-coroutines/#1
+
+
+
+##### Dispatchers
+
+By default, Kotlin coroutines provides three Dispatchers: [`Main`](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-main.html), [`IO`](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-i-o.html), and [`Default`](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-default.html). 
+
+The IO dispatcher is optimized for IO work like reading from the network or disk,
+
+ while the Default dispatcher is optimized for CPU intensive tasks.
 
 
 
@@ -52,15 +68,15 @@ fun main{
 
 
 
-https://juejin.cn/post/6953441828100112392
 
 
 
 
 
 
+https://www.bilibili.com/video/BV1uo4y1y7ZF/?p=101
 
-https://www.bilibili.com/video/BV1Yu411X73j?p=5&spm_id_from=pageDriver
+https://www.bilibili.com/video/BV1Yu411X73j?p=5
 
 https://www.bilibili.com/video/BV164411C7FK?from=search&seid=2446477518780731765
 

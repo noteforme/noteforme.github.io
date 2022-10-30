@@ -2,7 +2,6 @@
 title: DataStructure
 comments: true
 date: 2020-05-06 09:46:22
-tags: DataStructure
 categories: DataStructure
 ---
 
@@ -53,9 +52,15 @@ categories: DataStructure
 
 空间方面主要体现在计算过程中,对于存储资源的消耗情况
 
-![](DataStructure/Screen Shot 2021-03-12 at 5.37.58 PM.png)
 
-![](DataStructure/Screen Shot 2021-03-12 at 5.38.08 PM.png)
+
+![312PM](DataStructure/312PM.png)
+
+
+
+![518dddPM](DataStructure/518dddPM.png)
+
+
 
 #### 链表
 

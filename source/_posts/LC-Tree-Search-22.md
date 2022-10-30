@@ -487,3 +487,173 @@ My idea
 
 
 
+
+
+删除节点主要有这5种情况
+
+- 第一种情况：没找到删除的节点，遍历到空节点直接返回了
+- 找到删除的节点
+  - 第二种情况：删除的左右孩子都为空（叶子节点），直接删除节点， 返回NULL为根节点
+  - 第三种情况：删除节点的左孩子为空，右孩子不为空，删除节点，右孩子补位，返回右孩子为根节点
+  - 第四种情况：删除节点的右孩子为空，左孩子不为空，删除节点，左孩子补位，返回左孩子为根节点
+  - 第五种情况：删除节点的左右孩子节点都不为空，则将删除节点的左子树头结点（左孩子）放到删除节点的右子树的最左面节点的左孩子上，返回删除节点右孩子为新的根节点。
+
+![450.删除二叉搜索树中的节点](https://tva1.sinaimg.cn/large/008eGmZEly1gnbj3k596mg30dq0aigyz.gif)
+
+
+
+```kotlin
+fun deleteNode(root: TreeNode?, key: Int): TreeNode? {
+    if (root == null) return null //情况一
+    if (key < root.`val`) {
+        root.left = deleteNode(root.left, key)
+    } else if (key > root.`val`) {
+        root.right = deleteNode(root.right, key)
+    }
+
+    if (key == root.`val`) {
+        if (root.right == null && root.left == null) {
+            return null // 情况2  [0] 0 因为这个testcase 会返回[0]和预期不一致
+        } else if (root.left != null && root.right == null) {            //情况三 如果左节点不为空
+            val node = root.left  // 左节点 2 推到删除的节点位置
+            if(root.right!=null){               //这两句可以去掉 ，直接返回节点
+                node.right = root.right         //此时左节点2在在删除节点位置，它的右子树指向之前右节点4
+            }
+            return node
+        } else if (root.right != null && root.left == null) {  //情况四 如果右节点不为空
+            val node = root.right //右节点4 推到删除的节点位置
+            if(root.left!=null){                 //这两句可以去掉
+                node.left = root.left           // 此时左节点4在在删除节点位置，它的左子树指向之前右节点2
+            }
+            return node
+        } else {
+            val rightNode = root.right //情况五
+            var leftNode = rightNode?.left
+            while (leftNode?.left!= null) {
+                leftNode = leftNode.left
+            }
+            if (leftNode != null) {
+                leftNode.left = root.left
+            } else {
+                rightNode.left = root.left
+            }
+            root.left = null
+            return rightNode // 这里返回的节点，可以被上面的左右子树接住
+        }
+    }
+    return root
+}
+```
+
+
+
+##### 普通二叉树的节点删除
+
+通用二叉树节点删除
+
+![](LC-Tree-Search-22/20221012115615.jpg)
+
+要加if (leftNode != null)，否则删除报错
+
+
+
+这个题目的leetcode的测试用例有问题,单独跑报错.
+
+
+
+
+
+#### [108. 将有序数组转换为二叉搜索树](https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/)
+
+看了随想录的解答，从中取中间节点的位置就可以了，如果数字是偶数，中间节点的两个中的一个都可以，
+
+但是问题来了，为什么取中间节点构造的二叉树就是高度平衡的二叉搜索树呢?
+
+
+
+先按照这个思路，把代码写出来
+
+1. 按照先序遍历思路，先找到根节点，构造出中间节点。
+2. 根据中间节点划定新的数组的范围，左边和右边，然后递归找到新的数组的中间节点继续划出范围.
+
+在这里 左闭右闭更合理
+
+这题主要注意边界值,if (left > right）这个要注意是> 没有=,因为index-1和index+1了，所以最终一定会超过right
+
+
+
+```kotlin
+    fun sortedArrayToBST(nums: IntArray): TreeNode? {
+        return buildSearchTree(nums, 0, nums.size - 1)
+    }
+
+    private fun buildSearchTree(nums: IntArray, left: Int, right: Int): TreeNode? {
+        if (left > right) {
+            return null
+        }
+        val index = /*(start + end) / 2*/ left + (right - left) / 2
+        val node = TreeNode(nums[index])
+        // println("node ${node.`val`} :  start $left end $right")
+        node.left = buildSearchTree(nums, left, index - 1)
+        node.right = buildSearchTree(nums, index + 1, right)
+        return node
+    }
+```
+
+
+
+#### [538. 把二叉搜索树转换为累加树](https://leetcode.cn/problems/convert-bst-to-greater-tree/)
+
+
+
+累加树: 按照中序遍历的到的 从小到大的数组 [1,2,3,4] ,累加树就是右到左的值相加 [10,9,7,4]
+
+
+
+https://programmercarl.com/0538.%E6%8A%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E8%BD%AC%E6%8D%A2%E4%B8%BA%E7%B4%AF%E5%8A%A0%E6%A0%91.html#%E9%80%92%E5%BD%92
+
+中序遍历的树 : 左 中 右 2 , 5, 13
+
+反中序遍历的: 右 中 左 13 , 5 , 2
+
+然后按照反中序遍历的到节点累加就可以了。
+
+<img src="https://img-blog.csdnimg.cn/20210204153440666.png" alt="538.把二叉搜索树转换为累加树" style="zoom:50%;" />
+
+
+
+这一题一开始没想上面的思路，看了随想录的思路后,写出来的
+
+```kotlin
+var sum = 0
+fun convertBST(root: TreeNode?): TreeNode? {
+    if (root == null) return null
+    convertBST(root.right)
+    sum += root.`val`
+    root.`val` = sum
+    convertBST(root.left)
+    return root
+}
+```
+
+1. 根据中序遍历的规则，写出反中序 右中左遍历节点。
+2. 拿到每次中序的到的节点累加，然后赋值给当前节点。
+
+
+
+    sum += root.`val`
+    root.`val` = sum
+
+这一段可以改进，可以保存前一个节点值，然后加上当前节点就可以了。
+
+```kotlin
+var pre = 0
+fun convertBST1(root: TreeNode?): TreeNode? {
+    if (root == null) return null
+    convertBST(root.right)
+    root.`val` += pre
+    pre = root.`val`
+    convertBST(root.left)
+    return root
+}
+```
