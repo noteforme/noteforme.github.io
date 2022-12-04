@@ -668,3 +668,81 @@ https://www.cnblogs.com/liuliqianxiao/p/7253116.html
 
 
 const使用
+
+
+
+#### 二维数组
+
+two dimensional array
+
+```kotlin
+val twoD = Array(4,{intArray(3)})
+```
+
+
+
+4行3列,像下面的这样
+
+|      |      |      |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
+|      |      |      |
+
+
+
+这一题有2个注意点
+
+1. 退出条件是根据数组字母个数来的，也就树的高度。index条件
+2. 在遍历过程中是不用设置startIndex的，因为每次都是从0开始的新的3个字母.
+
+
+
+这里可以理解输入字母个数树树的高度，里面for循环是控制宽度
+
+
+
+随想录解法
+
+https://www.bilibili.com/video/BV1yV4y1V7Ug/
+
+
+
+```kotlin
+    val result = ArrayList<String>()
+    val pathStr = StringBuilder()
+    fun letterCombinations(digits: String): List<String> {
+        val arrayList = arrayListOf(
+            null,
+            null,
+            ("abc"),
+            ("def"),
+            ("ghi"),
+            ("jkl"),
+            ("mno"),
+            ("pqrs"),
+            ("tuv"),
+            ("wxyz")
+        )
+        backTrack(arrayList, digits, 0)
+        return result
+    }
+
+    private fun backTrack(arrayList: ArrayList<String?>, digits: String, index: Int) {
+        if (index == digits.length) { // index==输入个数，才能退出，因为字母还要处理
+            if (pathStr.isNotEmpty()) result.add(String(pathStr))
+            return
+        }
+        val digit = digits[index] - '0'
+        val item = arrayList[digit] ?: return
+        for (i in item.indices) {
+            pathStr.append(item[i])
+            backTrack(arrayList, digits, index + 1) 
+            pathStr.deleteCharAt(pathStr.length - 1)
+        }
+    }
+}
+```
+
+index + 1会不会有问题，这里是没有的，如果输入"23", 这里到了下一层==2进入方法后就要退出.
+

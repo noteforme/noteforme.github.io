@@ -18,7 +18,9 @@ https://www.bilibili.com/video/BV1T441117u8
 class Button extends TextView
 ```
 
-不能把子类的List对象 ArrayList<Button>   赋值给父类的List引用 List<TextView>
+>  不能把子类的List对象 ArrayList<Button>   赋值给父类的List引用 List<TextView>
+
+
 
 Java
 
@@ -120,7 +122,7 @@ var textVies: List<out Any>
 
 
 
-如果类型声明里，已经又了out或者in,这个限制在变量声明时也依然存在,不会被*去掉
+如果类型声明里，已经有了out或者in,这个限制在变量声明时也依然存在,不会因为*去掉
 
 ```kotlin
 interface Counter<out T : Number>{
@@ -192,17 +194,7 @@ kotlin
 
 
 
-
-
-
-
-
-
-
-
-
-
-#### 泛型类
+#### Java泛型类
 
 ```java
 public class Order<T> {
@@ -303,7 +295,7 @@ public class Person3<T> {
 
 ```
 
-#### 
+
 
 #### 泛型接口
 
@@ -354,10 +346,6 @@ println(p1.javaClass === p2.javaClass)
 
 
 
-
-
-
-
 #### 通配符
 
 Java中的继承 ，在泛型中并不是父子类关系 
@@ -399,8 +387,6 @@ Java用 ？  Kotlin 用 *
 
 
 无界通配符 意味着可以使用任何对象，因此使用它类似于使用原生类型
-
-
 
 类A是类B的父类，G<A>和G<B>的公共的父类是: G<?>
 
@@ -523,9 +509,9 @@ class Plate<T> {
 
 <img src="Generics/2020-09-13_at_9.33.25.png" alt="Screen Shot 2020-09-13 at 9.33.25 PM" style="zoom:67%;" />
 
-###### ? extends Fruit赋值
+###### ? extends Fruit赋值 ，无法添加数据，不知道子类到底多小.
 
-? extends Fruit 可以理解为 <= Fruit
+? extends Fruit 可以理解为 <= Fruit,
 
 List<? extends Fruit> 可以作为 List<Apple> ， List<Fruit>的父类。
 
@@ -607,7 +593,7 @@ Java类型擦除只会擦除到Fruit类型,如果没有指明边界，那么类�
 
 ![Screen Shot 2020-09-13 at 9.46.10 PM](Generics/2020-09-13_at_9.46.10.png)
 
-######  ? super Fruit赋值
+######  ? super Fruit赋值,只能添加数据 。
 
  ? super Fruit 可以理解为 >= Fruit
 

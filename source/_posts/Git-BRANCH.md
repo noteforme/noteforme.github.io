@@ -426,3 +426,45 @@ https://www.jianshu.com/p/d265f7763a3a
 https://blog.csdn.net/riddle1981/article/details/74938111
 
 https://www.cpweb.top/455
+
+
+
+#### master revert
+
+ 今天将一段代码合入了master，上线的时候有问题，而不能很快解决掉，为了不影响其他同事合入master或将有问题的commit带上线，因此我将我的commit revert掉了。
+  同时，当天晚上的时候有同事刚好问我git revert后自己代码消失的问题，当时思考不清晰，也比较少用revert，因此现在来复盘下。
+  commit提交流程示意图如下：
+
+
+
+![](https://upload-images.jianshu.io/upload_images/20690451-b8fff26d34df812c.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/340/format/webp)
+
+
+
+其中A是有问题的commit，R是revert的commit，M是master，序号N代表master的流向,
+
+
+
+1. 从master checkout分支 F-A ,提交了TestA文件
+
+   ![](Git-BRANCH/20221109111230.jpg)
+
+2. 从master checkout分支 UP-R,提交了TESTB, TestR
+
+![20221109115616](Git-BRANCH/20221109115616.jpg)
+
+3. 分别吧F-A , UP-R分支合并到master.
+4. 此时觉得F-A代码有问题，需要修改，master对F-A进行revert ,此时 master的F-A 分支TesA被删除了,并且有一条提交记录
+5. 从master checkout分支verify-b,然后将之前revert commit那条提交 再进行 git revert commit,然后push
+6. 把master合并到verify-b就能解决这个问题.
+
+https://blog.csdn.net/oYiMiYangGuang123/article/details/99437382
+
+
+
+主要 git reset不能解决，有问题.除非强制push。
+
+
+
+
+

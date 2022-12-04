@@ -182,6 +182,75 @@ ArrayMap类有两个非常重要的静态成员变量mBaseCache和mTwiceBaseCach
 
 
 
+传入ArrayMap(4) 或者ArrayMap(8),性能会有变化吗
+
+##### 构造方法
+
+```java
+public ArrayMap(int capacity, boolean identityHashCode) { // 如果传入一个 capacity =4
+    mIdentityHashCode = identityHashCode;
+    if (capacity < 0) {
+        mHashes = EMPTY_IMMUTABLE_INTS;
+        mArray = EmptyArray.OBJECT;
+    } else if (capacity == 0) {
+        mHashes = EmptyArray.INT;
+        mArray = EmptyArray.OBJECT;
+    } else {
+        allocArrays(capacity); // 走到这里
+    }
+    mSize = 0;
+}
+```
+
+
+
+```java
+private void allocArrays(final int size) {
+    if (mHashes == EMPTY_IMMUTABLE_INTS) {
+        throw new UnsupportedOperationException("ArrayMap is immutable");
+    }
+    if (size == (BASE_SIZE*2)) {
+        synchronized (ArrayMap.class) {
+            if (mTwiceBaseCache != null) {
+                final Object[] array = mTwiceBaseCache;
+                mArray = array;
+                mTwiceBaseCache = (Object[])array[0];
+                mHashes = (int[])array[1];
+                array[0] = array[1] = null;
+                mTwiceBaseCacheSize--;
+                if (DEBUG) Log.d(TAG, "Retrieving 2x cache " + mHashes
+                        + " now have " + mTwiceBaseCacheSize + " entries");
+                return;
+            }
+        }
+    } else if (size == BASE_SIZE) { // 走到这里
+        synchronized (ArrayMap.class) {
+            if (mBaseCache != null) {
+                final Object[] array = mBaseCache;
+                mArray = array;
+                mBaseCache = (Object[])array[0];
+                mHashes = (int[])array[1];
+                array[0] = array[1] = null;
+                mBaseCacheSize--;
+                if (DEBUG) Log.d(TAG, "Retrieving 1x cache " + mHashes
+                        + " now have " + mBaseCacheSize + " entries");
+                return;
+            }
+        }
+    }
+    mHashes = new int[size];
+    mArray = new Object[size<<1];
+}
+```
+
+
+
+
+
+
+
+
+
 https://juejin.cn/post/7049631659116888094
 
 http://gaozhipeng.me/posts/arraymap/

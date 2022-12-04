@@ -28,6 +28,14 @@ fun main() {
 
 
 
+##### 类型别名 typealias
+
+ 如果类型名称太长，你可以另外引入较短的名称，并使用新的名称替代原类型名。
+
+https://www.kotlincn.net/docs/reference/type-aliases.html
+
+
+
 ##### 泛型拓展函数
 
 ![](kotlin-ext-func/2021-08-22_1.42.27_generic_extends.png)

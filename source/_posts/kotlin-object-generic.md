@@ -12,6 +12,10 @@ https://www.bilibili.com/video/BV1wf4y1s7TG?p=95
 
 
 
+generic
+
+
+
 object目录下
 
 ### 对象相关
@@ -714,8 +718,6 @@ fun main() {
     box1[0] //运算符重载后 重写get，就能这样操作了
 }
 ```
-
-
 
 
 

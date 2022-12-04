@@ -170,10 +170,36 @@ https://simplifiedcoding.in/course/android-testing-tutorial-from-junit-to-espres
 
  spend-tracker
 
-
-
 https://www.youtube.com/watch?v=B-dJTFeOAqw
 
-
-
 https://www.youtube.com/watch?v=uH6-HNxK32E
+
+
+
+##### SavedStateHandle
+
+https://www.kodeco.com/5212210-jetpack-saved-state-for-viewmodel-getting-started
+
+
+
+https://juejin.cn/post/6907121847024746503
+
+
+
+##### VisibleForTesting
+
+通过上面的代码看出， 被测试的testPrivate方法的可见性还是被改成Protected。也就是,VisibleForTesting只是一个注释，一个元数据metadata，它并没有进入程序逻辑，也没有被转化成字节码byte code 从而被JVM执行。
+
+笔者猜测可能是Guava 的 程序员犯懒了, 即不愿意在unit test里直接利用Reflection来测试私有方法。也没有把私有方法写入另一个类中。所以设计了VisibleForTesting的注解来提醒其他程序员: 这里为了测试私有方法把私有方法改成了Protected(受保护的)并放宽了访问限制。
+
+可是就JAVA本身而言，只有通过Reflection才能真正测试私有方法。
+
+https://www.cnblogs.com/yanlongpankow/p/6240563.html
+
+https://jefflin1982.medium.com/android-visiblefortesting%E7%9A%84%E7%94%A8%E9%80%94-5a666a17ba95
+
+
+
+##### viewmodel share
+
+https://github.com/google-developer-training/android-basics-kotlin-cupcake-app/tree/starter

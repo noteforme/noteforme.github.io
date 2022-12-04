@@ -16,17 +16,35 @@ https://ihateregex.io/expr/password
 
 
 
+#### ASCII
+
+![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwMTE5MTAyNjAxNzA5?x-oss-process=image/format,png)
+
+读ASCII表 先读 “竖” 、后读 “横”
+例如：A , [二进制](https://so.csdn.net/so/search?q=二进制&spm=1001.2101.3001.7020)是 0100 0001 十进制是 2^6 + 1 = 65 十六进制 41
+
+F : 二进制是 0100 0110 十进制是 2^6 + 2^2+2=70 十六进制 46
+
+
+
+##### String中的数字转int
+
+```kotlin
+val digits = "23"
+val c = digits[0] - '0' // 50 - 48
+println(digits[0].code) // ASCII是 50
+println('0'.code)       //ASCII是 48
+```
+
+
+
 #### 正则意义对照表格
 
 https://baixin.ink/2016/03/21/regular-expression/
 
 https://www.jb51.net/shouce/jquery1.82/regexp.html
 
-
-
 https://www.bilibili.com/video/BV1Eq4y1E79W?p=4
-
-##### 
 
 https://deerchao.cn/tutorials/regex/regex.htm
 
