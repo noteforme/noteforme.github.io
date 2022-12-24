@@ -90,6 +90,10 @@ fun `test coroutine await`() = runBlocking {
 
 接口1请求成功，拿到接口，再请求其他接口。
 
+launch启动用 join()
+
+async启动用 await()
+
 
 
 ##### P22 async组合并发
@@ -455,6 +459,10 @@ NonCancellable
 超时1300后的处理
 
 
+
+
+
+![图片](https://static001.geekbang.org/infoq/77/777b03f91e0335db9f67506ed186e143.png)
 
 
 

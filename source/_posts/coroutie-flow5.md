@@ -113,7 +113,7 @@ I am not blocked 3
 
 ##### 60 冷流
 
-![2022-03-20_9.12.12](coroutie-flow5/2022-03-20_9.12.12.png)
+
 
 Flow是一种类似于序列的冷流，flow够坚强中的代码知道流被收集的时候才运行
 
@@ -139,6 +139,25 @@ fun `test flow is cold`() = runBlocking {
     flow.collect { value -> println(value) }
 }
 ```
+
+
+
+只要执行 还会再执行一次。
+
+```
+Calling collect...
+Flow started
+1
+2
+3
+Calling collect again
+Flow started
+1
+2
+3
+```
+
+
 
 
 
@@ -198,7 +217,7 @@ three
 
 
 
-63. ##### 流上下文
+##### 63.流上下文
 
 flowOn
 
@@ -227,6 +246,8 @@ fun simpleFlow3()= flow<Int> {
 
 
 
+构建的时候用协程启动的后台线程
+
 ```kotlin
 fun simpleFlow4() = flow<Int> {
     withContext(Dispatchers.IO) {
@@ -254,6 +275,8 @@ Flow started DefaultDispatcher-worker-1 @coroutine#1
 Flow invariant is violated: // 报错
 
 
+
+用flowOn可以解决这个问题。flowon可以更改流发射的上下文。
 
 ```kotlin
 fun simpleFlow5() = flow<Int> {
@@ -285,29 +308,31 @@ Collected 3 Test worker @coroutine#1
 
 
 
-64. ##### 在知道协程中收集流
+##### 64.在指定协程中收集流
 
-    使用launchin替换collect 我们可以在单独的协程中启动流的收集 
 
-    ```kotlin
-        fun events() = (1..3)
-            .asFlow()
-            .onEach { delay(100) }
-            .flowOn(Dispatchers.Default)
-    
-    
-        @Test
-        fun `test flow launch`() = runBlocking<Unit> {
-            val job =
-                events().onEach { events -> println("Event: $events ${Thread.currentThread().name}") }
-    //            .collect()
-                    .launchIn(CoroutineScope(Dispatchers.IO)) // 单独的协程中，启动流的收集
-                    .join()
-            delay(200)
-    
-    //        job.cancelAndJoin()
-        }
-    ```
+
+使用launchIn(),替换collect 我们可以在单独的协程中启动流的收集 
+
+```kotlin
+    fun events() = (1..3)
+        .asFlow()
+        .onEach { delay(100) }
+        .flowOn(Dispatchers.Default)
+
+
+    @Test
+    fun `test flow launch`() = runBlocking<Unit> {
+        val job =
+            events().onEach { events -> println("Event: $events ${Thread.currentThread().name}") }
+//            .collect()
+                .launchIn(CoroutineScope(Dispatchers.IO)) // 单独的协程中，启动流的收集
+                .join()
+        delay(200)
+
+//        job.cancelAndJoin()
+    }
+```
 
 
 

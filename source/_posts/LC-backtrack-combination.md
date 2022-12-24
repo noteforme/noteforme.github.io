@@ -100,8 +100,6 @@ https://programmercarl.com/0077.%E7%BB%84%E5%90%88.html#%E5%89%AA%E6%9E%9D%E4%BC
 
 
 
-
-
 ```kotlin
 val path = ArrayList<Int>()
 val result = ArrayList<List<Int>>()
@@ -129,8 +127,8 @@ private fun backTracking1(n: Int, k: Int, startIndex: Int) {
 
 
 
-- 只使用数字1到9
-- 每个数字 **最多使用一次** 
+- 只使用数字1到9 .
+- 每个数字 **最多使用一次** .
 
 
 
@@ -190,8 +188,6 @@ private fun blockTracking(k: Int, n: Int, startIndex: Int) {
 
 
 
-
-
 ```kotlin
     private val result = ArrayList<List<Int>>()
     private var sum: Int = 0 //集合的和
@@ -236,7 +232,6 @@ private fun blockTracking(k: Int, n: Int, startIndex: Int) {
         return
     }
     for (i in startIndex..(9 - (k - pathList.size) + 1)) {
-
         sum += i
         pathList.add(i)
         blockTracking(k, n, i + 1)
@@ -435,7 +430,7 @@ https://www.bilibili.com/video/BV12V4y1V73A/
 
 1. 看了视频，对应这个图. 重复的原因在于树宽 第二次取1的地方，因为第1次取1，已经包括了第二次取1的所有树枝。所以把第二次取1的树枝剪掉既可。
 2. 剪枝条件1：candidates[i] == candidates[i - 1] 
-3. 剪枝条件2: 通过设置used数组，只有used[i - 1] 是false才有意义, used[i - 1]= false ,说明数组的第一个1没有取，取的是第二个1，这样判断就可以把 第二次取1的这个枝干给剪掉。
+3. 剪枝条件2: 通过设置used数组，只有used[i - 1] 是false才有意义, used[i - 1]= false ,说明数组的第一个1没有取，取的是第二个1，结果是[1,2]，导致和第一次的取第一个1和下一层取2,结果是[1,2]重复了。这样判断就可以把 第二次取1的这个枝干给剪掉。
 
 
 
@@ -589,6 +584,14 @@ s.substring(startIndex, s.length) 先分割前三个，然后判断最后一个�
 
 
 
+startIndex解释，下面这张图更清楚，第一层取 元素2.
+
+![78.子集](https://img-blog.csdnimg.cn/202011232041348.png)
+
+
+
+
+
 ![93.复原IP地址](https://img-blog.csdnimg.cn/20201123203735933.png)
 
 
@@ -602,6 +605,7 @@ fun restoreIpAddresses(s: String): List<String> {
 }
 
 private fun backTrack(s: String, startIndex: Int, layer: Int) {
+  // 看了随想录解法，这里加上终止条件会更好。
     if (layer == 3) {   // 第三个分割线
         val substring = s.substring(startIndex, s.length) // 这里的方式就解决了，分割所有子串的问题，最后一次分割，直接到字符串的终点。
         if (isValid(substring)) {
@@ -647,11 +651,13 @@ private fun isValid(s: String): Boolean {
 
 
 
-#### 78.子集
+####  [78. 子集](https://leetcode.cn/problems/subsets/)
 
 
 
 ![78.子集](https://img-blog.csdnimg.cn/202011232041348.png)
+
+
 
 这题把上图画出来后，还是比较简单的。只要把所有步数情况添加就可以了。
 
@@ -670,6 +676,164 @@ private fun backTrack(nums: IntArray, startIndex: Int) {
     for (i in startIndex until nums.size) {
         path.add(nums[i])
         backTrack(nums, i + 1) // 注意
+        path.remove(nums[i])
+    }
+}
+```
+
+
+
+
+
+##### 90.[子集 II](https://leetcode.cn/problems/subsets-ii/description/)
+
+
+
+![90.子集II](https://img-blog.csdnimg.cn/20201124195411977.png)
+
+
+
+
+
+第一层 第二列取元素2的时候，此时子集就有2了，第三列再取就重复了。
+
+从图中可以看出，同一树层上重复取2 就要过滤掉，同一树枝上就可以重复取2，因为同一树枝上元素的集合才是唯一子集！
+
+
+
+```kotlin
+class Solution {
+    private val result = ArrayList<List<Int>>()
+    private val path = ArrayList<Int>()
+    fun subsetsWithDup(nums: IntArray): List<List<Int>> {
+        Arrays.sort(nums)
+        val used = BooleanArray(nums.size)
+        backTrack(nums, used, 0)
+        return result
+    }
+
+    private fun backTrack(nums: IntArray, used: BooleanArray, startIndex: Int) {
+        result.add(path.toList())
+        for (i in startIndex until nums.size) {
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+                continue
+            }
+            used[i] = true
+            path.add(nums[i])
+            backTrack(nums,used,i+1)
+            path.remove(nums[i])
+            used[i] = false
+        }
+    }
+}
+```
+
+
+
+!used[i - 1] 这个条件是判断树层的条件，否则会把树枝给剪掉了。
+
+
+
+## 补充
+
+本题也可以不使用used数组来去重，因为递归的时候下一个startIndex是i+1而不是0。
+
+随想录这句没理解。
+
+
+
+##### 491.递增子序列
+
+
+
+1. 不能排序,所以子集中used解法不行
+
+2. 树枝中小心判断大小。
+
+   
+
+https://www.bilibili.com/video/BV1EG4y1h78v/
+
+
+
+一开始按照下面子集的解法做的,但是存在问题，子集是经过排序后的，然后nums[i] == nums[i - 1] && !used[i - 1]这样的条件判断，这题不能排序的，所以情况不一样。
+
+```kotlin
+    private fun backTrack(nums: IntArray, used: BooleanArray, startIndex: Int) {
+        if (path.size > 1) {
+            result.add(path.toList())
+        }
+        for (i in startIndex until nums.size) {
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+                continue
+            }
+            if (i > 0 && nums[i] < nums[i - 1]){
+                break
+            }
+            path.add(nums[i])
+            used[i] = true
+            backTrack(nums,used,i+1)
+            path.remove(nums[i])
+            used[i] = false
+        }
+    }
+```
+
+
+
+![491. 递增子序列1](https://img-blog.csdnimg.cn/20201124200229824.png)
+
+
+
+上图可以看到，树层中是不能重复的，因为签名的 7包含后面7的所有情况。
+
+
+
+```kotlin
+    private val result = ArrayList<List<Int>>()
+    private val path = ArrayList<Int>()
+
+    fun findSubsequences(nums: IntArray): List<List<Int>> {
+        backTrack(nums, 0, 0)
+        return result
+    }
+
+    private fun backTrack(nums: IntArray, startIndex: Int, layer: Int) {
+        if (path.size > 1) {                      //  至少有两个元素
+            result.add(path.toList())
+        }
+        val set = mutableSetOf<Int>()             // 树层中是否包含 相同的元素。
+        for (i in startIndex until nums.size) {
+//            println("startIndex $startIndex set $set")
+            if (layer == 0) {
+                println("layer  set $set")
+            }
+            if ((path.isNotEmpty() && nums[i] < path.last()) || set.contains(nums[i])) { // 小于上一个元素，这个分支以下不用走了， set树层中包含相同的与元素。
+                continue
+            }
+            set.add(nums[i])  //因为是判断树层，而且是每一层都局部会new 一个set，所以这个没有回溯。
+            path.add(nums[i])
+            backTrack(nums, i + 1, layer + 1)
+            path.remove(nums[i])
+        }
+    }
+```
+
+
+
+```kotlin
+private fun backTrack(nums: IntArray, startIndex: Int, layer: Int) {
+    if (path.size > 1) {
+        result.add(path.toList())
+    }
+    val used = IntArray(201) // -100 <= nums[i] <= 100 ， 包括 0
+    for (i in startIndex until nums.size) {
+        if ((path.isNotEmpty() && nums[i] < path.last()) || used[nums[i] + 100] == 1) {
+            continue
+        }
+        used[nums[i] + 100] = 1
+        path.add(nums[i])
+        backTrack(nums, i + 1, layer + 1)
         path.remove(nums[i])
     }
 }

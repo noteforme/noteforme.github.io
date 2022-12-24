@@ -8,6 +8,12 @@ categories: Jetpack
 
 
 
+
+
+https://www.bilibili.com/video/BV19B4y1N7iV
+
+
+
 ### 优势
 
 1. 确保界面符合数据状态
@@ -20,7 +26,57 @@ categories: Jetpack
 
 
 
+##### stiky event
 
+https://juejin.cn/post/7019734258793054238
+
+
+
+#### savedStateHandle 使用
+
+ 模拟app killed
+
+https://developer.android.com/codelabs/android-lifecycles#6
+
+
+
+```
+adb shell ps -A |grep lifecycle
+adb shell am kill 
+```
+
+
+
+##### 1. 为什么有粘性事件
+
+Google官方文档中描述，设备横竖屏切换的时候，界面销毁重建，但是Activity生命周期并未结束，旋转后新建的空页面上数据需要重新填充，曾经的后台Activity返回到前台后立即接受最新的数据，所以LiveData在被再次观察时会立即推送数据更新。
+
+##### 粘性实例
+
+https://juejin.cn/post/6856688280231444487
+
+
+
+2. 旋转屏幕，为什么能保持数据
+
+   ```kotlin
+   static class ObserverWithState {
+       State mState;
+       LifecycleEventObserver mLifecycleObserver;
+   
+       ObserverWithState(LifecycleObserver observer, State initialState) {
+           mLifecycleObserver = Lifecycling.lifecycleEventObserver(observer);
+           mState = initialState;
+       }
+   
+       void dispatchEvent(LifecycleOwner owner, Event event) {
+           State newState = event.getTargetState();
+           mState = min(mState, newState);
+           mLifecycleObserver.onStateChanged(owner, event); // onstart状态 能继续发送，不知道什么方法触发的。
+           mState = newState;
+       }
+   }
+   ```
 
 
 
@@ -32,9 +88,63 @@ viewmodel中的数据发生变化时通知页面
 
 
 
-### LiveData原理
+
+
+##### livedata active状态e
+
+![lifecycle_state](LiveData/lifecycle_state.jpg)
+
+
+
+`LiveData` objects only consider subscriptions as active when their respective lifecycle owner is either [STARTED](https://developer.android.com/reference/android/arch/lifecycle/Lifecycle.State.html#started) or [RESUMED](https://developer.android.com/reference/android/arch/lifecycle/Lifecycle.State.html#resumed).
+
+STARTED ， 
+
+```java
+@Override
+boolean shouldBeActive() {
+    return mOwner.getLifecycle().getCurrentState().isAtLeast(STARTED);
+}
+```
+
+
+
+```kotlin
+class EnumTest {
+    @Test
+    fun compareTest(){
+        println("DESTROYED "+  State.DESTROYED.isAtLeast(State.STARTED))
+        println("INITIALIZED "+  State.INITIALIZED.isAtLeast(State.STARTED))
+        println("CREATED "+  State.CREATED.isAtLeast(State.STARTED))
+        println("STARTED "+  State.STARTED.isAtLeast(State.STARTED))
+        println("RESUMED "+  State.RESUMED.isAtLeast(State.STARTED))
+    }
+}
+```
+
+> DESTROYED false
+> INITIALIZED false
+> CREATED false
+> STARTED true
+> RESUMED true
+
+
+
+https://blog.csdn.net/qq_44076155/article/details/121471697
+
+https://juejin.cn/post/6955309901363036191
+
+https://juejin.cn/post/7148049769057746952
 
 从上面例子可以知道LiveData的核心主要在于这两步，liveData.observe()以及liveData.postValue()，一个是注册观察者，一个是发送通知。那么下面的解析就将这两个函数作为切入点。
+
+
+
+mLastVersion : 观察者
+
+mVersion :  	被观察者
+
+
 
 ##### 1.LiveData.observe()
 
@@ -130,7 +240,7 @@ postValue中首先将参数value赋值给了一个全局变量mPendingData，它
 
 在最后就是一个将线程切换到主线程的操作，主要看mPostValueRunnable的实现：
 
-```js
+```java
   private final Runnable mPostValueRunnable = new Runnable() {
         @SuppressWarnings("unchecked")
         @Override
@@ -224,14 +334,21 @@ https://juejin.cn/post/6955309901363036191
 
 
 
-
-
+##### 粘性事件原理
 
 
 
 
 
 ### 数据粘性
+
+实例
+
+https://juejin.cn/post/7148049769057746952
+
+或者切换屏幕 turn the android phone on the horizontal
+
+
 
 经过了解和使用 view model,databiding后，我觉得这个不是官方留的坑，在特定的场景可能还需要这样做，我获取手环睡眠数据此时有其他fragment还没创建，我就需要创建后才就监听到数据。
 
@@ -245,13 +362,19 @@ https://blog.csdn.net/geyuecang/article/details/89028283
 
 
 
-##### 方法2
+##### singleLiveEvent
 
- singleLiveEvent
+多个观察者，这个就不好用了。
 
 其实这个方法解决的并不是粘性事件的问题，而是“数据倒灌”的问题。“数据倒灌”一词出自[KunMinX](https://links.jianshu.com/go?to=https%3A%2F%2Fxiaozhuanlan.com%2Fu%2Fkunminx)的Blog[**重学安卓：LiveData 数据倒灌 背景缘由全貌 独家解析**](https://links.jianshu.com/go?to=https%3A%2F%2Fxiaozhuanlan.com%2Ftopic%2F6719328450),即在setValue后,observe对此次set的value值会进行多次消费。比如进行第二次observe的时候获取到的数据是第一次的旧数据。这样会带来不可预期的后果。
 
 
+
+https://github.com/android/architecture-samples/blob/dev-todo-mvvm-live/todoapp/app/src/main/java/com/example/android/architecture/blueprints/todoapp/SingleLiveEvent.java
+
+
+
+> `m.compareAndSet(a,b)`,如果m==a ,返回true，同时将m置为b； 如果m==b，返回false。
 
 ##### 方法3
 
@@ -320,11 +443,43 @@ https://juejin.cn/post/6844903623252508685
 
 
 
-UnPeekLiveData
+##### 方法4
 
-或者 ELiveData 
 
-https://www.ershicimi.com/p/2f57df7148300017e8a0f7227720a2e8
+
+```kotlin
+/**
+ * Used as a wrapper for data that is exposed via a LiveData that represents an event.
+ */
+open class Event<out T>(private val content: T) {
+
+    var hasBeenHandled = false
+        private set // Allow external read but not write
+
+    /**
+     * Returns the content and prevents its use again.
+     */
+    fun getContentIfNotHandled(): T? {
+        return if (hasBeenHandled) {
+            null
+        } else {
+            hasBeenHandled = true
+            content
+        }
+    }
+
+    /**
+     * Returns the content, even if it's already been handled.
+     */
+    fun peekContent(): T = content
+}
+```
+
+
+
+UnPeekLiveData 或者 ELiveData 
+
+
 
 https://juejin.im/post/5b2b1b2cf265da5952314b63
 
@@ -332,6 +487,12 @@ https://www.jianshu.com/p/79d909b6f8bd
 
 https://juejin.im/post/6892704779781275662
 
-
-
 https://www.jianshu.com/p/d0244c4c7cc9
+
+
+
+#### LifeCycle
+
+通过lifecycle旋转屏幕后，重新发送事件来分析，粘性事件。
+https://developer.android.com/codelabs/android-lifecycles#2
+
