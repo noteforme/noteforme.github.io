@@ -455,7 +455,7 @@ https://www.cpweb.top/455
 
 3. 分别吧F-A , UP-R分支合并到master.
 4. 此时觉得F-A代码有问题，需要修改，master对F-A进行revert ,此时 master的F-A 分支TesA被删除了,并且有一条提交记录
-5. 从master checkout分支verify-b,然后将之前revert commit那条提交 再进行 git revert commit,然后push
+5. 从master checkout分支verify-b,然后将之前revert commit那条提交 再进行 git revert commit,然后push (这个方式没想明白)
 6. 把master合并到verify-b就能解决这个问题.
 
 https://blog.csdn.net/oYiMiYangGuang123/article/details/99437382

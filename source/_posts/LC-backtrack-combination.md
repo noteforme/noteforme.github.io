@@ -430,7 +430,7 @@ https://www.bilibili.com/video/BV12V4y1V73A/
 
 1. 看了视频，对应这个图. 重复的原因在于树宽 第二次取1的地方，因为第1次取1，已经包括了第二次取1的所有树枝。所以把第二次取1的树枝剪掉既可。
 2. 剪枝条件1：candidates[i] == candidates[i - 1] 
-3. 剪枝条件2: 通过设置used数组，只有used[i - 1] 是false才有意义, used[i - 1]= false ,说明数组的第一个1没有取，取的是第二个1，结果是[1,2]，导致和第一次的取第一个1和下一层取2,结果是[1,2]重复了。这样判断就可以把 第二次取1的这个枝干给剪掉。
+3. 剪枝条件2: 通过设置used数组，只有used[i - 1] 是false才有意义, used[i - 1]= false ,说明数组的第一个1没有取，取的是第二个1，结果是[1,2]，所以可以舍弃掉，否则导致和第一次的取第一个1和下一层取2,结果是[1,2]重复了。这样判断就可以把 第二次取1的这个枝干给剪掉。 也叫 树层去重。
 
 
 
@@ -685,7 +685,7 @@ private fun backTrack(nums: IntArray, startIndex: Int) {
 
 
 
-##### 90.[子集 II](https://leetcode.cn/problems/subsets-ii/description/)
+#### 90.[子集 II](https://leetcode.cn/problems/subsets-ii/description/)
 
 
 
@@ -742,7 +742,7 @@ class Solution {
 
 
 
-##### 491.递增子序列
+#### 491.递增子序列
 
 
 
@@ -786,6 +786,10 @@ https://www.bilibili.com/video/BV1EG4y1h78v/
 
 
 上图可以看到，树层中是不能重复的，因为签名的 7包含后面7的所有情况。
+
+
+
+
 
 
 
@@ -841,3 +845,299 @@ private fun backTrack(nums: IntArray, startIndex: Int, layer: Int) {
 
 
 
+#### 46全排列
+
+[1,2,3] 选了2之后， 1，3 就不知道从哪里开始了，子集问题有个startIndex
+
+
+
+##### 我的解法
+
+```kotlin
+private val result = ArrayList<List<Int>>()
+private val path = ArrayList<Int>()
+fun permute(nums: IntArray): List<List<Int>> {
+    val size = nums.size
+    val used = BooleanArray(size)
+    backTrack(nums, used)
+    return result
+}
+
+private fun backTrack(nums: IntArray, used: BooleanArray) {
+    println(path)
+  //if (totalUsed(used)) {
+    if (totalUsed(used)) {
+        result.add(path.toList())
+        return
+    }
+    for ((index, value) in nums.withIndex()) {
+        if (used[index]) {
+            continue
+        }
+        path.add(nums[index])
+        used[index] = true
+        backTrack(nums, used)
+        path.remove(nums[index])
+        used[index] = false
+    }
+}
+
+private fun totalUsed(used: BooleanArray): Boolean {
+    return used.contains(false).not()
+}
+```
+
+
+
+先画图分析 
+
+![46.全排列](https://img-blog.csdnimg.cn/20201209174225145.png)
+
+
+
+单测中把数据打印出来，能大概理清这种思路，
+
+```
+[]
+[1]
+[1, 2]
+[1, 2, 3]
+[1, 3]
+[1, 3, 2]
+[2]
+[2, 1]
+[2, 1, 3]
+[2, 3]
+[2, 3, 1]
+[3]
+[3, 1]
+[3, 1, 2]
+[3, 2]
+[3, 2, 1]
+[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
+```
+
+
+
+
+
+#### 47.全排列 II
+
+
+
+我的解法有一点点问题[2,2,1,1]这个跑步过去,path.removeAt(path.lastIndex),看了随想录的解法和我没区别，才发现这里的。
+
+思路
+
+1. 和组合去重没区别 ,(index > 0 && nums[index] == nums[index - 1] && !used[index - 1])重复元素，树层去重
+2. 全排列使用过的元素。
+
+
+
+```kotlin
+    private val path = ArrayList<Int>()
+    private val result = ArrayList<List<Int>>()
+    fun permuteUnique(nums: IntArray): List<List<Int>> {
+        Arrays.sort(nums)
+//        nums.printIntArray()
+        val used = BooleanArray(nums.size)
+        backTrack(nums, used)
+        return result
+    }
+
+//    private fun backTrack(nums: IntArray, used: BooleanArray) {
+//        println(path)
+//        if (path.size == nums.size) {
+//            result.add(path.toList())
+//            return
+//        }
+//        for ((index, value) in nums.withIndex()) {
+//            if (used[index] || (index > 0 && nums[index] == nums[index - 1] && !used[index - 1])) {
+//                continue
+//            }
+//            used[index] = true
+//            path.add(value)
+//            backTrack(nums, used)
+//            used[index] = false
+//            path.remove(value)
+//        }
+//    }
+
+    private fun backTrack(nums: IntArray, used: BooleanArray) {
+        println(path)
+        if (path.size == nums.size) {
+            result.add(path.toList())
+            return
+        }
+        for (index in nums.indices) {
+            if ((index > 0 && nums[index] == nums[index - 1] && !used[index - 1])) {
+                continue
+            }
+            if (used[index]) {
+                continue
+            }
+            used[index] = true
+            path.add(nums[index])
+            backTrack(nums, used)
+            path.removeAt(path.lastIndex) // 用path.remove(value)是有问题的，会把所有的这个元素删除掉，46没问题是因为没有重复元素，leetcode removeLast() cannot build
+            used[index] = false
+        }
+    }
+```
+
+
+
+#### 332.重新安排行程
+
+
+
+随想录解法那个数组处理没看明白
+
+
+
+这里用到的回溯，就是目的地可能有多个。
+
+https://leetcode.cn/problems/reconstruct-itinerary/solutions/654811/java-bu-yong-ou-la-zhi-yong-hui-su-si-lu-4v83/
+
+看了他的视频
+
+1. 给定的tickets转成 from to 的结构,就可以知道出发点对应的，到达点和到达点的线路数。 // 这个数据处理也是有点麻烦的。
+2. 根据多个到达点回溯，找到最合适的路径
+2. 如果到达点的是线路是0，那么找下一题跳线路。
+3.  遇到的机场个数path ==航班数量+
+
+
+
+putIfAbsent
+
+https://blog.csdn.net/hbtj_1216/article/details/75093428
+
+
+
+```kotlin
+val path = ArrayList<String>()
+fun findItinerary(tickets: List<List<String>>): List<String> {
+    //1. list转成 from to 的结构
+    //2. 回溯找到最合适的路径
+    //3.  遇到的机场个数path ==航班数量+
+    val hashMap = HashMap<String, TreeMap<String, Int>>()
+    tickets.stream().forEach { ticket ->
+        val from = ticket[0] // 出发地
+        val to = ticket[1]  //目的地
+
+        hashMap.putIfAbsent(from, TreeMap())
+        val treeMap = hashMap[from] ?: TreeMap()  //获取出发地对应的容器TreeMap,如果之前没用过的出发地key,那么新建一个容器TreeMap
+        treeMap[to] = treeMap.getOrDefault(to, 0) + 1 // 容器内，目的地的个数++,一开始这里写的有问题。
+    }
+    path.add("JFK") // 所有这些机票都属于一个从 JFK（肯尼迪国际机场）出发的先生，所以该行程必须从 JFK 开始。
+    backTrack(hashMap, tickets.size)
+    return path
+}
+
+private fun backTrack(hashMap: HashMap<String, TreeMap<String, Int>>, ticketSize: Int): Boolean {
+    if (path.size == ticketSize + 1) {
+        return true
+    }
+    // 1.根据path找到出发点,从hashmap根据出发点找到对应的 可能多个到达点
+    // 2. 多个可能的目的地进行回溯.
+    val recentTo = path[path.size - 1] //path.last() LeetCode build failed
+    val toDestinations = hashMap[recentTo]
+    if (toDestinations.isNullOrEmpty()) return false
+    for (to in toDestinations) {// forEach也行, for习惯点
+        if (to.value == 0) {
+            continue
+        }
+        path.add(to.key)
+        to.setValue(to.value - 1)
+        if (backTrack(hashMap, ticketSize)) {
+            return true
+        }
+        path.removeAt(path.size - 1)
+        to.setValue(to.value + 1)
+    }
+    return false
+}
+```
+
+
+
+#### 51.N 皇后
+
+<img src="https://img-blog.csdnimg.cn/20210130182532303.jpg" alt="51.N皇后" style="zoom:50%;" />
+
+
+
+这题思路不难，实现还是有难度，主要是皇后冲突代码不好理解，https://www.bilibili.com/video/BV1bK4y1n7iq
+
+大概11分钟，判断 皇后位置的冲突情况。
+
+1. 这一题思路就是主要 首先行，然后列摆放皇后问题，然后回溯。
+2. 还一个就是将要放下皇后的位置之前，8个方向只用考虑3个,确定左上，正上方，右上方的皇后是否存在。当前行不用考了，因为每行一个，后面的更不看了，因为还没放皇后.
+3. 最后就是要注意边界的问题，二刷的时候尤其注意这个。
+
+
+
+```java
+List<List<String>> result = new ArrayList<>();
+
+public List<List<String>> solveNQueens(int n) {
+    //1. 初始化棋盘放上.
+    char[][] chessBoard = new char[n][n];
+    for (char[] c : chessBoard) {
+        Arrays.fill(c, '.');
+    }
+    // 2. 开始放Queue,首先从行开始，一行一行回溯的放， 然后每一行开始从第1列开始。
+    // 3. 每次新的一行开始放Queue时，要考虑当前位置列的 前面的列有没有Queue,
+    // 当前位置的左边45度和135度有没有Queue,对于当前行和后面的行和斜对角不用考虑，因为每一行只有一个Queue,后面的行更是没有。
+    //4 。只有能放下，才会放后续的，然后进行回溯.
+    //5. 当放下的Queue时最后一行n时，递归结束，开始收集结果。
+    backTrack(n, 0, chessBoard);
+    return result;
+}
+
+private void backTrack(int n, int row, char[][] chessBoard) {
+    if (n == row) {
+        result.add(Array2List(chessBoard));
+        return;
+    }
+    for (int column = 0; column < n; ++column) {
+        if (isValid(row, column, chessBoard, n)) { // row,column待放入Queue的位置
+            chessBoard[row][column] = 'Q';
+            backTrack(n, row + 1, chessBoard);
+            chessBoard[row][column] = '.';
+        }
+    }
+}
+
+private boolean isValid(int pRow, int pColumn, char[][] chessBoard, int n) {
+    for (int i = 0; i < pRow; ++i) { //列
+        if (chessBoard[i][pColumn] == 'Q') {
+            return false;
+        }
+    }
+    for (int x = pRow - 1, y = pColumn - 1; x >= 0 && y >= 0; x--, y--) { //左上角 首次==边界错了
+        if (chessBoard[x][y] == 'Q') {
+            return false;
+        }
+    }
+    for (int x = pRow - 1, y = pColumn + 1; x >= 0 && y <= n - 1; x--, y++) {//右上角  首次==,n-1边界错了 ,y < n - 1一开始写成这样，找了半天
+        if (chessBoard[x][y] == 'Q') {
+            return false;
+        }
+    }
+    return true;
+}
+
+public List Array2List(char[][] chessboard) {
+    List<String> list = new ArrayList<>();
+
+    for (char[] c : chessboard) {
+        list.add(String.copyValueOf(c));
+    }
+    return list;
+}
+```
+
+
+
+这题for里面有x,y两个变量，kotlin不好弄，就用java了。
