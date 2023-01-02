@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>LC-hash | Jon&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Jon's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/localshare/css/share.css">
+
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jon&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Cease to struggle and you cease to live. - Thomas Carlyle</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
+        
+          <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-LC-hash" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      LC-hash
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2022-05-21T13:53:24.000Z" itemprop="datePublished">2022年05月21日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/DataStructure/">DataStructure</a>
+  </div>
+
+      
+        <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+      
+      
+<a href="/2022/05/21/LC-hash/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="242-有效的字母异位词"><a href="#242-有效的字母异位词" class="headerlink" title="242. 有效的字母异位词"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/valid-anagram/">242. 有效的字母异位词</a></h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">isAnagram</span><span class="params">(s: <span class="type">String</span>, t: <span class="type">String</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> record = IntArray(<span class="number">26</span>) <span class="comment">// 存整数，就用整形数</span></span><br><span class="line">    s.toCharArray().forEachIndexed &#123; _, char -&gt;</span><br><span class="line">        record[char - <span class="string">&#x27;a&#x27;</span>]++</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    t.toCharArray().forEachIndexed &#123; _, char -&gt;</span><br><span class="line">        record[char - <span class="string">&#x27;a&#x27;</span>]--</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    record.forEach &#123;</span><br><span class="line">        <span class="keyword">if</span> (it != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="383-赎金信"><a href="#383-赎金信" class="headerlink" title="383. 赎金信"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ransom-note/">383. 赎金信</a></h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/c15158032319/article/details/78209740">https://blog.csdn.net/c15158032319/article/details/78209740</a></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">canConstruct</span><span class="params">(ransomNote: <span class="type">String</span>, magazine: <span class="type">String</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> record = IntArray(<span class="number">26</span>)</span><br><span class="line">    magazine.toCharArray().forEach &#123; char -&gt;</span><br><span class="line">        record[char - <span class="string">&#x27;a&#x27;</span>] += <span class="number">1</span> <span class="comment">// 这里可以优化下</span></span><br><span class="line">    &#125;</span><br><span class="line">    ransomNote.toCharArray().forEach &#123; char -&gt;</span><br><span class="line">        record[char - <span class="string">&#x27;a&#x27;</span>] -= <span class="number">1</span>		<span class="comment">//同上</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    record.forEach &#123;</span><br><span class="line">        <span class="keyword">if</span> (it &lt; <span class="number">0</span>) &#123; <span class="comment">//就这里和242.有效的字母异位词 不一样，数量不够就&lt;0</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>//若 a = i++; 则等价于 a=i;i=i+1;<br>//而 a = ++i; 则等价于 i=i+1;a=i;<br>//a += 1 和   a = a + 1</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">canConstruct</span><span class="params">(ransomNote: <span class="type">String</span>, magazine: <span class="type">String</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> record = IntArray(<span class="number">26</span>)</span><br><span class="line">    magazine.toCharArray().forEach &#123; char -&gt;</span><br><span class="line">        record[char - <span class="string">&#x27;a&#x27;</span>] ++ </span><br><span class="line">    &#125;</span><br><span class="line">    ransomNote.toCharArray().forEach &#123; char -&gt;</span><br><span class="line">        record[char - <span class="string">&#x27;a&#x27;</span>] --</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    record.forEach &#123;</span><br><span class="line">        <span class="keyword">if</span> (it &lt; <span class="number">0</span>) &#123; <span class="comment">//就这里和242.有效的字母异位词 不一样，数量不够就&lt;0</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="49-字母异位词分组"><a href="#49-字母异位词分组" class="headerlink" title="49. 字母异位词分组"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/group-anagrams/">49. 字母异位词分组</a></h4><p>用的官方题解</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/group-anagrams/solution/zi-mu-yi-wei-ci-fen-zu-by-leetcode-solut-gyoc/">https://leetcode.cn/problems/group-anagrams/solution/zi-mu-yi-wei-ci-fen-zu-by-leetcode-solut-gyoc/</a></p>
+<h5 id="题解一"><a href="#题解一" class="headerlink" title="题解一"></a>题解一</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">groupAnagrams</span><span class="params">(strs: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span>: List&lt;List&lt;String&gt;&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> ansMap = HashMap&lt;String, ArrayList&lt;String&gt;&gt;() <span class="comment">// 相同异位词的key, 和所有异位词的数组</span></span><br><span class="line">    strs.forEach &#123; str -&gt;</span><br><span class="line">        <span class="keyword">val</span> char = str.toCharArray() <span class="comment">// String to char 进行排序，结果相同异位词key一致</span></span><br><span class="line">        Arrays.sort(char)</span><br><span class="line">        <span class="keyword">val</span> key = String(char)</span><br><span class="line">        <span class="keyword">if</span> (!ansMap.containsKey(key)) &#123; <span class="comment">// map不存在，就创建新的ArrayList()</span></span><br><span class="line">            ansMap[key] = ArrayList()</span><br><span class="line">        &#125;</span><br><span class="line">        ansMap[key]?.add(str)          <span class="comment">//拿到ArrayList(),添加元素</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ArrayList(ansMap.values)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="题解二"><a href="#题解二" class="headerlink" title="题解二"></a>题解二</h5><p>官方题解2 和题解一差不多，题解一进行排序的相同key,题解二用的散列计数，中间用#间隔作为 key.</p>
+<p>其他的都类似，后面再写吧 。</p>
+<p><img src="/2022/05/21/LC-hash/LC-carl-hash/1262C65F-FDC3-4290-957B-AEA8405D53FA.png" alt="1262C65F-FDC3-4290-957B-AEA8405D53FA"></p>
+<p>复杂度分析</p>
+<p>时间复杂度：O(nk \log k)O(nklogk)，其中 nn 是 \textit{strs}strs 中的字符串的数量，kk 是 \textit{strs}strs 中的字符串的的最大长度。需要遍历 nn 个字符串，对于每个字符串，需要 O(k \log k)O(klogk) 的时间进行排序以及 O(1)O(1) 的时间更新哈希表，因此总时间复杂度是 O(nk \log k)O(nklogk)。</p>
+<p>空间复杂度：O(nk)O(nk)，其中 nn 是 \textit{strs}strs 中的字符串的数量，kk 是 \textit{strs}strs 中的字符串的的最大长度。需要用哈希表存储全部字符串。</p>
+<h4 id="438-找到字符串中所有字母异位词"><a href="#438-找到字符串中所有字母异位词" class="headerlink" title="438. 找到字符串中所有字母异位词"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-all-anagrams-in-a-string/">438. 找到字符串中所有字母异位词</a></h4><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-all-anagrams-in-a-string/solution/zhao-dao-zi-fu-chuan-zhong-suo-you-zi-mu-xzin/">https://leetcode.cn/problems/find-all-anagrams-in-a-string/solution/zhao-dao-zi-fu-chuan-zhong-suo-you-zi-mu-xzin/</a></p>
+<h5 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">findAnagrams</span><span class="params">(s: <span class="type">String</span>, p: <span class="type">String</span>)</span></span>: List&lt;<span class="built_in">Int</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> sLength = s.length</span><br><span class="line">    <span class="keyword">val</span> pLength = p.length</span><br><span class="line">    <span class="keyword">if</span> (sLength &lt; pLength) &#123; <span class="comment">// 如果字符s的长度 小于p 直接返回</span></span><br><span class="line">        <span class="keyword">return</span> emptyList()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> ansList = arrayListOf&lt;<span class="built_in">Int</span>&gt;()</span><br><span class="line">    <span class="keyword">val</span> sCount = IntArray(<span class="number">26</span>)</span><br><span class="line">    <span class="keyword">val</span> pCount = IntArray(<span class="number">26</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> sCharArray = s.toCharArray()</span><br><span class="line">    <span class="keyword">val</span> pCharArray = p.toCharArray()</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">0</span> until pLength) &#123;      <span class="comment">//初始情况， p s字符相同，看是否相等.</span></span><br><span class="line">        sCount[sCharArray[i] - <span class="string">&#x27;a&#x27;</span>]++          <span class="comment">// 对于位置字符个数</span></span><br><span class="line">        pCount[pCharArray[i] - <span class="string">&#x27;a&#x27;</span>]++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (sCount.contentEquals(pCount)) &#123;         <span class="comment">//比较初始数量</span></span><br><span class="line">        ansList.add(<span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">0</span> until (sLength - pLength)) &#123; <span class="comment">// 从0开始，s的字符 左边-1 右边+1 字符，调整相应位置字符数量，</span></span><br><span class="line">        sCount[sCharArray[i] - <span class="string">&#x27;a&#x27;</span>]--</span><br><span class="line">        sCount[sCharArray[i + pLength] - <span class="string">&#x27;a&#x27;</span>]++</span><br><span class="line">        <span class="keyword">if</span> (sCount.contentEquals(pCount)) &#123;</span><br><span class="line">            ansList.add(i + <span class="number">1</span>)              <span class="comment">//如果 i==0, 那么0位置字符去掉， p.length + 0 字符+1, 新的字符开始位置就是1了</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ansList</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h5><p>diff方式，感觉没太明白 , 而且感觉作用不大,后面可以试试</p>
+<h5 id="解法三"><a href="#解法三" class="headerlink" title="解法三"></a>解法三</h5><p>这个滑动窗口，解法很高级，但是没明白</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;Integer&gt; findAnagrams(String s, String p) &#123;</span><br><span class="line">    int[] cnt = new int[<span class="number">128</span>];</span><br><span class="line">    <span class="keyword">for</span> (char c : p.toCharArray()) cnt[c]++;</span><br><span class="line">    int lo = <span class="number">0</span>, hi = <span class="number">0</span>;</span><br><span class="line">    List&lt;Integer&gt; res = new ArrayList&lt;&gt;();</span><br><span class="line">    <span class="comment">// 该循环确保[lo, hi)的区间中的出现的字符总是p的一个子集</span></span><br><span class="line">    <span class="comment">// PS1: &quot;na&quot;是&quot;and&quot;的子集，而&quot;nn&quot;则不是&quot;and&quot;的子集</span></span><br><span class="line">    <span class="comment">// PS2: 除了评论中那个边际条件，前面已经有评论解释过了</span></span><br><span class="line">    <span class="keyword">while</span> (hi &lt; s.length()) &#123;</span><br><span class="line">        char c = s.charAt(hi);</span><br><span class="line">        <span class="keyword">if</span> (cnt[c] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 子集条件满足，右移增大窗口</span></span><br><span class="line">            char c1 = s.charAt(hi++);</span><br><span class="line">            cnt[c1]--;</span><br><span class="line">            <span class="comment">// 窗口长度 == p.len，且窗口内字符是p的子集</span></span><br><span class="line">            <span class="comment">// &lt;=&gt; (充要条件) s.substring(lo, hi)是p的同字母异序词</span></span><br><span class="line">            <span class="keyword">if</span> (hi - lo == p.length())&#123;</span><br><span class="line">                res.add(lo);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 再右移hi不可能满足子集条件，</span></span><br><span class="line">            <span class="comment">// 右移左边界lo、复位计数器，直到这个条件（子集条件）再次满足</span></span><br><span class="line">            char c1 = s.charAt(lo++);</span><br><span class="line">            cnt[c1]++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="349-两个数组的交集"><a href="#349-两个数组的交集" class="headerlink" title="349. 两个数组的交集"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/intersection-of-two-arrays/">349. 两个数组的交集</a></h4><p>计算两个数组的交集，直观的方法是遍历数组 nums1，对于其中的每个元素，遍历数组 nums2 判断该元素是否在数组 nums2 中，如果存在，则将该元素添加到返回值。假设数组 nums1 和 nums2 的长度分别是 mm 和 nn，则遍历数组 nums1 需要 O(m)O(m) 的时间，判断 nums1 中的每个元素是否在数组 nums2 中需要 O(n)O(n) 的时间，因此总时间复杂度是 O(mn)O(mn)。</p>
+<p>如果使用哈希集合存储元素，则可以在 O(1)的时间内判断一个元素是否在集合中，从而降低时间复杂度。 if (set.contains(it))这句是o(1)?</p>
+<p>首先使用两个集合分别存储两个数组中的元素，然后遍历较小的集合，判断其中的每个元素是否在另一个集合中，如果元素也在另一个集合中，则将该元素添加到返回值。该方法的时间复杂度可以降低到 O(m+n)</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> <span class="keyword">set</span> = hashSetOf&lt;<span class="built_in">Int</span>&gt;()</span><br><span class="line">nums1.forEach &#123;</span><br><span class="line">    <span class="keyword">set</span>.add(it)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> anSet = hashSetOf&lt;<span class="built_in">Int</span>&gt;()</span><br><span class="line">nums2.forEach &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">set</span>.contains(it)) &#123; <span class="comment">// hashmap是怎么hash表是怎么存储的，为什么这样时间复杂度低, 因为在hash表中存储</span></span><br><span class="line">        anSet.add(it)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> anSet.toIntArray()</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://programmercarl.com/0349.%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86.html#_349-%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86">https://programmercarl.com/0349.%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86.html#_349-%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/intersection-of-two-arrays/solution/liang-ge-shu-zu-de-jiao-ji-by-leetcode-solution/">https://leetcode.cn/problems/intersection-of-two-arrays/solution/liang-ge-shu-zu-de-jiao-ji-by-leetcode-solution/</a></p>
+<h4 id="350-两个数组的交集-II"><a href="#350-两个数组的交集-II" class="headerlink" title="350. 两个数组的交集 II"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/intersection-of-two-arrays-ii/">350. 两个数组的交集 II</a></h4><h5 id="解法一-1"><a href="#解法一-1" class="headerlink" title="解法一"></a>解法一</h5><p>自己的思路</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">intersect</span><span class="params">(nums1: <span class="type">IntArray</span>, nums2: <span class="type">IntArray</span>)</span></span>: IntArray &#123;</span><br><span class="line">    <span class="keyword">val</span> ansArray = arrayListOf&lt;<span class="built_in">Int</span>&gt;()</span><br><span class="line">    <span class="keyword">val</span> map1 = hashMapOf&lt;<span class="built_in">Int</span>, <span class="built_in">Int</span>&gt;()</span><br><span class="line">    nums1.forEach &#123;</span><br><span class="line">        map1[it] = (map1[it] ?: <span class="number">0</span>).plus(<span class="number">1</span>) <span class="comment">// key是 nums1 数组的值，value是个数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">val</span> map2 = hashMapOf&lt;<span class="built_in">Int</span>, <span class="built_in">Int</span>&gt;()</span><br><span class="line">    nums2.forEach &#123;</span><br><span class="line">        map2[it] = (map2[it] ?: <span class="number">0</span>).plus(<span class="number">1</span>) <span class="comment">//key是 nums2 数组的值，value是个数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">val</span> map3 = hashMapOf&lt;<span class="built_in">Int</span>, <span class="built_in">Int</span>&gt;()</span><br><span class="line">    <span class="keyword">val</span> keySet2 = map2.keys</span><br><span class="line">    map1.entries.forEach &#123; entry -&gt;</span><br><span class="line">        <span class="keyword">if</span> (keySet2.contains(entry.key)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (entry.value &lt; map2[entry.key]!!) &#123; <span class="comment">// 存在相同的值，比较数组的个数</span></span><br><span class="line">                map3[entry.key] = entry.value</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map3[entry.key] = map2[entry.key]!!      <span class="comment">//较小的放给新的map</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    map3.entries.forEach &#123; entry -&gt;</span><br><span class="line">        <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">0</span> until entry.value) &#123; <span class="comment">// entry.value是map的个数，然后添加的list</span></span><br><span class="line">            ansArray.add(entry.key)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ansArray.toIntArray()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="解法二-1"><a href="#解法二-1" class="headerlink" title="解法二"></a>解法二</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">intersect1</span><span class="params">(nums1: <span class="type">IntArray</span>, nums2: <span class="type">IntArray</span>)</span></span>: IntArray &#123;</span><br><span class="line">    <span class="keyword">val</span> ansArray = arrayListOf&lt;<span class="built_in">Int</span>&gt;()</span><br><span class="line">    <span class="keyword">val</span> map = hashMapOf&lt;<span class="built_in">Int</span>, <span class="built_in">Int</span>&gt;()</span><br><span class="line">    nums1.forEach &#123;</span><br><span class="line">        map[it] = (map[it] ?: <span class="number">0</span>).plus(<span class="number">1</span>) <span class="comment">// key是 nums1 数组的值，value是个数</span></span><br><span class="line">    &#125;</span><br><span class="line">    nums2.forEach &#123;</span><br><span class="line">        <span class="keyword">if</span> ((map[it] ?: <span class="number">0</span>) &gt; <span class="number">0</span>) &#123;   <span class="comment">// 判断是否存在相同的元素</span></span><br><span class="line">            ansArray.add(it)        <span class="comment">// 添加</span></span><br><span class="line">            map[it] = map[it]!!.minus(<span class="number">1</span>) <span class="comment">// 原来的元素-1</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            map.remove(it)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ansArray.toIntArray()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="解法三-1"><a href="#解法三-1" class="headerlink" title="解法三"></a>解法三</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">intersect3</span><span class="params">(nums1: <span class="type">IntArray</span>, nums2: <span class="type">IntArray</span>)</span></span>: IntArray &#123;</span><br><span class="line">    Arrays.sort(nums1)</span><br><span class="line">    Arrays.sort(nums2)</span><br><span class="line">    <span class="keyword">val</span> ansArray = arrayListOf&lt;<span class="built_in">Int</span>&gt;()</span><br><span class="line">    <span class="keyword">var</span> index1 = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> index2 = <span class="number">0</span> <span class="comment">// 排序后，设置两个指针，指向数组头节点</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (index1 &lt; nums1.size &amp;&amp; index2 &lt; nums2.size)</span><br><span class="line">        <span class="keyword">if</span> (nums1[index1] &gt; nums2[index2]) &#123; <span class="comment">// 谁小，谁走</span></span><br><span class="line">            index2++</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums1[index1] &lt; nums2[index2]) &#123;</span><br><span class="line">            index1++</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;                        <span class="comment">//相等的情况，就添加到结果数组中</span></span><br><span class="line">            ansArray.add(nums1[index1])</span><br><span class="line">            index2++</span><br><span class="line">            index1++</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> ansArray.toIntArray()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>还有进阶题目</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/intersection-of-two-arrays-ii/solution/liang-ge-shu-zu-de-jiao-ji-ii-by-leetcode-solution/">https://leetcode.cn/problems/intersection-of-two-arrays-ii/solution/liang-ge-shu-zu-de-jiao-ji-ii-by-leetcode-solution/</a></p>
+<h4 id="202-快乐数"><a href="#202-快乐数" class="headerlink" title="202. 快乐数"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/happy-number/">202. 快乐数</a></h4><p>可以看作一个链表， 不是快乐数会形成环, 否则就是快乐数了</p>
+<ol>
+<li>最终会得到 11。</li>
+<li>最终会进入循环。</li>
+<li>值会越来越大，最后接近无穷大。</li>
+</ol>
+<p>根据题解猜测，第3种情况不会发生</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/happy-number/solution/kuai-le-shu-by-leetcode-solution/">https://leetcode.cn/problems/happy-number/solution/kuai-le-shu-by-leetcode-solution/</a></p>
+<h5 id="Hash表解法"><a href="#Hash表解法" class="headerlink" title="Hash表解法"></a>Hash表解法</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">isHappy</span><span class="params">(n: <span class="type">Int</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> <span class="keyword">set</span> = hashSetOf&lt;<span class="built_in">Int</span>&gt;()</span><br><span class="line">    <span class="keyword">var</span> value = n</span><br><span class="line">    <span class="keyword">while</span> (!<span class="keyword">set</span>.contains(value)) &#123; <span class="comment">// 没有环，就继续下一个</span></span><br><span class="line">        <span class="keyword">if</span> (value == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span>.add(value)          <span class="comment">// 把中间数加入hash表，为了判断是否有环的情况</span></span><br><span class="line">        value = nextSquareSum(value)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">nextSquareSum</span><span class="params">(n: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> num = n</span><br><span class="line">    <span class="keyword">while</span> (num &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">val</span> balance = num % <span class="number">10</span> <span class="comment">//每次都获取余数</span></span><br><span class="line">        sum += balance * balance</span><br><span class="line">        num = (num / <span class="number">10</span>)       <span class="comment">// 拿到上一位，然后求余</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="双指针解法"><a href="#双指针解法" class="headerlink" title="双指针解法"></a>双指针解法</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">isHappy2</span><span class="params">(n: <span class="type">Int</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> slow = n</span><br><span class="line">    <span class="keyword">var</span> fast = n</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        slow = nextSquareSum(slow) <span class="comment">//每个数据可以看作一个node, 然后设置快慢节点</span></span><br><span class="line">        fast = nextSquareSum(fast)</span><br><span class="line">        fast = nextSquareSum(fast)</span><br><span class="line">        <span class="keyword">if</span> (slow == <span class="number">1</span> || fast == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (slow != fast)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1. 两数之和"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/two-sum/">1. 两数之和</a></h4><h5 id="暴力解法"><a href="#暴力解法" class="headerlink" title="暴力解法"></a>暴力解法</h5><p>当我们使用遍历整个数组的方式寻找 target - x 时，需要注意到每一个位于 x 之前的元素都已经和 x 匹配过(这个一句一开始不理解，其实如果i = 6,  j = 5+1(1+1 , 2+1.. 4+1) 之前的都没匹配上，所以说x之前的都没匹配)，因此不需要再进行匹配。而每一个元素不能被使用两次，所以我们只需要在 x 后面的元素中寻找 target - x。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; n; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[i] + nums[j] == target) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;i, j&#125;;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">链接：https:<span class="comment">//leetcode.cn/problems/two-sum/solution/liang-shu-zhi-he-by-leetcode-solution/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="Hash法"><a href="#Hash法" class="headerlink" title="Hash法"></a>Hash法</h5><p>2, 7, 11, 15</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">twoSum</span><span class="params">(nums: <span class="type">IntArray</span>, target: <span class="type">Int</span>)</span></span>: IntArray &#123;</span><br><span class="line">    <span class="keyword">val</span> map = hashMapOf&lt;<span class="built_in">Int</span>, <span class="built_in">Int</span>&gt;()</span><br><span class="line">    nums.forEachIndexed &#123; index, value -&gt;</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(target - nums[index])) &#123;    <span class="comment">//假如index = 0加入map,当index==2时, 9 - 7 = 2 就可以在map中找到，就匹配上了</span></span><br><span class="line">            <span class="keyword">return</span> intArrayOf(index, map[target - nums[index]]!!) <span class="comment">//相当于另一个数先加入map，找对应的数</span></span><br><span class="line">        &#125;</span><br><span class="line">        map[value] = index    </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> RuntimeException(<span class="string">&quot;do not have the array&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="454-四数相加-II"><a href="#454-四数相加-II" class="headerlink" title="454. 四数相加 II"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/4sum-ii/">454. 四数相加 II</a></h4><p>这题不是很明白</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">fourSumCount</span><span class="params">(nums1: <span class="type">IntArray</span>, nums2: <span class="type">IntArray</span>, nums3: <span class="type">IntArray</span>, nums4: <span class="type">IntArray</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> map = hashMapOf&lt;<span class="built_in">Int</span>, <span class="built_in">Int</span>&gt;()</span><br><span class="line">    nums1.forEach &#123; n1 -&gt;</span><br><span class="line">        nums2.forEach &#123; n2 -&gt;</span><br><span class="line">            map[n1 + n2] = map.getOrDefault(n1 + n2, <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> ans = <span class="number">0</span></span><br><span class="line">    nums3.forEach &#123; n3 -&gt;</span><br><span class="line">        nums4.forEach &#123; n4 -&gt;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(-n3 - n4)) &#123; <span class="comment">// 6, 12 , -7 , -11   4个数2 2相加 不管怎么组合，结果都一样</span></span><br><span class="line">                ans += map[-n3 - n4] ?: <span class="number">0</span>  <span class="comment">// 根据当前的key,区前面num1 num2找个数</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="15-三数之和"><a href="#15-三数之和" class="headerlink" title="15. 三数之和"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/3sum/">15. 三数之和</a></h4><p>i 位置为target = nuts[-i] , 剩下的left right就是 twosum的问题</p>
+<h5 id="解法1"><a href="#解法1" class="headerlink" title="解法1"></a>解法1</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">    fun threeSum(nums: IntArray): List&lt;List&lt;Int&gt;&gt; &#123;</span><br><span class="line">        Arrays.sort(nums)</span><br><span class="line">        val hashSetOf &#x3D; hashSetOf&lt;List&lt;Int&gt;&gt;()</span><br><span class="line">        nums.forEachIndexed &#123; i, value -&gt;</span><br><span class="line">            val target &#x3D; -nums[i]</span><br><span class="line">            var left &#x3D; i + 1</span><br><span class="line">            var right &#x3D; nums.size - 1</span><br><span class="line">            while (left &lt; right) &#123;</span><br><span class="line">                if (nums[left] + nums[right] &lt; target) &#123;</span><br><span class="line">                    left++</span><br><span class="line">                &#125; else if (nums[left] + nums[right] &gt; target) &#123;</span><br><span class="line">                    right--</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    val list &#x3D; arrayListOf(nums[i], nums[left], nums[right])</span><br><span class="line">                    hashSetOf.add(list)</span><br><span class="line">                    right--  &#x2F;&#x2F; 为了防止重复元素，所以这两个也需要移动</span><br><span class="line">                    left++</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#x2F;&#x2F;        return hashSetOf.toList()</span><br><span class="line">        return ArrayList(hashSetOf) &#x2F;&#x2F; 这里时间复杂度是 o(n),第2种解法是对这里进行优化</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="解法2"><a href="#解法2" class="headerlink" title="解法2"></a>解法2</h5><p>优化后的第二种解法，竟然超出时间限制，刷第2遍再看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;超出时间限制</span><br><span class="line">fun threeSum2(nums: IntArray): List&lt;List&lt;Int&gt;&gt; &#123;</span><br><span class="line">    Arrays.sort(nums)</span><br><span class="line">    val ans &#x3D; ArrayList&lt;List&lt;Int&gt;&gt;()</span><br><span class="line">    for (i in nums.indices) &#123;</span><br><span class="line">        if (i &gt; 0 &amp;&amp; nums[i] &#x3D;&#x3D; nums[i - 1]) &#123; &#x2F;&#x2F; 相同的target元素直接pass</span><br><span class="line">            continue</span><br><span class="line">        &#125;</span><br><span class="line">        val target &#x3D; -nums[i]</span><br><span class="line">        var left &#x3D; i + 1</span><br><span class="line">        var right &#x3D; nums.size - 1</span><br><span class="line">        while (left &lt; right) &#123;</span><br><span class="line">            if (nums[left] + nums[right] &lt; target) &#123;</span><br><span class="line">                left++</span><br><span class="line">            &#125; else if (nums[left] + nums[right] &gt; target) &#123;</span><br><span class="line">                right--</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                val list &#x3D; arrayListOf(nums[i], nums[left], nums[right])</span><br><span class="line">                ans.add(list)</span><br><span class="line">                right--  &#x2F;&#x2F; 为了防止重复元素，所以这两个也需要移动</span><br><span class="line">                left++</span><br><span class="line">                while (left &lt; right &amp;&amp; nums[left] &#x3D;&#x3D; nums[left - 1]) continue &#x2F;&#x2F; 这两句放在while循环外面 退出不了,拿到结果后， 相同的元素pass</span><br><span class="line">                while (left &lt; right &amp;&amp; nums[right] &#x3D;&#x3D; nums[right - 1]) continue</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return ans</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+            <div id="toc-article">
+                
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#242-%E6%9C%89%E6%95%88%E7%9A%84%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D"><span class="toc-text">242. 有效的字母异位词</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#383-%E8%B5%8E%E9%87%91%E4%BF%A1"><span class="toc-text">383. 赎金信</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#49-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84"><span class="toc-text">49. 字母异位词分组</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3%E4%B8%80"><span class="toc-text">题解一</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3%E4%BA%8C"><span class="toc-text">题解二</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#438-%E6%89%BE%E5%88%B0%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%89%80%E6%9C%89%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D"><span class="toc-text">438. 找到字符串中所有字母异位词</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80"><span class="toc-text">解法一</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C"><span class="toc-text">解法二</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%89"><span class="toc-text">解法三</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#349-%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86"><span class="toc-text">349. 两个数组的交集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#350-%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86-II"><span class="toc-text">350. 两个数组的交集 II</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-1"><span class="toc-text">解法一</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C-1"><span class="toc-text">解法二</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%89-1"><span class="toc-text">解法三</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#202-%E5%BF%AB%E4%B9%90%E6%95%B0"><span class="toc-text">202. 快乐数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Hash%E8%A1%A8%E8%A7%A3%E6%B3%95"><span class="toc-text">Hash表解法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%8C%E6%8C%87%E9%92%88%E8%A7%A3%E6%B3%95"><span class="toc-text">双指针解法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C"><span class="toc-text">1. 两数之和</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9A%B4%E5%8A%9B%E8%A7%A3%E6%B3%95"><span class="toc-text">暴力解法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hash%E6%B3%95"><span class="toc-text">Hash法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#454-%E5%9B%9B%E6%95%B0%E7%9B%B8%E5%8A%A0-II"><span class="toc-text">454. 四数相加 II</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C"><span class="toc-text">15. 三数之和</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%B3%951"><span class="toc-text">解法1</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%B3%952"><span class="toc-text">解法2</span></a></li></ol></li></ol>
+    </div>
+  </div>
+
+
+            </div>
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/2022/05/21/LC-hash/">https://noteforme.github.io/2022/05/21/LC-hash/</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+        
+<nav id="article-nav">
+  
+    <a href="/2022/05/24/location/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">newer</strong>
+      <div class="article-nav-title">
+        
+          location
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/05/13/fastjson/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">fastjson</div>
+    </a>
+  
+</nav>
+
+      
+      
+        
+
+
+
+
+
+
+
+      
+    </footer>
+  </div>
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/12/27/viewBinding/">viewBinding</a>
+          </li>
+        
+          <li>
+            <a href="/2022/10/17/AppLink/">AppLink</a>
+          </li>
+        
+          <li>
+            <a href="/2022/10/05/LC-Tree-Search-22/">LC-Tree-Search-22</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/15/Fragment-StateLoss/">Fragment_StateLoss</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/11/LC-TREE08/">LC_TREE08</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ANDROID/" style="font-size: 13.33px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.67px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 20px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 15px;">Performance</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.67px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.67px;">VIEW</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 18.33px;">coroutie</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">57</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-link"></i> Blogroll</h3>
+    <div class="widget">
+      <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example1.com/">site-name1</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example2.com/">site-name2</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example3.com/">site-name3</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2023 Jon.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        
+            <span>Count by <a href="http://busuanzi.ibruce.info/" target="_blank">busuanzi.</a></span>
+        
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+  
+<script src="/localshare/js/social-share.js"></script>
+
+  
+<script src="/localshare/js/qrcode.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

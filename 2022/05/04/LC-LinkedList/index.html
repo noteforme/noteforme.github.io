@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>LC-LinkedList | Jon&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Jon's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/localshare/css/share.css">
+
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jon&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Cease to struggle and you cease to live. - Thomas Carlyle</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
+        
+          <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-LC-LinkedList" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      LC-LinkedList
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2022-05-04T05:40:18.000Z" itemprop="datePublished">2022年05月04日</time>
+</span>
+      
+      
+        <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+      
+      
+<a href="/2022/05/04/LC-LinkedList/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/jq9Zke/">https://leetcode.cn/circle/discuss/jq9Zke/</a></p>
+<h4 id="203-移除链表元素"><a href="#203-移除链表元素" class="headerlink" title="203. 移除链表元素"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/remove-linked-list-elements/">203. 移除链表元素</a></h4><h6 id="迭代法"><a href="#迭代法" class="headerlink" title="迭代法"></a>迭代法</h6><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">removeElements</span><span class="params">(head: <span class="type">ListNode</span>?, target: <span class="type">Int</span>)</span></span>: ListNode? &#123;</span><br><span class="line">    <span class="keyword">val</span> dummyHead = ListNode()</span><br><span class="line">    dummyHead.next = head</span><br><span class="line">    <span class="keyword">var</span> p: ListNode? = dummyHead</span><br><span class="line">    <span class="keyword">while</span> (p?.next != <span class="literal">null</span>) &#123; <span class="comment">// 从真正的头节点 开始判断，因为实际没移动，所以没问题</span></span><br><span class="line">        <span class="keyword">if</span> (p.next?.`<span class="keyword">val</span>` == target) &#123;</span><br><span class="line">            p.next = p.next?.next</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            p = p.next <span class="comment">// 放最外面会跳过连续为target的Node  [7,7,7,7] 7</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dummyHead.next</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="递归法"><a href="#递归法" class="headerlink" title="递归法"></a>递归法</h6><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/remove-linked-list-elements/solution/yi-chu-lian-biao-yuan-su-by-leetcode-sol-654m/">https://leetcode-cn.com/problems/remove-linked-list-elements/solution/yi-chu-lian-biao-yuan-su-by-leetcode-sol-654m/</a></p>
+<h4 id="707-设计链表"><a href="#707-设计链表" class="headerlink" title="707. 设计链表"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/design-linked-list/">707. 设计链表</a></h4><p>some notice</p>
+<ol>
+<li>注意这里不是dummyHead.next</li>
+<li>// 注意： 之前这个放在上边的if里面</li>
+<li>注意这里之前是 index &gt;= size</li>
+</ol>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyLinkedList</span></span>() &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> dummyHead = ListNode()</span><br><span class="line">    <span class="keyword">var</span> size = <span class="number">0</span> <span class="comment">//length</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">get</span><span class="params">(index: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (index &lt; -<span class="number">1</span> || index &gt; size - <span class="number">1</span>) <span class="keyword">return</span> -<span class="number">1</span> <span class="comment">// 3.注意这里之前是 index &gt;= size</span></span><br><span class="line">        <span class="keyword">var</span> pIndex = index</span><br><span class="line">        <span class="keyword">var</span> curr = dummyHead.next</span><br><span class="line">        <span class="keyword">while</span> (pIndex-- &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            curr = curr?.next</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> curr?.`<span class="keyword">val</span>` ?: -<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">addAtHead</span><span class="params">(`<span class="keyword">val</span>`: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> newNode = ListNode(`<span class="keyword">val</span>`) <span class="comment">// 新的节点</span></span><br><span class="line">        <span class="keyword">val</span> headNode = dummyHead.next <span class="comment">// 之前的头节点</span></span><br><span class="line">        dummyHead.next = newNode  <span class="comment">// 虚拟头节点 指向新的头节点</span></span><br><span class="line">        <span class="keyword">if</span> (headNode != <span class="literal">null</span>) &#123;</span><br><span class="line">            newNode.next = headNode <span class="comment">// 新的头节点指向 之前的头节点</span></span><br><span class="line">        &#125;</span><br><span class="line">        size++  <span class="comment">// 注意： 之前这个放在上边的if里面</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">addAtTail</span><span class="params">(`<span class="keyword">val</span>`: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> newNode = ListNode(`<span class="keyword">val</span>`) <span class="comment">// 新的节点</span></span><br><span class="line">        <span class="keyword">var</span> p: ListNode? = dummyHead <span class="comment">// 1.注意这里不是dummyHead.next</span></span><br><span class="line">        <span class="keyword">while</span> (p != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (p.next == <span class="literal">null</span>) &#123;</span><br><span class="line">                p.next = newNode</span><br><span class="line">                size++</span><br><span class="line">                <span class="keyword">break</span> <span class="comment">// 必须停止，否则一直在尾部添加 新的节点</span></span><br><span class="line">            &#125;</span><br><span class="line">            p = p.next</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">addAtIndex</span><span class="params">(index: <span class="type">Int</span>, `<span class="keyword">val</span>`: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (index &gt; size) <span class="keyword">return</span>  <span class="comment">//2. 注意这里之前是 index &gt;= size</span></span><br><span class="line">        <span class="keyword">val</span> newNode = ListNode(`<span class="keyword">val</span>`) <span class="comment">// 新的节点</span></span><br><span class="line">        <span class="keyword">var</span> pIndex = index</span><br><span class="line">        <span class="keyword">var</span> curr = dummyHead  <span class="comment">// 1.注意这里不是dummyHead.next</span></span><br><span class="line">        <span class="keyword">while</span> (pIndex-- &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            curr = curr.next!!</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">val</span> temp = curr.next</span><br><span class="line">        curr.next = newNode</span><br><span class="line">        newNode.next = temp</span><br><span class="line">        size++</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">deleteAtIndex</span><span class="params">(index: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (index &gt;= size || index &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">var</span> pIndex = index</span><br><span class="line">        <span class="keyword">var</span> curr: ListNode? = dummyHead <span class="comment">//1. 注意这里之前是 index &gt;= size</span></span><br><span class="line">        <span class="keyword">while</span> (pIndex-- &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            curr = curr?.next</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (curr?.next != <span class="literal">null</span>) &#123;</span><br><span class="line">            curr.next = curr.next?.next</span><br><span class="line">        &#125;</span><br><span class="line">        size--   <span class="comment">// 注意： 之前这个放在上边的if里面</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="206-反转链表"><a href="#206-反转链表" class="headerlink" title="206. 反转链表"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-linked-list/">206. 反转链表</a></h4><h5 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">reverseList</span><span class="params">(head: <span class="type">ListNode</span>?)</span></span>: ListNode? &#123;</span><br><span class="line">    <span class="keyword">var</span> pre = head</span><br><span class="line">    <span class="keyword">var</span> curr: ListNode? = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">while</span> (pre != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">val</span> termPre = pre.next</span><br><span class="line">        pre.next = curr</span><br><span class="line">        curr = pre</span><br><span class="line">        <span class="keyword">if</span> (termPre == <span class="literal">null</span>) &#123; <span class="comment">// 到了最后一个note下一个note,不能赋值了，否则pre就是null作为头节点了</span></span><br><span class="line">            <span class="keyword">return</span> pre</span><br><span class="line">        &#125;</span><br><span class="line">        pre = termPre</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pre <span class="comment">// 最后一个node,指向前面的node</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>after watching the <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-linked-list/solution/fan-zhuan-lian-biao-shuang-zhi-zhen-di-gui-yao-mo-/">https://leetcode.cn/problems/reverse-linked-list/solution/fan-zhuan-lian-biao-shuang-zhi-zhen-di-gui-yao-mo-/</a></p>
+<p>return curr point is better </p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Example:</span></span><br><span class="line"><span class="comment"> * var li = ListNode(5)</span></span><br><span class="line"><span class="comment"> * var v = li.`val`</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * class ListNode(var `val`: Int) &#123;</span></span><br><span class="line"><span class="comment"> *     var next: ListNode? = null</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">reverseList</span><span class="params">(head: <span class="type">ListNode</span>?)</span></span>: ListNode? &#123;</span><br><span class="line">    <span class="keyword">var</span> pre = head</span><br><span class="line">        <span class="keyword">var</span> curr: ListNode? = <span class="literal">null</span></span><br><span class="line">        <span class="keyword">while</span> (pre != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">val</span> termPre = pre.next</span><br><span class="line">            pre.next = curr</span><br><span class="line">            curr = pre</span><br><span class="line">            pre = termPre</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> curr <span class="comment">// 最后一个node not null,指向前面</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="递归写法"><a href="#递归写法" class="headerlink" title="递归写法"></a>递归写法</h5><h4 id="24-两两交换链表中的节点"><a href="#24-两两交换链表中的节点" class="headerlink" title="24. 两两交换链表中的节点"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/swap-nodes-in-pairs/">24. 两两交换链表中的节点</a></h4><h5 id="迭代法-1"><a href="#迭代法-1" class="headerlink" title="迭代法"></a>迭代法</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">swapPairs</span><span class="params">(head: <span class="type">ListNode</span>?)</span></span>: ListNode? &#123;</span><br><span class="line">    <span class="keyword">val</span> dumpNode = ListNode()</span><br><span class="line">    dumpNode.next = head</span><br><span class="line">    <span class="keyword">var</span> temp = dumpNode</span><br><span class="line">    <span class="keyword">while</span> (temp.next?.next != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">val</span> n1 = temp.next</span><br><span class="line">        <span class="keyword">val</span> n2 = n1?.next</span><br><span class="line">        n1?.next = n2?.next</span><br><span class="line">        temp.next = n2</span><br><span class="line">        n2?.next = n1</span><br><span class="line">        temp = n1!!</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dumpNode.next</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>accoding the idea <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/swap-nodes-in-pairs/solution/liang-liang-jiao-huan-lian-biao-zhong-de-jie-di-91/">https://leetcode.cn/problems/swap-nodes-in-pairs/solution/liang-liang-jiao-huan-lian-biao-zhong-de-jie-di-91/</a></p>
+<ol>
+<li><p>the subject most inportant is   temp = n1 , I didn’t know how to do  the next cycle before</p>
+</li>
+<li><p>like author said  如果 <code>temp</code> 的后面没有节点或者只有一个节点，则没有更多的节点需要交换，因此结束交换. is also important</p>
+</li>
+</ol>
+<h4 id="19-删除链表的倒数第-N-个结点"><a href="#19-删除链表的倒数第-N-个结点" class="headerlink" title="19. 删除链表的倒数第 N 个结点"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-nth-node-from-end-of-list/">19. 删除链表的倒数第 N 个结点</a></h4><h5 id="双指针-1"><a href="#双指针-1" class="headerlink" title="双指针"></a>双指针</h5><p> fast Node go n steps firstly, then fast slow Node  go , at last slow point at the delete Node that last Node (慢指针 指向待删除指针的上一个指针) </p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">removeNthFromEnd</span><span class="params">(head: <span class="type">ListNode</span>?, n: <span class="type">Int</span>)</span></span>: ListNode? &#123;</span><br><span class="line">    <span class="keyword">val</span> dumpNode = ListNode()</span><br><span class="line">    dumpNode.next = head</span><br><span class="line">    <span class="keyword">var</span> fp = dumpNode</span><br><span class="line">    <span class="keyword">var</span> sp = dumpNode</span><br><span class="line">    <span class="keyword">var</span> lastIndex = n</span><br><span class="line">    <span class="keyword">while</span> (lastIndex-- &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (fp.next != <span class="literal">null</span>) &#123;</span><br><span class="line">            fp = fp.next!!</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (dumpNode.next != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (fp.next == <span class="literal">null</span>) &#123; <span class="comment">// 必须终止，否则会是死循环</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">        fp = fp.next!!</span><br><span class="line">        sp = sp.next!!</span><br><span class="line">    &#125;</span><br><span class="line">    sp.next = sp.next?.next</span><br><span class="line">    <span class="keyword">return</span> dumpNode.next</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>栈</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-nth-node-from-end-of-list/solution/shan-chu-lian-biao-de-dao-shu-di-nge-jie-dian-b-61/">https://leetcode.cn/problems/remove-nth-node-from-end-of-list/solution/shan-chu-lian-biao-de-dao-shu-di-nge-jie-dian-b-61/</a></p>
+<h4 id="160-相交链表"><a href="#160-相交链表" class="headerlink" title="160. 相交链表"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/intersection-of-two-linked-lists/">160. 相交链表</a></h4><ol>
+<li><p>走对方的路，两条链表相加 路程相等</p>
+</li>
+<li><p>相互第2个连接的链表走完后，下个节点都是null 循环就结束了</p>
+</li>
+</ol>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getIntersectionNode</span><span class="params">(headA: <span class="type">ListNode</span>?, headB: <span class="type">ListNode</span>?)</span></span>: ListNode? &#123;</span><br><span class="line">    <span class="keyword">var</span> pA = headA</span><br><span class="line">    <span class="keyword">var</span> pB = headB</span><br><span class="line">    <span class="keyword">if</span> (pA == <span class="literal">null</span> || pB == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (pA != pB) &#123; <span class="comment">// 相互第2个连接的链表走完后，下个节点都是null 循环就结束了</span></span><br><span class="line">        pA = <span class="keyword">if</span> (pA == <span class="literal">null</span>) &#123;</span><br><span class="line">            headB</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            pA.next</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        pB = <span class="keyword">if</span> (pB == <span class="literal">null</span>) &#123;</span><br><span class="line">            headA</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            pB.next</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pA</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/intersection-of-two-linked-lists/solution/xiang-jiao-lian-biao-by-leetcode-solutio-a8jn/">https://leetcode.cn/problems/intersection-of-two-linked-lists/solution/xiang-jiao-lian-biao-by-leetcode-solutio-a8jn/</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/intersection-of-two-linked-lists/solution/shuang-zhi-zhen-yyds-dai-ma-jian-ji-teng-0bch/">https://leetcode.cn/problems/intersection-of-two-linked-lists/solution/shuang-zhi-zhen-yyds-dai-ma-jian-ji-teng-0bch/</a></p>
+<h4 id="142-环形链表-II"><a href="#142-环形链表-II" class="headerlink" title="142. 环形链表 II"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle-ii/">142. 环形链表 II</a></h4><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle-ii/solution/142-huan-xing-lian-biao-ii-jian-hua-gong-shi-jia-2/">https://leetcode.cn/problems/linked-list-cycle-ii/solution/142-huan-xing-lian-biao-ii-jian-hua-gong-shi-jia-2/</a></p>
+<p>很生动的图</p>
+<p><img src="https://img-blog.csdnimg.cn/20210318162938397.png"></p>
+<p>因为fast已经在环里, Slow只能走一圈，fast不能跳过，所以 <strong>slow的 步数 是 x+y 而不是 x + 若干环的长度 + y</strong> </p>
+<p>根据公式推到结果 ,有环的话，先相遇，然后分别从head 相遇点 往相交点走.</p>
+<p>下面这个答案就是拼出来的</p>
+<h5 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">detectCycle</span><span class="params">(head: <span class="type">ListNode</span>?)</span></span>: ListNode? &#123;</span><br><span class="line"><span class="comment">//        val dumpNode: ListNode? = ListNode() // 不设置的话，如果有指针next是null,赋值就有问题,这个不能有，必须从head出发的,因为fast point走两部</span></span><br><span class="line">        <span class="keyword">var</span> fp = head</span><br><span class="line">        <span class="keyword">var</span> sp = head</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            fp = fp?.next?.next</span><br><span class="line">            sp = sp?.next</span><br><span class="line">            <span class="keyword">if</span> (fp == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">null</span> <span class="comment">// 走到底了，no cycle, 需要放前面，否则都是null的话，下面的fp == sp条件就匹配了</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (fp == sp) &#123;</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">var</span> secondPoint = head</span><br><span class="line">        <span class="keyword">while</span> (sp?.next != <span class="literal">null</span> &amp;&amp; secondPoint != sp) &#123; <span class="comment">// 看了随想录答案，这个可以放到上面的while循环里面,明天重写下</span></span><br><span class="line">            secondPoint = secondPoint?.next!!</span><br><span class="line">            sp = sp.next</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> secondPoint</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h5><p>下面写法，看了随想录的思路，第二天重写的。</p>
+<ol>
+<li>可以在第一个循环的内部，head point 和相遇点开始走.</li>
+<li>公式推导过程理解了就好了，然后记住结论。</li>
+</ol>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">detectCycle</span><span class="params">(head: <span class="type">ListNode</span>?)</span></span>: ListNode? &#123;</span><br><span class="line"><span class="comment">//        val dumpNode: ListNode? = ListNode() // 1.不设置?的话，如果有指针next是null,赋值就有问题,2.dumpNode这个不能有，必须从head出发的,因为fast point走两部</span></span><br><span class="line">        <span class="keyword">var</span> fp = head</span><br><span class="line">        <span class="keyword">var</span> sp = head</span><br><span class="line">        <span class="keyword">while</span> (fp != <span class="literal">null</span> &amp;&amp; sp != <span class="literal">null</span>) &#123; <span class="comment">// 循环条件盘空就可以了，没有环就一定会走到null, 一直想到条件 fp != sp</span></span><br><span class="line">            fp = fp.next?.next</span><br><span class="line">            sp = sp.next</span><br><span class="line">            <span class="keyword">if</span> (fp!=<span class="literal">null</span>&amp;&amp;fp == sp) &#123; <span class="comment">// fp!=null不加，没环的话，就null==null 了</span></span><br><span class="line">                <span class="keyword">var</span> node1 = head</span><br><span class="line">                <span class="keyword">while</span> (sp?.next != <span class="literal">null</span> &amp;&amp; node1 != sp) &#123;</span><br><span class="line">                    node1 = node1?.next!!</span><br><span class="line">                    sp = sp.next</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> node1</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>复杂度分析</p>
+<p>时间复杂度：O(N)O(N)，其中 NN 为链表中节点的数目。在最初判断快慢指针是否相遇时，\textit{slow}slow 指针走过的距离不会超过链表的总长度；随后寻找入环点时，走过的距离也不会超过链表的总长度。因此，总的执行时间为 O(N)+O(N)=O(N)O(N)+O(N)=O(N)。</p>
+<p>空间复杂度：O(1)O(1)。我们只使用了 \textit{slow}, \textit{fast}, \textit{ptr}slow,fast,ptr 三个指针。</p>
+<p>作者：LeetCode-Solution<br>链接：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle-ii/solution/huan-xing-lian-biao-ii-by-leetcode-solution/">https://leetcode.cn/problems/linked-list-cycle-ii/solution/huan-xing-lian-biao-ii-by-leetcode-solution/</a><br>来源：力扣（LeetCode）<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+        
+            <div id="toc-article">
+                
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#203-%E7%A7%BB%E9%99%A4%E9%93%BE%E8%A1%A8%E5%85%83%E7%B4%A0"><span class="toc-text">203. 移除链表元素</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="toc-text">迭代法</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E6%B3%95"><span class="toc-text">递归法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#707-%E8%AE%BE%E8%AE%A1%E9%93%BE%E8%A1%A8"><span class="toc-text">707. 设计链表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#206-%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8"><span class="toc-text">206. 反转链表</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%8C%E6%8C%87%E9%92%88"><span class="toc-text">双指针</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E5%86%99%E6%B3%95"><span class="toc-text">递归写法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#24-%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9"><span class="toc-text">24. 两两交换链表中的节点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E6%B3%95-1"><span class="toc-text">迭代法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#19-%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%AC-N-%E4%B8%AA%E7%BB%93%E7%82%B9"><span class="toc-text">19. 删除链表的倒数第 N 个结点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%8C%E6%8C%87%E9%92%88-1"><span class="toc-text">双指针</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#160-%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8"><span class="toc-text">160. 相交链表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#142-%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8-II"><span class="toc-text">142. 环形链表 II</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80"><span class="toc-text">解法一</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C"><span class="toc-text">解法二</span></a></li></ol></li></ol>
+    </div>
+  </div>
+
+
+            </div>
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/2022/05/04/LC-LinkedList/">https://noteforme.github.io/2022/05/04/LC-LinkedList/</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+        
+<nav id="article-nav">
+  
+    <a href="/2022/05/05/JVM-VALUE-DELIVER/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">newer</strong>
+      <div class="article-nav-title">
+        
+          JVM-VALUE-DELIVER
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/05/02/LC-array/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">LC-array</div>
+    </a>
+  
+</nav>
+
+      
+      
+        
+
+
+
+
+
+
+
+      
+    </footer>
+  </div>
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/12/27/viewBinding/">viewBinding</a>
+          </li>
+        
+          <li>
+            <a href="/2022/10/17/AppLink/">AppLink</a>
+          </li>
+        
+          <li>
+            <a href="/2022/10/05/LC-Tree-Search-22/">LC-Tree-Search-22</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/15/Fragment-StateLoss/">Fragment_StateLoss</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/11/LC-TREE08/">LC_TREE08</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ANDROID/" style="font-size: 13.33px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.67px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 20px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 15px;">Performance</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.67px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.67px;">VIEW</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 18.33px;">coroutie</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">57</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-link"></i> Blogroll</h3>
+    <div class="widget">
+      <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example1.com/">site-name1</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example2.com/">site-name2</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example3.com/">site-name3</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2023 Jon.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        
+            <span>Count by <a href="http://busuanzi.ibruce.info/" target="_blank">busuanzi.</a></span>
+        
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+  
+<script src="/localshare/js/social-share.js"></script>
+
+  
+<script src="/localshare/js/qrcode.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>
