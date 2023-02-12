@@ -1,5 +1,5 @@
 ---
-title: RecyclerViewUse
+title: RecyclerView
 date: 2017-07-17 11:30:18
 tags:
 categories: ANDROID

@@ -10,7 +10,7 @@ categories: ANDROID
 
 https://developer.android.google.cn/reference/androidx/constraintlayout/widget/ConstraintLayout
 
-https://developer.android.google.cn/training/constraint-layout/index.html
+https://developer.android.com/develop/ui/views/layout/constraint-layout
 
 https://juejin.cn/post/6949186887609221133#heading-6
 
@@ -388,7 +388,7 @@ activity_constraint.xml
 
 
 
-![20220820182631](ConstraintLayout/20220820182631.jpg)
+<img src="ConstraintLayout/20220820182631.jpg" alt="20220820182631" style="zoom:50%;" />
 
 
 ```

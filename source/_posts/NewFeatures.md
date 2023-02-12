@@ -8,7 +8,7 @@ categories:  ANDROID
 
  ANDROID新特性
 
-##### apk安装
+### apk安装
 
   	 StrictMode API政策
 
@@ -109,6 +109,18 @@ win10安装ubuntu
 
   <http://www.10tiao.com/html/227/201812/2650244825/1.html>
 
-#####  android 11适配
+###  android 11适配
 
 https://juejin.im/post/6860370635664261128
+
+
+
+
+
+### android12适配
+
+##### Splash
+
+https://www.youtube.com/watch?v=8F0lK2i3VJk
+
+https://developer.android.com/develop/ui/views/launch/splash-screen#elements

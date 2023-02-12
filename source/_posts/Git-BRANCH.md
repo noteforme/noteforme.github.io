@@ -455,14 +455,44 @@ https://www.cpweb.top/455
 
 3. 分别吧F-A , UP-R分支合并到master.
 4. 此时觉得F-A代码有问题，需要修改，master对F-A进行revert ,此时 master的F-A 分支TesA被删除了,并且有一条提交记录
-5. 从master checkout分支verify-b,然后将之前revert commit那条提交 再进行 git revert commit,然后push (这个方式没想明白)
+5. 从master checkout得到分支verify-b,然后将之前需要会退的提交 , 再进行 git revert commit,然后push (这个方式没想明白)
 6. 把master合并到verify-b就能解决这个问题.
 
 https://blog.csdn.net/oYiMiYangGuang123/article/details/99437382
 
-
+上面的步骤还是没想明白.
 
 主要 git reset不能解决，有问题.除非强制push。
+
+
+
+##### 删除一条历史记录
+
+git revert 纪录
+
+Git force push
+
+
+
+git rebase -i 7158b278b8f47f9b46f9af2207996bce783c0b57 这篇blog介绍的，但是没起作用。
+
+https://linuxhint.com/remove-commit-from-history-git/
+
+
+
+
+
+查看日志
+
+git log --author zh --since=2022-12-10
+
+
+
+
+
+
+
+
 
 
 

@@ -8,6 +8,23 @@ categories: ANDROID
 
  
 
+##### Width 绘制分析
+
+没有其他属性影响的话，宽度应该就是字体的宽度，在横向的recycleview adater中不同的字体会增加间距。
+
+
+
+
+
+```xml-dtd
+android:autoSizeTextType="uniform"
+android:autoSizeMinTextSize="8sp"
+android:autoSizeMaxTextSize="12sp"
+android:autoSizeStepGranularity="1sp"
+```
+
+
+
 ##### TextView颜色变化
 
 SpannableString

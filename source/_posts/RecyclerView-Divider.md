@@ -2,8 +2,8 @@
 title: RecyclerView_Divider
 comments: true
 date: 2021-12-19 21:12:53
-tags:
-categories:
+tags: RecyclerView
+categories: ANDROID
 ---
 
 

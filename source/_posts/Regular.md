@@ -538,8 +538,21 @@ https://zhidao.baidu.com/question/1609169242401476667.html
 
 
 
-
-
-
-
 http://www.rexegg.com/regex-lookarounds.html
+
+
+
+
+
+### kotlin regular
+
+
+
+```kotlin
+fun validation(pattern: String, str: String?): Boolean {
+    return if (str.isNullOrEmpty()) {
+        false
+    } else Pattern.compile(pattern).matcher(str).matches()
+}
+```
+
