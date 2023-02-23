@@ -232,3 +232,23 @@ https://juejin.im/post/6844904073024503822#heading-5
 
 
 
+### Custom Permission
+
+can run Demo
+
+https://github.com/Ibtisam/Dangerous-Activity
+
+https://github.com/Ibtisam/Using-Dangerous-Activity
+
+
+
+
+
+https://github.com/commonsguy/cwac-netsecurity
+
+https://medium.com/code-procedure-and-rants/android-permissions-create-custom-permissions-5784188311f3
+
+
+
+
+

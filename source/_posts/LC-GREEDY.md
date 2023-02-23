@@ -458,3 +458,239 @@ fun canCompleteCircuit(gas: IntArray, cost: IntArray): Int {
 
 
 
+#### [135 分发糖果](https://leetcode.cn/problems/candy/)
+
+```
+[1,2,2]
+ 1 2 1 //为什么array[2] 糖果是1，因为题目意思只有评分高才有更多的糖果，相等的情况按照最少的1个糖果了。
+```
+
+
+
+|  0   |  1   |  2   |  3   |  4   |  5   |  6   |       |
+| :--: | :--: | :--: | :--: | :--: | :--: | :--: | :---: |
+|  1   |  2   |  2   |  5   |  4   |  3   |  2   |       |
+|  1   |  2   |  1   |  2   |  1   |  1   |  1   | 左<右 |
+|  1   |  1   |  1   |  2   |  2   |  2   |  1   |       |
+|  1   |  2   |  1   |  4   |  3   |  2   |  1   | 左>右 |
+
+
+
+##### Idea 
+
+需要一边一边考虑，否则顾此失彼
+
+1. 先考虑  左边孩子粉丝的情况 < 右边孩子分数  ，此时需要从左往右, 得到第三行的分数.
+2. 再考虑 左边孩子粉丝 > 右边孩子分数的情况, 此时需要从右向左，因为这种情况需要依赖，右边的孩子。如果从左到右，得到第4行结果，此时  2 3 4 5都是错的。
+3. 然后从右往左的过程，还需要考虑之前 左边孩子< 右边的情况，所以取最大值。
+
+
+
+##### code
+
+
+
+```kotlin
+  fun candy(ratings: IntArray): Int {
+        val answer = IntArray(ratings.size)
+        answer[0] = 1
+
+//        左边孩子粉丝的情况 < 右边孩子分数  ，此时需要从左往右
+        for (i in 1 until ratings.size) {
+            if (ratings[i] > ratings[i - 1]) {
+                answer[i] = answer[i - 1] + 1
+            } else {
+                answer[i] = 1
+            }
+        }
+        println()
+        answer.printIntArray()
+        //左边孩子粉丝 > 右边孩子分数的情况, 此时需要从右向左
+        for (i in ratings.size - 1 downTo 1) {
+            if (ratings[i - 1] > ratings[i]) {
+                answer[i - 1] = answer[i - 1].coerceAtLeast(answer[i] + 1)
+            }
+        }
+
+        answer.printIntArray()
+
+        var sum = 0
+        for (i in answer) {
+            sum += i
+        }
+        return sum
+    }
+```
+
+
+
+#### 860 柠檬水找零
+
+##### Idea
+
+1. 一开始想到的是暴力解法， 用map 存 5 , 10两种金额的个数，20不用考虑
+2. 来了5存起来 map5 +1，来了10存起来 map10+1 , map5 -1 ,  来了20， map10-1, map5-1
+
+##### code  暴力解法
+
+```
+fun lemonadeChange(bills: IntArray): Boolean {
+    val map = HashMap<Int, Int>()
+    for ((index, money) in bills.withIndex()) {
+        if (money == 5) {
+            map[5] = map.getOrDefault(5, 0).plus(1)
+        } else if (money == 10) {
+            map[5] = map.getOrDefault(5, 0) - 1
+            map[10] = map.getOrDefault(10, 0).plus(1)
+        } else { //for 20 rmb
+            if (map.getOrDefault(10, 0) > 0 && map.getOrDefault(5, 0) > 0) { //at lease 10rmb 1  , 5rmb 1
+                map[10] = map.getOrDefault(10, 0) - 1
+                map[5] = map.getOrDefault(5, 0) - 1
+            } else if (map.getOrDefault(5, 0) > 2) { // at least 3 * 5 rmb
+                map[5] = map.getOrDefault(5, 0) - 3
+            } else {
+                return false
+            }
+        }
+        println(" index $index    map5 ${map[5]} map10 ${map[10]} ")
+        if (map.getOrDefault(5, 0) < 0 || map.getOrDefault(10, 0) < 0) {
+            return false
+        }
+    }
+    return true
+}
+```
+
+
+
+看了随想录的解法，和我的解法类似，知识map中的值可以用变量来做.
+
+```cpp
+int five = 0, ten = 0, twenty = 0;
+这样++,--更方便.
+```
+
+https://programmercarl.com/0860.%E6%9F%A0%E6%AA%AC%E6%B0%B4%E6%89%BE%E9%9B%B6.html#%E6%80%9D%E8%B7%AF
+
+
+
+#### 406 根据身高重建队列
+
+##### Idea 随想录
+
+对于本题相信大家困惑的点是先确定k还是先确定h呢，也就是究竟先按h排序呢，还是先按照k排序呢？
+
+如果按照k来从小到大排序，排完之后，会发现k的排列并不符合条件，身高也不符合条件，两个维度哪一个都没确定下来。
+
+那么按照身高h来排序呢，身高一定是从大到小排（身高相同的话则k小的站前面），让高个子在前面。
+
+**此时我们可以确定一个维度了，就是身高，前面的节点一定都比本节点高！**
+
+
+
+```
+fun reconstructQueue(people: Array<IntArray>): Array<IntArray> {
+    Arrays.sort(people, object : Comparator<IntArray> { 
+        override fun compare(o1: IntArray, o2: IntArray): Int {
+            if (o2[0] == o1[0]) {       // 如果身高相同，k小的排在前面
+                return o1[1] - o2[1]
+            }
+            return o2[0] - o1[0]        // 对数组先按照身高来排序
+        }
+    })
+    val linkedList = LinkedList<IntArray>()
+
+    for (value in people){
+        val index = value[1]
+        linkedList.add(index,value) // 按照k插入对应的位置, 这里插入时很容易越界。
+    }
+
+    return linkedList.toTypedArray()
+}
+```
+
+
+
+#### 452. 用最少数量的箭引爆气球
+
+IDEA
+
+1. 先对数组按照左边界大小进行排序。
+2. 如果当前i数组右边的值 >  或者前面数组重叠区域的最小右边界， 此时没有重叠（和之前的共有区域），数量+1
+3. 否则有重叠，取最小右边界值。
+
+
+
+一开始看题解，没理解特别是 points[i][1]
+
+```cpp
+                points[i][1] = min(points[i - 1][1], points[i][1]); // 更新重叠气球最小右边界
+```
+
+
+
+```kotlin
+    fun findMinArrowShots1(points: Array<IntArray>): Int {
+//        Arrays.sort(points){o1,o2 -> o1[0] - o2[0]} 这个回报越界错 [[-2147483646,-2147483645],[2147483646,2147483647]]
+        points.sortBy{it[0]}
+        var count = 1
+        for (i in 1 until points.size) {
+            if (points[i][0] > points[i - 1][1]) { // 如果当前气球的左边界 > 公共右边界
+                count++
+            } else {
+                // 没有大于公共右边界
+                //points[i][1] = points[i][1].minus(points[i - 1][1]) // 用minus是有问题的
+                points[i][1] = points[i][1].coerceAtMost(points[i - 1][1]) // 更新重叠气球最小右边界
+
+
+            }
+        }
+//        points.printDimensionalArray()
+        return count
+    }
+```
+
+
+
+1  	 6
+
+​	2	 	   8
+
+​		 	7 	   		12
+
+​						10 		16
+
+
+
+##### 使用chatGPT的算法，更好
+
+确定右边界, 如果新的左边界>之前的右边界+1 , 使用新的数据，并且确定右边界。
+
+The solution sorts the balloons by their end positions in ascending order, and then uses a greedy algorithm to shoot the balloons. We start with the first balloon and set `end` to its end position. Then, we iterate through the rest of the balloons and compare their start positions to `end`. If the start position of a balloon is greater than `end`, we shoot another arrow and update `end` to the end position of the current balloon.
+
+At the end, the function returns the number of arrows shot.
+
+```kotlin
+fun findMinArrowShots(points: Array<IntArray>): Int {
+    if (points.isEmpty()) return 0
+    points.sortBy { it[1] }
+    var arrows = 1
+    var end = points[0][1]
+
+    for (i in 1 until points.size) {
+        if (points[i][0]>end) {
+            arrows++
+            end = points[i][1]
+        }
+    }
+
+    return arrows
+}
+```
+
+
+
+
+
+​						
+
