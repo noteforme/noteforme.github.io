@@ -86,6 +86,242 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-LOG" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/12/09/LOG/">LOG</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-12-09T08:41:05.000Z" itemprop="datePublished">2017年12月09日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/12/09/LOG/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="Timber"><a href="#Timber" class="headerlink" title="Timber"></a>Timber</h5><ol>
+<li>添加库</li>
+</ol>
+<p><code>   implementation &#39;com.jakewharton.timber:timber:4.6.0&#39;</code></p>
+<p>**注意 **:  一开始日志打印不了还以为 okhttplogger冲突，BuildConfig需要导入项目的包<code>import com.jonzhou.nytime.BuildConfig;，而不是Timber或其他的包 </code></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    public void onCreate() &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        <span class="keyword">if</span> (<span class="type">BuildConfig</span>.<span class="type">DEBUG</span>) &#123;</span><br><span class="line">            <span class="type">Timber</span>.plant(<span class="keyword">new</span> <span class="type">Timber</span>.<span class="type">DebugTree</span>());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="type">Timber</span>.plant(<span class="keyword">new</span> <span class="type">CrashReportingTree</span>());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * A tree which logs important information for crash reporting.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> static <span class="class"><span class="keyword">class</span> <span class="title">CrashReportingTree</span> <span class="keyword">extends</span> <span class="title">Timber</span>.<span class="title">Tree</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">protected</span> void log(int priority, <span class="type">String</span> tag, <span class="meta">@NonNull</span> <span class="type">String</span> message, <span class="type">Throwable</span> t) &#123;</span><br><span class="line">            <span class="keyword">if</span> (priority == <span class="type">Log</span>.<span class="type">VERBOSE</span> || priority == <span class="type">Log</span>.<span class="type">DEBUG</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">FakeCrashLibrary</span>.log(priority, tag, message);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (t != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (priority == <span class="type">Log</span>.<span class="type">ERROR</span>) &#123;</span><br><span class="line">                    <span class="type">FakeCrashLibrary</span>.logError(t);</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (priority == <span class="type">Log</span>.<span class="type">WARN</span>) &#123;</span><br><span class="line">                    <span class="type">FakeCrashLibrary</span>.logWarning(t);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>使用</li>
+</ol>
+<p>jake的例子</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/JakeWharton/timber/blob/master/timber-sample/src/main/java/com/example/timber/ui/LintActivity.java">LintActivity</a> </p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  <span class="comment">// LogNotTimber</span></span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>d(<span class="string">&quot;TAG&quot;</span>, <span class="string">&quot;msg&quot;</span>);</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>d(<span class="string">&quot;TAG&quot;</span>, <span class="string">&quot;msg&quot;</span>, <span class="keyword">new</span> <span class="constructor">Exception()</span>);</span><br><span class="line">  android.util.<span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>d(<span class="string">&quot;TAG&quot;</span>, <span class="string">&quot;msg&quot;</span>);</span><br><span class="line">  android.util.<span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>d(<span class="string">&quot;TAG&quot;</span>, <span class="string">&quot;msg&quot;</span>, <span class="keyword">new</span> <span class="constructor">Exception()</span>);</span><br><span class="line">  <span class="comment">// StringFormatInTimber</span></span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>w(<span class="module-access"><span class="module"><span class="identifier">String</span>.</span></span>format(<span class="string">&quot;%s&quot;</span>, get<span class="constructor">String()</span>));</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>w(format(<span class="string">&quot;%s&quot;</span>, get<span class="constructor">String()</span>));</span><br><span class="line">  <span class="comment">// ThrowableNotAtBeginning</span></span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>d(<span class="string">&quot;%s&quot;</span>, <span class="keyword">new</span> <span class="constructor">Exception()</span>);</span><br><span class="line">  <span class="comment">// BinaryOperationInTimber</span></span><br><span class="line">  String foo = <span class="string">&quot;foo&quot;</span>;</span><br><span class="line">  String bar = <span class="string">&quot;bar&quot;</span>;</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>d(<span class="string">&quot;foo&quot;</span> + <span class="string">&quot;bar&quot;</span>);</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>d(<span class="string">&quot;foo&quot;</span> + bar);</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>d(foo + <span class="string">&quot;bar&quot;</span>);</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>d(foo + bar);</span><br><span class="line">  <span class="comment">// TimberArgCount</span></span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>d(<span class="string">&quot;%s %s&quot;</span>, <span class="string">&quot;arg0&quot;</span>);</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>d(<span class="string">&quot;%s&quot;</span>, <span class="string">&quot;arg0&quot;</span>, <span class="string">&quot;arg1&quot;</span>);</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>tag(<span class="string">&quot;tag&quot;</span>).d(<span class="string">&quot;%s %s&quot;</span>, <span class="string">&quot;arg0&quot;</span>);</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>tag(<span class="string">&quot;tag&quot;</span>).d(<span class="string">&quot;%s&quot;</span>, <span class="string">&quot;arg0&quot;</span>, <span class="string">&quot;arg1&quot;</span>);</span><br><span class="line">  <span class="comment">// TimberArgTypes</span></span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>d(<span class="string">&quot;%d&quot;</span>, <span class="string">&quot;arg0&quot;</span>);</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>tag(<span class="string">&quot;tag&quot;</span>).d(<span class="string">&quot;%d&quot;</span>, <span class="string">&quot;arg0&quot;</span>);</span><br><span class="line">  <span class="comment">// TimberTagLength</span></span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>tag(<span class="string">&quot;abcdefghijklmnopqrstuvwx&quot;</span>);</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>tag(<span class="string">&quot;abcdefghijklmnopqrstuvw&quot;</span> + <span class="string">&quot;x&quot;</span>);</span><br><span class="line">  <span class="comment">// TimberExceptionLogging</span></span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>d(<span class="keyword">new</span> <span class="constructor">Exception()</span>, <span class="keyword">new</span> <span class="constructor">Exception()</span>.get<span class="constructor">Message()</span>);</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>d(<span class="keyword">new</span> <span class="constructor">Exception()</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>d(<span class="keyword">new</span> <span class="constructor">Exception()</span>, null);</span><br><span class="line">  */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> String get<span class="constructor">String()</span> &#123;</span><br><span class="line">  return <span class="string">&quot;foo&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="Xlog"><a href="#Xlog" class="headerlink" title="Xlog"></a>Xlog</h5><p>1 . 环境配置 </p>
+<p> 安装 pyelliptic1.5.7  <code> sudo python setup.py install</code></p>
+<ol start="2">
+<li>解码日志 </li>
+</ol>
+<p> <code>python mars/log/crypt/decode_mars_nocrypt_log_file.py  MarsSample_20200417.xlog</code></p>
+<p>但是现在碰到了问题</p>
+<p>mq初始化有日志，接收消息没有日志，可能在不同的线程里，需要做处理</p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/17/index.html">https://noteforme.github.io/page/17/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Permission" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/12/02/Permission/">Permission</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-12-02T12:11:32.000Z" itemprop="datePublished">2017年12月02日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/12/02/Permission/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://developer.android.com/training/permissions/requesting">https://developer.android.com/training/permissions/requesting</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/permissions/overview#normal-dangerous">https://developer.android.com/guide/topics/permissions/overview#normal-dangerous</a></p>
+<h4 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h4><h5 id="Normal-permissions"><a href="#Normal-permissions" class="headerlink" title="Normal permissions"></a>Normal permissions</h5><h5 id="Dangerous-permissions"><a href="#Dangerous-permissions" class="headerlink" title="Dangerous permissions"></a>Dangerous permissions</h5><img src="/2017/12/02/Permission/Screen Shot 2020-09-17 at 2.06.37 PM.png" alt="Screen Shot 2020-09-17 at 2.06.37 PM" style="zoom: 80%;">
+
+<h4 id="Android11权限申请"><a href="#Android11权限申请" class="headerlink" title="Android11权限申请"></a>Android11权限申请</h4><p>申请位置权限，先申请前台，后申请后台权限。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/275758740">https://zhuanlan.zhihu.com/p/275758740</a></p>
+<h4 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PERMISSION_REQUEST_CODE = <span class="number">1000</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">requestPermission</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Here, thisActivity is the current activity</span></span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) &#123;</span><br><span class="line">            <span class="comment">//则每次执行需要这一权限的操作时您都必须检查自己是否具有该权限</span></span><br><span class="line">            <span class="keyword">if</span> (ActivityCompat.checkSelfPermission(<span class="keyword">this</span>, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                <span class="comment">// Should we show an explanation?</span></span><br><span class="line">                <span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span>, Manifest.permission.WRITE_EXTERNAL_STORAGE)) &#123;</span><br><span class="line"><span class="comment">//                            当某条权限之前已经请求过，并且用户已经拒绝了该权限时</span></span><br><span class="line">                    <span class="comment">//异步向用户显示解释，这里先弹出解释框，再请求权限.</span></span><br><span class="line">                    Log.d(TAG, <span class="string">&quot;用户看到解释后，再次常识请求权限&quot;</span>);</span><br><span class="line">                    ActivityCompat.requestPermissions(<span class="keyword">this</span>, <span class="keyword">new</span> String[]&#123;Manifest.permission.WRITE_EXTERNAL_STORAGE&#125;, PERMISSION_REQUEST_CODE);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">//无需解释，首次请求许可</span></span><br><span class="line">                    ActivityCompat.requestPermissions(<span class="keyword">this</span>, <span class="keyword">new</span> String[]&#123;Manifest.permission.WRITE_EXTERNAL_STORAGE&#125;, PERMISSION_REQUEST_CODE);</span><br><span class="line">                    Log.d(TAG, <span class="string">&quot;requestPermissions&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//权限已经授予</span></span><br><span class="line">                Log.d(TAG, <span class="string">&quot;requestPermissions is ok&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRequestPermissionsResult</span><span class="params">(<span class="keyword">int</span> requestCode, String[] permissions, <span class="keyword">int</span>[] grantResults)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onRequestPermissionsResult(requestCode, permissions, grantResults);</span><br><span class="line">        <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">            <span class="keyword">case</span> PERMISSION_REQUEST_CODE: &#123;</span><br><span class="line">                <span class="comment">// If request is cancelled, the result arrays are empty. 如果取消请求，则grantResult 为空</span></span><br><span class="line">                <span class="keyword">if</span> (grantResults.length &gt; <span class="number">0</span> &amp;&amp; grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                    Log.d(TAG, <span class="string">&quot;onRequestPermissionResult:ok&quot;</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    Log.d(TAG, <span class="string">&quot;onRequestPermissionResult:no&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<blockquote>
+<p>注意:需要在androidmanifest.xml声明 否则一直返回false</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_COARSE_LOCATION&quot; &#x2F;&gt;</span><br><span class="line">&lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_FINE_LOCATION&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>1、检查权限是否授予。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Activity.java</span><br><span class="line">public int checkSelfPermission(permission)</span><br></pre></td></tr></table></figure>
+
+<p>2、申请权限。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Activity.java    </span><br><span class="line">public final void requestPermissions( new String[permission1,permission2,...], requestCode)</span><br></pre></td></tr></table></figure>
+
+<p>这个时候，会弹出系统授权弹窗（<strong>授权弹窗是不支持自定义的，原因理所当然</strong>）。</p>
+<p>3、权限回调。</p>
+<p>用户在系统弹窗里面选择后，结果会通过<code>Activity</code>的 <code>onRequestPermissionsResult</code>方法回调APP。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) &#123;</span><br><span class="line">    &#x2F;&#x2F;继续执行逻辑或者提示权限获取失败</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4、权限说明。</p>
+<p>用户如果选择了拒绝，下一次在需要声明该权限的时候，Google建议APP开发者给予用户更多的说明，因此提供了下面这个API,<strong>这个方法返回值在使用过程中会发现有点纠结（具体解析见下面代码块说明）</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public boolean shouldShowRequestPermissionRationale(permission)</span><br><span class="line">&#123;</span><br><span class="line">    1、APP没有申请这个权限的话，返回false</span><br><span class="line">    2、用户拒绝时，勾选了不再提示的话，返回false</span><br><span class="line">    3、用户拒绝，但是没有勾选不再提示的话，返回true</span><br><span class="line">    因此如果想在第一次就给用户提示，需要记录权限是否申请过，没有申请过的话，强制弹窗提示，而不能根据这个方法的返回值来。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个 看情况选用</p>
+<p>参考 <a target="_blank" rel="noopener" href="https://juejin.im/entry/58b2e490ac502e0069d9ae62">https://juejin.im/entry/58b2e490ac502e0069d9ae62</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/security/permissions?hl=zh-cn#normal-dangerous">https://developer.android.com/guide/topics/security/permissions?hl=zh-cn#normal-dangerous</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.10tiao.com/html/227/201610/2650237473/1.html">http://www.10tiao.com/html/227/201610/2650237473/1.html</a></p>
+<h4 id="PERMISSION"><a href="#PERMISSION" class="headerlink" title="PERMISSION"></a>PERMISSION</h4><p>​      </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 这个权限用于进行网络定位--&gt;</span><br><span class="line">  &lt;permission android:name&#x3D;&quot;android.permission.ACCESS_COARSE_LOCATION&quot;&gt;&lt;&#x2F;permission&gt;</span><br><span class="line">  &lt;!-- 这个权限用于访问GPS定位--&gt;</span><br><span class="line">  &lt;permission android:name&#x3D;&quot;android.permission.ACCESS_FINE_LOCATION&quot;&gt;&lt;&#x2F;permission&gt;</span><br><span class="line">  &lt;!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位--&gt;</span><br><span class="line">  &lt;permission android:name&#x3D;&quot;android.permission.ACCESS_WIFI_STATE&quot;&gt;&lt;&#x2F;permission&gt;</span><br><span class="line">  &lt;!-- 获取运营商信息，用于支持提供运营商信息相关的接口--&gt;</span><br><span class="line">  &lt;permission android:name&#x3D;&quot;android.permission.ACCESS_NETWORK_STATE&quot;&gt;&lt;&#x2F;permission&gt;</span><br><span class="line">  &lt;!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位--&gt;</span><br><span class="line">  &lt;permission android:name&#x3D;&quot;android.permission.CHANGE_WIFI_STATE&quot;&gt;&lt;&#x2F;permission&gt;</span><br><span class="line">  &lt;!-- 用于读取手机当前的状态--&gt;</span><br><span class="line">  &lt;permission android:name&#x3D;&quot;android.permission.READ_PHONE_STATE&quot;&gt;&lt;&#x2F;permission&gt;</span><br><span class="line">  &lt;!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据--&gt;</span><br><span class="line">  &lt;permission android:name&#x3D;&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;&gt;&lt;&#x2F;permission&gt;</span><br><span class="line">  &lt;!-- 访问网络，网络定位需要上网--&gt;</span><br><span class="line">  &lt;permission android:name&#x3D;&quot;android.permission.INTERNET&quot; &#x2F;&gt;</span><br><span class="line">  &lt;!-- SD卡读取权限，用户写入离线定位数据--&gt;</span><br><span class="line">  &lt;permission android:name&#x3D;&quot;android.permission.MOUNT_UNMOUNT_FILESYSTEMS&quot;&gt;&lt;&#x2F;permission&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="One-time-permissions"><a href="#One-time-permissions" class="headerlink" title="One-time permissions"></a>One-time permissions</h5><p>Starting in Android 11 (API level 30), whenever your app requests a permission related to location, microphone, or camera, the user-facing permissions dialog contains an option called <strong>Only this time</strong>. If the user selects this option in the dialog, your app is granted a temporary <em>one-time permission</em>.</p>
+<h5 id="Permission-groups"><a href="#Permission-groups" class="headerlink" title="Permission groups"></a>Permission groups</h5><ul>
+<li><p>If the app has already been granted another dangerous permission in the same permission group, the system immediately grants the permission without any interaction with the user. For example, if an app had previously requested and been granted the <code>READ_CONTACTS</code> permission, and it then requests <code>WRITE_CONTACTS</code>, the system immediately grants that permission without showing the permissions dialog to the user.</p>
+</li>
+<li><p><strong>Caution:</strong> Future versions of the Android SDK might move a particular permission from one group to another. Therefore, don’t base your app’s logic on the structure of these permission groups.</p>
+<p>For example, <code>READ_CONTACTS</code> is in the same permission group as <code>WRITE_CONTACTS</code> as of Android 8.1 (API level 27). If your app requests the <code>READ_CONTACTS</code> permission, and then requests the <code>WRITE_CONTACTS</code> permission, don’t assume that the system can automatically grant the <code>WRITE_CONTACTS</code> permission.</p>
+</li>
+</ul>
+<h4 id="多权限申请"><a href="#多权限申请" class="headerlink" title="多权限申请"></a>多权限申请</h4><p><a target="_blank" rel="noopener" href="https://github.com/permissions-dispatcher/PermissionsDispatcher">https://github.com/permissions-dispatcher/PermissionsDispatcher</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/googlesamples/android-RuntimePermissions">https://github.com/googlesamples/android-RuntimePermissions</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a51593817825">https://www.jianshu.com/p/a51593817825</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/training/permissions/requesting">https://developer.android.com/training/permissions/requesting</a></p>
+<p>livedata</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Hw_FI0GRpUDWJ1NwjK652w">https://mp.weixin.qq.com/s/Hw_FI0GRpUDWJ1NwjK652w</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/7RpGzTjXo9rnHRCVEnrYWQ">https://mp.weixin.qq.com/s/7RpGzTjXo9rnHRCVEnrYWQ</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/i8K-6CSxYuLanR4x1WNSGA">https://mp.weixin.qq.com/s/i8K-6CSxYuLanR4x1WNSGA</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/gaSmpT5UQLqNa4Ck0r0eOg">https://mp.weixin.qq.com/s/gaSmpT5UQLqNa4Ck0r0eOg</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/huaiyiheyuan/article/details/52473984">http://blog.csdn.net/huaiyiheyuan/article/details/52473984</a><br><a target="_blank" rel="noopener" href="https://developer.android.com/training/permissions/requesting.html">https://developer.android.com/training/permissions/requesting.html</a></p>
+<h4 id="Android-10权限"><a href="#Android-10权限" class="headerlink" title="Android 10权限"></a>Android 10权限</h4><p>在后台运行时访问设备位置信息需要权限</p>
+<p><code> &lt;uses-permission android:name=&quot;android.permission.ACCESS_BACKGROUND_LOCATION&quot;/&gt;</code>        </p>
+<p>该权限允许应用程序在后台访问位置。如果请求此权限，则还必须请求<code>ACCESS_FINE_LOCATION</code> 或 <code>ACCESS_COARSE_LOCATION</code>权限。只请求此权限无效果</p>
+<p>在Android 10的设备上，如果你的应用的 <code>targetSdkVersion</code> &lt; 29，则在请求<code>ACCESS_FINE_LOCATION</code> 或<code>ACCESS_COARSE_LOCATION</code>权限时，系统会自动同时请求<code>ACCESS_BACKGROUND_LOCATION</code>。在请求弹框中，选择“始终允许”表示同意后台获取位置信息，选择“仅在应用使用过程中允许”或”拒绝”选项表示拒绝授权。</p>
+<p>如果你的应用的 <code>targetSdkVersion</code> &gt;= 29，则请求<code>ACCESS_FINE_LOCATION</code> 或 <code>ACCESS_COARSE_LOCATION</code>权限表示在前台时拥有访问设备位置信息的权限。在请求弹框中，选择“始终允许”表示前后台都可以获取位置信息，选择“仅在应用使用过程中允许”只表示拥有前台的权限。</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/about/versions/10/privacy/changes">https://developer.android.com/about/versions/10/privacy/changes</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6844904073024503822#heading-5">https://juejin.im/post/6844904073024503822#heading-5</a></p>
+<h3 id="Custom-Permission"><a href="#Custom-Permission" class="headerlink" title="Custom Permission"></a>Custom Permission</h3><p>can run Demo</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Ibtisam/Dangerous-Activity">https://github.com/Ibtisam/Dangerous-Activity</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Ibtisam/Using-Dangerous-Activity">https://github.com/Ibtisam/Using-Dangerous-Activity</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/commonsguy/cwac-netsecurity">https://github.com/commonsguy/cwac-netsecurity</a></p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/code-procedure-and-rants/android-permissions-create-custom-permissions-5784188311f3">https://medium.com/code-procedure-and-rants/android-permissions-create-custom-permissions-5784188311f3</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/17/index.html">https://noteforme.github.io/page/17/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-English" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1175,446 +1411,10 @@ android:dividerPadding=&quot;@dimen/dimen_15&quot;
 </article>
 
 
-  <article id="post-Git-BRANCH" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/10/19/Git-BRANCH/">GIT_BRANCH</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-10-19T01:24:09.000Z" itemprop="datePublished">2017年10月19日</time>
-</span>
-      
-      
-      
-<a href="/2017/10/19/Git-BRANCH/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>官方文档<br><a target="_blank" rel="noopener" href="https://git-scm.com/book/en/v2">https://git-scm.com/book/en/v2</a><br><a target="_blank" rel="noopener" href="http://iissnan.com/progit/">http://iissnan.com/progit/</a></p>
-<h4 id="Git基本操作"><a href="#Git基本操作" class="headerlink" title="Git基本操作"></a>Git基本操作</h4><h5 id="github上传项目"><a href="#github上传项目" class="headerlink" title="github上传项目"></a>github上传项目</h5><ul>
-<li> 分支创建</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git branch Dev1.10 </span><br><span class="line">git push origin Dev1.10 　　　&#x2F;&#x2F; 提交该分支到远程仓库</span><br><span class="line">git pull origin dev          &#x2F;&#x2F;从远程获取分支</span><br><span class="line">      </span><br></pre></td></tr></table></figure>
-
-<ul>
-<li> 下面是对已有项目的提交</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir EffectiveJava</span><br><span class="line">cd EffectiveJava</span><br><span class="line">git init</span><br><span class="line">touch README.md</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m &quot;first commit&quot;</span><br><span class="line">git remote add origin git@gitee.com:huaiyi&#x2F;EffectiveJava.git</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-
-<p>分支提交到远程仓库<br><code>$ git push origin v1.0.0 </code></p>
-<ul>
-<li><p>commit</p>
-<p>Git撤销git commit 但是未git push的修改</p>
-<ol>
-<li><p>找到上次git commit的 id</p>
-<p>  git log </p>
-<p>  找到你想撤销的commit_id</p>
-</li>
-<li><p>git reset –hard commit_id</p>
-<pre><code>完成撤销,同时将代码恢复到前一commit_id 对应的版本。
-</code></pre>
-</li>
-<li><p>git reset commit_id </p>
-<p>  完成Commit命令的撤销，但是不对代码修改进行撤销，可以直接通过git commit 重新提交对本地代码的修改。</p>
-</li>
-</ol>
-</li>
-</ul>
-<p> <a target="_blank" rel="noopener" href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B">git分支简介</a><br> <a target="_blank" rel="noopener" href="http://blog.csdn.net/hyr83960944/article/details/36185231">http://blog.csdn.net/hyr83960944/article/details/36185231</a></p>
-<p>合并分支<br>合并hotfix到dev</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout            &#x2F;&#x2F; 先切换到dev </span><br><span class="line">$ git merge hotfix</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6">合并分支</a></p>
-<h5 id="获取本地没有的远程分支"><a href="#获取本地没有的远程分支" class="headerlink" title="获取本地没有的远程分支"></a>获取本地没有的远程分支</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -r #查看远程分支  或 git branch -a #查看所有分支</span><br></pre></td></tr></table></figure>
-
-<p>会显示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">origin&#x2F;HEAD -&gt; origin&#x2F;master</span><br><span class="line">origin&#x2F;daily&#x2F;1.2.2</span><br><span class="line">origin&#x2F;daily&#x2F;1.3.0</span><br><span class="line">origin&#x2F;daily&#x2F;1.4.1</span><br><span class="line">origin&#x2F;develop</span><br><span class="line">origin&#x2F;feature&#x2F;daily-1.0.0</span><br><span class="line">origin&#x2F;master</span><br></pre></td></tr></table></figure>
-
-<p>然后直接 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout origin&#x2F;daily&#x2F;1.4.1</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/">https://gaohaoyang.github.io/2016/07/07/git-clone-not-master-branch/</a></p>
-<p><a target="_blank" rel="noopener" href="https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF" title="官方参考">官方</a></p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8">显示远程仓库</a><br> <code>$ git remote show origin </code></p>
-<p> <strong>1. 本地分支重命名(还没有推送到远程)</strong></p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -m oldName newName</span><br></pre></td></tr></table></figure>
-<p> <strong>2. 远程分支重命名 (已经推送远程-假设本地分支和远程对应分支名称相同)</strong><br>  a. 重命名远程分支对应的本地分支</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -m oldName newName</span><br></pre></td></tr></table></figure>
-<p> c. 删除本地分支</p>
-<pre><code>   `    git branch -d v1.0.0    `
-</code></pre>
-</li>
-</ul>
-<h5 id="删除远程分支"><a href="#删除远程分支" class="headerlink" title="删除远程分支"></a>删除远程分支</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --delete origin oldName</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h5 id="修复已发布版本bug"><a href="#修复已发布版本bug" class="headerlink" title="修复已发布版本bug"></a>修复已发布版本bug</h5><p>修复bug主要以下几步:</p>
-<ul>
-<li><p>使用git reset –hard <commit id="">命令退回到发布标签对应的版本</commit></p>
-</li>
-<li><p>使用git checkout -b BugFix新建一个BugFix的分支，原分支前进到最新提交版本</p>
-</li>
-<li><p>使用git checkout BugFix切换到BugFix分支，修改bug，重新发布并使用git tag打标签</p>
-</li>
-<li><p>git reaset –hard <head commit="" id=""> 切换主干最新的分支</head></p>
-</li>
-<li><p>使用git merge合并BugFix分支到主分支</p>
-<p>参考:<a target="_blank" rel="noopener" href="https://blog.masterliu.net/git-retag/">https://blog.masterliu.net/git-retag/</a></p>
-<p>标签是一个文件快照，并不是真拉出一份代码放在了那里</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">D:\Project\ASProjects\cqianjia&gt;git tag</span><br><span class="line">v1.0.2</span><br></pre></td></tr></table></figure>
-
-<p>参考: <a target="_blank" rel="noopener" href="http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/">http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/</a></p>
-<p>还有一种情况是在最新提交版本修复bug</p>
-<ul>
-<li><p>git stash</p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/54b8ea4317cc">https://www.jianshu.com/p/54b8ea4317cc</a></p>
-<p><a target="_blank" rel="noopener" href="https://qiita.com/hudichao/items/d665cd769ed1d2ce832a">https://qiita.com/hudichao/items/d665cd769ed1d2ce832a</a></p>
-</li>
-</ul>
-<h5 id="远程仓库更新到本地"><a href="#远程仓库更新到本地" class="headerlink" title="远程仓库更新到本地"></a>远程仓库更新到本地</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch origin</span><br><span class="line">$ git merge origin&#x2F;hexo</span><br></pre></td></tr></table></figure>
-
-<p>或者合并</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin hexo </span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2014/06/git_remote.html">http://www.ruanyifeng.com/blog/2014/06/git_remote.html</a></p>
-<h6 id="fork后的项目处理"><a href="#fork后的项目处理" class="headerlink" title="fork后的项目处理"></a>fork后的项目处理</h6><p>  <a target="_blank" rel="noopener" href="https://gaohaoyang.github.io/2015/04/12/Syncing-a-fork/">https://gaohaoyang.github.io/2015/04/12/Syncing-a-fork/</a></p>
-<h5 id="忽略文件已提交的文件"><a href="#忽略文件已提交的文件" class="headerlink" title="忽略文件已提交的文件"></a>忽略文件已提交的文件</h5><p> 对于单个文件处理<br>  假如要忽略 .idea/misc.xml文件，.gitignore可以添加 <code>/.idea/* </code>把.idea文件过滤<br> 主要是　<code>git rm --cached　.idea/misc.xml </code> 然后提交修改,每次手输入才有用?</p>
-<p> 对文件夹的处理,比如common-bankcard</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached common-bankcard</span><br><span class="line">git rm --cached  *idea&#x2F;*</span><br></pre></td></tr></table></figure>
-
-
-<h4 id="Git仓库迁移"><a href="#Git仓库迁移" class="headerlink" title="Git仓库迁移"></a>Git仓库迁移</h4><p> 迁移git仓库</p>
-<ul>
-<li><p>原来托管于github,clone一份裸版本库</p>
-<pre><code>git clone --bare git@gitee.com:huaiyi/CQJ.git
-</code></pre>
-</li>
-<li><p>在新的版本库(gitlab)里面创建一个新的项目，例如 cqianjia</p>
-</li>
-<li><p>推送刚才clone的镜像到gitlab服务器</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd CQJ.git&#x2F;</span><br><span class="line">git push --mirror git@45.77.22.97:root&#x2F;cqianjia.git</span><br></pre></td></tr></table></figure>
-
-<p> mirror 克隆出来的裸版本对上游版本库进行了注册，这样可以在裸版本库中使用git fetch命令和上游版本库进行持续同步</p>
-<ul>
-<li>  删除本地代码</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ..</span><br><span class="line">rm -rf project.git</span><br></pre></td></tr></table></figure>
-
-
-<ul>
-<li> 到新的服务器clone到本地就Ok了</li>
-</ul>
-<p>  <code>  git clone git@45.77.22.97:root/cqianjia.git</code> </p>
-<p>  参考: <a target="_blank" rel="noopener" href="https://my.oschina.net/kind790/blog/510601">https://my.oschina.net/kind790/blog/510601</a></p>
-<ul>
-<li>  git clone 所有分支</li>
-</ul>
-<pre><code>这种方式有一个弊端，切换分支后　工程名没了， 还是慢慢摸索吧　!
-</code></pre>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git branch -r | grep -v &#39;\-&gt;&#39; | while read remote; do git branch --track &quot;$&#123;remote#origin&#x2F;&#125;&quot; &quot;$remote&quot;; done</span><br><span class="line">git fetch --all</span><br><span class="line">git pull --all</span><br></pre></td></tr></table></figure>
-
-<p>参考: <a target="_blank" rel="noopener" href="http://blog.csdn.net/allangold/article/details/78028709">http://blog.csdn.net/allangold/article/details/78028709</a></p>
-<h4 id="GIT标签"><a href="#GIT标签" class="headerlink" title="GIT标签"></a>GIT标签</h4><p>  查看所有的版本<br>​    <code>git tag</code></p>
-<ul>
-<li>查看远程分支  <code>git ls-remote --tags</code></li>
-<li>创建标签 <code>git tag -a v1.0.2 -m &quot;my version 1.0.2&quot;  </code><br>-m 选项指定了一条将会存储在标签中的信息</li>
-</ul>
-<ul>
-<li>创建Tag</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git tag -a v1.0.0 -m &quot;my version 1.0.0&quot;</span><br><span class="line">git push origin v1.0.0    &#x2F;&#x2F;推送到远程分支</span><br><span class="line">git push origin --tags       &#x2F;&#x2F;推送所有的标签</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>删除tag </li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> git tag -d &lt;tagname&gt; </span><br><span class="line"> git push origin :refs&#x2F;tags&#x2F;&lt;tagname&gt;</span><br><span class="line"></span><br><span class="line">例如</span><br><span class="line"> git push origin :refs&#x2F;tags&#x2F;v1.0.2</span><br><span class="line"> git tag -d  v1.0.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%89%93%E6%A0%87%E7%AD%BE">检出标签</a> 检出标签</p>
-<h5 id="Checkout-Git-Tags"><a href="#Checkout-Git-Tags" class="headerlink" title="Checkout Git Tags"></a>Checkout Git Tags</h5><p><a target="_blank" rel="noopener" href="https://devconnected.com/how-to-checkout-git-tags/">https://devconnected.com/how-to-checkout-git-tags/</a></p>
-<blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git fetch --all --tags</span><br><span class="line">git checkout tags&#x2F;v1.0 -b v1.0-branch	&#x2F;&#x2F;git checkout tags&#x2F;v2.1.1 -b v2.1.1-branch  v1.0代表tag名称</span><br><span class="line"></span><br><span class="line">git log --oneline --graph		&#x2F;&#x2F;You can inspect the state of your branch by using the “git log” command. Make sure that the HEAD pointer (the latest commit) is pointing to your annotated tag.</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h5 id="checkout-remote-tag"><a href="#checkout-remote-tag" class="headerlink" title="checkout remote tag"></a>checkout remote tag</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git fetch --all --tags</span><br><span class="line"></span><br><span class="line">git ls-remote --tags</span><br><span class="line"> </span><br><span class="line">  refs&#x2F;tags&#x2F;v2.5.8^&#123;&#125;</span><br><span class="line">  refs&#x2F;tags&#x2F;v2.5.9</span><br><span class="line">  refs&#x2F;tags&#x2F;v2.5.9^&#123;&#125;</span><br><span class="line"></span><br><span class="line">git checkout  refs&#x2F;tags&#x2F;v2.5.9 -b v2.5.9-branch					&#x2F;&#x2F;-b 后面是自定义的分支名称</span><br><span class="line"> 																				这个自定义</span><br></pre></td></tr></table></figure>
-
-
-
-<p>在 Git 中你并不能真的检出一个标签，因为它们并不能像分支一样来回移动。 如果你想要工作目录与仓库中特定的标签版本完全一样，可以使用 git checkout -b [branchname] [tagname] 在特定的标签上创建一个新分支：</p>
-<pre><code>    $ git checkout -b version2 v2.0.0
-</code></pre>
-<p>Switched to a new branch ‘version2’</p>
-<p>当然，如果在这之后又进行了一次提交，version2 分支会因为改动向前移动了，那么 version2 分支就会和 v2.0.0 标签稍微有些不同，这时就应该当心了。</p>
-<p>修复已发布版本Bug<br><a target="_blank" rel="noopener" href="http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/">http://gepeiyu.com/2017/06/28/git-tag-oldversion-debug/</a></p>
-<h5 id="git-stash"><a href="#git-stash" class="headerlink" title="git stash"></a>git stash</h5><p>经常有这样的事情发生，当你正在进行项目中某一部分的工作，里面的东西处于一个比较杂乱的状态，而你想转到其他分支上进行一些工作。问题是，你不想提交进行了一半的工作，否则以后你无法回到这个工作点。解决这个问题的办法就是<code>git stash</code>命令。</p>
-<ol>
-<li><p><code>git stash  save  &#39;暂存备注信息&#39; </code> //进入暂存状态,此时执行 git status 已经没有要提交的了</p>
-</li>
-<li><p>git checkout  切换到要修改的分支上 ,修改完</p>
-</li>
-<li><p>  完成后回到原来的开发分支上，git stash apply 获取最近暂存内容</p>
-</li>
-<li><p><code>git stash drop  stash@&#123;1&#125; </code></p>
-<blockquote>
-<p>apply 选项只尝试应用储藏的工作——储藏的内容仍然在栈上。要移除它，你可以运行 <code>git stash drop</code>，加上你希望移除的储藏的名字：</p>
-</blockquote>
-</li>
-</ol>
-<ul>
-<li><p>git stash 可以进行多次暂存,多次存后 git stash list长下面这样,可以用 · git stash apply stash@{1}· 获取某次暂存的内容</p>
-<blockquote>
-<p>stash@{0}: WIP on dev: 3d01a6c Patient Entity数据库删除<br>stash@{1}: WIP on dev: b6a688e 跑起来提交</p>
-</blockquote>
-</li>
-<li><p>取消储藏  <code>git stash show -p stash@&#123;0&#125; | git apply -R</code>  如果没指定具体的标签 取消最近的</p>
-<p>这个和<code>git stash drop</code>的区别是 取消的是文件内容，stash标签还在</p>
-<p><a target="_blank" rel="noopener" href="https://git-scm.com/docs/git-stash">https://git-scm.com/docs/git-stash</a></p>
-<blockquote>
-<p> 注意是 stash@{0}  不是  3d01a6c</p>
-</blockquote>
-<p>git branch 分支名 hash(历史版本)</p>
-</li>
-<li><p>update forked project</p>
-<p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq1332479771/article/details/56087333">https://blog.csdn.net/qq1332479771/article/details/56087333</a> </p>
-</li>
-<li><p>获取暂存</p>
-<blockquote>
-<p>git stash apply stash@{0}   // don‘t remove stash</p>
-<p>git stash pop stash@{0}</p>
-</blockquote>
-</li>
-</ul>
-<h5 id="SVN"><a href="#SVN" class="headerlink" title="SVN"></a>SVN</h5><ul>
-<li>SVN不能添加文件:<a target="_blank" rel="noopener" href="https://blog.csdn.net/yujiayinshi/article/details/51381942">https://blog.csdn.net/yujiayinshi/article/details/51381942</a></li>
-</ul>
-<h5 id="github提速"><a href="#github提速" class="headerlink" title="github提速"></a>github提速</h5><p><a href="https://link.zhihu.com/?target=http://www.github.com/">www.github.com</a> 替换为   <a target="_blank" rel="noopener" href="http://www.github.com.cnpmjs.org/">www.github.com.cnpmjs.org</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/flutter/flutter.git">https://github.com/flutter/flutter.git</a></p>
-<p>git clone <a target="_blank" rel="noopener" href="https://github.com.cnpmjs.org/love-flutter/flutter-column.git">https://github.com.cnpmjs.org/love-flutter/flutter-column.git</a></p>
-<h4 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h4><h5 id="修改远程仓库地址"><a href="#修改远程仓库地址" class="headerlink" title="修改远程仓库地址"></a>修改远程仓库地址</h5><ul>
-<li>github创建 New项目，项目地址是 <a href="mailto:&#103;&#105;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#x63;&#111;&#109;">&#103;&#105;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#x63;&#111;&#109;</a>:BlogForMe/News.git</li>
-<li>修改远程服务器地址 ：<code>git remote set-url origin git@github.com:BlogForMe/News.git</code></li>
-<li>推送到远程服务器 : <code>git push origin </code></li>
-</ul>
-<p><a target="_blank" rel="noopener" href="http://jcpplus.github.io/2015/07/23/modify-remote-url/">http://jcpplus.github.io/2015/07/23/modify-remote-url/</a></p>
-<h5 id="git-pull-git-fetch区别"><a href="#git-pull-git-fetch区别" class="headerlink" title="git pull git fetch区别"></a>git pull git fetch区别</h5><p>git fetch更新本地仓库的两种用法：</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法一</span></span><br><span class="line">$ git fetch origin <span class="keyword">master</span>                <span class="title">#从远程的origin</span>仓库的<span class="literal">master</span>分支下载代码到本地的origin maste</span><br><span class="line">$ git log -p <span class="literal">master</span>.. origin/<span class="keyword">master</span>      <span class="title">#比较本地的仓库和远程参考的区别</span></span><br><span class="line"><span class="title">$</span> git merge origin/<span class="keyword">master</span>                <span class="title">#把远程下载下来的代码合并到本地仓库，远程的和本地的合并</span></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法二</span></span><br><span class="line"><span class="variable">$</span> git fetch origin master:temp           <span class="comment">#从远程的origin仓库的master分支下载到本地并新建一个分支temp</span></span><br><span class="line"><span class="variable">$</span> git <span class="built_in">diff</span> temp                          <span class="comment">#比较master分支和temp分支的不同</span></span><br><span class="line"><span class="variable">$</span> git merge temp                         <span class="comment">#合并temp分支到master分支</span></span><br><span class="line"><span class="variable">$</span> git branch <span class="literal">-d</span> temp                     <span class="comment">#删除temp</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>这样理解</p>
-<p>pull = fetch + merge</p>
-<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000017030384">https://segmentfault.com/a/1190000017030384</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d265f7763a3a">https://www.jianshu.com/p/d265f7763a3a</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/riddle1981/article/details/74938111">https://blog.csdn.net/riddle1981/article/details/74938111</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cpweb.top/455">https://www.cpweb.top/455</a></p>
-<h4 id="master-revert"><a href="#master-revert" class="headerlink" title="master revert"></a>master revert</h4><p> 今天将一段代码合入了master，上线的时候有问题，而不能很快解决掉，为了不影响其他同事合入master或将有问题的commit带上线，因此我将我的commit revert掉了。<br>  同时，当天晚上的时候有同事刚好问我git revert后自己代码消失的问题，当时思考不清晰，也比较少用revert，因此现在来复盘下。<br>  commit提交流程示意图如下：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/20690451-b8fff26d34df812c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/340/format/webp"></p>
-<p>其中A是有问题的commit，R是revert的commit，M是master，序号N代表master的流向,</p>
-<ol>
-<li><p>从master checkout分支 F-A ,提交了TestA文件</p>
-<p><img src="/2017/10/19/Git-BRANCH/20221109111230.jpg"></p>
-</li>
-<li><p>从master checkout分支 UP-R,提交了TESTB, TestR</p>
-</li>
-</ol>
-<p><img src="/2017/10/19/Git-BRANCH/20221109115616.jpg" alt="20221109115616"></p>
-<ol start="3">
-<li>分别吧F-A , UP-R分支合并到master.</li>
-<li>此时觉得F-A代码有问题，需要修改，master对F-A进行revert ,此时 master的F-A 分支TesA被删除了,并且有一条提交记录</li>
-<li>从master checkout分支verify-b,然后将之前revert commit那条提交 再进行 git revert commit,然后push (这个方式没想明白)</li>
-<li>把master合并到verify-b就能解决这个问题.</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/oYiMiYangGuang123/article/details/99437382">https://blog.csdn.net/oYiMiYangGuang123/article/details/99437382</a></p>
-<p>主要 git reset不能解决，有问题.除非强制push。</p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/17/index.html">https://noteforme.github.io/page/17/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/" rel="tag">Git</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-hot-patch" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/10/17/hot-patch/">hot_patch（热更新）</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-10-17T07:25:56.000Z" itemprop="datePublished">2017年10月17日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2017/10/17/hot-patch/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>为了预防项目紧急问题，使用热更新比发版要好点</p>
-<h5 id="热更新选择"><a href="#热更新选择" class="headerlink" title="热更新选择"></a>热更新选择</h5><ul>
-<li><p>VitrualApk  滴滴开源的方案，之前的dynamic-load-apk推动的热更新的发展,不过这个开源没多久，准备后面迁移到这上面来</p>
-</li>
-<li><p>Tinker-Bugly      这个很不错免费，就是只支持 冷启动，配合bugly教程用起来方便</p>
-</li>
-<li><p>sophix         这个支持热启动 配置也方便，不过5万设备以上就要收费，对于收费我觉得也无可厚非，毕竟是别人的劳动成果，</p>
-<pre><code>           作为开发者的角度，还是开源最好，以后可以学习下。
-</code></pre>
-</li>
-</ul>
-<p>所以先选择Tinker-Bugly</p>
-<h5 id="接入"><a href="#接入" class="headerlink" title="接入"></a>接入</h5><p> 按照<a target="_blank" rel="noopener" href="https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix/" title="bugly">接入文档</a> 配合Demo接入配置，然后就开始做自己的app 定义</p>
-<ol>
-<li>修改appid </li>
-</ol>
-<p> bugly平台申请后的 AppId</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId</span></span><br><span class="line">       <span class="comment">// 调试时，将第三个参数改为true</span></span><br><span class="line">       <span class="module-access"><span class="module"><span class="identifier">Bugly</span>.</span></span>init(get<span class="constructor">Application()</span>, <span class="string">&quot;f7b6508f55&quot;</span>, <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
-<p> 第三个参数设置  log是否展示</p>
-<ol start="2">
-<li>tinkerId</li>
-</ol>
-<p>每次修改 基线版本和 补丁版本都要修改 tinkerId</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">tinkerId</span> = <span class="string">&quot;1.0.6-patch&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>点击 assembleDebug</li>
-</ol>
-<p>生成 基线版本</p>
-<p><a target="_blank" rel="noopener" href="https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix-demo/">https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix-demo/</a></p>
-<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实际应用中，请注意保存线上发布版本的基准apk包、mapping文件、<span class="type">R</span>.txt文件，如果线上版本有bug，就可以借助我们tinker-sup<span class="keyword">port</span>插件进行补丁包的生成。</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>修改 def baseApkDir , 修改 tinkerId</li>
-</ol>
-<ul>
-<li>修改bug</li>
-<li>baseApkDir是根据基线版本生成的目录</li>
-<li>修改tinkerId</li>
-</ul>
-<ol start="5">
-<li>编译patch包 </li>
-</ol>
-<p>  点击 buildTinkerPatchRelease，生成patch_signed_7zip.apk上传,然后重启就可以了</p>
-<ol start="6">
-<li>对于开发设备和全量设备</li>
-</ol>
-<p>修改</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指定为开发设备</span></span><br><span class="line">   <span class="module-access"><span class="module"><span class="identifier">Bugly</span>.</span></span>set<span class="constructor">IsDevelopmentDevice(<span class="params">getApplication</span>()</span>,<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
-
-<p> 参考 ：<br>  <a target="_blank" rel="noopener" href="https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix/">https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix/</a><br>  <a target="_blank" rel="noopener" href="https://github.com/Tencent/tinker">https://github.com/Tencent/tinker</a><br>  <a target="_blank" rel="noopener" href="https://github.com/BuglyDevTeam/Bugly-Android-Demo">https://github.com/BuglyDevTeam/Bugly-Android-Demo</a></p>
-<h5 id="UncaughtExceptionHandler-Bugly冲突-不上报日志"><a href="#UncaughtExceptionHandler-Bugly冲突-不上报日志" class="headerlink" title="UncaughtExceptionHandler Bugly冲突 不上报日志"></a>UncaughtExceptionHandler Bugly冲突 不上报日志</h5><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ZPCrobot/article/details/97390156">https://blog.csdn.net/ZPCrobot/article/details/97390156</a></p>
-<h5 id="从零开始实现一个插件化框架"><a href="#从零开始实现一个插件化框架" class="headerlink" title="从零开始实现一个插件化框架"></a>从零开始实现一个插件化框架</h5><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_22090073/article/details/103946596">https://blog.csdn.net/qq_22090073/article/details/103946596</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/af8c47fabb12">https://www.jianshu.com/p/af8c47fabb12</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/17/index.html">https://noteforme.github.io/page/17/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/16/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/18/">Next</a>
+<a class="extend prev" rel="prev" href="/page/16/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/18/">Next</a>
 </nav>
 
 
@@ -1629,6 +1429,14 @@ android:dividerPadding=&quot;@dimen/dimen_15&quot;
       <ul>
         
           <li>
+            <a href="/2023/01/10/RecyclerView-padding/">RecyclerView-padding</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/02/LC-GREEDY/">LC-GREEDY</a>
+          </li>
+        
+          <li>
             <a href="/2022/12/27/viewBinding/">viewBinding</a>
           </li>
         
@@ -1638,14 +1446,6 @@ android:dividerPadding=&quot;@dimen/dimen_15&quot;
         
           <li>
             <a href="/2022/10/05/LC-Tree-Search-22/">LC-Tree-Search-22</a>
-          </li>
-        
-          <li>
-            <a href="/2022/09/15/Fragment-StateLoss/">Fragment_StateLoss</a>
-          </li>
-        
-          <li>
-            <a href="/2022/09/11/LC-TREE08/">LC_TREE08</a>
           </li>
         
       </ul>
@@ -1658,7 +1458,7 @@ android:dividerPadding=&quot;@dimen/dimen_15&quot;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ANDROID/" style="font-size: 13.33px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.67px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 20px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 15px;">Performance</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.67px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.67px;">VIEW</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 18.33px;">coroutie</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
+      <a href="/tags/ANDROID/" style="font-size: 12.86px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 18.57px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.43px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 14.29px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 11.43px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.43px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.43px;">VIEW</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 17.14px;">coroutie</a> <a href="/tags/inter/" style="font-size: 15.71px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
   </div>
 
@@ -1667,7 +1467,7 @@ android:dividerPadding=&quot;@dimen/dimen_15&quot;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">57</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1677,7 +1477,7 @@ android:dividerPadding=&quot;@dimen/dimen_15&quot;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年01月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1687,7 +1487,7 @@ android:dividerPadding=&quot;@dimen/dimen_15&quot;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 

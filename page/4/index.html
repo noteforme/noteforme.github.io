@@ -86,6 +86,380 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-battery-research" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/03/13/battery-research/">battery-research</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2022-03-13T12:39:05.000Z" itemprop="datePublished">2022年03月13日</time>
+</span>
+      
+      
+      
+<a href="/2022/03/13/battery-research/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="耗电提醒"><a href="#耗电提醒" class="headerlink" title="耗电提醒"></a>耗电提醒</h3><img src="https://static001.geekbang.org/resource/image/c6/1b/c6d2c20c09e84190c7b4a64578d0cc1b.png" alt="img" style="zoom:30%;">
+
+
+
+<h3 id="耗电问题难点"><a href="#耗电问题难点" class="headerlink" title="耗电问题难点"></a>耗电问题难点</h3><ul>
+<li><p>缺乏现场，无法复现。</p>
+<p>用户上传某个截图，你的应用耗电占比 30%。通过电量的详细使用情况，我们可能会有一些猜测。但是用户也无法给出更丰富的信息，以及具体是在什么场景发生的，可以说是毫无头绪。</p>
+<img src="https://static001.geekbang.org/resource/image/7a/b2/7ae7234370738c60d2685c8b096a19b2.png" alt="img" style="zoom: 50%;"></li>
+<li><p>信息不全，难以定位。</p>
+<p>如果是开发人员或者厂商可以提供 bug report，利用 Battery Historian 可以得到非常全的耗电统计信息。但是 Battery Historian 缺失了最重要的堆栈信息，代码调用那么复杂，可能还有很多的第三方 SDK，我们根本不知道是哪一行代码申请了 WakeLock、使用了 Sensor、调用了网络等。</p>
+</li>
+<li><p>无法评估结果。</p>
+<p>通过猜测，我们可能会尝试一些解决方案。但是从 Android 4.4 开始，我们无法拿到应用的耗电信息。尽管我们解决了某个耗电问题，也很难去评估它是否已经生效，以及对用户产生的价值有多大。</p>
+</li>
+<li><p>信息不全，难以定位</p>
+<p>如果是开发人员或者厂商可以提供 bug report，利用 Battery Historian 可以得到非常全的耗电统计信息。但是 Battery Historian 缺失了最重要的堆栈信息，代码调用那么复杂，可能还有很多的第三方 SDK，我们根本不知道是哪一行代码申请了 WakeLock、使用了 Sensor、调用了网络等。</p>
+</li>
+</ul>
+<h3 id="系统如何计算-App-电量"><a href="#系统如何计算-App-电量" class="headerlink" title="系统如何计算 App 电量"></a>系统如何计算 App 电量</h3><p>电量 = 功率 * 时间 = 电压 * 电流 * 时间</p>
+<p>模块电量（mAh） = 模块电流（mA）* 模块耗时（h） </p>
+<p>App电量 = SUM(模块功率 * 模块时间)</p>
+<h4 id="各模块的功率"><a href="#各模块的功率" class="headerlink" title="各模块的功率"></a>各模块的功率</h4><p><img src="https://static001.geekbang.org/resource/image/b0/2b/b01e359b45d22bd80efda51eee2f5f2b.png" alt="img"></p>
+<p>BatteryStatusService：用来统计电量工作的，各模块的功率在 power_profile.xml 中，再加上各模块的使用耗时就能统计出电量了</p>
+<p><a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/frameworks/base/+/master/core/res/res/xml/power_profile.xml">https://android.googlesource.com/platform/frameworks/base/+/master/core/res/res/xml/power_profile.xml</a> </p>
+<ol>
+<li><p>功率：功率在 power_profile.xml 中</p>
+</li>
+<li><p> 时长：StopWatch 用来计算 App 各硬件模块的使用时长，怎么计算 Wifi 使用了多久？</p>
+</li>
+</ol>
+<p>WifiManager.startScan() –&gt; WifiscanningServiceImp –&gt; BatteryStatsImpl.noteWifiScanStartedFromSource(mScanWorkSource);</p>
+<p>埋点</p>
+<ol start="3">
+<li> 计算：PowerCalculators ，每个硬件都有相应的命名对象， 主要用来计算电量</li>
+</ol>
+<p>WifiPowerCalculator -&gt; calculateApp</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/672d008c4ad3">https://www.jianshu.com/p/672d008c4ad3</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904195523346439">https://juejin.cn/post/6844904195523346439</a></p>
+<h3 id="系统限制"><a href="#系统限制" class="headerlink" title="系统限制"></a>系统限制</h3><h4 id="提醒情况"><a href="#提醒情况" class="headerlink" title="提醒情况"></a>提醒情况</h4><p>从 Android 9.0 开始,，Google 对电源管理引入了几个更加严格的限制。</p>
+<img src="https://static001.geekbang.org/resource/image/13/8e/13697353748c1637643a6970db22808e.png" alt="img" style="zoom: 50%;">
+
+<h4 id="应用分组"><a href="#应用分组" class="headerlink" title="应用分组"></a>应用分组</h4><p>根据DeepMind调整应用待机分组，各个厂商可选择使用DeepMind的提供的模型.</p>
+<ul>
+<li><p>Active : App基本不会受到后台限制。</p>
+</li>
+<li><p>Rare  : Jobs和Alarms都会受到延迟,访问网络的频率也会受到限制。</p>
+</li>
+<li><p>Frequent rare ： 发送过量的高优先级FCM message, 系统会把这些信息降级为 普通优先级.</p>
+</li>
+</ul>
+<img src="/2022/03/13/battery-research/Users/m/Documents/BLOG/source/_posts/battery/Screen Shot 2022-03-08 at 2.16.10 PM.png" alt="Screen Shot 2022-03-08 at 2.16.10 PM" style="zoom:50%;">
+
+
+
+
+
+
+<h3 id="后台限制"><a href="#后台限制" class="headerlink" title="后台限制"></a>后台限制</h3><img src="/2022/03/13/battery-research/Users/m/Documents/BLOG/source/_posts/battery-research/back_restrict.jpg" alt="back_restrict" style="zoom:30%;">
+
+
+
+<ol>
+<li><p>Android Vitals 的规则 : Android P 是通过 Android Vitals 监控后台耗电</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals">https://developer.android.google.cn/topic/performance/vitals</a></p>
+</li>
+</ol>
+<p>Android Vitals 核心指标：</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals/anr">ANR 发生率</a><br><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals/crash">崩溃率</a><br><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals/wakeup">唤醒次数过多</a><br><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals/wakelock">部分唤醒锁定被卡住</a></p>
+<p>其他指标：</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals/bg-wifi">后台 Wi-Fi 扫描次数过多</a><br><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals/bg-network-usage">后台网络使用量过高</a><br><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals/launch-time">应用启动时间</a><br><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals/render">呈现速度缓慢</a><br><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals/frozen">冻结的帧</a><br><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals/permissions">权限遭拒</a></p>
+<ol start="2">
+<li><p>可参考规则</p>
+<img src="https://static001.geekbang.org/resource/image/d4/be/d48b7e4d3fdceb101fa7716b5892b0be.png" alt="img" style="zoom:50%;"></li>
+<li><p>华为公开过他们后台资源使用的“红线”</p>
+<img src="https://static001.geekbang.org/resource/image/86/ff/86a65ea0d9216a11a341d7224fce93ff.png" alt="img" style="zoom:50%;"></li>
+</ol>
+<p>例如长时间获取 WakeLock、WiFi 和蓝牙的扫描等。为什么说耗电优化第一个方向就是优化应用后台耗电，因为大部分厂商预装项目要求最严格的正是应用后台待机耗电。</p>
+<p>​    虽然上面的标准可能随时会改变，但是可以看到，Android 系统目前比较关心后台 Alarm 唤醒、后台网络、后台 WiFi 扫描以及部分长时间 WakeLock 阻止系统后台休眠。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.dreamtobe.cn/2016/08/15/android_scheduler_and_battery/">https://blog.dreamtobe.cn/2016/08/15/android_scheduler_and_battery/</a></p>
+<img src="/2022/03/13/battery-research/Users/m/Documents/BLOG/source/_posts/battery-research/test_background_limig.jpg" alt="test_background_limig" style="zoom:50%;">
+
+
+
+<h3 id="后台操作原则"><a href="#后台操作原则" class="headerlink" title="后台操作原则"></a>后台操作原则</h3><ol>
+<li><p>减少 :  减少后台运行</p>
+</li>
+<li><p>延迟  : 延迟到合适的时间，例如设备充上电</p>
+</li>
+<li><p>合并: 合并后台操作</p>
+</li>
+</ol>
+<p>​    WorkManager : 后台操作的首选</p>
+<h3 id="耗电优化方式"><a href="#耗电优化方式" class="headerlink" title="耗电优化方式"></a>耗电优化方式</h3><ol>
+<li><p>灭屏时停止动画 </p>
+<p>我们可以监听灭屏以及亮屏的广播，在灭屏的时候停止 surfaceView 的动画绘制。在亮屏的时候，恢复动画的绘制。</p>
+</li>
+<li><p>监听手机充电状态</p>
+<p>这里我们就需要思考，根据具体的业务，考虑将一些不需要及时地和用户交互的操作放到充电 的时候去做。比如：360 手机助手，当充上电的时候，才会自动清理手机垃圾，自动备份上传图片、联系人 等到云端，从而避免当用户手机低电量时，任然继续进行耗电操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">IntentFilter ifilter = <span class="keyword">new</span> IntentFilter(Intent.ACTION_BATTERY_CHANGED);</span><br><span class="line">Intent batteryStatus = context.registerReceiver(<span class="keyword">null</span>, ifilter);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取用户是否在充电的状态或者已经充满电了</span></span><br><span class="line"><span class="keyword">int</span> status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -<span class="number">1</span>);</span><br><span class="line"><span class="keyword">boolean</span> isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL;</span><br></pre></td></tr></table></figure></li>
+<li><p>Sync Adapter</p>
+<p>用于同步服务端与本地设备中的数据。通常是用于同步较多的数据，如系统联系人信息、Dropbox等。</p>
+</li>
+<li><p> 找到需求场景的替代方案</p>
+</li>
+</ol>
+<p>   以推送为例，我们是否可以更多地利用厂商通道，或者定时的拉取最新消息这种模式。如果真是迫不得已，是不是可以使用 foreground service 或者引导用户加入白名单。后台任务的总体指导思想是减少、延迟和合并，可以参考微信一个小伙写的<a target="_blank" rel="noopener" href="https://blog.dreamtobe.cn/2016/08/15/android_scheduler_and_battery/">《Android 后台调度任务与省电》</a>。在后台运行某个任务之前，我们都需要经过下面的思考：<img src="https://static001.geekbang.org/resource/image/67/ac/67488fb06348423717cb0adba242bdac.png" alt="img" style="zoom: 33%;"></p>
+<h4 id="插桩"><a href="#插桩" class="headerlink" title="插桩"></a>插桩</h4><p>写一个基础类，然后在统一的调用接口中增加监控逻辑。</p>
+<p>以 WakeLock 为例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WakelockMetrics</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Wakelock 申请</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(PowerManager.WakeLock wakelock)</span> </span>&#123;</span><br><span class="line">        wakeLock.acquire();</span><br><span class="line">        <span class="comment">// 在这里增加Wakelock 申请监控逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Wakelock 释放</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">release</span><span class="params">(PowerManager.WakeLock wakelock, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">        wakelock.release();</span><br><span class="line">        <span class="comment">// 在这里增加Wakelock 释放监控逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="电量监控工具"><a href="#电量监控工具" class="headerlink" title="电量监控工具"></a>电量监控工具</h4><ul>
+<li>Battery Historian</li>
+</ul>
+<p>​        <strong>无法评估结果</strong></p>
+<ul>
+<li><p>Energy Profiler      </p>
+</li>
+<li><p>XHook(爱奇艺), 拿到所有线程的 cpu 耗时时间 。</p>
+</li>
+<li><p>facebook Battery-Metrics</p>
+<p>它监控的数据非常全，包括 Alarm、WakeLock、Camera、CPU、Network 等，而且也有收集电量充电状态、电量水平等信息。Battery-Metrics 只是提供了一系列的基础类，在实际使用中，接入者可能需要修改大量的源码。但对于一些第三方 SDK 或者后续增加的代码，我们可能就不太能保证可以监控到了。这些场景也就无法监控了，所以 Facebook 内部是使用插桩来动态替换。</p>
+<p>Facebook 并没有开源它们内部的插桩具体实现方案，可以使用 ASM、Aspectj 这两种插桩方案了。</p>
+</li>
+<li><p>matrix BatteryCanary</p>
+<p>ANR 内存使用 优化好了， 电量肯定没问题，</p>
+<p>如果电量不行，程序有问题</p>
+</li>
+</ul>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/4/index.html">https://noteforme.github.io/page/4/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-battery" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/02/23/battery/">battery</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2022-02-23T05:50:10.000Z" itemprop="datePublished">2022年02月23日</time>
+</span>
+      
+      
+      
+<a href="/2022/02/23/battery/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="性能与功耗"><a href="#性能与功耗" class="headerlink" title="性能与功耗"></a>性能与功耗</h3><p><a target="_blank" rel="noopener" href="https://github.com/JsonChao/Awesome-Android-Performance">https://github.com/JsonChao/Awesome-Android-Performance</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance">https://developer.android.google.cn/topic/performance</a></p>
+<h4 id="battery-history"><a href="#battery-history" class="headerlink" title="battery history"></a>battery history</h4><p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/performance/power/setup-battery-historian?hl=zh-cn">https://developer.android.com/topic/performance/power/setup-battery-historian?hl=zh-cn</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell dumpsys batterystats &gt; &#x2F;Users&#x2F;m&#x2F;Documents&#x2F;BATTELY&#x2F;batterystats.txt</span><br><span class="line"></span><br><span class="line">adb bugreport &#x2F;Users&#x2F;m&#x2F;Documents&#x2F;BATTELY&#x2F;bugreport.zip</span><br></pre></td></tr></table></figure>
+
+
+
+<p>指标查看</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903779268034574">https://juejin.cn/post/6844903779268034574</a></p>
+<h3 id="三种情况"><a href="#三种情况" class="headerlink" title="三种情况"></a>三种情况</h3><ul>
+<li>省电模式</li>
+<li>应用待机分组</li>
+<li>后台限制</li>
+</ul>
+<p>这三种情况，开发者都需要对App进行测试，保证正常运行</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ut411d7U3/">https://www.bilibili.com/video/BV1Ut411d7U3/</a></p>
+<img src="/2022/02/23/battery/Users/m/Documents/BLOG/source/_posts/battery/Screen Shot 2022-03-08 at 2.29.40 PM.png" alt="Screen Shot 2022-03-08 at 2.29.40 PM" style="zoom:50%;">
+
+
+
+<h4 id="应用分组"><a href="#应用分组" class="headerlink" title="应用分组"></a>应用分组</h4><img src="/2022/02/23/battery/Users/m/Documents/BLOG/source/_posts/battery/Screen Shot 2022-03-08 at 2.16.10 PM.png" alt="Screen Shot 2022-03-08 at 2.16.10 PM" style="zoom:50%;">
+
+
+
+<h4 id="开发者保证无论哪个分组-App都没问题"><a href="#开发者保证无论哪个分组-App都没问题" class="headerlink" title="开发者保证无论哪个分组 App都没问题"></a>开发者保证无论哪个分组 App都没问题</h4><ol>
+<li>测试通知是否发送</li>
+<li>Api接口： 获取运行时应用所在的分组</li>
+</ol>
+<img src="/2022/02/23/battery/Users/m/Documents/BLOG/source/_posts/battery/Screen Shot 2022-03-08 at 2.17.59 PM.png" alt="Screen Shot 2022-03-08 at 2.17.59 PM" style="zoom:50%;">
+
+<h4 id="省电模式"><a href="#省电模式" class="headerlink" title="省电模式"></a>省电模式</h4><p>该模式App正常运行</p>
+<p>![Screen Shot 2022-03-08 at 2.27.35 PM](/Users/m/Documents/BLOG/source/_posts/battery/Screen Shot 2022-03-08 at 2.27.35 PM.png)</p>
+<h3 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h3><p>减少 :  减少后台运行</p>
+<p>延迟  : 延迟到合适的时间，例如设备充上电</p>
+<p>合并: 尽量合并后台操作</p>
+<p>WorkManager : 后台操作的首选</p>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><h4 id="Android-Vitals"><a href="#Android-Vitals" class="headerlink" title="Android Vitals"></a>Android Vitals</h4><p>根据描述的不良行为来优化分组</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals">https://developer.android.google.cn/topic/performance/vitals</a></p>
+<h4 id="Energy-profiler"><a href="#Energy-profiler" class="headerlink" title="Energy profiler"></a>Energy profiler</h4><img src="/2022/02/23/battery/Users/m/Documents/BLOG/source/_posts/battery/Screen Shot 2022-03-08 at 2.36.21 PM.png" alt="Screen Shot 2022-03-08 at 2.36.21 PM" style="zoom:50%;">
+
+
+
+
+
+
+
+
+
+<h3 id="场景操作"><a href="#场景操作" class="headerlink" title="场景操作"></a>场景操作</h3><h4 id="监听手机充电状态"><a href="#监听手机充电状态" class="headerlink" title="监听手机充电状态"></a>监听手机充电状态</h4><p>这里我们就需要思考，根据具体的业务，考虑将一些不需要及时地和用户交互的操作放到充电 的时候去做。比如：360 手机助手，当充上电的时候，才会自动清理手机垃圾，自动备份上传图片、联系人 等到云端，从而避免当用户手机低电量时，任然继续进行耗电操作。</p>
+<h4 id="屏幕唤醒-继续研究我们App细节"><a href="#屏幕唤醒-继续研究我们App细节" class="headerlink" title="屏幕唤醒 (继续研究我们App细节)"></a>屏幕唤醒 (继续研究我们App细节)</h4><p>当 Android 设备空闲时，屏幕会变暗，然后关闭屏幕，最后会停止 CPU 的运行，这样可以防 止电池电量掉的快。但有些时候我们需要改变 Android 系统默认的这种状态:比如玩游戏时我 们需要保持屏幕常亮，比如一些下载操作不需要屏幕常亮但需要 CPU 一直运行直到任务完成。</p>
+<p>保持屏幕常亮比较好的方式是在 Activity 中使用 FLAG_KEEP_SCREEN_ON 的 Flag。</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/2/19/16904495558a8e3a~tplv-t2oaga2asx-zoom-in-crop-mark:1304:0:0:0.awebp" alt="在这里插入图片描述"></p>
+<p>这个方法的好处是不像唤醒锁(wake locks)，需要一些特定的权限(permission)。并且能 正确管理不同 app 之间的切换，不用担心无用资源的释放问题。</p>
+<p>另一个方式是在布局文件中使用 android:keepScreenOn 属性:</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/2/19/16904495828e4789~tplv-t2oaga2asx-zoom-in-crop-mark:1304:0:0:0.awebp" alt="在这里插入图片描述"></p>
+<p>android:keepScreenOn = “true”的作用和 FLAG_KEEP_SCREEN_ON 一样，使用代码的好 处是你允许你在需要的地方关闭屏幕。</p>
+<p>注意:一般不需要人为的去掉 FLAG_KEEP_SCREEN_ON 的 flag，windowManager 会管理好程序进入 后台回到前台的的操作。如果确实需要手动清掉常亮的 flag，使用</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/2/19/169044957b65ed32~tplv-t2oaga2asx-zoom-in-crop-mark:1304:0:0:0.awebp" alt="在这里插入图片描述"></p>
+<p>所以这里我们需要根据自己的 APP 实际情况，根据业务来控制好是否保持屏幕常量。比如 APP 需要支持视频播放。那么在播放的界面需要控制好不熄屏，当退出播放时，当然就没有了 这个设置。</p>
+<h4 id="JobScheduler-现在应该用WorkManger"><a href="#JobScheduler-现在应该用WorkManger" class="headerlink" title="JobScheduler (现在应该用WorkManger)"></a>JobScheduler (现在应该用WorkManger)</h4><p>自 Android 5.0 发布以来，JobScheduler 已成为执行后台工作的很好的方式，其工作方式有 利于用户在适当的时机执行正确的事情。应用可以在安排作业的同时允许系统基于内存、电源 和连接情况进行优化。JobSchedule 的宗旨就是把一些不是特别紧急的任务放到更合适的时机 批量处理。这样做有两个好处:</p>
+<ul>
+<li>避免频繁的唤醒硬件模块，造成不必要的电量消耗。</li>
+<li>避免在不合适的时间(例如低电量情况下、弱网络或者移动网络情况下的)执行过多的 任务消耗电量。</li>
+</ul>
+<h4 id="GPS"><a href="#GPS" class="headerlink" title="GPS"></a>GPS</h4><p>Android 系统支持多个 Location Provider:</p>
+<ul>
+<li><strong>GPS_PROVIDER:</strong> GPS 定位，利用 GPS 芯片通过卫星获得自己的位置信息。定位精准度高，一般在 10 米左右， 耗电量大;但是在室内，GPS 定位基本没用。</li>
+<li><strong>NETWORK_PROVIDER:</strong> 网络定位，利用手机基站和 WIFI 节点的地址来大致定位位置，这种定位方式取决于服务器， 即取决于将基站或 WIF 节点信息翻译成位置信息的服务器的能力。</li>
+<li><strong>PASSIVE_PROVIDER:</strong> 被动定位，就是用现成的，当其他应用使用定位更新了定位信息，系统会保存下来，该应用接 收到消息后直接读取就可以了。</li>
+</ul>
+<p>如果 App 只是需要一个粗略的定位那么就不需要使用 GPS 进行定位，既耗费电量，定位的耗 时也久。</p>
+<p><strong>及时注销定位监听</strong> (怎么注销定位)</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903779268034574">https://juejin.cn/post/6844903779268034574</a></p>
+<p>电量分析</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/performance/vitals">https://developer.android.google.cn/topic/performance/vitals</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=dx6LBaFqEHU&amp;t=3s">https://www.youtube.com/watch?v=dx6LBaFqEHU&amp;t=3s</a></p>
+<p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2018/03/11/dianping-shortvideo-battery-testcase.html">https://tech.meituan.com/2018/03/11/dianping-shortvideo-battery-testcase.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3dc2ea40ed5a">https://www.jianshu.com/p/3dc2ea40ed5a</a></p>
+<p>docker – run -p 1234:9999 gcr.io/android-battery-historian/stable:3.0 –port 9999</p>
+<h3 id="YouTuBe-Video"><a href="#YouTuBe-Video" class="headerlink" title="YouTuBe Video"></a>YouTuBe Video</h3><h4 id="Battery-Historian"><a href="#Battery-Historian" class="headerlink" title="Battery Historian"></a>Battery Historian</h4><p>Battery Historian Part 1: Basics and Installation Using Docker Tool-box</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=6NQwtj0GZRo">https://www.youtube.com/watch?v=6NQwtj0GZRo</a></p>
+<p>Battery Historian Part 2: Steps to Collect BatteryStat logs and Creating Report on Console</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=ZTzdrvYO8sM">https://www.youtube.com/watch?v=ZTzdrvYO8sM</a></p>
+<p>Battery Historian Part 3: Report Analysis and Error Checks</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=d_VFXzBhuuc">https://www.youtube.com/watch?v=d_VFXzBhuuc</a></p>
+<h4 id="Battery-Historian-Part"><a href="#Battery-Historian-Part" class="headerlink" title="Battery Historian Part"></a>Battery Historian Part</h4><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=11aJfiqqBAk">https://www.youtube.com/watch?v=11aJfiqqBAk</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=PK2VBuMMkn8">https://www.youtube.com/watch?v=PK2VBuMMkn8</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=6LuPsbwH3HE">https://www.youtube.com/watch?v=6LuPsbwH3HE</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=-v4NL5oqBq0">https://www.youtube.com/watch?v=-v4NL5oqBq0</a></p>
+<h4 id="耗电优化建议（实用）"><a href="#耗电优化建议（实用）" class="headerlink" title="耗电优化建议（实用）"></a>耗电优化建议（实用）</h4><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7034751791866576904">https://juejin.cn/post/7034751791866576904</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/JsonChao/Awesome-Android-Notebook/blob/master/notes/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.md#APP%E7%94%B5%E9%87%8F%E4%BC%98%E5%8C%96">https://github.com/JsonChao/Awesome-Android-Notebook/blob/master/notes/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.md#APP%E7%94%B5%E9%87%8F%E4%BC%98%E5%8C%96</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ut411d7U3/">https://www.bilibili.com/video/BV1Ut411d7U3/</a></p>
+<h4 id="具体处理"><a href="#具体处理" class="headerlink" title="具体处理"></a>具体处理</h4><p>主要是优化后台：Alarm 一定时间内的启动次数，WakeLock 一定时间内的时间/次数，Sensor，Wifi Scans ，Bluetooth , GPS，Camera，NetWork，CPU ，退到后台监控次数和时间，定义一个阀值超过提醒输出</p>
+<p>其次是监控优化前台：监控线程 Cpu 时间，Gpu 绘制，拿到所有线程的 cpu 耗时时间 ANR dump</p>
+<p>微信：优化，异步加载（比较长）1 分钟，io 读取 ANR （子线程）极端情况下死循环</p>
+<p>耗电量是怎么计算的？</p>
+<p>如果 app 需要监控应该怎么监控？</p>
+<p>怎么监控异常耗电并且输出方便排查的信息？</p>
+<h3 id="监控工具"><a href="#监控工具" class="headerlink" title="监控工具"></a>监控工具</h3><h4 id="wechat-matrix"><a href="#wechat-matrix" class="headerlink" title="wechat matrix"></a>wechat <strong><a target="_blank" rel="noopener" href="https://github.com/Tencent/matrix">matrix</a></strong></h4><p><a target="_blank" rel="noopener" href="https://kaedea.com/2021/08/14/android-apm-battery-stats-opt/">https://kaedea.com/2021/08/14/android-apm-battery-stats-opt/</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/chuyouyinghe/article/details/117223373">https://blog.csdn.net/chuyouyinghe/article/details/117223373</a></p>
+<p>分享做业务怎么脱颖而出？道理都是一样，最后进来的，项目基本完工了，不考核的三流业务，绩效业务。</p>
+<p>尽最大的努力去支持他，1200条+，邮箱 WXG ，推荐了我，尽可能积极乐观主动。</p>
+<p>熬，低调厚积薄发，做别人不愿意做的事情，摆正好心态</p>
+<p><a target="_blank" rel="noopener" href="http://www.moyck.com/articles/2019/10/14/1571046711964.html">http://www.moyck.com/articles/2019/10/14/1571046711964.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.woshipm.com/it/855066.html">http://www.woshipm.com/it/855066.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://xiaojianchen.gitbook.io/performance-optimization/android-xing-neng-you-hua-zhi-dian-liang">https://xiaojianchen.gitbook.io/performance-optimization/android-xing-neng-you-hua-zhi-dian-liang</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904195523346439">https://juejin.cn/post/6844904195523346439</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1st411N7cC?p=5">https://www.bilibili.com/video/BV1st411N7cC?p=5</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/4/index.html">https://noteforme.github.io/page/4/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-DateTime" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -179,6 +553,11 @@
   <time class="dt-published" datetime="2021-12-19T13:12:53.000Z" itemprop="datePublished">2021年12月19日</time>
 </span>
       
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
       
       
 <a href="/2021/12/19/RecyclerView-Divider/#comments" class="article-comment-link">
@@ -255,6 +634,8 @@
           
 
           
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a></li></ul>
+
           
     <div class="social-share">
       <span>Share:</span>
@@ -1127,430 +1508,10 @@
 </article>
 
 
-  <article id="post-Leetcode" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/08/30/Leetcode/">Leetcode_Linklist</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2021-08-30T13:03:37.000Z" itemprop="datePublished">2021年08月30日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/DataStructure/">DataStructure</a>
-  </div>
-
-      
-      
-<a href="/2021/08/30/Leetcode/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h4 id="20-有效的括号"><a href="#20-有效的括号" class="headerlink" title="20. 有效的括号"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/valid-parentheses">20. 有效的括号</a></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//官方 HashMap 解法更好 更清晰</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    Stack stack = <span class="keyword">new</span> Stack();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); i++) &#123;</span><br><span class="line">        <span class="keyword">char</span> c = s.charAt(i);</span><br><span class="line">        <span class="keyword">if</span> ((c == <span class="string">&#x27;(&#x27;</span>) || c == <span class="string">&#x27;[&#x27;</span> || c == <span class="string">&#x27;&#123;&#x27;</span>) &#123;</span><br><span class="line">            stack.push(c);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (stack.isEmpty()) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">boolean</span> p1 = (c == <span class="string">&#x27;)&#x27;</span> &amp;&amp; (<span class="keyword">char</span>) stack.peek() == <span class="string">&#x27;(&#x27;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">boolean</span> p2 = (c == <span class="string">&#x27;]&#x27;</span> &amp;&amp; (<span class="keyword">char</span>) stack.peek() == <span class="string">&#x27;[&#x27;</span>);</span><br><span class="line">            <span class="keyword">boolean</span> p3 = (c == <span class="string">&#x27;&#125;&#x27;</span> &amp;&amp; (<span class="keyword">char</span>) stack.peek() == <span class="string">&#x27;&#123;&#x27;</span>);</span><br><span class="line">            <span class="keyword">if</span> (p1 || p2 || p3) &#123;</span><br><span class="line">                stack.pop();</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                stack.push(c);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (stack.isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="21-合并两个有序链表"><a href="#21-合并两个有序链表" class="headerlink" title="21. 合并两个有序链表"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-two-sorted-lists/">21. 合并两个有序链表</a></h4><h5 id="递归解法"><a href="#递归解法" class="headerlink" title="递归解法"></a>递归解法</h5><figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public ListNode mergeTwoLists(ListNode l1, ListNode l2) &#123;</span><br><span class="line">    ListNode prevHead = new ListNode(<span class="number">-1</span>);</span><br><span class="line">    ListNode  <span class="built_in">prev</span> = prevHead;</span><br><span class="line">    <span class="keyword">while</span> (l1 != <span class="built_in">null</span> &amp;&amp; l2 != <span class="built_in">null</span>) &#123;</span><br><span class="line">        if (l1.val &lt; l2.val) &#123;</span><br><span class="line">            <span class="built_in">prev</span>.<span class="built_in">next</span> = l1;</span><br><span class="line">            l1 = l1.<span class="built_in">next</span>;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            <span class="built_in">prev</span>.<span class="built_in">next</span> = l2;</span><br><span class="line">            l2 = l2.<span class="built_in">next</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">prev</span> = <span class="built_in">prev</span>.<span class="built_in">next</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (l1 == <span class="built_in">null</span>) &#123;</span><br><span class="line">        <span class="built_in">prev</span>.<span class="built_in">next</span> = l2;</span><br><span class="line">    &#125;</span><br><span class="line">    if (l2 == <span class="built_in">null</span>) &#123;</span><br><span class="line">        <span class="built_in">prev</span>.<span class="built_in">next</span> = l1;</span><br><span class="line">    &#125;</span><br><span class="line">    return prevHead.<span class="built_in">next</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="迭代解法"><a href="#迭代解法" class="headerlink" title="迭代解法"></a>迭代解法</h5><p>待学习</p>
-<h4 id="160-相交链表"><a href="#160-相交链表" class="headerlink" title="160. 相交链表"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/intersection-of-two-linked-lists/">160. 相交链表</a></h4><p>给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 null 。</p>
-<p>图示两个链表在节点 c1 开始相交：</p>
-<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution_160</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">getIntersectionNode</span><span class="params">(ListNode headA, ListNode headB)</span> </span>&#123;</span><br><span class="line">        ListNode la = headA;</span><br><span class="line">        ListNode lb = headB;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(la!=lb)&#123;</span><br><span class="line">            la = (la==<span class="keyword">null</span>) ? headB : la.next;</span><br><span class="line">            lb = (lb==<span class="keyword">null</span>) ? headA : lb.next ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> la;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p><strong>先走自己的路，再走对方的路，最终路程一样</strong></p>
-<p>可以这么理解，a，b两个链表，变更为 a+b 和 b+a，长度就相等了，然后等步遍历判断是否相等就行了</p>
-<p>原始的数据</p>
-<p><img src="https://pic.leetcode-cn.com/1628662967-RLmciV-2.png"></p>
-<p>修改后的数据示意图</p>
-<p><img src="https://pic.leetcode-cn.com/1628662688-ZdSYRM-1.png" alt="1.png"></p>
-<p>!(<img src="https://pic.leetcode-cn.com/e86e947c8b87ac723b9c858cd3834f9a93bcc6c5e884e41117ab803d205ef662-%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8.png" alt="相交链表.png">)</p>
-<h4 id="101-对称二叉树"><a href="#101-对称二叉树" class="headerlink" title="101. 对称二叉树"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/symmetric-tree/">101. 对称二叉树</a></h4><p>迭代法需要再写下 </p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/4/index.html">https://noteforme.github.io/page/4/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-Dagger" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/08/29/Dagger/">Dagger</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2021-08-29T12:45:53.000Z" itemprop="datePublished">2021年08月29日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2021/08/29/Dagger/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/training/dependency-injection/dagger-basics">https://developer.android.google.cn/training/dependency-injection/dagger-basics</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1hF411W7aj">https://www.bilibili.com/video/BV1hF411W7aj</a> 动脑</p>
-<h3 id="注入3要素"><a href="#注入3要素" class="headerlink" title="注入3要素"></a>注入3要素</h3><p><img src="/2021/08/29/Dagger/2021-09-25_7.49.39_dagger3.png"></p>
-<h5 id="注入流程"><a href="#注入流程" class="headerlink" title="注入流程"></a>注入流程</h5><p><img src="/2021/08/29/Dagger/2021-09-25_8.59.52_inject.png" alt="2021-09-25_8.59.52_inject"></p>
-<h5 id="构造方法对象注入"><a href="#构造方法对象注入" class="headerlink" title="构造方法对象注入"></a>构造方法对象注入</h5><ol>
-<li><p>创建User4对象 </p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User4</span> <span class="meta">@Inject</span> <span class="keyword">constructor</span></span>()</span><br></pre></td></tr></table></figure></li>
-<li><p>创建ApplicationComponent4</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ApplicationComponent4</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(mainActivity: <span class="type">MainActivity4</span>?)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>执行注入.</p>
-</li>
-</ol>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity4</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> TAG = javaClass.simpleName</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> user:User4</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main3)</span><br><span class="line">        DaggerApplicationComponent4.create().inject(<span class="keyword">this</span>)</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;onCreate: user= <span class="variable">$user</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="第三方对象注入-一"><a href="#第三方对象注入-一" class="headerlink" title="第三方对象注入(一)"></a>第三方对象注入(一)</h5><p>Module :Module可以提供多个对象，返回类型要不一样 。</p>
-<p>Component  :IOC容器, 用来注入对象,module集成到component身上,再由Component把对象注入到平时用的Activity或者目的类身上。</p>
-<blockquote>
-<p> 依赖的查找顺序为：先找@Module，如果找到了就停止，如果找不到就去找@Inject</p>
-</blockquote>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HttpObject</span> // 也可直接在这里提供对象,<span class="type">不用Module</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HttpModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideHttpObject</span><span class="params">()</span></span>:HttpObject&#123; <span class="comment">// 针对第三方sdk的对象，可以灵活提供</span></span><br><span class="line">        <span class="keyword">return</span> HttpObject()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component(modules = [HttpModule::class, DataBaseModule::class])</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">MyComponent</span> </span>&#123;</span><br><span class="line">    <span class="comment">//注入点</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(activity: <span class="type">DaggerxxActivity</span>)</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DaggerxxActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> binding <span class="keyword">by</span> lazy &#123; ActivityDaggerXxBinding.inflate(layoutInflater) &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> TAG = <span class="string">&quot;DaggerxxActivity&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> httpObject: HttpObject</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> databaseObject: DatabaseObject</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(binding.root)</span><br><span class="line">        DaggerMyComponent.create().inject(<span class="keyword">this</span>)</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;onCreate: httpObject <span class="variable">$httpObject</span>  databaseObject  <span class="variable">$databaseObject</span> &quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903850319544328">https://juejin.cn/post/6844903850319544328</a></p>
-<p><img src="/2021/08/29/Dagger/2021-09-25_9.15.37_dagger_class.png"></p>
-<h5 id="第三方对象注入-一-1"><a href="#第三方对象注入-一-1" class="headerlink" title="第三方对象注入(一)"></a>第三方对象注入(一)</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User6</span></span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppModule6</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideUser</span><span class="params">()</span></span>: User6 &#123;</span><br><span class="line">        <span class="keyword">return</span> User6()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Component(modules = [AppModule6::class])</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ApplicationComponent6</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(mainActivity: <span class="type">MainActivity6</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity6</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> user: User6</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        DaggerApplicationComponent6.create().inject(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="依赖注入概念"><a href="#依赖注入概念" class="headerlink" title="依赖注入概念"></a>依赖注入概念</h3><ol>
-<li>构造方法注入</li>
-<li>Setter注入(字段注入)</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    Engine engine;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//构造方法注入</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Car</span><span class="params">(Engine engine)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.engine = engine;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// setter注入(字段注入)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEngine</span><span class="params">(Engine engine)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.engine = engine;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>&#123;</span><br><span class="line">        engine = <span class="keyword">new</span> Engine();</span><br><span class="line">        engine.start();</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Engine</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="IOC框架"><a href="#IOC框架" class="headerlink" title="IOC框架"></a>IOC框架</h5><ol>
-<li>基于反射的方式实现： Spring IOC(动态的进行依赖关系的建立)</li>
-<li>静态方式 ： 程序在编译时就已经提供好了建立依赖关系的类。Dagger2</li>
-</ol>
-<p>两种注入方式</p>
-<p><img src="/2021/08/29/Dagger/2021-08-29_8.43.22_type_dagger.png" alt="2021-08-29_8.43.22_type_dagger"></p>
-<h3 id="Dagger注入"><a href="#Dagger注入" class="headerlink" title="Dagger注入"></a>Dagger注入</h3><h5 id="构造方法注入"><a href="#构造方法注入" class="headerlink" title="构造方法注入"></a>构造方法注入</h5><p>构造方法构造实例注入步骤</p>
-<ol>
-<li><p>使用 @Inject注解在构造方法上；就是告知Dagger可以通过构造方法来创建并获取到User的实例</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.使用 @Inject注解在构造方法上；就是告知Dagger可以通过构造方法来创建并获取到User的实例</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="meta">@Inject</span> <span class="keyword">constructor</span></span>()</span><br></pre></td></tr></table></figure></li>
-<li><p>当作IOC容器,把对象注入到目标类中</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2. Component可以当作IOC容器,然后把对象注入到目标类中</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ApplicationComponent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(daggerActivity: <span class="type">DaggerActivity</span>?)</span></span> <span class="comment">//指定DaggerActivity作为要注入的目标类</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>设置Inject注解</p>
-<p>DaggerActivity.java</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//3.设置Inject注解</span></span><br><span class="line"><span class="meta">@Inject</span></span><br><span class="line">User user;</span><br></pre></td></tr></table></figure></li>
-<li><p>执行注入动作</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//3.设置Inject注解</span></span><br><span class="line"><span class="meta">@Inject</span></span><br><span class="line">User user;</span><br><span class="line">   </span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">      setContentView(R.layout.activity_dagger2);</span><br><span class="line"><span class="comment">//4.执行注入动作</span></span><br><span class="line">    DaggerApplicationComponent.create().inject(<span class="keyword">this</span>);<span class="comment">//DaggerApplicationComponent相当于DaggerApplication的实现类 </span></span><br><span class="line">    <span class="comment">// DaggerApplicationComponent.create()获取到实例,inject(this)注入到Activity中</span></span><br><span class="line">      Log.i(TAG, <span class="string">&quot;user: &quot;</span> + user);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h5 id="Dagger-Module注入"><a href="#Dagger-Module注入" class="headerlink" title="Dagger Module注入"></a>Dagger Module注入</h5><p>第三方框架的类，实现依赖注入， 上面User是我们自己定义的类， </p>
-<ol>
-<li><p>第二种方式告知Dagger,可以通过调用该方法来获取到注入对象的实例</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NetModule</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">providerUser</span><span class="params">()</span></span>: User &#123;</span><br><span class="line">        <span class="keyword">return</span> User()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第二种方式告知Dagger,可以通过调用该方法来获取到注入对象的实例</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideRetrofit</span><span class="params">()</span></span>: Retrofit &#123;</span><br><span class="line">        <span class="keyword">return</span> Retrofit.Builder()</span><br><span class="line">            .baseUrl(<span class="string">&quot;http://www.google.com&quot;</span>)</span><br><span class="line">            .build()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<ol start="2">
-<li><p>compoent</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 2. Component可以当作IOC容器,然后把对象注入到目标类中</span><br><span class="line">&#x2F;&#x2F; 设置作用域和ApplicationComponent组件的生命周期一致</span><br><span class="line">@Component(modules &#x3D; [NetModule::class]) &#x2F;&#x2F;模块装载到组件上去</span><br><span class="line">interface ApplicationComponent &#123;</span><br><span class="line">    fun inject(daggerActivity: DaggerActivity?) &#x2F;&#x2F;指定DaggerActivity作为要注入的目标类</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>DaggerActivity.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DaggerActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;DaggerActivity&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//3.设置Inject注解</span></span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    Retrofit retrofit;</span><br><span class="line">  </span><br><span class="line">    Log.i(TAG, <span class="string">&quot;retrofit: &quot;</span> + retrofit);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h5 id="Retrofit注入"><a href="#Retrofit注入" class="headerlink" title="Retrofit注入"></a>Retrofit注入</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ApiService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET(&quot;/user/info&quot;)</span></span><br><span class="line">    <span class="function">Call&lt;String&gt; <span class="title">requestInfo</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Module已经知道怎么获取retrofit实例</span></span><br><span class="line"><span class="comment">//接着同一个Module中的方法，就可以作为参数直接传入 使用</span></span><br><span class="line"><span class="comment">// 比如provideApiService需要Retrofit实例，会从当前容器查找是否已经有Retrofit实例</span></span><br><span class="line"><span class="comment">// 然后从当前容器直接获取</span></span><br><span class="line"><span class="meta">@Provides</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ApiService <span class="title">provideApiService</span><span class="params">(Retrofit retrofit)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> retrofit.create(ApiService.class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inject</span></span><br><span class="line">ApiService apiService;</span><br><span class="line"></span><br><span class="line">Log.i(TAG, <span class="string">&quot;apiService: &quot;</span> +apiService);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>Module已经知道怎么获取retrofit实例<br>接着同一个Module中的方法，就可以作为参数直接传入 使用<br>// 比如provideApiService需要Retrofit实例，会从当前容器查找是否已经有Retrofit实例<br>// 然后从当前容器直接获取</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NetModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第二种方式告知Dagger,可以通过调用该方法来获取到注入对象的实例</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Retrofit <span class="title">provideRetrofit</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">            .baseUrl(<span class="string">&quot;http://www.google.com&quot;</span>)</span><br><span class="line">            .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Module已经知道怎么获取retrofit实例</span></span><br><span class="line">    <span class="comment">//接着同一个Module中的方法，就可以作为参数直接传入 使用</span></span><br><span class="line">    <span class="comment">// 比如provideApiService需要Retrofit实例，会从当前容器查找是否已经有Retrofit实例</span></span><br><span class="line">    <span class="comment">// 然后从当前容器直接获取</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ApiService <span class="title">provideApiService</span><span class="params">(Retrofit retrofit)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> retrofit.create(ApiService.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> OkHttpClient <span class="title">provideOkHttpClient</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> OkHttpClient.Builder().build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="局部单例实现"><a href="#局部单例实现" class="headerlink" title="局部单例实现"></a>局部单例实现</h3><p><img src="/2021/08/29/Dagger/2021-08-29_8.43.44_local.png" alt="2021-08-29_8.43.44_local"></p>
-<h5 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h5><p><img src="/2021/08/29/Dagger/2021-08-29_8.48.38_lifecycle.png" alt="2021-08-29_8.48.38_lifecycle"></p>
-<p><strong>将某个对象的生命周期限定为其组件的生命周期。</strong></p>
-<p>下面User，Retrofit ,ApiService, OkHttpClient对象实例指定了作用域是Singleton,那么载入这些对象的组建ApplicationComponent1也必须用作用域是Singleton.</p>
-<p>要么不使用 作用域 即默认的作用域， 如果使用的话，就必须保证他们的作用域一致。</p>
-<h5 id="局部实例1"><a href="#局部实例1" class="headerlink" title="局部实例1"></a>局部实例1</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//Dagger模块</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NetModule1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">providerUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第二种方式告知Dagger,可以通过调用该方法来获取到注入对象的实例</span></span><br><span class="line">    <span class="comment">//@Provides</span></span><br><span class="line">    <span class="comment">//public Retrofit provideRetrofit() &#123;</span></span><br><span class="line">    <span class="comment">//    return new Retrofit.Builder()</span></span><br><span class="line">    <span class="comment">//        .baseUrl(&quot;http://www.google.com&quot;)</span></span><br><span class="line">    <span class="comment">//        .build();</span></span><br><span class="line">    <span class="comment">//&#125;</span></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Retrofit <span class="title">provideRetrofit</span><span class="params">(OkHttpClient okHttpClient)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">            .client(okHttpClient)</span><br><span class="line">            .baseUrl(<span class="string">&quot;http://www.google.com&quot;</span>)</span><br><span class="line">            .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Module已经知道怎么获取retrofit实例</span></span><br><span class="line">    <span class="comment">//接着同一个Module中的方法，就可以作为参数直接传入 使用</span></span><br><span class="line">    <span class="comment">// 比如provideApiService需要Retrofit实例，会从当前容器查找是否已经有Retrofit实例</span></span><br><span class="line">    <span class="comment">// 然后从当前容器直接获取</span></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ApiService <span class="title">provideApiService</span><span class="params">(Retrofit retrofit)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> retrofit.create(ApiService.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//@Singleton是Dagger提供的一种作用域</span></span><br><span class="line">    <span class="comment">// 作用域就是用来管理Component来获取对象实例的生命周期</span></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> OkHttpClient <span class="title">provideOkHttpClient</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> OkHttpClient.Builder().build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2. 当作IOC容器,把对象注入到目标类中</span></span><br><span class="line"><span class="meta">@Singleton</span> <span class="comment">// 设置作用域和ApplicationComponent组件的生命周期一致</span></span><br><span class="line"><span class="meta">@Component(modules = &#123;NetModule1.class&#125;)</span> <span class="comment">//模块装载到组件上去</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ApplicationComponent1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(DaggerActivity daggerActivity)</span></span>;<span class="comment">//指定目标类</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(SecondActivity secondActivity)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DaggerActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;DaggerActivity&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//3.设置Inject注解</span></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User user;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    User user2;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    Retrofit retrofit;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    ApiService apiService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    ApiService apiService2;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_dagger2);</span><br><span class="line">        <span class="comment">//4.执行注入动作</span></span><br><span class="line">        DaggerApplicationComponent.create().inject(<span class="keyword">this</span>);<span class="comment">//DaggerApplicationComponent相当于DaggerApplication的实现类</span></span><br><span class="line"></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user: &quot;</span> + user);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user2: &quot;</span> + user2);</span><br><span class="line"></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;retrofit: &quot;</span> + retrofit);</span><br><span class="line"></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;apiService: &quot;</span> +apiService);</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;apiService2: &quot;</span> +apiService2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行结构</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2092-2092&#x2F;com.comm.util I&#x2F;DaggerActivity: user: com.comm.util.dagger.dn.di.User@2129cef</span><br><span class="line">2092-2092&#x2F;com.comm.util I&#x2F;DaggerActivity: user2: com.comm.util.dagger.dn.di.User@d97d3fc</span><br><span class="line">2092-2092&#x2F;com.comm.util I&#x2F;DaggerActivity: retrofit: retrofit2.Retrofit@d243a85</span><br><span class="line">2092-2092&#x2F;com.comm.util I&#x2F;DaggerActivity: apiService: retrofit2.Retrofit$1@a1fa0da</span><br><span class="line">2092-2092&#x2F;com.comm.util I&#x2F;DaggerActivity: apiService2: retrofit2.Retrofit$1@a1fa0da</span><br></pre></td></tr></table></figure>
-
-<p>可以看到 user 是2个实例</p>
-<p>apiService用了同一个对象实例,所以可以看到和DaggerApplicationComponent组件生命周期一致。</p>
-<h5 id="局部实例2"><a href="#局部实例2" class="headerlink" title="局部实例2"></a>局部实例2</h5><p>添加一个Activity</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecondActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    String TAG = <span class="string">&quot;SecondActivity&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    ApiService apiService3;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_second2);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//DaggerApplicationComponent相当于DaggerApplication的实现类</span></span><br><span class="line">        DaggerApplicationComponent.create().inject(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;apiService3: &quot;</span> + apiService3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(SecondActivity secondActivity)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startActivity(<span class="keyword">new</span> Intent(<span class="keyword">this</span>,SecondActivity.class));</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">7410-7410&#x2F;com.comm.util I&#x2F;DaggerActivity: apiService: retrofit2.Retrofit$1@a1fa0da</span><br><span class="line">7410-7410&#x2F;com.comm.util I&#x2F;DaggerActivity: apiService2: retrofit2.Retrofit$1@a1fa0da</span><br><span class="line">2021-08-29 22:28:35.812 7410-7410&#x2F;com.comm.util I&#x2F;SecondActivity: apiService3: retrofit2.Retrofit$1@84eb79a</span><br></pre></td></tr></table></figure>
-
-<p>不同的DaggerApplicationComponent组件，不同的实例</p>
-<h5 id="全局实例"><a href="#全局实例" class="headerlink" title="全局实例"></a>全局实例</h5><p>保证组件全局实例</p>
-<p>Module作用域生命周期和 ApplicationComponent保持一致。</p>
-<p>MyApplication.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> ApplicationComponent  applicationComponent = DaggerApplicationComponent.create();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ApplicationComponent <span class="title">getApplicationComponent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> applicationComponent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyApplication.getApplicationComponent().inject(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">8044-8044&#x2F;com.comm.util I&#x2F;DaggerActivity: apiService: retrofit2.Retrofit$1@516190b</span><br><span class="line">8044-8044&#x2F;com.comm.util I&#x2F;DaggerActivity: apiService2: retrofit2.Retrofit$1@516190b</span><br><span class="line">8044-8044&#x2F;com.comm.util I&#x2F;SecondActivity: apiService3: retrofit2.Retrofit$1@516190b</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="使用作用域遵循的规则"><a href="#使用作用域遵循的规则" class="headerlink" title="使用作用域遵循的规则"></a>使用作用域遵循的规则</h5><p><img src="/2021/08/29/Dagger/2021-08-29_10.50.21_myscope.png" alt="2021-08-29_10.50.21_myscope"></p>
-<p>组件ApplicationComponent指定了作用域,组件中的模块modules = {NetModule.class}，也要指定相同的作用域。</p>
-<p>NetModule中的方法设置@Singleton 那么ApplicationComponent也必须设置@Singleton</p>
-<p>NetModule中的方法设置@MyScope 那么ApplicationComponent也必须设置@MyScope</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span> <span class="comment">// 设置作用域和ApplicationComponent组件的生命周期一致，</span></span><br><span class="line"><span class="meta">@Component(modules = &#123;NetModule.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ApplicationComponent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(DaggerActivity daggerActivity)</span></span>;<span class="comment">//指定目标类</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(SecondActivity secondActivity)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="组件依赖"><a href="#组件依赖" class="headerlink" title="组件依赖"></a>组件依赖</h3><p>因为,一个Acitivty不能有两个组件直接注入,不如ApplicationComponent 和UserComponent.</p>
-<p>组建依赖与子组建主要解决了不同作用域时组建之间复用问题.</p>
-<ul>
-<li>在一个组件置顶作用域后，就已经确定了该组建创建对象的生命周期。 但是<strong>有些对象的实例可能生命周期更短</strong>。这个时候就需要定义新的组建。</li>
-<li>新组件需要使用原组建的部分资源</li>
-</ul>
-<p>两种实现方式</p>
-<ol>
-<li>为@Component添加dependencies参数,指定该组建依赖新的组件。</li>
-<li>直接使用@Subcomponent注解创建新的组件，并装载到父组件中。</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ki4y1A7hA?p=07">https://www.bilibili.com/video/BV1Ki4y1A7hA?p=07</a></p>
-<p>来看方式一</p>
-<h5 id="实例部分全局"><a href="#实例部分全局" class="headerlink" title="实例部分全局"></a>实例部分全局</h5><p>实现 Retrofit ,ApiService 进程下全局, User2类 Activity全局</p>
-<p>MyScope是自定义的作用域，用Singleton也可以，主要是保证组建作用域全局单例，感觉和hilt有点不同</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MyScope</span> <span class="comment">// 设置作用域和ApplicationComponent组件的生命周期一致,如果ApplicationComponent是全局的，那么就是全局的</span></span><br><span class="line"><span class="meta">@Component(modules = &#123;NetModule2.class&#125;)</span> <span class="comment">//模块装载到组件上去</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ApplicationComponent2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    void inject(DaggerUserActivity daggerActivity);<span class="comment">//指定目标类 //dependencies = &#123;ApplicationComponent1.class&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    Retrofit retrofit();</span><br><span class="line">    ApiService apiService();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@UserScope</span></span><br><span class="line"><span class="meta">@Component(modules = [UserModule2::class], dependencies = [ApplicationComponent2::class])</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">UserComponent2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(activity: <span class="type">DaggerUserActivity2</span>)</span></span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(activity: <span class="type">DaggerSecondActivity2</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NetModule2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">providerUser</span><span class="params">()</span></span>: User2 &#123;</span><br><span class="line">        <span class="keyword">return</span> User2()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第二种方式告知Dagger,可以通过调用该方法来获取到注入对象的实例</span></span><br><span class="line">    <span class="comment">//@Provides</span></span><br><span class="line">    <span class="comment">//public Retrofit provideRetrofit() &#123;</span></span><br><span class="line">    <span class="comment">//    return new Retrofit.Builder()</span></span><br><span class="line">    <span class="comment">//        .baseUrl(&quot;http://www.google.com&quot;)</span></span><br><span class="line">    <span class="comment">//        .build();</span></span><br><span class="line">    <span class="comment">//&#125;</span></span><br><span class="line">    <span class="meta">@MyScope</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideRetrofit</span><span class="params">(okHttpClient: <span class="type">OkHttpClient</span>?)</span></span>: Retrofit &#123;</span><br><span class="line">        <span class="keyword">return</span> Retrofit.Builder()</span><br><span class="line">            .client(okHttpClient)</span><br><span class="line">            .baseUrl(<span class="string">&quot;http://www.google.com&quot;</span>)</span><br><span class="line">            .build()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Module已经知道怎么获取retrofit实例</span></span><br><span class="line">    <span class="comment">//接着同一个Module中的方法，就可以作为参数直接传入 使用</span></span><br><span class="line">    <span class="comment">// 比如provideApiService需要Retrofit实例，会从当前容器查找是否已经有Retrofit实例</span></span><br><span class="line">    <span class="comment">// 然后从当前容器直接获取</span></span><br><span class="line">    <span class="meta">@MyScope</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideApiService</span><span class="params">(retrofit: <span class="type">Retrofit</span>)</span></span>: ApiService &#123;</span><br><span class="line">        <span class="keyword">return</span> retrofit.create(ApiService::<span class="keyword">class</span>.java)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//@Singleton是Dagger提供的一种作用域</span></span><br><span class="line">    <span class="comment">// 作用域就是用来管理Component来获取对象实例的生命周期</span></span><br><span class="line">    <span class="meta">@MyScope</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideOkHttpClient</span><span class="params">()</span></span>: OkHttpClient &#123;</span><br><span class="line">        <span class="keyword">return</span> OkHttpClient.Builder().build()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>注意ApplicationComponent2要提供对应Module的方法</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MyScope</span> <span class="comment">// 设置作用域和ApplicationComponent组件的生命周期一致，NetModule设置@Singleton 那么ApplicationComponent也必须设置</span></span><br><span class="line"><span class="meta">@Component(modules = [NetModule2::class])</span> <span class="comment">//模块装载到组件上去</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ApplicationComponent2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(daggerActivity: <span class="type">DaggerUserActivity</span>)</span></span> <span class="comment">//指定目标类 //dependencies = &#123;ApplicationComponent1.class&#125;</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">retrofit</span><span class="params">()</span></span>: Retrofit</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">apiService</span><span class="params">()</span></span>: ApiService</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideContext</span><span class="params">()</span></span>: Context</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> ApplicationComponent2 applicationComponent = DaggerApplicationComponent2.create();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> MyApplication app;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ApplicationComponent2 <span class="title">getApplicationComponent2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> applicationComponent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Dagger</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MyApplication <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> app;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DaggerUserActivity2</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> TAG = javaClass.simpleName</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> user1: User2</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> user2: User2</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> apiService1: ApiService</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> apiService2: ApiService</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> userComponent: UserComponent2? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_dagger_user)</span><br><span class="line">        userComponent = DaggerUserComponent2.builder().applicationComponent2(</span><br><span class="line">            MyApplication.getApplicationComponent2()</span><br><span class="line">        ).build()</span><br><span class="line">        userComponent?.inject(<span class="keyword">this</span>)</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user1: <span class="variable">$user1</span>&quot;</span>)</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;user2: <span class="variable">$user2</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;apiService1: <span class="variable">$apiService1</span>&quot;</span>)</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;apiService2: <span class="variable">$apiService2</span>&quot;</span>)</span><br><span class="line">        startActivity(Intent(<span class="keyword">this</span>, DaggerSecondActivity2::<span class="keyword">class</span>.java))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>从结果上, Retrofit 是全局单例，User2对象是Activity单例</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">399 10821-10821&#x2F;com.comm.util I&#x2F;DaggerUserActivity2: user1: com.comm.util.dagger.dn.di.User2@1da0e9b</span><br><span class="line">399 10821-10821&#x2F;com.comm.util I&#x2F;DaggerUserActivity2: user2: com.comm.util.dagger.dn.di.User2@1da0e9b</span><br><span class="line">399 10821-10821&#x2F;com.comm.util I&#x2F;DaggerUserActivity2: apiService1: retrofit2.Retrofit$1@12da238</span><br><span class="line">399 10821-10821&#x2F;com.comm.util I&#x2F;DaggerUserActivity2: apiService2: retrofit2.Retrofit$1@12da238</span><br><span class="line">438 10821-10821&#x2F;com.comm.util I&#x2F;DaggerSecondActivity2: user3: com.comm.util.dagger.dn.di.User2@8233396</span><br><span class="line">438 10821-10821&#x2F;com.comm.util I&#x2F;DaggerSecondActivity2: apiService3: retrofit2.Retrofit$1@12da238</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="提供全局Application"><a href="#提供全局Application" class="headerlink" title="提供全局Application"></a>提供全局Application</h5><p>demo代码有问题 NPR</p>
-<h5 id="子组件方式"><a href="#子组件方式" class="headerlink" title="子组件方式"></a>子组件方式</h5><p>优势</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">下面的interface ApplicationComponent3 </span><br><span class="line"> 父组件不用定义 这些方法</span><br><span class="line">  fun retrofit(): Retrofit</span><br><span class="line">  fun apiService(): ApiService</span><br><span class="line">  fun context(): Context</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2. 当作IOC容器,把对象注入到目标类中</span></span><br><span class="line"><span class="meta">@MyScope</span> <span class="comment">// 设置作用域和ApplicationComponent组件的生命周期一致，NetModule设置@Singleton 那么ApplicationComponent也必须设置</span></span><br><span class="line"><span class="meta">@Component(modules = [SubComponentModule::class])</span> <span class="comment">//模块装载到组件上去</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ApplicationComponent3</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(daggerActivity: <span class="type">DaggerUserActivity</span>)</span></span> <span class="comment">//指定目标类</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">studentComponent</span><span class="params">()</span></span>:StudentComponent.Factory</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module(subcomponents = [StudentComponent::class])</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubComponentModule</span> </span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StudentModule</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideStudent</span><span class="params">()</span></span>: Student &#123;</span><br><span class="line">        <span class="keyword">return</span> Student()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Subcomponent(modules = [StudentModule::class])</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">StudentComponent</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Subcomponent</span>.Factory</span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Factory</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">create</span><span class="params">()</span></span>: StudentComponent</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(activity: <span class="type">DaggerSecondActivity3</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class DaggerSecondActivity3 : AppCompatActivity() &#123;</span><br><span class="line">    var TAG &#x3D; javaClass.simpleName</span><br><span class="line"></span><br><span class="line">    @Inject</span><br><span class="line">    lateinit var student: Student</span><br><span class="line"></span><br><span class="line">    override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_second2)</span><br><span class="line"></span><br><span class="line">        DaggerApplicationComponent3.create().studentComponent().create().inject(this)</span><br><span class="line">        Log.i(TAG, &quot;student: $student &quot;)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>结果同样注入成功</p>
-<blockquote>
-<p>/com.comm.util I/DaggerSecondActivity3: student: com.comm.util.dagger.dn.di.Student@6c29d80 </p>
-</blockquote>
-<h3 id="Binds注入接口实例"><a href="#Binds注入接口实例" class="headerlink" title="Binds注入接口实例"></a>Binds注入接口实例</h3><p>之前用的是 module总 provide对象提供方式 ,想下面这种的。</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StudentModule</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideStudent</span><span class="params">()</span></span>: Student &#123;</span><br><span class="line">        <span class="keyword">return</span> Student()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>通过这种方式注入的优势是,直接使用接口，不需要具体的实现, AInterfaceImpl01改成AInterfaceImpl02就能改注入实例</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inject</span></span><br><span class="line"><span class="keyword">lateinit</span> <span class="keyword">var</span> aInterface: AInterface</span><br></pre></td></tr></table></figure>
-
-
-
-<p>还一个优势是子组件StudentComponent也可以用来处理注入</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Subcomponent(modules = [StudentModule::class])</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">StudentComponent</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Subcomponent</span>.Factory</span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Factory</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">create</span><span class="params">()</span></span>: StudentComponent</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(activity: <span class="type">DaggerSecondActivity3</span>)</span></span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(activity: <span class="type">DaggerSecondActivity4</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AInterfaceImpl01</span> : <span class="type">AInterface</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AInterfaceImpl02</span> : <span class="type">AInterface</span></span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">TestModule</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Binds</span></span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">bindAInterface</span><span class="params">(impl: <span class="type">AInterfaceImpl01</span>)</span></span>: AInterface <span class="comment">// AInterfaceImpl01改成AInterfaceImpl02就能改注入</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="meta">@JvmStatic</span></span><br><span class="line">        <span class="meta">@Provides</span></span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">provideAInterfaceImpl01</span><span class="params">()</span></span>: AInterfaceImpl01 &#123;</span><br><span class="line">            <span class="keyword">return</span> AInterfaceImpl01()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@JvmStatic</span></span><br><span class="line">        <span class="meta">@Provides</span></span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">provideAInterfaceImpl02</span><span class="params">()</span></span>: AInterfaceImpl02 &#123;</span><br><span class="line">            <span class="keyword">return</span> AInterfaceImpl02()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MyScope</span> <span class="comment">// 设置作用域和ApplicationComponent组件的生命周期一致</span></span><br><span class="line"><span class="meta">@Component(modules = [SubComponentModule::class,TestModule::class])</span> <span class="comment">//模块装载到组件上去</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ApplicationComponent3</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(daggerActivity: <span class="type">DaggerUserActivity</span>)</span></span> <span class="comment">//指定目标类</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">studentComponent</span><span class="params">()</span></span>:StudentComponent.Factory</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DaggerSecondActivity4</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> TAG = javaClass.simpleName</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> student: Student</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> aInterface: AInterface</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_second2)</span><br><span class="line"></span><br><span class="line">        DaggerApplicationComponent3.create().studentComponent().create().inject(<span class="keyword">this</span>)</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;student: <span class="variable">$student</span> &quot;</span>)</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;aInterface: <span class="variable">$aInterface</span> &quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="相同类创建不同的对象"><a href="#相同类创建不同的对象" class="headerlink" title="相同类创建不同的对象"></a>相同类创建不同的对象</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StudentModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Named(<span class="meta-string">&quot;student1&quot;</span>)</span> <span class="comment">//  @Named 是Qualifier的实现</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideStudent</span><span class="params">()</span></span>: Student &#123;</span><br><span class="line">        <span class="keyword">return</span> Student()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Named(<span class="meta-string">&quot;student2&quot;</span>)</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideStudent2</span><span class="params">()</span></span>: Student &#123;</span><br><span class="line">        <span class="keyword">return</span> Student(<span class="string">&quot;John&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DaggerSecondActivity4</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> TAG = javaClass.simpleName</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Named(<span class="meta-string">&quot;student1&quot;</span>)</span></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> student1: Student</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Named(<span class="meta-string">&quot;student2&quot;</span>)</span></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> student2: Student</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_second2)</span><br><span class="line"></span><br><span class="line">        DaggerApplicationComponent3.create().studentComponent().create().inject(<span class="keyword">this</span>)</span><br><span class="line"></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;StudentQualifier1: <span class="variable">$StudentQualifier1</span> &quot;</span>)</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;StudentQualifier2: <span class="variable">$StudentQualifier2</span> &quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>也可以自定义标识,注解标识，通过标识找到对象</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Qualifier</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> StudentQualifier1 &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StudentModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideStudent1</span><span class="params">()</span></span>: Student &#123;</span><br><span class="line">        <span class="keyword">return</span> Student()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Named(<span class="meta-string">&quot;student1&quot;</span>)</span> <span class="comment">//  @Named 是Qualifier的实现</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideStudent</span><span class="params">()</span></span>: Student &#123;</span><br><span class="line">        <span class="keyword">return</span> Student()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Named(<span class="meta-string">&quot;student2&quot;</span>)</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideStudent2</span><span class="params">()</span></span>: Student &#123;</span><br><span class="line">        <span class="keyword">return</span> Student(<span class="string">&quot;John&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@StudentQualifier1</span> <span class="comment">//  @Named 是Qualifier的实现</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideQualifierStudent</span><span class="params">()</span></span>: Student &#123;</span><br><span class="line">        <span class="keyword">return</span> Student()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@StudentQualifier2</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideQualifierStudent2</span><span class="params">()</span></span>: Student &#123;</span><br><span class="line">        <span class="keyword">return</span> Student(<span class="string">&quot;Qualifier2 John&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DaggerSecondActivity4</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> TAG = javaClass.simpleName</span><br><span class="line"></span><br><span class="line">    <span class="meta">@StudentQualifier1</span></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> StudentQualifier1: Student</span><br><span class="line"></span><br><span class="line">    <span class="meta">@StudentQualifier2</span></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> StudentQualifier2: Student</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_second2)</span><br><span class="line">        DaggerApplicationComponent3.create().studentComponent().create().inject(<span class="keyword">this</span>)</span><br><span class="line"></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;StudentQualifier1: <span class="variable">$StudentQualifier1</span> &quot;</span>)</span><br><span class="line">        Log.i(TAG, <span class="string">&quot;StudentQualifier2: <span class="variable">$StudentQualifier2</span> &quot;</span>)</span><br><span class="line"></span><br><span class="line">        Log.i(TAG, <span class="string">&quot;aInterface: <span class="variable">$aInterface</span> &quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/4/index.html">https://noteforme.github.io/page/4/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/3/">Previous</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/5/">Next</a>
+<a class="extend prev" rel="prev" href="/page/3/">Previous</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/5/">Next</a>
 </nav>
 
 
@@ -1565,6 +1526,14 @@
       <ul>
         
           <li>
+            <a href="/2023/01/10/RecyclerView-padding/">RecyclerView-padding</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/02/LC-GREEDY/">LC-GREEDY</a>
+          </li>
+        
+          <li>
             <a href="/2022/12/27/viewBinding/">viewBinding</a>
           </li>
         
@@ -1574,14 +1543,6 @@
         
           <li>
             <a href="/2022/10/05/LC-Tree-Search-22/">LC-Tree-Search-22</a>
-          </li>
-        
-          <li>
-            <a href="/2022/09/15/Fragment-StateLoss/">Fragment_StateLoss</a>
-          </li>
-        
-          <li>
-            <a href="/2022/09/11/LC-TREE08/">LC_TREE08</a>
           </li>
         
       </ul>
@@ -1594,7 +1555,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ANDROID/" style="font-size: 13.33px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 20px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.67px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 20px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 15px;">Performance</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.67px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.67px;">VIEW</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 18.33px;">coroutie</a> <a href="/tags/inter/" style="font-size: 16.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
+      <a href="/tags/ANDROID/" style="font-size: 12.86px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 18.57px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.43px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 14.29px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 11.43px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.43px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.43px;">VIEW</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 17.14px;">coroutie</a> <a href="/tags/inter/" style="font-size: 15.71px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
   </div>
 
@@ -1603,7 +1564,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">57</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1613,7 +1574,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年01月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1623,7 +1584,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
