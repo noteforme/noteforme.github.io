@@ -690,7 +690,139 @@ fun findMinArrowShots(points: Array<IntArray>): Int {
 
 
 
+#### [435. 无重叠区间](https://leetcode.cn/problems/non-overlapping-intervals/)
+
+[1,2] [3,6] [7,12] [4,8] [10,16]
+
+1 	2
+
+​			3 	  6
+
+​				 4		 	 	8
+
+​					      7	   			   12
+
+​											10				16
 
 
-​						
 
+https://www.bilibili.com/video/BV1A14y1c7E1
+
+
+
+##### 左边数组进行排序。
+
+```
+1. if [i][0] < [i-1][1] 说明会有重合，那么求出 [i][1] [i-1][1]中的最小值，作为右边界，更新数量
+否则就没重合更新右边界限。
+2. 否则，没有重合直接更新  end。
+```
+
+
+
+```kotlin
+    fun eraseOverlapIntervals(intervals: Array<IntArray>): Int {
+        if(intervals.isEmpty()) return 0
+        var count = 0
+        Arrays.sort(intervals) { a, b -> a[0] - b[0] } // 按照左边数组进行排序
+        var end = intervals[0][1]
+        for (i in 1 until intervals.size) {
+            if (intervals[i][0] < end) {    //重合的情况
+                count++
+                end = end.coerceAtMost(intervals[i][1]) // 确定最小重合的 右边界, 这里一开始弄错了
+            } else {
+                end = intervals[i][1]
+            }
+        }
+//        intervals.printDimensionalArray()
+        return count
+    }
+```
+
+
+
+##### 右边数组排序
+
+**这种解法不理解.**
+
+
+
+根据随想录的思路，总的个数 - 非交叉个数 = 交叉个数。
+
+
+
+这里的难点是要知道交叉后的右边界的
+
+
+
+![img](https://code-thinking-1253855093.file.myqcloud.com/pics/20230201164134.png)
+
+
+
+如果3在 1,2 右边最小值的左边，所以3条线还会有交叉，如果在1，2最小值的右边那么 2去掉就可以了，还是去掉1。
+
+
+
+```kotlin
+    fun eraseOverlapIntervals(intervals: Array<IntArray>): Int {
+        if (intervals.isEmpty()) return 0
+        var count = 1 //非交叉区间个数
+        Arrays.sort(intervals) { a, b -> a[1] - b[1] } // 按照左边数组进行排序
+        var end = intervals[0][1]
+        for (i in 1 until intervals.size) {
+            if (intervals[i][0] >= end) {
+                count ++
+                end = intervals[i][1]
+            }
+//            else{
+//                end = intervals[i][1].coerceAtMost(end) // 这个不需要
+//            }
+        }
+//        intervals.printDimensionalArray()
+        return intervals.size - count
+    }	
+```
+
+
+
+12
+
+
+
+#### 763 划分字母区间
+
+##### idea
+
+1. 遍历出每个字母的最远距离，出现的座标。
+
+   根据字母的hash值得到当前的座标，后面如果有重复的hash,会覆盖前面的。
+
+2. 遍历后序列找 当前字母hash值 == i , right = i 拿到当前 right + 1 - left, 就是片段的长度。
+
+   然后更新left值.
+
+​		
+
+
+
+```kotlin
+    fun partitionLabels(s: String): List<Int> {
+        val result = arrayListOf<Int>()
+        val hash = IntArray(26)
+        for (i in s.indices) {
+            hash[s[i] - 'a'] = i
+        }
+
+        var left = 0
+        var right = 0
+        for (i in s.indices) {
+            right = hash[s[i] - 'a'].coerceAtLeast(right) // 要找到当前hash值的最大值
+            if (right == i) {   //如果 hash值的最大值 和座标相等，就用到了分割点
+                result.add(right + 1 - left)
+                left = i + 1
+            }
+        }
+//        hash.printIntArray()
+        return result
+    }
+```
