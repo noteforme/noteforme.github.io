@@ -86,6 +86,148 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-TouchEvent3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/25/TouchEvent3/">TouchEvent3</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-11-25T06:12:50.000Z" itemprop="datePublished">2020年11月25日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/VIEW/">VIEW</a>
+  </div>
+
+      
+      
+<a href="/2020/11/25/TouchEvent3/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="Button-TextView"><a href="#Button-TextView" class="headerlink" title="Button TextView"></a>Button TextView</h4><p>button clickable=true,所以 默认消费事件,TextView不会</p>
+<ul>
+<li>value.xml</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;Base.Widget.AppCompat.Button&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;android:Widget&quot;</span>&gt;</span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:background&quot;</span>&gt;</span>@drawable/abc_btn_default_mtrl_shape<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:textAppearance&quot;</span>&gt;</span>?android:attr/textAppearanceButton<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:minHeight&quot;</span>&gt;</span>48dip<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:minWidth&quot;</span>&gt;</span>88dip<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:focusable&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:clickable&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:gravity&quot;</span>&gt;</span>center_vertical|center_horizontal<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>处理开篇问题</strong></p>
+<h4 id="处理方法"><a href="#处理方法" class="headerlink" title="处理方法"></a>处理方法</h4><h5 id="外部拦截法"><a href="#外部拦截法" class="headerlink" title="外部拦截法:"></a>外部拦截法:</h5><p>​    需要在父ViewGroup，重写onInterceptTouchEvent( [ˌɪntərˈsept])方法，根据业务需要，判断哪些事件是父Viewgroup需要的，需要的话就对该事件进行拦截，然后交由onTouchEvent方法处理，若不需要，则不拦截，然后传递给子view或子viewGroup。</p>
+<h5 id="内部拦截法"><a href="#内部拦截法" class="headerlink" title="内部拦截法"></a>内部拦截法</h5><p>主要由子view控制事件，配合requestDisallowInterceptTouchEvent(),父View不拦截任何down事件</p>
+<p>,思路是这样的，在ViewGroupA的Action_Down动作中设置requestDisallowInterceptTouchEvent(true),这样RootView不会走拦截方法，保证Action_Move,能进入ViewGroupA,然后在ViewGroupA的move事件中，根据需要控制RootView发送过来的后续Action_Move事件.</p>
+<img src="/2020/11/25/TouchEvent3/TouchEvent3.png" alt="TouchEvent3" style="zoom:50%;">
+
+
+
+<ol>
+<li>代码</li>
+</ol>
+<p>ViewGroupA</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line"> public boolean dispatchTouchEvent(MotionEvent ev) &#123;</span><br><span class="line">     Logger.d(ev.getAction(), TAG, Static.dispatchTouchEvent + &quot;老板要做淘宝,下周上线?&quot;);</span><br><span class="line">     int x &#x3D; (int) ev.getX();</span><br><span class="line">     int y &#x3D; (int) ev.getY();</span><br><span class="line">     switch (ev.getAction()) &#123;</span><br><span class="line">         case MotionEvent.ACTION_DOWN:</span><br><span class="line">					getParent().requestDisallowInterceptTouchEvent(true);</span><br><span class="line">             break;</span><br><span class="line"></span><br><span class="line">         case MotionEvent.ACTION_MOVE:</span><br><span class="line">             int deltaX &#x3D; x - mLastX;</span><br><span class="line">             int deltaY &#x3D; y - mLastY;</span><br><span class="line">             if (Math.abs(deltaX) &gt; Math.abs(deltaY)) &#123;</span><br><span class="line">                 getParent().requestDisallowInterceptTouchEvent(false);</span><br><span class="line">             &#125; else &#123;</span><br><span class="line">                 getParent().requestDisallowInterceptTouchEvent(true);</span><br><span class="line">             &#125;</span><br><span class="line">             break;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     mLastX &#x3D; x;</span><br><span class="line">     mLastY &#x3D; y;</span><br><span class="line">     return super.dispatchTouchEvent(ev);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>RootView</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onInterceptTouchEvent(MotionEvent ev) &#123;</span><br><span class="line">    Logger.d(ev.getAction(), TAG, Static.onInterceptTouchEvent + &quot;(老板可能疯了,但又不是我做.)&quot;);</span><br><span class="line">    if (ev.getAction() &#x3D;&#x3D; MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>内部拦截ViewGroupA消费事件</li>
+</ol>
+<img src="/2020/11/25/TouchEvent3/Inner_ViewGroupA.png" alt="Inner_ViewGroupA" style="zoom:67%;">
+
+
+
+<p>运行结果</p>
+<blockquote>
+<p>D/MainActivity [老板] ACTION_DOWN: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>D/RootView     [经理] ACTION_DOWN: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>D/RootView     [经理] ACTION_DOWN: onInterceptTouchEvent  (老板可能疯了,但又不是我做.)<br>D/ViewGroupA   [组长] ACTION_DOWN: dispatchTouchEvent     老板要做淘宝,下周上线?<br>D/ViewGroupA   [组长] ACTION_DOWN: onInterceptTouchEvent  (看着不太靠谱,先问问小王怎么看)<br>D/ViewGroupA   [组长] ACTION_DOWN: onTouchEvent           小王说做不了</p>
+<p>D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     老板要做淘宝,下周上线?<br>D/ViewGroupA   [组长] ACTION_MOVE: onTouchEvent           小王说做不了</p>
+<p>D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     老板要做淘宝,下周上线?<br>D/ViewGroupA   [组长] ACTION_MOVE: onTouchEvent           小王说做不了</p>
+</blockquote>
+<p>代码流程</p>
+<p>Action_down都会被ViewGroupA消费,所以主要分析Action_Move事件流程,由于Action_down  requestDisallowInterceptTouchEvent(true)那么 disallowIntercept =true,</p>
+<blockquote>
+<p>第1次 Action_Move 分发</p>
+<p>RootView      :   dispatchTouchEvent() 29 =&gt; 32=&gt;36 intercepted = false =&gt; 58 =&gt;</p>
+<p>ViewGroupA:   dispatchTouchEvent() 29=&gt; 设置 getParent().requestDisallowInterceptTouchEvent(true) =&gt;view =&gt; dispatchTouchEvent被消费</p>
+<p>第2次Action_Move 分发</p>
+<p>RootView      :   dispatchTouchEvent() 29 =&gt; 32=&gt;36 intercepted = false =&gt; 58 =&gt;</p>
+<p>ViewGroupA:   dispatchTouchEvent() 29=&gt; 设置y&gt;x getParent().requestDisallowInterceptTouchEvent(true) =&gt;view =&gt; dispatchTouchEvent被消费</p>
+</blockquote>
+<img src="/2020/11/25/TouchEvent3/inter_RootView.png" alt="inter_RootView" style="zoom:67%;">
+
+
+
+<p>运行结果</p>
+<blockquote>
+<p>225 24328-24328/ D/MainActivity [老板] ACTION_DOWN: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>226 24328-24328/ D/RootView     [经理] ACTION_DOWN: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>226 24328-24328/ D/RootView     [经理] ACTION_DOWN: onInterceptTouchEvent  (老板可能疯了,但又不是我做.)<br>227 24328-24328/ D/ViewGroupA   [组长] ACTION_DOWN: dispatchTouchEvent     老板要做淘宝,下周上线?<br>227 24328-24328/ D/ViewGroupA   [组长] ACTION_DOWN: onInterceptTouchEvent  (看着不太靠谱,先问问小王怎么看)<br>228 24328-24328/ D/ViewGroupA   [组长] ACTION_DOWN: onTouchEvent           小王说做不了</p>
+<p>237 24328-24328/ D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>237 24328-24328/ D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>237 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     老板要做淘宝,下周上线?<br>237 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     dx:0 dy:0<br>238 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     Math.abs(deltaX) &gt; Math.abs(deltaY) false<br>238 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: onTouchEvent           小王说做不了</p>
+<p>287 24328-24328/ D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>287 24328-24328/ D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>287 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     老板要做淘宝,下周上线?<br>288 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     dx:2 dy:0<br>288 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     Math.abs(deltaX) &gt; Math.abs(deltaY) true<br>288 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: onTouchEvent           小王说做不了</p>
+<p>304 24328-24328/ D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>305 24328-24328/ D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>305 24328-24328/ D/RootView     [经理] ACTION_MOVE: onInterceptTouchEvent  (老板可能疯了,但又不是我做.)</p>
+<p>320 24328-24328/ D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>321 24328-24328/ D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>321 24328-24328/ D/RootView     [经理] ACTION_MOVE: onTouchEvent           报告老板, 技术部说做不了</p>
+<p>338 24328-24328/ D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>338 24328-24328/ D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>338 24328-24328/ D/RootView     [经理] ACTION_MOVE: onTouchEvent           报告老板, 技术部说做不了</p>
+</blockquote>
+<p>代码流程</p>
+<blockquote>
+<p>百思不得其姐， RootView dispatchTouchEvent 后面的onInterceptTouchEvent() 方法日志为什么没打印，其他都能通</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MotionEvent.ACTION_DOWN requestDisallowInterceptTouchEvent(true),必须设置,否则后续的Action_Move无法进入 ViewGroupA</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650237941&amp;idx=1&amp;sn=40bca69abe10015cc469132f8c76a910&amp;chksm=88639a9abf14138cae7409adec85c5496486a044d7f4ef102e513d9c052aaa30017fb37e3439&amp;scene=38#wechat_redirect">https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650237941&amp;idx=1&amp;sn=40bca69abe10015cc469132f8c76a910&amp;chksm=88639a9abf14138cae7409adec85c5496486a044d7f4ef102e513d9c052aaa30017fb37e3439&amp;scene=38#wechat_redirect</a></p>
+<p><img src="/2020/11/25/TouchEvent3/Inner_ViewGroupA.png" alt="Inner_ViewGroupA"></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/7/index.html">https://noteforme.github.io/page/7/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-DesignPattern" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1083,89 +1225,6 @@ Socket
 </article>
 
 
-  <article id="post-PMS" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/08/07/PMS/">PMS</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2020-08-07T14:05:02.000Z" itemprop="datePublished">2020年08月07日</time>
-</span>
-      
-      
-      
-<a href="/2020/08/07/PMS/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>PMS</p>
-<p><img src="/2020/08/07/PMS/2021-08-07_8.27_pms.png"></p>
-<h5 id="PMS服务是干什么的"><a href="#PMS服务是干什么的" class="headerlink" title="PMS服务是干什么的"></a>PMS服务是干什么的</h5><ol>
-<li>管理 加载  缓存APK文件，把APK文件加载成package对象，缓存到mPackages中</li>
-<li>当AMS需要加载Activity时，PMS提供对应的信息(javabean)</li>
-</ol>
-<h5 id="PMS是谁启动的"><a href="#PMS是谁启动的" class="headerlink" title="PMS是谁启动的"></a>PMS是谁启动的</h5><p>SystemServer</p>
-<h5 id="PMS扫描是为了什么"><a href="#PMS扫描是为了什么" class="headerlink" title="PMS扫描是为了什么"></a>PMS扫描是为了什么</h5><p>以空间换时间</p>
-<h5 id="PMS启动应用，会发生什么"><a href="#PMS启动应用，会发生什么" class="headerlink" title="PMS启动应用，会发生什么"></a>PMS启动应用，会发生什么</h5><ol>
-<li>通过包名，找到对应的apk文件</li>
-<li>解压apk文件</li>
-<li>经过dom解析，找到Launcher对应的activity</li>
-<li>再反射加载</li>
-<li>app启动成功。</li>
-</ol>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/7/index.html">https://noteforme.github.io/page/7/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1184,6 +1243,10 @@ Socket
       <ul>
         
           <li>
+            <a href="/2023/04/02/LC-DP/">LC-DP</a>
+          </li>
+        
+          <li>
             <a href="/2023/01/10/RecyclerView-padding/">RecyclerView-padding</a>
           </li>
         
@@ -1197,10 +1260,6 @@ Socket
         
           <li>
             <a href="/2022/10/17/AppLink/">AppLink</a>
-          </li>
-        
-          <li>
-            <a href="/2022/10/05/LC-Tree-Search-22/">LC-Tree-Search-22</a>
           </li>
         
       </ul>
@@ -1222,7 +1281,7 @@ Socket
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1232,7 +1291,7 @@ Socket
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年01月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年04月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1242,7 +1301,7 @@ Socket
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
