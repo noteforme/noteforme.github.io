@@ -803,8 +803,6 @@ https://www.bilibili.com/video/BV1A14y1c7E1
 
 ​		
 
-
-
 ```kotlin
     fun partitionLabels(s: String): List<Int> {
         val result = arrayListOf<Int>()
@@ -826,3 +824,130 @@ https://www.bilibili.com/video/BV1A14y1c7E1
         return result
     }
 ```
+
+
+
+#### 56 合并区间
+
+##### Idea My
+
+初始化 left. right
+
+1. 按照左边数组 排序。
+2. 如果没重合直接[left,right]把前面数组加入区间 。
+3. 如果重合，那么确定 right右边界，判断` [i][0]`和right,确定右边界，把right放入右边界。
+
+
+
+```kotlin
+fun merge(intervals: Array<IntArray>): Array<IntArray> {
+    Arrays.sort(intervals) { a, b -> a[0] - b[0] }
+    var left = intervals[0][0]
+    var right = intervals[0][1]
+    val arrayOf = arrayListOf<IntArray>()
+    for (i in 1 until intervals.size) {
+        if (intervals[i][0] <= right) {
+            right = right.coerceAtLeast(intervals[i][1])
+        } else {
+            arrayOf.add(intArrayOf(left, right))
+            left = intervals[i][0]
+            right = intervals[i][1]
+        }
+    }
+    arrayOf.add(intArrayOf(left, right))
+    return arrayOf.toTypedArray()
+}
+```
+
+
+
+##### Idea 2
+
+看了随想录的题解，觉得比我上面的更好，只需要更新右边界。
+
+1 	3
+
+​	2 		6  	 8	 10 		15		18
+
+​					
+
+
+
+1. 还是按照数组左边界排好序。
+2. 把第一组数组放入结果数组中，然后取出来，用它的右边界和第二组数组的左边界比较大小.
+3. 如果新的数组的左边界 < 结果数组的右边界，说明有重合，更新结果数组的右边界。
+4. 如果新的数组的左边界 > 结果数组的右边界,没有重合，新数组直接添加到结果数组集中。
+
+
+
+
+
+
+
+#### [738 单调递增的数字](https://leetcode.cn/problems/monotone-increasing-digits/)
+
+##### Idea
+
+看了随想录的题解
+
+那么拿一个两位的数字来举例。
+
+例如：98，一旦出现strNum[i - 1] > strNum[i]的情况（非单调递增），首先想让strNum[i - 1]--，然后strNum[i]给为9，这样这个整数就是89，即小于98的最大的单调递增整数。
+
+
+
+此时是从前向后遍历还是从后向前遍历呢？
+
+这么说有点抽象，举个例子，数字：332，从前向后遍历的话，那么就把变成了329，此时2又小于了第一位的3了，真正的结果应该是299。
+
+那么从后向前遍历，就可以重复利用上次比较得出的结果了，从后向前遍历332的数值变化为：332 -> 329 -> 299
+
+确定了遍历顺序之后，那么此时局部最优就可以推出全局，找不出反例，试试贪心。
+
+
+
+##### Code
+
+初始的想法
+
+```kotlin
+    fun monotoneIncreasingDigits(n: Int): Int {
+        val arrStr = n.toString().toCharArray()
+        for (i in arrStr.size - 1 downTo 1) {
+            if (arrStr[i - 1] > arrStr[i]) {
+                arrStr[i] = '9'
+                arrStr[i - 1] = arrStr[i - 1].toInt().minus(1).toChar() 
+            }
+        }
+        return String(arrStr).toInt()
+    }
+```
+
+100 跑完后变成90,其实后面所有位都要变成 '9',只有当前位减1
+
+
+
+找到 minus 1 的位置，后面的位都变成9
+
+```kotlin
+fun monotoneIncreasingDigits(n: Int): Int {
+    val arrStr = n.toString().toCharArray()
+    var position = arrStr.size //初始位置不能是  arrStr.size - 1 ，否则最后一位都会变成 '9'
+    for (i in arrStr.size - 1 downTo 1) {
+        if (arrStr[i - 1] > arrStr[i]) {
+            arrStr[i - 1] = arrStr[i - 1].toInt().minus(1).toChar() // digitToInt leetcode跑不了
+            position = i // 找到-1 的位置，后面的位都变成9
+        }
+    }
+    for (i in position until arrStr.size) {
+        arrStr[i] = '9'
+    }
+    return String(arrStr).toInt()
+}
+```
+
+
+
+#### 968 监控二叉树
+
+这题比较难，暂时没必要写。
