@@ -250,5 +250,9 @@ https://medium.com/code-procedure-and-rants/android-permissions-create-custom-pe
 
 
 
+https://www.youtube.com/watch?v=YeLmufMZfcI
 
+https://stackoverflow.com/questions/28975706/start-activity-with-permissions
+
+https://stackoverflow.com/questions/26700767/custom-permission-for-activity
 
