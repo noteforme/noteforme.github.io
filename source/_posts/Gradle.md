@@ -10,6 +10,16 @@ tags:
 
 
 
+### DEBUG
+
+```
+ ./gradlew "-Dorg.gradle.daemon=false" "-Dorg.gradle.debug=true" :tasks
+```
+
+
+
+
+
 
 
 ### Gradle Lifecycle
@@ -35,6 +45,8 @@ https://docs.gradle.org/current/userguide/build_lifecycle.html
   
 
 ### 任务
+
+https://www.bilibili.com/video/BV1m54y1L7vK/
 
 https://www.bilibili.com/video/BV1dK411K7Pg
 
@@ -77,12 +89,6 @@ task("helloworld",{
 "configure" 在生命周期Configuration 阶段就执行。
 
 dolast dofirst只是加入到任务中，只有指定具体执行的任务，才会执行，就像上面的 ./gradlew helloworld，指明helloworld任务。
-
-
-
-
-
-
 
 
 

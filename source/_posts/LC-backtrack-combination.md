@@ -1,5 +1,5 @@
 ---
- title: LC-backtrack-combination
+title: LC-backtrack-combination
 date: 2022-10-30 10:27:10
 tags: LEETCODE
 categories: DataStructure

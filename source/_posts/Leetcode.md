@@ -1,9 +1,7 @@
 ---
-title: Leetcode_Linklist
-comments: true
-date: 2021-08-30 21:03:37
-tags:
-categories: DataStructure
+title:  leetcode
+date: 2022-07-26 14:58:38
+tags: 
 ---
 
 
