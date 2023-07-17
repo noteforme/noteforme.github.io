@@ -229,9 +229,7 @@ fun climbStairs(n: Int): Int {
 
 
 
-
-
-
+##### 迭代解法
 
 ```kotlin
 fun climbStairs1(n: Int): Int {
@@ -246,3 +244,45 @@ fun climbStairs1(n: Int): Int {
     return dp[n]
 }
 ```
+
+
+
+#### [746 使用最小花费爬楼梯](https://leetcode.cn/problems/min-cost-climbing-stairs/)
+
+
+
+如果要走到dp[i] 的位置， 有两种选择，dp[i-1] + cost[i-1]	，dp[i-2] + cost[i-2]， cost就是从当前位置跳出消耗的能量值，dp[i-1] 已经包含dp[0]开始的所有 消费值。 	
+
+``` 
+dp[i] = min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2]) 
+```
+
+
+
+
+
+可以用这个推导
+
+![023-07-09-20-24-53](LC-DP/023-07-09-20-24-53.png)
+
+
+
+
+
+官方题解
+
+这种方式比较好理解
+
+```kotlin
+fun minCostClimbingStairs(cost: IntArray): Int {
+    val dp = IntArray(cost.size + 1) //要走完数组最后一步的下一步
+    dp[0] = 0
+    dp[1] = 0
+    for (i in 2..cost.size) {
+        dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2])
+    }
+    return dp[cost.size]
+}
+```
+
+其他的后面在看吧
