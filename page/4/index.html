@@ -86,6 +86,340 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-coroutie-flow5" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/03/20/coroutie-flow5/">coroutie-flow5</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2022-03-20T12:46:54.000Z" itemprop="datePublished">2022年03月20日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+  </div>
+
+      
+      
+<a href="/2022/03/20/coroutie-flow5/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>如何表示多个值</p>
+<p>挂起函数可以异步的返回单个值，但是该如何异步的返回多个计算好的值呢？</p>
+<p>异步返回多个值的方案</p>
+<p>集合 序列。挂起函数。Flow</p>
+<h3 id="Flow-异步流"><a href="#Flow-异步流" class="headerlink" title="Flow 异步流"></a>Flow 异步流</h3><p><img src="/2022/03/20/coroutie-flow5/2022-03-20_8.47.50.png" alt="2022-03-20_8.47.50"></p>
+<h5 id="56异步返回多个值-集合-序列-挂起函数"><a href="#56异步返回多个值-集合-序列-挂起函数" class="headerlink" title="56异步返回多个值 集合 序列 挂起函数"></a>56异步返回多个值 集合 序列 挂起函数</h5><p>集合 , 序列 , 挂起函数 ,Flow</p>
+<p><img src="/2022/03/20/coroutie-flow5/2022-03-20_8.49.02.png" alt="2022-03-20_8.49.02"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">simpleList</span><span class="params">()</span></span>: List&lt;<span class="built_in">Int</span>&gt; = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">simpleSequence</span><span class="params">()</span></span>: Sequence&lt;<span class="built_in">Int</span>&gt; = sequence &#123;</span><br><span class="line">        <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.3</span>) &#123;</span><br><span class="line"><span class="comment">//            Thread.sleep(1000) // 阻塞，假装在计算</span></span><br><span class="line"><span class="comment">//            delay(1000)</span></span><br><span class="line">            yield(i)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">simpleList2</span><span class="params">()</span></span>: List&lt;<span class="built_in">Int</span>&gt; &#123;</span><br><span class="line">        delay(<span class="number">1000</span>)</span><br><span class="line">        <span class="keyword">return</span> listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> `test multiple values`<span class="params">()</span></span> &#123;</span><br><span class="line"><span class="comment">//        simpleList().forEach &#123; values -&gt; println(values) &#125;  // 返回了多个值，但不是异步</span></span><br><span class="line">        simpleSequence().forEach &#123; value -&gt; println(value) &#125;<span class="comment">// 返回了多个值，是同步</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> `test multiple values2`<span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">        simpleList2().forEach &#123; values -&gt; println(values) &#125;  <span class="comment">// 返回了多个值，是异步，但是是一次性返回的</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="57-通过Flow异步返回多个值"><a href="#57-通过Flow异步返回多个值" class="headerlink" title="57-通过Flow异步返回多个值"></a>57-通过Flow异步返回多个值</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">simpleFlow</span><span class="params">()</span></span> = flow&lt;<span class="built_in">Int</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.3</span>) &#123;</span><br><span class="line">        delay(<span class="number">1000</span>) <span class="comment">// 怎么证明没有阻塞，而是挂起</span></span><br><span class="line">        emit(i) <span class="comment">// 发生，产生一个元素</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test multiple values3`<span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">    launch &#123;			<span class="comment">//再起一个任务，确认线程是否阻塞</span></span><br><span class="line">        <span class="keyword">for</span> (k <span class="keyword">in</span> <span class="number">1.</span><span class="number">.3</span>)&#123;</span><br><span class="line">            println(<span class="string">&quot;I am not blocked <span class="variable">$k</span>&quot;</span>)</span><br><span class="line">            delay(<span class="number">1500</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    simpleFlow().collect &#123; value -&gt; println(value) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回多个值 而且是异步的</p>
+<p>I am not blocked 1<br>1<br>I am not blocked 2<br>2<br>I am not blocked 3<br>3</p>
+<h5 id="58-Flow与其他方式的区别"><a href="#58-Flow与其他方式的区别" class="headerlink" title="58 Flow与其他方式的区别"></a>58 Flow与其他方式的区别</h5><p><img src="/2022/03/20/coroutie-flow5/2022-03-20_9.06.40.png" alt="2022-03-20_9.06.40"></p>
+<h5 id="59-Flow应用"><a href="#59-Flow应用" class="headerlink" title="59 Flow应用"></a>59 Flow应用</h5><p><img src="/2022/03/20/coroutie-flow5/2022-03-20_9.09.34.png" alt="2022-03-20_9.09.34"></p>
+<h3 id="流的特性"><a href="#流的特性" class="headerlink" title="流的特性"></a>流的特性</h3><h5 id="60-冷流"><a href="#60-冷流" class="headerlink" title="60 冷流"></a>60 冷流</h5><p>Flow是一种类似于序列的冷流，flow够坚强中的代码知道流被收集的时候才运行</p>
+<p>类似于懒加载, 点了Button，collect才开始下载</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">simpleFlow2</span><span class="params">()</span></span> = flow&lt;<span class="built_in">Int</span>&gt; &#123;</span><br><span class="line">    println(<span class="string">&quot;Flow started&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.3</span>) &#123;</span><br><span class="line">        delay(<span class="number">1000</span>) <span class="comment">// 怎么证明没有阻塞，而是挂起</span></span><br><span class="line">        emit(i) <span class="comment">// 发生，产生一个元素</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test flow <span class="keyword">is</span> cold`<span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">    <span class="keyword">val</span> flow = simpleFlow2()</span><br><span class="line">    println(<span class="string">&quot;Calling collect...&quot;</span>)</span><br><span class="line">    flow.collect &#123; value -&gt; println(value) &#125;</span><br><span class="line">    println(<span class="string">&quot;Calling collect again&quot;</span>)</span><br><span class="line">    flow.collect &#123; value -&gt; println(value) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>只要执行 还会再执行一次。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Calling collect...</span><br><span class="line">Flow started</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">Calling collect again</span><br><span class="line">Flow started</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="61-流的连续性"><a href="#61-流的连续性" class="headerlink" title="61.流的连续性"></a>61.流的连续性</h5><p><img src="/2022/03/20/coroutie-flow5/2022-03-20_10.09.29.png" alt="2022-03-20_10.09.29"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1.</span><span class="number">.5</span>).asFlow().filter &#123;</span><br><span class="line">    it % <span class="number">2</span> == <span class="number">0</span></span><br><span class="line">&#125;.map &#123;</span><br><span class="line">    <span class="string">&quot;string <span class="variable">$it</span>&quot;</span></span><br><span class="line">&#125;.collect&#123;</span><br><span class="line">    println(<span class="string">&quot;Collect <span class="subst">$&#123;it&#125;</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Collect string 2</span><br><span class="line">Collect string 4</span><br></pre></td></tr></table></figure>
+
+<ol start="62">
+<li><h5 id="流构建器"><a href="#流构建器" class="headerlink" title="流构建器"></a>流构建器</h5><p>flowOf构建器定义了一个发射固定值集的流</p>
+<p>使用asFlow()拓展函数，可以将各种集合与序列转换为流</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">flowOf(<span class="string">&quot;one&quot;</span>, <span class="string">&quot;two&quot;</span>, <span class="string">&quot;three&quot;</span>)</span><br><span class="line">    .onEach &#123; delay(<span class="number">1000</span>) &#125;</span><br><span class="line">    .collect &#123;</span><br><span class="line">        println(it)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">(<span class="number">1.</span><span class="number">.3</span>).asFlow().collect &#123;</span><br><span class="line">    println(it)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">one</span><br><span class="line">two</span><br><span class="line">three</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="63-流上下文"><a href="#63-流上下文" class="headerlink" title="63.流上下文"></a>63.流上下文</h5><p>flowOn</p>
+<p><img src="/2022/03/20/coroutie-flow5/20220731215602.jpg" alt="20220731215602"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">simpleFlow3</span><span class="params">()</span></span>= flow&lt;<span class="built_in">Int</span>&gt; &#123;</span><br><span class="line">    println(<span class="string">&quot;Flow started <span class="subst">$&#123;Thread.currentThread().name&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.3</span>)&#123;</span><br><span class="line">        delay(<span class="number">1000</span>)</span><br><span class="line">        emit(i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">fun</span> `test flow context`<span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">     simpleFlow3().collect&#123;</span><br><span class="line">         println(<span class="string">&quot;Collected <span class="variable">$it</span> <span class="subst">$&#123;Thread.currentThread().name&#125;</span>&quot;</span>)</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>构建流和保存流在同一个上下文</p>
+<p>构建的时候用协程启动的后台线程</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">simpleFlow4</span><span class="params">()</span></span> = flow&lt;<span class="built_in">Int</span>&gt; &#123;</span><br><span class="line">    withContext(Dispatchers.IO) &#123;</span><br><span class="line">        println(<span class="string">&quot;Flow started <span class="subst">$&#123;Thread.currentThread().name&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.3</span>) &#123;</span><br><span class="line">            delay(<span class="number">1000</span>)</span><br><span class="line">            emit(i)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test flow context4`<span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">    simpleFlow4().collect &#123;</span><br><span class="line">        println(<span class="string">&quot;Collected <span class="variable">$it</span> <span class="subst">$&#123;Thread.currentThread().name&#125;</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Flow started DefaultDispatcher-worker-1 @coroutine#1</p>
+<p>Flow invariant is violated: // 报错</p>
+<p>用flowOn可以解决这个问题。flowon可以更改流发射的上下文。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">simpleFlow5</span><span class="params">()</span></span> = flow&lt;<span class="built_in">Int</span>&gt; &#123;</span><br><span class="line">    println(<span class="string">&quot;Flow started <span class="subst">$&#123;Thread.currentThread().name&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.3</span>) &#123;</span><br><span class="line">        delay(<span class="number">1000</span>)</span><br><span class="line">        emit(i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;.flowOn(Dispatchers.Default)</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test flow context5`<span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">    simpleFlow5().collect &#123;</span><br><span class="line">        println(<span class="string">&quot;Collected <span class="variable">$it</span> <span class="subst">$&#123;Thread.currentThread().name&#125;</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Flow started DefaultDispatcher-worker-1 @coroutine#2</span><br><span class="line">Collected 1 Test worker @coroutine#1</span><br><span class="line">Collected 2 Test worker @coroutine#1</span><br><span class="line">Collected 3 Test worker @coroutine#1</span><br></pre></td></tr></table></figure>
+
+<p>发送在后台线程，收集在主线程</p>
+<h5 id="64-在指定协程中收集流"><a href="#64-在指定协程中收集流" class="headerlink" title="64.在指定协程中收集流"></a>64.在指定协程中收集流</h5><p>使用launchIn(),替换collect 我们可以在单独的协程中启动流的收集 </p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">events</span><span class="params">()</span></span> = (<span class="number">1.</span><span class="number">.3</span>)</span><br><span class="line">        .asFlow()</span><br><span class="line">        .onEach &#123; delay(<span class="number">100</span>) &#125;</span><br><span class="line">        .flowOn(Dispatchers.Default)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> `test flow launch`<span class="params">()</span></span> = runBlocking&lt;<span class="built_in">Unit</span>&gt; &#123;</span><br><span class="line">        <span class="keyword">val</span> job =</span><br><span class="line">            events().onEach &#123; events -&gt; println(<span class="string">&quot;Event: <span class="variable">$events</span> <span class="subst">$&#123;Thread.currentThread().name&#125;</span>&quot;</span>) &#125;</span><br><span class="line"><span class="comment">//            .collect()</span></span><br><span class="line">                .launchIn(CoroutineScope(Dispatchers.IO)) <span class="comment">// 单独的协程中，启动流的收集</span></span><br><span class="line">                .join()</span><br><span class="line">        delay(<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//        job.cancelAndJoin()</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Event: 1 DefaultDispatcher-worker-3 @coroutine#2<br>Event: 2 DefaultDispatcher-worker-3 @coroutine#2<br>Event: 3 DefaultDispatcher-worker-2 @coroutine#2</p>
+<h5 id="65-流的取消"><a href="#65-流的取消" class="headerlink" title="65. 流的取消"></a>65. 流的取消</h5><p><img src="/2022/03/20/coroutie-flow5/20220731221806.jpg" alt="20220731221806"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">simpleFlow6</span><span class="params">()</span></span> = flow&lt;<span class="built_in">Int</span>&gt; &#123;</span><br><span class="line">    println(<span class="string">&quot;Flow started <span class="subst">$&#123;Thread.currentThread().name&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.3</span>) &#123;</span><br><span class="line">        delay(<span class="number">1000</span>)</span><br><span class="line">        emit(i)</span><br><span class="line">        println(<span class="string">&quot;Emitting <span class="variable">$i</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;.flowOn(Dispatchers.Default)</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test cancel flow`<span class="params">()</span></span> = runBlocking&lt;<span class="built_in">Unit</span>&gt; &#123;</span><br><span class="line">    withTimeoutOrNull(<span class="number">2500</span>)&#123; <span class="comment">// 2.5s超时</span></span><br><span class="line">        simpleFlow6().collect&#123;value-&gt; println(value)&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    println(<span class="string">&quot;Done&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>withTimeoutOrNull</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Flow started DefaultDispatcher-worker-1 @coroutine#2</span><br><span class="line">Emitting 1</span><br><span class="line">1</span><br><span class="line">Emitting 2</span><br><span class="line">2</span><br><span class="line">Done</span><br></pre></td></tr></table></figure>
+
+<p>协程被取消 3没有打印</p>
+<h5 id="66流的取消检测"><a href="#66流的取消检测" class="headerlink" title="66流的取消检测"></a>66流的取消检测</h5><p><img src="/2022/03/20/coroutie-flow5/20220731222531.jpg" alt="20220731222531"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">simpleFlow7</span><span class="params">()</span></span> = flow&lt;<span class="built_in">Int</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.5</span>) &#123;</span><br><span class="line">        delay(<span class="number">1000</span>)</span><br><span class="line">        emit(i)</span><br><span class="line">        println(<span class="string">&quot;Emitting <span class="variable">$i</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test cancel flow check`<span class="params">()</span></span> = runBlocking&lt;<span class="built_in">Unit</span>&gt; &#123;</span><br><span class="line">    withTimeoutOrNull(<span class="number">2500</span>) &#123; <span class="comment">// 2.5s超时</span></span><br><span class="line">        simpleFlow7().collect &#123; value -&gt;</span><br><span class="line">            println(value)</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="number">3</span>) cancel()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>1<br>Emitting 1<br>2<br>Emitting 2<br>BUILD SUCCESSFUL in 3s</p>
+<ol start="62">
+<li><p>背压</p>
+<p>buffer</p>
+</li>
+<li><p>stateFlow</p>
+<p><img src="/2022/03/20/coroutie-flow5/20220619220530.jpg"></p>
+</li>
+<li><p>sharedFlow</p>
+</li>
+</ol>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/4/index.html">https://noteforme.github.io/page/4/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Corouties-context3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/03/20/Corouties-context3/">Corouties_context</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2022-03-20T09:48:54.000Z" itemprop="datePublished">2022年03月20日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+  </div>
+
+      
+      
+<a href="/2022/03/20/Corouties-context3/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="协程的上下文-P38"><a href="#协程的上下文-P38" class="headerlink" title="协程的上下文 P38"></a>协程的上下文 P38</h3><p><img src="/2022/03/20/Corouties-context3/2022-03-20_5.51.40.png" alt="2022-03-20_5.51.40"></p>
+<h5 id="协程的上下文-P39"><a href="#协程的上下文-P39" class="headerlink" title="协程的上下文 P39"></a>协程的上下文 P39</h5><p><img src="/2022/03/20/Corouties-context3/20220729072418.jpg" alt="20220729072418"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test CoroutineContext `<span class="params">()</span></span> = runBlocking&lt;<span class="built_in">Unit</span>&gt; &#123;</span><br><span class="line">    launch (Dispatchers.Default + CoroutineName(<span class="string">&quot;test&quot;</span>))&#123;</span><br><span class="line">        println(<span class="string">&quot;you are great <span class="subst">$&#123;Thread.currentThread().name&#125;</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>you are great DefaultDispatcher-worker-1 @test#2</p>
+<h5 id="P40协程上下文的继承"><a href="#P40协程上下文的继承" class="headerlink" title="P40协程上下文的继承"></a>P40协程上下文的继承</h5><p><img src="/2022/03/20/Corouties-context3/2022-03-20_7.03.14.png"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> scope = CoroutineScope(Job() + Dispatchers.IO + CoroutineName(<span class="string">&quot;test&quot;</span>))</span><br><span class="line"><span class="keyword">val</span> job = scope.launch &#123;</span><br><span class="line">    println(<span class="string">&quot;<span class="subst">$&#123;coroutineContext[Job]&#125;</span>  <span class="subst">$&#123;Thread.currentThread().name&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">val</span> result = async &#123;</span><br><span class="line">        println(<span class="string">&quot;<span class="subst">$&#123;coroutineContext[Job]&#125;</span>  <span class="subst">$&#123;Thread.currentThread().name&#125;</span>&quot;</span>)</span><br><span class="line">    &#125;.await()</span><br><span class="line">&#125;</span><br><span class="line">job.join()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>“test#2”:StandaloneCoroutine{Active}@4d3fac66  DefaultDispatcher-worker-1 @test#2<br>“test#3”:DeferredCoroutine{Active}@43e36bfa  DefaultDispatcher-worker-3 @test#3</p>
+<h5 id="P41协程上下文继承公式"><a href="#P41协程上下文继承公式" class="headerlink" title="P41协程上下文继承公式"></a>P41协程上下文继承公式</h5><p><img src="/2022/03/20/Corouties-context3/2022-03-20_7.10.47.png" alt="2022-03-20_7.10.47"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> coroutineExceptionHandler = CoroutineExceptionHandler &#123; _, exception -&gt;</span><br><span class="line">    println(<span class="string">&quot;caught <span class="variable">$exception</span>&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> scope = CoroutineScope(Job() + Dispatchers.Main + coroutineExceptionHandler)</span><br><span class="line"><span class="keyword">val</span> job = scope.launch(Dispatchers.IO) &#123;</span><br><span class="line">    <span class="comment">//新协程</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2022/03/20/Corouties-context3/2022-03-20_7.31.59.png" alt="2022-03-20_7.31.59"></p>
+<h3 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h3><h5 id="P42学习协程异常处理的必要性"><a href="#P42学习协程异常处理的必要性" class="headerlink" title="P42学习协程异常处理的必要性"></a>P42学习协程异常处理的必要性</h5><p><img src="/2022/03/20/Corouties-context3/2022-03-20_7.33.31.png" alt="2022-03-20_7.33.31"></p>
+<h5 id="43自动传播异常-与向用户暴露异常"><a href="#43自动传播异常-与向用户暴露异常" class="headerlink" title="43自动传播异常 与向用户暴露异常"></a>43自动传播异常 与向用户暴露异常</h5><p><img src="/2022/03/20/Corouties-context3/2022-03-20_7.34.53.png" alt="2022-03-20_7.34.53"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">        <span class="keyword">val</span> job = GlobalScope.launch &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">throw</span> IndexOutOfBoundsException()</span><br><span class="line">            &#125; <span class="keyword">catch</span> (e: Exception) &#123;</span><br><span class="line">                println(<span class="string">&quot;Caught IndexOutOfBoundsException&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        job.join()</span><br><span class="line">        <span class="keyword">val</span> deferred = GlobalScope.async &#123;</span><br><span class="line">            <span class="keyword">throw</span> ArithmeticException()</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        try &#123;</span></span><br><span class="line"><span class="comment">//            deferred.await()</span></span><br><span class="line"><span class="comment">//        &#125; catch (e: Exception) &#123;</span></span><br><span class="line"><span class="comment">//            println(&quot;Caught ArithmeticException&quot;)</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line">        delay(<span class="number">1000</span>) </span><br></pre></td></tr></table></figure>
+
+
+
+<p>对于async ，根协程GlobalScope 调用.wait才会抛出异常,才能捕获异常</p>
+<h5 id="44-非根协程的异常传播"><a href="#44-非根协程的异常传播" class="headerlink" title="44 非根协程的异常传播"></a>44 非根协程的异常传播</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> scope = CoroutineScope(Job())</span><br><span class="line"><span class="keyword">val</span> job = scope.launch &#123;</span><br><span class="line">    <span class="keyword">throw</span> IllegalArgumentException()</span><br><span class="line">    <span class="comment">//如果async抛出异常，launch就会立即抛出异常，而需要调用 .await</span></span><br><span class="line">&#125;</span><br><span class="line">job.join()</span><br></pre></td></tr></table></figure>
+
+<p>Exception in thread “DefaultDispatcher-worker-1 @coroutine#2” java.lang.IllegalArgumentException<br>    at com.john.kot.coroutine.dongnao.CoroutineTest44$test CoroutineContext $1$job$1.invokeSuspend(CoroutineTest44.kt:24)</p>
+<h5 id="45异常的传播特性"><a href="#45异常的传播特性" class="headerlink" title="45异常的传播特性"></a>45异常的传播特性</h5><p><img src="/2022/03/20/Corouties-context3/2022-03-20_7.43.54.png" alt="2022-03-20_7.43.54"></p>
+<h5 id="46-SupervisorJob"><a href="#46-SupervisorJob" class="headerlink" title="46 SupervisorJob"></a>46 SupervisorJob</h5><p>打破P45的异常传播特性</p>
+<p><img src="/2022/03/20/Corouties-context3/2022-03-20_7.45.55.png" alt="2022-03-20_7.45.55"></p>
+<p>一个协程有问题 不会影响其他的协程</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> supervisor = CoroutineScope(SupervisorJob())</span><br><span class="line"><span class="keyword">val</span> job1 = supervisor.launch &#123;</span><br><span class="line">    delay(<span class="number">100</span>)</span><br><span class="line">    println(<span class="string">&quot;child 1&quot;</span>)</span><br><span class="line">    <span class="keyword">throw</span> IllegalArgumentException()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> job2 = supervisor.launch &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        delay(<span class="built_in">Long</span>.MAX_VALUE)</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        println(<span class="string">&quot;child 2 finished.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> IllegalArgumentException()</span><br><span class="line">&#125;</span><br><span class="line">joinAll(job1, job2)</span><br></pre></td></tr></table></figure>
+
+<p>SupervisorJob()缓存 job(),都能正常打印了.</p>
+<p>Supervisor.cancel() ,后所有协程都会取消</p>
+<h5 id="47-SupervisorScope"><a href="#47-SupervisorScope" class="headerlink" title="47 SupervisorScope"></a>47 SupervisorScope</h5><p>当作业自身执行失败的时候，所有子作业将会被全部取消</p>
+<p><img src="/2022/03/20/Corouties-context3/2022-03-20_7.58.18.png" alt="2022-03-20_7.58.18"></p>
+<p><img src="/2022/03/20/Corouties-context3/2022-03-20_7.59.57.png" alt="2022-03-20_7.59.57"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> child = supervisorScope &#123;</span><br><span class="line">    launch &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            println(<span class="string">&quot;The child is sleeping&quot;</span>)</span><br><span class="line">            delay(<span class="built_in">Long</span>.MAX_VALUE)</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            println(<span class="string">&quot;The child is cancelled&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    yield()</span><br><span class="line">    println(<span class="string">&quot;Throwing an exception from the scope&quot;</span>)</span><br><span class="line">    <span class="keyword">throw</span> AssertionError()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>The child is sleeping<br>Throwing an exception from the scope<br>The child is cancelled</p>
+<p>作用域抛出异常，导致子协程取消</p>
+<h3 id="异常的捕获"><a href="#异常的捕获" class="headerlink" title="异常的捕获"></a>异常的捕获</h3><h5 id="P48-异常的捕获的时机与位置"><a href="#P48-异常的捕获的时机与位置" class="headerlink" title="P48-异常的捕获的时机与位置"></a>P48-异常的捕获的时机与位置</h5><p><img src="/2022/03/20/Corouties-context3/2022-03-20_8.06.19.png" alt="2022-03-20_8.06.19"></p>
+<h5 id="P49-异常捕获常见错误"><a href="#P49-异常捕获常见错误" class="headerlink" title="P49- 异常捕获常见错误"></a>P49- 异常捕获常见错误</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> handler =</span><br><span class="line">    CoroutineExceptionHandler &#123; _, exception -&gt; println(<span class="string">&quot;Caught <span class="variable">$exception</span>&quot;</span>) &#125;</span><br><span class="line"><span class="keyword">val</span> job = GlobalScope.launch(handler) &#123;</span><br><span class="line">    <span class="keyword">throw</span> AssertionError()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> deferred = GlobalScope.async(handler) &#123; <span class="keyword">throw</span> ArithmeticException() &#125;</span><br><span class="line">job.join()</span><br><span class="line">deferred.await()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>被捕获</p>
+<p>Caught java.lang.AssertionError</p>
+<p>java.lang.ArithmeticException<br>    at com.john.kot.coroutine.dongnao.CoroutineTest48$test SupervisorJob $1$deferred$1.invokeSuspend(CoroutineTest48.kt:28)</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> handler =</span><br><span class="line">    CoroutineExceptionHandler &#123; _, exception -&gt; println(<span class="string">&quot;Caught <span class="variable">$exception</span>&quot;</span>) &#125;</span><br><span class="line"><span class="keyword">val</span> scope = CoroutineScope(Job())</span><br><span class="line"><span class="keyword">val</span> job = scope.launch(handler) &#123;</span><br><span class="line">    launch &#123;</span><br><span class="line">        <span class="keyword">throw</span> IllegalArgumentException()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">job.join()</span><br></pre></td></tr></table></figure>
+
+<p>Caught java.lang.IllegalArgumentException</p>
+<p>handler放在<strong>内部</strong>的情况</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> handler =</span><br><span class="line">    CoroutineExceptionHandler &#123; _, exception -&gt; println(<span class="string">&quot;Caught <span class="variable">$exception</span>&quot;</span>) &#125;</span><br><span class="line"><span class="keyword">val</span> scope = CoroutineScope(Job())</span><br><span class="line"><span class="keyword">val</span> job = scope.launch &#123;</span><br><span class="line">    launch(handler) &#123;</span><br><span class="line">        <span class="keyword">throw</span> IllegalArgumentException()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">job.join()</span><br></pre></td></tr></table></figure>
+
+<p>这种情况捕获不到,</p>
+<p>异常处理器不能安装到内部协程，要安装到外部协程</p>
+<h5 id="50-异常捕获-防止App闪退"><a href="#50-异常捕获-防止App闪退" class="headerlink" title="50 异常捕获 防止App闪退"></a>50 异常捕获 防止App闪退</h5><p><img src="/2022/03/20/Corouties-context3/2022-03-20_8.19.42.png" alt="2022-03-20_8.19.42"></p>
+<h5 id="51Android全局异常处理"><a href="#51Android全局异常处理" class="headerlink" title="51Android全局异常处理"></a>51Android全局异常处理</h5><p><img src="/2022/03/20/Corouties-context3/2022-03-20_8.20.19.png" alt="2022-03-20_8.20.19"></p>
+<p><img src="/2022/03/20/Corouties-context3/2022-03-20_8.22.33.png" alt="2022-03-20_8.22.33"></p>
+<p><img src="/2022/03/20/Corouties-context3/2022-03-20_8.24.33.png" alt="2022-03-20_8.24.33"></p>
+<p><img src="/2022/03/20/Corouties-context3/2022-03-20_8.25.08.png" alt="2022-03-20_8.25.08"></p>
+<p><img src="/2022/03/20/Corouties-context3/2022-03-20_8.25.20.png" alt="2022-03-20_8.25.20"></p>
+<h5 id="52取消与异常"><a href="#52取消与异常" class="headerlink" title="52取消与异常"></a>52取消与异常</h5><p><img src="/2022/03/20/Corouties-context3/2022-03-20_8.26.57.png" alt="2022-03-20_8.26.57"></p>
+<p>异常取消顺序， 先自己</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test cancel and exception`<span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">    <span class="keyword">val</span> job = launch &#123;</span><br><span class="line">        <span class="keyword">val</span> child = launch &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    delay(<span class="built_in">Long</span>.MAX_VALUE)</span><br><span class="line">                &#125; <span class="keyword">catch</span> (e: Exception) &#123;</span><br><span class="line">                    e.printStackTrace()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                println(<span class="string">&quot;Child is cancelled.&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        yield()</span><br><span class="line">        println(<span class="string">&quot;Cancelling child&quot;</span>)</span><br><span class="line">        child.cancelAndJoin()</span><br><span class="line">        yield()</span><br><span class="line">        println(<span class="string">&quot;Parent is cancelled.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    job.join()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Cancelling child</p>
+<p>Child is cancelled.<br>Parent is cancelled.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> handler = CoroutineExceptionHandler &#123; _, exception -&gt;</span><br><span class="line">    println(<span class="string">&quot;Caught <span class="variable">$exception</span>&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> job = GlobalScope.launch(handler) &#123;</span><br><span class="line">    launch &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            delay(<span class="built_in">Long</span>.MAX_VALUE)</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            withContext(NonCancellable)&#123;</span><br><span class="line">                println(<span class="string">&quot;Children are cancelled , but exception is not handled until &quot;</span>)</span><br><span class="line">                delay(<span class="number">100</span>)</span><br><span class="line">                println(<span class="string">&quot;The first child finished its non cancellable block&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    launch &#123;</span><br><span class="line">        delay(<span class="number">10</span>)</span><br><span class="line">        println(<span class="string">&quot;Second child throws an exception&quot;</span>)</span><br><span class="line">        <span class="keyword">throw</span> ArithmeticException()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">job.join()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Second child throws an exception<br>Children are cancelled , but exception is not handled until<br>The first child finished its non cancellable block<br>Caught java.lang.ArithmeticException</p>
+<p>第2个协程取消，第1个也被取消，最后处理外面的异常</p>
+<h5 id="p53异常聚合"><a href="#p53异常聚合" class="headerlink" title="p53异常聚合"></a>p53异常聚合</h5><p>suppressed 捕获多个异常</p>
+<p><img src="/2022/03/20/Corouties-context3/2022-03-20_8.42.04.png" alt="2022-03-20_8.42.04"></p>
+<p><img src="/2022/03/20/Corouties-context3/2022-03-20_8.41.02.png" alt="2022-03-20_8.41.02"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> handler = CoroutineExceptionHandler &#123; _, excetption -&gt;</span><br><span class="line">    println(<span class="string">&quot;Caught <span class="variable">$excetption</span> <span class="subst">$&#123;excetption.suppressed.contentToString()&#125;</span>&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> job = GlobalScope.launch(handler) &#123;</span><br><span class="line">    launch &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            delay(<span class="built_in">Long</span>.MAX_VALUE)</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> ArithmeticException() <span class="comment">// 2</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    launch &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            delay(<span class="built_in">Long</span>.MAX_VALUE)</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> ArithmeticException() <span class="comment">// 2</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    launch &#123;</span><br><span class="line">        delay(<span class="number">100</span>)</span><br><span class="line">        <span class="keyword">throw</span> IndexOutOfBoundsException() <span class="comment">// 3</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">job.join()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>一床存在数组中</p>
+<p>Caught java.lang.IndexOutOfBoundsException [java.lang.ArithmeticException, java.lang.ArithmeticException]</p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/4/index.html">https://noteforme.github.io/page/4/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-PLAN-UML" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1100,302 +1434,6 @@
 </article>
 
 
-  <article id="post-Language" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/11/06/Language/">Language</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2021-11-06T08:06:32.000Z" itemprop="datePublished">2021年11月06日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2021/11/06/Language/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h5 id="方式"><a href="#方式" class="headerlink" title="方式"></a>方式</h5><p>Android &lt; 7.0一下和以上不同, </p>
-<ol>
-<li>7.0以下只要设置一次语言就可以</li>
-<li>7.0或以上，必须在BaseActivity设置</li>
-</ol>
-<h5 id="BaseActivity处理所有的"><a href="#BaseActivity处理所有的" class="headerlink" title="BaseActivity处理所有的"></a>BaseActivity处理所有的</h5><p>省事的做法，调用attachBaseContext,一起设置</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> LanguageUtil &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@JvmStatic</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">attachBaseContext</span><span class="params">(context: <span class="type">Context</span>, language: <span class="type">String</span>?)</span></span>: Context? &#123;</span><br><span class="line">        <span class="keyword">val</span> resources = context.resources</span><br><span class="line">        <span class="keyword">val</span> configuration = resources.configuration</span><br><span class="line">        <span class="keyword">val</span> locale = getLocaleByLanguage(language!!)</span><br><span class="line">        configuration.setLocale(locale)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) &#123;</span><br><span class="line">            configuration.setLocales(LocaleList(locale))</span><br><span class="line">            context.createConfigurationContext(configuration)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//获取想要切换的语言类型</span></span><br><span class="line">            <span class="comment">// updateConfiguration</span></span><br><span class="line">            <span class="keyword">val</span> dm = resources.displayMetrics</span><br><span class="line">            resources.updateConfiguration(configuration, dm)</span><br><span class="line">            context</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getLocaleByLanguage</span><span class="params">(language: <span class="type">String</span>)</span></span>: Locale &#123;</span><br><span class="line">        <span class="keyword">var</span> locale: Locale</span><br><span class="line">        <span class="keyword">if</span> (language == TNGLanguageEnumType.CN.language) &#123;</span><br><span class="line">            locale = Locale.SIMPLIFIED_CHINESE</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (language == TNGLanguageEnumType.MY.language) &#123;</span><br><span class="line">            locale = Locale.forLanguageTag(<span class="string">&quot;ms&quot;</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            locale = Locale.ENGLISH</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> locale</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@TargetApi(Build.VERSION_CODES.N)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">updateResources</span><span class="params">(context: <span class="type">Context</span>, language: <span class="type">String</span>)</span></span>: Context &#123;</span><br><span class="line">        <span class="keyword">val</span> resources = context.resources</span><br><span class="line">        <span class="keyword">val</span> locale = getLocaleByLanguage(language)</span><br><span class="line">        <span class="keyword">val</span> configuration = resources.configuration</span><br><span class="line">        configuration.setLocale(locale)</span><br><span class="line">        configuration.setLocales(LocaleList(locale))</span><br><span class="line">        <span class="keyword">return</span> context.createConfigurationContext(configuration)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@JvmStatic</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">setFontScaleLimit</span><span class="params">(context: <span class="type">Context</span>)</span></span>: Context? &#123;</span><br><span class="line">        <span class="keyword">val</span> config = Configuration(context.resources.configuration)</span><br><span class="line">        <span class="keyword">if</span> (config.fontScale &gt; <span class="number">1.2f</span> || config.fontScale &lt; <span class="number">1.0f</span>) &#123;</span><br><span class="line">            config.setToDefaults()</span><br><span class="line">            config.fontScale = <span class="number">1.1f</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> context.createConfigurationContext(config)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="小于7-0设置一次"><a href="#小于7-0设置一次" class="headerlink" title="小于7.0设置一次"></a>小于7.0设置一次</h5><p>changeAppLanguage() 调这个方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LanguageUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">&quot;LanguageUtil&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> newLanguage 想要切换的语言类型 比如 &quot;en&quot; ,&quot;zh&quot;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@SuppressWarnings(&quot;deprecation&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">changeAppLanguage</span><span class="params">(Context context, String newLanguage)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (TextUtils.isEmpty(newLanguage)) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Resources resources = context.getResources();</span><br><span class="line">        Configuration configuration = resources.getConfiguration();</span><br><span class="line">        <span class="comment">//获取想要切换的语言类型</span></span><br><span class="line">        Locale locale = getLocaleByLanguage(newLanguage);</span><br><span class="line">        configuration.setLocale(locale);</span><br><span class="line">        <span class="comment">// updateConfiguration</span></span><br><span class="line">        DisplayMetrics dm = resources.getDisplayMetrics();</span><br><span class="line">        resources.updateConfiguration(configuration, dm);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Locale <span class="title">getLocaleByLanguage</span><span class="params">(String language)</span> </span>&#123;</span><br><span class="line">        Locale locale = Locale.ENGLISH;</span><br><span class="line">        <span class="keyword">if</span> (language.equals(LanguageType.CHINESE.getLanguage())) &#123;</span><br><span class="line">            locale = Locale.SIMPLIFIED_CHINESE;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (language.equals(LanguageType.ENGLISH.getLanguage())) &#123;</span><br><span class="line">            locale = Locale.ENGLISH;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (language.equals(LanguageType.MY.getLanguage())) &#123;</span><br><span class="line">            locale = Locale.forLanguageTag(language);</span><br><span class="line">        &#125;</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;getLocaleByLanguage: &quot;</span> + locale.getDisplayCountry());</span><br><span class="line">        <span class="keyword">return</span> locale;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Context <span class="title">attachBaseContext</span><span class="params">(Context context, String language)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) &#123;</span><br><span class="line">            <span class="keyword">return</span> updateResources(context, language);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> context;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequiresApi(api = VERSION_CODES.N)</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Context <span class="title">updateResources</span><span class="params">(Context context, String language)</span> </span>&#123;</span><br><span class="line">        Resources resources = context.getResources();</span><br><span class="line">        Locale locale = LanguageUtil.getLocaleByLanguage(language);</span><br><span class="line"></span><br><span class="line">        Configuration configuration = resources.getConfiguration();</span><br><span class="line">        configuration.setLocale(locale);</span><br><span class="line">        configuration.setLocales(<span class="keyword">new</span> LocaleList(locale));</span><br><span class="line">        <span class="keyword">return</span> context.createConfigurationContext(configuration);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Context <span class="title">updateBaseContext</span><span class="params">(Context context, String language)</span> </span>&#123;</span><br><span class="line">        Resources resources = context.getResources();</span><br><span class="line">        Configuration configuration = resources.getConfiguration();</span><br><span class="line">        Locale locale = LanguageUtil.getLocaleByLanguage(language);</span><br><span class="line">        configuration.setLocale(locale);</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) &#123;</span><br><span class="line">            configuration.setLocales(<span class="keyword">new</span> LocaleList(locale));</span><br><span class="line">            <span class="keyword">return</span> context.createConfigurationContext(configuration);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//获取想要切换的语言类型</span></span><br><span class="line">            <span class="comment">// updateConfiguration</span></span><br><span class="line">            DisplayMetrics dm = resources.getDisplayMetrics();</span><br><span class="line">            resources.updateConfiguration(configuration, dm);</span><br><span class="line">            <span class="keyword">return</span> context;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p> <a target="_blank" rel="noopener" href="https://github.com/wisnukurniawan/changelanguage.git">https://github.com/wisnukurniawan/changelanguage.git</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4f9db19d9383">https://www.jianshu.com/p/4f9db19d9383</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/4/index.html">https://noteforme.github.io/page/4/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-LC_BinarySearch" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/10/31/LC_BinarySearch/">ArrayBinarySearch_2</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2021-10-31T09:01:21.000Z" itemprop="datePublished">2021年10月31日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/DataStructure/">DataStructure</a>
-  </div>
-
-      
-      
-<a href="/2021/10/31/LC_BinarySearch/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>BinarySearch</p>
-<p>已经有序</p>
-<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=6ysjqCUv3K4">https://www.youtube.com/watch?v=6ysjqCUv3K4</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=KXJSjte_OAI">https://www.youtube.com/watch?v=KXJSjte_OAI</a></p>
-<p>注意是 left 不是val mid = left + (right - left) / 2 而不是  val mid = right - (right - left) / 2 </p>
-<h3 id="边界"><a href="#边界" class="headerlink" title="边界"></a>边界</h3><p>leetcode收藏了</p>
-<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-search/solution/er-fen-cha-zhao-xiang-jie-by-labuladong/">https://leetcode-cn.com/problems/binary-search/solution/er-fen-cha-zhao-xiang-jie-by-labuladong/</a></p>
-<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-search/solution/er-fen-cha-zhao-de-xun-huan-bu-bian-liang-zhi-yao-/">https://leetcode-cn.com/problems/binary-search/solution/er-fen-cha-zhao-de-xun-huan-bu-bian-liang-zhi-yao-/</a></p>
-<p><a target="_blank" rel="noopener" href="https://programmercarl.com/0704.%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE.html#%E6%80%9D%E8%B7%AF">https://programmercarl.com/0704.%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE.html#%E6%80%9D%E8%B7%AF</a></p>
-<h5 id="防止溢出"><a href="#防止溢出" class="headerlink" title="防止溢出"></a>防止溢出</h5><p>计算 mid 时需要防止溢出，代码中 left + (right - left) / 2 就和 (left + right) / 2 的结果相同，但是有效防止了 left 和 right 太大直接相加导致溢出。</p>
-<h4 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h4><p>1    2    3    4    7    9    10     find     2</p>
-<table>
-<thead>
-<tr>
-<th align="center">0</th>
-<th align="center">1</th>
-<th align="center">2</th>
-<th align="center">3</th>
-<th align="center">4</th>
-<th align="center">5</th>
-<th align="center">6</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="center">2</td>
-<td align="center">3</td>
-<td align="center">4</td>
-<td align="center">7</td>
-<td align="center">9</td>
-<td align="center">10</td>
-</tr>
-<tr>
-<td align="center">Left</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center">Middle</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center">Right</td>
-</tr>
-<tr>
-<td align="center"></td>
-<td align="center">Middle</td>
-<td align="center">Right</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-<p>[0,6]</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解法1 [0,nums.length-1]</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">binarySearch1</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="keyword">int</span> middle = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (target == nums[middle]) &#123;</span><br><span class="line">            <span class="keyword">return</span> middle;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (target &lt; nums[middle]) &#123;</span><br><span class="line">            right = middle - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            left = middle + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h4><p>[0,7)</p>
-<table>
-<thead>
-<tr>
-<th align="center">0</th>
-<th align="center">1</th>
-<th align="center">2</th>
-<th align="center">3</th>
-<th align="center">4</th>
-<th align="center">5</th>
-<th align="center">6</th>
-<th>7</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="center">2</td>
-<td align="center">3</td>
-<td align="center">4</td>
-<td align="center">7</td>
-<td align="center">9</td>
-<td align="center">10</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">Left</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center">Middle</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td>Right</td>
-</tr>
-<tr>
-<td align="center"></td>
-<td align="center">Middle</td>
-<td align="center"></td>
-<td align="center">Right</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td></td>
-</tr>
-</tbody></table>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 解法2 [0,nums.length)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">binarySearch2</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = nums.length;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        <span class="keyword">int</span> middle = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (target == nums[middle]) &#123;</span><br><span class="line">            <span class="keyword">return</span> middle;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (target &lt; nums[middle]) &#123;</span><br><span class="line">            right = middle;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            left = middle + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>感觉还是解法1 不会容易出错。</p>
-<h4 id="34-在排序数组中查找元素的第一个和最后一个位置-opens-new-window"><a href="#34-在排序数组中查找元素的第一个和最后一个位置-opens-new-window" class="headerlink" title="34.在排序数组中查找元素的第一个和最后一个位置(opens new window)"></a><a target="_blank" rel="noopener" href="https://programmercarl.com/0034.%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE.html">34.在排序数组中查找元素的第一个和最后一个位置(opens new window)</a></h4><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/solution/zai-pai-xu-shu-zu-zhong-cha-zhao-yuan-su-de-di-3-4/">https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/solution/zai-pai-xu-shu-zu-zhong-cha-zhao-yuan-su-de-di-3-4/</a></p>
-<p>有符号 无符号的区别</p>
-<ul>
-<li>对于<strong>有</strong>符号整数，每一次右移操作，高位补充的是<strong>1</strong>；</li>
-<li>对于<strong>无</strong>符号整数，每一次右移操作，高位补充的则是<strong>0</strong>；</li>
-</ul>
-<p>0x80000000</p>
-<p>0xc0000000</p>
-<p>0x40000000</p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903969915944973">https://juejin.cn/post/6844903969915944973</a></p>
-<h4 id="35-搜索插入位置"><a href="#35-搜索插入位置" class="headerlink" title="35. 搜索插入位置"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/search-insert-position/">35. 搜索插入位置</a></h4><p>(right - left) / 2   如果用  ((right - left) shr  2) 那么(right - left)要括起来，否则会符号优先级有问题.</p>
-<p>这题没想到是插入left位置，最后一步right是可以移到   left位置或超过left,</p>
-<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/search-insert-position/solution/sou-suo-cha-ru-wei-zhi-by-leetcode-solution/">https://leetcode-cn.com/problems/search-insert-position/solution/sou-suo-cha-ru-wei-zhi-by-leetcode-solution/</a></p>
-<h4 id="69-x-的平方根"><a href="#69-x-的平方根" class="headerlink" title="69.x 的平方根"></a><del>69.x 的平方根</del></h4><p>​    这题我的解法是这样的，但是还有问题 没通过</p>
-<ol>
-<li>mid * mid.toLong() ,为什么</li>
-<li>right - left + 1 即使退出循环</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">    fun mySqrt(x: Int): Int &#123;</span><br><span class="line">        var left &#x3D; 0</span><br><span class="line">        var right &#x3D; x</span><br><span class="line">        while (left &lt; right) &#123;</span><br><span class="line">            val mid &#x3D; left + (right - left + 1) &#x2F; 2</span><br><span class="line">            &#x2F;&#x2F; 调试语句开始</span><br><span class="line">&#x2F;&#x2F;            try &#123;</span><br><span class="line">&#x2F;&#x2F;                Thread.sleep(1000);</span><br><span class="line">&#x2F;&#x2F;            &#125; catch (e: InterruptedException) &#123;</span><br><span class="line">&#x2F;&#x2F;                e.printStackTrace()</span><br><span class="line">&#x2F;&#x2F;            &#125;</span><br><span class="line">&#x2F;&#x2F;            println(&quot;left &#x3D; $left, right &#x3D; $right, mid &#x3D; $mid&quot;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;            链接：https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;sqrtx&#x2F;solution&#x2F;er-fen-cha-zhao-niu-dun-fa-python-dai-ma-by-liweiw&#x2F;</span><br><span class="line">            if (mid * mid &#x3D;&#x3D; x) &#123;</span><br><span class="line">                return mid</span><br><span class="line">            &#125; else if (mid * mid.toLong() &lt; x) &#123;</span><br><span class="line">                left &#x3D; mid</span><br><span class="line">            &#125; else if (mid * mid.toLong() &gt; x) &#123;</span><br><span class="line">                right &#x3D; mid - 1</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return left;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sqrtx/solution/er-fen-cha-zhao-niu-dun-fa-python-dai-ma-by-liweiw/">https://leetcode-cn.com/problems/sqrtx/solution/er-fen-cha-zhao-niu-dun-fa-python-dai-ma-by-liweiw/</a></p>
-<p>有为什么产生死循环的讲解</p>
-<p>367.有效的完全平方数</p>
-<ol>
-<li><p>解答</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LC367</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">isPerfectSquare</span><span class="params">(num: <span class="type">Int</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> left = <span class="number">1</span></span><br><span class="line">        <span class="keyword">var</span> right = num</span><br><span class="line">        <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">            <span class="keyword">var</span> mid = left + (right - left) / <span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> (mid * mid == num) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mid * mid &gt; num) &#123;</span><br><span class="line">                right = mid - <span class="number">1</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mid * mid &lt; num) &#123;</span><br><span class="line">                left = mid + <span class="number">1</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>​        测试用例超出限制 2147483647. , 因为mid *mid 超出int</p>
-<p>​    </p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/4/index.html">https://noteforme.github.io/page/4/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1430,7 +1468,7 @@
           </li>
         
           <li>
-            <a href="/2022/10/17/AppLink/">AppLink</a>
+            <a href="/2022/10/30/LC-backtrack-combination/">LC-backtrack-combination</a>
           </li>
         
       </ul>
@@ -1462,7 +1500,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年04月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年04月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1472,7 +1510,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
