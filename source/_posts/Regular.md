@@ -522,8 +522,10 @@ https://www.bilibili.com/video/BV1oz4y1C7Uf?p=4
 (?=.*[A-Za-z]+)[A-Za-z@\\/`'’‘,\\.\\(\\)\\-]{4,100}$
 
 
+
 ![image](https://github.com/noteforme/noteforme.github.io/assets/6995071/11cc4f59-d9af-4d83-8330-f9405b8ad936)
 
+从这个图可以看到，需要中间至少需要一个字母
 
 
 ```
