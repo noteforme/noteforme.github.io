@@ -38,6 +38,7 @@ println('0'.code)       //ASCII是 48
 
 
 
+
 #### 正则意义对照表格
 
 https://www.jb51.net/shouce/jquery1.82/regexp.html
