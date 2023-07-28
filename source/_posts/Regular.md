@@ -8,11 +8,12 @@ categories: JAVA
 
 
 
-#### Tool
+#### Tool Website
 
 https://regex101.com/
 
 https://ihateregex.io/expr/password
+https://deerchao.cn/tools/wegester/
 
 
 
@@ -49,7 +50,6 @@ https://www.bilibili.com/video/BV1Eq4y1E79W?p=4
 
 https://deerchao.cn/tutorials/regex/regex.htm
 
-https://deerchao.cn/tools/wegester/
 
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions
 
