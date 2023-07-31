@@ -254,9 +254,33 @@ https://deerchao.cn/tutorials/regex/regex.htm
 可以看到， foo最多匹配两个，超过的就分组了。
 
 
-(?=exp)
-也叫零宽度正预测先行断言，它断言自身出现的位置的后面能匹配表达式exp。比如\b\w+(?=ing\b)，匹配以ing结尾的单词的前面部分(除了ing以外的部分)，如查找I'm singing while you're dancing.时，它会匹配sing和danc
+##### (?=exp)
+也叫零宽度正预测先行断言，它断言自身出现的位置的后面能匹配表达式exp。比如\b\w+(?=ing\b)，匹配以ing结尾的单词的前面部分(除了ing以外的部分)，
+如查找I'm singing while you're dancing.时，它会匹配sing和danc
 
+x(?=y)	
+匹配'x'仅仅当'x'后面跟着'y'.这种叫做先行断言。
+例如，/Jack(?=Sprat)/会匹配到'Jack'仅当它后面跟着'Sprat'。/Jack(?=Sprat|Frost)/匹配‘Jack’仅当它后面跟着'Sprat'或者是‘Frost’。但是‘Sprat’和‘Frost’都不是匹配结果的一部分。
+
+正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串。
+这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。
+例如，“Windows(?=95|98|NT|2000)”能匹配“Windows2000”中的“Windows”，但不能匹配“Windows3.1”中的“Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。
+
+
+##### (?!pattern)	
+正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串。
+这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如“Windows(?!95|98|NT|2000)”能匹配“Windows3.1”中的“Windows”，但不能匹配“Windows2000”中的“Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始
+
+
+
+
+##### (?<=pattern)	
+反向肯定预查，** 与正向肯定预查类拟，只是方向相反 **。
+例如，“(?<=95|98|NT|2000)Windows”能匹配“2000Windows”中的“Windows”，但不能匹配“3.1Windows”中的“Windows”。
+
+##### (?<!pattern)	
+反向否定预查，与正向否定预查类拟，只是方向相反。
+例如“(?<!95|98|NT|2000)Windows”能匹配“3.1Windows”中的“Windows”，但不能匹配“2000Windows”中的“Windows”。
 
 
 
