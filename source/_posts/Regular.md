@@ -225,6 +225,11 @@ https://deerchao.cn/tutorials/regex/regex.htm
 | (?<!exp) | 断言此位置的前面不能匹配表达式exp       |
 
 
+(?=exp) 也叫零宽度正预测先行断言，它断言自身出现的位置的后面能匹配表达式exp。比如\b\w+(?=ing\b)，匹配以ing结尾的单词的前面部分(除了ing以外的部分)，如查找I'm singing while you're dancing.时，它会匹配sing和danc
+
+
+
+https://deerchao.cn/tutorials/regex/regex.htm
 
 (?<=\d)[a-z]+
 
