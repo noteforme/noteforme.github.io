@@ -20,7 +20,7 @@ https://ihateregex.io/expr/password
 
 ![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwMTE5MTAyNjAxNzA5?x-oss-process=image/format,png)
 
-读ASCII表 先读 “竖” 、后读 “横”
+读ASCII表 先读 “横”座标,后读 “纵” 座标.
 例如：A , [二进制](https://so.csdn.net/so/search?q=二进制&spm=1001.2101.3001.7020)是 0100 0001 十进制是 2^6 + 1 = 65 十六进制 41
 
 F : 二进制是 0100 0110 十进制是 2^6 + 2^2+2=70 十六进制 46
@@ -565,3 +565,44 @@ fun validation(pattern: String, str: String?): Boolean {
 }
 ```
 
+
+
+
+
+
+
+### escape character
+
+
+
+方括号（中括号）内的特殊字符不需要转义
+
+即使加了转义字符，也不会起作用 `[\\.]` 还是表示点
+
+
+
+```text
+[\^\[\-\]\\]
+```
+
+会改变字符组含义的才需要转义
+
+1、反斜线必须转义
+
+2、方括号必须转义
+
+3、「^」在首和「-」在中必须转义
+
+所以以下常见的字符是不需要转义的
+
+```as3
+[aeiou]
+[$.*+?{}()|]
+[abc^123-]
+```
+
+
+
+https://www.zhihu.com/question/62542695
+
+https://juejin.cn/s/%E6%AD%A3%E5%88%99%E4%B8%AD%E6%8B%AC%E5%8F%B7%E4%B8%AD%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E9%9C%80%E8%A6%81%E8%BD%AC%E4%B9%89%E5%90%97

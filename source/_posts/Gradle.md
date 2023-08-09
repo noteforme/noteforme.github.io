@@ -18,7 +18,7 @@ tags:
 
 
 
-
+9:37
 
 
 
@@ -243,3 +243,4 @@ if (StringUtils.isNoneEmpty()){
 
 
 
+https://stackoverflow.com/questions/60550107/gradle-share-repository-configuration-between-settings-gradle-kts-and-buildsrc
