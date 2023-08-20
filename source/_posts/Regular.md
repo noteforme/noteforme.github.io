@@ -33,7 +33,7 @@ F : 二进制是 0100 0110 十进制是 2^6 + 2^2+2=70 十六进制 46
 ```kotlin
 val digits = "23"
 val c = digits[0] - '0' // 50 - 48
-println(digits[0].code) // ASCII是 50
+println(digits[0].code) // ASCII是 50  ,16进制是0x32,可以在表中查出是2
 println('0'.code)       //ASCII是 48
 ```
 
@@ -133,7 +133,7 @@ https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-6
  ##### {n} 
  o{2}” 
  不能匹配“Bob”中的“o”，因为只有1个o, 但是能匹配“food”中的两个o .
- 
+
  {n,}	
  n是一个非负整数。至少匹配n次。例如，“o{2,}”不能匹配“Bob”中的“o”，但能匹配“foooood”中的所有o。“o{1,}”等价于“o+”。“o{0,}”则等价于“o*”。
 
@@ -217,7 +217,7 @@ MULTILINE
 上面 \1 就代表 go了， \2的表达式还没搞出来
 
 https://deerchao.cn/tutorials/regex/regex.htm
- 
+
 
 #### ?
 
