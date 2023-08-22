@@ -259,7 +259,14 @@ https://stackoverflow.com/questions/26700767/custom-permission-for-activity
 
 #### Sensors 
 
-https://developer.android.com/guide/topics/sensors/sensors_overview
+An acceleration sensor measures the acceleration applied to the device, including the force of gravity. The following code shows you how to get an instance of the default acceleration sensor:
+```
+val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+```
+
+https://developer.android.com/guide/topics/sensors/sensors_motion.html#sensors-motion-accel
+
 
 
 
