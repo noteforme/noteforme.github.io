@@ -268,6 +268,14 @@ val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 https://developer.android.com/guide/topics/sensors/sensors_motion.html#sensors-motion-accel
 
 
+If you are publishing your application on Google Play you can use the <uses-feature> element in your manifest file to filter your application from devices that do not have the appropriate sensor configuration for your application. The <uses-feature> element has several hardware descriptors that let you filter applications based on the presence of specific sensors. The sensors you can list include: accelerometer, barometer, compass (geomagnetic field), gyroscope, light, and proximity. The following is an example manifest entry that filters apps that do not have an accelerometer:
+
+```
+<uses-feature android:name="android.hardware.sensor.accelerometer"
+              android:required="true" />
+```
+
+
 
 
 
