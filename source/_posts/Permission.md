@@ -229,6 +229,8 @@ https://developer.android.com/about/versions/10/privacy/changes
 https://juejin.im/post/6844904073024503822#heading-5
 
 
+request permission demo
+https://github.com/android/platform-samples/tree/main/samples/privacy/permissions
 
 
 
