@@ -245,16 +245,23 @@ https://github.com/Ibtisam/Using-Dangerous-Activity
 
 
 
-
 https://github.com/commonsguy/cwac-netsecurity
 
 https://medium.com/code-procedure-and-rants/android-permissions-create-custom-permissions-5784188311f3
-
-
 
 https://www.youtube.com/watch?v=YeLmufMZfcI
 
 https://stackoverflow.com/questions/28975706/start-activity-with-permissions
 
 https://stackoverflow.com/questions/26700767/custom-permission-for-activity
+
+
+
+#### Sensors 
+
+https://developer.android.com/guide/topics/sensors/sensors_overview
+
+
+
+
 
