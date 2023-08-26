@@ -8,16 +8,44 @@ categories:  ANDROID
 
 
 
+https://juejin.cn/post/6970998913754988552#heading-16
+
 https://developer.android.com/reference/android/app/Fragment.html
 
 https://developer.android.com/guide/components/fragments.html
 
-https://wizardforcel.gitbooks.io/w3school-android/content/77.html
-https://juejin.im/post/5901b564570c35005804424b
+https://www.51cto.com/article/672135.html
+
+https://juejin.cn/post/7021398731056480269
 
 
 
-#### Lifecycle
+
+
+![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7df4cd3540e14c67beee5fbaff52e94f~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp?)
+
+
+
+
+
+```
+static final int INVALID_STATE = -1;   // 为空时无效
+static final int INITIALIZING = 0;     // 未创建
+static final int CREATED = 1;          // 已创建，位于后台
+static final int ACTIVITY_CREATED = 2; // Activity已经创建，Fragment位于后台
+static final int STOPPED = 3;          // 创建完成，没有开始
+static final int STARTED = 4;          // 开始运行，但是位于后台
+static final int RESUMED = 5;          // 显示到前台
+
+作者：小松漫步
+链接：https://juejin.cn/post/7021398731056480269
+```
+
+
+
+
+
+## Lifecycle
 
 https://developer.android.com/guide/fragments/lifecycle
 
@@ -30,6 +58,94 @@ Called immediately after `onCreateView(android.view.LayoutInflater, android.view
 <img src="Fragment/fragment-view-lifecycle.png" alt="ff" style="zoom:67%;" />
 
 
+
+#### 状态转移
+
+Fragment
+
+```java
+static final int INITIALIZING = -1;          // Not yet attached.
+static final int ATTACHED = 0;               // Attached to the host.
+static final int CREATED = 1;                // Created.
+static final int VIEW_CREATED = 2;           // View Created.
+static final int AWAITING_EXIT_EFFECTS = 3;  // Downward state, awaiting exit effects
+static final int ACTIVITY_CREATED = 4;       // Fully created, not started.
+static final int STARTED = 5;                // Created and started, not resumed.
+static final int AWAITING_ENTER_EFFECTS = 6; // Upward state, awaiting enter effects
+static final int RESUMED = 7;                // Created started and resumed.
+```
+
+
+
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/63280ec450454d56b03be2dd6d48a7fa~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" style="zoom: 67%;" />
+
+
+
+这个图和现在fragment状态有点不同，现在新增了一些状态，有必要的话，自己研究绘制一张。
+
+
+
+## commit
+
+```
+commit();
+commitAllowingStateLoss();
+commitNow();
+commitNowAllowingStateLoss();
+```
+
+
+
+#### commitAllowingStateLoss VS  commit()
+
+
+
+可以看到 allowStateLoss 如果是false，mHost,mDestroyed=true,就会crash了,否则只是return了,所以从这里看，他们区别不大。
+
+
+
+```java
+void enqueueAction(@NonNull OpGenerator action, boolean allowStateLoss) {
+    if (!allowStateLoss) {
+        if (mHost == null) {
+            if (mDestroyed) {
+                throw new IllegalStateException("FragmentManager has been destroyed");
+            } else {
+                throw new IllegalStateException("FragmentManager has not been attached to a "
+                        + "host.");
+            }
+        }
+        checkStateLoss();
+    }
+    synchronized (mPendingActions) {
+        if (mHost == null) {
+            if (allowStateLoss) {
+                // This FragmentManager isn't attached, so drop the entire transaction.
+                return;
+            }
+            throw new IllegalStateException("Activity has been destroyed");
+        }
+        mPendingActions.add(action);
+        scheduleCommit();
+    }
+}
+```
+
+
+
+https://huxian99.github.io/2016/08/28/cj3qymo360000owxk9zp17alo/
+
+
+
+#### commitNow VS  commit()
+
+
+
+
+
+
+
+## Fragment 使用
 
 ##### fragment回调
 
@@ -52,7 +168,71 @@ https://noteforme.github.io/2017/10/05/Fragment/
 
 
 
-#### Fragment重叠
+**Fragment本质是View**
+
+「当然了Fragment本质是View但是又不仅限于此，」 在真实的项目中，界面往往很复杂，业务逻辑也很复杂，往往需要处理各种UI状态变化，比如：增加一组View，替换一组View，删除一组View，还需要和Activity协作。总之，如果让开发者自己去实现这一套逻辑，恐怕比使用Fragment要麻烦的多吧。尽管Fragment看起来蛮复杂的，但是还是远比我们自己去实现相同功能简单的多。
+
+**3.1.2 Fragment本质不仅限于View**
+
+Fragment作为一个View可以被添加到Activity的布局中去。但是他更强大，还有以下几个特性：
+
+1. 处理生命周期，比Activity生命周期还要复杂
+2. 通过FragmentTransaction操作多个Fragment
+3. 通过FragmentManager维护一个回退栈，回退到上一个FragmentTransaction操作的界面
+
+https://www.51cto.com/article/672135.html
+
+
+
+
+
+**commit() vs commitAllowingStateLoss()**
+
+
+
+commit()和commitAllowingStateLoss()在实现上唯一的不同就是当你调用commit()的时候, FragmentManger会检查mDestory, mHost 如果mHost ==null, 就抛出IllegalStateException.
+
+
+
+https://juejin.cn/post/7063377212736536607
+
+
+
+
+
+
+
+**FragmentPagerAdapter与FragmentStatePagerAdapter的区别**
+
+FragmentPagerAdapter适用于页面较少的情况，destroyItem方法中只是调用了fragmentransaction的detach方法
+
+FragmentStatePagerAdapter适用于页面较多的情况，每次切换ViewPager的时候是回收内存的。destroyItem调用了fragmentransaction的remove方法
+
+
+
+
+
+**Fragment 各个方法细节**
+
+
+
+[**https://fuhongliang.gitbooks.io/android/content/di-shi-san-zhang-mian-shi-ti/mu-ke-wang-quan-mian-sheng-ji-android-mian-shi/fragmentmian-shi-ti.html**](https://fuhongliang.gitbooks.io/android/content/di-shi-san-zhang-mian-shi-ti/mu-ke-wang-quan-mian-sheng-ji-android-mian-shi/fragmentmian-shi-ti.html)
+
+
+
+onSaveInstanceState 方法啥时候调用。
+
+
+
+但是为什么要这么做呢？
+
+原因是在Android 11版本后的activity会管理fragment，也就是说在activity 在执行onSaveInstanceState()的时候会保存fragment的状态，用于在恢复activity的时候使用。那么在保存fragment的状态后，就不能再去改变fragment的状态，也就是不允许提交事务，这样才能保障activity恢复的时候，可以显示原来fragment的状态。
+
+https://blog.csdn.net/xx326664162/article/details/88379490
+
+https://blog.csdn.net/qq_19560943/article/details/78112903
+
+
 
 
 
@@ -228,7 +408,7 @@ https://www.jianshu.com/p/c12a98a36b2b
 
 
 
-#### 横竖屏切换，Fragment实例复用
+## 横竖屏切换，Fragment实例复用
 
 setRetainInstance=true
 
@@ -277,166 +457,6 @@ private fun initFragment() {
  D/LifeFragment LaunchModeFragment: onStart()
  D/LifeFragment LaunchModeFragment: onResume()
 ```
-
- 
-
-####  Fragment懒加载
-
-Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragment的生命周期方法
-前半段先执行，然后执行自身的生命周期方法
-
-在项目终从其他页面回到MainAcitivty的时候，三个页面的生命周期方法都跑了一遍
-
-```
-　  D/FinanceFragment         Test: onStart()
-    D/WealthFragment         Test: onStart()
-    D/MineFragment         Test: onStart()
-    D/FinanceFragment         Test: onResume()
-    D/WealthFragment         Test: onResume()
-    D/MineFragment         Test: onResume()
-```
-
-
-```
-     
-    private boolean isPrepared;  //判断view是否加载完成,在视图未初始化的时候，在lazyLoad当中就使用的话，就会有空指针的异常
-    private boolean isVisible;  //判断当前Fragment是否可见状态,标志已经初始化完成，因为setUserVisibleHint是在onCreateView之前调用的
-	  @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        isPrepared = true;
-        lazyLoad();
-    }
-
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-//        Log.d(TAG + "         Test", " onCreateView()");
-
-        if (rootView == null) {
-            int view = setLayoutId();
-            if (view != 0) {
-                rootView = inflater.inflate(view, container, false);
-            }
-        } else {
-            ViewGroup parent = (ViewGroup) rootView.getParent();
-            if (parent != null) {
-                parent.removeView(rootView);
-            }
-        }
-        initView(rootView);
-        return rootView;
-    }
-
-    //  http://www.10tiao.com/html/565/201702/2247483988/1.html
-    // 标志位，标志已经初始化完成，因为setUserVisibleHint是在onCreateView之前调用的，
-    // 在视图未初始化的时候，在lazyLoad当中就使用的话，就会有空指针的异常
-    private boolean isPrepared;
-    //标志当前页面是否可见
-    private boolean isVisible;
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-//        Log.d(TAG + "         Test", " setUserVisibleHint() is Visible : ?  " + isVisibleToUser);
-
-        if (getUserVisibleHint()) {
-            isVisible = true;
-            onVisible();
-        } else {
-            isVisible = false;
-            onInvisible();
-        }
-    }
-
-    protected void onInvisible() {
-
-    }
-
-    protected void onVisible() {
-        lazyLoad();
-    }
-
-    private void lazyLoad() {
-        if (!isVisible || !isPrepared) {
-            return;
-        }
-        requestData();
-    }
-
-    /**
-     * 请求数据
-     */
-    protected void requestData() {
-        Log.d(TAG + "         Test", " requestData ");
-    }
-
-
-```
-参考: http://www.10tiao.com/html/565/201702/2247483988/1.html
-
-####  Activity  dialogFragment 的事件回调
-
-
-```
-
-    interface ISelectListener {
-        fun getItemPosition(position: Int)
-    }
-
-    var mListener: ISelectListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (parentFragment is ISelectListener){
-            mListener = parentFragment  as ISelectListener
-        }else if (context is ISelectListener) {
-            mListener = context
-        } else {
-            throw RuntimeException(context!!.toString() + " must implement ISelectListener")
-        }
-    }
-```
-
-https://developer.android.com/guide/components/fragments.html
-
-
-
-onHiddenChanged切换刷新
-
-使用hide()/show()发现生命周期基本不执行，不过可以用到这个onHiddenChanged();
-
-看下执行的生命周期;   从 SecondFragment 页面开始到 ->FirstFragment 
-
-> 07-18 15:53:25.128 7758-7758/com.mineutils D/SecondFragment: onAttach(Context context)
-> 07-18 15:53:25.129 7758-7758/com.mineutils D/SecondFragment: onCreate()
-> 07-18 15:53:25.142 7758-7758/com.mineutils D/SecondFragment: onCreateView()
-> 07-18 15:53:25.148 7758-7758/com.mineutils D/SecondFragment:  onViewCreated
->   															  onActivityCreated()
->   															  onStart()
-> ​    															  onResume()
->
-> 07-18 15:53:34.200 7758-7758/com.mineutils D/SecondFragment: onHiddenChanged hidden   true
-> 07-18 15:53:34.207 7758-7758/com.mineutils D/FirstFragment:    onCreateView()
-> 07-18 15:53:34.208 7758-7758/com.mineutils D/FirstFragment:    onViewCreated
->   												 		   onActivityCreated()
-> ​														   onStart()
->
-> 07-18 15:53:53.968 7758-7758/com.mineutils D/FirstFragment: onHiddenChanged hidden   true
-> 07-18 15:53:53.968 7758-7758/com.mineutils D/SecondFragment: onHiddenChanged hidden   false
-
-
-
-https://blog.csdn.net/cml_blog/article/details/41411451
-
-
-
-#### fragment特性
-
-##### commitAllowingStateLoss VS  commit()区别
-
-https://huxian99.github.io/2016/08/28/cj3qymo360000owxk9zp17alo/
 
 
 

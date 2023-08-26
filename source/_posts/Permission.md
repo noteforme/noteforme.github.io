@@ -229,6 +229,8 @@ https://developer.android.com/about/versions/10/privacy/changes
 https://juejin.im/post/6844904073024503822#heading-5
 
 
+request permission demo
+https://github.com/android/platform-samples/tree/main/samples/privacy/permissions
 
 
 
@@ -243,16 +245,38 @@ https://github.com/Ibtisam/Using-Dangerous-Activity
 
 
 
-
 https://github.com/commonsguy/cwac-netsecurity
 
 https://medium.com/code-procedure-and-rants/android-permissions-create-custom-permissions-5784188311f3
-
-
 
 https://www.youtube.com/watch?v=YeLmufMZfcI
 
 https://stackoverflow.com/questions/28975706/start-activity-with-permissions
 
 https://stackoverflow.com/questions/26700767/custom-permission-for-activity
+
+
+
+#### Sensors 
+
+An acceleration sensor measures the acceleration applied to the device, including the force of gravity. The following code shows you how to get an instance of the default acceleration sensor:
+```
+val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+```
+
+https://developer.android.com/guide/topics/sensors/sensors_motion.html#sensors-motion-accel
+
+
+If you are publishing your application on Google Play you can use the <uses-feature> element in your manifest file to filter your application from devices that do not have the appropriate sensor configuration for your application. The <uses-feature> element has several hardware descriptors that let you filter applications based on the presence of specific sensors. The sensors you can list include: accelerometer, barometer, compass (geomagnetic field), gyroscope, light, and proximity. The following is an example manifest entry that filters apps that do not have an accelerometer:
+
+```
+<uses-feature android:name="android.hardware.sensor.accelerometer"
+              android:required="true" />
+```
+
+
+
+
+
 
