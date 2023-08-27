@@ -86,6 +86,337 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-View_CanvasApi" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/11/12/View_CanvasApi/">View_CanvasApi</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-11-12T04:34:50.000Z" itemprop="datePublished">2017年11月12日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/VIEW/">VIEW</a>
+  </div>
+
+      
+      
+<a href="/2017/11/12/View_CanvasApi/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="Canvas的常用操作速查表"><a href="#Canvas的常用操作速查表" class="headerlink" title="Canvas的常用操作速查表"></a>Canvas的常用操作速查表</h4><table>
+<thead>
+<tr>
+<th>操作类型</th>
+<th>相关API</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>绘制颜色</td>
+<td>drawColor, drawRGB, drawARGB</td>
+<td>使用单一颜色填充整个画布</td>
+</tr>
+<tr>
+<td>绘制基本形状</td>
+<td>drawPoint, drawPoints, drawLine, drawLines, drawRect, drawRoundRect, drawOval, drawCircle, drawArc</td>
+<td>依次为 点、线、矩形、圆角矩形、椭圆、圆、圆弧</td>
+</tr>
+<tr>
+<td>绘制图片</td>
+<td>drawBitmap, drawPicture</td>
+<td>绘制位图和图片</td>
+</tr>
+<tr>
+<td>绘制文本</td>
+<td>drawText,    drawPosText, drawTextOnPath</td>
+<td>依次为 绘制文字、绘制文字时指定每个文字位置、根据路径绘制文字</td>
+</tr>
+<tr>
+<td>绘制路径</td>
+<td>drawPath</td>
+<td>绘制路径，绘制贝塞尔曲线时也需要用到该函数</td>
+</tr>
+<tr>
+<td>顶点操作</td>
+<td>drawVertices, drawBitmapMesh</td>
+<td>通过对顶点操作可以使图像形变，drawVertices直接对画布作用、 drawBitmapMesh只对绘制的Bitmap作用</td>
+</tr>
+<tr>
+<td>画布剪裁</td>
+<td>clipPath,    clipRect</td>
+<td>设置画布的显示区域</td>
+</tr>
+<tr>
+<td>画布快照</td>
+<td>save, restore, saveLayerXxx, restoreToCount, getSaveCount</td>
+<td>依次为 保存当前状态、 回滚到上一次保存的状态、 保存图层状态、 回滚到指定状态、 获取保存次数</td>
+</tr>
+<tr>
+<td>画布变换</td>
+<td>translate, scale, rotate, skew</td>
+<td>依次为 位移、缩放、 旋转、错切</td>
+</tr>
+<tr>
+<td>Matrix(矩阵)</td>
+<td>getMatrix, setMatrix, concat</td>
+<td>实际画布的位移，缩放等操作的都是图像矩阵Matrix，只不过Matrix比较难以理解和使用，故封装了一些常用的方法。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>PS： Canvas常用方法在上面表格中已经全部列出了，当然还存在一些其他的方法未列出，具体可以参考官方文档 <a target="_blank" rel="noopener" href="http://developer.android.com/reference/android/graphics/Canvas.html">Canvas</a></p>
+</blockquote>
+<h4 id="Use-Canvas"><a href="#Use-Canvas" class="headerlink" title="Use Canvas"></a>Use Canvas</h4><h5 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h5><ul>
+<li>lineTo简单实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">canvas.translate(DeviceUtil.mWidth / <span class="number">2</span>, DeviceUtil.mHeight / <span class="number">2</span>); <span class="comment">//原点移动到屏幕中心</span></span><br><span class="line">   Path path = <span class="keyword">new</span> Path();</span><br><span class="line">   path.lineTo(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">   path.lineTo(<span class="number">200</span>, <span class="number">0</span>);</span><br><span class="line">   canvas.drawPath(path, mPaint);</span><br></pre></td></tr></table></figure>
+
+<img src="/2017/11/12/View_CanvasApi/custoview_02.jpg" alt="customview" style="zoom: 25%;">
+
+<p>从字面意思 lineto,顾名思义肯定就有from的坐标点，再看这个借的图，第一条线是从原点开始的，第二条线是从A开始的，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path.close();  <span class="comment">//形成封闭的图形</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>   这些操作都可以叠加</p>
+<ul>
+<li><p>Rect RectF区别: Rect是使用int类型作为数值，RectF是使用float类型作为数值。</p>
+<p>四个参数是 矩形左上角和右下角两个点的坐标</p>
+</li>
+<li><p>画线</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Path path = <span class="keyword">new</span> Path();</span><br><span class="line">path.moveTo(<span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">path.rLineTo(<span class="number">100</span>, <span class="number">200</span>);</span><br><span class="line">canvas.drawPath(path, mPaint);</span><br></pre></td></tr></table></figure>
+
+<h5 id="Draw-Circle"><a href="#Draw-Circle" class="headerlink" title="Draw Circle"></a>Draw Circle</h5><ul>
+<li><p>画笔</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mPaint = <span class="keyword">new</span> <span class="constructor">Paint()</span>;</span><br><span class="line">mPaint.set<span class="constructor">Color(Color.BLUE)</span>;</span><br><span class="line">mPaint.set<span class="constructor">Style(Paint.Style.FILL)</span>; <span class="comment">// Fill是空心圆 ，STROKE实心圆,</span></span><br><span class="line">空心圆就需要设置setStrokeWidth这个属性</span><br></pre></td></tr></table></figure>
+
+<p>canvas.drawCircle(getWidth()/2,getHeight()/2,getWidth()/2,mPaint);</p>
+<p>public void drawArc(RectF oval, float startAngle, float sweepAngle, boolean useCenter, Paint paint)</p>
+<p>oval :指定圆弧的外轮廓矩形区域。<br>startAngle: 圆弧起始角度，单位为度。<br>sweepAngle: 圆弧扫过的角度(起始位置 X轴)，顺时针方向，单位为度,从右中间开始为零度。<br>useCenter: 如果为True时，在绘制圆弧时将圆心包括在内，通常用来绘制扇形</p>
+<p>RectF是矩形的内接圆,left top right bottom分别对象 左上角和右下角 坐标</p>
+</li>
+</ul>
+<h5 id="drawText"><a href="#drawText" class="headerlink" title="drawText"></a>drawText</h5><p>坐标(0,0)位于左下角</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">canvas</span>?.drawText(<span class="string">&quot;测试文字&quot;</span>,<span class="number">0</span>f,<span class="number">0</span>f,mPaint)</span><br></pre></td></tr></table></figure>
+
+<p>measure textSize </p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">val</span> kgRect = <span class="constructor">Rect()</span></span><br><span class="line">var kgText = <span class="string">&quot;hello world&quot;</span></span><br><span class="line">mDialPaint.get<span class="constructor">TextBounds(<span class="params">kgText</span>,0,<span class="params">kgText</span>.<span class="params">length</span>,<span class="params">kgRect</span>)</span></span><br><span class="line">var txtHeight = kgRect.height<span class="literal">()</span></span><br><span class="line">var txtWidth = kgRect.width<span class="literal">()</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">canvas</span><span class="selector-class">.drawPoint</span>(<span class="number">200</span>, <span class="number">200</span>, mPaint);</span><br><span class="line">       <span class="selector-tag">canvas</span><span class="selector-class">.drawPoints</span>(new <span class="attribute">float</span><span class="selector-attr">[]</span>&#123;          //绘制一组点，坐标位置由<span class="attribute">float</span>数组指定</span><br><span class="line">               <span class="number">500</span>, <span class="number">500</span>,</span><br><span class="line">               <span class="number">500</span>, <span class="number">600</span>,</span><br><span class="line">               <span class="number">500</span>, <span class="number">700</span></span><br><span class="line">       &#125;, mPaint);</span><br></pre></td></tr></table></figure>
+
+<p>位移(translate)</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在坐标原点绘制一个黑色圆形</span></span><br><span class="line">    <span class="selector-tag">canvas</span><span class="selector-class">.translate</span>(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">    <span class="selector-tag">canvas</span><span class="selector-class">.drawCircle</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, mPaint);</span><br><span class="line">    <span class="comment">// 在坐标原点绘制一个蓝色圆形</span></span><br><span class="line">    <span class="selector-tag">mPaint</span><span class="selector-class">.setColor</span>(Color.BLUE);</span><br><span class="line">    <span class="selector-tag">canvas</span><span class="selector-class">.translate</span>(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">    <span class="selector-tag">canvas</span><span class="selector-class">.drawCircle</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, mPaint);</span><br></pre></td></tr></table></figure>
+
+<p>缩放(scale)</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">canvas.translate(mWidth<span class="operator"> / </span><span class="number">2</span>, mHeight<span class="operator"> / </span><span class="number">2</span>);</span><br><span class="line">   RectF rect = <span class="keyword">new</span> <span class="constructor">RectF(0, -400, 400, 0)</span>;   <span class="comment">// 矩形区域</span></span><br><span class="line">   mPaint.set<span class="constructor">Color(Color.BLACK)</span>;           <span class="comment">// 绘制黑色矩形</span></span><br><span class="line">   canvas.draw<span class="constructor">Rect(<span class="params">rect</span>, <span class="params">mPaint</span>)</span>;</span><br><span class="line">   canvas.scale(-<span class="number">0.5</span>f, -<span class="number">0.5</span>f);          <span class="comment">// 画布缩放  &lt;-- 缩放中心向右偏移了200个单位</span></span><br><span class="line">   mPaint.set<span class="constructor">Color(Color.BLUE)</span>;            <span class="comment">// 绘制蓝色矩形</span></span><br><span class="line">   canvas.draw<span class="constructor">Rect(<span class="params">rect</span>, <span class="params">mPaint</span>)</span>;</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">   RectF rect = <span class="keyword">new</span> <span class="constructor">RectF(-400, -400, 400, 400)</span>;</span><br><span class="line">   canvas.draw<span class="constructor">Rect(<span class="params">rect</span>, <span class="params">mPaint</span>)</span>;</span><br><span class="line">   <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">       canvas.scale(<span class="number">0.9</span>f, <span class="number">0.9</span>f);</span><br><span class="line">       canvas.draw<span class="constructor">Rect(<span class="params">rect</span>, <span class="params">mPaint</span>)</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>旋转(rotate)</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">canvas</span><span class="selector-class">.rotate</span>(<span class="number">180</span>);</span><br></pre></td></tr></table></figure>
+
+<h5 id="drawPicture-三个方法"><a href="#drawPicture-三个方法" class="headerlink" title="drawPicture 三个方法"></a>drawPicture 三个方法</h5><blockquote>
+<p>public void drawPicture (Picture picture) </p>
+<p>public void drawPicture (Picture picture, Rect dst) </p>
+<p>public void drawPicture (Picture picture, RectF dst)</p>
+</blockquote>
+<h5 id="drawBitmap-三个方法"><a href="#drawBitmap-三个方法" class="headerlink" title="drawBitmap 三个方法"></a>drawBitmap 三个方法</h5><blockquote>
+<p>// 第一种 public void drawBitmap (Bitmap bitmap, Matrix matrix, Paint paint) </p>
+<p>// 第二种 public void drawBitmap (Bitmap bitmap, float left, float top, Paint paint)</p>
+<p>// 第三种 public void drawBitmap (Bitmap bitmap, Rect src, Rect dst, Paint paint) public void drawBitmap (Bitmap bitmap, Rect src, RectF dst, Paint paint)</p>
+</blockquote>
+<p>直接看第三种方法</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 指定图片绘制区域(左上角的四分之一)</span></span><br><span class="line">Rect src = <span class="keyword">new</span> <span class="constructor">Rect(0, 0, <span class="params">bitmap</span>.<span class="params">getWidth</span>()</span><span class="operator"> / </span><span class="number">2</span>, bitmap.get<span class="constructor">Height()</span><span class="operator"> / </span><span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指定图片在屏幕上显示的区域</span></span><br><span class="line">Rect dst = <span class="keyword">new</span> <span class="constructor">Rect(0, 0, 400, 500)</span>;</span><br><span class="line"><span class="comment">//绘制图片</span></span><br><span class="line">canvas.draw<span class="constructor">Bitmap(<span class="params">bitmap</span>, <span class="params">src</span>, <span class="params">dst</span>, <span class="params">null</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Angle</p>
+<p><strong>在常见的数学坐标系中角度增大方向为逆时针，</strong></p>
+<p><strong>在默认的屏幕坐标系中角度增大方向为顺时针。</strong></p>
+<p>sweepAngle扫过的角度</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">drawArc</span>(<span class="variable">@NonNull</span> RectF oval, float startAngle, float sweepAngle, boolean useCenter,</span><br><span class="line">        <span class="variable">@NonNull</span> Paint paint)</span><br></pre></td></tr></table></figure>
+
+<p>canvas?.drawArc(rectF,0f,145f,false,mDialPaint)</p>
+<h5 id="save-restore"><a href="#save-restore" class="headerlink" title="save restore"></a>save restore</h5><p>SaveRestoreView</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   canvas?.drawLine(<span class="number">0</span>f,<span class="number">200</span>f,<span class="number">700</span>f,<span class="number">200</span>f,linePaint)</span><br><span class="line"><span class="regexp">//</span>        canvas?.save()  <span class="regexp">//</span>将画布状态保存</span><br><span class="line">   canvas?.rotate(<span class="number">90</span>f, px <span class="regexp">/ 2, py /</span> <span class="number">2</span>);</span><br><span class="line"><span class="regexp">//</span>        canvas?.restore();<span class="regexp">//</span>恢复画布状态 这个操作能撤销到 上次保存的画布状态</span><br><span class="line">   canvas?.drawLine(<span class="number">0</span>f,<span class="number">400</span>f,<span class="number">700</span>f,<span class="number">400</span>f,bgPaint)</span><br></pre></td></tr></table></figure>
+
+<p>运行效果：</p>
+<img src="/2017/11/12/View_CanvasApi/Screen_Shot_2020-02-25_0.44.15.png" style="zoom: 50%;">
+
+
+
+<p>打开注释后的运行效果，这样运行后相当于 没有发生选择画布这件事。</p>
+<img src="/2017/11/12/View_CanvasApi/Screen_Shot_2020-02-25_10.46.05.png" alt="Screen_Shot_2020-02-25_10.46.05" style="zoom:50%;">
+
+
+
+<h4 id="saveslayer-图层"><a href="#saveslayer-图层" class="headerlink" title="saveslayer 图层"></a>saveslayer 图层</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cquwentao/article/details/51423371">https://blog.csdn.net/cquwentao/article/details/51423371</a></p>
+<p> <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0bd672626c8d">https://www.jianshu.com/p/0bd672626c8d</a></p>
+<p>Canvas demo</p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/better-programming/learn-all-android-canvas-draw-functions-dd5d6595884a">https://medium.com/better-programming/learn-all-android-canvas-draw-functions-dd5d6595884a</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/18/index.html">https://noteforme.github.io/page/18/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Gogs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/11/12/Gogs/">Gogs</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-11-12T01:08:56.000Z" itemprop="datePublished">2017年11月12日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/LINUX/">LINUX</a>
+  </div>
+
+      
+      
+<a href="/2017/11/12/Gogs/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>ubuntu 17.04  Gogs搭建git服务器</p>
+<h4 id="gogs-Install"><a href="#gogs-Install" class="headerlink" title="gogs Install"></a>gogs Install</h4><h5 id="创建git用户"><a href="#创建git用户" class="headerlink" title="创建git用户"></a>创建git用户</h5><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">sudo apt-get upgrade</span><br><span class="line"></span><br><span class="line">sudo adduser git <span class="regexp">//</span>创建用户  密码 ******* (<span class="number">1234</span>)</span><br><span class="line"></span><br><span class="line">su git<span class="regexp">//</span>切换到git用户</span><br><span class="line"></span><br><span class="line">cd ~  <span class="regexp">//</span>进入用户git根目录</span><br><span class="line"></span><br><span class="line">git --version <span class="regexp">//</span>检查git是否安装</span><br></pre></td></tr></table></figure>
+<p> 修改git密码</p>
+<p>　　到root下<br>　　passwd git<br>　　然后输入密码<br><a target="_blank" rel="noopener" href="http://wangchujiang.com/linux-command/c/passwd.html">http://wangchujiang.com/linux-command/c/passwd.html</a></p>
+<p><del>#　创建数据库</del></p>
+<p>这个可以选择默认的sqlite3救不需要安装mysql</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line">mysql&gt; <span class="keyword">SET</span> <span class="keyword">GLOBAL</span> storage_engine = <span class="string">&#x27;InnoDB&#x27;</span>;</span><br><span class="line">mysql&gt; <span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> gogs <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_bin;</span><br><span class="line">mysql&gt; <span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> gogs.* <span class="keyword">TO</span> ‘root’@‘localhost’ IDENTIFIED <span class="keyword">BY</span> ‘itadmin’;</span><br><span class="line">mysql&gt; FLUSH <span class="keyword">PRIVILEGES</span>;</span><br><span class="line">mysql&gt; QUIT；</span><br></pre></td></tr></table></figure>
+
+<p><del>##  安装golang环境(可以忽略)</del></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">su git</span><br><span class="line">环境变量</span><br><span class="line">export GOROOT=<span class="variable">$HOME</span>/go        <span class="comment">//目录下</span></span><br><span class="line">export GOARCH=amd64   #系统位数，<span class="number">386</span>表示<span class="number">32</span>位系统，amd64表示<span class="number">64</span>位系统。</span><br><span class="line">export GOOS=linux   #系统类型</span><br><span class="line">export PATH=<span class="variable">$PATH</span>:<span class="variable">$GOROOT</span>/bin</span><br><span class="line"></span><br><span class="line"><span class="comment">//使环境变量生效：</span></span><br><span class="line">source ~/.bashrc</span><br><span class="line"></span><br><span class="line">wget https:<span class="comment">//github.com/gogits/gogs/releases/download/v0.11.29/go1.9.2.linux-amd64.tar.gz</span></span><br><span class="line">tar zxvf  go1.<span class="number">9.2</span><span class="selector-class">.linux-amd64</span><span class="selector-class">.tar</span>.gz</span><br><span class="line">mv go <span class="variable">$GOROOT</span>  <span class="comment">//这一步有点问题，已存在文件</span></span><br><span class="line">go env <span class="comment">//测试这个一步　倒是没问题</span></span><br></pre></td></tr></table></figure>
+<h5 id="安装Gogs"><a href="#安装Gogs" class="headerlink" title="安装Gogs"></a>安装Gogs</h5><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">su git </span><br><span class="line">cd ~</span><br><span class="line">wget https:<span class="regexp">//gi</span>thub.com<span class="regexp">/gogits/g</span>ogs<span class="regexp">/releases/</span>download<span class="regexp">/v0.11.29/</span>linux_amd64.tar.gz</span><br><span class="line">tar zxvf  linux_amd64.tar.gz   <span class="regexp">//</span>解压后会右gogs文件</span><br><span class="line">  cd gogs</span><br><span class="line"> ./gogs web</span><br></pre></td></tr></table></figure>
+
+<h5 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h5><p>浏览器输入  <a target="_blank" rel="noopener" href="http://yourip:3000/install">http://yourip:3000/install</a>  进行配置</p>
+<p> 如图　把localhost改成yourip<br><img src="/2017/11/12/Gogs/Gogs-install.png" alt="安装图"></p>
+<h5 id="后台运行"><a href="#后台运行" class="headerlink" title="后台运行"></a>后台运行</h5><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">su git</span><br><span class="line"><span class="keyword">cd</span> <span class="string">/home/git/gogs</span> </span><br><span class="line">nohup <span class="string">./gogs</span> web&amp;</span><br></pre></td></tr></table></figure>
+<p>参考：<br><a target="_blank" rel="noopener" href="http://www.yuxang.com/%E4%BD%BF%E7%94%A8-gogs-%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84-git-%E6%9C%8D%E5%8A%A1%E5%99%A8/">雨巷前端</a> 雨巷前端</p>
+<h5 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h5><p>查找gogs目录     <code>find / -name &#39;gogs&#39; </code></p>
+<p>然后按照后台运行</p>
+<h4 id="Gogs-upgrade"><a href="#Gogs-upgrade" class="headerlink" title="Gogs upgrade"></a>Gogs upgrade</h4><blockquote>
+<p>sudo su - git</p>
+<p>cd ~</p>
+<p>pwd</p>
+<p>ls</p>
+<p>mv gogs gogs_old</p>
+<p>wget <a target="_blank" rel="noopener" href="https://dl.gogs.io/0.11.91/gogs_0.11.91_linux_amd64.tar.gz">https://dl.gogs.io/0.11.91/gogs_0.11.91_linux_amd64.tar.gz</a></p>
+<p>tar -zxvf gogs_0.11.91_linux_amd64.tar.gz </p>
+<p>ls</p>
+<p>cp -R gogs_old/{custom,data,log} gogs</p>
+<p>cd gogs</p>
+<p>./gogs web</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://gogs.io/docs/upgrade/upgrade_from_binary">https://gogs.io/docs/upgrade/upgrade_from_binary</a></p>
+<h4 id="clone地址为-localhost问题"><a href="#clone地址为-localhost问题" class="headerlink" title="clone地址为 localhost问题"></a>clone地址为 localhost问题</h4><p> /home/git/gogs/custom/conf下把app.ini，DOMAIN   ROOT_URL 改成主机ip</p>
+<h4 id="Draw"><a href="#Draw" class="headerlink" title="Draw"></a>Draw</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/root/</span>DRAW<span class="regexp">/apache-tomcat-8.5.65/</span>bin</span><br><span class="line">./startup.sh</span><br></pre></td></tr></table></figure>
+
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/18/index.html">https://noteforme.github.io/page/18/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-background_draw" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1494,259 +1825,6 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
 </article>
 
 
-  <article id="post-DesignPattern_Builder" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/10/07/DesignPattern_Builder/">DesignPattern-Builder</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-10-07T09:45:46.000Z" itemprop="datePublished">2017年10月07日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
-  </div>
-
-      
-      
-<a href="/2017/10/07/DesignPattern_Builder/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Builder模式"><a href="#Builder模式" class="headerlink" title="Builder模式"></a>Builder模式</h1><p>不直接生成想要的对象，而是让客户端利用所有必要的参数调用构造器（或者静态工厂），得到一个builder对象，然后客户端在builder对象上调用类似于setter的方法，来设置每个相关的可选参数</p>
-<p> 既能保证像重叠构造器模式那样的安全性，也能保证像JavaBeans模式那么好的可读性</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NutritionFacts_03_Builder</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> servingSize;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> servings;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> calories;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> fat;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> sodium;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> carbohydrate;</span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span>  <span class="class"><span class="keyword">class</span>  <span class="title">Builder</span></span>&#123;</span><br><span class="line">        <span class="comment">//Required parameters</span></span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> servingSize;</span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">final</span>  <span class="keyword">int</span> servings;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Optional parameters = initialized to default values</span></span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">int</span> calories     = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">int</span> fat          = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">int</span> carbohydrate = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">private</span>  <span class="keyword">int</span> sodium       = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">(<span class="keyword">int</span> servingSize, <span class="keyword">int</span> servings)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.servingSize = servingSize;</span><br><span class="line">            <span class="keyword">this</span>.servings = servings;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span>  Builder <span class="title">calories</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            calories = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  Builder <span class="title">fat</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.fat = fat;</span><br><span class="line">            <span class="keyword">return</span>  <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  Builder <span class="title">carbohydrate</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            carbohydrate = val;</span><br><span class="line">            <span class="keyword">return</span>  <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  Builder <span class="title">sodium</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            sodium = val;</span><br><span class="line">            <span class="keyword">return</span>  <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  NutritionFacts_03_Builder <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">return</span>  <span class="keyword">new</span> NutritionFacts_03_Builder(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">NutritionFacts_03_Builder</span><span class="params">(Builder builder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.servingSize = builder.servingSize;</span><br><span class="line">        <span class="keyword">this</span>.servings = builder.servings;</span><br><span class="line">        <span class="keyword">this</span>.calories = builder.calories;</span><br><span class="line">        <span class="keyword">this</span>.fat = builder.fat;</span><br><span class="line">        <span class="keyword">this</span>.sodium = builder.sodium;</span><br><span class="line">        <span class="keyword">this</span>.carbohydrate = builder.carbohydrate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        NutritionFacts_03_Builder cocaCola = <span class="keyword">new</span> NutritionFacts_03_Builder.Builder(<span class="number">240</span>,<span class="number">9</span>)</span><br><span class="line">                .calories(<span class="number">100</span>).sodium(<span class="number">35</span>).carbohydrate(<span class="number">27</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p> 返回的this时怎么替代对象的</p>
-<h5 id="对象创建更加灵活"><a href="#对象创建更加灵活" class="headerlink" title="对象创建更加灵活"></a>对象创建更加灵活</h5><p>当 isRef 为 true 的时候，arg 表示 String 类型的 refBeanId，type 不需要设置；当 isRef 为 false 的时候，arg、type 都需要设置</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConstructorArg</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">boolean</span> isRef;</span><br><span class="line">    <span class="keyword">private</span> Class <span class="keyword">type</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Object</span> arg;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="title">ConstructorArg</span>(<span class="params">Builder builder</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.isRef = isRef;</span><br><span class="line">        <span class="built_in">this</span>.type = <span class="keyword">type</span>;</span><br><span class="line">        <span class="built_in">this</span>.arg = arg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">boolean</span> isRef;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> Class <span class="keyword">type</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">Object</span> arg;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="title">Builder</span>(<span class="params"><span class="built_in">boolean</span> isRef</span>)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.isRef = isRef;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> Builder <span class="function"><span class="title">setType</span>(<span class="params">Class <span class="keyword">type</span></span>)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.type = <span class="keyword">type</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> Builder <span class="function"><span class="title">setArg</span>(<span class="params"><span class="built_in">Object</span> arg</span>)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.arg = arg;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> ConstructorArg <span class="function"><span class="title">build</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (isRef) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!(arg <span class="keyword">instanceof</span> <span class="built_in">String</span>)) &#123;</span><br><span class="line">                    <span class="comment">//这里refBeanId是ConstructorArg吗？只是判断了下arg类型是否为String</span></span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;当 isRef 为 true 的时候，arg 表示 String 类型refBeanId&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">type</span> != <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;当 isRef 为 true 的时候，type 不需要设置&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!isRef) &#123;</span><br><span class="line">                <span class="keyword">if</span> (arg == <span class="literal">null</span> || <span class="keyword">type</span> == <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;当 isRef 为 false 的时候，arg、type 都需要设置&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ConstructorArg(<span class="built_in">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/18/index.html">https://noteforme.github.io/page/18/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-Fragment" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/10/05/Fragment/">Fragment</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-10-05T11:54:50.000Z" itemprop="datePublished">2017年10月05日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2017/10/05/Fragment/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/app/Fragment.html">https://developer.android.com/reference/android/app/Fragment.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/components/fragments.html">https://developer.android.com/guide/components/fragments.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://wizardforcel.gitbooks.io/w3school-android/content/77.html">https://wizardforcel.gitbooks.io/w3school-android/content/77.html</a><br><a target="_blank" rel="noopener" href="https://juejin.im/post/5901b564570c35005804424b">https://juejin.im/post/5901b564570c35005804424b</a></p>
-<h4 id="Lifecycle"><a href="#Lifecycle" class="headerlink" title="Lifecycle"></a>Lifecycle</h4><p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/fragments/lifecycle">https://developer.android.com/guide/fragments/lifecycle</a></p>
-<ul>
-<li>onViewCreated(View view, Bundle savedInstanceState)</li>
-</ul>
-<p>Called immediately after <code>onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)</code> has returned, but before any saved state has been restored in to the view.</p>
-<img src="/2017/10/05/Fragment/fragment-view-lifecycle.png" alt="ff" style="zoom:67%;">
-
-
-
-<h5 id="fragment回调"><a href="#fragment回调" class="headerlink" title="fragment回调"></a>fragment回调</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var mListener: IFeedBackListener? &#x3D; null</span><br><span class="line"></span><br><span class="line">override fun onAttach(context: Context) &#123;</span><br><span class="line">    super.onAttach(context)</span><br><span class="line">    if (parentFragment is IFeedBackListener) &#123;</span><br><span class="line">        mListener &#x3D; parentFragment as IFeedBackListener</span><br><span class="line">    &#125; else if (context is IFeedBackListener) &#123;</span><br><span class="line">        mListener &#x3D; context</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        throw RuntimeException(context?.toString() + &quot; must implement ISelectListener&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://noteforme.github.io/2017/10/05/Fragment/">https://noteforme.github.io/2017/10/05/Fragment/</a></p>
-<h4 id="Fragment重叠"><a href="#Fragment重叠" class="headerlink" title="Fragment重叠"></a>Fragment重叠</h4><p> 横竖屏切换</p>
-<p>被系统回收（复现 进入开发者选项 -》不保留活动）</p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c12a98a36b2b">https://www.jianshu.com/p/c12a98a36b2b</a></p>
-<h5 id="BottomNavigationView-error"><a href="#BottomNavigationView-error" class="headerlink" title="BottomNavigationView error"></a>BottomNavigationView error</h5><p>使用BottomNavigationView出现很严重的问题,很久才找到原因</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Caused by: android.view.InflateException: Binary XML file line #16: Binary XML file line #16: Error inflating class com.google.android.material.bottomnavigation.BottomNavigationView</span><br><span class="line">    Caused by: android.view.InflateException: Binary XML file line #16: Error inflating class com.google.android.material.bottomnavigation.BottomNavigationView</span><br></pre></td></tr></table></figure>
-
-<p>因为 AndroidManifest.xml  application下的android:theme=”@style/AppTheme”多出了,把下面的删除了就好了.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;item name&#x3D;&quot;android:textColorSecondary&quot;&gt;#ffffff&lt;&#x2F;item&gt;</span><br><span class="line">&lt;item name&#x3D;&quot;android:actionOverflowButtonStyle&quot;&gt;@style&#x2F;OverflowMenuStyle&lt;&#x2F;item&gt;</span><br><span class="line">&lt;item name&#x3D;&quot;android:listDivider&quot;&gt;@drawable&#x2F;divider&lt;&#x2F;item&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="重叠原因"><a href="#重叠原因" class="headerlink" title="重叠原因"></a>重叠原因</h5><blockquote>
-<p> 旋转屏幕时候，创建的homeFragment会被回收,在销毁前，执行了onSaveInstanceState(Bundle outState)这个方法。这个方法会保存activity的一些信息，其中就包括添加过的fragment，Activity重建后，再次初始化homeFragment，接着显示，导致了重叠的问题。</p>
-</blockquote>
-<h5 id="代码验证"><a href="#代码验证" class="headerlink" title="代码验证"></a>代码验证</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">private fun initFragment() &#123;</span><br><span class="line">    if (homeFragment &#x3D;&#x3D; null) &#123;</span><br><span class="line">        homeFragment &#x3D; HomeFragment()</span><br><span class="line">        addFragment(homeFragment!!)</span><br><span class="line">        showFragment(homeFragment)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">    super.onCreate(savedInstanceState)</span><br><span class="line">    Timber.d(&quot;onCreate() $homeFragment&quot;)</span><br><span class="line">    initFragment()</span><br><span class="line">    Timber.d(&quot;initFragment() $homeFragment&quot;)   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> override fun onDestroy() &#123;</span><br><span class="line">        super.onDestroy()</span><br><span class="line">        Timber.tag(TAG).d(&quot;onDestroy() homeFragment $homeFragment&quot;)</span><br><span class="line"> &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>日志</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onCreate() taskId  641</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onCreate() homeFragment null</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: initFragment() homeFragment HomeFragment&#123;1adc3fa&#125; (b0660244-39c4-4104-b558-f5384c7adb0d) id&#x3D;0x7f09010e&#125;</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onStart()</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onResume()</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onPause()</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onSaveInstanceState()</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onStop()</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onDestroy()</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onDestroy() homeFragment HomeFragment&#123;1adc3fa&#125; (d84f5956-fa2c-4cd2-8397-0904040d2a6f)&#125;</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onCreate() taskId  641</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onCreate() homeFragment null</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: initFragment() homeFragment HomeFragment&#123;ac076db&#125; (f8ee348b-6ff7-4b1e-ba27-6e47e848f623) id&#x3D;0x7f09010e&#125;</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onStart()</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onRestoreInstanceState()</span><br><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onResume()</span><br></pre></td></tr></table></figure>
-
-<p>从 initFragment（） 1adc3fa , ac076db 可以看到，HomeFrgment重新创建了.</p>
-<h5 id="处理方法"><a href="#处理方法" class="headerlink" title="处理方法"></a>处理方法</h5><ol>
-<li><p>onSaveInstanceState 不保存信息</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onSaveInstanceState</span><span class="params">(outState: <span class="type">Bundle</span>)</span></span> &#123;</span><br><span class="line"><span class="comment">//        super.onSaveInstanceState(outState)</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>这种方式的弊端就是，切换后总是回到首页.</p>
-</li>
-<li><p>onSaveInstanceState() 保存Fragment</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">    super.onCreate(savedInstanceState)</span><br><span class="line"></span><br><span class="line">    if (savedInstanceState !&#x3D; null) &#123;</span><br><span class="line">        &#x2F;*获取保存的fragment  没有的话返回null*&#x2F;</span><br><span class="line">        homeFragment &#x3D; supportFragmentManager.getFragment(savedInstanceState, HOME_FRAGMENT_KEY) as HomeFragment?</span><br><span class="line">        healthFragment &#x3D; supportFragmentManager.getFragment(savedInstanceState, DASHBOARD_FRAGMENT_KEY) as HealthFragment?</span><br><span class="line">        personFragment &#x3D; supportFragmentManager.getFragment(savedInstanceState, NOTICE_FRAGMENT_KEY) as PersonFragment?</span><br><span class="line">        addToList(homeFragment)</span><br><span class="line">        addToList(healthFragment)</span><br><span class="line">        addToList(personFragment)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        initFragment()</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> override fun onSaveInstanceState(outState: Bundle) &#123;</span><br><span class="line">        super.onSaveInstanceState(outState)</span><br><span class="line">        Timber.d(&quot;MainActivity onSaveInstanceState&quot;)</span><br><span class="line">        &#x2F;*fragment不为空时 保存*&#x2F;if (homeFragment !&#x3D; null) &#123;</span><br><span class="line">            supportFragmentManager.putFragment(outState!!, HOME_FRAGMENT_KEY, homeFragment!!)</span><br><span class="line">        &#125;</span><br><span class="line">        if (healthFragment !&#x3D; null) &#123;</span><br><span class="line">            supportFragmentManager.putFragment(outState!!, DASHBOARD_FRAGMENT_KEY, healthFragment!!)</span><br><span class="line">        &#125;</span><br><span class="line">        if (personFragment !&#x3D; null) &#123;</span><br><span class="line">            supportFragmentManager.putFragment(outState!!, NOTICE_FRAGMENT_KEY, personFragment!!)</span><br><span class="line">        &#125;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>这种方式，可以解决问题，但是打印的日志HomeFragment还是不一样，是什么情况？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">D&#x2F;TabBottomActivity LaunchModeActivity: onCreate() taskId  4437</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: initFragment() homeFragment HomeFragment&#123;dc2914d&#125; (5f30b0dd-a8d2-4b3c-a27f-1d160a9da58e) id&#x3D;0x7f09010e&#125;</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onStart()</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onResume()</span><br><span class="line"> D&#x2F;TabBottomActivity$onCreate: navigation_health</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onPause()</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onSaveInstanceState()</span><br><span class="line"> D&#x2F;TabBottomActivity: MainActivity onSaveInstanceState</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onStop()</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onDestroy()</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onDestroy() homeFragment HomeFragment&#123;dc2914d&#125; (ab276ea2-5fa2-4d79-b6a6-af7143b114e8)&#125;</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onCreate() taskId  4437</span><br><span class="line"> D&#x2F;TabBottomActivity: fragmentList数量1</span><br><span class="line"> D&#x2F;TabBottomActivity: fragmentList数量2</span><br><span class="line"> D&#x2F;TabBottomActivity: fragmentList数量2</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: initFragment() homeFragment HomeFragment&#123;9139494&#125; (5f30b0dd-a8d2-4b3c-a27f-1d160a9da58e) id&#x3D;0x7f09010e&#125;</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onStart()</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onRestoreInstanceState()</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onResume()</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onPause()</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onSaveInstanceState()</span><br><span class="line"> D&#x2F;TabBottomActivity: MainActivity onSaveInstanceState</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onStop()</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onDestroy()</span><br><span class="line"> D&#x2F;TabBottomActivity LaunchModeActivity: onDestroy() homeFragment HomeFragment&#123;9139494&#125; (cadcb63f-8516-4d44-8f3c-75b0c8e9f27f)&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yuzhiqiang_1993/article/details/75014591">https://blog.csdn.net/yuzhiqiang_1993/article/details/75014591</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/78ec81b42f92">https://www.jianshu.com/p/78ec81b42f92</a></p>
-<h5 id="下面这种方式没理解"><a href="#下面这种方式没理解" class="headerlink" title="下面这种方式没理解"></a>下面这种方式没理解</h5><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d9143a92ad94">https://www.jianshu.com/p/d9143a92ad94</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c12a98a36b2b">https://www.jianshu.com/p/c12a98a36b2b</a></p>
-<h4 id="横竖屏切换，Fragment实例复用"><a href="#横竖屏切换，Fragment实例复用" class="headerlink" title="横竖屏切换，Fragment实例复用"></a>横竖屏切换，Fragment实例复用</h4><p>setRetainInstance=true</p>
-<p><strong>retainInstance = true已经过期，改用ViewModel</strong></p>
-<p>LifeFragment</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">    super.onCreate(savedInstanceState)</span><br><span class="line">    retainInstance &#x3D; true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">private fun initFragment() &#123;</span><br><span class="line">    var lifeFragment &#x3D; supportFragmentManager.findFragmentById(R.id.fl_content)</span><br><span class="line">    if (lifeFragment &#x3D;&#x3D; null) &#123;</span><br><span class="line">        lifeFragment &#x3D; LifeFragment()</span><br><span class="line">        supportFragmentManager.beginTransaction().add(R.id.fl_content, lifeFragment).commit()</span><br><span class="line">    &#125;</span><br><span class="line">    Timber.d(&quot;LifeFragment $lifeFragment&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>切换屏幕后 LifeFragment,ondestroy()没志行,后面的Oncreate()也没有创建.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">D&#x2F;LifeActivity LaunchModeActivity: onCreate() taskId  599</span><br><span class="line">D&#x2F;LifeActivity: LifeFragment LifeFragment&#123;6a86311&#125; (70133a14-6dcf-4f8b-beee-6cd31d6623ba) id&#x3D;0x7f090109&#125;</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onAttach(Context context)</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onCreate() savedInstanceState    null</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onCreateView()</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onActivityCreated()</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onStart()</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onResume()</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onPause() </span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onStop()</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onDestroyView()</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onDetach()</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onAttach(Context context)</span><br><span class="line">D&#x2F;LifeActivity LaunchModeActivity: onCreate() taskId  599</span><br><span class="line">D&#x2F;LifeActivity: LifeFragment LifeFragment&#123;6a86311&#125; (70133a14-6dcf-4f8b-beee-6cd31d6623ba) id&#x3D;0x7f090109&#125;</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onCreateView()</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onActivityCreated()</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onStart()</span><br><span class="line">D&#x2F;LifeFragment LaunchModeFragment: onResume()</span><br></pre></td></tr></table></figure>
-
-<h4 id="Fragment懒加载"><a href="#Fragment懒加载" class="headerlink" title="Fragment懒加载"></a>Fragment懒加载</h4><p>Fragment和ViewPager一起使用会有个预加载机制，会把旁白的Fragment的生命周期方法<br>前半段先执行，然后执行自身的生命周期方法</p>
-<p>在项目终从其他页面回到MainAcitivty的时候，三个页面的生命周期方法都跑了一遍</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　  D&#x2F;FinanceFragment         Test: onStart()</span><br><span class="line">D&#x2F;WealthFragment         Test: onStart()</span><br><span class="line">D&#x2F;MineFragment         Test: onStart()</span><br><span class="line">D&#x2F;FinanceFragment         Test: onResume()</span><br><span class="line">D&#x2F;WealthFragment         Test: onResume()</span><br><span class="line">D&#x2F;MineFragment         Test: onResume()</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">     </span><br><span class="line">    private boolean isPrepared;  &#x2F;&#x2F;判断view是否加载完成,在视图未初始化的时候，在lazyLoad当中就使用的话，就会有空指针的异常</span><br><span class="line">    private boolean isVisible;  &#x2F;&#x2F;判断当前Fragment是否可见状态,标志已经初始化完成，因为setUserVisibleHint是在onCreateView之前调用的</span><br><span class="line">	  @Override</span><br><span class="line">    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onViewCreated(view, savedInstanceState);</span><br><span class="line">        isPrepared &#x3D; true;</span><br><span class="line">        lazyLoad();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Nullable</span><br><span class="line">    @Override</span><br><span class="line">    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) &#123;</span><br><span class="line">&#x2F;&#x2F;        Log.d(TAG + &quot;         Test&quot;, &quot; onCreateView()&quot;);</span><br><span class="line"></span><br><span class="line">        if (rootView &#x3D;&#x3D; null) &#123;</span><br><span class="line">            int view &#x3D; setLayoutId();</span><br><span class="line">            if (view !&#x3D; 0) &#123;</span><br><span class="line">                rootView &#x3D; inflater.inflate(view, container, false);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            ViewGroup parent &#x3D; (ViewGroup) rootView.getParent();</span><br><span class="line">            if (parent !&#x3D; null) &#123;</span><br><span class="line">                parent.removeView(rootView);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        initView(rootView);</span><br><span class="line">        return rootView;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;  http:&#x2F;&#x2F;www.10tiao.com&#x2F;html&#x2F;565&#x2F;201702&#x2F;2247483988&#x2F;1.html</span><br><span class="line">    &#x2F;&#x2F; 标志位，标志已经初始化完成，因为setUserVisibleHint是在onCreateView之前调用的，</span><br><span class="line">    &#x2F;&#x2F; 在视图未初始化的时候，在lazyLoad当中就使用的话，就会有空指针的异常</span><br><span class="line">    private boolean isPrepared;</span><br><span class="line">    &#x2F;&#x2F;标志当前页面是否可见</span><br><span class="line">    private boolean isVisible;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void setUserVisibleHint(boolean isVisibleToUser) &#123;</span><br><span class="line">        super.setUserVisibleHint(isVisibleToUser);</span><br><span class="line">&#x2F;&#x2F;        Log.d(TAG + &quot;         Test&quot;, &quot; setUserVisibleHint() is Visible : ?  &quot; + isVisibleToUser);</span><br><span class="line"></span><br><span class="line">        if (getUserVisibleHint()) &#123;</span><br><span class="line">            isVisible &#x3D; true;</span><br><span class="line">            onVisible();</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            isVisible &#x3D; false;</span><br><span class="line">            onInvisible();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void onInvisible() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void onVisible() &#123;</span><br><span class="line">        lazyLoad();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void lazyLoad() &#123;</span><br><span class="line">        if (!isVisible || !isPrepared) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        requestData();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 请求数据</span><br><span class="line">     *&#x2F;</span><br><span class="line">    protected void requestData() &#123;</span><br><span class="line">        Log.d(TAG + &quot;         Test&quot;, &quot; requestData &quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>参考: <a target="_blank" rel="noopener" href="http://www.10tiao.com/html/565/201702/2247483988/1.html">http://www.10tiao.com/html/565/201702/2247483988/1.html</a></p>
-<h4 id="Activity-dialogFragment-的事件回调"><a href="#Activity-dialogFragment-的事件回调" class="headerlink" title="Activity  dialogFragment 的事件回调"></a>Activity  dialogFragment 的事件回调</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">interface ISelectListener &#123;</span><br><span class="line">    fun getItemPosition(position: Int)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var mListener: ISelectListener? &#x3D; null</span><br><span class="line"></span><br><span class="line">override fun onAttach(context: Context) &#123;</span><br><span class="line">    super.onAttach(context)</span><br><span class="line">    if (parentFragment is ISelectListener)&#123;</span><br><span class="line">        mListener &#x3D; parentFragment  as ISelectListener</span><br><span class="line">    &#125;else if (context is ISelectListener) &#123;</span><br><span class="line">        mListener &#x3D; context</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        throw RuntimeException(context!!.toString() + &quot; must implement ISelectListener&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/components/fragments.html">https://developer.android.com/guide/components/fragments.html</a></p>
-<p>onHiddenChanged切换刷新</p>
-<p>使用hide()/show()发现生命周期基本不执行，不过可以用到这个onHiddenChanged();</p>
-<p>看下执行的生命周期;   从 SecondFragment 页面开始到 -&gt;FirstFragment </p>
-<blockquote>
-<p>07-18 15:53:25.128 7758-7758/com.mineutils D/SecondFragment: onAttach(Context context)<br>07-18 15:53:25.129 7758-7758/com.mineutils D/SecondFragment: onCreate()<br>07-18 15:53:25.142 7758-7758/com.mineutils D/SecondFragment: onCreateView()<br>07-18 15:53:25.148 7758-7758/com.mineutils D/SecondFragment:  onViewCreated<br>                                                                onActivityCreated()<br>                                                                onStart()<br>​                                                                  onResume()</p>
-<p>07-18 15:53:34.200 7758-7758/com.mineutils D/SecondFragment: onHiddenChanged hidden   true<br>07-18 15:53:34.207 7758-7758/com.mineutils D/FirstFragment:    onCreateView()<br>07-18 15:53:34.208 7758-7758/com.mineutils D/FirstFragment:    onViewCreated<br>                                                              onActivityCreated()<br>​                                                           onStart()</p>
-<p>07-18 15:53:53.968 7758-7758/com.mineutils D/FirstFragment: onHiddenChanged hidden   true<br>07-18 15:53:53.968 7758-7758/com.mineutils D/SecondFragment: onHiddenChanged hidden   false</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cml_blog/article/details/41411451">https://blog.csdn.net/cml_blog/article/details/41411451</a></p>
-<h4 id="fragment特性"><a href="#fragment特性" class="headerlink" title="fragment特性"></a>fragment特性</h4><h5 id="commitAllowingStateLoss-VS-commit-区别"><a href="#commitAllowingStateLoss-VS-commit-区别" class="headerlink" title="commitAllowingStateLoss VS  commit()区别"></a>commitAllowingStateLoss VS  commit()区别</h5><p><a target="_blank" rel="noopener" href="https://huxian99.github.io/2016/08/28/cj3qymo360000owxk9zp17alo/">https://huxian99.github.io/2016/08/28/cj3qymo360000owxk9zp17alo/</a></p>
-<h5 id="Fragment之间传递数据"><a href="#Fragment之间传递数据" class="headerlink" title="Fragment之间传递数据"></a>Fragment之间传递数据</h5><ol>
-<li><p>Fragment.setArguments()方法传递bundle</p>
-</li>
-<li><p>findFragmentById()找到tag,然后直接操作Framgent</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onArticleSelected</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">      ArticleFragment articleFrag = (ArticleFragment)</span><br><span class="line">              getSupportFragmentManager().findFragmentById(R.id.article_fragment);</span><br><span class="line">   </span><br><span class="line">      <span class="keyword">if</span> (articleFrag != <span class="keyword">null</span>) &#123;</span><br><span class="line">          articleFrag.updateArticleView(position);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          ArticleFragment newFragment = <span class="keyword">new</span> ArticleFragment();</span><br><span class="line">          Bundle args = <span class="keyword">new</span> Bundle();</span><br><span class="line">          args.putInt(ArticleFragment.ARG_POSITION, position);</span><br><span class="line">          newFragment.setArguments(args);</span><br><span class="line">   </span><br><span class="line">          FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();</span><br><span class="line">          transaction.replace(R.id.fragment_container, newFragment);</span><br><span class="line">          transaction.addToBackStack(<span class="keyword">null</span>);</span><br><span class="line">          transaction.commit();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>接口回调</p>
-</li>
-<li><p>ViewModel Livedata</p>
-</li>
-</ol>
-<h5 id="给已经创建frament传递数据"><a href="#给已经创建frament传递数据" class="headerlink" title="给已经创建frament传递数据"></a>给已经创建frament传递数据</h5><p>也是直接 Fragment.refresh(),第一行代码第三版P227，也是这样做的。</p>
-<h5 id="fragment回退栈"><a href="#fragment回退栈" class="headerlink" title="fragment回退栈"></a>fragment回退栈</h5><p>tx.addToBackStack(null); 添加回退功能，类似Activity压栈的过程</p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/fe16553ca2ca">https://www.jianshu.com/p/fe16553ca2ca</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhiyuan0932/article/details/52593039">https://blog.csdn.net/zhiyuan0932/article/details/52593039</a></p>
-<p>Fragment控制父Fragment展示</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/39491655/communication-between-nested-fragments-in-android">Communication between nested fragments in Android</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011481547/article/details/71552720">https://blog.csdn.net/u011481547/article/details/71552720</a></p>
-<p>Fragmet全局流程图</p>
-<p><a target="_blank" rel="noopener" href="https://kotlintc.com/articles/5693">https://kotlintc.com/articles/5693</a></p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/MOWdbI5IREjQP1Px-WJY1Q">https://mp.weixin.qq.com/s/MOWdbI5IREjQP1Px-WJY1Q</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5bcd58b6e51d45404c71d23f">https://juejin.im/post/5bcd58b6e51d45404c71d23f</a></p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/_hdbMOA2TVvX4jFnMu15bg">https://mp.weixin.qq.com/s/_hdbMOA2TVvX4jFnMu15bg</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/18/index.html">https://noteforme.github.io/page/18/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1765,6 +1843,14 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
       <ul>
         
           <li>
+            <a href="/2023/08/20/compose-layout/">compose_layout</a>
+          </li>
+        
+          <li>
+            <a href="/2023/08/19/compose/">compose</a>
+          </li>
+        
+          <li>
             <a href="/2023/08/09/LC-DP-BAG/">LC_DP_BAG</a>
           </li>
         
@@ -1774,14 +1860,6 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
         
           <li>
             <a href="/2023/01/10/RecyclerView-padding/">RecyclerView-padding</a>
-          </li>
-        
-          <li>
-            <a href="/2023/01/02/LC-GREEDY/">LC-GREEDY</a>
-          </li>
-        
-          <li>
-            <a href="/2022/12/27/viewBinding/">viewBinding</a>
           </li>
         
       </ul>
@@ -1794,7 +1872,7 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ANDROID/" style="font-size: 12.86px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 18.57px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.43px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 14.29px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 11.43px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.43px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.43px;">VIEW</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 17.14px;">coroutie</a> <a href="/tags/inter/" style="font-size: 15.71px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
+      <a href="/tags/ANDROID/" style="font-size: 12.86px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 18.57px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.43px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 14.29px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 11.43px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.43px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.43px;">VIEW</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/compose/" style="font-size: 11.43px;">compose</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 17.14px;">coroutie</a> <a href="/tags/inter/" style="font-size: 15.71px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
   </div>
 
@@ -1813,7 +1891,7 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年08月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年08月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1823,7 +1901,7 @@ public boolean onOptionsItemSelected(MenuItem item) &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compose/" rel="tag">compose</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 

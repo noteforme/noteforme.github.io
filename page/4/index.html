@@ -86,6 +86,155 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-Animation-Lottie" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/04/27/Animation-Lottie/">Animation-Lottie</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2022-04-27T01:56:05.000Z" itemprop="datePublished">2022年04月27日</time>
+</span>
+      
+      
+      
+<a href="/2022/04/27/Animation-Lottie/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>anim in RecycleView</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/af6df7e55834">https://www.jianshu.com/p/af6df7e55834</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/architecture/lifecycle">https://developer.android.com/topic/libraries/architecture/lifecycle</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/4/index.html">https://noteforme.github.io/page/4/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/anim/" rel="tag">anim</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-coroutie_channel6" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/04/23/coroutie_channel6/">coroutie_channel6</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2022-04-23T13:16:43.000Z" itemprop="datePublished">2022年04月23日</time>
+</span>
+      
+      
+      
+<a href="/2022/04/23/coroutie_channel6/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="channel"><a href="#channel" class="headerlink" title="channel"></a>channel</h4><h5 id="78-channel"><a href="#78-channel" class="headerlink" title="78 channel"></a>78 channel</h5><img src="/2022/04/23/coroutie_channel6/2022-04-23_9.17.16.png" alt="2022-04-23_9.17.16" style="zoom: 67%;">
+
+<p>channel是并发安全的队列,队列一定存在缓冲区满了，并且没有人调用receive取走函数，send就挂起</p>
+<ol start="82">
+<li><p>produce与actor</p>
+</li>
+<li><h5 id="复用多个await"><a href="#复用多个await" class="headerlink" title="复用多个await"></a>复用多个await</h5><p>多路复用</p>
+<p>网络和本地缓存获取数据，哪一个先返回就先用那个做展示</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> CoroutineScope.<span class="title">getUserFromLocal</span><span class="params">()</span></span> = async(Dispatchers.IO) &#123;</span><br><span class="line">    <span class="comment">// 模拟读取本地数据</span></span><br><span class="line">    delay(<span class="number">1000</span>)</span><br><span class="line">    <span class="string">&quot;getUserFromLocal&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> CoroutineScope.<span class="title">getUserFromNetwork</span><span class="params">()</span></span> = async(Dispatchers.IO) &#123;</span><br><span class="line">    <span class="comment">// 模拟读取网络数据</span></span><br><span class="line">    delay(<span class="number">500</span>)</span><br><span class="line">    <span class="string">&quot;getUserFromNetwork&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">testSelectAwait</span><span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">    GlobalScope.launch &#123;</span><br><span class="line">        <span class="keyword">val</span> userFromLocal = getUserFromLocal()</span><br><span class="line">        <span class="keyword">val</span> userFromNetwork = getUserFromNetwork()</span><br><span class="line">        <span class="keyword">val</span> select = select&lt;String&gt; &#123;</span><br><span class="line">            userFromLocal.onAwait &#123; it &#125;</span><br><span class="line">            userFromNetwork.onAwait &#123; it &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        println(select)</span><br><span class="line">    &#125;.join()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/4/index.html">https://noteforme.github.io/page/4/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-coroutie-operator4" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1161,283 +1310,6 @@
 </article>
 
 
-  <article id="post-coroutie-start2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/12/14/coroutie-start2/">coroutie-start2</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2021-12-14T00:05:39.000Z" itemprop="datePublished">2021年12月14日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
-  </div>
-
-      
-      
-<a href="/2021/12/14/coroutie-start2/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>runblocking会等待子协程执行完成.</p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uo4y1y7ZF?p=24&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1uo4y1y7ZF?p=24&amp;spm_id_from=pageDriver</a></p>
-<h5 id="P20-launch-async"><a href="#P20-launch-async" class="headerlink" title="P20 launch async"></a>P20 launch async</h5><p>Laugh 返回一个Job</p>
-<p>Async , 返回Deffrred.</p>
-<p><img src="/2021/12/14/coroutie-start2/2021-12-13_1.04.30.png" alt="2021-12-13_1.04.30"></p>
-<p><img src="/2021/12/14/coroutie-start2/2021-12-13_1.12.31.png"></p>
-<p>Async  返回执行结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Job1 finished.</span><br><span class="line"></span><br><span class="line">Job2 finished</span><br><span class="line"></span><br><span class="line">Job2 finished</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h5 id="P21-join与await等待协程的作业"><a href="#P21-join与await等待协程的作业" class="headerlink" title="P21 join与await等待协程的作业"></a>P21 join与await等待协程的作业</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test coroutine join`<span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">    <span class="keyword">val</span> job1 = launch() &#123;</span><br><span class="line">        delay(<span class="number">200</span>)</span><br><span class="line">        println(<span class="string">&quot;One&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    job1.join() <span class="comment">// job1执行完，再执行job2 job3</span></span><br><span class="line">    <span class="keyword">val</span> job2 = launch() &#123;</span><br><span class="line">        delay(<span class="number">200</span>)</span><br><span class="line">        println(<span class="string">&quot;Two&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">val</span> job3 = launch() &#123;</span><br><span class="line">        delay(<span class="number">200</span>)</span><br><span class="line">        println(<span class="string">&quot;Three&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test coroutine await`<span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">    <span class="comment">// 刷新界面，拿到执行结果后，再执行其他的。</span></span><br><span class="line">    <span class="keyword">val</span> job1 = async() &#123;</span><br><span class="line">        delay(<span class="number">200</span>)</span><br><span class="line">        println(<span class="string">&quot;One&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    job1.await() <span class="comment">// job1执行完，再执行job2 job3</span></span><br><span class="line">    <span class="keyword">val</span> job2 = async() &#123;</span><br><span class="line">        delay(<span class="number">200</span>)</span><br><span class="line">        println(<span class="string">&quot;Two&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">val</span> job3 = async() &#123;</span><br><span class="line">        delay(<span class="number">200</span>)</span><br><span class="line">        println(<span class="string">&quot;Three&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>区别是await可以拿到执行结果，</p>
-<p>接口1请求成功，拿到接口，再请求其他接口。</p>
-<p>launch启动用 join()</p>
-<p>async启动用 await()</p>
-<h5 id="P22-async组合并发"><a href="#P22-async组合并发" class="headerlink" title="P22 async组合并发"></a>P22 async组合并发</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test sync`<span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">    <span class="keyword">val</span> time = measureTimeMillis &#123;</span><br><span class="line">        <span class="keyword">val</span> one = doOne()  <span class="comment">// 同步，串行任务</span></span><br><span class="line">        <span class="keyword">val</span> two = doTwo()</span><br><span class="line">        println(<span class="string">&quot;The result : <span class="subst">$&#123;one + two&#125;</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    println(<span class="string">&quot;completed in <span class="variable">$time</span> ms&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test combine async`<span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">    <span class="keyword">val</span> time = measureTimeMillis &#123;</span><br><span class="line">        <span class="keyword">val</span> one = async&#123;doOne()&#125; <span class="comment">// 并发的两个异步任务</span></span><br><span class="line">        <span class="keyword">val</span> two = async&#123;doTwo()&#125;</span><br><span class="line">        println(<span class="string">&quot;The result : <span class="subst">$&#123;one.await() + two.await()&#125;</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    println(<span class="string">&quot;completed in <span class="variable">$time</span> ms&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">doOne</span><span class="params">()</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    delay(<span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">14</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">doTwo</span><span class="params">()</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    delay(<span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">25</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>执行的结果相加</p>
-<h5 id="协程的启动模式"><a href="#协程的启动模式" class="headerlink" title="协程的启动模式"></a>协程的启动模式</h5><p><img src="/2021/12/14/coroutie-start2/2021-12-14_9.17.33.png" alt="coroutie-start2"></p>
-<p>CoroutineStart.DEFAULT</p>
-<h5 id="p24-协程的作用域构建器"><a href="#p24-协程的作用域构建器" class="headerlink" title="p24 协程的作用域构建器"></a>p24 协程的作用域构建器</h5><p>runBlocking阻塞当前线程等待</p>
-<p><img src="/2021/12/14/coroutie-start2/2021-12-14_9.49.35.png" alt="coroutie-start2"></p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">coroutineScope &#123;</span><br><span class="line">    <span class="keyword">val</span> job1 = launch &#123;</span><br><span class="line">        delay(<span class="number">1000</span>)</span><br><span class="line">        println(<span class="string">&quot;Job1 finished.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">val</span> job2 = async &#123;</span><br><span class="line">        delay(<span class="number">1000</span>)</span><br><span class="line">        println(<span class="string">&quot;Job2 finished.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>coroutineScope 也需要等待子协程执行结束，和 runBlocking很像.</p>
-<p>区别coroutineScope是挂起函数.</p>
-<p>coroutineScope与supervisorScope</p>
-<p>还有SupervisorJob</p>
-<p><img src="/2021/12/14/coroutie-start2/2021-12-14_10.22.41.png" alt="coroutie-start2"></p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">coroutineScope &#123;</span><br><span class="line">    <span class="keyword">val</span> job1 = launch &#123;</span><br><span class="line">        delay(<span class="number">400</span>)</span><br><span class="line">        println(<span class="string">&quot;Job1 finished.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">val</span> job2 = async &#123;</span><br><span class="line">        delay(<span class="number">200</span>)</span><br><span class="line">        println(<span class="string">&quot;Job2 finished.&quot;</span>)</span><br><span class="line">        <span class="string">&quot;job2 result&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Job2 finished.<br>Job1 finished.</p>
-<p>job2中断 job1也中断</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test coroutineScope scope builder`<span class="params">()</span></span> = runBlocking &#123;</span><br><span class="line">    coroutineScope &#123;</span><br><span class="line">        <span class="keyword">val</span> job1 = launch &#123;</span><br><span class="line">            delay(<span class="number">400</span>)</span><br><span class="line">            println(<span class="string">&quot;job1 finished.&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">val</span> job2 = launch &#123;</span><br><span class="line">            delay(<span class="number">200</span>)</span><br><span class="line">            println(<span class="string">&quot;job2 finished.&quot;</span>)</span><br><span class="line">            <span class="string">&quot;job2 result&quot;</span></span><br><span class="line">            <span class="keyword">throw</span>  IllegalArgumentException()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>job2 finished.</p>
-<p>java.lang.IllegalArgumentException</p>
-<p>两个协程都退出</p>
-<p>job2中断 job1继续</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Test</span><br><span class="line">fun &#96;test supervisorScope scope builder&#96;() &#x3D; runBlocking &#123;</span><br><span class="line">    supervisorScope &#123;</span><br><span class="line">        val job1 &#x3D; launch &#123;</span><br><span class="line">            delay(400)</span><br><span class="line">            println(&quot;job1 finished.&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">        val job2 &#x3D; launch &#123;</span><br><span class="line">            delay(200)</span><br><span class="line">            println(&quot;job2 finished.&quot;)</span><br><span class="line">            &quot;job2 result&quot;</span><br><span class="line">            throw  IllegalArgumentException()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>job2 finished.<br>Exception in thread “Test worker @coroutine#3”</p>
-<p>Job1 finished.</p>
-<h5 id="25-Job的生命周期"><a href="#25-Job的生命周期" class="headerlink" title="25 Job的生命周期"></a>25 Job的生命周期</h5><img src="/2021/12/14/coroutie-start2/2022-03-20_10.46.51.png" alt="2022-03-20_10.46.51" style="zoom:67%;">
-
-
-
-<img src="/2021/12/14/coroutie-start2/2022-03-20_10.47.57.png" alt="2022-03-20_10.47.57" style="zoom:67%;">
-
-
-
-
-
-<h3 id="协程的取消"><a href="#协程的取消" class="headerlink" title="协程的取消"></a>协程的取消</h3><img src="/2021/12/14/coroutie-start2/2022-03-20_10.58.25.png" alt="2022-03-20_10.58.25" style="zoom:67%;">
-
-
-
-
-
-<h5 id="26-取消作用域"><a href="#26-取消作用域" class="headerlink" title="26-取消作用域"></a>26-取消作用域</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> `test scope cancel`<span class="params">()</span></span> = runBlocking&lt;<span class="built_in">Unit</span>&gt; &#123;</span><br><span class="line">        <span class="keyword">val</span> scope = CoroutineScope(Dispatchers.Default)</span><br><span class="line">        scope.launch &#123;</span><br><span class="line">            delay(<span class="number">1000</span>)</span><br><span class="line">            println(<span class="string">&quot;Job 1.&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        scope.launch &#123;</span><br><span class="line">            delay(<span class="number">1000</span>)</span><br><span class="line">            println(<span class="string">&quot;Job 2.&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        delay(2000)  //需要加这个才能看到 打印,CoroutineScope没有继承runBlocking的上下文</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test scope cancel`<span class="params">()</span></span> = runBlocking&lt;<span class="built_in">Unit</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> scope = CoroutineScope(Dispatchers.Default)</span><br><span class="line">    scope.launch &#123;</span><br><span class="line">        delay(<span class="number">1000</span>)</span><br><span class="line">        println(<span class="string">&quot;Job 1.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    scope.launch &#123;</span><br><span class="line">        delay(<span class="number">1000</span>)</span><br><span class="line">        println(<span class="string">&quot;Job 2.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    delay(<span class="number">100</span>)  <span class="comment">//需要加这个才能看到 打印</span></span><br><span class="line">    scope.cancel()</span><br><span class="line">    delay(<span class="number">2000</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>CorountineScope和corountineScope的区别(大小写的区别，大写的可以取消)</p>
-<img src="/2021/12/14/coroutie-start2/2022-03-20_11.14.10.png" alt="2022-03-20_11.14.10" style="zoom:67%;">
-
-
-
-<h5 id="P27-取消兄弟协程"><a href="#P27-取消兄弟协程" class="headerlink" title="P27-取消兄弟协程"></a>P27-取消兄弟协程</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test scope cancel`<span class="params">()</span></span> = runBlocking&lt;<span class="built_in">Unit</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> scope = CoroutineScope(Dispatchers.Default)</span><br><span class="line">    <span class="keyword">val</span> job1 = scope.launch &#123;</span><br><span class="line">        delay(<span class="number">1000</span>)</span><br><span class="line">        println(<span class="string">&quot;Job 1.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> job2=scope.launch &#123;</span><br><span class="line">        delay(<span class="number">1000</span>)</span><br><span class="line">        println(<span class="string">&quot;Job 2.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    delay(<span class="number">100</span>)  <span class="comment">//需要加这个才能看到 打印</span></span><br><span class="line">    job1.cancel()</span><br><span class="line">    delay(<span class="number">2000</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>被取消的协程，不会影响其余的兄弟协程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Job 2.</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h5 id="28-协程取消的异常"><a href="#28-协程取消的异常" class="headerlink" title="28-协程取消的异常"></a>28-协程取消的异常</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> `test CancellationException `<span class="params">()</span></span> = runBlocking&lt;<span class="built_in">Unit</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> job1 = GlobalScope.launch &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            delay(<span class="number">1000</span>)</span><br><span class="line">            println(<span class="string">&quot;Job 1.&quot;</span>)</span><br><span class="line">        &#125;<span class="keyword">catch</span> (e:Exception)&#123;</span><br><span class="line">            e.printStackTrace()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    delay(<span class="number">100</span>)</span><br><span class="line">    job1.cancel(CancellationException(<span class="string">&quot;取消&quot;</span>))</span><br><span class="line">    job1.join() <span class="comment">// 否则不会打印GlobalScope不在runBlocking上下文</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>java.util.concurrent.CancellationException: 取消</p>
-<h3 id="cpu密集型任务取消"><a href="#cpu密集型任务取消" class="headerlink" title="cpu密集型任务取消"></a>cpu密集型任务取消</h3><h5 id="29cpu密集型任务取消-isActive"><a href="#29cpu密集型任务取消-isActive" class="headerlink" title="29cpu密集型任务取消 isActive"></a>29cpu密集型任务取消 isActive</h5><img src="/2021/12/14/coroutie-start2/2022-03-20_11.31.18.png" alt="2022-03-20_11.31.18" style="zoom:67%;">
-
-<p>isActive判断取消，否则还是计算5次,这个和线程while操作很像</p>
-<h5 id="p30-cpu密集型任务取消-ensureActive"><a href="#p30-cpu密集型任务取消-ensureActive" class="headerlink" title="p30- cpu密集型任务取消 - ensureActive"></a>p30- cpu密集型任务取消 - ensureActive</h5><p> 退出循环</p>
-<p><img src="/2021/12/14/coroutie-start2/2022-03-20_12.17.26.png" alt="2022-03-20_12.17.26"></p>
-<h5 id="p31-yiled取消"><a href="#p31-yiled取消" class="headerlink" title="p31-yiled取消"></a>p31-yiled取消</h5><img src="/2021/12/14/coroutie-start2/2022-03-20_12.18.27.png" alt="2022-03-20_12.18.27" style="zoom:67%;">
-
-<img src="/2021/12/14/coroutie-start2/2022-03-20_12.19.29.png" alt="2022-03-20_12.19.29" style="zoom:50%;">
-
-
-
-
-
-<h5 id="p32-coroutine取消副作用"><a href="#p32-coroutine取消副作用" class="headerlink" title="p32-coroutine取消副作用"></a>p32-coroutine取消副作用</h5><img src="/2021/12/14/coroutie-start2/2022-03-20_12.26.32.png" alt="2022-03-20_12.26.32" style="zoom:67%;">
-
-<img src="/2021/12/14/coroutie-start2/2022-03-20_12.27.16.png" alt="2022-03-20_12.27.16" style="zoom:67%;">
-
-<h5 id="p33-标准函数use"><a href="#p33-标准函数use" class="headerlink" title="p33 标准函数use"></a>p33 标准函数use</h5><p>自动关闭文件对象</p>
-<p><img src="/2021/12/14/coroutie-start2/2022-03-20_12.29.38.png" alt="2022-03-20_12.29.38"></p>
-<p><img src="/2021/12/14/coroutie-start2/2022-03-20_12.30.36.png" alt="2022-03-20_12.30.36"></p>
-<h5 id="34不能取消的任务"><a href="#34不能取消的任务" class="headerlink" title="34不能取消的任务"></a>34不能取消的任务</h5><p>NonCancellable </p>
-<p><img src="/2021/12/14/coroutie-start2/2022-03-20_12.32.18.png" alt="2022-03-20_12.32.18"></p>
-<p><img src="/2021/12/14/coroutie-start2/2022-03-20_12.34.23.png" alt="2022-03-20_12.34.23"></p>
-<h5 id="35超时任务"><a href="#35超时任务" class="headerlink" title="35超时任务"></a>35超时任务</h5><p>网络请求超时</p>
-<p><img src="/2021/12/14/coroutie-start2/2022-03-20_12.38.56.png" alt="2022-03-20_12.38.56"></p>
-<p>超时1300后的处理</p>
-<p><img src="https://static001.geekbang.org/infoq/77/777b03f91e0335db9f67506ed186e143.png" alt="图片"></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/4/index.html">https://noteforme.github.io/page/4/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-Font" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/11/23/Font/">Font</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2021-11-23T14:15:14.000Z" itemprop="datePublished">2021年11月23日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2021/11/23/Font/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000011299402">https://segmentfault.com/a/1190000011299402</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4f9db19d9383">https://www.jianshu.com/p/4f9db19d9383</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/WaterYuanData/Camera2New/tree/SwitchLanguage/testlanguage">https://github.com/WaterYuanData/Camera2New/tree/SwitchLanguage/testlanguage</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7a81e5ef268d">https://www.jianshu.com/p/7a81e5ef268d</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/jdfkldjlkjdl/article/details/106279151">https://blog.csdn.net/jdfkldjlkjdl/article/details/106279151</a></p>
-<p><a target="_blank" rel="noopener" href="https://proandroiddev.com/change-language-programmatically-at-runtime-on-android-5e6bc15c758">https://proandroiddev.com/change-language-programmatically-at-runtime-on-android-5e6bc15c758</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/4/index.html">https://noteforme.github.io/page/4/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1456,6 +1328,14 @@
       <ul>
         
           <li>
+            <a href="/2023/08/20/compose-layout/">compose_layout</a>
+          </li>
+        
+          <li>
+            <a href="/2023/08/19/compose/">compose</a>
+          </li>
+        
+          <li>
             <a href="/2023/08/09/LC-DP-BAG/">LC_DP_BAG</a>
           </li>
         
@@ -1465,14 +1345,6 @@
         
           <li>
             <a href="/2023/01/10/RecyclerView-padding/">RecyclerView-padding</a>
-          </li>
-        
-          <li>
-            <a href="/2023/01/02/LC-GREEDY/">LC-GREEDY</a>
-          </li>
-        
-          <li>
-            <a href="/2022/12/27/viewBinding/">viewBinding</a>
           </li>
         
       </ul>
@@ -1485,7 +1357,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ANDROID/" style="font-size: 12.86px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 18.57px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.43px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 14.29px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 11.43px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.43px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.43px;">VIEW</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 17.14px;">coroutie</a> <a href="/tags/inter/" style="font-size: 15.71px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
+      <a href="/tags/ANDROID/" style="font-size: 12.86px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 18.57px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.43px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 14.29px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 11.43px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.43px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.43px;">VIEW</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/compose/" style="font-size: 11.43px;">compose</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 17.14px;">coroutie</a> <a href="/tags/inter/" style="font-size: 15.71px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
   </div>
 
@@ -1504,7 +1376,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年08月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年08月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1514,7 +1386,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compose/" rel="tag">compose</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 

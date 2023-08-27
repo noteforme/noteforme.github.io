@@ -86,6 +86,197 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-JCenterPublish" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/12/13/JCenterPublish/">JCenterPublish</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2019-12-12T22:30:57.000Z" itemprop="datePublished">2019年12月13日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/TOOL/">TOOL</a>
+  </div>
+
+      
+      
+<a href="/2019/12/13/JCenterPublish/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="nexus-sonatype"><a href="#nexus-sonatype" class="headerlink" title="nexus sonatype"></a>nexus sonatype</h5><ol>
+<li><p>主要步骤按照这个操作 <a target="_blank" rel="noopener" href="https://www.gcssloop.com/gebug/maven-private">https://www.gcssloop.com/gebug/maven-private</a></p>
+</li>
+<li><p>注意： 密码不再是　admin admin 123了按照这个步骤 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/fcb128e34c87">https://www.jianshu.com/p/fcb128e34c87</a></p>
+</li>
+<li><p>部署好一个平台后，sonatype-work复制过去，其他配置就不用再弄了，注意nexus-3.20.0-04-unix.tar.gz解压后也会有sonatype-work文件，可能会把之前的覆盖</p>
+</li>
+<li><p>运行</p>
+<p>在命令行工具中输入启动命令：</p>
+<p>software/nexus-3.20.0-04-mac/nexus-3.20.0-04/bin</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nexus <span class="literal">start</span></span><br></pre></td></tr></table></figure>
+
+<p>如果一切顺利，在等待几十秒到一两分钟之后就可以查看我们的仓库了，如果出错了，可以使用 run 命令来查看具体的出错原因：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># run 命令相当于 debug 模式，会输出所有的日志信息</span></span><br><span class="line">./nexus <span class="built_in">run</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>当然，Nexus 还有很多其他命令(例如:停止、重启、查看状态等)：</p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nexus &#123;start|<span class="type">stop</span>|<span class="type">run</span>|<span class="type">run</span>-redirect|<span class="type">status</span>|<span class="type">restart</span>|<span class="type">force</span>-reload&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意:windows启动是这样的 <code>.\nexus.exe /run</code></p>
+</li>
+<li><p>打包</p>
+</li>
+</ol>
+<p> 在配置完善后同步一下项目，就可以打开 gradle 命令菜单看到多出来了3个命令，双击即可执行对应的命令：</p>
+<ul>
+<li>pack：打包项目</li>
+<li>uploadToLocal：上传到本机仓库</li>
+<li>uploadToPublic：上传到公网仓库</li>
+</ul>
+<ol start="6">
+<li><p>查看</p>
+<p><code>http://localhost:8081</code> 即可查看，如果修改了端口号，后面写对应的端口号即可。如果是运行在服务器上，则在其他电脑上输入<code>http://&#123;服务器ip&#125;:&#123;port&#125;</code> IP 和对应的端口号。如果运行成功，则会看到类似如下界面：</p>
+</li>
+</ol>
+<h5 id="Prepare"><a href="#Prepare" class="headerlink" title="Prepare"></a>Prepare</h5><ul>
+<li>Setting the JDK path</li>
+</ul>
+<blockquote>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Open ~/.bash_profile </span><br><span class="line">export JAVA_HOME=<span class="constructor">$(<span class="operator">/</span><span class="params">usr</span><span class="operator">/</span><span class="params">libexec</span><span class="operator">/</span><span class="params">java_home</span>)</span></span><br><span class="line">source ~/.bash_profile</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://android.jlelse.eu/publishing-your-android-kotlin-or-java-library-to-jcenter-from-android-studio-1b24977fe450">https://android.jlelse.eu/publishing-your-android-kotlin-or-java-library-to-jcenter-from-android-studio-1b24977fe450</a></p>
+<h5 id="maven-center"><a href="#maven-center" class="headerlink" title="maven center"></a>maven center</h5><p>按照这个教程参考**<a href="git@121.41.17.19:library/TestMavenUp.git">TestMavenUp</a>*  就差不多了</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6c1d2688ed2d/">https://www.jianshu.com/p/6c1d2688ed2d/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0629548ab5a4">https://www.jianshu.com/p/0629548ab5a4</a></p>
+<p>可以把项目和jar放到同一个目录</p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/12/index.html">https://noteforme.github.io/page/12/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Math-Trigonometric-functions" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/12/08/Math-Trigonometric-functions/">Math_Trigonometric_functions</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2019-12-08T11:34:25.000Z" itemprop="datePublished">2019年12月08日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/Mathematics/">Mathematics</a>
+  </div>
+
+      
+      
+<a href="/2019/12/08/Math-Trigonometric-functions/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="Trigonometric-function"><a href="#Trigonometric-function" class="headerlink" title="Trigonometric function"></a>Trigonometric function</h5><p><a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/498563235">https://zhidao.baidu.com/question/498563235</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.shuxuele.com/algebra/trig-four-quadrants.html">https://www.shuxuele.com/algebra/trig-four-quadrants.html</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/12/index.html">https://noteforme.github.io/page/12/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-TEST-UNIT" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1103,188 +1294,6 @@
 </article>
 
 
-  <article id="post-Binder" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/08/11/Binder/">Binder</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2019-08-11T07:26:25.000Z" itemprop="datePublished">2019年08月11日</time>
-</span>
-      
-      
-      
-<a href="/2019/08/11/Binder/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h4 id="IPC方式"><a href="#IPC方式" class="headerlink" title="IPC方式"></a>IPC方式</h4><p>信号量</p>
-<p>共享内存 : 容易导致同步问题。因为用户端没法解决。</p>
-<p>Socket</p>
-<p>Binder: 服务端映射后， 官方解决了同步问题。</p>
-<p><img src="/2019/08/11/Binder/2021-08-11_9.56_qustion1.png"></p>
-<h4 id="多进程作用"><a href="#多进程作用" class="headerlink" title="多进程作用"></a>多进程作用</h4><p><img src="/2019/08/11/Binder/2021-08-11_8.40_function2.png"></p>
-<h4 id="Binder流程"><a href="#Binder流程" class="headerlink" title="Binder流程"></a>Binder流程</h4><p>![](Binder/2021-08-11 _8.31_binder_over.png)</p>
-<h4 id="Binder机制"><a href="#Binder机制" class="headerlink" title="Binder机制"></a>Binder机制</h4><h5 id="mmap作用"><a href="#mmap作用" class="headerlink" title="mmap作用"></a>mmap作用</h5><p>让一块虚拟内存 指向一块已知的物理内存。  这个物理内存是binder提供的。</p>
-<p><img src="/2019/08/11/Binder/2021-08-11_9_binder_function.png"></p>
-<h4 id="传统进程通信"><a href="#传统进程通信" class="headerlink" title="传统进程通信"></a>传统进程通信</h4><img src="/2019/08/11/Binder/2021-08-11_9.12_process_old.png" style="zoom: 33%;">
-
-
-
-<h4 id="Binder进程通信"><a href="#Binder进程通信" class="headerlink" title="Binder进程通信"></a>Binder进程通信</h4><img src="/2019/08/11/Binder/2021-08-11_9.13_process_now.png" style="zoom:33%;">
-
-
-
-
-
-
-
-<p><img src="/2019/08/11/Binder/2021-08-11_9.29.33_mmap.png"></p>
-<h5 id="查看进程分配的内存大小"><a href="#查看进程分配的内存大小" class="headerlink" title="查看进程分配的内存大小"></a>查看进程分配的内存大小</h5><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AppledeMacBook-Pro:MineUtils apple<span class="symbol">$</span> adb shell</span><br><span class="line">generic_x86:/ <span class="symbol">$</span> getprop dalvik.vm.<span class="built_in">heapsize</span></span><br><span class="line"><span class="number">512</span>m</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Hr4y1P7QC?from=search&amp;seid=18026610356055236655">https://www.bilibili.com/video/BV1Hr4y1P7QC?from=search&amp;seid=18026610356055236655</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Hr4y1P7QC?p=4">https://www.bilibili.com/video/BV1Hr4y1P7QC?p=4</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Hr4y1P7QC?p=5&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1Hr4y1P7QC?p=5&amp;spm_id_from=pageDriver</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/weidongshan/APP_0005_Binder_JAVA_App">https://github.com/weidongshan/APP_0005_Binder_JAVA_App</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1tW411i7aB?p=22">https://www.bilibili.com/video/BV1tW411i7aB?p=22</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/12/index.html">https://noteforme.github.io/page/12/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-Gradient" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/07/22/Gradient/">Gradient</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2019-07-22T09:41:27.000Z" itemprop="datePublished">2019年07月22日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/VIEW/">VIEW</a>
-  </div>
-
-      
-      
-<a href="/2019/07/22/Gradient/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h5 id="LinearGradient"><a href="#LinearGradient" class="headerlink" title="LinearGradient"></a>LinearGradient</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * LinearGradient</span></span><br><span class="line"><span class="comment"> * Create a shader that draws a linear gradient along a line.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> x0           The x-coordinate for the start of the gradient line</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> y0           The y-coordinate for the start of the gradient line</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> x1           The x-coordinate for the end of the gradient line</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> y1           The y-coordinate for the end of the gradient line</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> colors       The colors to be distributed along the gradient line</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> positions    May be null. The relative positions [0..1] of</span></span><br><span class="line"><span class="comment"> *                     each corresponding color in the colors array. If this is null,</span></span><br><span class="line"><span class="comment"> *                     the the colors are distributed evenly along the gradient line.</span></span><br><span class="line"><span class="comment"> 					 所占比例，渲染颜色所占比例,如果传null，则均匀渲染</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> tile         The Shader tiling mode</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">val colors = intArrayOf(</span><br><span class="line">    Color.RED, Color.GREEN, Color.BLUE</span><br><span class="line">)</span><br><span class="line">val positions = floatArrayOf(<span class="number">0.5</span>f, <span class="number">1</span>f, <span class="number">0.5</span>f)</span><br><span class="line">val linearGradient = LinearGradient(<span class="number">0</span>f, <span class="number">300</span>f, <span class="number">300</span>f, <span class="number">300</span>f, colors, positions, Shader.TileMode.CLAMP)</span><br><span class="line">val mPaint = Paint()</span><br><span class="line">mPaint.setShader(linearGradient)</span><br><span class="line">canvas?.drawRect(<span class="number">0</span>f, <span class="number">0</span>f, <span class="number">300</span>f, <span class="number">300</span>f, mPaint)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>LinearGradient（0f, 0f, 300f, 300f）,说明从 (0,0) 到(300,300)对角线方向渲染</p>
-<p><img src="/2019/07/22/Gradient/Gradient%5Cgradient_20171214100743840.png" alt="LinearGradient"></p>
-</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5fb82b189094">https://www.jianshu.com/p/5fb82b189094</a></p>
-<ul>
-<li><p>渐变模式 </p>
-<p>-CLAMP<br>边缘拉伸<br>-REPEAT<br>在水平和垂直两个方向上重复，相邻图像没有间隙<br>-MIRROR</p>
-<p>以镜像的方式在水平和垂直两个方向上重复，相邻图像有间隙</p>
-</li>
-</ul>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/12/index.html">https://noteforme.github.io/page/12/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1303,6 +1312,14 @@
       <ul>
         
           <li>
+            <a href="/2023/08/20/compose-layout/">compose_layout</a>
+          </li>
+        
+          <li>
+            <a href="/2023/08/19/compose/">compose</a>
+          </li>
+        
+          <li>
             <a href="/2023/08/09/LC-DP-BAG/">LC_DP_BAG</a>
           </li>
         
@@ -1312,14 +1329,6 @@
         
           <li>
             <a href="/2023/01/10/RecyclerView-padding/">RecyclerView-padding</a>
-          </li>
-        
-          <li>
-            <a href="/2023/01/02/LC-GREEDY/">LC-GREEDY</a>
-          </li>
-        
-          <li>
-            <a href="/2022/12/27/viewBinding/">viewBinding</a>
           </li>
         
       </ul>
@@ -1332,7 +1341,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ANDROID/" style="font-size: 12.86px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 18.57px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.43px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 14.29px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 11.43px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.43px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.43px;">VIEW</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 17.14px;">coroutie</a> <a href="/tags/inter/" style="font-size: 15.71px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
+      <a href="/tags/ANDROID/" style="font-size: 12.86px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 18.57px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.43px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 14.29px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 11.43px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.43px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.43px;">VIEW</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/compose/" style="font-size: 11.43px;">compose</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 17.14px;">coroutie</a> <a href="/tags/inter/" style="font-size: 15.71px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
   </div>
 
@@ -1351,7 +1360,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年08月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年08月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1361,7 +1370,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compose/" rel="tag">compose</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
