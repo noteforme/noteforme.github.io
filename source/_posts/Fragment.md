@@ -145,26 +145,37 @@ https://huxian99.github.io/2016/08/28/cj3qymo360000owxk9zp17alo/
 
 
 
-## Fragment 使用
+## Fragment 
 
-##### fragment回调
+#### Fragment tag
 
 ```
-var mListener: IFeedBackListener? = null
+    ArrayList<Op> mOps = new ArrayList<>();
 
-override fun onAttach(context: Context) {
-    super.onAttach(context)
-    if (parentFragment is IFeedBackListener) {
-        mListener = parentFragment as IFeedBackListener
-    } else if (context is IFeedBackListener) {
-        mListener = context
-    } else {
-        throw RuntimeException(context?.toString() + " must implement ISelectListener")
+    void doAddOp(int containerViewId, Fragment fragment, @Nullable String tag, int opcmd) {
+        if (tag != null) {
+            if (fragment.mTag != null && !tag.equals(fragment.mTag)) {
+                throw new IllegalStateException("Can't change tag of fragment "
+                        + fragment + ": was " + fragment.mTag
+                        + " now " + tag);
+            }
+            fragment.mTag = tag;
+        }
+
+        if (containerViewId != 0) {
+            if (fragment.mFragmentId != 0 && fragment.mFragmentId != containerViewId) {
+                throw new IllegalStateException("Can't change container ID of fragment "
+                        + fragment + ": was " + fragment.mFragmentId
+                        + " now " + containerViewId);
+            }
+            fragment.mContainerId = fragment.mFragmentId = containerViewId;
+        }
+
+        addOp(new Op(opcmd, fragment));
     }
-}
 ```
 
-https://noteforme.github.io/2017/10/05/Fragment/
+最终是把 fragment加入到 mOps 中
 
 
 
