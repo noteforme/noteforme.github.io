@@ -2,7 +2,7 @@
 title: ActivityLayout
 comments: true
 date: 2020-05-08 09:54:32
-tags: AOSP
+tags: XML
 categories: 
 ---
 
@@ -18,3 +18,10 @@ https://mp.weixin.qq.com/s/ii07I8Cy80MqjsqKkns_WQ
 
 https://www.jianshu.com/p/b5b1b8e1747f
 
+
+
+
+
+# 带你探究 LayoutInflater 布局解析原理
+
+https://juejin.cn/post/6886052422260228103

@@ -22,9 +22,13 @@ https://juejin.cn/post/7021398731056480269
 
 
 
-![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7df4cd3540e14c67beee5fbaff52e94f~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp?)
+![cb7551f416f143d99aeb8223af3bd776~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0](Fragment/cb7551f416f143d99aeb8223af3bd776~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.png)
 
 
+
+
+
+![2023-08-26-71](Fragment/2023-08-26-71.png)
 
 
 
@@ -37,9 +41,14 @@ static final int STOPPED = 3;          // 创建完成，没有开始
 static final int STARTED = 4;          // 开始运行，但是位于后台
 static final int RESUMED = 5;          // 显示到前台
 
+```
+
 作者：小松漫步
 链接：https://juejin.cn/post/7021398731056480269
-```
+
+
+
+下面的lifecycle也可以看到,fragment生命周期的状态转移。
 
 
 
@@ -75,9 +84,7 @@ static final int AWAITING_ENTER_EFFECTS = 6; // Upward state, awaiting enter eff
 static final int RESUMED = 7;                // Created started and resumed.
 ```
 
-
-
-<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/63280ec450454d56b03be2dd6d48a7fa~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" style="zoom: 67%;" />
+![63280ec450454d56b03be2dd6d48a7fa~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0](Fragment/63280ec450454d56b03be2dd6d48a7fa~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.png)
 
 
 
