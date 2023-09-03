@@ -86,6 +86,565 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-DesignPattern-Chain" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/07/22/DesignPattern-Chain/">DesignPattern_Chain</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-07-22T14:43:57.000Z" itemprop="datePublished">2020年07月22日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
+  </div>
+
+      
+      
+<a href="/2020/07/22/DesignPattern-Chain/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="传统方案OA系统审批问题"><a href="#传统方案OA系统审批问题" class="headerlink" title="传统方案OA系统审批问题"></a>传统方案OA系统审批问题</h5><p><img src="/2020/07/22/DesignPattern-Chain/2021-09-12_7.12.05_oa.png" alt="2021-09-12_7.12.05_oa"></p>
+<h5 id="职责链模式介绍"><a href="#职责链模式介绍" class="headerlink" title="职责链模式介绍"></a>职责链模式介绍</h5><p><img src="/2020/07/22/DesignPattern-Chain/2021-09-12_7.10.38_chain_describe.png" alt="2021-09-12_7.10.38_chain_describe"></p>
+<p>使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这个对象连城一条链，并沿着这条传递该请求。直到有一个对象处理它为止。</p>
+<p>![2021-09-12_7.11.21_ class](DesignPattern-Chain/2021-09-12_7.11.21_ class.png)</p>
+<p><img src="/2020/07/22/DesignPattern-Chain/2021-09-12_7.59.12_responsible_role.png" alt="2021-09-12_7.59.12_responsible_role"></p>
+<p><img src="/2020/07/22/DesignPattern-Chain/2021-09-12_8.10.25_implement.png" alt="2021-09-12_8.10.25_implement"></p>
+<h5 id="大话示例"><a href="#大话示例" class="headerlink" title="大话示例"></a>大话示例</h5><p>chain of Responsibility Pattern</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Request</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String requestType;</span><br><span class="line">    <span class="keyword">public</span> String requestContent;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> number;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Manager</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> String name;</span><br><span class="line">    <span class="keyword">protected</span> Manager superior;<span class="comment">//管理者上级</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Manager</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置管理者上级</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSuperior</span><span class="params">(Manager superior)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.superior = superior;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//申请请求</span></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">requestApplications</span><span class="params">(Request request)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonManager</span> <span class="keyword">extends</span>  <span class="title">Manager</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CommonManager</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">requestApplications</span><span class="params">(Request request)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;请假&quot;</span>.equals(request.requestType)&amp;&amp;request.number&lt;<span class="number">2</span>)&#123;</span><br><span class="line">            System.out.println(name+<span class="string">&quot; &quot;</span>+ request.requestContent+ <span class="string">&quot; 数量   &quot;</span>+ request.number+<span class="string">&quot; 被批准&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (superior!=<span class="keyword">null</span>)</span><br><span class="line">                superior.requestApplications(request);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MajorDomo</span> <span class="keyword">extends</span>  <span class="title">Manager</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MajorDomo</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">requestApplications</span><span class="params">(Request request)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;请假&quot;</span>.equals(request.requestType)&amp;&amp;request.number&lt;<span class="number">5</span>)&#123;</span><br><span class="line">            System.out.println(name+<span class="string">&quot; &quot;</span>+ request.requestContent+ <span class="string">&quot; 数量   &quot;</span>+ request.number+<span class="string">&quot; 被批准&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (superior!=<span class="keyword">null</span>)</span><br><span class="line">                superior.requestApplications(request);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GeneralManager</span> <span class="keyword">extends</span> <span class="title">Manager</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GeneralManager</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">requestApplications</span><span class="params">(Request request)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;请假&quot;</span>.equals(request.requestType) &amp;&amp; request.number &lt; <span class="number">5</span>) &#123;</span><br><span class="line">            System.out.println(name + <span class="string">&quot; &quot;</span> + request.requestContent + <span class="string">&quot; 数量   &quot;</span> + request.number + <span class="string">&quot;  被批准&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;加薪&quot;</span>.equals(request.requestType) &amp;&amp; request.number &lt; <span class="number">500</span>) &#123;</span><br><span class="line">            System.out.println(name + <span class="string">&quot; &quot;</span> + request.requestContent + <span class="string">&quot; 数量   &quot;</span> + request.number + <span class="string">&quot;  被批准&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;加薪&quot;</span>.equals(request.requestType) &amp;&amp; request.number &gt; <span class="number">500</span>) &#123;</span><br><span class="line">            System.out.println(name + <span class="string">&quot; &quot;</span> + request.requestContent + <span class="string">&quot; 数量   &quot;</span> + request.number + <span class="string">&quot;  再说吧&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">CommonManager commonManager = <span class="keyword">new</span> CommonManager(<span class="string">&quot;经理&quot;</span>);</span><br><span class="line">MajorDomo majorDomo = <span class="keyword">new</span> MajorDomo(<span class="string">&quot;总监&quot;</span>);</span><br><span class="line">GeneralManager generalManager = <span class="keyword">new</span> GeneralManager(<span class="string">&quot;总经理&quot;</span>);</span><br><span class="line"></span><br><span class="line">commonManager.setSuperior(majorDomo);<span class="comment">//设置上级</span></span><br><span class="line">majorDomo.setSuperior(generalManager);</span><br><span class="line"></span><br><span class="line">Request request = <span class="keyword">new</span> Request();</span><br><span class="line">request.requestType = <span class="string">&quot;请假&quot;</span>;</span><br><span class="line">request.number = <span class="number">4</span>;</span><br><span class="line">request.requestContent = <span class="string">&quot;去找小姐姐&quot;</span>;</span><br><span class="line">commonManager.requestApplications(request);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Request request1 = <span class="keyword">new</span> Request();</span><br><span class="line">request1.requestType = <span class="string">&quot;加薪&quot;</span>;</span><br><span class="line">request1.number = <span class="number">888</span>;</span><br><span class="line">request1.requestContent = <span class="string">&quot;给哥加薪&quot;</span>;</span><br><span class="line">commonManager.requestApplications(request1);</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="责任链模式作用"><a href="#责任链模式作用" class="headerlink" title="责任链模式作用"></a>责任链模式作用</h5><p><img src="/2020/07/22/DesignPattern-Chain/2021-09-12_8.44.01_function.png" alt="2021-09-12_8.44.01_function"></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1G4411c7N4?p=149&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1G4411c7N4?p=149&amp;spm_id_from=pageDriver</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45203607/article/details/120238491">https://blog.csdn.net/weixin_45203607/article/details/120238491</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/9/index.html">https://noteforme.github.io/page/9/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-Regular" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/07/20/Regular/">Regular</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2020-07-20T09:07:08.000Z" itemprop="datePublished">2020年07月20日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+      
+      
+<a href="/2020/07/20/Regular/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="Tool-Website"><a href="#Tool-Website" class="headerlink" title="Tool Website"></a>Tool Website</h4><p><a target="_blank" rel="noopener" href="https://regex101.com/">https://regex101.com/</a></p>
+<p><a target="_blank" rel="noopener" href="https://ihateregex.io/expr/password">https://ihateregex.io/expr/password</a><br><a target="_blank" rel="noopener" href="https://deerchao.cn/tools/wegester/">https://deerchao.cn/tools/wegester/</a></p>
+<h4 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h4><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwMTE5MTAyNjAxNzA5?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>读ASCII表 先读 “横”座标,后读 “纵” 座标.<br>例如：A , <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E4%BA%8C%E8%BF%9B%E5%88%B6&spm=1001.2101.3001.7020">二进制</a>是 0100 0001 十进制是 2^6 + 1 = 65 十六进制 41</p>
+<p>F : 二进制是 0100 0110 十进制是 2^6 + 2^2+2=70 十六进制 46</p>
+<h5 id="String中的数字转int"><a href="#String中的数字转int" class="headerlink" title="String中的数字转int"></a>String中的数字转int</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> digits = <span class="string">&quot;23&quot;</span></span><br><span class="line"><span class="keyword">val</span> c = digits[<span class="number">0</span>] - <span class="string">&#x27;0&#x27;</span> <span class="comment">// 50 - 48</span></span><br><span class="line">println(digits[<span class="number">0</span>].code) <span class="comment">// ASCII是 50  ,16进制是0x32,可以在表中查出是2</span></span><br><span class="line">println(<span class="string">&#x27;0&#x27;</span>.code)       <span class="comment">//ASCII是 48</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="正则意义对照表格"><a href="#正则意义对照表格" class="headerlink" title="正则意义对照表格"></a>正则意义对照表格</h4><p><a target="_blank" rel="noopener" href="https://www.jb51.net/shouce/jquery1.82/regexp.html">https://www.jb51.net/shouce/jquery1.82/regexp.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://baixin.ink/2016/03/21/regular-expression/">https://baixin.ink/2016/03/21/regular-expression/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Eq4y1E79W?p=4">https://www.bilibili.com/video/BV1Eq4y1E79W?p=4</a></p>
+<p><a target="_blank" rel="noopener" href="https://deerchao.cn/tutorials/regex/regex.htm">https://deerchao.cn/tutorials/regex/regex.htm</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions</a></p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-649dc1c3f285">https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-649dc1c3f285</a></p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><h4 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h4><h5 id="普通字符"><a href="#普通字符" class="headerlink" title="普通字符"></a>普通字符</h5><p>字母、数字、汉字、下划线、以及没有特殊定义的标点符号都是普通字符。直接匹配与之相同的字符</p>
+<p>-简单的转义字符</p>
+<table>
+<thead>
+<tr>
+<th>\n</th>
+<th>换行符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\t</td>
+<td>制表符</td>
+</tr>
+<tr>
+<td>\</td>
+<td>\本身</td>
+</tr>
+</tbody></table>
+<p>其他都是类似  ^ $  ( 这样匹配这些字符本身的（还有    ) { } ? + * | [ ]    ）</p>
+<h5 id="标准字符集合"><a href="#标准字符集合" class="headerlink" title="标准字符集合"></a>标准字符集合</h5><p> 能够与多种字符匹配的表达式  注意区分大小写 大写是相反的意思</p>
+<table>
+<thead>
+<tr>
+<th>\d</th>
+<th>任意一个数字，0-9中任意一个     \D 表示所有非数字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\w</td>
+<td>任意一个字母或下划线，也就是A-Z、a-z、0-9、_ 、中的任意一个</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>包括空格、制表符、换行符等空白字符中的任意一个</td>
+</tr>
+<tr>
+<td>.</td>
+<td>小数点可以匹配任意一个字符（除了换行符）。如果要匹配包括“\n”在内的所有字符，一般用 [\s\S]</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配任何非<strong>空白</strong>字符。等价于[^ \f\n\r\t\v]。 (注意是空白字符，不是空格)</td>
+</tr>
+</tbody></table>
+<h5 id="自定义字符集合"><a href="#自定义字符集合" class="headerlink" title="自定义字符集合"></a>自定义字符集合</h5><p>[]方括号匹配方式 ，能够匹配方括号中任意一个字符。<strong>^符号在方括号里表示 取反  方括号外表示零宽标记</strong>，见后面</p>
+<table>
+<thead>
+<tr>
+<th>[ab5@]</th>
+<th>匹配 “a”或“b”或“5”或“@”</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[^abc]</td>
+<td>匹配“a”、“b”、”c“之外的任意一个字符</td>
+</tr>
+<tr>
+<td>[f-k]</td>
+<td>匹配“f”-“k”之间的任意一个字母</td>
+</tr>
+<tr>
+<td>[^A-F0-3]</td>
+<td>匹配“A”-“F”，“0”-“3”之外的任意一个字符</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>正则表达式的特殊符号，被包含到中括号中则失去其特殊意义（就表示自身这个字符），除了^,-之外。</p>
+</li>
+<li><p>标准字符集合，除小数点外，如果被包含于中括号，自定义字符集合将包含该集合。</p>
+<p>比如： [\d.-+]将匹配：数字、小数点、+、- 本身意义，除非加转义字符\ </p>
+<p>上面两句一个意思呀</p>
+</li>
+</ul>
+<h4 id="量词Quantifier"><a href="#量词Quantifier" class="headerlink" title="量词Quantifier"></a>量词Quantifier</h4><p>修饰匹配次数的特殊符号</p>
+<table>
+<thead>
+<tr>
+<th>{n}</th>
+<th>表达式重复n次</th>
+<th>如：\d{6}  匹配6位数字  \d\d{6} 匹配7位数字  {\d\d}{6} 匹配12位数字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>{m,n}</td>
+<td>表达式至少重复m次，最多重复n次</td>
+<td></td>
+</tr>
+<tr>
+<td>{m,}</td>
+<td>至少重复m次</td>
+<td></td>
+</tr>
+<tr>
+<td>？</td>
+<td>匹配表达式0次或1次 ，相当于{0，1}</td>
+<td>如：a\d{0,1}b  a\d?b  是等价的</td>
+</tr>
+<tr>
+<td>+</td>
+<td>表达式至少出现1次,相当于{1，}</td>
+<td>如：a\d+b</td>
+</tr>
+<tr>
+<td>*</td>
+<td>表达式不出现或出现任意次</td>
+<td>相当于{0，}</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>选其中之一的条件            ｜匹配x或y。例如，“z</td>
+</tr>
+</tbody></table>
+<p>匹配次数中的贪婪模式 （匹配字符数越多越好，默认的）如\d{3,6} 会优先匹配 6位数字</p>
+<p>匹配次数中的非贪婪模式 （匹配字符越少越好，修饰匹配次数的特殊符号后再加上一个“？”号）</p>
+<p>对于 <code>2[0-4]\d|25[0-5]|[01]?\d\d?</code> 的ip地址解析可以这样理解<br> 2[0-4]\d :  200- 249<br> 25[0-5]  :  250 - 255<br> [01]?\d\d? :  0- 199<br> 这样就覆盖了所有能填的ip地址。</p>
+<h5 id="n"><a href="#n" class="headerlink" title="{n}"></a>{n}</h5><p> o{2}”<br> 不能匹配“Bob”中的“o”，因为只有1个o, 但是能匹配“food”中的两个o .</p>
+<p> {n,}<br> n是一个非负整数。至少匹配n次。例如，“o{2,}”不能匹配“Bob”中的“o”，但能匹配“foooood”中的所有o。“o{1,}”等价于“o+”。“o{0,}”则等价于“o*”。</p>
+<h4 id="字符边界-零宽，不占长度"><a href="#字符边界-零宽，不占长度" class="headerlink" title="字符边界(零宽，不占长度)"></a>字符边界(零宽，不占长度)</h4><p>-（本组标记匹配的不是字符而是位置，符合某种条件的位置）</p>
+<table>
+<thead>
+<tr>
+<th>^</th>
+<th>匹配输入字符串的开始位置，除非在方括号表达式中使用，当该符号在方括号表达式中使用时，表示不接受该方括号表达式中的字符集合。要匹配 <code>^</code> 字符本身，请使用 <code>\^</code>。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$</td>
+<td>与字符结束的地方匹配</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>匹配一个单词边界</td>
+</tr>
+</tbody></table>
+<p><code>^</code> []部分也有描述.</p>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/regexp/regexp-syntax.html">https://www.runoob.com/regexp/regexp-syntax.html</a></p>
+<p>REG : John\b</p>
+<p>John 匹配 可以看到 John_    下划线_就是\b的位置，他的左侧n 匹配，但是右侧空格不匹配 \w,所以就是不全是\w,所以匹配。</p>
+<p>-\b匹配这样一个位置：前面的字符和后面的字符不全是\w （全是的就不匹配）</p>
+<p>如：^i  匹配 i开头的位置    i$ 匹配i结束的位置  hello\b  匹配前后不全是\w表示的hello </p>
+<h4 id="匹配模式"><a href="#匹配模式" class="headerlink" title="匹配模式"></a>匹配模式</h4><p>IGNORECASE</p>
+<p>忽略大小写 默认情况下正则表达式区分大小写(Case Insensitive)</p>
+<p>SINGLELINE</p>
+<p>单行模式  整个文本看作一个字符串，只有一个开头，一个结尾。使得小数点“.”可以匹配包含换行符（\n）在内的任意字符</p>
+<p>MULTILINE</p>
+<p>多行模式 每行都是一个字符串，都有开头和结尾。在指定了此模式后，如果需要仅匹配字符串开始和结束位置，可以使用\A和\Z</p>
+<p>如：\Ai匹配 第一行第一个i     ^i 匹配每一行第一个的i   i$匹配每一行的最后一个i  i\Z  匹配整个文档最后一个i</p>
+<h4 id="选择符和分组"><a href="#选择符和分组" class="headerlink" title="选择符和分组"></a>选择符和分组</h4><table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>作用</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>| 分支结构</td>
+<td>左右两边表达式之间 “或” 关系，匹配左边或者右边</td>
+<td>表示“或”   如 h</td>
+</tr>
+<tr>
+<td>()   捕获组</td>
+<td>(1) 在被修饰匹配次数的时候，括号中的表达式可以作为整体被修饰<br><br> (2)取匹配结果的时候，括号中的表达式匹配到的内容可以被单独地编号    <br><br> (3)每一对括号会被分配一个编号，使用（）的捕获根据左括号的顺序从1开始自动编号。捕获元素编号为零的第一 个捕获是由整个正则表达式模式匹配的内容</td>
+<td></td>
+</tr>
+<tr>
+<td>(?:Expression) 非捕获组</td>
+<td>一些表达式中，不得不使用（），但又不需要保存（）中的子表达式匹配的内容，这时可以用非捕获组来抵消使用（）带来的副作用。节省内存。</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="反向引用（-nnn）-nnn表示可以匹配多位数字"><a href="#反向引用（-nnn）-nnn表示可以匹配多位数字" class="headerlink" title="反向引用（\nnn）\nnn表示可以匹配多位数字"></a>反向引用（\nnn）\nnn表示可以匹配多位数字</h4><p>-每一对（）会分配一个编号，使用（）的捕获根据左括号的顺序从1开始自动编号。</p>
+<p>-通过反向引用，可以对分组已捕获的字符串进行引用。</p>
+<p>  如  ([a-z]{2})\1  中的\1 代表第一个组里的内容,匹配到gogo，toto，dodo这样的字符串。</p>
+<p>（）（）（） 捕获的内容分别用\1 \2 \3  编号以左括号为准。</p>
+<h4 id="后向引用"><a href="#后向引用" class="headerlink" title="后向引用"></a>后向引用</h4><p>使用小括号指定一个子表达式后，匹配这个子表达式的文本(也就是此分组捕获的内容)可以在表达式或其它程序中作进一步的处理。默认情况下，每个分组会自动拥有一个组号，规则是：从左向右，以分组的左括号为标志，第一个出现的分组的组号为1，第二个为2，以此类推。</p>
+<p>后向引用用于重复搜索前面某个分组匹配的文本。例如，\1代表分组1匹配的文本。难以理解？请看示例：</p>
+<p>\b(\w+)\b\s+\1\b可以用来匹配重复的单词，像go go, 或者kitty kitty。这个表达式首先是一个单词，也就是单词开始处和结束处之间的多于一个的字母或数字(\b(\w+)\b)，这个单词会被捕获到编号为1的分组中，然后是1个或几个空白符(\s+)，最后是分组1中捕获的内容（也就是前面匹配的那个单词）(\1)。</p>
+<p>上面 \1 就代表 go了， \2的表达式还没搞出来</p>
+<p><a target="_blank" rel="noopener" href="https://deerchao.cn/tutorials/regex/regex.htm">https://deerchao.cn/tutorials/regex/regex.htm</a></p>
+<h4 id=""><a href="#" class="headerlink" title="?"></a>?</h4><p>当该字符紧跟在任何一个其他限制符（*,+,?，{n}，{n,}，{n,m}）后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串“oooo”，“o+?”将匹配单个“o”，而“o+”将匹配所有“o”。</p>
+<p>预搜索（零宽断言）（也叫环视）</p>
+<ol>
+<li>只进行子表达式的匹配，匹配内容不计入最终的匹配结果，是零宽度,应该可以理解为只匹配，不消耗字符。</li>
+<li>这个位置应该符合某个条件。判断当前位置的前后字符，是否符合指定的条件，但不匹配前后的字符。<strong>是对位置的匹配</strong>。</li>
+<li>正则表达式匹配过程中，如果子表达式匹配到的是字符内容，而非位置，并被保存到最终的匹配结果中，那么就认为这个子表达式是占有字符的；如果子表达式匹配的仅仅是位置，或者匹配的内容并不保存到最终的匹配结果中，那么就认为这个子表达式是零宽度的。占有字符还是零宽度，是针对匹配的内容是否保存到最终的匹配结果中而言的。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(?=exp)</td>
+<td>断言自身出现的位置的后面能匹配表达式exp</td>
+</tr>
+<tr>
+<td>(?&lt;=exp)</td>
+<td>断言自身出现的位置的前面能匹配表达式exp</td>
+</tr>
+<tr>
+<td>(?!exp)</td>
+<td>断言此位置的后面不能匹配表达式exp</td>
+</tr>
+<tr>
+<td>(?&lt;!exp)</td>
+<td>断言此位置的前面不能匹配表达式exp</td>
+</tr>
+</tbody></table>
+<h5 id="pattern"><a href="#pattern" class="headerlink" title="(?:pattern)"></a>(?:pattern)</h5><p>匹配pattern但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用或字符“(|)”来组合一个模式的各个部分是很有用。</p>
+<p>例如<br>“industr(?:y|ies|he)”<br>就是一个比“industry|industries|industrhe”更简略的表达式。</p>
+<p>(?:foo){1,2}<br>如果表达式是 /foo{1,2}/，{1,2} 将只应用于 ‘foo’ 的最后一个字符 ‘o’，可以看上面的{n}。如果使用非捕获括号，则 {1,2} 会应用于整个 ‘foo’ 单词<br><img src="https://github.com/noteforme/noteforme.github.io/assets/6995071/9cffc9b1-a7ab-4a0d-912c-80a7691cc0d1" alt="image"><br><img src="https://github.com/noteforme/noteforme.github.io/assets/6995071/3c78f534-2dab-4ecf-beb9-63c5f638bbff" alt="image"><br>可以看到， foo最多匹配两个，超过的就分组了。</p>
+<h5 id="exp"><a href="#exp" class="headerlink" title="(?=exp)"></a>(?=exp)</h5><p>也叫零宽度正预测先行断言，它断言自身出现的位置的后面能匹配表达式exp。比如\b\w+(?=ing\b)，匹配以ing结尾的单词的前面部分(除了ing以外的部分)，<br>如查找I’m singing while you’re dancing.时，它会匹配sing和danc</p>
+<p>x(?=y)    需匹配文案x在前面<br>匹配’x’仅仅当’x’后面跟着’y’.这种叫做先行断言。<br>例如，/Jack(?=Sprat)/会匹配到’Jack’仅当它后面跟着’Sprat’。/Jack(?=Sprat|Frost)/匹配‘Jack’仅当它后面跟着’Sprat’或者是‘Frost’。但是‘Sprat’和‘Frost’都不是匹配结果的一部分。</p>
+<p>正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串。<br>这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。<br>例如，“Windows(?=95|98|NT|2000)”能匹配“Windows2000”中的“Windows”，但不能匹配“Windows3.1”中的“Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</p>
+<h5 id="pattern-1"><a href="#pattern-1" class="headerlink" title="(?!pattern)"></a>(?!pattern)</h5><p>正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串。<br>这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如“Windows(?!95|98|NT|2000)”能匹配“Windows3.1”中的“Windows”，但不能匹配“Windows2000”中的“Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始</p>
+<h5 id="lt-pattern"><a href="#lt-pattern" class="headerlink" title="(?&lt;=pattern)"></a>(?&lt;=pattern)</h5><p>反向肯定预查，** 与正向肯定预查类拟，只是方向相反 **。<br>例如，“(?&lt;=95|98|NT|2000)Windows”能匹配“2000Windows”中的“Windows”，但不能匹配“3.1Windows”中的“Windows”。</p>
+<p>(?&lt;=y)x<br>需匹配文案x在后面</p>
+<h5 id="lt-pattern-1"><a href="#lt-pattern-1" class="headerlink" title="(?&lt;!pattern)"></a>(?&lt;!pattern)</h5><p>反向否定预查，与正向否定预查类拟，只是方向相反。<br>例如“(?&lt;!95|98|NT|2000)Windows”能匹配“3.1Windows”中的“Windows”，但不能匹配“2000Windows”中的“Windows”。</p>
+<p><a target="_blank" rel="noopener" href="https://deerchao.cn/tutorials/regex/regex.htm">https://deerchao.cn/tutorials/regex/regex.htm</a></p>
+<p>(?&lt;=\d)[a-z]+</p>
+<p>22john</p>
+<p>如：[a-z]+(?=ing) 匹配ing结尾的字符串，但不匹配ing本身</p>
+<pre><code>   [a-z]+(?=\d+) 匹配数字结尾的字符串    
+</code></pre>
+<h3 id="常用的一些正则表达式"><a href="#常用的一些正则表达式" class="headerlink" title="常用的一些正则表达式"></a>常用的一些正则表达式</h3><h5 id="电话号码验证"><a href="#电话号码验证" class="headerlink" title="电话号码验证"></a>电话号码验证</h5><p>（包含固话和手机号，不能确认号码一定存在，只能匹配格式）</p>
+<p>（1）电话号码由数字和“-”构成</p>
+<p>（2）电话号码为7-8位</p>
+<p>（3）如果电话号码中包含有区号，那么区号为3位或4位，首位是0</p>
+<p>（4）区号用“-”和其他部分隔开</p>
+<p>（5）移动电话号码为11位</p>
+<p>（6）11位移动电话号码的第一位和第二位为“13”“15”“18”</p>
+<p> 固话   0\d{2,3}-\d{7,9}   手机号    1[35789]\d{9}</p>
+<h5 id="电子邮箱地址验证"><a href="#电子邮箱地址验证" class="headerlink" title="电子邮箱地址验证"></a>电子邮箱地址验证</h5><p>1.用户名：字母、数字、中划线、下划线组成</p>
+<p>2.@</p>
+<p>3.网址：字母、数字组成</p>
+<p>4.小数点。</p>
+<p>5.组织域名：2-4位字母组成</p>
+<p>不区分大小写</p>
+<p>[\w-]+@[a-z0-9A-Z]+(.[A-Za-z]{2,4}){1,2} </p>
+<p>如：<a href="mailto:&#115;&#x73;&#97;&#x68;&#100;&#x61;&#x68;&#100;&#x40;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#x6d;&#x2e;&#99;&#110;">&#115;&#x73;&#97;&#x68;&#100;&#x61;&#x68;&#100;&#x40;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#x6d;&#x2e;&#99;&#110;</a></p>
+<h5 id="常用正则表达式列表"><a href="#常用正则表达式列表" class="headerlink" title="常用正则表达式列表"></a>常用正则表达式列表</h5><table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[\u4e00-\u9fa5]</td>
+<td>匹配中文字符</td>
+</tr>
+<tr>
+<td>\n\s*\r</td>
+<td>匹配空白行</td>
+</tr>
+<tr>
+<td>`&lt;(\S*?)[^&gt;]<em>&gt;.</em>?&lt;/\1&gt;</td>
+<td>&lt;.*? /&gt;`</td>
+</tr>
+<tr>
+<td><code>^\s*\s*$</code></td>
+<td>匹配首尾空白字符</td>
+</tr>
+<tr>
+<td><code>\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*</code></td>
+<td>匹配Email地址</td>
+</tr>
+<tr>
+<td><code>[a-zA-z]+://[^\s]*</code></td>
+<td>匹配网址URL</td>
+</tr>
+<tr>
+<td><code>\d&#123;3&#125;-\d&#123;8&#125;\d&#123;4&#125;-\d&#123;7&#125;</code></td>
+<td>匹配国内电话号码</td>
+</tr>
+<tr>
+<td><code>[1-9][0-9]&#123;4,&#125;</code></td>
+<td>匹配腾讯QQ号</td>
+</tr>
+<tr>
+<td><code>[1-9]\d&#123;5&#125;(?!\d)</code></td>
+<td>匹配中国邮政编码</td>
+</tr>
+<tr>
+<td><code>\d&#123;15&#125;\d&#123;18&#125;</code></td>
+<td>匹配身份证</td>
+</tr>
+<tr>
+<td><code>\d+\.\d+\.\d+\.\d+</code></td>
+<td>匹配ip地址</td>
+</tr>
+</tbody></table>
+<p>括号</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ef4y1U7V4/?spm_id_from=333.788.recommend_more_video.-1">https://www.bilibili.com/video/BV1ef4y1U7V4/?spm_id_from=333.788.recommend_more_video.-1</a></p>
+<h3 id="工作学习中各种环境的使用"><a href="#工作学习中各种环境的使用" class="headerlink" title="工作学习中各种环境的使用"></a>工作学习中各种环境的使用</h3><h5 id="JAVA程序中使用正则表达式"><a href="#JAVA程序中使用正则表达式" class="headerlink" title="JAVA程序中使用正则表达式"></a>JAVA程序中使用正则表达式</h5><p>相关类位于：<strong>java.util.regex包下面</strong>：</p>
+<ol>
+<li><strong>类 Pattern：</strong><br> 正则表达式的编译表示形式。<br> Pattern p = Pattern.compile(r,int); //建立正则表达式，并启用相应模式</li>
+<li><strong>类 Matcher：</strong><br> 通过解释 Pattern 对 character sequence 执行匹配操作的引擎。<br> Matcher m = p.matcher(str); //匹配str字符串</li>
+<li><strong>java代码应用正则的查找、分组、替换、分割：</strong></li>
+</ol>
+<h5 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.bjsxt.regex.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.regex.Matcher;</span><br><span class="line"><span class="keyword">import</span> java.util.regex.Pattern;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试正则表达式对象的基本用法</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RegularTest</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//在这个字符串：abcd1234，是否符合指定的正则表达式：\w+</span></span><br><span class="line">		<span class="comment">//表达式对象</span></span><br><span class="line">		Pattern p = Pattern.compile(<span class="string">&quot;\\w+&quot;</span>);</span><br><span class="line">		<span class="comment">//创建Matcher对象</span></span><br><span class="line">		Matcher m = p.matcher(<span class="string">&quot;abcd￥￥1234&quot;</span>);</span><br><span class="line">		<span class="comment">//boolean result= m.matches();	//尝试将整个字符序列与该模式匹配</span></span><br><span class="line">		<span class="comment">//System.out.println(result);</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">//boolean result= m.find();	//该方法扫描输入的序列，查找与该模式匹配的下一个子序列</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">//System.out.println(m.find());</span></span><br><span class="line">		<span class="comment">//System.out.println(m.group());</span></span><br><span class="line">		<span class="comment">//System.out.println(m.find());</span></span><br><span class="line">		<span class="comment">//System.out.println(m.group());</span></span><br><span class="line">	</span><br><span class="line">		<span class="keyword">while</span>(m.find())&#123;</span><br><span class="line">			System.out.println(m.group());	<span class="comment">//group(),group(0)匹配整个表达式的子字符串</span></span><br><span class="line">			System.out.println(m.group(<span class="number">0</span>));</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.bjsxt.regex.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.regex.Matcher;</span><br><span class="line"><span class="keyword">import</span> java.util.regex.Pattern;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试正则表达式对象中分组的处理</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test2</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//在这个字符串：abcd1234，是否符合指定的正则表达式：\w+</span></span><br><span class="line">		<span class="comment">//表达式对象</span></span><br><span class="line">		Pattern p = Pattern.compile(<span class="string">&quot;([a-z]+)([0-9]+)&quot;</span>);</span><br><span class="line">		<span class="comment">//创建Matcher对象</span></span><br><span class="line">		Matcher m = p.matcher(<span class="string">&quot;abc123%%abcd234%abcde4567&quot;</span>);</span><br><span class="line">	</span><br><span class="line">		<span class="keyword">while</span>(m.find())&#123;</span><br><span class="line">			System.out.println(m.group());	<span class="comment">//group(),group(0)匹配整个表达式的子字符串</span></span><br><span class="line">			System.out.println(m.group(<span class="number">1</span>));</span><br><span class="line">			System.out.println(m.group(<span class="number">2</span>));</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>find用法</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Eq4y1E79W?p=4">https://www.bilibili.com/video/BV1Eq4y1E79W?p=4</a></p>
+<h5 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.bjsxt.regex.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.regex.Matcher;</span><br><span class="line"><span class="keyword">import</span> java.util.regex.Pattern;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试正则表达式对象的替换操作</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test3</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//表达式对象</span></span><br><span class="line">		Pattern p = Pattern.compile(<span class="string">&quot;[0-9]&quot;</span>);</span><br><span class="line">		<span class="comment">//创建Matcher对象</span></span><br><span class="line">		Matcher m = p.matcher(<span class="string">&quot;abc123%%abcd234%abcde4567&quot;</span>);</span><br><span class="line">		<span class="comment">//替换</span></span><br><span class="line">		String result= m.replaceAll(<span class="string">&quot;#&quot;</span>);</span><br><span class="line">		System.out.println(result);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="分割"><a href="#分割" class="headerlink" title="分割"></a>分割</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.bjsxt.regex.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.regex.Matcher;</span><br><span class="line"><span class="keyword">import</span> java.util.regex.Pattern;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试正则表达式对象的分割字符串的操作</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test4</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		String str = <span class="string">&quot;ab23jk123ji8890123asd&quot;</span>;</span><br><span class="line">		String[] arrs = str.split(<span class="string">&quot;\\d+&quot;</span>);</span><br><span class="line">		System.out.println(Arrays.toString(arrs));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="手写网络爬虫（基本原理-amp-乱码处理）"><a href="#手写网络爬虫（基本原理-amp-乱码处理）" class="headerlink" title="手写网络爬虫（基本原理&amp;乱码处理）"></a><strong>手写网络爬虫（基本原理&amp;乱码处理）</strong></h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.bjsxt.regex.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.net.MalformedURLException;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.nio.charset.Charset;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.regex.Matcher;</span><br><span class="line"><span class="keyword">import</span> java.util.regex.Pattern;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 网络爬虫取链接	</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebSpiderTest</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 获得urlStr对应的网页的源码内容</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> urlStr</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String  <span class="title">getURLContent</span><span class="params">(String urlStr,String charset)</span></span>&#123;</span><br><span class="line">		StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			URL url = <span class="keyword">new</span> URL(urlStr);</span><br><span class="line">			BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(url.openStream(),Charset.forName(charset)));</span><br><span class="line">			String temp = <span class="string">&quot;&quot;</span>;</span><br><span class="line">			<span class="keyword">while</span>((temp=reader.readLine())!=<span class="keyword">null</span>)&#123;</span><br><span class="line">				sb.append(temp);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> sb.toString();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title">getMatherSubstrs</span><span class="params">(String destStr,String regexStr)</span></span>&#123;</span><br><span class="line">		Pattern p = Pattern.compile(regexStr);	<span class="comment">//取到的超链接的地址</span></span><br><span class="line">		Matcher m = p.matcher(destStr);</span><br><span class="line">		List&lt;String&gt; result = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">		<span class="keyword">while</span>(m.find())&#123;</span><br><span class="line">			result.add(m.group(<span class="number">1</span>));</span><br><span class="line">		&#125;	</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		String destStr = getURLContent(<span class="string">&quot;http://www.163.com&quot;</span>,<span class="string">&quot;gbk&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//Pattern p = Pattern.compile(&quot;&lt;a[\\s\\S]+?&lt;/a&gt;&quot;);//取到的超链接的整个内容</span></span><br><span class="line">		List&lt;String&gt; result = getMatherSubstrs(destStr, <span class="string">&quot;href=\&quot;([\\w\\s./:]+?)\&quot;&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span> (String temp : result) &#123;</span><br><span class="line">			System.out.println(temp);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39636602/article/details/101236461">https://blog.csdn.net/qq_39636602/article/details/101236461</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ziishaned/learn-regex/blob/master/translations/README-cn.md">https://github.com/ziishaned/learn-regex/blob/master/translations/README-cn.md</a></p>
+<p><a target="_blank" rel="noopener" href="https://regexr.com/">https://regexr.com/</a></p>
+<h4 id="Ascii表"><a href="#Ascii表" class="headerlink" title="Ascii表"></a>Ascii表</h4><p><a target="_blank" rel="noopener" href="https://www.ascii-code.com/">https://www.ascii-code.com/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.regular-expressions.info/tutorial.html">https://www.regular-expressions.info/tutorial.html</a></p>
+<h4 id="密码判断断言"><a href="#密码判断断言" class="headerlink" title="密码判断断言"></a>密码判断断言</h4><p>必须包含一个字母或其他的字符</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/haoyul/p/12059737.html">https://www.cnblogs.com/haoyul/p/12059737.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1nY4y1q7Qr?spm_id_from=333.337.search-card.all.click">https://www.bilibili.com/video/BV1nY4y1q7Qr?spm_id_from=333.337.search-card.all.click</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1oz4y1C7Uf?p=4">https://www.bilibili.com/video/BV1oz4y1C7Uf?p=4</a></p>
+<p>(?=.*[A-Za-z]+)[A-Za-z@\/`’’‘,\.\(\)\-]{4,100}$</p>
+<p><img src="https://github.com/noteforme/noteforme.github.io/assets/6995071/11cc4f59-d9af-4d83-8330-f9405b8ad936" alt="image"></p>
+<p>从这个图可以看到，需要中间至少需要一个字母</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">^(?&#x3D;.*?[A-Z])(?&#x3D;.*?[^A-Za-z0-9]).&#123;6,12&#125;$</span><br><span class="line"></span><br><span class="line">(?&#x3D;.*?[A-Z])</span><br><span class="line">(?&#x3D;xxx)是零宽断言，表示后面的字符串必须符合xxx这个正则表达式，但是不消耗字符串，实际匹配字符串的正则是.&#123;6,12&#125;即6到12位字符 </span><br><span class="line">(?&#x3D;.*?[A-Z])表示后面必须符号.*?[A-Z]这个 ，即必须有大写字母</span><br><span class="line">整个正则表达式表示6到12位字符，必须有大写字母和不是字母数字的字符</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/1609169242401476667.html">https://zhidao.baidu.com/question/1609169242401476667.html</a></p>
+<h4 id="正则优先级"><a href="#正则优先级" class="headerlink" title="正则优先级"></a>正则优先级</h4><p>下图 从上到下，从左到右的优先级</p>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/regexp/regexp-operator.html">https://www.runoob.com/regexp/regexp-operator.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/1609169242401476667.html">https://zhidao.baidu.com/question/1609169242401476667.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.rexegg.com/regex-lookarounds.html">http://www.rexegg.com/regex-lookarounds.html</a></p>
+<h3 id="kotlin-regular"><a href="#kotlin-regular" class="headerlink" title="kotlin regular"></a>kotlin regular</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">validation</span><span class="params">(pattern: <span class="type">String</span>, str: <span class="type">String</span>?)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">if</span> (str.isNullOrEmpty()) &#123;</span><br><span class="line">        <span class="literal">false</span></span><br><span class="line">    &#125; <span class="keyword">else</span> Pattern.compile(pattern).matcher(str).matches()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="escape-character"><a href="#escape-character" class="headerlink" title="escape character"></a>escape character</h3><p>方括号（中括号）内的特殊字符不需要转义</p>
+<p>即使加了转义字符，也不会起作用 <code>[\\.]</code> 还是表示点</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[\^\[\-\]\\]</span><br></pre></td></tr></table></figure>
+
+<p>会改变字符组含义的才需要转义</p>
+<p>1、反斜线必须转义</p>
+<p>2、方括号必须转义</p>
+<p>3、「^」在首和「-」在中必须转义</p>
+<p>所以以下常见的字符是不需要转义的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[aeiou]</span><br><span class="line">[$.*+?&#123;&#125;()|]</span><br><span class="line">[abc^123-]</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/62542695">https://www.zhihu.com/question/62542695</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/s/%E6%AD%A3%E5%88%99%E4%B8%AD%E6%8B%AC%E5%8F%B7%E4%B8%AD%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E9%9C%80%E8%A6%81%E8%BD%AC%E4%B9%89%E5%90%97">https://juejin.cn/s/%E6%AD%A3%E5%88%99%E4%B8%AD%E6%8B%AC%E5%8F%B7%E4%B8%AD%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E9%9C%80%E8%A6%81%E8%BD%AC%E4%B9%89%E5%90%97</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/9/index.html">https://noteforme.github.io/page/9/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
   <article id="post-resume" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1086,314 +1645,6 @@
 </article>
 
 
-  <article id="post-annotation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/04/25/annotation/">annotation</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2020-04-25T14:38:39.000Z" itemprop="datePublished">2020年04月25日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
-  </div>
-
-      
-      
-<a href="/2020/04/25/annotation/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h3><h4 id="注解的作用"><a href="#注解的作用" class="headerlink" title="注解的作用"></a>注解的作用</h4><img src="/2020/04/25/annotation/2021-07-29_9.08.16_function.png" alt="ff">
-
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/briblue/article/details/73824058">https://blog.csdn.net/briblue/article/details/73824058</a></p>
-<ul>
-<li>提供信息给编译器： 编译器可以利用注解来探测错误和警告信息</li>
-<li>编译阶段时的处理：  软件工具可以用来利用注解信息来生成代码、Html文档或者做其它相应处理。</li>
-<li>运行时的处理：  某些注解可以在程序运行的时候接受代码的提取</li>
-</ul>
-<p>元注解 ： 不可以再分的注解， 负责注解其他注解。java定义了4个标准的meta-annotation类型,它们被用来提供对其它annotation类型作说明。Target Retention Documented Inherited</p>
-<p>​                如上图的 Overide被@Target和@Retention修饰，他们用来说明解释其他注解，位于 java.lang.annotation下</p>
-<h4 id="元注解类型"><a href="#元注解类型" class="headerlink" title="元注解类型"></a>元注解类型</h4><h5 id="Target"><a href="#Target" class="headerlink" title="Target"></a>Target</h5><p>用于描述注解的使用范围(注解可以用在什么地方)</p>
-<p>如 类 属性 方法等</p>
-<p><img src="/2020/04/25/annotation/2021-06-28_21-32-34_target.png"></p>
-<h5 id="Retention"><a href="#Retention" class="headerlink" title="Retention"></a>Retention</h5><p>需要什么级别保存该注释信息，用于保留注解的生命周期</p>
-<p><img src="/2020/04/25/annotation/2021-06-28_21-36-57_retention.png"></p>
-<h5 id="Inherited"><a href="#Inherited" class="headerlink" title="@Inherited"></a>@Inherited</h5><p>标明所修饰的注解，在所作用的类上，是否可以被继承。</p>
-<h5 id="Documented"><a href="#Documented" class="headerlink" title="@Documented"></a>@Documented</h5><p>javadoc的工具文档化</p>
-<h4 id="注解使用"><a href="#注解使用" class="headerlink" title="注解使用"></a>注解使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Sxt&#123;</span><br><span class="line"> 	<span class="function">String <span class="title">studentName</span><span class="params">()</span></span>;  <span class="comment">// studentName 参数名， String参数类型</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>注解元素必须要有值，我们定义注解元素时，经常使用空字符串，0作为默认值。</p>
-<p>也经常使用负数(比如:-1)表示不存在的含义</p>
-<p>annotation01</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)</span> <span class="comment">//针对方法 和类有效</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span>	<span class="comment">// 针对运行时有效</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Annotation01 &#123;</span><br><span class="line">    <span class="function">String <span class="title">studentName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">age</span><span class="params">()</span> <span class="keyword">default</span> 0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">id</span><span class="params">()</span> <span class="keyword">default</span> -1</span>; <span class="comment">// String indexOf(&quot;abc&quot;) -1</span></span><br><span class="line"></span><br><span class="line">    String[] schools() <span class="keyword">default</span> &#123;<span class="string">&quot;清华大学&quot;</span>,<span class="string">&quot;哈工大&quot;</span>&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Annotation02</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Annotation02 &#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果只有一个参数，一般写成value</p>
-<p>Demo01</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Annotation01</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo02</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Annotation01(age = 19, studentName = &quot;老高&quot;,</span></span><br><span class="line"><span class="meta">            id = 1001, schools = &#123;&quot;哈工大&quot;, &quot;清华大学&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Annotation02(value = &quot;aaaa&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Annotation02(&quot;aaaa&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用注解,参照 test01(),也可以省略”value=” 参见test02()</p>
-<h5 id="注解实例"><a href="#注解实例" class="headerlink" title="注解实例"></a>注解实例</h5><p>注解设置 SxtStudent信息，映射数据库</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = &#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SxtTable &#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = &#123;ElementType.FIELD&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SxtField &#123;</span><br><span class="line">    <span class="function">String <span class="title">columnName</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">String <span class="title">type</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SxtTable(&quot;tb_student&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SxtStudent</span> </span>&#123;</span><br><span class="line">    <span class="meta">@SxtField(columnName = &quot;id&quot;,type = &quot;int&quot;,length = 10)</span></span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">int</span> id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SxtField(columnName = &quot;sname&quot;,type = &quot;varchar&quot;,length = 10)</span></span><br><span class="line">    <span class="keyword">private</span> String studentName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SxtField(columnName = &quot;age&quot;,type = &quot;int&quot;,length = 3)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过第三方工具获取注解信息</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Class clazz = Class.forName(<span class="string">&quot;annotation.SxtStudent&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获得类的所有有效注解</span></span><br><span class="line">    Annotation[] annotations = clazz.getAnnotations();</span><br><span class="line">    <span class="keyword">for</span> (Annotation a:annotations)&#123;</span><br><span class="line">        System.out.println(a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//获得类的指定注解</span></span><br><span class="line">    SxtTable st = (SxtTable)clazz.getAnnotation(SxtTable.class);</span><br><span class="line">    System.out.println(st.value());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获得类的属性的注解</span></span><br><span class="line">    Field f = clazz.getDeclaredField(<span class="string">&quot;studentName&quot;</span>);</span><br><span class="line">    SxtField sxtField = f.getAnnotation(SxtField.class);</span><br><span class="line">    System.out.println(sxtField.columnName()+<span class="string">&quot;--&quot;</span> + sxtField.type()+<span class="string">&quot;---&quot;</span> + sxtField.length());</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>运行结果</p>
-<blockquote>
-<p>@annotation.SxtTable(value=tb_student)<br>tb_student<br>sname–varchar—10</p>
-</blockquote>
-<h5 id="反射实例"><a href="#反射实例" class="headerlink" title="反射实例"></a>反射实例</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">String path = <span class="string">&quot;reflection.User&quot;</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Class&lt;?&gt; clazz = Class.forName(path);</span><br><span class="line">    <span class="comment">//对象是表示或封装一些数据。一个类被加载后，JVM会创建一个对应该类的Class对象，类的整个结构信息会放到对应的CLass对象中。</span></span><br><span class="line">    <span class="comment">//这个Class对象就像一面镜子一样，通过这面镜子我可已看到对应类的全部信息。</span></span><br><span class="line">    System.out.println(clazz.hashCode());</span><br><span class="line"></span><br><span class="line">    Class clazz2 = Class.forName(path); <span class="comment">// 一个类对应的一个class对象</span></span><br><span class="line">    System.out.println(clazz2.hashCode());</span><br><span class="line"></span><br><span class="line">    Class intCLazz = <span class="keyword">int</span>.class;</span><br><span class="line">    <span class="keyword">int</span>[] arr01 = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">    <span class="keyword">int</span>[][] arr02 = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">30</span>][<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">int</span>[]arr03 = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">30</span>];</span><br><span class="line">    <span class="keyword">double</span>[] arr04 = <span class="keyword">new</span> <span class="keyword">double</span>[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line">    System.out.println(arr01.getClass().hashCode());</span><br><span class="line">    System.out.println(arr02.getClass().hashCode());</span><br><span class="line">    System.out.println(arr03.getClass().hashCode());</span><br><span class="line">    System.out.println(arr04.getClass().hashCode());</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=vZe5zG0vh3U&amp;list=PLC664nq_h8b9Jzh-qYJ_AeOpmSoBLC_tg&amp;index=1">https://www.youtube.com/watch?v=vZe5zG0vh3U&amp;list=PLC664nq_h8b9Jzh-qYJ_AeOpmSoBLC_tg&amp;index=1</a></p>
-<h3 id="注解处理器"><a href="#注解处理器" class="headerlink" title="注解处理器"></a>注解处理器</h3><p>是javac处理注解的一种工具，它用来在编译时扫描和处理注解。简单来说就是在编译器，通过注解采集信息，生成.java文件。减少重复代码的编写。</p>
-<h5 id="APT原理"><a href="#APT原理" class="headerlink" title="APT原理"></a>APT原理</h5><p><img src="/2020/04/25/annotation/2021-07-29_2.39.54_apt.png"></p>
-<p><img src="/2020/04/25/annotation/2021-07-29_2.10_process.png"></p>
-<h5 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h5><p><img src="/2020/04/25/annotation/2021-07-29_2.10.48_step.png"></p>
-<h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><p>APT就这固定的几步，网上demo可以生成，我的就是没法生成，原来是因为,@DIActivity类的头部没有设置</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DIActivity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>项目 MRouter</p>
-<h4 id="Arouter"><a href="#Arouter" class="headerlink" title="Arouter"></a>Arouter</h4><h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><p>获得当前程序在手机中对应的apk文件,使用classsloader:dexfile(PMS)，反射获取apk所有的类，筛选出注册activity的类。初始化</p>
-<h5 id="核心实现"><a href="#核心实现" class="headerlink" title="核心实现"></a>核心实现</h5><p><img src="/2020/04/25/annotation/2021-08-12_1.18_arouter.png"></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ly4y1W7f5?p=6&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1Ly4y1W7f5?p=6&amp;spm_id_from=pageDriver</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1nU4y1a79o?from=search&amp;seid=3188418579827888379">https://www.bilibili.com/video/BV1nU4y1a79o?from=search&amp;seid=3188418579827888379</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6925283352698159117#heading-14">https://juejin.cn/post/6925283352698159117#heading-14</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6947992544252788767">https://juejin.cn/post/6947992544252788767</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xx326664162/article/details/68490059">https://blog.csdn.net/xx326664162/article/details/68490059</a></p>
-<p><a target="_blank" rel="noopener" href="https://hanshuliang.blog.csdn.net/article/details/117072224">https://hanshuliang.blog.csdn.net/article/details/117072224</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/han1202012/APT">https://github.com/han1202012/APT</a></p>
-<h4 id="反射机制"><a href="#反射机制" class="headerlink" title="反射机制"></a>反射机制</h4><p>Java反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象都能够调用它的任意一个方法；这种动态获取的信息以及动态调用对象的方法的功能称为java的反射机制。</p>
-<h5 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> reflection;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodReflect</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addResult</span><span class="params">(<span class="keyword">int</span> addNum)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> addNum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用反射第一步:获取操作类MethodDemoFieldDemo所对应的Class对象</span></span><br><span class="line">Class &lt; ?&gt;cls = Class.forName(<span class="string">&quot;reflection.MethodReflect&quot;</span>);</span><br><span class="line"><span class="comment">//使用MethodDemo类的class对象生成 实例</span></span><br><span class="line">Object obj = cls.newInstance();</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取public int addResult(int addNum)方法</span></span><br><span class="line">Method addMethod = cls.getMethod(<span class="string">&quot;addResult&quot;</span>, <span class="keyword">new</span> Class[] &#123;</span><br><span class="line">        <span class="keyword">int</span>.class</span><br><span class="line">&#125;);</span><br><span class="line">System.out.println(<span class="string">&quot;修饰符: &quot;</span> + Modifier.toString(addMethod.getModifiers()));</span><br><span class="line">System.out.println(<span class="string">&quot;返回值: &quot;</span> + addMethod.getReturnType());</span><br><span class="line">System.out.println(<span class="string">&quot;方法名称: &quot;</span> + addMethod.getName());</span><br><span class="line">System.out.println(<span class="string">&quot;参数列表: &quot;</span> + addMethod.getParameterTypes());</span><br><span class="line"><span class="keyword">int</span> result = (<span class="keyword">int</span>) addMethod.invoke(obj, <span class="number">2</span>);</span><br><span class="line">System.out.println(<span class="string">&quot;调用addResult后的运行结果:&quot;</span> + result);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;--------------------------------&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取public String toString() 方法</span></span><br><span class="line">Method toStringMethod = cls.getMethod(<span class="string">&quot;toString&quot;</span>, <span class="keyword">new</span> Class[] &#123;&#125;);</span><br><span class="line">System.out.println(<span class="string">&quot;修饰符: &quot;</span> + Modifier.toString(toStringMethod.getModifiers()));</span><br><span class="line">System.out.println(<span class="string">&quot;返回值: &quot;</span> + toStringMethod.getReturnType());</span><br><span class="line">System.out.println(<span class="string">&quot;方法名称: &quot;</span> + toStringMethod.getName());</span><br><span class="line">System.out.println(<span class="string">&quot;参数列表: &quot;</span> + toStringMethod.getParameterTypes());</span><br><span class="line">String msg = (String) toStringMethod.invoke(obj);</span><br><span class="line">System.out.println(<span class="string">&quot;调用toString后的运行结果:&quot;</span> + msg);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>Method类的invoke(Object obj,Object  args[])方法接收的参数必须为对象,如果参数为基本类型数据,必须转换为相应的包装类型的对象。invoke()方法的返回值总是对象,如果实际被调用的方法的返回类型是基本类型数据,那么invoke()方法会把它转换为相应的包装类型的对象,再将其返回.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InvokeTester</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">InvokeTester</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> param1, <span class="keyword">int</span> param2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> param1 + param2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">echo</span><span class="params">(String mesg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;echo&quot;</span> + mesg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Class classType = InvokeTester.class;</span><br><span class="line">        Object invokertester = classType.newInstance(); <span class="comment">//1</span></span><br><span class="line">        Method addMethod = classType.getMethod(<span class="string">&quot;add&quot;</span>, <span class="keyword">new</span> Class[]&#123; <span class="comment">//2</span></span><br><span class="line">                <span class="keyword">int</span>.class,</span><br><span class="line">                <span class="keyword">int</span>.class</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        Object result = addMethod.invoke(invokertester, <span class="keyword">new</span> Object[]&#123; <span class="comment">//3</span></span><br><span class="line">                <span class="keyword">new</span> Integer(<span class="number">100</span>),</span><br><span class="line">                <span class="keyword">new</span> Integer(<span class="number">200</span>)</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        System.out.println(result);</span><br><span class="line">        Method echo = classType.getMethod(<span class="string">&quot;echo&quot;</span>, <span class="keyword">new</span> Class[]&#123;</span><br><span class="line">                String.class</span><br><span class="line">        &#125;);</span><br><span class="line">        Object obj = echo.invoke(invokertester, <span class="keyword">new</span> Object[]&#123;</span><br><span class="line">                <span class="keyword">new</span> String(<span class="string">&quot;Jon is very good!!!&quot;</span>)</span><br><span class="line">        &#125;);</span><br><span class="line">        System.out.println(obj.toString());</span><br><span class="line"></span><br><span class="line">        InvokeTester test = <span class="keyword">new</span> InvokeTester(); <span class="comment">//1</span></span><br><span class="line">        test.setName(<span class="string">&quot;黄翊&quot;</span>); <span class="comment">//2</span></span><br><span class="line">        <span class="comment">//Method[] methods;</span></span><br><span class="line">        Method[] methods = test.getClass().getDeclaredMethods(); <span class="comment">//3</span></span><br><span class="line">        <span class="comment">//循环查找获取id方法，并执行查看是否有返回值</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; methods.length; i++) &#123;</span><br><span class="line">            <span class="comment">//如果此方法有get和Id关键字则执行</span></span><br><span class="line">            <span class="keyword">if</span> (methods[i].getName().indexOf(<span class="string">&quot;get&quot;</span>) != -<span class="number">1</span> &amp;&amp; methods[i].getName().indexOf(<span class="string">&quot;Name&quot;</span>) != -<span class="number">1</span>) &#123;</span><br><span class="line">                <span class="comment">// 获取此get方法返回值,判断是否有值,如果没有值说明即将执行的操作新增</span></span><br><span class="line">                <span class="keyword">if</span> (methods[i].invoke(test, <span class="keyword">null</span>) == <span class="keyword">null</span>) &#123; <span class="comment">//4</span></span><br><span class="line">                    System.out.println(<span class="string">&quot;此对象没有值！！！&quot;</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    Object strName = methods[i].invoke(test, <span class="keyword">null</span>);</span><br><span class="line">                    System.out.println(strName);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h5 id="invoke方法的使用"><a href="#invoke方法的使用" class="headerlink" title="invoke方法的使用"></a>invoke方法的使用</h5><p>实际上invoke方法的使用，和我们常见的有所区别。</p>
-<p>我们经常创建一个对象A，A对象里面的方法getA()方法，然后A.getA()</p>
-<p>我们采用新的方式调用<br>（1）弄一个方法的“替身”（其实就是构建一个Method对象，让这个Method对象来代替你现在要用的方法）<br>（2）然后给替身需要的对象和参数，让替身去替你调用（像替身替你去战斗）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> reflection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InvokeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(String[] arg)</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (String string : arg) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;zp is &quot;</span> + string);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invokeDemo</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//获取字节码对象,这里要填好你对应对象的包的路径</span></span><br><span class="line">        Class&lt;InvokeTest&gt; clazz = (Class&lt;InvokeTest&gt;) Class.forName(<span class="string">&quot;reflection.InvokeTest&quot;</span>);</span><br><span class="line">        <span class="comment">//形式一：获取一个对象</span></span><br><span class="line"><span class="comment">//        Constructor con =  clazz.getConstructor();</span></span><br><span class="line"><span class="comment">//        InvokeTest m = (InvokeTest) con.newInstance();</span></span><br><span class="line">        <span class="comment">//形式二：直接new对象，实际上不是框架的话，自己写代码直接指定某个对象创建并调用也可以</span></span><br><span class="line">        InvokeTest m = <span class="keyword">new</span> InvokeTest();</span><br><span class="line">        String[] s = <span class="keyword">new</span> String[]&#123;<span class="string">&quot;handsome&quot;</span>,<span class="string">&quot;smart&quot;</span>&#125;;</span><br><span class="line">        <span class="comment">//获取Method对象</span></span><br><span class="line">        Method method = clazz.getMethod(<span class="string">&quot;test&quot;</span>, String[].class); <span class="comment">//invoke方法要比别的方法多做一步</span></span><br><span class="line">        <span class="comment">//调用invoke方法来调用</span></span><br><span class="line">        method.invoke(m, (Object) s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果</p>
-<blockquote>
-<p>zp is handsome<br>zp is smart</p>
-</blockquote>
-<p>所以使用invoke方法要比别的方法多做一步，就是构建一个Method对象，这个对象替代的是现在程序要调用方法的替代品。</p>
-<p>而且除了参数以外，invoke还会多要一个对象，因为方法调用需要对象，所以invoke要想调用的目标方法，就需要目标方法的需要的对象。</p>
-<p>看起来invoke方法不仅比平常方法直接调用要麻烦很多，但是你有想过吗，我只需要输入参数，我可以调用替代各种方法，在未知的情况下，根据条件决定去调用什么对象，什么方法，一下子就让代码变得灵活，这不仅是invoke的妙处，也是整个反射的妙处，在程序运行时根据条件灵活使用。</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/350058223">https://zhuanlan.zhihu.com/p/350058223</a></p>
-<h5 id="Method信息"><a href="#Method信息" class="headerlink" title="Method信息"></a>Method信息</h5><p>我们已经能通过<code>Class</code>实例获取所有<code>Field</code>对象，同样的，可以通过<code>Class</code>实例获取所有<code>Method</code>信息。<code>Class</code>类提供了以下几个方法来获取<code>Method</code>：</p>
-<ul>
-<li><code>Method getMethod(name, Class...)</code>：获取某个<code>public</code>的<code>Method</code>（包括父类）</li>
-<li><code>Method getDeclaredMethod(name, Class...)</code>：获取当前类的某个<code>Method</code>（不包括父类）</li>
-<li><code>Method[] getMethods()</code>：获取所有<code>public</code>的<code>Method</code>（包括父类）</li>
-<li><code>Method[] getDeclaredMethods()</code>：获取当前类的所有<code>Method</code>（不包括父类）</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getScore</span><span class="params">(String type)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">99</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getGrade</span><span class="params">(<span class="keyword">int</span> year)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    @Override</span></span><br><span class="line"><span class="comment">//    public void hello() &#123;</span></span><br><span class="line"><span class="comment">//        System.out.println(&quot;Student:hello&quot;);</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Person&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Person:hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;Student&gt; methodClass = Student.class;</span><br><span class="line">Arrays.stream(methodClass.getMethods()).forEach(method -&gt; System.out.println(<span class="string">&quot;method方法:    &quot;</span> + method));</span><br></pre></td></tr></table></figure>
-
-<p>打印出</p>
-<blockquote>
-<p>method方法:    public int reflection.liao.Student.getScore(java.lang.String)<br>method方法:    public void reflection.liao.Person.hello()<br>method方法:    public java.lang.String reflection.liao.Person.getName()</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;Person&gt; methodClass = Person.class;</span><br><span class="line">Arrays.stream(methodClass.getMethods()).forEach(method -&gt; System.out.println(<span class="string">&quot;method方法:    &quot;</span> + method));</span><br></pre></td></tr></table></figure>
-
-<p>打印出</p>
-<blockquote>
-<p>method方法:    public void reflection.liao.Person.hello()<br>method方法:    public java.lang.String reflection.liao.Person.getName()</p>
-<p>…object方法</p>
-</blockquote>
-<ol>
-<li><p>getMethods()可以 获取所有<code>public</code>的<code>Method</code>（包括父类），</p>
-</li>
-<li><p>不能获取到子类的方法,除非是是多肽实现</p>
-</li>
-</ol>
-<h5 id="getDeclaredMethod获取的Method能否调用子类"><a href="#getDeclaredMethod获取的Method能否调用子类" class="headerlink" title="getDeclaredMethod获取的Method能否调用子类?"></a>getDeclaredMethod获取的Method能否调用子类?</h5><p>父类class通过getDeclaredMethod获取的Method能否调用子类的对象</p>
-<p>验证是不可以</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; clz = Class.forName(<span class="string">&quot;reflection.liao.Person&quot;</span>);</span><br><span class="line">Object o = clz.newInstance();</span><br><span class="line">Method methodGetName = clz.getMethod(<span class="string">&quot;getName&quot;</span>);</span><br><span class="line">Object noParams = methodGetName.invoke(o);</span><br><span class="line">System.out.println(noParams);</span><br><span class="line"></span><br><span class="line">Method methodHello  = clz.getMethod(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">System.out.println(methodHello.invoke(o));</span><br><span class="line"></span><br><span class="line">Method methodGetGrade = clz.getMethod(<span class="string">&quot;getGrade&quot;</span>);</span><br><span class="line">System.out.println(methodGetGrade.invoke(o));</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>A Person<br>Person:hello<br>null        // 这个null是哪里来的</p>
-</blockquote>
-<p>提示</p>
-<p>java.lang.NoSuchMethodException: reflection.liao.Person.getGrade()</p>
-<p>所以是调用不了的。</p>
-<p><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1264803678201760">https://www.liaoxuefeng.com/wiki/1252599548343744/1264803678201760</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.51gjie.com/java/796.html">http://www.51gjie.com/java/796.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/onlywujun/p/3519037.html">https://www.cnblogs.com/onlywujun/p/3519037.html</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/9/index.html">https://noteforme.github.io/page/9/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
-  <article id="post-JVM" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/04/18/JVM/">JVM</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2020-04-18T14:19:42.000Z" itemprop="datePublished">2020年04月18日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
-  </div>
-
-      
-      
-<a href="/2020/04/18/JVM/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a href="https://noteforme.github.io/2020/01/04/JVM-METHOD/">JVM方法区-第六章</a></p>
-<img src="/2020/04/18/JVM/2020-04-16_8.22.33.png" alt="2020-04-16_8.22.33" style="zoom:50%;">
-
-
-
-<p><img src="/2020/04/18/JVM/2020-04-16_8.29.39.png" alt="2020-04-16_8.29.39"></p>
-<p><img src="/2020/04/18/JVM/2020-04-16_8.41.39.png" alt="2020-04-16_8.41.39"></p>
-<p><img src="/2020/04/18/JVM/2020-04-16_8.43.41.png" alt="2020-04-16_8.43.41"></p>
-<p><a target="_blank" rel="noopener" href="https://www.iteye.com/blog/rednaxelafx-656951">https://www.iteye.com/blog/rednaxelafx-656951</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av75247289?p=2">https://www.bilibili.com/video/av75247289?p=2</a></p>
-<p>这种情况全局变量 b: B是否会造成内存泄漏</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">val</span> b = B.getInstance()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> </span>&#123;</span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword">val</span> b = B()</span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">getInstance</span><span class="params">()</span></span>: B &#123;</span><br><span class="line">            <span class="keyword">return</span> b</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>我觉得不会,B 并不指向A</p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1GA4y197VR?spm_id_from=333.337.search-card.all.click&amp;vd_source=d4c5260002405798a57476b318eccac9">https://www.bilibili.com/video/BV1GA4y197VR?spm_id_from=333.337.search-card.all.click&amp;vd_source=d4c5260002405798a57476b318eccac9</a></p>
-<p>mOpenEnv  加</p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/9/index.html">https://noteforme.github.io/page/9/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
 
     <nav id="page-nav">
 
@@ -1412,6 +1663,14 @@
       <ul>
         
           <li>
+            <a href="/2023/09/03/Android-itnerview-algorithm/">Android_itnerview_algorithm</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/03/Android_interview%20organize/">Android_itnerview_organize</a>
+          </li>
+        
+          <li>
             <a href="/2023/08/20/compose-layout/">compose_layout</a>
           </li>
         
@@ -1421,14 +1680,6 @@
         
           <li>
             <a href="/2023/08/09/LC-DP-BAG/">LC_DP_BAG</a>
-          </li>
-        
-          <li>
-            <a href="/2023/04/02/LC-DP/">LC-DP</a>
-          </li>
-        
-          <li>
-            <a href="/2023/01/10/RecyclerView-padding/">RecyclerView-padding</a>
           </li>
         
       </ul>
@@ -1441,7 +1692,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ANDROID/" style="font-size: 12.86px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 17.14px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.43px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.43px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.43px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.57px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 14.29px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 11.43px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.43px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 14.29px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 12.86px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.43px;">VIEW</a> <a href="/tags/XML/" style="font-size: 10px;">XML</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/compose/" style="font-size: 11.43px;">compose</a> <a href="/tags/concurrency/" style="font-size: 14.29px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 17.14px;">coroutie</a> <a href="/tags/inter/" style="font-size: 15.71px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
+      <a href="/tags/ANDROID/" style="font-size: 13.33px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 16.67px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.67px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 15px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 11.67px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.67px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.67px;">VIEW</a> <a href="/tags/XML/" style="font-size: 10px;">XML</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/compose/" style="font-size: 11.67px;">compose</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 16.67px;">coroutie</a> <a href="/tags/inter/" style="font-size: 18.33px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
   </div>
 
@@ -1450,7 +1701,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">27</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1460,7 +1711,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年08月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">45</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年09月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">46</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
     </div>
   </div>
 
@@ -1470,7 +1721,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compose/" rel="tag">compose</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compose/" rel="tag">compose</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
