@@ -6,6 +6,12 @@ tags: inter
 categories: 
 ---
 
+
+
+
+
+
+
 ## [阿里面试题](https://www.jianshu.com/p/cf5092fa2694)
 
 ## 1.android事件分发机制，请详细说下整个流程
