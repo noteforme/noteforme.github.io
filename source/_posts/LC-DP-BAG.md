@@ -167,6 +167,10 @@ and then will impement above code
 
 
 
+ https://www.bilibili.com/video/BV1jT4y1o71J/
+
+40:00
+
 
 
 the video  clearly  talking about 01 knapstack problem which two ways.
@@ -188,3 +192,21 @@ the video  clearly  talking about 01 knapstack problem which two ways.
 
 
 ![Screenshot 2023-09-23 at 19.18.50.png](LC-DP-BAG/f14ff7c42ded4ad42e8b5b8637c33ccde3c7681a.png)
+
+
+
+这个代码需要验证
+
+```
+    fun knapStackarray(N: Int, W: Int) {
+        val weightArr = arrayOf(1, 3, 4)
+        val valueArr = arrayOf(15, 20, 30)
+
+        val dp = Array(4) { 0 }
+        for (i in 1..N) {
+            for (j in W downTo weightArr[i]) { // 只有j容量大于当前物品的容量，才会考虑添加到数组中，更新当前cell的值，否则就直接用上一层的值
+                dp[j] = Math.max(dp[j],dp[j-weightArr[i]+valueArr[i]])
+            }
+        }
+    }
+```
