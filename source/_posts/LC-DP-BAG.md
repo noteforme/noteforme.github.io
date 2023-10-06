@@ -211,9 +211,52 @@ the video  clearly  talking about 01 knapstack problem which two ways.
     }
 ```
 
-416. 分割等和子集
+### 416. 分割等和子集
 
-没想明白是怎么转化成背包问题的，1,5,11,5，因为背包是拿到最大值，但是在这里不是拿到最大值，只需要==11.其实逻辑就是这些物品，装满11，所能装到背包的最大价值
+转化成背包问题的，1,5,11,5，背包容量11，前面题解是装到最大值但是不一定能装满，但是在这里不是拿到最大值，是装到最大值的情况,而且==11两个条件.刚好装满。
+
+
+
+一开始打印的时候，发现超出了target,正常情况下是不可能的，加入放入新的物品后，留下的容量去之前的最大值去找，所以不可能超过.
+
+
+
+```kotlin
+fun canPartition(nums: IntArray): Boolean {
+    var sum = 0
+    nums.forEach {
+        sum += it
+    }
+    if (sum % 2 != 0) {
+        return false  // will not fill target exactly 
+    }
+    val target = sum / 2
+    val dp = IntArray(target + 1)
+    println("target $target")
+    for (i in 0 until nums.size) {
+        println()
+        println("   i $i    ")
+        println()
+        for (j in target downTo nums[i]) {
+            println(" j = $j   j - nums[i] = ${j - nums[i]}      dp[j - nums[i]]  ${dp[j - nums[i]]} ")
+            dp[j] = Math.max(dp[j], dp[j - nums[i]] + nums[i]) // 一开始 dp[j] 写成了dp[target]排查了很久
+            print("  dp[j] ${dp[j]}  ")
+        }
+        dp.printIntArray()
+        println()
+    }
+    if (dp[target] == target) {
+        return true
+    }
+    return false
+}
+```
+
+
+
+[1049. 最后一块石头的重量 II](https://leetcode.cn/problems/last-stone-weight-ii/)
+
+
 
 
 
