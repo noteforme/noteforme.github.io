@@ -74,42 +74,26 @@ sts/LC-DP/2023-09-09-21.54.02.png)
 
 ![2023-09-10-18-18-05.png](LC-DP-BAG/6ab176089e4ffef26bcc44d05710170e17c53722.png)
 
-
-
 ### 放入的物品
-
-
 
 ![Screenshot 2023-09-24 at 16.25.54.png](LC-DP-BAG/eb93d18fae9da2e606700effbb8f1d5918a161de.png)
 
-
-
-
-
 ![Screenshot 2023-09-24 at 15.56.52.png](LC-DP-BAG/28998bfef50922d7b4982839b01667cc347a2d22.png)
-
-
-
-
 
 https://www.bilibili.com/video/BV1jT4y1o71J/
 
 - caculate what goods were added in bag. 33:00
-1.  先从dp[5][10] ,17开始，15 !=17 所以 物品5放入了背包, 这个是 dp[4][10-3]=11+6 得出来的，我们可以用10-3 走到了dp[4][7],
+1. 先从dp[5][10] ,17开始，15 !=17 所以 物品5放入了背包, 这个是 dp[4][10-3]=11+6 得出来的，我们可以用10-3 走到了dp[4][7],
 
 2. dp[4][7] 11 == dp[3][7] 所以物品4没有放入背包。然后走到了dp[3][7],
 
 3. dp[3][7] 11 != dp[2][7] 9 , 所以物品3放入背包,  dp[2][7-4] + 3 = 9 .  然后走到了 dp[2[3]
 
-4.  dp[2][3] == dp[1][3] ==6,所以物品2没有放入背包, 然后走到了 dp[1][3]
+4. dp[2][3] == dp[1][3] ==6,所以物品2没有放入背包, 然后走到了 dp[1][3]
 
-5.  dp[1][3] != dp[0][3] 说明 物品1放入背包，dp[0][3-2] + 6 , 然后就走到了dp[0][1]. 
+5. dp[1][3] != dp[0][3] 说明 物品1放入背包，dp[0][3-2] + 6 , 然后就走到了dp[0][1]. 
 
 and then will impement above code
-
-
-
-
 
 ```
     fun knap01(): Int {
@@ -145,7 +129,7 @@ and then will impement above code
             }
         }
 
-        
+
      //这个需要后续的真题验证 
         val addedList = ArrayList<Int>()
         var j = w
@@ -156,22 +140,13 @@ and then will impement above code
         }
         return dp[n][w]
     }
-
 ```
 
-
-
-
-
 ### 滑动数组
-
-
 
  https://www.bilibili.com/video/BV1jT4y1o71J/
 
 40:00
-
-
 
 the video  clearly  talking about 01 knapstack problem which two ways.
 
@@ -189,11 +164,7 @@ the video  clearly  talking about 01 knapstack problem which two ways.
 
 完全背包就是01背包
 
-
-
 ![Screenshot 2023-09-23 at 19.18.50.png](LC-DP-BAG/f14ff7c42ded4ad42e8b5b8637c33ccde3c7681a.png)
-
-
 
 这个代码需要验证
 
@@ -215,11 +186,7 @@ the video  clearly  talking about 01 knapstack problem which two ways.
 
 转化成背包问题的，1,5,11,5，背包容量11，前面题解是装到最大值但是不一定能装满，但是在这里不是拿到最大值，是装到最大值的情况,而且==11两个条件.刚好装满。
 
-
-
 一开始打印的时候，发现超出了target,正常情况下是不可能的，加入放入新的物品后，留下的容量去之前的最大值去找，所以不可能超过.
-
-
 
 ```kotlin
 fun canPartition(nums: IntArray): Boolean {
@@ -252,12 +219,36 @@ fun canPartition(nums: IntArray): Boolean {
 }
 ```
 
-
-
 [1049. 最后一块石头的重量 II](https://leetcode.cn/problems/last-stone-weight-ii/)
 
 
 
+两堆石头如果刚好一样大小，结果就是0，所以找出最接近中间重量的石头。
 
+也就是转化成01背包问题了。
+
+
+
+```
+    fun lastStoneWeightII(stones: IntArray): Int {
+        var sum = 0
+        stones.forEach {
+            sum += it // total sum
+        }
+        val target = sum / 2
+
+        val dp = IntArray(target + 1)
+        for (i in 0 until stones.size) {
+            for (j in target downTo stones[i]) {
+//                println(" j = $j   j - nums[i] = ${j - stones[i]}      dp[j - nums[i]]  ${dp[j - stones[i]]} ")
+                dp[j] = Math.max(dp[j - stones[i]] + stones[i], dp[j])
+//                print(" dp[j] ${dp[j]}  ")
+            }
+//            dp.printIntArray()
+//            println()
+        }
+        return sum - dp[target]*2 // 这是target,而不是物品的size
+    }
+```
 
 
