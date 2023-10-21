@@ -1,140 +1,149 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
   <meta charset="utf-8">
-  
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
   
   <title>LC_DP_BAG | Jon&#39;s Blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Jon">
+  
+  <meta name="description" content="对于01背包，物品i，我觉得也是从0开始更好。
+纯01背包:装满这个背包的最大价值。
+分割等和子集：能否装满。
+本题: 给一个背包容量，有多少种方式装满。
+解法一随想录
+背包问题理论基础
+这个视频讲的很好
+https://www.bilibili.com/video/BV1jT4y1o71J/
+0/">
   
   
-  
-    <link rel="alternate" href="/atom.xml" title="Jon's Blog" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="LC_DP_BAG"/>
+  <meta property="og:site_name" content="Jon&#39;s Blog"/>
 
   
+    <meta property="og:image" content=""/>
   
-<link rel="stylesheet" href="/css/style.css">
 
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+    <link rel="alternative" href="/atom.xml" title="Jon&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
-  
-  
-    
-<link rel="stylesheet" href="/localshare/css/share.css">
+  <script src="/js/jquery-2.0.3.min.js"></script>
 
+  <!-- analytics -->
   
-  
-<meta name="generator" content="Hexo 5.4.0"></head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Jon&#39;s Blog</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Cease to struggle and you cease to live. - Thomas Carlyle</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        
-          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
-        
-          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
-        
-          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
-        
-          <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> RSS</a>
-        
-      </nav>
-    </div>
-    <div id="search-form">
-      <div id="result-mask" class="hide"></div>
-      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
-      <div id="result-wrap" class="hide">
-        <div id="search-result"></div>
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Jon&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
       </div>
-      <div class="hide">
-        <template id="search-tpl">
-          <div class="item">
-            <a href="/{path}" title="{title}">
-              <div class="title">{title}</div>
-              <div class="time">{date}</div>
-              <div class="tags">{tags}</div>
-            </a>
-          </div>
-        </template>
-      </div>
-    </div>
-  </div>
-</header>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
 
-      <div class="outer">
-        <section id="main"><article id="post-LC-DP-BAG" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      LC_DP_BAG
-    </h1>
-  
+  <div class="container">
+  	<div class="content">
+    	 
 
 
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2023-08-09T14:42:49.000Z" itemprop="datePublished">2023年08月09日</time>
-</span>
-      
-      
-        <span class="article-views">
-  <i class="fa fa-views"></i>
-  <i id="busuanzi_container_page_pv">
-      <i id="busuanzi_value_page_pv"></i>
-  </i>
-</span>
-
-      
-      
-<a href="/2023/08/09/LC-DP-BAG/#comments" class="article-comment-link">
-  
-    
-    
-    
-    
-    
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
+	
+		<div class="page-header">
+			<h1> LC_DP_BAG</h1>
+		</div>
+	
 
 
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><img src="/2023/08/09/LC-DP-BAG/c99835d0b3fe9eb9d3c2470c05afe79b7a917ad4.png" alt="Screenshot 2023-09-23 at 22.11.27.png"></p>
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p><img src="/2023/08/09/LC-DP-BAG//c99835d0b3fe9eb9d3c2470c05afe79b7a917ad4.png" alt="Screenshot 2023-09-23 at 22.11.27.png"></p>
 <p>对于01背包，物品i，我觉得也是从0开始更好。</p>
+<p>纯01背包:装满这个背包的最大价值。</p>
+<p>分割等和子集：能否装满。</p>
+<p>本题: 给一个背包容量，有多少种方式装满。</p>
 <h2 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h2><p>随想录</p>
 <p>背包问题理论基础</p>
 <p>这个视频讲的很好</p>
@@ -143,10 +152,10 @@
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1cg411g7Y6/">https://www.bilibili.com/video/BV1cg411g7Y6/</a></p>
 <p>The 0/1 Knapsack Problem (Demystifying Dynamic Programming) - YouTube</p>
 <p>有N件物品和一个最多能背重量为W 的背包。第i件物品的重量是weight[i]，得到的价值是 value[i] 。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dp[i][j] </span><br><span class="line">[0,i]物品任取放容量为j的背包</span><br><span class="line"></span><br><span class="line">不放物品i : dp[i-1][j]</span><br><span class="line">放物品i :  dp[i-1][j-weight[i]] + value[i]， 那么就是前i-1种物品的选择，减去当前i物品的重量 + 当前i物品的价值，其实就转化为 i-1种物品 j-weight[i]的容量下的最大值。</span><br><span class="line"></span><br><span class="line">dp[i][j] &#x3D; max(dp[i-1][j], dp[i-1][j-weight[i]] + value[i])</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dp[i][j] </span><br><span class="line">[0,i]物品任取放容量为j的背包</span><br><span class="line"></span><br><span class="line">不放物品i : dp[i-1][j]</span><br><span class="line">放物品i :  dp[i-1][j-weight[i]] + value[i]， 那么就是前i-1种物品的选择，减去当前i物品的重量 + 当前i物品的价值，其实就转化为 i-1种物品 j-weight[i]的容量下的最大值。</span><br><span class="line"></span><br><span class="line">dp[i][j] = max(dp[i-1][j], dp[i-1][j-weight[i]] + value[i])</span><br></pre></td></tr></table></figure>
 
 <p>从上面的递推公式可以看出，当前值都是由 左上角的值，其实我觉得是正上角， 来递推出来的。<code>dp[i-1][j]</code></p>
-<p><img src="/2023/08/09/LC-DP-BAG/2023-09-10-15-34.png" alt="2023-09-10-15-34"></p>
+<p><img src="/2023/08/09/LC-DP-BAG//2023-09-10-15-34.png" alt="2023-09-10-15-34"></p>
 <p>随想录的解法，物品0是第一个物品，所以X方向初始化是有值的</p>
 <p>下面两个视频，x,y都初始化0，感觉更好。</p>
 <p>01背包问题，这个视频讲的很好 </p>
@@ -155,19 +164,19 @@
 <p>对第0行，第0行没有任何物品，在任何背包容量下，前0个物品，能装进背包的最大价值为0.</p>
 <p>对第0列，第0列没有任何容量，在任何物品都无法放进背包，因此价值也都为0.</p>
 <p>最后一个单元格的数字，就是我们要得到的最终答案。</p>
-<p>j<img src="/2023/08/09/LC-DP-BAG/fcecb2979a78a28732b7d44b1b3ab36b80e601dd.png" alt="2023-09-09-21.54.02.png"></p>
+<p>j<img src="/2023/08/09/LC-DP-BAG//fcecb2979a78a28732b7d44b1b3ab36b80e601dd.png" alt="2023-09-09-21.54.02.png"></p>
 <p>sts/LC-DP/2023-09-09-21.54.02.png)</p>
 <ol>
 <li>[2,1] 放葡萄情况下： 葡萄占用2，并且葡萄无法再次被选择 ， 此时问题从背包容量为2的情况下，对前一种物品取舍选择后获得的容量，变成了背包容量最大为0的情况下，对前0种物品进行取舍选择后获得的最大价值。</li>
 </ol>
-<p><img src="/2023/08/09/LC-DP-BAG/0fa73053d8180256809d9259f750a51a6e8eb81d.png" alt="2023-09-09-21.56.02.png"></p>
+<p><img src="/2023/08/09/LC-DP-BAG//0fa73053d8180256809d9259f750a51a6e8eb81d.png" alt="2023-09-09-21.56.02.png"></p>
 <p>第2行3列的单元格，背包容量最大为3的情况下，对前面2种物品进行选择。</p>
 <p>对于i行j列的单元格，背包容量最大为j的情况下，对前面i种物品进行选择，能使得背包价值最大，也就是说每个单元格都是当前条件下的最优解。</p>
-<p><img src="/2023/08/09/LC-DP-BAG/6f00c545ed588441ecab7b33ec1afddd19cc12c8.png" alt="2023-09-10-18-21-30.png"></p>
+<p><img src="/2023/08/09/LC-DP-BAG//6f00c545ed588441ecab7b33ec1afddd19cc12c8.png" alt="2023-09-10-18-21-30.png"></p>
 <p>下面这个代码，把x,y 0的点都初始化为0.</p>
-<p><img src="/2023/08/09/LC-DP-BAG/6ab176089e4ffef26bcc44d05710170e17c53722.png" alt="2023-09-10-18-18-05.png"></p>
-<h3 id="放入的物品"><a href="#放入的物品" class="headerlink" title="放入的物品"></a>放入的物品</h3><p><img src="/2023/08/09/LC-DP-BAG/eb93d18fae9da2e606700effbb8f1d5918a161de.png" alt="Screenshot 2023-09-24 at 16.25.54.png"></p>
-<p><img src="/2023/08/09/LC-DP-BAG/28998bfef50922d7b4982839b01667cc347a2d22.png" alt="Screenshot 2023-09-24 at 15.56.52.png"></p>
+<p><img src="/2023/08/09/LC-DP-BAG//6ab176089e4ffef26bcc44d05710170e17c53722.png" alt="2023-09-10-18-18-05.png"></p>
+<h3 id="放入的物品"><a href="#放入的物品" class="headerlink" title="放入的物品"></a>放入的物品</h3><p><img src="/2023/08/09/LC-DP-BAG//eb93d18fae9da2e606700effbb8f1d5918a161de.png" alt="Screenshot 2023-09-24 at 16.25.54.png"></p>
+<p><img src="/2023/08/09/LC-DP-BAG//28998bfef50922d7b4982839b01667cc347a2d22.png" alt="Screenshot 2023-09-24 at 15.56.52.png"></p>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1jT4y1o71J/">https://www.bilibili.com/video/BV1jT4y1o71J/</a></p>
 <ul>
 <li>caculate what goods were added in bag. 33:00</li>
@@ -185,21 +194,21 @@
 </li>
 </ol>
 <p>and then will impement above code</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">fun knap01(): Int &#123;</span><br><span class="line"></span><br><span class="line">    val weightArr &#x3D; arrayOf(1, 3, 4)</span><br><span class="line">    val valueArr &#x3D; arrayOf(15, 20, 30)</span><br><span class="line"></span><br><span class="line">    val n &#x3D; 5 &#x2F;&#x2F; the number of goods</span><br><span class="line">    val w &#x3D; 8&#x2F;&#x2F; the max of bag weight</span><br><span class="line">    val dp &#x3D; Array(n + 1) &#123; IntArray(w + 1) &#125; &#x2F;&#x2F; 0 is nothing , so need one more</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;即dp[i][j] 表示从下标为[0-i]的物品里任意取，放进容量为j的背包，价值总和最大是多少。</span><br><span class="line">    &#x2F;&#x2F;初始化</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;j&#x3D;&#x3D;0 , 背包容量为0，放物品</span><br><span class="line">    for (i in 1 until n) &#123; &#x2F;&#x2F;number</span><br><span class="line">        dp[i][0] &#x3D; 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; i&#x3D;&#x3D;0 nothing to put in bag</span><br><span class="line">    for (j in 1 until w) &#123; &#x2F;&#x2F;weights</span><br><span class="line">        dp[0][j] &#x3D; 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (i in 0 until n) &#123; &#x2F;&#x2F;number</span><br><span class="line">        &#x2F;&#x2F; i&#x3D;&#x3D;0 , nothing to put in bag</span><br><span class="line">        for (j in 0 until w) &#123; &#x2F;&#x2F;weights</span><br><span class="line">            if (weightArr[i] &gt; j) &#123; &#x2F;&#x2F; 物品重量大于 背包容量</span><br><span class="line">                dp[i][j] &#x3D; dp[i - 1][j]   &#x2F;&#x2F; if object weight &lt; j , then use top item</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                dp[i][j] &#x3D; Math.max(dp[i - 1][j], dp[i - 1][j - weightArr[i]] + valueArr[i])</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#x2F;&#x2F;这个需要后续的真题验证 </span><br><span class="line">    val addedList &#x3D; ArrayList&lt;Int&gt;()</span><br><span class="line">    var j &#x3D; w</span><br><span class="line">    for (i in n downTo 0) &#123;</span><br><span class="line">        if (dp[i - 1][j] &gt;&#x3D; dp[i][j]) &#123;</span><br><span class="line">            j-&#x3D;weightArr[j]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return dp[n][w]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">fun knap01(): Int &#123;</span><br><span class="line"></span><br><span class="line">    val weightArr = arrayOf(1, 3, 4)</span><br><span class="line">    val valueArr = arrayOf(15, 20, 30)</span><br><span class="line"></span><br><span class="line">    val n = 5 // the number of goods</span><br><span class="line">    val w = 8// the max of bag weight</span><br><span class="line">    val dp = Array(n + 1) &#123; IntArray(w + 1) &#125; // 0 is nothing , so need one more</span><br><span class="line"></span><br><span class="line">    //即dp[i][j] 表示从下标为[0-i]的物品里任意取，放进容量为j的背包，价值总和最大是多少。</span><br><span class="line">    //初始化</span><br><span class="line"></span><br><span class="line">    //j==0 , 背包容量为0，放物品</span><br><span class="line">    for (i in 1 until n) &#123; //number</span><br><span class="line">        dp[i][0] = 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // i==0 nothing to put in bag</span><br><span class="line">    for (j in 1 until w) &#123; //weights</span><br><span class="line">        dp[0][j] = 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (i in 0 until n) &#123; //number</span><br><span class="line">        // i==0 , nothing to put in bag</span><br><span class="line">        for (j in 0 until w) &#123; //weights</span><br><span class="line">            if (weightArr[i] &gt; j) &#123; // 物品重量大于 背包容量</span><br><span class="line">                dp[i][j] = dp[i - 1][j]   // if object weight &lt; j , then use top item</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - weightArr[i]] + valueArr[i])</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //这个需要后续的真题验证 </span><br><span class="line">    val addedList = ArrayList&lt;Int&gt;()</span><br><span class="line">    var j = w</span><br><span class="line">    for (i in n downTo 0) &#123;</span><br><span class="line">        if (dp[i - 1][j] &gt;= dp[i][j]) &#123;</span><br><span class="line">            j-=weightArr[j]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return dp[n][w]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="滑动数组"><a href="#滑动数组" class="headerlink" title="滑动数组"></a>滑动数组</h3><p> <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1jT4y1o71J/">https://www.bilibili.com/video/BV1jT4y1o71J/</a></p>
 <p>40:00</p>
 <p>the video  clearly  talking about 01 knapstack problem which two ways.</p>
-<p><img src="/2023/08/09/LC-DP-BAG/ba58f46e18a492b3083678b2d9f887656f13579e.png" alt="Screenshot 2023-09-23 at 18.51.53.png"></p>
-<p><img src="/2023/08/09/LC-DP-BAG/7b91215174baed22460e1d90ff85cebb24811d04.png" alt="Screenshot 2023-09-23 at 18.50.37.png"></p>
-<p><img src="/2023/08/09/LC-DP-BAG/1bb5d8b4f1e60677d04e9d871d49ae2099058f10.png" alt="Screenshot 2023-09-23 at 19.04.19.png"></p>
+<p><img src="/2023/08/09/LC-DP-BAG//ba58f46e18a492b3083678b2d9f887656f13579e.png" alt="Screenshot 2023-09-23 at 18.51.53.png"></p>
+<p><img src="/2023/08/09/LC-DP-BAG//7b91215174baed22460e1d90ff85cebb24811d04.png" alt="Screenshot 2023-09-23 at 18.50.37.png"></p>
+<p><img src="/2023/08/09/LC-DP-BAG//1bb5d8b4f1e60677d04e9d871d49ae2099058f10.png" alt="Screenshot 2023-09-23 at 19.04.19.png"></p>
 <p>正推的时候，是拿着新值，  去更新,新的值。所以第4个数会放入多次。</p>
 <p>完全背包</p>
 <p>1 - i 种物品可以取  n 次。</p>
 <p>完全背包就是01背包</p>
-<p><img src="/2023/08/09/LC-DP-BAG/f14ff7c42ded4ad42e8b5b8637c33ccde3c7681a.png" alt="Screenshot 2023-09-23 at 19.18.50.png"></p>
+<p><img src="/2023/08/09/LC-DP-BAG//f14ff7c42ded4ad42e8b5b8637c33ccde3c7681a.png" alt="Screenshot 2023-09-23 at 19.18.50.png"></p>
 <p>这个代码需要验证</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fun knapStackarray(N: Int, W: Int) &#123;</span><br><span class="line">    val weightArr &#x3D; arrayOf(1, 3, 4)</span><br><span class="line">    val valueArr &#x3D; arrayOf(15, 20, 30)</span><br><span class="line"></span><br><span class="line">    val dp &#x3D; Array(4) &#123; 0 &#125;</span><br><span class="line">    for (i in 1..N) &#123;</span><br><span class="line">        for (j in W downTo weightArr[i]) &#123; &#x2F;&#x2F; 只有j容量大于当前物品的容量，才会考虑添加到数组中，更新当前cell的值，否则就直接用上一层的值</span><br><span class="line">            dp[j] &#x3D; Math.max(dp[j],dp[j-weightArr[i]+valueArr[i]])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fun knapStackarray(N: Int, W: Int) &#123;</span><br><span class="line">    val weightArr = arrayOf(1, 3, 4)</span><br><span class="line">    val valueArr = arrayOf(15, 20, 30)</span><br><span class="line"></span><br><span class="line">    val dp = Array(4) &#123; 0 &#125;</span><br><span class="line">    for (i in 1..N) &#123;</span><br><span class="line">        for (j in W downTo weightArr[i]) &#123; // 只有j容量大于当前物品的容量，才会考虑添加到数组中，更新当前cell的值，否则就直接用上一层的值</span><br><span class="line">            dp[j] = Math.max(dp[j],dp[j-weightArr[i]+valueArr[i]])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="416-分割等和子集"><a href="#416-分割等和子集" class="headerlink" title="416. 分割等和子集"></a>416. 分割等和子集</h3><p>转化成背包问题的，1,5,11,5，背包容量11，前面题解是装到最大值但是不一定能装满，但是在这里不是拿到最大值，是装到最大值的情况,而且==11两个条件.刚好装满。</p>
 <p>一开始打印的时候，发现超出了target,正常情况下是不可能的，加入放入新的物品后，留下的容量去之前的最大值去找，所以不可能超过.</p>
@@ -208,267 +217,171 @@
 <p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/last-stone-weight-ii/">1049. 最后一块石头的重量 II</a></p>
 <p>两堆石头如果刚好一样大小，结果就是0，所以找出最接近中间重量的石头。</p>
 <p>也就是转化成01背包问题了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">    fun lastStoneWeightII(stones: IntArray): Int &#123;</span><br><span class="line">        var sum &#x3D; 0</span><br><span class="line">        stones.forEach &#123;</span><br><span class="line">            sum +&#x3D; it &#x2F;&#x2F; total sum</span><br><span class="line">        &#125;</span><br><span class="line">        val target &#x3D; sum &#x2F; 2</span><br><span class="line"></span><br><span class="line">        val dp &#x3D; IntArray(target + 1)</span><br><span class="line">        for (i in 0 until stones.size) &#123;</span><br><span class="line">            for (j in target downTo stones[i]) &#123;</span><br><span class="line">&#x2F;&#x2F;                println(&quot; j &#x3D; $j   j - nums[i] &#x3D; $&#123;j - stones[i]&#125;      dp[j - nums[i]]  $&#123;dp[j - stones[i]]&#125; &quot;)</span><br><span class="line">                dp[j] &#x3D; Math.max(dp[j - stones[i]] + stones[i], dp[j])</span><br><span class="line">&#x2F;&#x2F;                print(&quot; dp[j] $&#123;dp[j]&#125;  &quot;)</span><br><span class="line">            &#125;</span><br><span class="line">&#x2F;&#x2F;            dp.printIntArray()</span><br><span class="line">&#x2F;&#x2F;            println()</span><br><span class="line">        &#125;</span><br><span class="line">        return sum - dp[target]*2 &#x2F;&#x2F; 这是target,而不是物品的size</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">    fun lastStoneWeightII(stones: IntArray): Int &#123;</span><br><span class="line">        var sum = 0</span><br><span class="line">        stones.forEach &#123;</span><br><span class="line">            sum += it // total sum</span><br><span class="line">        &#125;</span><br><span class="line">        val target = sum / 2</span><br><span class="line"></span><br><span class="line">        val dp = IntArray(target + 1)</span><br><span class="line">        for (i in 0 until stones.size) &#123;</span><br><span class="line">            for (j in target downTo stones[i]) &#123;</span><br><span class="line">//                println(&quot; j = $j   j - nums[i] = $&#123;j - stones[i]&#125;      dp[j - nums[i]]  $&#123;dp[j - stones[i]]&#125; &quot;)</span><br><span class="line">                dp[j] = Math.max(dp[j - stones[i]] + stones[i], dp[j])</span><br><span class="line">//                print(&quot; dp[j] $&#123;dp[j]&#125;  &quot;)</span><br><span class="line">            &#125;</span><br><span class="line">//            dp.printIntArray()</span><br><span class="line">//            println()</span><br><span class="line">        &#125;</span><br><span class="line">        return sum - dp[target]*2 // 这是target,而不是物品的size</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="494-目标和"><a href="#494-目标和" class="headerlink" title="494.目标和"></a>494.目标和</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16Y411v7Y6/?vd_source=d4c5260002405798a57476b318eccac9">https://www.bilibili.com/video/BV16Y411v7Y6/?vd_source=d4c5260002405798a57476b318eccac9</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=r6Wz4W1TbuI&t=581s&pp=ygUONDk0IFRhcmdldCBTdW0=">花花酱 LeetCode 494. Target Sum 上 - 刷题找工作 EP156 - YouTube</a></p>
+<p>12:00</p>
+<p>positve 是正数的总和</p>
+<p>negative 负数的总和</p>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>positive - negative = target  </p>
+<p>positive + negative = sum  </p>
+<p>上面公式相加</p>
+<p>positive  =  (target + sum)/2</p>
+<p>然后就转化成 01背包问题 , 装满容量为positive的背包，有dp[positive]种方法。</p>
+<h5 id="确定递推公式"><a href="#确定递推公式" class="headerlink" title="确定递推公式"></a>确定递推公式</h5><p>有哪些来源可以推出dp[j]呢？</p>
+<p>只要搞到nums[i]，凑成dp[j]就有dp[j - nums[i]] 种方法。dp[j - nums[i]]， 说明装进nums[i]后,剩下dp[j - nums[i]]的方法数, 一直往前找，初始dp[j]数组的值是0, </p>
+<p>例如：dp[j]，j 为5，</p>
+<ul>
+<li>已经有一个物品1（nums[i]） 的话，有 dp[4]种方法 凑成 容量为5的背包。</li>
+<li>已经有一个2（nums[i]） 的话，有 dp[3]种方法 凑成 容量为5的背包。</li>
+<li>已经有一个3（nums[i]） 的话，有 dp[2]中方法 凑成 容量为5的背包</li>
+<li>已经有一个4（nums[i]） 的话，有 dp[1]中方法 凑成 容量为5的背包</li>
+<li>已经有一个5 （nums[i]）的话，有 dp[0]中方法 凑成 容量为5的背包</li>
+</ul>
+<p>那么凑整dp[5]有多少方法呢，也就是把 所有的 dp[j - nums[i]] 累加起来。</p>
+<p>所以求组合类问题的公式，都是类似这种：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[j] += dp[j - nums[i]]</span><br></pre></td></tr></table></figure>
+
+<p><strong>这个公式在后面在讲解背包解决排列组合问题的时候还会用到！</strong></p>
+<p>//dp[j] += dp[j - nums[i]]对这句组合数的理解： 1、如果不选第i个数（nums[i]）的话，则方法数为dp[j]； 2、如果选第i个数（nums[i]）的话，则方法数为dp[j - nums[i]]；<br>// 所以方法总数为：dp[j] = dp[j] + dp[j - nums[i]]；（感觉这样拆开写比较容易理解） 可以对比其他01背包问题：dp[j] = max(dp[j], dp[j - nums[i]])，这种问题即是从选i与不选i里，选取最大值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">fun findTargetSumWays(nums: IntArray, target: Int): Int &#123;</span><br><span class="line"></span><br><span class="line">      /**</span><br><span class="line">       *  positive - negative = target</span><br><span class="line">       *  positive + negative = sum</span><br><span class="line">       *</span><br><span class="line">       *  positive  =  (target + sum)/2</span><br><span class="line">       *</span><br><span class="line">       */</span><br><span class="line"></span><br><span class="line">      //dp[j] += dp[j - nums[i]]对这句组合数的理解： 1、如果不选第i个数（nums[i]）的话，则方法数为dp[j]； 2、如果选第i个数（nums[i]）的话，则方法数为dp[j - nums[i]]；</span><br><span class="line">      // 所以方法总数为：dp[j] = dp[j] + dp[j - nums[i]]；（感觉这样拆开写比较容易理解） 可以对比其他01背包问题：dp[j] = max(dp[j], dp[j - nums[i]])，这种问题即是从选i与不选i里，选取最大值。</span><br><span class="line"></span><br><span class="line">      var sum = 0</span><br><span class="line">      nums.forEach &#123;</span><br><span class="line">          sum += it</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      if (Math.abs(target)&gt;sum) return 0 // 如果target 大于 sum是不可能有值的</span><br><span class="line"></span><br><span class="line">      if ((target + sum) % 2 != 0) return 0 // positive 一定是正整数 ,这种情况下没有</span><br><span class="line"></span><br><span class="line">      val positive = (target + sum) / 2</span><br><span class="line">      val dp = IntArray(positive + 1)</span><br><span class="line">      dp[0] = 1</span><br><span class="line">      for (i in nums.indices) &#123;</span><br><span class="line">          for (j in positive downTo nums[i]) &#123; // j表示背包容量</span><br><span class="line">              println(&quot; i = $i  j = $j   j - nums[i] = $&#123;j - nums[i]&#125;  dp[j - nums[i]]  $&#123;dp[j - nums[i]]&#125; &quot;)</span><br><span class="line">              dp[j] += dp[j - nums[i]]</span><br><span class="line">              println(&quot; dp[j] $&#123;dp[j]&#125;  &quot;)</span><br><span class="line">          &#125;</span><br><span class="line">          println()</span><br><span class="line">          dp.printIntArray()</span><br><span class="line">          println()</span><br><span class="line">          println()</span><br><span class="line">      &#125;</span><br><span class="line">      return dp[positive]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个看了很多视频，还不是特别理解，</p>
+<h1 id="474-一和零"><a href="#474-一和零" class="headerlink" title="474.一和零"></a>474.一和零</h1><p>装满m个0,n个1 容器的背包，有哪些物品 ，其实就是01背包，只是装的物品是两个纬度。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    fun findMaxForm(strs: Array&lt;String&gt;, m: Int, n: Int): Int &#123;</span><br><span class="line">        val dp = Array(m + 1) &#123; IntArray(n + 1) &#125;</span><br><span class="line"></span><br><span class="line">        strs.forEachIndexed &#123; index, str -&gt;</span><br><span class="line">            var oneNum = 0  // 一开始放，外面，要在里面</span><br><span class="line">            var zeroNum = 0</span><br><span class="line">            str.forEach &#123;</span><br><span class="line">                if (&#x27;1&#x27; == it) &#123;</span><br><span class="line">                    oneNum++</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    zeroNum++</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            for (i in m downTo zeroNum) &#123; //</span><br><span class="line">                for (j in n downTo oneNum) &#123;</span><br><span class="line">//                    dp[i][j] = Math.max(dp[i][j], dp[m - i][n - j] + 1) // 错的写法</span><br><span class="line">                    dp[i][j] = Math.max(dp[i][j], dp[i-zeroNum][j - oneNum] + 1)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return dp[m][n]</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a href="/2023/08/19/compose/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Prev</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2023/04/02/LC-DP/" type="button" class="btn btn-default ">Next<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
 
 
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
 
-        
-            <div id="toc-article">
-                
-  <div class="widget-wrap" id="toc-wrap">
-    <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
-    <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80"><span class="toc-text">解法一</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%BE%E5%85%A5%E7%9A%84%E7%89%A9%E5%93%81"><span class="toc-text">放入的物品</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E6%95%B0%E7%BB%84"><span class="toc-text">滑动数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86"><span class="toc-text">416. 分割等和子集</span></a></li></ol></li></ol>
-    </div>
-  </div>
-
-
-            </div>
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/2023/08/09/LC-DP-BAG/">https://noteforme.github.io/2023/08/09/LC-DP-BAG/</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a></li></ul>
-
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-        
-<nav id="article-nav">
-  
-    <a href="/2023/08/19/compose/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">newer</strong>
-      <div class="article-nav-title">
-        
-          compose
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2023/04/02/LC-DP/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">older</strong>
-      <div class="article-nav-title">LC-DP</div>
-    </a>
-  
-</nav>
-
-      
-      
-        
-
-
-
-
-
-
-
-      
-    </footer>
-  </div>
-</article>
+    
 </section>
-        
-          <aside id="sidebar">
-  
+
+-->
+	
+	
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2023-08-09 
+	</div>
+	
+
+	<!-- categories -->
     
-  <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2023/09/04/Android_interview%20organize/">Android_itnerview_organize</a>
-          </li>
-        
-          <li>
-            <a href="/2023/09/03/Android-itnerview-algorithm/">Android_itnerview_algorithm</a>
-          </li>
-        
-          <li>
-            <a href="/2023/08/20/compose-layout/">compose_layout</a>
-          </li>
-        
-          <li>
-            <a href="/2023/08/19/compose/">compose</a>
-          </li>
-        
-          <li>
-            <a href="/2023/08/09/LC-DP-BAG/">LC_DP_BAG</a>
-          </li>
-        
-      </ul>
-    </div>
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/LEETCODE/">LEETCODE<span>12</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
   </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2023 Jon's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
 
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/ANDROID/" style="font-size: 13.33px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 16.67px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.67px;">Fragment</a> <a href="/tags/Git/" style="font-size: 11.67px;">Git</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 15px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 11.67px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 11.67px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 11.67px;">VIEW</a> <a href="/tags/XML/" style="font-size: 10px;">XML</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/compose/" style="font-size: 11.67px;">compose</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 16.67px;">coroutie</a> <a href="/tags/inter/" style="font-size: 18.33px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
-    </div>
-  </div>
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">27</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
-    </div>
-  </div>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年09月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年12月</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年12月</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年12月</a><span class="archive-list-count">46</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年12月</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年11月</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年12月</a><span class="archive-list-count">57</span></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compose/" rel="tag">compose</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title"><i class="fa fa-link"></i> Blogroll</h3>
-    <div class="widget">
-      <ul>
-      
-        <li>
-          <a target="_blank" rel="noopener" href="http://www.example1.com/">site-name1</a>
-        </li>
-      
-        <li>
-          <a target="_blank" rel="noopener" href="http://www.example2.com/">site-name2</a>
-        </li>
-      
-        <li>
-          <a target="_blank" rel="noopener" href="http://www.example3.com/">site-name3</a>
-        </li>
-      
-      </ul>
-    </div>
-  </div>
-
-
-  
-</aside>
-        
-      </div>
-      <a id="totop" href="#top"></a>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      <p>
-        <a href="/sitemap.xml">Site Map</a>
-        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
-        <span> | </span><a href="/about/">Contact the blogger</a>
-      </p>
-      
-        <p>
-          <i class="fa fa-visitors"></i>
-          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
-          ，
-          <i class="fa fa-views"></i>
-          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
-        </p>
-      
-      <p>
-        <span>Copyright &copy; 2023 Jon.</span>
-        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
-        
-            <span>Count by <a href="http://busuanzi.ibruce.info/" target="_blank">busuanzi.</a></span>
-        
-        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
-      </p>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-<script src="/js/search.json.js"></script>
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
 
 
 
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-
-  
-<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-  
-<script src="/localshare/js/social-share.js"></script>
-
-  
-<script src="/localshare/js/qrcode.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  </div>
 </body>
-</html>
+   </html>
