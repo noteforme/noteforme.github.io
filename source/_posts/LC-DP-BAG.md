@@ -8,6 +8,12 @@ tags: LEETCODE
 
 对于01背包，物品i，我觉得也是从0开始更好。
 
+纯01背包:装满这个背包的最大价值。
+
+分割等和子集：能否装满。
+
+本题: 给一个背包容量，有多少种方式装满。
+
 ## 解法一
 
 随想录
@@ -221,13 +227,9 @@ fun canPartition(nums: IntArray): Boolean {
 
 [1049. 最后一块石头的重量 II](https://leetcode.cn/problems/last-stone-weight-ii/)
 
-
-
 两堆石头如果刚好一样大小，结果就是0，所以找出最接近中间重量的石头。
 
 也就是转化成01背包问题了。
-
-
 
 ```
     fun lastStoneWeightII(stones: IntArray): Int {
@@ -251,4 +253,130 @@ fun canPartition(nums: IntArray): Boolean {
     }
 ```
 
+# 494.目标和
 
+https://www.bilibili.com/video/BV16Y411v7Y6/?vd_source=d4c5260002405798a57476b318eccac9
+
+[花花酱 LeetCode 494. Target Sum 上 - 刷题找工作 EP156 - YouTube](https://www.youtube.com/watch?v=r6Wz4W1TbuI&t=581s&pp=ygUONDk0IFRhcmdldCBTdW0%3D)
+
+12:00
+
+positve 是正数的总和
+
+negative 负数的总和
+
+##### 分析
+
+positive - negative = target  
+
+positive + negative = sum  
+
+上面公式相加
+
+positive  =  (target + sum)/2
+
+然后就转化成 01背包问题 , 装满容量为positive的背包，有dp[positive]种方法。
+
+##### 确定递推公式
+
+有哪些来源可以推出dp[j]呢？
+
+只要搞到nums[i]，凑成dp[j]就有dp[j - nums[i]] 种方法。dp[j - nums[i]]， 说明装进nums[i]后,剩下dp[j - nums[i]]的方法数, 一直往前找，初始dp[j]数组的值是0, 
+
+例如：dp[j]，j 为5，
+
+- 已经有一个物品1（nums[i]） 的话，有 dp[4]种方法 凑成 容量为5的背包。
+- 已经有一个2（nums[i]） 的话，有 dp[3]种方法 凑成 容量为5的背包。
+- 已经有一个3（nums[i]） 的话，有 dp[2]中方法 凑成 容量为5的背包
+- 已经有一个4（nums[i]） 的话，有 dp[1]中方法 凑成 容量为5的背包
+- 已经有一个5 （nums[i]）的话，有 dp[0]中方法 凑成 容量为5的背包
+
+那么凑整dp[5]有多少方法呢，也就是把 所有的 dp[j - nums[i]] 累加起来。
+
+所以求组合类问题的公式，都是类似这种：
+
+```
+dp[j] += dp[j - nums[i]]
+```
+
+**这个公式在后面在讲解背包解决排列组合问题的时候还会用到！**
+
+//dp[j] += dp[j - nums[i]]对这句组合数的理解： 1、如果不选第i个数（nums[i]）的话，则方法数为dp[j]； 2、如果选第i个数（nums[i]）的话，则方法数为dp[j - nums[i]]；  
+// 所以方法总数为：dp[j] = dp[j] + dp[j - nums[i]]；（感觉这样拆开写比较容易理解） 可以对比其他01背包问题：dp[j] = max(dp[j], dp[j - nums[i]])，这种问题即是从选i与不选i里，选取最大值。
+
+```
+  fun findTargetSumWays(nums: IntArray, target: Int): Int {
+
+        /**
+         *  positive - negative = target
+         *  positive + negative = sum
+         *
+         *  positive  =  (target + sum)/2
+         *
+         */
+
+        //dp[j] += dp[j - nums[i]]对这句组合数的理解： 1、如果不选第i个数（nums[i]）的话，则方法数为dp[j]； 2、如果选第i个数（nums[i]）的话，则方法数为dp[j - nums[i]]；
+        // 所以方法总数为：dp[j] = dp[j] + dp[j - nums[i]]；（感觉这样拆开写比较容易理解） 可以对比其他01背包问题：dp[j] = max(dp[j], dp[j - nums[i]])，这种问题即是从选i与不选i里，选取最大值。
+
+        var sum = 0
+        nums.forEach {
+            sum += it
+        }
+
+        if (Math.abs(target)>sum) return 0 // 如果target 大于 sum是不可能有值的
+
+        if ((target + sum) % 2 != 0) return 0 // positive 一定是正整数 ,这种情况下没有
+
+        val positive = (target + sum) / 2
+        val dp = IntArray(positive + 1)
+        dp[0] = 1
+        for (i in nums.indices) {
+            for (j in positive downTo nums[i]) { // j表示背包容量
+                println(" i = $i  j = $j   j - nums[i] = ${j - nums[i]}  dp[j - nums[i]]  ${dp[j - nums[i]]} ")
+                dp[j] += dp[j - nums[i]]
+                println(" dp[j] ${dp[j]}  ")
+            }
+            println()
+            dp.printIntArray()
+            println()
+            println()
+        }
+        return dp[positive]
+    }
+```
+
+这个看了很多视频，还不是特别理解，
+
+# 474.一和零
+
+装满m个0,n个1 容器的背包，有哪些物品 ，其实就是01背包，只是装的物品是两个纬度。
+
+
+
+
+
+```
+
+    fun findMaxForm(strs: Array<String>, m: Int, n: Int): Int {
+        val dp = Array(m + 1) { IntArray(n + 1) }
+
+        strs.forEachIndexed { index, str ->
+            var oneNum = 0  // 一开始放，外面，要在里面
+            var zeroNum = 0
+            str.forEach {
+                if ('1' == it) {
+                    oneNum++
+                } else {
+                    zeroNum++
+                }
+            }
+            for (i in m downTo zeroNum) { //
+                for (j in n downTo oneNum) {
+//                    dp[i][j] = Math.max(dp[i][j], dp[m - i][n - j] + 1) // 错的写法
+                    dp[i][j] = Math.max(dp[i][j], dp[i-zeroNum][j - oneNum] + 1)
+                }
+            }
+        }
+        return dp[m][n]
+    }
+```

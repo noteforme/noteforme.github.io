@@ -5,11 +5,7 @@ tags: LEETCODE
 categories: DataStructure
 ---
 
-
-
 #### Array结构
-
-
 
 数组为什么从0开始.
 
@@ -19,16 +15,12 @@ foo[0]
 *(foo + 0) // 因为c语言指针偏移量从0开始
 ```
 
-
-
 ![这里写图片描述](https://img-blog.csdn.net/20161111021559583)
 
 ```
 a[3][4]
 a[0][0], a[0][1] , a[0][2] , a[0][3]
 ```
-
-
 
 https://developer.51cto.com/article/649423.html
 
@@ -52,8 +44,6 @@ https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
 
 返回 p + 1，即为新数组长度。
 
-
-
 ![1.png](https://pic.leetcode-cn.com/0039d16b169059e8e7f998c618b6c2b269c2d95b02f43415350bde1f661e503a-1.png)
 
 1. Nums[p] == nums[q]  q 后移1位
@@ -61,8 +51,6 @@ https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
 3. Nums[p] != nums[q] 。。。。
 
 上图向下的箭头，只代表步骤，不代表指针位置
-
-
 
 ```kotlin
 //这个更好理解 https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/solution/shuang-zhi-zhen-shan-chu-zhong-fu-xiang-dai-you-hu/
@@ -95,14 +83,9 @@ fun removeDuplicates(nums: IntArray): Int {
     }
     return slowIndex
 }
-
 ```
 
-
-
 #### [283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
-
-
 
 ```kotlin
 fun moveZeroes(nums: IntArray): Unit {
@@ -119,11 +102,7 @@ fun moveZeroes(nums: IntArray): Unit {
 }
 ```
 
-
-
 #### [844. 比较含退格的字符串](https://leetcode-cn.com/problems/backspace-string-compare/)
-
-
 
 ###### 栈
 
@@ -153,8 +132,6 @@ fun moveZeroes(nums: IntArray): Unit {
         return sStack == tStack
     }
 ```
-
-
 
 ###### 双指针1
 
@@ -206,8 +183,6 @@ fun backspaceCompare(s: String, t: String): Boolean {
 
 https://leetcode-cn.com/problems/backspace-string-compare/solution/shuang-zhi-zhen-bi-jiao-han-tui-ge-de-zi-8fn8/
 
-
-
 ###### 双指针2
 
 这种双指针写法也不错,只是最后的String.valueOf不同语言有出入，和这个题目意思有点对不上
@@ -217,9 +192,9 @@ class Solution {
     public boolean backspaceCompare(String s, String t) {
         // equals()判断返回的两个字符串是否相等
         return changeString(s).equals(changeString(t));
-        
+
     }
-    
+
     public static String changeString (String str) {
         // 先将字符串转为数组，方便使用双指针法
         char[] x = str.toCharArray();
@@ -232,18 +207,14 @@ class Solution {
             else if(x[fast] == '#' && slow != 0)
                 slow--;
         }
-        
+
         // 返回字符串
         return String.valueOf(x, 0, slow);
     }
 }
 
 https://leetcode-cn.com/problems/backspace-string-compare/solution/shuang-zhi-zhen-fa-si-lu-jian-dan-rong-y-bmn6/
-
-
 ```
-
-
 
 ### 有序数组的平方
 
@@ -274,17 +245,11 @@ fun sortedSquares(nums: IntArray): IntArray {
 
 https://leetcode-cn.com/problems/squares-of-a-sorted-array/solution/c-dong-hua-yan-shi-977-you-xu-shu-zu-de-gxlvm/
 
-
-
 #### [209. 长度最小的子数组](https://leetcode-cn.com/problems/minimum-size-subarray-sum/)
-
-
 
 ###### 双指针（滑动窗口）
 
 滑动窗口主要找到移动左指针的条件
-
-
 
 其实就是精简出暴力解法
 
@@ -306,8 +271,6 @@ https://leetcode-cn.com/problems/squares-of-a-sorted-array/solution/c-dong-hua-y
     }
 ```
 
-
-
 **一些录友会疑惑为什么时间复杂度是O(n)**。
 
 不要以为for里放一个while就以为是O(n^2)啊， 主要是看每一个元素被操作的次数，每个元素在滑动窗后进来操作一次，出去操作一次，每个元素都是被被操作两次，所以时间复杂度是 2 × n 也就是O(n)。
@@ -316,11 +279,7 @@ https://leetcode-cn.com/problems/squares-of-a-sorted-array/solution/c-dong-hua-y
 
 https://leetcode-cn.com/problems/minimum-size-subarray-sum/solution/209-chang-du-zui-xiao-de-zi-shu-zu-hua-dong-chua-7/
 
-
-
 ###### 暴力解法
-
-
 
 先移动前面的，再移动后面的遍历找出。
 
@@ -356,15 +315,11 @@ public:
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处.
 ```
 
-
-
 #### [904. 水果成篮](https://leetcode-cn.com/problems/fruit-into-baskets/)
 
 双指针（滑动窗口）
 
 题目不好懂 [1,2,3,2,2]. , 1 ,2,3,数字大小分别表示水果树类别
-
-
 
 ```kotlin
 fun totalFruit(fruits: IntArray): Int {
@@ -401,8 +356,6 @@ fun totalFruit(fruits: IntArray): Int {
 }
 ```
 
-
-
 ```kotlin
 上面解法
     if (basketList.containsKey(element)) { //包含这个元素 个数+1
@@ -415,15 +368,9 @@ fun totalFruit(fruits: IntArray): Int {
 basketList[element] = basketList.getOrDefault(element, 0).plus(1)
 ```
 
-
-
 #### [76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/)
 
-
-
 滑动窗口 (sliding window)
-
-
 
 ```kotlin
 **
@@ -481,23 +428,15 @@ class LC76 {
 }
 ```
 
-
-
 视频讲解很清晰
 
 https://leetcode-cn.com/problems/minimum-window-substring/solution/zui-xiao-fu-gai-zi-chuan-by-leetcode-solution/
 
-
-
 这道题参考去看看 labuladong解法,我没找到，后面再看看,
-
-
 
 ### 螺旋矩阵
 
 #### [59. 螺旋矩阵 II](https://leetcode-cn.com/problems/spiral-matrix-ii/)
-
-
 
 ```kotlin
 fun generateMatrix(n: Int): Array<IntArray> {
