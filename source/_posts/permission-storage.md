@@ -14,6 +14,20 @@ external storage permission
 
 自己创建的文件，不需要权限 ，不是自己的 需要 READ_EXTERNAL_STORAGE
 
+
+
+
+
+#### photo picker
+
+https://developer.android.com/about/versions/14/changes/partial-photo-video-access
+
+
+
+if your app is running on a device with Android 14 (API level 34) or higher, limit access to selected photos and videos, request "Manifest.permission.READ_MEDIA_IMAGES" will show 
+
+<img src="permission-storage/b699ef581b9e92de2ecf20ac6ca6c5278c439c98.png" title="" alt="Screenshot 2023-11-22 at 21.36.55.png" width="259">
+
 ##### 
 
 ##### Internal
