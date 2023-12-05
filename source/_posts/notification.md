@@ -16,7 +16,7 @@ tags: ANDROID
 NotificationManager.IMPORTANCE_NONE == NotificationManagerCompat.from(this).getNotificationChannel(CHANNEL_ID)?.importance
 ```
 
-
+https://stackoverflow.com/questions/71159130/custom-android-notification-sound
 
 
 detect the notfication  enable
