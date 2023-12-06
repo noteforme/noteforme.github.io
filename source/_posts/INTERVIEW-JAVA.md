@@ -9,11 +9,9 @@ categories:
 
 https://interview-q-a-1gdnkgkla15afdbe-1258598664.tcloudbaseapp.com/Java/HashMap%E5%8E%9F%E7%90%86-%E7%BE%8E%E5%9B%A2.html
 
-
-
 [面试题含答案](https://www.cnblogs.com/huangjialin/p/12411842.html)
 
-###   java基础面试知识点
+### java基础面试知识点
 
 ##### java中==和equals和hashCode的区别
 
@@ -31,9 +29,9 @@ https://interview-q-a-1gdnkgkla15afdbe-1258598664.tcloudbaseapp.com/Java/HashMap
 
 ##### int与integer的区别
 
-​	Integer 是int的包装类；int是基本数据类型;
+​    Integer 是int的包装类；int是基本数据类型;
 
-​	Integer实际是对象的引用，int是直接存储数据值
+​    Integer实际是对象的引用，int是直接存储数据值
 
 ##### 谈谈对java多态(polymorphism)的理解,Java中实现多态的机制是什么
 
@@ -43,132 +41,126 @@ https://interview-q-a-1gdnkgkla15afdbe-1258598664.tcloudbaseapp.com/Java/HashMap
 
 2. 运行时多态（动态多态）
 
-   
-
    无论哪种方法，核心之处在对父类方法的改写或对接口方法的实现，以取得运行时不同的执行效果.
 
 https://docs.oracle.com/javase/tutorial/java/IandI/polymorphism.html
 
 https://cloud.tencent.com/developer/article/1447574
 
-
-
 ##### String、StringBuffer、StringBuilder区别
 
- * 都是fianl类，不能被继承,底层都是 char[] value实现
- * String类长度是不可变的，substring()、  concat(),最终实现都是通过  new String(buf, true)实现的,StringBuffer,StringBuilder是通过操作本类的value实现的
- * StringBuffer类是线程安全的，StringBuilder不是线程安全的
- * String：字符串常量。
+* 都是fianl类，不能被继承,底层都是 char[] value实现
+* String类长度是不可变的，substring()、  concat(),最终实现都是通过  new String(buf, true)实现的,StringBuffer,StringBuilder是通过操作本类的value实现的
+* StringBuffer类是线程安全的，StringBuilder不是线程安全的
+* String：字符串常量。
 
-​	
+​    
 
 ##### 什么是内部类？内部类的作用
 
-​	内部类:	一个类定义在另一个类的内部，就叫内部类
+​    内部类:    一个类定义在另一个类的内部，就叫内部类
 
-​	作用: 
+​    作用: 
 
- * 内部类  拥有外部类的所有访问权限，包括被private修饰的私有数据
+* 内部类  拥有外部类的所有访问权限，包括被private修饰的私有数据
 
- * 内部类可以很好的隐藏实现
+* 内部类可以很好的隐藏实现
 
- * 内部类可以实现多重继承
+* 内部类可以实现多重继承
+  
+  ```java
+  //类一
+  public class ClassA {
+     public String name(){
+         return "liutao";
+     }
+     public String doSomeThing(){
+      // doSomeThing
+     }
+  }
+  //类二
+  public class ClassB {
+      public int age(){
+          return 25;
+      }
+  }
+  
+  //类三
+  public class MainExample{
+     private class Test1 extends ClassA{
+          public String name(){
+            return super.name();
+          }
+      }
+      private class Test2 extends ClassB{
+         public int age(){
+           return super.age();
+         }
+      }
+     public String name(){
+      return new Test1().name();
+     }
+     public int age(){
+         return new Test2().age();
+     }
+     public static void main(String args[]){
+         MainExample mi=new MainExample();
+         System.out.println("姓名:"+mi.name());
+         System.out.println("年龄:"+mi.age());
+     }
+  }
+  ```
+  
+   MainExample 类通过内部类拥有了 ClassA 和 ClassB 的两个类的继承关系。 而无需关注 ClassA 中的 doSomeThing 方法的实现。这就是比接口实现更有戏的地方
+  
+   https://juejin.cn/post/6844903566293860366
 
-    ```java
-    //类一
-    public class ClassA {
-       public String name(){
-           return "liutao";
-       }
-       public String doSomeThing(){
-        // doSomeThing
-       }
-    }
-    //类二
-    public class ClassB {
-        public int age(){
-            return 25;
-        }
-    }
-    
-    //类三
-    public class MainExample{
-       private class Test1 extends ClassA{
-            public String name(){
-              return super.name();
-            }
-        }
-        private class Test2 extends ClassB{
-           public int age(){
-             return super.age();
-           }
-        }
-       public String name(){
-        return new Test1().name();
-       }
-       public int age(){
-           return new Test2().age();
-       }
-       public static void main(String args[]){
-           MainExample mi=new MainExample();
-           System.out.println("姓名:"+mi.name());
-           System.out.println("年龄:"+mi.age());
-       }
-    }
-    
-    ```
+##### 抽象类和接口区别
 
-    MainExample 类通过内部类拥有了 ClassA 和 ClassB 的两个类的继承关系。 而无需关注 ClassA 中的 doSomeThing 方法的实现。这就是比接口实现更有戏的地方
-
-    https://juejin.cn/post/6844903566293860366
-
-#####  抽象类和接口区别
-
-| Abstract class                                               | Interface                                                    |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 1) Abstract class can **have abstract and non-abstract** methods. | Interface can have **only abstract** methods. Since Java 8, it can have **default and static methods** also. |
-| 2) Abstract class **doesn't support multiple inheritance**.  | Interface **supports multiple inheritance**.                 |
-| 3) Abstract class **can have final, non-final, static and non-static variables**. | Interface has **only static and final variables**.           |
-| 4) Abstract class **can provide the implementation of interface**. | Interface **can't provide the implementation of abstract class**. |
-| 5) The **abstract keyword** is used to declare abstract class. | The **interface keyword** is used to declare interface.      |
-| 6) An **abstract class** can extend another Java class and implement multiple Java interfaces. | An **interface** can extend another Java interface only.     |
-| 7) An **abstract class** can be extended using keyword "extends". | An **interface** can be implemented using keyword "implements". |
-| 8) A Java **abstract class** can have class members like private, protected, etc. | Members of a Java interface are public by default.           |
-| 9)**Example:**  public abstract class Shape{ public abstract void draw(); } | **Example:**  public interface Drawable{ void draw(); }      |
+| Abstract class                                                                                 | Interface                                                                                                    |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| 1) Abstract class can **have abstract and non-abstract** methods.                              | Interface can have **only abstract** methods. Since Java 8, it can have **default and static methods** also. |
+| 2) Abstract class **doesn't support multiple inheritance**.                                    | Interface **supports multiple inheritance**.                                                                 |
+| 3) Abstract class **can have final, non-final, static and non-static variables**.              | Interface has **only static and final variables**.                                                           |
+| 4) Abstract class **can provide the implementation of interface**.                             | Interface **can't provide the implementation of abstract class**.                                            |
+| 5) The **abstract keyword** is used to declare abstract class.                                 | The **interface keyword** is used to declare interface.                                                      |
+| 6) An **abstract class** can extend another Java class and implement multiple Java interfaces. | An **interface** can extend another Java interface only.                                                     |
+| 7) An **abstract class** can be extended using keyword "extends".                              | An **interface** can be implemented using keyword "implements".                                              |
+| 8) A Java **abstract class** can have class members like private, protected, etc.              | Members of a Java interface are public by default.                                                           |
+| 9)**Example:**  public abstract class Shape{ public abstract void draw(); }                    | **Example:**  public interface Drawable{ void draw(); }                                                      |
 
 https://www.javatpoint.com/difference-between-abstract-class-and-interface
-
- 
 
 ##### ? 泛型中extends和super的区别
 
 - 上界<? extends T>不能往里存，只能往外取，适合频繁往外面读取内容的场景。
 
 - 下界<? super T>不影响往里存，但往外取只能放在Object对象里，适合经常往里面插入数据的场景
-
+  
   https://noteforme.github.io/2018/04/16/Generics/
 
 ##### string 转换成 integer的方式及原理
 
-  1. 判断是否null或""
-  2. 判断第一位正负数，逐位获取值 ?
+1. 判断是否null或""
 
-  https://blog.csdn.net/nobody_1/article/details/91488686
+2. 判断第一位正负数，逐位获取值 ?
+   
+   https://blog.csdn.net/nobody_1/article/details/91488686
 
-#####   静态内部类的设计意图
+##### 静态内部类的设计意图
 
-​	非静态内部类编译后会隐含的保存着一个引用，改引用指向创建它的外围类，静态内部类没有，
+​    非静态内部类编译后会隐含的保存着一个引用，改引用指向创建它的外围类，静态内部类没有，
 
-​	它不能使用任何外围类的非static成员变量和方法.
+​    它不能使用任何外围类的非static成员变量和方法.
 
 ##### final，finally，finalize的区别
 
   Final : 用于申明属性，方法，类，表示属性不可变，方法不可以覆盖，类不能继承
 
 1. final数组
-
+   
    **Java 中数组也是对象**
-
+   
    ```java
      final int arr[] = {1, 2, 3, 4, 5};  //  注意，数组 arr 是 final 的
           for (int i = 0; i < arr.length; i++) {
@@ -176,11 +168,11 @@ https://www.javatpoint.com/difference-between-abstract-class-and-interface
               System.out.println(arr[i]);
           }
    ```
-
+   
    数组是对象的一种，现在数组是被 final 修饰的，所以它的意思是一旦被赋值之后，变量的引用不能修改。但是我们现在想证明的是，数组对象里面的内容可以修改
 
 2. 非数组对象
-
+   
    ```java
    class Test { 
        int p = 20; 
@@ -191,40 +183,27 @@ https://www.javatpoint.com/difference-between-abstract-class-and-interface
        }
    }
    ```
-
+   
    把它用 final 修饰，然后去尝试改它里面成员变量 p 的值，并打印出结果，程序会打印出“30”。一开始 p 的值是 20，但是最后修改完毕变成了 30，说明这次修改是成功的。
-
+   
    以上我们就得出了一个结论，**final 修饰一个指向对象的变量的时候，对象本身的内容依然是可以变化的**。
-
+   
    https://kaiwu.lagou.com/course/courseInfo.htm?courseId=16#/detail/pc?id=311
-
-
-
 * Finally: 异常语句处理机构中，与try{}进行配合使用，不论try中的代码是否执行完，表示总是执行的部分
 
 * Finalize: Object类的一个方法，用于对象"消失"时，由JVM进行调用用于对对象进行垃圾回收，释放对象占用的资源.
-
-
-
-
 
 ##### Serializable 和Parcelable 的区别，如何将一个Java对象序列化到文件里？
 
 1. 两者最大的区别在于 **存储媒介的不同**，`Serializable` 使用 **I/O 读写存储在硬盘上**，而 `Parcelable` 是直接 **在内存中读写**。很明显，内存的读写速度通常大于 IO 读写，所以在 Android 中传递数据优先选择 `Parcelable`。
 
 2. `Serializable` 会使用反射，序列化和反序列化过程需要大量 I/O 操作，也会创建很多临时对象， `Parcelable` 自已实现封送和解封（marshalled &unmarshalled）操作不需要用反射，数据也存放在 Native 内存中，效率要快很多。
-
-    https://juejin.cn/post/6844903518826921991
-
    
+    https://juejin.cn/post/6844903518826921991
 
 父类的静态方法能否被子类重写
 
  不能，静态方法只和类有关,JVM加载后先初始化static相关属性方法,重写依赖于类的实例.
-
-   
-
-
 
 ##### 成员内部类、局部内部类以及项目中的应用
 
@@ -246,7 +225,7 @@ public class Parcel5 {
         }
         return new PDestionation(str);
     }
-    
+
   public static void main(String[] args) {
       Parcel5 parcel5 = new Parcel5();
       Destionation d = parcel5.destionation("chenssy");
@@ -254,23 +233,17 @@ public class Parcel5 {
 }
 ```
 
-
-
 闭包和局部内部类的区别
-
-
 
 ##### Java中对象的生命周期
 
-​	**1、创建阶段(Created)**
+​    **1、创建阶段(Created)**
   `检测类是否被加载没有加载的先加载`→`为新生对象分配内存`→`将分配到的内存空间都初始化为零值`→`对对象进行必要的设置`→`执行<init>方法把对象进行初始化`
  对象的加载大小是类加载中就已经确定好了的，类加载过程就相当复杂了，如下图：
 
 ![img](https:////upload-images.jianshu.io/upload_images/4345692-846543b5bed56265.png?imageMogr2/auto-orient/strip|imageView2/2/w/452)
 
 类加载过程.png
-
-
 
 **2、应用阶段(In Use)**
   至少有一个强引用使用着
@@ -290,16 +263,11 @@ public class Parcel5 {
 **7、对象空间重分配阶段(De-allocated)**
   垃圾回收器对该对象的所占用的内存空间进行回收或者再分配了，则该对象彻底消失了，称之为“对象空间重新分配阶段”。
 
-
-
-
 链接：https://www.jianshu.com/p/72f5017c6649
 
+### JVM
 
-
-###  JVM 
-
-##### String特性 
+##### String特性
 
 Java虚拟机在内存中开辟出一块单独的区域
 
@@ -308,8 +276,6 @@ https://zhuanlan.zhihu.com/p/60643031
 https://www.bilibili.com/video/BV1PJ411n7xZ?p=118   几个视频讲到用法，最好能用图画出来
 
 https://www.iteye.com/blog/rednaxelafx-774673
-
-
 
 ##### 哪些情况下的对象会被垃圾回收机制处理掉？
 
@@ -324,29 +290,17 @@ https://noteforme.github.io/2021/01/05/JVM-GC/
 
 https://noteforme.github.io/2020/04/18/JVM/
 
-
-
-
-
 ##### String为什么要设计成不可变的？
 
 1. 便于实现字符串池
-
+   
    由于会大量的使用String常量，如果每一次声明一个String都创建一个String对象，那将会造成极大的空间资源的浪费。Java提出了String pool的概念，在堆中开辟一块存储空间String  pool，当初始化一个String变量时，如果该字符串已经存在了，就不会去创建一个新的字符串变量，而是会返回已经存在了的字符串的引用。
-
+   
    如果字符串是可变的，某一个字符串变量改变了其值，那么其指向的变量的值也会改变，String pool将不能够实现！
-
+   
    https://www.cnblogs.com/wkfvawl/p/11693260.html
 
-
-
-
-
-###  java深入源码级的面试题
-
-
-
-
+### java深入源码级的面试题
 
 ##### 讲一下常见编码方式？
 
@@ -362,30 +316,28 @@ https://noteforme.github.io/2020/04/18/JVM/
    如果一个字节，以 10 开始，表示它不是首字节，需要向前查找才能得到当前字符的首字节 
 
 4. GBK 、ISO-8859-1、GB2312
-
+   
    https://www.cnblogs.com/mlan/p/7823375.html
 
 5. https://www.cnblogs.com/mlan/p/7823375.html
 
 ##### utf-8编码中的中文占几个字节；int型几个字节？
 
-​	少数是汉字每个占用3个字节，多数占用4个字节。
+​    少数是汉字每个占用3个字节，多数占用4个字节。
 
-​	https://blog.csdn.net/hellokatewj/article/details/24325653
+​    https://blog.csdn.net/hellokatewj/article/details/24325653
 
-​	int类型 4个字节
-
-
+​    int类型 4个字节
 
 ##### 静态代理和动态代理的区别，什么场景使用？
 
-​	静态代理 :  编译的时候就已经存在，
+​    静态代理 :  编译的时候就已经存在，
 
-​	动态代理 ： 通过反射机制生成的代理对象
+​    动态代理 ： 通过反射机制生成的代理对象
 
-​	https://noteforme.github.io/2021/01/14/DesignPattern-Proxy/
+​    https://noteforme.github.io/2021/01/14/DesignPattern-Proxy/
 
-​	https://www.jianshu.com/p/2f518a4a4c2b
+​    https://www.jianshu.com/p/2f518a4a4c2b
 
 ##### Java的异常体系
 
@@ -397,35 +349,29 @@ https://noteforme.github.io/2020/04/18/JVM/
 
 ##### 说说你对Java反射的理解
 
-​	对于任何一个类都可以通过反射知道的它的属性和方法。
+​    对于任何一个类都可以通过反射知道的它的属性和方法。
 
 ##### 说说你对Java注解的理解
 
-​	注解，对代码进行注明。使得程序在编译或者运行时，读取到注解并加以处理，以间接的改变程序的运行。
+​    注解，对代码进行注明。使得程序在编译或者运行时，读取到注解并加以处理，以间接的改变程序的运行。
 
 ##### 为什么Java里的匿名内部类只能访问final修饰的外部变量？
 
-​	因为匿名内部类最终会被编译成一个单独的类，而被该类使用的变量会以构造函数参数的形式传递给该类。如果变量不定义为final的，参数在匿名内部类中可以被修改，进而造成和外部的变量不一致的问题，为了避免这种不一致的情况，规定匿名内部类只能访问final修饰的外部变量。
+​    因为匿名内部类最终会被编译成一个单独的类，而被该类使用的变量会以构造函数参数的形式传递给该类。如果变量不定义为final的，参数在匿名内部类中可以被修改，进而造成和外部的变量不一致的问题，为了避免这种不一致的情况，规定匿名内部类只能访问final修饰的外部变量。
 
 ##### 说说你对依赖注入的理解?
 
-​	给予调用方它所需要的对象
-
-
+​    给予调用方它所需要的对象
 
 #### 泛型
 
 ##### 说一下泛型原理，并举例说明
 
-​	泛型实现了参数化类型的概念，使代码可以应用于多种类型。
+​    泛型实现了参数化类型的概念，使代码可以应用于多种类型。
 
-​	在泛型代码内部，无法获得任何有关泛型参数类型的信息。	
+​    在泛型代码内部，无法获得任何有关泛型参数类型的信息。    
 
-
-
-
-
-###  容器
+### 容器
 
 ##### 常用数据结构简介
 
@@ -441,11 +387,7 @@ https://blog.csdn.net/u010942020/article/details/73610121
 
 <img src="INTERVIEW-JAVA/colltetcion_map.png"  />
 
-
-
 ![](https://images4.pianshen.com/887/c1/c1abbb330519fa244799ae0923a2f3cf.png)
-
-
 
 ##### List,Set,Map的区别
 
@@ -457,14 +399,10 @@ https://blog.csdn.net/u010942020/article/details/73610121
 ##### List和Map的实现方式以及存储方式
 
 1. list
-
+   
    ArrayList    查询快 .  LinkedList  插入删除快
 
-   
-
 修改对象A的equals方法的签名，那么使用HashMap存放这个对象实例的时候，会调用哪个equals方法？
-
-
 
 ##### 集合Set实现Hash怎么防止碰撞
 
@@ -478,9 +416,7 @@ https://blog.csdn.net/u010942020/article/details/73610121
 
 原文链接：https://blog.csdn.net/github_37130188/article/details/96508272
 
-​					https://noteforme.github.io/2018/05/31/HashMap/
-
-
+​                    https://noteforme.github.io/2018/05/31/HashMap/
 
 ##### HashMap
 
@@ -502,8 +438,6 @@ get数据
 
 5. 若为链表，则在链表中通过key.equals(k)查找，O(n)。
 
-   
-
 ##### ArrayMap
 
 ArrayMap相比传统的HashMap速度更慢，因为其查找方法是二分法，并且当删除或添加数据时，会对空间重新调整，可以说ArrayMap是牺牲了时间来换空间，ArrayMap与HashMap的区别主要在：
@@ -516,38 +450,30 @@ ArrayMap提供了数组收缩的功能，在clear或remove之后，会重新收�
 
 ArrayMap采用的是二分法查找。
 
-
-
 ##### hashmap hashtable区别
-
-
 
 堆的结构
 
-​	堆分为两种：*最大堆*和*最小堆*，两者的差别在于节点的排序方式。
+​    堆分为两种：*最大堆*和*最小堆*，两者的差别在于节点的排序方式。
 
 在最大堆中，父节点的值比每一个子节点的值都要大。在最小堆中，父节点的值比每一个子节点的值都要小。这就是所谓的“堆属性”，并且这个属性对堆中的每一个节点都成立。
 https://www.jianshu.com/p/6b526aa481b1
 
 ##### 堆和树的区别
 
-​	左子节点必须比父节点小，右子节点必须必比父节点大。但是在堆中并非如此。在最大堆中两个子节点都必须比父节点小，而在最小堆中，它们都必须比父节点大。
-
-
+​    左子节点必须比父节点小，右子节点必须必比父节点大。但是在堆中并非如此。在最大堆中两个子节点都必须比父节点小，而在最小堆中，它们都必须比父节点大。
 
 堆和栈在内存中的区别是什么(解答提示：可以从数据结构方面以及实际实现方面两个方面去回答)？
 
 ##### 什么是深拷贝和浅拷贝
 
 * 浅拷贝
-
+  
   是一个传址,也就是把a的值赋给b的时候同时也把a的地址赋给了b，当b（a）的值改变的时候，a（b）的值同时也会改变
 
 * 深拷贝
-
-  ​	深拷贝是指，拷贝对象的具体内容，二内存地址是自主分配的，拷贝结束之后俩个对象虽然存的值是一样的，但是内存地址不一样，俩个对象页互相不影响，互不干涉
-
-
+  
+  ​    深拷贝是指，拷贝对象的具体内容，二内存地址是自主分配的，拷贝结束之后俩个对象虽然存的值是一样的，但是内存地址不一样，俩个对象页互相不影响，互不干涉
 
 手写链表逆序代码
 
@@ -560,8 +486,3 @@ https://www.jianshu.com/p/6b526aa481b1
 链表翻转（即：翻转一个单项链表）
 
 合并多个单有序链表（假设都是递增的）
-
-
-
-
-
