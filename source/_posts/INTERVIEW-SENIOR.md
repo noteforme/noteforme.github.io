@@ -8,6 +8,10 @@ categories:
 
 
 
+第三方 网络库
+
+
+
 ------
 
 ### 高端技术面试题
@@ -34,41 +38,33 @@ categories:
 
 - Glide内存缓存如何控制大小？
 
-  
-
 ### 框架学习
 
 https://www.youtube.com/watch?v=pUV3qZh481k
 
 #### okhttp
 
-​	https://noteforme.github.io/2017/08/07/OKHTTP/
+​    https://noteforme.github.io/2017/08/07/OKHTTP/
 
 ###### okhttp怎么支持http2.0
 
-​	Handshake则会把服务端支持的Tls版本，加密方式等都带回来，然后会把这个没有验证过的HandShake用X509Certificate去验证证书的有效性。然后会通过Platform去从SSLSocket去获取ALPN的协议支持信息，当后端支持的协议内包含Http2.0时，则就会把请求升级到Http2.0阶段。
+​    Handshake则会把服务端支持的Tls版本，加密方式等都带回来，然后会把这个没有验证过的HandShake用X509Certificate去验证证书的有效性。然后会通过Platform去从SSLSocket去获取ALPN的协议支持信息，当后端支持的协议内包含Http2.0时，则就会把请求升级到Http2.0阶段。
 
-​	配置合适的适配器，解析json数据。
+​    配置合适的适配器，解析json数据。
 
-​	Android 如何编写基于编译时注解的项目
+​    Android 如何编写基于编译时注解的项目
 
-​	编译时注解与运行时注解，为什么retrofit要使用运行时注解？什么时候用运行时注解？
+​    编译时注解与运行时注解，为什么retrofit要使用运行时注解？什么时候用运行时注解？
 
-​	在项目中有直接使用tcp,socket来发送消息吗
+​    在项目中有直接使用tcp,socket来发送消息吗
 
-​	https://www.bilibili.com/video/BV1ib4y1f7S1
-
-
+​    https://www.bilibili.com/video/BV1ib4y1f7S1
 
 Okhttp缓存机制
 
 ###### 网络请求缓存处理，okhttp如何处理网络缓存的
 
-
-
 自己去设计网络请求框架，怎么做？
-
-
 
 - 从网络加载一个10M的图片，说下注意事项
 - TCP的3次握手和四次挥手
@@ -87,15 +83,11 @@ Okhttp缓存机制
 - App 是如何沙箱化，为什么要这么做？
 - 权限管理系统（底层的权限是如何进行 grant 的）？
 
-
-
 #### Retrofit
 
 在retrofit中的泛型是怎么解析的
 
 https://noteforme.github.io/2017/09/23/Retrofit/
-
-
 
 #### RxJava
 
@@ -109,13 +101,13 @@ RxJava 是基于 Push 模型 。对于 Pull 模型而言，当消费者请求数
 
 ##### RxJava原理及如何封装使用
 
-​			使用观察者模式，和装饰器模式。
+​            使用观察者模式，和装饰器模式。
 
-​			先用Observablex向右构建流，然后向左创建订阅流，最后时间通过观察者回调流发送。
+​            先用Observablex向右构建流，然后向左创建订阅流，最后时间通过观察者回调流发送。
 
-​	
+​    
 
-​	你了解协程吗？协程有什么作用？可以完全取代rxjava吗？
+​    你了解协程吗？协程有什么作用？可以完全取代rxjava吗？
 
 ##### rxjava里面用了大量的`<? super T>`这些，是什么意思。
 
@@ -124,48 +116,36 @@ RxJava 是基于 Push 模型 。对于 Pull 模型而言，当消费者请求数
 * 如果要从集合中写入类型T的数据，并且不需要读取，可以使用 ? super 通配符；(Consumer Super),只能用Object接收。
 
 * 如果既要存又要取，那么就不要使用任何通配符。
-
+  
   https://www.jianshu.com/p/86cf908afcb6
 
 ##### RxJava怎么通过被订阅者传给订阅者的过程是什么样的?
 
 ##### Observer处理完onComplete后会还能onNext吗?
 
-​	onComplete是用来控制不能发送数据的，也就是不能onNext了，包括onError也是不能再发送onNext数据了，该方法中也是调用了 	dispose方法。	
+​    onComplete是用来控制不能发送数据的，也就是不能onNext了，包括onError也是不能再发送onNext数据了，该方法中也是调用了     dispose方法。    
 
 ##### RxJava中map、flatMap的区别，你还用过其他哪些操作符?
 
-​	map是通过原始数据类型返回另外一种数据类型，而flatMap是通过原始数据类型返回另外一种被观察者。
-
-
+​    map是通过原始数据类型返回另外一种数据类型，而flatMap是通过原始数据类型返回另外一种被观察者。
 
 ##### Maybe、Single、Flowable、Completable几种观察者的区别，以及他们在什么场景用？
 
-​	如果只想发一条数据，或者不发数据就用Maybe，如果想发多条数据或者不发数据就用Observable，如果只发一条数据或者失败就用Single，如果想用背压策略使用Flowable，如果不发数据就用Completable
-
-
+​    如果只想发一条数据，或者不发数据就用Maybe，如果想发多条数据或者不发数据就用Observable，如果只发一条数据或者失败就用Single，如果想用背压策略使用Flowable，如果不发数据就用Completable
 
 也就是说Maybe可能不发送数据，如果发送数据只会发送单条数据。
 
 single也是发送单条数据，但是它要么成功要么失败。
 
-
-
 ##### RxJava切换线程是怎么回事?
 
 subscribeOn实际是创建了ObservableSubscribeOn的Observable，它的订阅方法里面创建了`SubscribeOnObserver`，通过线程池执行Runnable，使上游Observable的订阅在子线程中执行，这就是为什么subscribeOn能控制observable在哪个线程中执行的原因 
-
-
 
 ##### RxJava的subscribeOn只有第一次生效?
 
 subscribeOn对subscribe订阅进行处理，针对是订阅流，从后向前流动，所以最前面的一次生效。
 
-
-
 subscribeOn是规定上游的observable在哪个线程中执行，如果我们执行多次的subscribeOn的话，从下游的observer到上游的observable的订阅过程，**最开始调用的subscribeOn返回的observable会把后面执行的subscribeOn返回的observable给覆盖了，因此我们感官的是只有第一次的subscribeOn能生效。**
-
-
 
 ##### RxJava的observeOn多次调用哪个有效?
 
@@ -185,8 +165,6 @@ https://zhuanlan.zhihu.com/p/322405376
 
 https://www.bilibili.com/video/BV1Af4y187b8
 
-
-
 ### 数据库
 
 - sqlite升级，增加字段的语句
@@ -204,8 +182,6 @@ https://zhuanlan.zhihu.com/p/42586566
 
 ![](https://img-blog.csdn.net/20180912224019565?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzcwNjQx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
-
-
 ###### 最快的排序算法是哪个？
 
 快速排序  最好情况O(nlogn)  最坏情况 O(n^2)
@@ -216,16 +192,17 @@ https://zhuanlan.zhihu.com/p/42586566
 原文链接：https://blog.csdn.net/qq_36770641/article/details/82669788
 
 * 手写一个冒泡排序
-
 - 手写快速排序代码
+
 - 快速排序的过程、时间复杂度、空间复杂度
+
 - 手写堆排序
+
 - 堆排序过程、时间复杂度及空间复杂度
+
 - 写出你所知道的排序算法及时空复杂度，稳定性
 
 https://noteforme.github.io/2021/03/21/Data-Sort/
-
-
 
 - 二叉树给出根节点和目标节点，找出从根节点到目标节点的路径
 - 给阿里2万多名员工按年龄排序应该选择哪个算法？
@@ -258,17 +235,17 @@ https://noteforme.github.io/2021/03/21/Data-Sort/
 
 ### 架构设计和设计模式
 
-​	https://noteforme.github.io/categories/DesignPatterns/
+​    https://noteforme.github.io/categories/DesignPatterns/
 
 #### 设计原则
 
-​	单一职责
+​    单一职责
 
-​	一个类应该只负责一项职责。
+​    一个类应该只负责一项职责。
 
 接口隔离
 
-​	客户端不应该依赖它不需要的接口，即一个类对另一个类的依赖应该建立在最小的接口上。
+​    客户端不应该依赖它不需要的接口，即一个类对另一个类的依赖应该建立在最小的接口上。
 
 依赖倒置
 
@@ -281,13 +258,13 @@ https://noteforme.github.io/2021/03/21/Data-Sort/
 * 所有使用基类的地方必须能透明的使用其子类。
 * 使用继承时，遵循里氏替换原则，**子类尽量不要重写父类的方法**。继承实际上让两个类耦合性增强了，适当情况下可以通过 聚合 组合 依赖来解决问题。
 
-​	通用做法是： 原来的父类和子类都继承一个更通俗的基类，原有的继承关系去掉，采用依赖，聚合，组合等关系代替。
+​    通用做法是： 原来的父类和子类都继承一个更通俗的基类，原有的继承关系去掉，采用依赖，聚合，组合等关系代替。
 
 开闭原则 ocp
 
 迪米特法则
 
-​	一个对象应该对其他对象保持最少的了解
+​    一个对象应该对其他对象保持最少的了解
 
 #### 设计模式
 
@@ -382,11 +359,9 @@ https://noteforme.github.io/2021/03/21/Data-Sort/
 - 如何保证一个后台服务不被杀死？（相同问题：如何保证service在后台不被kill？）比较省电的方式是什么？
 - App中唤醒其他进程的实现方式
 
-​	https://www.jianshu.com/p/c3965e82b164
+​    https://www.jianshu.com/p/c3965e82b164
 
 ​    https://www.cnblogs.com/deman/p/5860976.html#_label29
-
-
 
 - **AMS是如何启动的？**
 - **AMS在Android起到什么作用？**

@@ -8,97 +8,105 @@ categories: ANDROID
 
 
 
-#### Okhttp缺陷 
+ 
+
+[征服面试官：Retrofit 原理篇 掌握这篇面试题汇总，吊打面试官！_retrofit面试题-CSDN博客](https://blog.csdn.net/jaynm/article/details/108614788)
 
 
 
-![](retrofit/2021-07-26_4.24_vsokhttp.png)
+#### Okhttp缺陷
 
 
 
-![](retrofit/2021-07-28_7.46.04.png)
+
+
+![2021-07-26_4.24_vsokhttp.png](Retrofit/ededd6908c6a239c9f5babdb87767461fe2d413a.png)
+
+![2021-07-28_7.46.04.png](Retrofit/e81f0a50834b2fb1b72fb6b7a2f92ec9ed09d6f1.png)
 
 
 
-####  Retofit调用
 
-![](retrofit/2021-07-27_10.42_retrofit.png)
+
+
+
+#### Retofit调用
+
+
+
+
+
+![2021-07-27_10.42_retrofit.png](Retrofit/f2f4fc41e9bde83f0f4ff0f6661a3a3de8a8deed.png)
+
+
 
 
 
 #### Retrofit Rxjava
 
-![](retrofit/2021-07-27_10.43_rxjava.png)
 
 
+![2021-07-27_10.43_rxjava.png](Retrofit/e60bb6dbf6f6ec0cb9f6ede98003154818a906f4.png)
 
-![](retrofit/2021-07-28_3.02.05.png)
-
-
-
-![](retrofit/2021-07-28_04.21.png)
+![2021-07-28_3.02.05.png](Retrofit/5d1ba3a67f83cdc0a03694e431bee4cda35c51a7.png)
 
 
 
 
 
 
+
+![2021-07-28_04.21.png](Retrofit/00e0ce6a69d77c815471a84f7f9eb221a6900951.png)
 
 
 
  Retorift使用过程
 
 1. 动态生成了实现了接口类型的， 类的对象。
-
-   调用方法,通过反射解析接口，拿到方法参数
-
    
+   调用方法,通过反射解析接口，拿到方法参数
 
    生成代理类
 
    Retrofit.java
 
-   ```java
-   public <T> T create(final Class<T> service) {
-     validateServiceInterface(service);
-     return (T)
-         Proxy.newProxyInstance(
-             service.getClassLoader(),
-             new Class<?>[] {service},
-             new InvocationHandler() {
-               private final Platform platform = Platform.get();
-               private final Object[] emptyArgs = new Object[0];
-   
-               @Override
-               public @Nullable Object invoke(Object proxy, Method method, @Nullable Object[] args)
-                   throws Throwable {
-                 // If the method is a method from Object then defer to normal invocation.
-                 if (method.getDeclaringClass() == Object.class) {
-                   return method.invoke(this, args); //传入的是this
-                 }
-                 args = args != null ? args : emptyArgs;
-                 return platform.isDefaultMethod(method)
-                     ? platform.invokeDefaultMethod(method, service, proxy, args)
-                     : loadServiceMethod(method).invoke(args); //这个动态代理的形式，为什么没传对象？
-               }
-             });
-   }
-   ```
+```java
+public <T> T create(final Class<T> service) {
+  validateServiceInterface(service);
+  return (T)
+      Proxy.newProxyInstance(
+          service.getClassLoader(),
+          new Class<?>[] {service},
+          new InvocationHandler() {
+            private final Platform platform = Platform.get();
+            private final Object[] emptyArgs = new Object[0];
 
-   ```java
-   IApiStores iApiStores = RetrofitFactory.create(IApiStores.class);
-   retrofit2.Call<List<SharedListBean>> sharedListCall = iApiStores.getSharedList(2, 1);
-   ```
+            @Override
+            public @Nullable Object invoke(Object proxy, Method method, @Nullable Object[] args)
+                throws Throwable {
+              // If the method is a method from Object then defer to normal invocation.
+              if (method.getDeclaringClass() == Object.class) {
+                return method.invoke(this, args); //传入的是this
+              }
+              args = args != null ? args : emptyArgs;
+              return platform.isDefaultMethod(method)
+                  ? platform.invokeDefaultMethod(method, service, proxy, args)
+                  : loadServiceMethod(method).invoke(args); //这个动态代理的形式，为什么没传对象？
+            }
+          });
+}
+```
 
-   
+```java
+IApiStores iApiStores = RetrofitFactory.create(IApiStores.class);
+retrofit2.Call<List<SharedListBean>> sharedListCall = iApiStores.getSharedList(2, 1);
+```
 
 2. ServiceMethod
-
+   
    一个方法对应一个serviceMethod,使用hashmap缓存,构建okhttp的网络请求。
 
-
-
-####  Retrofit包装类
+#### Retrofit包装类
 
 Retrofit组装完数据，使用Okhttp进行网络请求的类
 
@@ -158,8 +166,6 @@ public void enqueue(final Callback<T> callback) {
 https://www.bilibili.com/video/BV1mU4y1p71g?p=10&spm_id_from=pageDriver
 
 https://www.bilibili.com/video/BV12Q4y1d7uD?p=7&spm_id_from=pageDriver
-
-
 
 http://www.jianshu.com/p/308f3c54abdd
 这篇文章不错，深入浅出
