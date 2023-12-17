@@ -6,17 +6,11 @@ tags:
 categories: ANDROID
 ---
 
-
-
 https://developer.android.google.cn/training/dependency-injection
-
-
 
 ### Hilt作用
 
 ![Hilt20221017130502](Hilt/Hilt20221017130502.jpg)
-
-
 
 https://www.bilibili.com/video/BV18o4y1S7KH 「社区说」《Hilt-把握住Android依赖项注入的“利器”》
 
@@ -32,8 +26,6 @@ https://developer.android.google.cn/training/dependency-injection/hilt-android?h
 
 ![20221015154712](Hilt/20221015154712.jpg)
 
-
-
 Component种注入了Activity对象 ，Factory提供的Module对象和Activity关联起来.
 
 依赖注入有什么用
@@ -43,25 +35,13 @@ Component种注入了Activity对象 ，Factory提供的Module对象和Activity�
 
 ![20220619224139](Hilt/20220619224139.jpg)
 
-
-
 https://www.bilibili.com/video/BV1e54y1S72A/
-
-
 
 ![2021-08-29_11.12.20_overview](Hilt/2021-08-29_11.12.20_overview.png)
 
-
-
-
-
 由于会和Dagger冲突，所以写在JYKot里
 
-
-
 ![2021-09-25_10.26.41_advantages](Hilt/2021-09-25_10.26.41_advantages.png)
-
-
 
 ##### 用法
 
@@ -69,13 +49,7 @@ https://www.bilibili.com/video/BV1e54y1S72A/
 
 ![20221019080750](Hilt/20221019080750.jpg)
 
-
-
 ![20221019080759](Hilt/20221019080759.jpg)
-
-
-
-
 
 配置HiltAndroidApp注解
 
@@ -85,8 +59,6 @@ class MyApp : Application() {}
 ```
 
 ##### 构造方法注入
-
-
 
 ```kotlin
 // 构造方法绑定
@@ -109,8 +81,6 @@ class HiltMainActivity : AppCompatActivity() {
     }
 }
 ```
-
-
 
 ##### Module对象注入
 
@@ -164,23 +134,13 @@ public class HiltActivity extends AppCompatActivity {
 > 28743-28743/com.john.kot I/HiltActivity: user: com.john.kot.hilt.User@d33a8d5
 > 28743-28743/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea
 
-
-
 ### 默认标准组件
 
-
-
 ![2021-09-25_11.13.47_component_lifecycle](Hilt/2021-09-25_11.13.47_component_lifecycle.png)
-
-
 
 Component lifetimes
 
 Hilt 也允许将绑定的作用域限定为特定组件。Hilt 只为绑定作用域限定到的组件的每个实例创建一次限定作用域的绑定，对该绑定的所有请求共享同一实例。
-
-
-
-
 
 组件实例由关联的Android类来创建的
 
@@ -198,14 +158,12 @@ public class AppModule1 {
 }
 ```
 
-
-
 ```java
 @AndroidEntryPoint
 public class HiltActivity extends AppCompatActivity {
 
     String TAG ="HiltActivity";
- 		//inject注解作用在User变量上,注入对象实例
+         //inject注解作用在User变量上,注入对象实例
 
     @Inject
     User1 user1; // 方式2
@@ -227,8 +185,6 @@ public class HiltActivity extends AppCompatActivity {
 }
 ```
 
-
-
 ```java
 @AndroidEntryPoint
 public class SecondActivity extends AppCompatActivity {
@@ -244,8 +200,6 @@ public class SecondActivity extends AppCompatActivity {
 }
 ```
 
-
-
 运行结果
 
 > 2021-09-25 23:02:57.595 29397-29397/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea
@@ -254,13 +208,7 @@ public class SecondActivity extends AppCompatActivity {
 
 可以看到作用域在Activity中
 
-
-
-
-
 ##### 单例对象的注入
-
-
 
 ##### 构造方法单例
 
@@ -269,16 +217,12 @@ public class SecondActivity extends AppCompatActivity {
 class User6 @Inject constructor()
 ```
 
-
-
 ```
 @Inject
 lateinit var user6: User6 // 方式2
 ```
 
 在Activity这样注入后，User6的对象就是单例的了。
-
-
 
 ###### AppModule1
 
@@ -306,10 +250,6 @@ public class AppModule1 {
 
 明显一样的实例了
 
-
-
-
-
 ###### 方式一
 
 ```kotlin
@@ -331,8 +271,6 @@ class AppModule5 {
 }
 ```
 
-
-
 ```kotlin
 Log.i(TAG, "userParam: ${userParam.user1}")
 Log.i(TAG, "userParam5: ${userParam5.user5}")
@@ -349,13 +287,7 @@ com.john.kot I/HiltSecondActivity: userParam: com.john.kot.hilt.model.User1@bf41
 com.john.kot I/HiltSecondActivity: userParam5: com.john.kot.hilt.model.UserHilt5@aea6a49
 ```
 
-
-
 ###### 方式2
-
-
-
-
 
 但是在Dagger里，组建注入不同的Activity对象后，对象也是不相同的,只有在相同Activity才是单例的。 必须用Application组建，才能实现全局APP的单例
 
@@ -374,8 +306,6 @@ class AppModule5 {
 class UserParam5 @Inject constructor(var user5: User5)
 ```
 
-
-
 ###### 方式3
 
 ```kotlin
@@ -385,16 +315,14 @@ class User5 @Inject constructor()
 class UserParam5 @Inject constructor(var user5: User5)
 ```
 
-
-
 ### 组件作用域
 
 组件和组件作用域一一对应.
 
 | Android class                                 | Generated component         | Scope                     |
-| :-------------------------------------------- | :-------------------------- | :------------------------ |
+|:--------------------------------------------- |:--------------------------- |:------------------------- |
 | `Application`                                 | `SingletonComponent`        | `@Singleton`              |
-| `Activity`(应该是view model)                  | `ActivityRetainedComponent` | `@ActivityRetainedScoped` |
+| `Activity`(应该是view model)                     | `ActivityRetainedComponent` | `@ActivityRetainedScoped` |
 | `ViewModel`                                   | `ViewModelComponent`        | `@ViewModelScoped`        |
 | `Activity`                                    | `ActivityComponent`         | `@ActivityScoped`         |
 | `Fragment`                                    | `FragmentComponent`         | `@FragmentScoped`         |
@@ -402,11 +330,7 @@ class UserParam5 @Inject constructor(var user5: User5)
 | `View` annotated with `@WithFragmentBindings` | `ViewWithFragmentComponent` | `@ViewScoped`             |
 | `Service`                                     | `ServiceComponent`          | `@ServiceScoped`          |
 
-
-
 ##### @ActivityScoped
-
-
 
 ```kotlin
 @AndroidEntryPoint
@@ -432,8 +356,6 @@ class HiltMainActivity : AppCompatActivity() {
 }
 ```
 
-
-
 ```kotlin
 //Module装载到ActivityComponent中
 @InstallIn(ActivityComponent::class) //通过这种方式和组件关联
@@ -448,8 +370,6 @@ class AppModule2 {
 }
 ```
 
-
-
 @ActivityScoped必须用ActivityComponent, 可以看到在Activity生命周期内对象相同
 
 ```
@@ -458,11 +378,7 @@ class AppModule2 {
 521 5433-5433/com.john.kot I/HiltSecondActivity: user5: com.john.kot.hilt.dn.di.User2@8d0e984
 ```
 
-
-
 ##### @Singleton
-
-
 
 ```kotlin
 //Module装载到ActivityComponent中
@@ -478,8 +394,6 @@ class AppModule2 {
 }
 ```
 
-
-
 可以看到，这种情况应用内单例
 
 ```
@@ -488,19 +402,13 @@ class AppModule2 {
 816 5726-5726/com.john.kot I/HiltSecondActivity: user5: com.john.kot.hilt.dn.di.User2@aa56b56
 ```
 
-
-
 ### 组件层次结构
-
-
 
 ![2021-09-26_10.21.23_component_layer](Hilt/2021-09-26_10.21.23_component_layer.png)
 
 ApplicationComponent 顶级父组件 ,下一层ActivityRetanedComponent是的子组件，往下是子子组件。
 
 那么ActivityRetanedComponent可以获取到ApplicationComponent提供的对象的实例.
-
-
 
 ```kotlin
 //Module装载到ActivityComponent中
@@ -518,12 +426,10 @@ class AppModule2 {
 
 例如就像上面一样， Activity中可以访问SingletonComponent组件的实例。
 
-
-
 ### 组件默认绑定
 
 | Android component           | Default bindings                              |
-| :-------------------------- | :-------------------------------------------- |
+|:--------------------------- |:--------------------------------------------- |
 | `SingletonComponent`        | `Application`                                 |
 | `ActivityRetainedComponent` | `Application`                                 |
 | `ViewModelComponent`        | `SavedStateHandle`                            |
@@ -532,8 +438,6 @@ class AppModule2 {
 | `ViewComponent`             | `Application`, `Activity`, `View`             |
 | `ViewWithFragmentComponent` | `Application`, `Activity`, `Fragment`, `View` |
 | `ServiceComponent`          | `Application`, `Service`                      |
-
-
 
 ##### ApplicationComponent
 
@@ -556,8 +460,6 @@ class HiltViewModel3 @Inject constructor(
     }
 }
 ```
-
-
 
 ```kotlin
 @AndroidEntryPoint
@@ -582,11 +484,7 @@ class HiltMainActivity : AppCompatActivity() {
 
 可以看到都有 Application, Activity实例对象,这就是默认绑定
 
-
-
 ##### Activity默认绑定
-
-
 
 下面的没有 @Inject
 
@@ -600,8 +498,6 @@ class HiltViewModel4(var user: User3, var application: Application, var activity
     }
 }
 ```
-
-
 
 ```kotlin
 //Module装载到ActivityComponent中
@@ -621,13 +517,9 @@ class AppModule4 {
 }
 ```
 
-
-
 ```kotlin
 viewModel1.test();
 ```
-
-
 
 ```
 com.john.kot I/HiltViewModel4: test:user com.john.kot.hilt.dn.di.User3@5b5a73
@@ -637,31 +529,20 @@ com.john.kot I/HiltViewModel4: test: activitycom.john.kot.hilt.dn.HiltMainActivi
 
 可以看到也能提供Appilicaton和activity默认绑定的实例
 
-
-
 ### 预定义限定符
 
 提供了几种预定义限定符(Qualifier) : @ApplicationContext 和 @ActivityContext
 
-
-
 ##### ApplicationContext VS ActivityContext ?
 
-
-
-
-
-
-
 ### Hilt支持Jetpack组件
-
-
 
 ##### ViewModel
 
 * User由我们自己提供
 
 * Application application, Activity activity由 Dagger提供
+
 * Context预定义的限定符.
 
 ```java
@@ -691,17 +572,11 @@ public class MainViewModel extends ViewModel {
 }
 ```
 
-
-
 https://www.bilibili.com/video/BV1Ki4y1A7hA?spm_id_from=333.999.0.0
 
 https://www.bilibili.com/video/BV1BK4y1V7no?p=4&spm_id_from=pageDriver
 
 https://developer.android.com/codelabs/android-hilt?hl=zh-cn#7
-
-
-
-
 
 ### Interface inject 接口注入
 
@@ -716,8 +591,6 @@ abstract class BannerRepoModule {
     abstract fun bannerRepo(repoImpl: BannerRepository): IBannerApi 
 }
 ```
-
-
 
 #### viewModel
 
@@ -751,19 +624,48 @@ class DataFragment : Fragment() {
 
 通过ViewPager创建的Fragment无法使用`@HiltViewModel`，只能通过普通的方式注入，弄了很久都没有找到解决方案。配合[navigation](https://developer.android.com/jetpack/androidx/releases/navigation)使用的话没有问题
 
-
-
 #### 字节码技术
 
 Javassit 动态修改字节码
 
-
-
-
-
 #### Hilt UnitTest
 
 https://mahendranv.github.io/posts/hilt-instrument/
+
+
+
+### Entry point
+
+[Dependency injection with Hilt &nbsp;|&nbsp; Android Developers](https://developer.android.com/training/dependency-injection/hilt-android)
+
+
+
+```
+class AnalyticsServiceImpl @Inject constructor(
+  @ApplicationContext context: Context
+) : AnalyticsService { ... }
+
+// The Application binding is available without qualifiers.
+class AnalyticsServiceImpl @Inject constructor(
+  application: Application
+) : AnalyticsService { ... }
+```
+
+
+
+```
+class ExampleContentProvider : ContentProvider() {
+
+  @EntryPoint
+  @InstallIn(SingletonComponent::class)
+  interface ExampleContentProviderEntryPoint {
+    fun analyticsService(): AnalyticsService
+  }
+
+  ...
+}
+```
+
 
 
 

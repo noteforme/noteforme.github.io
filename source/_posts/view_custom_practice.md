@@ -1,5 +1,5 @@
 ---
-title: View_Practice
+title: view_custom_practice
 comments: true
 date: 2019-01-01 22:44:09
 tags: VIEW
@@ -12,17 +12,11 @@ categories: VIEW
 
 <https://www.jianshu.com/p/16301de41a18>
 
-### 表单输入
+##### 表单输入
 
-![CustomView2018-05-12 09-42-16](View_Practice/CustomView2018-05-12_09-42-16.png)
-
-
-
-
+![72076dc11d35edd0c89c43be62fab6cbd64f1d19.png](view_custom_practice/92df6204eef938d3cdad18829d6a3e5c898699e7.png)
 
 ```
-
-
 /**
  * EditText文字固定在右边
  */
@@ -61,20 +55,14 @@ public class EditTextRight extends AppCompatEditText {
         }
     }
 }
+```
 
-
-
-
- <com.jonzhou.mineutils.ui.customview.EditTextRight
+```
+  <com.jonzhou.mineutils.ui.customview.EditTextRight
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         mineutils:textright="幢" />
-
-
-
 ```
-
-
 
 ##### 自定义属性
 
@@ -133,10 +121,6 @@ public class MyView extends View {
 }
 ```
 
-
-
-
-
 设置 match_parent不是正方形?
 
 关于自定义属性不提示 declare-styleable name要和自定义类名相同，然后重启Ide就好了
@@ -150,9 +134,6 @@ AT_MOST：当前控件不能超过一个固定的最大值，一般是wrap_conte
 
 下面是一个重写onMeasure的固定伪代码写法：
 
-
-
-```
 if mode is EXACTLY{
      父布局已经告诉了我们当前布局应该是多大的宽高, 所以我们直接返回从measureSpec中获取到的size 
 }else{
@@ -162,27 +143,16 @@ if mode is EXACTLY{
      else:
           返回计算出的desireSize
    }
-```
 
   原文：https://blog.csdn.net/yissan/article/details/51136088 
 
 ##### 自定义属性不提示
 
-
-
   按照如图两名称一致，重启AndroidStudio
 
+![customview_2018-05-17_01.png](view_custom_practice/492facd51a9ebe5eca5bd06a04431508962a382f.png)
 
-
-![customview_2018-05-17_01.png](View_Practice/f94881f742add9ca703092a8aba82d16dd786297.png)
-
-
-
-![customview_2018-05-17_02.png](View_Practice/565ee0bff59b4579fa9da04fe90292b931d38f01.png)
-
-
-
-
+![customview_2018-05-17_02.png](view_custom_practice/26ef1cc4ec29147689386da4cb1937d36b75ae11.png)
 
  https://blog.csdn.net/skysmile_/article/details/78833438
 

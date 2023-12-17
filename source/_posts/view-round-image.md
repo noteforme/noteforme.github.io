@@ -4,23 +4,13 @@ date: 2022-08-14 10:55:00
 categories: VIEW
 ---
 
-
-
 https://blog.csdn.net/xiaohanluo/article/details/52945791
 
 https://guides.codepath.com/android/Working-with-the-ImageView
 
-
-
-
-
 ![](https://images.thoughtbot.com/blog-vellum-image-uploads/wDbiaqGSQyyErtXGSh6w_scaletype.png)
 
 https://guides.codepath.com/android/Working-with-the-ImageView
-
-
-
-
 
 ### 全圆角
 
@@ -34,8 +24,6 @@ https://guides.codepath.com/android/Working-with-the-ImageView
     android:src="@drawable/music" />
 ```
 
-
-
 ```java
     mImg = findViewById(R.id.img_test);
     ViewOutlineProvider viewOutlineProvider = new ViewOutlineProvider() {
@@ -48,15 +36,9 @@ https://guides.codepath.com/android/Working-with-the-ImageView
     mImg.setClipToOutline(true);
 ```
 
-
-
 https://blog.csdn.net/weixin_43499030/article/details/92799689
 
-
-
 #### CardView
-
-
 
 ### 部分圆角
 
@@ -76,8 +58,6 @@ https://blog.csdn.net/weixin_43499030/article/details/92799689
             app:shapeAppearance="@style/RoundAndCutImageStyle" />
 ```
 
-
-
 需要通过设置 app:shapeAppearance 才有用
 
 ```xml
@@ -93,41 +73,31 @@ https://blog.csdn.net/weixin_43499030/article/details/92799689
     </style>
 ```
 
-
-
 左边是圆角，右边是“切角”
 
 ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8f808689473d4938bf84d101b5908143~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp)
 
+
+
 https://juejin.cn/post/6913083202387050509
 
-
-
-####  BitmapShader
-
-
+#### BitmapShader
 
 setShader
 
 setShader，顾名思义，设置着色器，我们知道在Canvas中，我们调用drawXXX可以绘制出各种各样的图形，如圆形、矩形、扇形等等，而Shader是给Paint设置的属性，决定paint绘制图形的时候如何给图形上色，比如绘制一个矩形，我想要矩形中铺满一张图片，那这些平铺的图片就相当于是给这个矩形上色了。好了，概念先说到这，Shader是一个基类，setShader中设置的都是Shader的子类
 https://blog.csdn.net/huxin1875/article/details/89133025
 
-
-
-
-
 ```java
-	 Call this to create a new shader that will draw with a bitmap.
-	 Params:
-	 bitmap – The bitmap to use inside the shader
-	 tileX – The tiling mode for x to draw the bitmap in.
-	 tileY – The tiling mode for y to draw the bitmap in.
+     Call this to create a new shader that will draw with a bitmap.
+     Params:
+     bitmap – The bitmap to use inside the shader
+     tileX – The tiling mode for x to draw the bitmap in.
+     tileY – The tiling mode for y to draw the bitmap in.
 public BitmapShader(@NonNull Bitmap bitmap, @NonNull TileMode tileX, @NonNull TileMode tileY) {
     this(bitmap, tileX.nativeInt, tileY.nativeInt);
 }
 ```
-
-
 
 ```kotlin
 class BitmapShaderView @JvmOverloads constructor(
@@ -160,10 +130,6 @@ class BitmapShaderView @JvmOverloads constructor(
 }
 ```
 
-
-
-
-
  先来看看BitmapShader属性的作用
 
  bitmap 指的是要作为纹理的图片，
@@ -171,8 +137,6 @@ class BitmapShaderView @JvmOverloads constructor(
  tileX 指的是在ｘ方向纹理的绘制模式
 
  tileY 指的是Ｙ方向上的绘制模式。
-
-
 
 ```java
     public enum TileMode {
@@ -203,13 +167,9 @@ class BitmapShaderView @JvmOverloads constructor(
     }
 ```
 
-
-
 ***CLAMP 拉伸\***:设置x , 横向的最后一个横行像素，不断的重复，设置y，那么纵项的那一列像素，不断的重复；
 ***REPEAT 重复\***:就是横向、纵向不断重复这个bitmap
 ***MIRROR 镜像\***:横向不断翻转重复，纵向不断翻转重复；
-
-
 
 ##### CLAMP
 
@@ -219,25 +179,13 @@ BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
 
 <img src="view-round-image/Screenshot_1660468780.png" alt="Screenshot_1660468780" style="zoom:20%;" />
 
-
-
-
-
-
-
 REPEAT
-
-
 
 ```kotlin
 BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
 ```
 
-
-
 <img src="view-round-image/Screenshot_1660469449.png" alt="Screenshot_1660469449" style="zoom:20%;" />
-
-
 
 ##### MIRROR
 
@@ -245,29 +193,17 @@ BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
 BitmapShader(bitmap, Shader.TileMode.MIRROR, Shader.TileMode.MIRROR)
 ```
 
-
-
- <img src="view-round-image/Screenshot_1660469253.png" alt="Screenshot_1660469253" style="zoom:20%;" />
-
-
+<img src="view-round-image/Screenshot_1660469253.png" alt="Screenshot_1660469253" style="zoom:20%;" />
 
 可以看到， x y 镜像映射
-
-
 
 ##### DECAL
 
 最后这种就是正常显示的了
 
-
-
 <img src="view-round-image/Screenshot_1660469645.png" alt="Screenshot_1660469645" style="zoom:20%;" />
 
 https://juejin.cn/post/6844903480809766920
-
-
-
-
 
 ##### 全部圆角
 
@@ -279,8 +215,6 @@ https://juejin.cn/post/6844903480809766920
 
 关于drawable转bitmap的代码：
 
-
-
 ```kotlin
 Math.max(width / bmp.width.toFloat(), height / bmp.height.toFloat())
 ```
@@ -289,15 +223,11 @@ View宽度 / 图片宽度 , View的高度/图片高度
 
 他们取最大值，进行缩放，图片短的那一部分就会填满View,长的那一部分会被截掉,显示不全
 
-
-
 计算scale
 
 > 比如：view的宽高为50 * 100；图片的宽高为5*100 ； 最终我们应该按照宽的比例放大，而不是按照高的比例缩小；因为我们需要让缩放后的图片，自定大于我们的view宽高，并保证原图比例。
 
 那么高度就被放大10倍到1000,值能显示到1/10
-
-
 
 ```kotlin
 class RoundImageShaderView @JvmOverloads constructor(
@@ -359,10 +289,6 @@ class RoundImageShaderView @JvmOverloads constructor(
 }
 ```
 
-
-
-
-
 ```xml
 <com.john.kot.view.RoundImageShaderView
     android:id="@+id/iv_girl1"
@@ -385,11 +311,7 @@ class RoundImageShaderView @JvmOverloads constructor(
     app:layout_constraintTop_toBottomOf="@+id/iv_girl1" />
 ```
 
-
-
 ![20220814224524](view-round-image/20220814224524.jpg)
-
-
 
 可以看到，高度部分截取了
 
@@ -399,13 +321,7 @@ https://developer.android.com/reference/android/graphics/PorterDuff.Mode
 
 https://segmentfault.com/a/1190000012253911
 
-
-
-
-
 ##### 部分圆角
-
-
 
 <img src="view-round-image/20220828111337.jpg" alt="20220828111337" style="zoom: 50%;" />
 
@@ -450,7 +366,7 @@ class RoundBottomBitmapShaderView @JvmOverloads constructor(
             ), mBitmapPaint
         )
     }
-    
+
     /**
      * 初始化BitmapShader
      */
@@ -468,7 +384,7 @@ class RoundBottomBitmapShaderView @JvmOverloads constructor(
         // 设置shader
         mBitmapPaint.shader = mBitmapShader
     }
-    
+
     /**
      * drawable转bitmap
      *
@@ -486,8 +402,6 @@ class RoundBottomBitmapShaderView @JvmOverloads constructor(
     }
 }
 ```
-
-
 
 ##### 一个脚
 
@@ -528,7 +442,7 @@ class RoundSingleBitmapShaderView @JvmOverloads constructor(
         //绘制矩形竖线
         canvas?.drawRect(RectF(0f, mRadius, mRadius, height.toFloat()), mBitmapPaint)
 
-      	//绘制主要的图
+          //绘制主要的图
         canvas?.drawRect(
             RectF(
                 mRadius, 0f, width.toFloat(),
@@ -575,10 +489,6 @@ class RoundSingleBitmapShaderView @JvmOverloads constructor(
 }
 ```
 
-
-
-
-
 #### Xfermode绘制圆角
 
 ##### 概览
@@ -589,31 +499,27 @@ class RoundSingleBitmapShaderView @JvmOverloads constructor(
 
 ![](https://upload-images.jianshu.io/upload_images/1930161-1b9736cdad4df3d8?imageMogr2/auto-orient/strip|imageView2/2/w/312/format/webp)
 
-
-
-模式	说明
-PorterDuff.Mode.CLEAR	所有绘制不会绘制到画布上
-PorterDuff.Mode.SRC	显示上层绘制图形
-PorterDuff.Mode.DST	显示下层绘制图形
-PorterDuff.Mode.SRC_OVER	图形叠加，上层盖住下层
-PorterDuff.Mode.DST_OVER	图形叠加，下层盖住上层
-PorterDuff.Mode.SRC_IN	显示上层交集部分
-PorterDuff.Mode.DST_IN	显示下层交集部分
-PorterDuff.Mode.SRC_OUT	显示上层非交集部分
-PorterDuff.Mode.DST_OUT	显示下层非交集部分
-PorterDuff.Mode.SRC_ATOP	显示下层非交集部分和上层交集部分
-PorterDuff.Mode.DST_ATOP	显示下层交集部分与上层非交集部分
-PorterDuff.Mode.XOR	去除交集部分
-PorterDuff.Mode.DARKEN	交集部分颜色加深
-PorterDuff.Mode.LIGHTEN	交集部分颜色变亮
-PorterDuff.Mode.MULTIPLY	显示交集部分，颜色混合叠加
-PorterDuff.Mode.SCREEN	取两图层全部区域，交集部分变为透明色
+模式    说明
+PorterDuff.Mode.CLEAR    所有绘制不会绘制到画布上
+PorterDuff.Mode.SRC    显示上层绘制图形
+PorterDuff.Mode.DST    显示下层绘制图形
+PorterDuff.Mode.SRC_OVER    图形叠加，上层盖住下层
+PorterDuff.Mode.DST_OVER    图形叠加，下层盖住上层
+PorterDuff.Mode.SRC_IN    显示上层交集部分
+PorterDuff.Mode.DST_IN    显示下层交集部分
+PorterDuff.Mode.SRC_OUT    显示上层非交集部分
+PorterDuff.Mode.DST_OUT    显示下层非交集部分
+PorterDuff.Mode.SRC_ATOP    显示下层非交集部分和上层交集部分
+PorterDuff.Mode.DST_ATOP    显示下层交集部分与上层非交集部分
+PorterDuff.Mode.XOR    去除交集部分
+PorterDuff.Mode.DARKEN    交集部分颜色加深
+PorterDuff.Mode.LIGHTEN    交集部分颜色变亮
+PorterDuff.Mode.MULTIPLY    显示交集部分，颜色混合叠加
+PorterDuff.Mode.SCREEN    取两图层全部区域，交集部分变为透明色
 
 https://blog.csdn.net/xiaohanluo/article/details/52945791
 
 https://developer.android.google.cn/reference/android/graphics/PorterDuff.Mode
-
-
 
 ```kotlin
   private class SampleXfermodeView(context: Context?) : View(context) {
@@ -744,8 +650,6 @@ https://developer.android.google.cn/reference/android/graphics/PorterDuff.Mode
 }
 ```
 
-
-
 ##### 圆角图片
 
 ```kotlin
@@ -851,7 +755,7 @@ class XfermodeView @JvmOverloads constructor(
         val zoomImg = zoomImg(src!!, mWidth, mHeight)
         canvas.drawBitmap(zoomImg!!, 0f, 0f, paint)
     }
-    
+
     fun zoomImg(bm: Bitmap, newWidth: Int, newHeight: Int): Bitmap? {
         // 获得图片的宽高
         val width = bm.width
@@ -867,6 +771,3 @@ class XfermodeView @JvmOverloads constructor(
     }
 }
 ```
-
-
-
