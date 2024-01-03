@@ -129,7 +129,7 @@ https://developer.android.com/training/basics/data-storage/files.html?hl=zh-cn
 [[Bug]：安卓14，申请READ_MEDIA_IMAGES时，当用户选择部分允许后，READ_MEDIA_IMAGES的isGranted=true · Issue #244 · getActivity/XXPermissions · GitHub](https://github.com/getActivity/XXPermissions/issues/244)
 
 
-
+https://developer.android.com/training/data-storage/shared/photopicker#kotlin
 
 
 ```
