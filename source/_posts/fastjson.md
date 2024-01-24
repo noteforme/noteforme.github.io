@@ -4,17 +4,11 @@ date: 2022-05-13 16:13:34
 tags:
 ---
 
-
-
 https://zonghaishang.gitbooks.io/fastjson-source-code-analysis/content/
-
-
 
 #### FastJson为什么快
 
 https://tobebetterjavaer.com/gongju/fastjson.html#_05%E3%80%81%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BF%AB
-
-
 
 1. 为什么要进行序列化
 2. 每个实体bean都必须实现serializabel接口吗
@@ -22,8 +16,6 @@ https://tobebetterjavaer.com/gongju/fastjson.html#_05%E3%80%81%E6%88%91%E4%B8%BA
 实现序列化的两个原因：1、将对象的状态保存在存储媒体中以便可以在以后重新创建出完全相同的副本；2、按值将对象从一个应用程序域发送至另一个应用程序域。实现serializable接口的作用是就是可以把对象存到字节流，然后可以恢复，所以你想如果你的对象没实现序列化怎么才能进行持久化和网络传输呢，要持久化和网络传输就得转为字节流，所以在分布式应用中及设计数据持久化的场景中，你就得实现序列化。
 
 第二个问题，是不是每个实体bean都要实现序列化，答案其实还要回归到第一个问题，那就是你的bean是否需要持久化存储媒体中以及是否需要传输给另一个应用，没有的话就不需要，例如我们利用fastjson将实体类转化成json字符串时，并不涉及到转化为字节流，所以其实跟序列化没有关系。
-
-
 
 Fastjson 示例没有 实现serializabel
 
@@ -44,13 +36,9 @@ public class AutoTypeTest0 extends TestCase {
 }
 ```
 
-
-
 针对第2个问题，那么json字符串最终网络传输有没有转化成 字节流，是怎么转的呢？,还是在网络协议中转的。
 
 https://blog.csdn.net/weixin_44203158/article/details/88382770
-
-
 
 #### 原理
 
@@ -65,13 +53,9 @@ FastJson的序列化过程，就是把一个内存中的Java Bean转换成JSON�
 
 常用的JSON序列化框架中，FastJson和jackson在把对象序列化成json字符串的时候，是通过遍历出该类中的所有getter方法进行的。Gson是通过反射遍历该类中的所有属性，并把其值序列化成json。
 
-
-
 https://codeantenna.com/a/vGtiZACEWS
 
 https://codeantenna.com/a/JCFJvwdTsd
-
-
 
 #### 源码分析
 
@@ -79,41 +63,25 @@ https://blog.csdn.net/shangzonghai/article/details/79187455
 
 https://github.com/zonghaishang/fastjson 注释版本
 
-
-
 Android版本
 
 https://github.com/alibaba/fastjson/wiki/Android%E7%89%88%E6%9C%AC
 
-
-
 #### Fastjson修bug
 
 1. 讲解怎么打印ASM字节数据
-
+   
    ![asm_20220516175112](fastjson/asm_20220516175112.jpg)
 
-   
-
-   
-
-   mac jdk版本切换
+  
 
   https://www.bilibili.com/video/BV1JJ41197UK?spm_id_from=333.337.search-card.all.click
 
-​	 Fastjson 为什么用 IdentityHashMap
-
-
-
-
+​     Fastjson 为什么用 IdentityHashMap
 
 #### 序列化流程
 
-
-
 通过asm 获取对象上的属性的get方法集合，然后通过调用相应的方法拼装出json字符串。
-
-
 
 ```java
 public final void write(Object object) {
@@ -136,8 +104,6 @@ public final void write(Object object) {
 }
 ```
 
-
-
 ```java
 private ObjectSerializer getObjectWriter(Class<?> clazz, boolean create) {
    if (create) {
@@ -145,7 +111,7 @@ private ObjectSerializer getObjectWriter(Class<?> clazz, boolean create) {
      writer = createJavaBeanSerializer(clazz);
      put(clazz, writer);
     }
-         
+
     if (writer == null) {
        /** 尝试在已注册缓存找到特定class的序列化实例 */
      writer = serializers.get(clazz);
@@ -153,15 +119,13 @@ private ObjectSerializer getObjectWriter(Class<?> clazz, boolean create) {
 }
 ```
 
-
-
 User ASM 在这里生成
 
 ```java
 public JavaBeanSerializer createJavaBeanSerializer(SerializeBeanInfo beanInfo) throws Exception {
 
         byte[] code = cw.toByteArray(); // 这里就是动态生成的字节码文件
-  
+
         Class<?> serializerClass = classLoader.defineClassPublic(classNameFull, code, 0, code.length);
         Constructor<?> constructor = serializerClass.getConstructor(SerializeBeanInfo.class);
         Object instance = constructor.newInstance(beanInfo);
@@ -169,8 +133,6 @@ public JavaBeanSerializer createJavaBeanSerializer(SerializeBeanInfo beanInfo) t
         return (JavaBeanSerializer) instance;
 }
 ```
-
-
 
 这是生成的ASM类
 
@@ -247,17 +209,13 @@ public class ASMSerializer_1_User extends JavaBeanSerializer implements ObjectSe
 
 https://www.jianshu.com/p/824f8f4df15d
 
-
-
-####  反序列化
+#### 反序列化
 
  通过asm 获取对象上的属性的set方法集合，然后调用set方法集合，赋值到相应的属性。
 
 ```java
 Files.write(code,new File("ASMDeserializer.class"))
 ```
-
-
 
 ###### Token定义
 
@@ -273,7 +231,5 @@ Token是Fastjson中定义的json字符串的同类型字段，即"{"、"["、数
 https://blog.csdn.net/qq_45854465/article/details/120626835
 
 https://blog.csdn.net/lllhhhyyy999/article/details/120896574
-
-
 
 https://blog.csdn.net/shangzonghai/article/details/79187455

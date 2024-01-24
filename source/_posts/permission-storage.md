@@ -108,11 +108,7 @@ https://developer.android.com/training/basics/data-storage/files.html?hl=zh-cn
 
 ### READ_MEDIA_VISUAL_USER_SELECTED
 
-
-
 这个限制和 iOS 相似，Android 14 提供了对照片和视频的部分访问权限。当您访问媒体数据时，用户将看到一个对话框，提示用户授予对所有媒体的访问、或者授予单个照片/视频的访问权限，该新功能将适用于 Android 14 上所有应用程序，无论其 targetSdkVersion 是多少
-
-
 
 ![The .](https://developer.android.google.cn/static/about/versions/14/images/partial-photo-video-access.png)
 
@@ -128,15 +124,10 @@ https://developer.android.com/training/basics/data-storage/files.html?hl=zh-cn
 
 [[Bug]：安卓14，申请READ_MEDIA_IMAGES时，当用户选择部分允许后，READ_MEDIA_IMAGES的isGranted=true · Issue #244 · getActivity/XXPermissions · GitHub](https://github.com/getActivity/XXPermissions/issues/244)
 
-
-
-
-
 ```
-   
-       var filter by remember { mutableStateOf<VisualMediaType>(ImageAndVideo) }
+   var filter by remember { mutableStateOf<VisualMediaType>(ImageAndVideo) }
 
-   
+
    /**
      * [PickMultipleVisualMedia] is an ActivityResultContract that will launch the photo picker
      * intent while providing an enhanced API over the available customisations options (media type,
@@ -149,9 +140,8 @@ https://developer.android.com/training/basics/data-storage/files.html?hl=zh-cn
         rememberLauncherForActivityResult(PickMultipleVisualMedia(maxItems)) { uris ->
             selectedMedia = uris
         }
-   
-   
-       
+
+
+
     pickMultipleMedia.launch(PickVisualMediaRequest(filter))   
-   
 ```
