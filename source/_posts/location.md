@@ -26,6 +26,9 @@ https://blog.csdn.net/u013334392/article/details/91971758
 
 ### detect installed app
 
+https://stackoverflow.com/questions/72123141/how-to-check-exists-app-in-device-on-android
+
+https://medium.com/@GoogleDroids/how-to-check-if-an-android-app-is-installed-on-your-device-f8f0f1d4fb6a
 
 ```
     fun isPackageInstalled(context: Context, packagename: String): Boolean {
@@ -64,6 +67,20 @@ Androidmanifest.xml
     </queries>
 ```
 
+it also can be used , but it seems not recommend in office
+
+```
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+        </intent>
+    </queries>
+```
+
+
 
 
 huawei OS install others map , except google map
@@ -89,7 +106,11 @@ https://support.google.com/googleplay/android-developer/answer/10144311#zippy=%2
 An app that accesses a user's inventory of installed apps and doesn't treat this data as personal or sensitive data subject to the above Privacy Policy, data handling, and Prominent Disclosure and Consent requirements.
 
 
+Android 11 introduced changes related to package visibility. These changes affect applications, only if they target Android 11 and above. For more information on these changes, please view the official documentation about package visibility on Android.
 
+https://developer.android.com/training/package-visibility
+
+https://developer.android.com/about/versions/11/privacy/package-visibility
 
 
 
