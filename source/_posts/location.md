@@ -113,6 +113,10 @@ https://developer.android.com/training/package-visibility
 https://developer.android.com/about/versions/11/privacy/package-visibility
 
 
+But be aware that Play Store has new policy and common apps with this perm declared won't be pulished in there. You have to provide good reason for accepting your app - this permission must be used for starting user-initiated key feature of app
+
+https://stackoverflow.com/questions/72123141/how-to-check-exists-app-in-device-on-android
+
 
 
 
