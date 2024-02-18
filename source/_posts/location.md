@@ -82,6 +82,13 @@ baidumap: true
 waze: true
 
 
+### Google play Policy
+
+https://support.google.com/googleplay/android-developer/answer/10144311#zippy=%2Cexamples-of-common-violations
+
+An app that accesses a user's inventory of installed apps and doesn't treat this data as personal or sensitive data subject to the above Privacy Policy, data handling, and Prominent Disclosure and Consent requirements.
+
+
 
 
 
