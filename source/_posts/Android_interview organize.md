@@ -5,13 +5,64 @@ tags: inter
 
 ---
 
-
-
 # 我的面试
 
 项目的难点，解决
 
 项目中遇到的难题 使用了什么技术来解决
+
+1. big2 UI
+
+2. expired exception
+   
+   ```
+   Fatal Exception: java.lang.IllegalStateException: FragmentManager has been destroyed
+          at androidx.fragment.app.FragmentManager.enqueueAction(FragmentManager.java:1662)
+          at androidx.fragment.app.BackStackRecord.commitInternal(BackStackRecord.java:341)
+          at androidx.fragment.app.BackStackRecord.commit(BackStackRecord.java:306)
+          at androidx.fragment.app.DialogFragment.show(DialogFragment.java:507)
+          at my.com.tngdigital.common.view.BaseDialogFragment.show(BaseDialogFragment.kt:63)
+          at my.com.tngdigital.home.scanqr.mlkit.decode.HandleBarcodeHelper$onHandleResult$1.decodeFailed(HandleBarcodeHelper.kt:431)
+   ```
+   
+   网络请求回来后，activity已经不在，通过livedata管理，这个dialog上线半年,没有问题，数量突然从增加。但是扫码的业务特别多，一开始通过埋点查询到308的过期码很多，一个个业务排查也查不出来，接着自己埋点，把解码的业务找出来，然后看哪种的过期码多，经过一轮排查，找到是多语言配置的问题。
+   
+   ```
+   Fatal Exception: java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+          at androidx.fragment.app.FragmentManager.checkStateLoss(FragmentManager.java:1628)
+          at androidx.fragment.app.FragmentManager.enqueueAction(FragmentManager.java:1668)
+          at androidx.fragment.app.BackStackRecord.commitInternal(BackStackRecord.java:341)
+          at androidx.fragment.app.BackStackRecord.commit(BackStackRecord.java:306)
+          at androidx.fragment.app.DialogFragment.show(DialogFragment.java:507)
+          at my.com.tngdigital.common.view.BaseDialogFragment.show(BaseDialogFragment.kt:63)
+          at my.com.tngdigital.user.view.UserLoginActivity.onLoginOptionFail(UserLoginActivity.kt:397)
+          at my.com.tngdigital.user.presenter.UserLoginPresenter$rpcLoginOptions$1.invoke(UserLoginPresenter.kt:152)
+          at my.com.tngdigital.user.presenter.UserLoginPresenter$rpcLoginOptions$1.invoke(UserLoginPresenter.kt:115)
+          at com.AppGuard.andjni.JniLib.cV(JniLib.java)
+          at my.com.tngdigital.user.model.LoginModelImpl$loginOptions$1.onFailure(LoginModel.kt:18)
+          at my.com.tngdigital.common.internal.rpcexpress.AndroidRpcCallback$onFailure$1.invoke(AndroidRpcCallback.kt:27)
+          at my.com.tngdigital.common.internal.rpcexpress.AndroidRpcCallback$onFailure$1.invoke(AndroidRpcCallback.kt:27)
+          at my.com.tngdigital.common.internal.rpcexpress.AndroidRpcCallback.dispatch$lambda$0(AndroidRpcCallback.kt:44)
+          at android.os.Handler.handleCallback(Handler.java:938)
+          at android.os.Handler.dispatchMessage(Handler.java:99)
+          at android.os.Looper.loop(Looper.java:263)
+          at android.app.ActivityThread.main(ActivityThread.java:8292)
+          at java.lang.reflect.Method.invoke(Method.java)
+          at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:612)
+          at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1006)
+   ```
+   
+   dialog实例重建
+
+3. huawei兼容性问题。
+   
+   一般国内的app，只用兼容国内的手机，但是这个app,主要用GMS,又需要国内的系统。
+   
+   我们后端配置模板，让mpass发出，直接被huawei系统拦截了，没有到达我们的app.
+   
+   
+
+
 
 项目中遇到什么困难，应用场景
 
