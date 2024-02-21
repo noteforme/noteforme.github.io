@@ -2,7 +2,7 @@
 title: ScreenCompatibility
 comments: true
 date: 2017-09-23 21:41:20
-tags:
+tags: VIEW
 categories: ANDROID
 
 ---
