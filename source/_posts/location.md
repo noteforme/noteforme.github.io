@@ -103,3 +103,13 @@ https://developer.android.com/about/versions/11/privacy/package-visibility
 But be aware that Play Store has new policy and common apps with this perm declared won't be pulished in there. You have to provide good reason for accepting your app - this permission must be used for starting user-initiated key feature of app
 
 https://stackoverflow.com/questions/72123141/how-to-check-exists-app-in-device-on-android
+
+
+### lanuch Google Map
+Maps URLs (recommended)
+Using Maps URLs, you can build a universal, cross-platform URL to launch Google Maps and perform searches, get directions and navigation, and display map views and panoramic images. These universal URLs allow for broader handling of the maps requests no matter which platform the user is on.
+
+Google Maps Intents for Android
+Using intents in your Android app, you can start an activity in another app by describing a simple action you'd like to perform (such as "display a map" or "show directions to the airport") in an Intent object. The Google Maps app for Android supports several different intents, allowing you to launch the Google Maps app in display, search, navigation, or Street View modes.
+
+https://developers.google.com/maps/documentation/android-sdk/intents
