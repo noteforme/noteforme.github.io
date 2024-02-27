@@ -1,5 +1,5 @@
 ---
-title: ubuntu_vr
+title: proxy_wall
 date: 2017-07-18 14:34:53
 tags:
 categories: LINUX
