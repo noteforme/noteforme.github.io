@@ -17,13 +17,24 @@ Okhttp使用线程池无 核心级线程，不应该先把阻塞队列塞满，�
 
 # 如何阅读开源项目
 
+https://www.codedump.info/post/20200605-how-to-read-code-v2020/
+
+## 编译通过
+开始阅读一份项目源码的第一步，是先让这个项目能够通过你自己编译通过并且顺利跑起来。这一点尤其重要。
+##  区分主线和支线剧情
+了解Nginx核心的基础流程以及数据结构。
+了解Nginx如何实现一个模块。
+## fork
+ 尽量避免大段的贴代码。我认为在这类文章中，大段贴上代码有点自欺欺人：就是看上去自己懂了，其实并不见得。如果真要解释某段代码，可以使用伪代码或者缩减代码的方式。记住：不要自欺欺人，要真的懂了。如果真的想在代码上加上自己的注释，我有一个建议是fork出来一份该项目某个版本的代码，提交到自己的github上，上面随时可以加上自己的注释并且保存提交。比如我自己注释的etcd 3.1.10代码：etcd-3.1.10-codedump，类似的我阅读的其他项目都会在github上fork出一个带上codedump后缀的项目。
+
+
+
 https://time.geekbang.org/column/article/186778
 
 https://www.imooc.com/article/301778
 
 https://www.jianshu.com/p/656dbb97a40f
 
-https://www.codedump.info/post/20200605-how-to-read-code-v2020/
 
 不管写的怎么样，先把东西弄出来，然后参考别人的写法，做对比
 
