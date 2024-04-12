@@ -15,13 +15,11 @@ Okhttp使用线程池无 核心级线程，不应该先把阻塞队列塞满，�
 
 
 
-#### 如何阅读开源项目
+# 如何阅读开源项目
 
 https://time.geekbang.org/column/article/186778
 
 https://www.imooc.com/article/301778
-
-https://baixin.ink/2019/05/10/how-to-learn-opensorce-project/
 
 https://www.jianshu.com/p/656dbb97a40f
 
