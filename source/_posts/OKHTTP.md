@@ -201,6 +201,13 @@ https://www.bilibili.com/video/BV12Q4y1d7uD?p=7&spm_id_from=pageDriver
 
 
 okhttp的请求机制
+okhttp如何处理网络缓存的
+
+OkHttp里面用到了什么设计模式？
+
+OkHttp怎么实现连接池
+okhttp线程使用方式
+
 
 
 
@@ -357,6 +364,8 @@ App 是如何沙箱化，为什么要这么做？
 11.okhttp责任链设计模式
 6.okhttp发送请求的拦截方式
 7.okhttp的拦截器设计模式
+
+
 
 
 
