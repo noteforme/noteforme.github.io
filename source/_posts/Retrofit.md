@@ -6,11 +6,32 @@ tags:
 categories: ANDROID
 ---
 
-
-
  
 
 [征服面试官：Retrofit 原理篇 掌握这篇面试题汇总，吊打面试官！_retrofit面试题-CSDN博客](https://blog.csdn.net/jaynm/article/details/108614788)
+
+
+Retrofit底层实现，在okhttp的基础下做了哪些封装
+
+13.Retrofit中的Call对象如何转换成okhttp的call对象(这个题目是埋坑的)
+
+14.Retrofit设计模式
+
+在retrofit中的泛型是怎么解析的 https://noteforme.github.io/2017/09/23/Retrofit/
+​ 编译时注解与运行时注解，为什么retrofit要使用运行时注解？什么时候用运行时注解？
+
+
+32.retrofit的了解
+
+1.动态代理创建一个接口的代理类
+2.通过反射解析每个接口的注解、入参构造http请求
+3.获取到返回的http请求，使用Adapter解析成需要的返回值。
+
+
+
+
+
+
 
 
 
