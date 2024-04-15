@@ -79,6 +79,7 @@ OkHttp is an HTTP client that’s efficient by default:
 #### 分析
 
 一开始看了网上视频，就说Okhttp是自驱动循环调用，相对于AsyncTask的优势就是 并发执行，但是这两条不就矛盾了吗，既然环形链式调用，怎么能并发呢。就从源码中找答案。
+看了bi站的视频，超过5个在队列中的请求，应该是做完一个请求,继续从队列中取。
 
 
 
@@ -337,9 +338,6 @@ https://juejin.im/post/6855586076132655118
 
 https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485441&idx=1&sn=303a25ab02fa9f14a319923e6b0d9759&chksm=cea247caf9d5cedc3a5e1d31f26c08d8ae4c11c349fbdc91ac1d90d8b35807517accb5f5d527&token=2128752750&lang=zh_CN#rd
 
-
-okhttp
-​ https://noteforme.github.io/2017/08/07/OKHTTP/
 
 okhttp怎么支持http2.0
 ​ Handshake则会把服务端支持的Tls版本，加密方式等都带回来，然后会把这个没有验证过的HandShake用X509Certificate去验证证书的有效性。然后会通过Platform去从SSLSocket去获取ALPN的协议支持信息，当后端支持的协议内包含Http2.0时，则就会把请求升级到Http2.0阶段。
