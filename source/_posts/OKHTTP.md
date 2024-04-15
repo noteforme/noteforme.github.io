@@ -41,11 +41,8 @@ https://www.codedump.info/post/20200605-how-to-read-code-v2020/
 等等等等。越是主动积极的思考，就越有更好的输出，输出质量与学习质量成正比关系。
 
 https://time.geekbang.org/column/article/186778
-
 https://www.imooc.com/article/301778
-
 https://www.jianshu.com/p/656dbb97a40f
-
 
 不管写的怎么样，先把东西弄出来，然后参考别人的写法，做对比
 
@@ -66,79 +63,10 @@ OkHttp is an HTTP client that’s efficient by default:
 
 
 
-
-
 #### 任务运行图
 
 ![](OKHTTP/2021-07-23_2.26_OKHTTP.png)
 
-
-
-
-
-#### 分析
-
-一开始看了网上视频，就说Okhttp是自驱动循环调用，相对于AsyncTask的优势就是 并发执行，但是这两条不就矛盾了吗，既然环形链式调用，怎么能并发呢。就从源码中找答案。
-看了bi站的视频，超过5个在队列中的请求，应该是做完一个请求,继续从队列中取。
-
-
-
-Dispatcher.java
-
-```java
-private int maxRequests = 64;
-private int maxRequestsPerHost = 5;
-synchronized void enqueue(AsyncCall call) {
-    if (runningAsyncCalls.size() < maxRequests && runningCallsForHost(call) < maxRequestsPerHost) {
-      runningAsyncCalls.add(call);
-      executorService().execute(call);
-    } else {
-      readyAsyncCalls.add(call);
-    }
-}
-```
-
-
-
-可以看到提交任务 >5时，才会被添加到readyAsyncCalls队列中。<5的任务直接提交。
-
-```java
-  private void promoteCalls() {
-    if (runningAsyncCalls.size() >= maxRequests) return; // Already running max capacity.
-    if (readyAsyncCalls.isEmpty()) return; // No ready calls to promote.
-
-    for (Iterator<AsyncCall> i = readyAsyncCalls.iterator(); i.hasNext(); ) {
-      AsyncCall call = i.next();
-
-      if (runningCallsForHost(call) < maxRequestsPerHost) {
-        i.remove();
-        runningAsyncCalls.add(call);
-        Log.i("Dispatcher", "promoteCalls:  准备队列 "+call.request().tag+" 执行");
-        executorService().execute(call);
-      }
-
-      if (runningAsyncCalls.size() >= maxRequests) return; // Reached max capacity.
-    }
-  }
-```
-
-readyAsyncCalls不为空，然后取出一条，再执行，可以看到，默认情况下会有5条环形任务链。
-
-
-
-#### 拦截器
-
-![](OKHTTP/2021-07-24_6.43_interupt.png)
-
-
-
-OkHttp的拦截器有：
-
-- RetryAndFollowUpInterceptor：失败和重定向拦截器；
-- BridgeInterceptor：负责将http协议必备的请求头加入其中(host),并添加一些默认的行为(gzip),获得结果后，调用cookie接口并解析GZIP数据。
-- CacheInterceptor：缓存处理相关的拦截器；
-- ConnectInterceptor： 负责找到或者新建一个连接，并获取对应的socket流；在获得结果后不进行额外的处理。
-- CallServerInterceptor：进行真正的与服务器的通信，向服务器请求和读响应的拦截器；
 
 
 
@@ -204,35 +132,37 @@ Okhttp缓存
 
 
 
-
+# 源码解析
 
 https://juejin.cn/post/6873476209737629709/
 
-
-http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0106/2275.html
-
-http://blog.csdn.net/briblue/article/details/52920531
+缓存
 http://mushuichuan.com/2016/03/01/okhttpcache/
 
 https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/
 
-
-
 https://www.bilibili.com/video/BV12Q4y1d7uD?p=7&spm_id_from=pageDriver
 
 
-okhttp的请求机制
-okhttp如何处理网络缓存的
 
-OkHttp里面用到了什么设计模式？
+# Interview Questions
+汇总 https://www.jianshu.com/p/dfdfd45b076e
 
-OkHttp怎么实现连接池
-okhttp线程使用方式
+* okhttp的请求原理
+
+  OkHttp的内部实现通过一个责任链模式完成，将网络请求的各个阶段封装到各个链条中，实现了各层的解耦。
+
+* OkHttp里面用到了什么设计模式？
+  
+
+* okhttp如何处理网络缓存的
+
+  
+* OkHttp怎么实现连接池
+* okhttp线程使用方式
 
 
 
-
-oKhttp：
 1.同步和异步：
 1.异步使用了Dispatcher来将存储在 Deque 中的请求分派给线程池中各个线程执行。
 2.当任务执行完成后，无论是否有异常，finally代码段总会被执行，也就是会调用Dispatcher的finished函数，它将正在运行的任务Call从队列runningAsyncCalls中移除后，主动的把缓存队列向前走了一步。
@@ -256,30 +186,6 @@ oKhttp：
 
 
 
-okio
-1.简介；
-1.sink：自己–》别人
-2.source：别人–》自己
-3.BufferSink：有缓存区域的sink
-4.BufferSource：有缓存区域的source
-5.Buffer：实现了3、4的缓存区域，内部有Segment的双向链表，在在转移数据的时候，只需要将指针转移指向就行
-2.比java io的好处：
-1.减少内存申请和数据拷贝
-2.类少，功能齐全，开发效率高
-3.内部实现：
-1.Buffer的Segment双向链表，减少数据拷贝
-2.Segment的内部byte数组的共享，减少数据拷贝
-3.SegmentPool的共享和回收Segment
-4.sink和source中被实际操作的其实是Buffer，Buffer可以充当sink和source
-5.最终okio只是对java io的封装，所有操作都是基于java io 的
-写在最后:能看到这里的人,我挺佩服你的.这篇文章是我在头条面试之前整理的,最后**80%**的题目都命中了,所以祝你好运.
-
-不贩卖焦虑，也不标题党。分享一些这个世界上有意思的事情。题材包括且不限于：科幻、科学、科技、互联网、程序员、计算机编程。下面是我的微信公众号：世界上有意思的事，干货多多等你来看。
-
-作者：何时夕
-链接：https://www.jianshu.com/p/cf5092fa2694
-来源：简书
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
 
 OkHttp线程池
@@ -339,7 +245,7 @@ https://juejin.im/post/6855586076132655118
 https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485441&idx=1&sn=303a25ab02fa9f14a319923e6b0d9759&chksm=cea247caf9d5cedc3a5e1d31f26c08d8ae4c11c349fbdc91ac1d90d8b35807517accb5f5d527&token=2128752750&lang=zh_CN#rd
 
 
-okhttp怎么支持http2.0
+ okhttp怎么支持http2.0
 ​ Handshake则会把服务端支持的Tls版本，加密方式等都带回来，然后会把这个没有验证过的HandShake用X509Certificate去验证证书的有效性。然后会通过Platform去从SSLSocket去获取ALPN的协议支持信息，当后端支持的协议内包含Http2.0时，则就会把请求升级到Http2.0阶段。
 
 ​ 配置合适的适配器，解析json数据。
@@ -357,6 +263,115 @@ Okhttp缓存机制
 网络请求缓存处理，okhttp如何处理网络缓存的
 自己去设计网络请求框架，怎么做？
 
+
+ glide和OkHttp的任务调度是怎么实现的（比如同时发起很多请求）
+ 4.问第三方库如okhttp、picasso等底层原理如缓存机制等（一个也没答上来，literally
+
+13.Retrofit中的Call对象如何转换成okhttp的call对象(这个题目是埋坑的)
+11.okhttp责任链设计模式
+6.okhttp发送请求的拦截方式
+7.okhttp的拦截器设计模式
+
+
+
+
+
+# 分析
+
+一开始看了网上视频，就说Okhttp是自驱动循环调用，相对于AsyncTask的优势就是 并发执行，但是这两条不就矛盾了吗，既然环形链式调用，怎么能并发呢。就从源码中找答案。
+看了bi站的视频，超过5个在队列中的请求，应该是做完一个请求,继续从队列中取。
+
+
+
+Dispatcher.java
+
+```java
+private int maxRequests = 64;
+private int maxRequestsPerHost = 5;
+synchronized void enqueue(AsyncCall call) {
+    if (runningAsyncCalls.size() < maxRequests && runningCallsForHost(call) < maxRequestsPerHost) {
+      runningAsyncCalls.add(call);
+      executorService().execute(call);
+    } else {
+      readyAsyncCalls.add(call);
+    }
+}
+```
+
+
+
+可以看到提交任务 >5时，才会被添加到readyAsyncCalls队列中。<5的任务直接提交。
+
+```java
+  private void promoteCalls() {
+    if (runningAsyncCalls.size() >= maxRequests) return; // Already running max capacity.
+    if (readyAsyncCalls.isEmpty()) return; // No ready calls to promote.
+
+    for (Iterator<AsyncCall> i = readyAsyncCalls.iterator(); i.hasNext(); ) {
+      AsyncCall call = i.next();
+
+      if (runningCallsForHost(call) < maxRequestsPerHost) {
+        i.remove();
+        runningAsyncCalls.add(call);
+        Log.i("Dispatcher", "promoteCalls:  准备队列 "+call.request().tag+" 执行");
+        executorService().execute(call);
+      }
+
+      if (runningAsyncCalls.size() >= maxRequests) return; // Reached max capacity.
+    }
+  }
+```
+
+readyAsyncCalls不为空，然后取出一条，再执行，可以看到，默认情况下会有5条环形任务链。
+
+
+
+#### 拦截器
+
+![](OKHTTP/2021-07-24_6.43_interupt.png)
+
+
+
+OkHttp的拦截器有：
+
+- RetryAndFollowUpInterceptor：失败和重定向拦截器；
+- BridgeInterceptor：负责将http协议必备的请求头加入其中(host),并添加一些默认的行为(gzip),获得结果后，调用cookie接口并解析GZIP数据。
+- CacheInterceptor：缓存处理相关的拦截器；
+- ConnectInterceptor： 负责找到或者新建一个连接，并获取对应的socket流；在获得结果后不进行额外的处理。
+- CallServerInterceptor：进行真正的与服务器的通信，向服务器请求和读响应的拦截器；
+
+
+
+# okio
+
+
+1.简介；
+1.sink：自己–》别人
+2.source：别人–》自己
+3.BufferSink：有缓存区域的sink
+4.BufferSource：有缓存区域的source
+5.Buffer：实现了3、4的缓存区域，内部有Segment的双向链表，在在转移数据的时候，只需要将指针转移指向就行
+2.比java io的好处：
+1.减少内存申请和数据拷贝
+2.类少，功能齐全，开发效率高
+3.内部实现：
+1.Buffer的Segment双向链表，减少数据拷贝
+2.Segment的内部byte数组的共享，减少数据拷贝
+3.SegmentPool的共享和回收Segment
+4.sink和source中被实际操作的其实是Buffer，Buffer可以充当sink和source
+5.最终okio只是对java io的封装，所有操作都是基于java io 的
+写在最后:能看到这里的人,我挺佩服你的.这篇文章是我在头条面试之前整理的,最后**80%**的题目都命中了,所以祝你好运.
+
+不贩卖焦虑，也不标题党。分享一些这个世界上有意思的事情。题材包括且不限于：科幻、科学、科技、互联网、程序员、计算机编程。下面是我的微信公众号：世界上有意思的事，干货多多等你来看。
+
+作者：何时夕
+链接：https://www.jianshu.com/p/cf5092fa2694
+来源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+# HTTP
+
 从网络加载一个10M的图片，说下注意事项
 TCP的3次握手和四次挥手
 TCP与UDP的区别
@@ -373,17 +388,6 @@ client如何确定自己发送的消息被server收到?
 视频加密传输
 App 是如何沙箱化，为什么要这么做？
 权限管理系统（底层的权限是如何进行 grant 的）？
-
-
- glide和OkHttp的任务调度是怎么实现的（比如同时发起很多请求）
- 4.问第三方库如okhttp、picasso等底层原理如缓存机制等（一个也没答上来，literally
-
-13.Retrofit中的Call对象如何转换成okhttp的call对象(这个题目是埋坑的)
-11.okhttp责任链设计模式
-6.okhttp发送请求的拦截方式
-7.okhttp的拦截器设计模式
-
-
 
 
 
