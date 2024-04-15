@@ -8,9 +8,7 @@ categories: ANDROID
 ---
 
 
-
 Okhttp使用线程池无 核心级线程，不应该先把阻塞队列塞满，再执行非核心级线程吗，这样任何不应该会立即执行呀？？？
-
 阻塞队列用了synchrnized 会添加失败。所以直接创建非核心线程。
 
 
@@ -53,7 +51,6 @@ https://www.jianshu.com/p/656dbb97a40f
 https://square.github.io/okhttp/
 
 
-
 OkHttp is an HTTP client that’s efficient by default:
 
 - HTTP/2 support allows all requests to the same host to share a socket.
@@ -85,7 +82,6 @@ Handshake则会把服务端支持的Tls版本，加密方式等都带回来，�
 在把连接放入连接池中时，会把清除操作的任务放入到线程池中执行，删除任务中会判断当前连接有没有在使用中，有没有正在使用通过RealConnection的transmitters集合的size是否为0来判断，如果不在使用中，找出空闲时间最长的连接，如果空闲时间最长的连接超过了keep-alive默认的5分钟或者空闲的连接数超过了最大的keep-alive连接数5个的话，会把存活时间最长的连接从连接池中删除。保证keep-alive的最大空闲时间和最大的连接数
 
 
-
 * [雨露均沾的OkHttp—WebSocket长连接（使用篇）](https://juejin.im/post/5f0452615188252e5522b747) 
 
 * [*OKHTTP*之缓存配置详解](http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&mid=2650237860&idx=1&sn=d66e75f6f7752ededdcaa3ce780862d3&chksm=88639acbbf1413dd170ba41a67035c62811b489cfc7a405977ae23254205a6b3acb99358b1f2&scene=38#wechat_redirect)
@@ -94,73 +90,28 @@ Handshake则会把服务端支持的Tls版本，加密方式等都带回来，�
 
 * OkHttp框架中都用到了哪些设计模式
 
-  
-
-   https://www.codetd.com/article/4354895
-
-   https://www.jianshu.com/p/d85e556b8da6
-
-
-
-
-
-#####  解析
-
-Okhttp缓存
-
- 1、添加cache 路径
- 2、初始化OkhttpClient
-
- ```java
-   public class NewCacheInterceptor implements Interceptor {
-
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            Response response = chain.proceed(request);
-            Response response1 = response.newBuilder()
-                    .removeHeader("Pragma")
-                    .removeHeader("Cache-Control")
-                    .header("Cache-Control", "max-age=" + 3600 * 24 * 30)
-                    .build();
-
-            return response1;
-        }
-    }
-
- ```
-
-
-
-# 源码解析
-
-https://juejin.cn/post/6873476209737629709/
-
-缓存
-http://mushuichuan.com/2016/03/01/okhttpcache/
-
-https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/
-
-https://www.bilibili.com/video/BV12Q4y1d7uD?p=7&spm_id_from=pageDriver
+  https://www.codetd.com/article/4354895
+  https://www.jianshu.com/p/d85e556b8da6
+  https://www.cnblogs.com/jimuzz/p/13935677.html
 
 
 
 # Interview Questions
 汇总 https://www.jianshu.com/p/dfdfd45b076e
 
-* okhttp的请求原理
+###  okhttp的请求原理
 
   OkHttp的内部实现通过一个责任链模式完成，将网络请求的各个阶段封装到各个链条中，实现了各层的解耦。
 
-* OkHttp里面用到了什么设计模式？
-  
+###  OkHttp里面用到了什么设计模式？
+  构造者模式 : 
 
+
+
+* Http1 Http2是怎么切换的
 * okhttp如何处理网络缓存的
-
-  
 * OkHttp怎么实现连接池
 * okhttp线程使用方式
-
 
 
 1.同步和异步：
@@ -275,11 +226,46 @@ Okhttp缓存机制
 
 
 
-
 # 分析
 
 一开始看了网上视频，就说Okhttp是自驱动循环调用，相对于AsyncTask的优势就是 并发执行，但是这两条不就矛盾了吗，既然环形链式调用，怎么能并发呢。就从源码中找答案。
 看了bi站的视频，超过5个在队列中的请求，应该是做完一个请求,继续从队列中取。
+
+# 解析
+
+https://juejin.cn/post/6873476209737629709/
+
+缓存
+http://mushuichuan.com/2016/03/01/okhttpcache/
+
+https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/
+
+https://www.bilibili.com/video/BV12Q4y1d7uD?p=7&spm_id_from=pageDriver
+
+
+Okhttp缓存
+
+ 1、添加cache 路径
+ 2、初始化OkhttpClient
+
+ ```java
+   public class NewCacheInterceptor implements Interceptor {
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            Response response = chain.proceed(request);
+            Response response1 = response.newBuilder()
+                    .removeHeader("Pragma")
+                    .removeHeader("Cache-Control")
+                    .header("Cache-Control", "max-age=" + 3600 * 24 * 30)
+                    .build();
+
+            return response1;
+        }
+    }
+
+ ```
 
 
 
@@ -297,7 +283,6 @@ synchronized void enqueue(AsyncCall call) {
     }
 }
 ```
-
 
 
 可以看到提交任务 >5时，才会被添加到readyAsyncCalls队列中。<5的任务直接提交。
