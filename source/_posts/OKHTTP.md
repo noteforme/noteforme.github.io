@@ -7,38 +7,46 @@ categories: ANDROID
 
 ---
 
-
-
-Okhttp使用线程池无 核心级线程，不应该先把阻塞队列塞满，再执行非核心级线程吗，这样任何不应该会立即执行呀？？？
+Okhttp使用线程池无 核心级线程，不应该先把阻塞队列塞满，再执行非核心级线程吗，这样任何不应该会立即执行呀
 
 阻塞队列用了synchrnized 会添加失败。所以直接创建非核心线程。
-
-
 
 # 如何阅读开源项目
 
 https://www.codedump.info/post/20200605-how-to-read-code-v2020/
 
 ## 编译通过
+
 开始阅读一份项目源码的第一步，是先让这个项目能够通过你自己编译通过并且顺利跑起来。这一点尤其重要。
+
 ## 设计文档
+
 阅读源码之前，查看该项目是否提供架构和设计文档，阅读这些文档可以了解该项目的大体设计和结构，
-##  区分主线和支线剧情
+
+## 区分主线和支线剧情
+
 了解Nginx核心的基础流程以及数据结构。
 了解Nginx如何实现一个模块。
+
 ## 画图
+
 画图，理清主干后，可以将整个流程画成流程图或者是标准的UML图，帮助记忆以及下一步的阅读。
+
 ## fork
+
  尽量避免大段的贴代码。我认为在这类文章中，大段贴上代码有点自欺欺人：就是看上去自己懂了，其实并不见得。如果真要解释某段代码，可以使用伪代码或者缩减代码的方式。记住：不要自欺欺人，要真的懂了。如果真的想在代码上加上自己的注释，我有一个建议是fork出来一份该项目某个版本的代码，提交到自己的github上，上面随时可以加上自己的注释并且保存提交。比如我自己注释的etcd 3.1.10代码：etcd-3.1.10-codedump，类似的我阅读的其他项目都会在github上fork出一个带上codedump后缀的项目。
+
 ## 枝叶代码
+
 以兴趣为主，挑选感兴趣的“枝叶”代码去阅读。
 
-
 ## 输出
+
 输出的手段有很多，在阅读代码时，比较建议的是自己能够多问自己一些问题，比如
+
 * 为什么选择这个数据结构来描述这个问题？类似的场景下，其他项目是怎么设计的？都有哪些数据结构做这样的事情？
 * 如果由我来设计这样的项目，我会怎么做？
-等等等等。越是主动积极的思考，就越有更好的输出，输出质量与学习质量成正比关系。
+  等等等等。越是主动积极的思考，就越有更好的输出，输出质量与学习质量成正比关系。
 
 https://time.geekbang.org/column/article/186778
 
@@ -46,41 +54,34 @@ https://www.imooc.com/article/301778
 
 https://www.jianshu.com/p/656dbb97a40f
 
-
 不管写的怎么样，先把东西弄出来，然后参考别人的写法，做对比
 
+# Okhttp
 
+https://www.bilibili.com/video/BV1uQ4y1Z7gA
 
-#### Okhttp优势
+面试问答
+
+https://www.bilibili.com/video/BV1kY4y1g7wo
+
+Why 
 
 https://square.github.io/okhttp/
 
-
-
 OkHttp is an HTTP client that’s efficient by default:
 
-- HTTP/2 support allows all requests to the same host to share a socket.
+- HTTP/2 support allows all requests to the same host to share a socket.  ???  why
 - Connection pooling reduces request latency (if HTTP/2 isn’t available).
 - Transparent GZIP shrinks download sizes.
 - Response caching avoids the network completely for repeat requests.
-
-
-
-
 
 #### 任务运行图
 
 ![](OKHTTP/2021-07-23_2.26_OKHTTP.png)
 
-
-
-
-
 #### 分析
 
 一开始看了网上视频，就说Okhttp是自驱动循环调用，相对于AsyncTask的优势就是 并发执行，但是这两条不就矛盾了吗，既然环形链式调用，怎么能并发呢。就从源码中找答案。
-
-
 
 Dispatcher.java
 
@@ -96,8 +97,6 @@ synchronized void enqueue(AsyncCall call) {
     }
 }
 ```
-
-
 
 可以看到提交任务 >5时，才会被添加到readyAsyncCalls队列中。<5的任务直接提交。
 
@@ -123,13 +122,9 @@ synchronized void enqueue(AsyncCall call) {
 
 readyAsyncCalls不为空，然后取出一条，再执行，可以看到，默认情况下会有5条环形任务链。
 
-
-
 #### 拦截器
 
 ![](OKHTTP/2021-07-24_6.43_interupt.png)
-
-
 
 OkHttp的拦截器有：
 
@@ -139,9 +134,7 @@ OkHttp的拦截器有：
 - ConnectInterceptor： 负责找到或者新建一个连接，并获取对应的socket流；在获得结果后不进行额外的处理。
 - CallServerInterceptor：进行真正的与服务器的通信，向服务器请求和读响应的拦截器；
 
-
-
-#####  面试题
+##### 面试题
 
 [*okhttp* 是如何支持 Http2 的？](https://mp.weixin.qq.com/s/TeQhe4T4wRjdAEPz6Ne45g)
 
@@ -155,8 +148,6 @@ Handshake则会把服务端支持的Tls版本，加密方式等都带回来，�
 
 在把连接放入连接池中时，会把清除操作的任务放入到线程池中执行，删除任务中会判断当前连接有没有在使用中，有没有正在使用通过RealConnection的transmitters集合的size是否为0来判断，如果不在使用中，找出空闲时间最长的连接，如果空闲时间最长的连接超过了keep-alive默认的5分钟或者空闲的连接数超过了最大的keep-alive连接数5个的话，会把存活时间最长的连接从连接池中删除。保证keep-alive的最大空闲时间和最大的连接数
 
-
-
 * [雨露均沾的OkHttp—WebSocket长连接（使用篇）](https://juejin.im/post/5f0452615188252e5522b747) 
 
 * [*OKHTTP*之缓存配置详解](http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&mid=2650237860&idx=1&sn=d66e75f6f7752ededdcaa3ce780862d3&chksm=88639acbbf1413dd170ba41a67035c62811b489cfc7a405977ae23254205a6b3acb99358b1f2&scene=38#wechat_redirect)
@@ -164,49 +155,37 @@ Handshake则会把服务端支持的Tls版本，加密方式等都带回来，�
 * OkHttp对于网络请求都有哪些优化
 
 * OkHttp框架中都用到了哪些设计模式
-
   
-
    https://www.codetd.com/article/4354895
-
+  
    https://www.jianshu.com/p/d85e556b8da6
 
-
-
-
-
-#####  解析
+##### 解析
 
 Okhttp缓存
 
  1、添加cache 路径
  2、初始化OkhttpClient
 
- ```java
-   public class NewCacheInterceptor implements Interceptor {
+```java
+  public class NewCacheInterceptor implements Interceptor {
 
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            Response response = chain.proceed(request);
-            Response response1 = response.newBuilder()
-                    .removeHeader("Pragma")
-                    .removeHeader("Cache-Control")
-                    .header("Cache-Control", "max-age=" + 3600 * 24 * 30)
-                    .build();
+       @Override
+       public Response intercept(Chain chain) throws IOException {
+           Request request = chain.request();
+           Response response = chain.proceed(request);
+           Response response1 = response.newBuilder()
+                   .removeHeader("Pragma")
+                   .removeHeader("Cache-Control")
+                   .header("Cache-Control", "max-age=" + 3600 * 24 * 30)
+                   .build();
 
-            return response1;
-        }
-    }
-
- ```
-
-
-
-
+           return response1;
+       }
+   }
+```
 
 https://juejin.cn/post/6873476209737629709/
-
 
 http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0106/2275.html
 
@@ -215,10 +194,7 @@ http://mushuichuan.com/2016/03/01/okhttpcache/
 
 https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/
 
-
-
 https://www.bilibili.com/video/BV12Q4y1d7uD?p=7&spm_id_from=pageDriver
-
 
 okhttp的请求机制
 okhttp如何处理网络缓存的
@@ -227,9 +203,6 @@ OkHttp里面用到了什么设计模式？
 
 OkHttp怎么实现连接池
 okhttp线程使用方式
-
-
-
 
 oKhttp：
 1.同步和异步：
@@ -252,8 +225,6 @@ oKhttp：
 5.构造HttpStream并维护刚刚的socket连接，管道建立完成
 4.职责链模式：缓存、重试、建立连接等功能存在于拦截器中网络请求相关，主要是网络请求优化。网络请求的时候遇到的问题
 5.博客推荐：**Android数据层架构的实现 上篇、Android数据层架构的实现 下篇**
-
-
 
 okio
 1.简介；
@@ -280,7 +251,6 @@ okio
 来源：简书
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
-
 OkHttp线程池
 
 ThreadPoolExecutor executor = new ThreadPoolExecutor(
@@ -294,10 +264,8 @@ ThreadPoolExecutor executor = new ThreadPoolExecutor(
 创建非核心线程，数量为Integer.MAX_VALUE，可以创建。
 当任务执行完后，3创建的非核心线程 根据keepAliveTime时间，逐步销毁。
 
-
 问题
 OkHttpThreadPool.java
-
 
 ThreadPoolExecutor executor = new ThreadPoolExecutor(
         0, Integer.MAX_VALUE, 60, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
@@ -307,6 +275,7 @@ executor.execute(() -> {
     while (true) {
 
     }
+
 });
 
 executor.execute(() -> {
@@ -336,7 +305,6 @@ https://github.com/Snailclimb/programmer-advancement
 https://juejin.im/post/6855586076132655118
 
 https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485441&idx=1&sn=303a25ab02fa9f14a319923e6b0d9759&chksm=cea247caf9d5cedc3a5e1d31f26c08d8ae4c11c349fbdc91ac1d90d8b35807517accb5f5d527&token=2128752750&lang=zh_CN#rd
-
 
 okhttp
 ​ https://noteforme.github.io/2017/08/07/OKHTTP/
@@ -376,7 +344,6 @@ client如何确定自己发送的消息被server收到?
 App 是如何沙箱化，为什么要这么做？
 权限管理系统（底层的权限是如何进行 grant 的）？
 
-
  glide和OkHttp的任务调度是怎么实现的（比如同时发起很多请求）
  4.问第三方库如okhttp、picasso等底层原理如缓存机制等（一个也没答上来，literally
 
@@ -387,5 +354,15 @@ App 是如何沙箱化，为什么要这么做？
 
 
 
+
+
+{% plantuml %}
+@startuml
+Object <|-- ArrayList
+Object : equals()
+ArrayList : Object[] elementData
+ArrayList : size()
+@enduml
+{% endplantuml %}
 
 
