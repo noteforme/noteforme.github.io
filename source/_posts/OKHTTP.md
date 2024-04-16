@@ -109,9 +109,8 @@ Handshake则会把服务端支持的Tls版本，加密方式等都带回来，�
   责任链模式 :  OKHttp 的核心就是责任链模式，通过5个默认拦截器构成的责任链完成请求的配置 .
   工厂模式 : （在 Call 接口中，有一个内部工厂 Factory 接口。）
 
-  享元模式 : Dispatcher 的线程池中，不限量的线程池实现了对象复用
+  享元模式 : Dispatcher 的线程池中，不限量的线程池实现了对象复用,这个只是线程池的特性,线程池对线程的操作，没有什么代码的问题.
   
-
 
 * Http1 Http2是怎么切换的
 * okhttp如何处理网络缓存的
@@ -236,7 +235,45 @@ Okhttp缓存机制
 一开始看了网上视频，就说Okhttp是自驱动循环调用，相对于AsyncTask的优势就是 并发执行，但是这两条不就矛盾了吗，既然环形链式调用，怎么能并发呢。就从源码中找答案。
 看了bi站的视频，超过5个在队列中的请求，应该是做完一个请求,继续从队列中取。
 
-# 解析
+## Dispatcher 最大请求数量
+
+runningAsyncCalls 运行时的最大请求数量64,只有多个不同的host请求才能可能让走到下面代码.因为还有  if (asyncCall.callsPerHost.get() >= this.maxRequestsPerHost)这个条件限制.
+```
+ if (runningAsyncCalls.size >= this.maxRequests){
+          println("promoteAndExecute >= maxRequests" )
+          break
+        }
+```
+
+Okhttp 异步请求维护的两个队列
+```
+  /** Ready async calls in the order they'll be run. */
+  private val readyAsyncCalls = ArrayDeque<AsyncCall>()
+
+  /** Running asynchronous calls. Includes canceled calls that haven't finished yet. */
+  private val runningAsyncCalls = ArrayDeque<AsyncCall>()
+
+```
+
+if (asyncCall.callsPerHost.get() >= this.maxRequestsPerHost) 这个条件时如何判断的呢?
+主要是下面的方法,默认forWebSocket==true,走到条件里.如果AsyncCall已经存在队列中,那么就直接返回，把callsPerHost数值叠加.从而实现，上面的条件判断.
+
+```
+      // Mutate the AsyncCall so that it shares the AtomicInteger of an existing running call to
+      // the same host.
+      if (!call.call.forWebSocket) {
+        val existingCall = findExistingCallWithHost(call.host)
+        if (existingCall != null) call.reuseCallsPerHostFrom(existingCall)
+      }
+
+    fun reuseCallsPerHostFrom(other: AsyncCall) {
+      this.callsPerHost = other.callsPerHost
+    }
+```
+
+
+
+
 
 https://juejin.cn/post/6873476209737629709/
 
