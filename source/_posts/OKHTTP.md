@@ -104,13 +104,13 @@ Handshake则会把服务端支持的Tls版本，加密方式等都带回来，�
 
 ### OkHttp里面用到了什么设计模式？
 
-  构造者模式 : OkHttpClient ,Request
+  构造者模式 : OkHttpClient ,Request,CacheControl
   外观模式   :  OkHttp使用了外观模式,将整个系统的复杂性给隐藏起来，将子系统接口通过一个客户端 OkHttpClient 统一暴露出来
   责任链模式 :  OKHttp 的核心就是责任链模式，通过5个默认拦截器构成的责任链完成请求的配置 .
   工厂模式 : （在 Call 接口中，有一个内部工厂 Factory 接口）,只有一个实现RealCall， 而且这个RealCall在okhttp 代码中深度耦合，感觉这个工厂没什么用。
 
   享元模式 : Dispatcher 的线程池中，不限量的线程池实现了对象复用,这个只是线程池的特性,线程池对线程的操作，没有什么代码的问题.
-
+  策略模式 : CacheInterceptor ,在响应数据的选择中使用了策略模式，选择缓存数据还是选择网络访问。
 
 
 * Http1 Http2是怎么切换的
