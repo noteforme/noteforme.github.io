@@ -488,4 +488,53 @@ alt-svc: h3=":443"; ma=86400
 }
 ```
 
+## GET
+
+https://api.github.com/repos/square/okhttp/contributors
+
+Request
+```
+:method: GET
+:path: /repos/square/okhttp/contributors
+:authority: api.github.com
+:scheme: https
+accept-encoding: gzip
+user-agent: okhttp/5.0.0-SNAPSHOT
+```
+
+Response
+```
+:status: 200
+server: GitHub.com
+date: Wed, 17 Apr 2024 06:58:41 GMT
+content-type: application/json; charset=utf-8
+cache-control: public, max-age=60, s-maxage=60
+vary: Accept, Accept-Encoding, Accept, X-Requested-With
+etag: W/"699b092aa0b0980f1b2f2bde5e810a75c5c1921ee2f53c4d9f28fc8ea5fca327"
+last-modified: Wed, 17 Apr 2024 02:18:24 GMT
+x-github-media-type: github.v3; format=json
+link: <https://api.github.com/repositories/5152285/contributors?page=2>; rel="next", <https://api.github.com/repositories/5152285/contributors?page=9>; rel="last"
+x-github-api-version-selected: 2022-11-28
+access-control-expose-headers: ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset
+access-control-allow-origin: *
+strict-transport-security: max-age=31536000; includeSubdomains; preload
+x-frame-options: deny
+x-content-type-options: nosniff
+x-xss-protection: 0
+referrer-policy: origin-when-cross-origin, strict-origin-when-cross-origin
+content-security-policy: default-src 'none'
+content-encoding: gzip
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 55
+x-ratelimit-reset: 1713337679
+x-ratelimit-resource: core
+x-ratelimit-used: 5
+accept-ranges: bytes
+x-github-request-id: 200C:21C6BE:267A047:2720F58:661F7320
+
+[{"login":"swankjesse","id":133019,"node_id":"MDQ6VXNlcjEzMzAxOQ==","avatar_url":"https://avatars.githubusercontent.com/u/133019?v=4","gravatar_id":"","url":"https://api.github.com/users/swankjesse","html_url":"https://github.com/swankjesse","followers_url":"https://api.github.com/users/swankjesse/followers","following_url":"https://api.github.com/users/swankjesse/following{/other_user}","gists_url":"https://api.github.com/users/swankjesse/gists{/gist_id}","starred_url":"https://api.github.com/users/swankjesse/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/swankjesse/subscriptions","organizations_url":"https://api.github.com/users/swankjesse/orgs","repos_url":"https://api.github.com/users/swankjesse/repos","events_url":"https://api.github.com/users/swankjesse/events{/privacy}","received_events_url":"https://api.github.com/users/swankjesse/received_events","type":"User","site_admin":false,"contributions":2768},{"login":"JakeWharton","id":66577,"node_id":"MDQ6VXNlcjY2NTc3","avatar_url":"https://avatars.githubusercontent.com/u/66577?v=4","gravatar_id":"","url":"https://api.github.com/users/JakeWharton"...
+```
+
+
+
 
