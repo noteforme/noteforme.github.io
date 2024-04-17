@@ -238,12 +238,52 @@ runningAsyncCalls 运行时的最大请求数量64,只有多个不同的host请�
 
 Okhttp 异步请求维护的两个队列
 
-```
+
   /** Ready async calls in the order they'll be run. */
   private val readyAsyncCalls = ArrayDeque<AsyncCall>()
 
   /** Running asynchronous calls. Includes canceled calls that haven't finished yet. */
   private val runningAsyncCalls = ArrayDeque<AsyncCall>()
+
+
+Dispatcher.java
+
+```java
+private int maxRequests = 64;
+private int maxRequestsPerHost = 5;
+synchronized void enqueue(AsyncCall call) {
+    if (runningAsyncCalls.size() < maxRequests && runningCallsForHost(call) < maxRequestsPerHost) {
+      runningAsyncCalls.add(call);
+      executorService().execute(call);
+    } else {
+      readyAsyncCalls.add(call);
+    }
+}
+
+可以看到提交任务 >5时，才会被添加到readyAsyncCalls队列中。<5的任务直接提交。
+
+
+  private void promoteCalls() {
+    if (runningAsyncCalls.size() >= maxRequests) return; // Already running max capacity.
+    if (readyAsyncCalls.isEmpty()) return; // No ready calls to promote.
+
+    for (Iterator<AsyncCall> i = readyAsyncCalls.iterator(); i.hasNext(); ) {
+      AsyncCall call = i.next();
+
+      if (runningCallsForHost(call) < maxRequestsPerHost) {
+        i.remove();
+        runningAsyncCalls.add(call);
+        Log.i("Dispatcher", "promoteCalls:  准备队列 "+call.request().tag+" 执行");
+        executorService().execute(call);
+      }
+
+      if (runningAsyncCalls.size() >= maxRequests) return; // Reached max capacity.
+    }
+  }
+
+
+readyAsyncCalls不为空，然后取出一条，再执行，可以看到，默认情况下会有5条环形任务链。
+
 ```
 
 if (asyncCall.callsPerHost.get() >= this.maxRequestsPerHost) 这个条件时如何判断的呢?
@@ -264,7 +304,12 @@ if (asyncCall.callsPerHost.get() >= this.maxRequestsPerHost) 这个条件时如�
 
 https://juejin.cn/post/6873476209737629709/
 
-缓存
+
+# CacheInterceptor 缓存策略
+
+https://www.cnblogs.com/giagor/p/15706508.html
+
+
 http://mushuichuan.com/2016/03/01/okhttpcache/
 
 https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/
@@ -294,44 +339,6 @@ Okhttp缓存
    }
 ```
 
-Dispatcher.java
-
-```java
-private int maxRequests = 64;
-private int maxRequestsPerHost = 5;
-synchronized void enqueue(AsyncCall call) {
-    if (runningAsyncCalls.size() < maxRequests && runningCallsForHost(call) < maxRequestsPerHost) {
-      runningAsyncCalls.add(call);
-      executorService().execute(call);
-    } else {
-      readyAsyncCalls.add(call);
-    }
-}
-```
-
-可以看到提交任务 >5时，才会被添加到readyAsyncCalls队列中。<5的任务直接提交。
-
-```java
-  private void promoteCalls() {
-    if (runningAsyncCalls.size() >= maxRequests) return; // Already running max capacity.
-    if (readyAsyncCalls.isEmpty()) return; // No ready calls to promote.
-
-    for (Iterator<AsyncCall> i = readyAsyncCalls.iterator(); i.hasNext(); ) {
-      AsyncCall call = i.next();
-
-      if (runningCallsForHost(call) < maxRequestsPerHost) {
-        i.remove();
-        runningAsyncCalls.add(call);
-        Log.i("Dispatcher", "promoteCalls:  准备队列 "+call.request().tag+" 执行");
-        executorService().execute(call);
-      }
-
-      if (runningAsyncCalls.size() >= maxRequests) return; // Reached max capacity.
-    }
-  }
-```
-
-readyAsyncCalls不为空，然后取出一条，再执行，可以看到，默认情况下会有5条环形任务链。
 
 #### 拦截器
 
