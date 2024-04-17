@@ -161,9 +161,7 @@ executor.execute(() -> {
     System.out.println("任务1");
     System.out.println(Thread.currentThread());
     while (true) {
-
     }
-
 });
 
 executor.execute(() -> {
@@ -308,7 +306,6 @@ https://juejin.cn/post/6873476209737629709/
 # CacheInterceptor 缓存策略
 
 https://www.cnblogs.com/giagor/p/15706508.html
-
 
 http://mushuichuan.com/2016/03/01/okhttpcache/
 
