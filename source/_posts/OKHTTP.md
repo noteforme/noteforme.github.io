@@ -207,6 +207,11 @@ runningAsyncCalls 运行时的最大请求数量64,只有多个不同的host请�
 Okhttp 异步请求维护的两个队列
 
 
+
+Dispatcher.java
+
+```java
+
   /** Ready async calls in the order they'll be run. */
   private val readyAsyncCalls = ArrayDeque<AsyncCall>()
 
@@ -214,9 +219,7 @@ Okhttp 异步请求维护的两个队列
   private val runningAsyncCalls = ArrayDeque<AsyncCall>()
 
 
-Dispatcher.java
 
-```java
 private int maxRequests = 64;
 private int maxRequestsPerHost = 5;
 synchronized void enqueue(AsyncCall call) {
