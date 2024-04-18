@@ -6,6 +6,7 @@ tags:
 categories: ANDROID
 ---
 
+
  
 
 [征服面试官：Retrofit 原理篇 掌握这篇面试题汇总，吊打面试官！_retrofit面试题-CSDN博客](https://blog.csdn.net/jaynm/article/details/108614788)
@@ -30,14 +31,7 @@ Retrofit底层实现，在okhttp的基础下做了哪些封装
 
 
 
-
-
-
-
-
 #### Okhttp缺陷
-
-
 
 
 
@@ -70,10 +64,6 @@ Retrofit底层实现，在okhttp的基础下做了哪些封装
 ![2021-07-27_10.43_rxjava.png](Retrofit/e60bb6dbf6f6ec0cb9f6ede98003154818a906f4.png)
 
 ![2021-07-28_3.02.05.png](Retrofit/5d1ba3a67f83cdc0a03694e431bee4cda35c51a7.png)
-
-
-
-
 
 
 
