@@ -510,5 +510,18 @@ x-github-request-id: 200C:21C6BE:267A047:2720F58:661F7320
 ```
 
 
+# Request
+## RequestBody 
+The RequestBody is a basic request for OkHttp. It also provides FormBody and MultipartBody to construct the request body.
+
+```
+  RequestBody body = RequestBody.create(json, JSON);
+  Request request = new Request.Builder()
+      .url(url)
+      .post(body)
+      .build();
+```
+
+
 
 
