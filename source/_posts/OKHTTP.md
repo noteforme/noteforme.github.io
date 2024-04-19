@@ -562,7 +562,13 @@ actual sealed interface BufferedSink : Sink, WritableByteChannel {
             requestBody.writeTo(bufferedRequestBody)
 ```
 
-
+## FormBody 
+FormBody 重写了writeto方法，上面解析后，走的就是
+```
+  override fun writeTo(sink: BufferedSink) {
+    writeOrCountBytes(sink, false)
+  }
+```
 
 
 
