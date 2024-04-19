@@ -326,6 +326,20 @@ OkHttp的拦截器有：
 - ConnectInterceptor： 负责找到或者新建一个连接，并获取对应的socket流；在获得结果后不进行额外的处理。
 - CallServerInterceptor：进行真正的与服务器的通信，向服务器请求和读响应的拦截器；
 
+
+
+最终网络返回的数据请求
+```
+  fun openResponseBody(response: Response): ResponseBody {
+    try {
+      val contentType = response.header("Content-Type")
+      val contentLength = codec.reportedContentLength(response)
+      val rawSource = codec.openResponseBodySource(response)
+      val source = ResponseBodySource(rawSource, contentLength)
+      return RealResponseBody(contentType, contentLength, source.buffer())
+```
+
+
 # okio
 
 1.简介；
@@ -547,6 +561,9 @@ actual sealed interface BufferedSink : Sink, WritableByteChannel {
             val bufferedRequestBody = exchange.createRequestBody(request, false).buffer()
             requestBody.writeTo(bufferedRequestBody)
 ```
+
+
+
 
 
 
