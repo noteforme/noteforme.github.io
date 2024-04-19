@@ -520,6 +520,32 @@ The RequestBody is a basic request for OkHttp. It also provides FormBody and Mul
       .url(url)
       .post(body)
       .build();
+
+
+fun ByteArray.commonToRequestBody(
+  contentType: MediaType?,
+  offset: Int,
+  byteCount: Int,
+): RequestBody {
+  return object : RequestBody() {
+    override fun writeTo(sink: BufferedSink) {
+      sink.write(this@commonToRequestBody, offset, byteCount)
+    }
+  }
+}
+
+
+actual sealed interface BufferedSink : Sink, WritableByteChannel {
+  fun buffer(): Buffer
+  actual val buffer: Buffer
+}
+
+```
+针对这一开始不理解， sink.write 是怎么写入的,它只有一个方法，没法执行,中间以为acual字段会构造对象，其实不是的，后来写了个demo。
+其实是在 CallServerInterceptor中createRequestBody,创建了bufferedRequestBody,然后把之前RequestBody的数据写入。
+```
+            val bufferedRequestBody = exchange.createRequestBody(request, false).buffer()
+            requestBody.writeTo(bufferedRequestBody)
 ```
 
 
