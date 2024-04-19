@@ -7,38 +7,33 @@ categories: ANDROID
 ---
 
 
- 
+#### Okhttp缺陷
+1. 用户网络请求的借口配置 繁琐， 尤其是需要配置复杂的请求body,请求头，参数的时候。
+2. 数据解析过程需要用户手动拿到respponsbody进行解析，不能复用。
+3. 无法适配自动进行线程的切换。
+4. 万一我们的存在嵌套网络请求就会陷入，"回调陷阱".
 
-[征服面试官：Retrofit 原理篇 掌握这篇面试题汇总，吊打面试官！_retrofit面试题-CSDN博客](https://blog.csdn.net/jaynm/article/details/108614788)
+
+![2021-07-28_7.46.04.png](Retrofit/e81f0a50834b2fb1b72fb6b7a2f92ec9ed09d6f1.png)
 
 
-Retrofit底层实现，在okhttp的基础下做了哪些封装
+* Retrofit底层实现，在okhttp的基础下做了哪些封装
 
-13.Retrofit中的Call对象如何转换成okhttp的call对象(这个题目是埋坑的)
+* Retrofit中的Call对象如何转换成okhttp的call对象(这个题目是埋坑的)
 
-14.Retrofit设计模式
+* Retrofit设计模式
+
+https://blog.51cto.com/u_15375308/4872022
 
 在retrofit中的泛型是怎么解析的 https://noteforme.github.io/2017/09/23/Retrofit/
 ​ 编译时注解与运行时注解，为什么retrofit要使用运行时注解？什么时候用运行时注解？
 
 
-32.retrofit的了解
+retrofit的了解
 
 1.动态代理创建一个接口的代理类
 2.通过反射解析每个接口的注解、入参构造http请求
 3.获取到返回的http请求，使用Adapter解析成需要的返回值。
-
-
-
-
-#### Okhttp缺陷
-
-
-
-![2021-07-26_4.24_vsokhttp.png](Retrofit/ededd6908c6a239c9f5babdb87767461fe2d413a.png)
-
-![2021-07-28_7.46.04.png](Retrofit/e81f0a50834b2fb1b72fb6b7a2f92ec9ed09d6f1.png)
-
 
 
 
