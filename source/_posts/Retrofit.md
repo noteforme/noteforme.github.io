@@ -6,6 +6,8 @@ tags:
 categories: ANDROID
 ---
 
+https://github.com/pengMaster/BestNote/blob/master/docs/android/Android-Interview/Android/Android%E9%AB%98%E7%BA%A7%E9%9D%A2%E8%AF%9510%E5%A4%A7%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90.md
+
 
 #### Okhttp缺陷
 1. 用户网络请求的借口配置 繁琐， 尤其是需要配置复杂的请求body,请求头，参数的时候。
@@ -170,9 +172,7 @@ public void enqueue(final Callback<T> callback) {
 
 
 https://www.bilibili.com/video/BV1mU4y1p71g?p=10&spm_id_from=pageDriver
-
 https://www.bilibili.com/video/BV12Q4y1d7uD?p=7&spm_id_from=pageDriver
-
 http://www.jianshu.com/p/308f3c54abdd
 这篇文章不错，深入浅出
 我还加了了提交Map参数的[Demo](https://gitee.com/huaiyi/RetrofitDemo.git) Demo
@@ -184,4 +184,79 @@ https://juejin.im/post/5afc1706518825426f30f6ec
 
 要实现类似这样的请求,用post方式怎么也不行
 https://newsapi.org/v2/top-headlines?sources=financial-times&apiKey=e4f505f73a9f4ee99119ab33a19ab05e
-http://wuxiaolong.me/2016/06/18/retrofits/
+
+
+
+
+问1：什么是动态代理？
+动态代理和静态代理都属于代理模式，动态代理是可以在运行期动态创建某个interface的实例，我们通过Proxy.newProxyInstance产生的代理类，当调用接口的任何方法时，都会被InvocationHandler#invoke方法拦截，同时，在这个方法中可以拿到所传入的参数等，依照参数值再做相应的处理。
+
+问2：Retrofit是如何将子线程切换到主线程？
+在添加默认适配器工厂defaultCallAdapterFactories时，将callbackExecutor作为了一个参数，那么它的具体实现也就是在这个默认适配器工厂中。 我们来看下callbackExecutor在里面做了些啥。
+
+static final class ExecutorCallbackCall<T> implements Call<T> {
+    final Executor callbackExecutor;
+    final Call<T> delegate;
+    ...
+ 
+    @Override
+    public void enqueue(final Callback<T> callback) {
+ 
+      delegate.enqueue(
+          new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, final Response<T> response) {
+              callbackExecutor.execute(
+                  () -> {
+                    if (delegate.isCanceled()) {
+                      // Emulate OkHttp's behavior of throwing/delivering an IOException on
+                      // cancellation.
+                      callback.onFailure(ExecutorCallbackCall.this, new IOException("Canceled"));
+                    } else {
+                      callback.onResponse(ExecutorCallbackCall.this, response);
+                    }
+                  });
+            }
+ 
+            @Override
+            public void onFailure(Call<T> call, final Throwable t) {
+              callbackExecutor.execute(() -> callback.onFailure(ExecutorCallbackCall.this, t));
+            }
+          });
+    }
+ 
+
+在上述代码里了解到，callbackExecutor即Executor，一个线程调度器。在Call的enqueue实现里执行了一个异步网络请求delegate.enqueue，在请求的响应onResponse、onFailure中 Executor也同样执行了一个线程，这里就有个疑问，为什么要在一个异步请求里又调用一个线程？我们知道callbackExecutor是一个线程调度器，那他内部到底实现的是什么？ 默认callbackExecutor的创建在Retrofit的初始化中，callbackExecutor = platform.defaultCallbackExecutor();
+
+static final class Android extends Platform {
+ 
+    @Override
+    public Executor defaultCallbackExecutor() {
+      return new MainThreadExecutor();
+    }
+ 
+    static final class MainThreadExecutor implements Executor {
+      private final Handler handler = new Handler(Looper.getMainLooper());
+ 
+      @Override
+      public void execute(Runnable r) {
+        handler.post(r);
+      }
+    }
+  }
+}
+
+platform是一个Android平台，defaultCallbackExecutor 内部其实调用的是 new MainThreadExecutor() ，很清楚的看到， handler.post(r) 内部使用Handler将响应抛到了主线程。
+
+这就是Retrofit将子线程切换到主线程的核心所在。
+
+问3：Retrofit为什么要用动态代理？
+
+                        
+原文链接：https://blog.csdn.net/qq_37492806/article/details/133995368
+
+
+
+
+
+
