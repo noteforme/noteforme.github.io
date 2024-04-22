@@ -23,6 +23,7 @@ Android Studio插件
 
 
 #### **UML标准建模语言中5种主要的类型图**
+https://design-patterns.readthedocs.io/zh-cn/latest/read_uml.html
 
 https://www.visual-paradigm.com/tw/guide/uml-unified-modeling-language/what-is-uml/
 
