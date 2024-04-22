@@ -40,7 +40,7 @@ retrofit的了解
 
 # InterView Answer
 
-   * retrofit流程分析
+   1.  retrofit流程分析
     Retrofit 交付请求给OkHttp主要是，OkHttpCall中处理, 组装数据后，请求方式就是OkHttp官方提供的方式了。
     请求的body是在这里处理的
 ```
@@ -52,8 +52,6 @@ retrofit的了解
   }
 ```
     
-    3-2 retrofit概述
-    3-3 retrofit官网例子解析
     3-4 retrofit请求过程7步骤详解
     3-5 静态代理模式讲解
     3-6 动态代理模式讲解
@@ -67,20 +65,28 @@ retrofit的了解
     3-14 retrofit中okHttpCall对象和adapt返回对象解析
     3-15 retrofit中同步请求&重要参数解析
     3-16 retrofit中异步请求解析
-    3-17 retrofit设计模式解析-1：构建者模式
-    3-18 retrofit设计模式解析-2：工厂模式
-    3-19 retrofit设计模式解析-3：外观模式
+
+DESIGN PATTERN
+
+![image](https://github.com/noteforme/noteforme.github.io/assets/6995071/fb78a8b1-5458-4d7b-b7f3-e013793379e6)
+
+    
+*  retrofit设计模式解析-1：构建者模式  RequestBuilder 
+*  retrofit设计模式解析-2：工厂模式
+    
+    
+    
+*   3-19 retrofit设计模式解析-3：外观模式
     3-20 retrofit设计模式解析-4：策略模式
     3-21 retrofit设计模式解析-5：适配器模式
     3-22 retrofit设计模式解析-6：动态代理模式／观察者
     3-23 retrofit面试题：retfrofit线程切换（异步机制Looper)
     3-24 retrofit面试题：rxjava和retrofit如何结合进行网络请求
     3-25 retrofit面试题：Hook与动态代理
-    3-26 retrofit面试题：Android MVC架构优势和缺点
-    3-27 retrofit面试题：MVP优点和缺点
     3-28 retrofit面试题：sp跨进程&apply和commit方法
 
-
+https://juejin.cn/post/6879326343667023879
+https://www.jianshu.com/p/435a5296ee94
 
 
 
