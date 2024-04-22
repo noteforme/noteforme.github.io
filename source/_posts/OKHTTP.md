@@ -112,48 +112,20 @@ Handshake则会把服务端支持的Tls版本，加密方式等都带回来，�
   享元模式 : Dispatcher 的线程池中，不限量的线程池实现了对象复用,这个只是线程池的特性,线程池对线程的操作，没有什么代码的问题.
   策略模式 : CacheInterceptor ,在响应数据的选择中使用了策略模式，选择缓存数据还是选择网络访问。
 
+
 * Http1 Http2是怎么切换的
 * okhttp如何处理网络缓存的
 * OkHttp怎么实现连接池
 * okhttp线程使用方式
 
-1.同步和异步：
-1.异步使用了Dispatcher来将存储在 Deque 中的请求分派给线程池中各个线程执行。
-2.当任务执行完成后，无论是否有异常，finally代码段总会被执行，也就是会调用Dispatcher的finished函数，它将正在运行的任务Call从队列runningAsyncCalls中移除后，主动的把缓存队列向前走了一步。
-2.连接池：
-1.一个Connection封装了一个socket，ConnectionPool中储存s着所有的Connection，StreamAllocation是引用计数的一个单位
-2.当一个请求获取一个Connection的时候要传入一个StreamAllocation，Connection中存着一个弱引用的StreamAllocation列表，每当上层应用引用一次Connection，StreamAllocation就会加一个。反之如果上层应用不使用了，就会删除一个。
-3.ConnectionPool中会有一个后台任务定时清理StreamAllocation列表为空的Connection。5分钟时间，维持5个socket
-3.选择路线与建立连接
-1.选择路线有两种方式：
-1.无代理，那么在本地使用DNS查找到ip，注意结果是数组，即一个域名有多个IP，这就是自动重连的来源
-2.有代理HTTP：设置socket的ip为代理地址的ip，设置socket的端口为代理地址的端口
-3.代理好处：HTTP代理会帮你在远程服务器进行DNS查询，可以减少DNS劫持。
-2.建立连接
-1.连接池中已经存在连接，就从中取出(get)RealConnection，如果没有命中就进入下一步
-2.根据选择的路线(Route)，调用Platform.get().connectSocket选择当前平台Runtime下最好的socket库进行握手
-3.将建立成功的RealConnection放入(put)连接池缓存
-4.如果存在TLS，就根据SSL版本与证书进行安全握手
-5.构造HttpStream并维护刚刚的socket连接，管道建立完成
-4.职责链模式：缓存、重试、建立连接等功能存在于拦截器中网络请求相关，主要是网络请求优化。网络请求的时候遇到的问题
-5.博客推荐：**Android数据层架构的实现 上篇、Android数据层架构的实现 下篇**
-
-OkHttp线程池
-
-ThreadPoolExecutor executor = new ThreadPoolExecutor(
-        0, Integer.MAX_VALUE, 60, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
-可以看到 corePoolSize 0 , MaxPoolSize Integer.MAX_VALUE
 
 根据线程池执行流程：
 
-首先核心线程，corePoolSize 为0 。
-把任务加入SynchronousQueue，但是这个队列加入就会失败。
-创建非核心线程，数量为Integer.MAX_VALUE，可以创建。
-当任务执行完后，3创建的非核心线程 根据keepAliveTime时间，逐步销毁。
 
 问题
 OkHttpThreadPool.java
 
+```
 ThreadPoolExecutor executor = new ThreadPoolExecutor(
         0, Integer.MAX_VALUE, 60, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
 executor.execute(() -> {
@@ -172,6 +144,8 @@ executor.execute(() -> {
     System.out.println("任务1");
     System.out.println(Thread.currentThread());
 });
+```
+
 运行结果:
 
 任务1
@@ -204,7 +178,6 @@ https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485441&idx=1&sn=303a25
 
 ​ https://www.bilibili.com/video/BV1ib4y1f7S1
 
-Okhttp缓存机制
 
 网络请求缓存处理，okhttp如何处理网络缓存的
 自己去设计网络请求框架，怎么做？
@@ -213,9 +186,7 @@ Okhttp缓存机制
  4.问第三方库如okhttp、picasso等底层原理如缓存机制等（一个也没答上来，literally
 
 13.Retrofit中的Call对象如何转换成okhttp的call对象(这个题目是埋坑的)
-11.okhttp责任链设计模式
-6.okhttp发送请求的拦截方式
-7.okhttp的拦截器设计模式
+
 
 # 分析
 
@@ -235,15 +206,20 @@ runningAsyncCalls 运行时的最大请求数量64,只有多个不同的host请�
 
 Okhttp 异步请求维护的两个队列
 
+
+
+Dispatcher.java
+
+```java
+
   /** Ready async calls in the order they'll be run. */
   private val readyAsyncCalls = ArrayDeque<AsyncCall>()
 
   /** Running asynchronous calls. Includes canceled calls that haven't finished yet. */
   private val runningAsyncCalls = ArrayDeque<AsyncCall>()
 
-Dispatcher.java
 
-```java
+
 private int maxRequests = 64;
 private int maxRequestsPerHost = 5;
 synchronized void enqueue(AsyncCall call) {
@@ -278,6 +254,7 @@ synchronized void enqueue(AsyncCall call) {
 
 
 readyAsyncCalls不为空，然后取出一条，再执行，可以看到，默认情况下会有5条环形任务链。
+
 ```
 
 if (asyncCall.callsPerHost.get() >= this.maxRequestsPerHost) 这个条件时如何判断的呢?
@@ -298,6 +275,7 @@ if (asyncCall.callsPerHost.get() >= this.maxRequestsPerHost) 这个条件时如�
 
 https://juejin.cn/post/6873476209737629709/
 
+
 # CacheInterceptor 缓存策略
 
 https://www.cnblogs.com/giagor/p/15706508.html
@@ -307,6 +285,10 @@ http://mushuichuan.com/2016/03/01/okhttpcache/
 https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/
 
 https://www.bilibili.com/video/BV12Q4y1d7uD?p=7&spm_id_from=pageDriver
+
+
+遗留的问题，sprintboot弄好后，mock服务端的head请求，再验证CacheInterceptor 策略。
+
 
 Okhttp缓存
 
@@ -331,6 +313,7 @@ Okhttp缓存
    }
 ```
 
+
 #### 拦截器
 
 ![](OKHTTP/2021-07-24_6.43_interupt.png)
@@ -342,6 +325,20 @@ OkHttp的拦截器有：
 - CacheInterceptor：缓存处理相关的拦截器；
 - ConnectInterceptor： 负责找到或者新建一个连接，并获取对应的socket流；在获得结果后不进行额外的处理。
 - CallServerInterceptor：进行真正的与服务器的通信，向服务器请求和读响应的拦截器；
+
+
+
+最终网络返回的数据请求
+```
+  fun openResponseBody(response: Response): ResponseBody {
+    try {
+      val contentType = response.header("Content-Type")
+      val contentLength = codec.reportedContentLength(response)
+      val rawSource = codec.openResponseBodySource(response)
+      val source = ResponseBodySource(rawSource, contentLength)
+      return RealResponseBody(contentType, contentLength, source.buffer())
+```
+
 
 # okio
 
@@ -388,10 +385,10 @@ client如何确定自己发送的消息被server收到?
 App 是如何沙箱化，为什么要这么做？
 权限管理系统（底层的权限是如何进行 grant 的）？
 
+
 # Request Type
 
 如果要抓包，需要设置Okhttp证书
-
 ```
  fun disableCertificateVerification(): OkHttpClient {
     val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
@@ -423,6 +420,7 @@ App 是如何沙箱化，为什么要这么做？
       .hostnameVerifier(trustAllHostnames)
       .build()
   }
+
 ```
 
 ## Post
@@ -430,7 +428,6 @@ App 是如何沙箱化，为什么要这么做？
 https://jsonplaceholder.typicode.com/posts
 
 request
-
 ```
 :method: POST
 :path: /posts
@@ -443,9 +440,7 @@ user-agent: okhttp/5.0.0-SNAPSHOT
 
 userId=1&title=article+2&body=body+article
 ```
-
 response 
-
 ```
 :status: 201
 date: Wed, 17 Apr 2024 06:45:30 GMT
@@ -486,7 +481,6 @@ alt-svc: h3=":443"; ma=86400
 https://api.github.com/repos/square/okhttp/contributors
 
 Request
-
 ```
 :method: GET
 :path: /repos/square/okhttp/contributors
@@ -497,7 +491,6 @@ user-agent: okhttp/5.0.0-SNAPSHOT
 ```
 
 Response
-
 ```
 :status: 200
 server: GitHub.com
@@ -529,3 +522,55 @@ x-github-request-id: 200C:21C6BE:267A047:2720F58:661F7320
 
 [{"login":"swankjesse","id":133019,"node_id":"MDQ6VXNlcjEzMzAxOQ==","avatar_url":"https://avatars.githubusercontent.com/u/133019?v=4","gravatar_id":"","url":"https://api.github.com/users/swankjesse","html_url":"https://github.com/swankjesse","followers_url":"https://api.github.com/users/swankjesse/followers","following_url":"https://api.github.com/users/swankjesse/following{/other_user}","gists_url":"https://api.github.com/users/swankjesse/gists{/gist_id}","starred_url":"https://api.github.com/users/swankjesse/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/swankjesse/subscriptions","organizations_url":"https://api.github.com/users/swankjesse/orgs","repos_url":"https://api.github.com/users/swankjesse/repos","events_url":"https://api.github.com/users/swankjesse/events{/privacy}","received_events_url":"https://api.github.com/users/swankjesse/received_events","type":"User","site_admin":false,"contributions":2768},{"login":"JakeWharton","id":66577,"node_id":"MDQ6VXNlcjY2NTc3","avatar_url":"https://avatars.githubusercontent.com/u/66577?v=4","gravatar_id":"","url":"https://api.github.com/users/JakeWharton"...
 ```
+
+
+# Request
+## RequestBody 
+The RequestBody is a basic request for OkHttp. It also provides FormBody and MultipartBody to construct the request body.
+
+```
+  RequestBody body = RequestBody.create(json, JSON);
+  Request request = new Request.Builder()
+      .url(url)
+      .post(body)
+      .build();
+
+
+fun ByteArray.commonToRequestBody(
+  contentType: MediaType?,
+  offset: Int,
+  byteCount: Int,
+): RequestBody {
+  return object : RequestBody() {
+    override fun writeTo(sink: BufferedSink) {
+      sink.write(this@commonToRequestBody, offset, byteCount)
+    }
+  }
+}
+
+
+actual sealed interface BufferedSink : Sink, WritableByteChannel {
+  fun buffer(): Buffer
+  actual val buffer: Buffer
+}
+
+```
+针对这一开始不理解， sink.write 是怎么写入的,它只有一个方法，没法执行,中间以为acual字段会构造对象，其实不是的，后来写了个demo。
+其实是在 CallServerInterceptor中createRequestBody,创建了bufferedRequestBody,然后把之前RequestBody的数据写入。
+```
+            val bufferedRequestBody = exchange.createRequestBody(request, false).buffer()
+            requestBody.writeTo(bufferedRequestBody)
+```
+
+## FormBody 
+FormBody 重写了writeto方法，上面解析后，走的就是
+```
+  override fun writeTo(sink: BufferedSink) {
+    writeOrCountBytes(sink, false)
+  }
+```
+
+
+
+
+
