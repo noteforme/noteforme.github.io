@@ -112,7 +112,6 @@ Handshake则会把服务端支持的Tls版本，加密方式等都带回来，�
   享元模式 : Dispatcher 的线程池中，不限量的线程池实现了对象复用,这个只是线程池的特性,线程池对线程的操作，没有什么代码的问题.
   策略模式 : CacheInterceptor ,在响应数据的选择中使用了策略模式，选择缓存数据还是选择网络访问。
 
-
 * Http1 Http2是怎么切换的
 * okhttp如何处理网络缓存的
 * OkHttp怎么实现连接池
@@ -236,13 +235,11 @@ runningAsyncCalls 运行时的最大请求数量64,只有多个不同的host请�
 
 Okhttp 异步请求维护的两个队列
 
-
   /** Ready async calls in the order they'll be run. */
   private val readyAsyncCalls = ArrayDeque<AsyncCall>()
 
   /** Running asynchronous calls. Includes canceled calls that haven't finished yet. */
   private val runningAsyncCalls = ArrayDeque<AsyncCall>()
-
 
 Dispatcher.java
 
@@ -281,7 +278,6 @@ synchronized void enqueue(AsyncCall call) {
 
 
 readyAsyncCalls不为空，然后取出一条，再执行，可以看到，默认情况下会有5条环形任务链。
-
 ```
 
 if (asyncCall.callsPerHost.get() >= this.maxRequestsPerHost) 这个条件时如何判断的呢?
@@ -301,7 +297,6 @@ if (asyncCall.callsPerHost.get() >= this.maxRequestsPerHost) 这个条件时如�
 ```
 
 https://juejin.cn/post/6873476209737629709/
-
 
 # CacheInterceptor 缓存策略
 
@@ -335,7 +330,6 @@ Okhttp缓存
        }
    }
 ```
-
 
 #### 拦截器
 
@@ -394,10 +388,10 @@ client如何确定自己发送的消息被server收到?
 App 是如何沙箱化，为什么要这么做？
 权限管理系统（底层的权限是如何进行 grant 的）？
 
-
 # Request Type
 
 如果要抓包，需要设置Okhttp证书
+
 ```
  fun disableCertificateVerification(): OkHttpClient {
     val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
@@ -429,7 +423,6 @@ App 是如何沙箱化，为什么要这么做？
       .hostnameVerifier(trustAllHostnames)
       .build()
   }
-
 ```
 
 ## Post
@@ -437,6 +430,7 @@ App 是如何沙箱化，为什么要这么做？
 https://jsonplaceholder.typicode.com/posts
 
 request
+
 ```
 :method: POST
 :path: /posts
@@ -449,7 +443,9 @@ user-agent: okhttp/5.0.0-SNAPSHOT
 
 userId=1&title=article+2&body=body+article
 ```
+
 response 
+
 ```
 :status: 201
 date: Wed, 17 Apr 2024 06:45:30 GMT
@@ -490,6 +486,7 @@ alt-svc: h3=":443"; ma=86400
 https://api.github.com/repos/square/okhttp/contributors
 
 Request
+
 ```
 :method: GET
 :path: /repos/square/okhttp/contributors
@@ -500,6 +497,7 @@ user-agent: okhttp/5.0.0-SNAPSHOT
 ```
 
 Response
+
 ```
 :status: 200
 server: GitHub.com
@@ -531,7 +529,3 @@ x-github-request-id: 200C:21C6BE:267A047:2720F58:661F7320
 
 [{"login":"swankjesse","id":133019,"node_id":"MDQ6VXNlcjEzMzAxOQ==","avatar_url":"https://avatars.githubusercontent.com/u/133019?v=4","gravatar_id":"","url":"https://api.github.com/users/swankjesse","html_url":"https://github.com/swankjesse","followers_url":"https://api.github.com/users/swankjesse/followers","following_url":"https://api.github.com/users/swankjesse/following{/other_user}","gists_url":"https://api.github.com/users/swankjesse/gists{/gist_id}","starred_url":"https://api.github.com/users/swankjesse/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/swankjesse/subscriptions","organizations_url":"https://api.github.com/users/swankjesse/orgs","repos_url":"https://api.github.com/users/swankjesse/repos","events_url":"https://api.github.com/users/swankjesse/events{/privacy}","received_events_url":"https://api.github.com/users/swankjesse/received_events","type":"User","site_admin":false,"contributions":2768},{"login":"JakeWharton","id":66577,"node_id":"MDQ6VXNlcjY2NTc3","avatar_url":"https://avatars.githubusercontent.com/u/66577?v=4","gravatar_id":"","url":"https://api.github.com/users/JakeWharton"...
 ```
-
-
-
-
