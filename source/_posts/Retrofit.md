@@ -38,13 +38,54 @@ retrofit的了解
 3.获取到返回的http请求，使用Adapter解析成需要的返回值。
 
 
+# InterView Answer
+
+   * retrofit流程分析
+    Retrofit 交付请求给OkHttp主要是，OkHttpCall中处理, 组装数据后，请求方式就是OkHttp官方提供的方式了。
+    请求的body是在这里处理的
+```
+ okhttp3.Request create(@Nullable Object instance, Object[] args) throws IOException {
+      handlers[p].apply(requestBuilder, args[p]);
+    return requestBuilder
+        .get() // 组装body和请求
+        .build();
+  }
+```
+    
+    3-2 retrofit概述
+    3-3 retrofit官网例子解析
+    3-4 retrofit请求过程7步骤详解
+    3-5 静态代理模式讲解
+    3-6 动态代理模式讲解
+    3-7 retrofit网络通信流程8步骤&7个关键成员变量解析
+    3-8 retrofit中builder构建者模式&builder内部类解析
+    3-9 retrofit中baseurl／converter／calladapter解析
+    3-10 retrofit中build方法完成retrofit对象创建流程解析
+    3-11 retrofit中RxjavaCallAdapterFactory内部构造与工作原理解析
+    3-12 retrofit中网络请求接口实例解析
+    3-13 retrofit中serviceMethod对象解析
+    3-14 retrofit中okHttpCall对象和adapt返回对象解析
+    3-15 retrofit中同步请求&重要参数解析
+    3-16 retrofit中异步请求解析
+    3-17 retrofit设计模式解析-1：构建者模式
+    3-18 retrofit设计模式解析-2：工厂模式
+    3-19 retrofit设计模式解析-3：外观模式
+    3-20 retrofit设计模式解析-4：策略模式
+    3-21 retrofit设计模式解析-5：适配器模式
+    3-22 retrofit设计模式解析-6：动态代理模式／观察者
+    3-23 retrofit面试题：retfrofit线程切换（异步机制Looper)
+    3-24 retrofit面试题：rxjava和retrofit如何结合进行网络请求
+    3-25 retrofit面试题：Hook与动态代理
+    3-26 retrofit面试题：Android MVC架构优势和缺点
+    3-27 retrofit面试题：MVP优点和缺点
+    3-28 retrofit面试题：sp跨进程&apply和commit方法
+
+
 
 
 
 
 #### Retofit调用
-
-
 
 
 
@@ -55,8 +96,6 @@ retrofit的了解
 
 
 #### Retrofit Rxjava
-
-
 
 ![2021-07-27_10.43_rxjava.png](Retrofit/e60bb6dbf6f6ec0cb9f6ede98003154818a906f4.png)
 
@@ -254,6 +293,7 @@ platform是一个Android平台，defaultCallbackExecutor 内部其实调用的�
 
                         
 原文链接：https://blog.csdn.net/qq_37492806/article/details/133995368
+
 
 
 
