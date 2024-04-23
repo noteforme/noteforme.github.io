@@ -7,9 +7,20 @@ categories: DesignPatterns
 
 ---
 
+
+
+工厂方法模式   ： 只创建一种类型的实例，
+抽象工厂方法模式 ： 创建多种类型的实例, 抽象工厂 只有一个实例后，也就是工厂方法。
+
+
+
+
+
+
+
 ##### 工厂方法模式
 
-![2021-09-12_6.40.17_factory](DesignPatterns_Factory/2021-09-12_factory.png)
+
 
 ![2021-09-12_6.41.32_fac_indraduce](DesignPatterns_Factory/2021-09-12_fac_indraduce.png)
 
@@ -419,8 +430,6 @@ public class Application {
 简单工厂的工厂,产品族
 
 https://blog.csdn.net/qq_18242391/article/details/81503370
-
-
 
 ```mermaid
 graph TD;
