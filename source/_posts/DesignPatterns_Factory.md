@@ -7,15 +7,9 @@ categories: DesignPatterns
 
 ---
 
-
-
 ##### 工厂方法模式
 
-
-
 ![2021-09-12_6.40.17_factory](DesignPatterns_Factory/2021-09-12_factory.png)
-
-
 
 ![2021-09-12_6.41.32_fac_indraduce](DesignPatterns_Factory/2021-09-12_fac_indraduce.png)
 
@@ -24,8 +18,6 @@ categories: DesignPatterns
 工厂方法 :返回一个产品实例 ,  继承了工厂Dialog Base类,Base类抽象方法由sub类实现
 
 抽象工厂方法:可以返回一组相关的产品实例,实现了创建不同产品的抽象工厂接口
-
-
 
 ##### Simple factory
 
@@ -49,8 +41,6 @@ public class PizzaStore {
 }
 ```
 
-
-
 ```java
 public class SimplePizzaFactory {
 
@@ -67,8 +57,6 @@ public class SimplePizzaFactory {
     }
 }
 ```
-
-
 
 ```java
 public class PizzaStore {
@@ -89,8 +77,6 @@ public class PizzaStore {
     }
 }
 ```
-
-
 
 ```java
 public class Pizza {
@@ -132,17 +118,11 @@ public class Pizza {
 }
 ```
 
-
-
 ```java
 SimplePizzaFactory calmFactory = new SimplePizzaFactory();
 PizzaStore calmPizza = new PizzaStore(calmFactory);
 calmPizza.orderPizza("calm");
 ```
-
-
-
-
 
 ##### Static Factory（静态工厂模式）
 
@@ -152,8 +132,6 @@ public interface Animal {
 }
 ```
 
-
-
 ```java
 public class Cat implements Animal{
     public void move() {
@@ -162,10 +140,7 @@ public class Cat implements Animal{
 }
 ```
 
-
-
 1. 工厂类　对实例类进行管理和创建
-
 
 ```java
    public class Factory {
@@ -193,12 +168,11 @@ public class Cat implements Animal{
 
 2. Abstract Factory(抽象工厂 elementary )
 
-
 ```java
  public interface Provider {
   Animal produce();
  }
- 
+
  public class DogFactory implements  Provider {
    @Override
    public Animal produce() {
@@ -206,8 +180,6 @@ public class Cat implements Animal{
    }
  }
 ```
-
-
 
 ```java
 public class CatFactory implements Provider {
@@ -338,8 +310,6 @@ public class Application {
 }
 ```
 
-
-
 https://refactoring.guru/design-patterns/abstract-factory
 
 https://www.zhihu.com/question/20367734
@@ -368,8 +338,6 @@ public abstract class Dialog {
     }
 }
 ```
-
-
 
 ```java
 public class WindowsDialogFac extends Dialog {
@@ -446,12 +414,18 @@ public class Application {
 }
 ```
 
-
-
 ##### 抽象工厂
 
 简单工厂的工厂,产品族
 
-
-
 https://blog.csdn.net/qq_18242391/article/details/81503370
+
+
+
+```mermaid
+graph TD;
+      A-->B;
+      A-->C;
+      B-->D;
+      C-->D;
+```
