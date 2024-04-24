@@ -12,6 +12,7 @@ categories: DesignPatterns
 工厂方法模式   ： 只创建一种类型的实例，
 抽象工厂方法模式 ： 创建多种类型的实例, 抽象工厂 只有一个实例后，也就是工厂方法。
 
+https://www.youtube.com/watch?v=EdFq_JIThqM
 
 # origin
 
@@ -49,36 +50,51 @@ public class Restuarant{
 # Simple factory
 
 
+is not a full-fledged offical pattern
+
 UML
 
 ```mermaid
+
 classDiagram
+	class Restaurant{
+		+ Burger orderBurger()
+	}
+	
+	class SimpleBurgetFactory{
+		+ Burger createBurget()
+	}
+
   class Burger {
-  	+ productId : int
-    + addOns: String
+  	+ int productId  
+    + String addOns
     + prepare()
   }
  
   class BeefBurger {
-  	+ angus : boolean
+  	+ boolean angus
     + prepare()
   }
   
   class VeggieBurger {
-  	+ combo : boolean
+  	+ boolean combo
     + prepare()
   }
 
 Burger  <|--  BeefBurger
 Burger  <|--  VeggieBurger
+Burger  <.. SimpleBurgetFactory
+SimpleBurgetFactory <.. Restaurant
 
 ```
+
+
 
 implements
 
    
 ```
-public class Restuarant{
+public class SimpleBurgetFactory{
     public Burger orderBuger(String request){
         if("BEEF".equals(request)){
             BeefBurger burger  = new BeefBurger();
@@ -95,7 +111,12 @@ public class Restuarant{
 
 #  Factory method 
 
+如果我们想新增一种类型或者修改，一种类型，那么就需要修改上面简单工厂的代码。
+
 ## Standard Uml
+
+标准工厂UML
+
 
 ```mermaid
 classDiagram
@@ -132,48 +153,67 @@ classDiagram
 
 ```
 
+我们的工厂不再创造对象，而是把这个构建过程移到子类。
 
 
 
 
 
-```java
-public interface Animal {
-    void move();
-}
+
+
 ```
+public class Restaurant{
+    public Burger orderBuger(String request){
+        Burger burger  = createBurget();
+        burget.prepare();
+        return burger;
+    }
+    public abstract Burget createBurget();
+}
 
-```java
-public class Cat implements Animal{
-    public void move() {
-        System.out.println("Cat move");
+public class BeefBurgetRestaurant extends Restaurant{
+    @Override
+    public  Burget createBurget(){
+        return new BeefBurger();
     }
 }
-```
 
-1. 工厂类　对实例类进行管理和创建
-
-```java
-   public class Factory {
-    //静态工厂方法
-    public static Cat produceCat() {
-        return new Cat();
+public class VeggieBurgetRestaurant extends Restaurant{
+    @Override
+    public  Burget createBurget(){
+        return new  VeggieBurger();
     }
+}
+public static void main(String[] args) {
+    BeefBurgetRestaurant beefResto = new BeefBurgetRestaurant();
+    Burger beefBurger =  beefResto.orderBurget();
 
-   public static Dog produceDog() {
-        return new Dog();
-   }
+    VeggieBurgetRestaurant veggieResto = new VeggieBurgetRestaurant();
+    Burger beefBurger =  veggieResto.orderBurget();
+}
 
-    public static void main(String[] args) {
-        Animal cat = Factory.produceCat();
-        cat.move();
+public interface Burger{
+    void prepare();
+}
 
-        Dog dog = Factory.produceDog();
-        dog.move();
-        dog.eatBone();
-     }
-    }`
+public class BeefBurger implements Burger{
+    void prepare(){}
+}
+
+public class VeggieBurger implements Burger{
+    void prepare(){}
+}
+
 ```
+
+
+
+
+
+
+
+
+
 
 假如我要实例化一个pig对象,那么肯定是要在Factory做添加的，接下来看看可以不修改其他类实现需求
 
