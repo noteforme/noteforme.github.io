@@ -18,10 +18,6 @@ categories: DesignPatterns
 
 
 
-##### 工厂方法模式
-
-
-
 ![2021-09-12_6.41.32_fac_indraduce](DesignPatterns_Factory/2021-09-12_fac_indraduce.png)
 
 工厂方法和抽象工厂方法 都是通过工厂生产产品，由于产品都实现了相同的接口，根据获取到的产品作相应的处理
@@ -30,7 +26,7 @@ categories: DesignPatterns
 
 抽象工厂方法:可以返回一组相关的产品实例,实现了创建不同产品的抽象工厂接口
 
-##### Simple factory
+# Simple factory
 
 ```java
 public class PizzaStore {
@@ -135,7 +131,49 @@ PizzaStore calmPizza = new PizzaStore(calmFactory);
 calmPizza.orderPizza("calm");
 ```
 
-##### Static Factory（静态工厂模式）
+#  Factory method 
+
+## Standard Uml
+
+```mermaid
+classDiagram
+  class Creator {
+  	+ someOperation()
+    + factoryMethod(): Product
+  }
+
+  class ConcreteCreatorA {
+    +createProduct(): Product
+  }
+
+  class ConcreteCreatorB {
+    +createProduct(): Product
+  }
+
+  class Product {
+    <<interface>> Product
+    +operation(): void
+  }
+
+  class ConcreteProductA {
+  }
+
+  class ConcreteProductB {
+  }
+
+  Creator ..> Product : Dependency
+
+  Creator <|-- ConcreteProductA : Inheritance
+  Creator <|-- ConcreteProductB : Inheritance
+  Product <|.. ConcreteCreatorA : Realization
+  Product <|.. ConcreteCreatorB : Realization
+
+```
+
+
+
+
+
 
 ```java
 public interface Animal {
