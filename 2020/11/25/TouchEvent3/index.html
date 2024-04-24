@@ -1,0 +1,719 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Button TextViewbutton clickable&#x3D;true,所以 默认消费事件,TextView不会  value.xml  123456789&lt;style name&#x3D;&quot;Base.Widget.AppCompat.Button&quot; parent&#x3D;&quot;android:Widget&quot;&gt;    &lt;item name&#x3D;&quot;andr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TouchEvent3">
+<meta property="og:url" content="https://noteforme.github.io/2020/11/25/TouchEvent3/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="Button TextViewbutton clickable&#x3D;true,所以 默认消费事件,TextView不会  value.xml  123456789&lt;style name&#x3D;&quot;Base.Widget.AppCompat.Button&quot; parent&#x3D;&quot;android:Widget&quot;&gt;    &lt;item name&#x3D;&quot;andr">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://noteforme.github.io/2020/11/25/TouchEvent3/TouchEvent3.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/11/25/TouchEvent3/Inner_ViewGroupA.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/11/25/TouchEvent3/inter_RootView.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/11/25/TouchEvent3/Inner_ViewGroupA.png">
+<meta property="article:published_time" content="2020-11-25T06:12:50.000Z">
+<meta property="article:modified_time" content="2022-05-06T11:24:51.266Z">
+<meta property="article:author" content="Jon">
+<meta property="article:tag" content="TouchEvent">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://noteforme.github.io/2020/11/25/TouchEvent3/TouchEvent3.png">
+  
+  
+  
+  <title>TouchEvent3 - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="TouchEvent3"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-11-25 14:12" pubdate>
+          November 25, 2020 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">TouchEvent3</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="Button-TextView"><a href="#Button-TextView" class="headerlink" title="Button TextView"></a>Button TextView</h4><p>button clickable=true,所以 默认消费事件,TextView不会</p>
+<ul>
+<li>value.xml</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;Base.Widget.AppCompat.Button&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;android:Widget&quot;</span>&gt;</span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:background&quot;</span>&gt;</span>@drawable/abc_btn_default_mtrl_shape<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:textAppearance&quot;</span>&gt;</span>?android:attr/textAppearanceButton<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:minHeight&quot;</span>&gt;</span>48dip<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:minWidth&quot;</span>&gt;</span>88dip<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:focusable&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:clickable&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:gravity&quot;</span>&gt;</span>center_vertical|center_horizontal<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>处理开篇问题</strong></p>
+<h4 id="处理方法"><a href="#处理方法" class="headerlink" title="处理方法"></a>处理方法</h4><h5 id="外部拦截法"><a href="#外部拦截法" class="headerlink" title="外部拦截法:"></a>外部拦截法:</h5><p>​    需要在父ViewGroup，重写onInterceptTouchEvent( [ˌɪntərˈsept])方法，根据业务需要，判断哪些事件是父Viewgroup需要的，需要的话就对该事件进行拦截，然后交由onTouchEvent方法处理，若不需要，则不拦截，然后传递给子view或子viewGroup。</p>
+<h5 id="内部拦截法"><a href="#内部拦截法" class="headerlink" title="内部拦截法"></a>内部拦截法</h5><p>主要由子view控制事件，配合requestDisallowInterceptTouchEvent(),父View不拦截任何down事件</p>
+<p>,思路是这样的，在ViewGroupA的Action_Down动作中设置requestDisallowInterceptTouchEvent(true),这样RootView不会走拦截方法，保证Action_Move,能进入ViewGroupA,然后在ViewGroupA的move事件中，根据需要控制RootView发送过来的后续Action_Move事件.</p>
+<img src="/2020/11/25/TouchEvent3/TouchEvent3.png" srcset="/img/loading.gif" lazyload alt="TouchEvent3" style="zoom:50%;">
+
+
+
+<ol>
+<li>代码</li>
+</ol>
+<p>ViewGroupA</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line"> public boolean dispatchTouchEvent(MotionEvent ev) &#123;</span><br><span class="line">     Logger.d(ev.getAction(), TAG, Static.dispatchTouchEvent + &quot;老板要做淘宝,下周上线?&quot;);</span><br><span class="line">     int x &#x3D; (int) ev.getX();</span><br><span class="line">     int y &#x3D; (int) ev.getY();</span><br><span class="line">     switch (ev.getAction()) &#123;</span><br><span class="line">         case MotionEvent.ACTION_DOWN:</span><br><span class="line">					getParent().requestDisallowInterceptTouchEvent(true);</span><br><span class="line">             break;</span><br><span class="line"></span><br><span class="line">         case MotionEvent.ACTION_MOVE:</span><br><span class="line">             int deltaX &#x3D; x - mLastX;</span><br><span class="line">             int deltaY &#x3D; y - mLastY;</span><br><span class="line">             if (Math.abs(deltaX) &gt; Math.abs(deltaY)) &#123;</span><br><span class="line">                 getParent().requestDisallowInterceptTouchEvent(false);</span><br><span class="line">             &#125; else &#123;</span><br><span class="line">                 getParent().requestDisallowInterceptTouchEvent(true);</span><br><span class="line">             &#125;</span><br><span class="line">             break;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     mLastX &#x3D; x;</span><br><span class="line">     mLastY &#x3D; y;</span><br><span class="line">     return super.dispatchTouchEvent(ev);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>RootView</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onInterceptTouchEvent(MotionEvent ev) &#123;</span><br><span class="line">    Logger.d(ev.getAction(), TAG, Static.onInterceptTouchEvent + &quot;(老板可能疯了,但又不是我做.)&quot;);</span><br><span class="line">    if (ev.getAction() &#x3D;&#x3D; MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>内部拦截ViewGroupA消费事件</li>
+</ol>
+<img src="/2020/11/25/TouchEvent3/Inner_ViewGroupA.png" srcset="/img/loading.gif" lazyload alt="Inner_ViewGroupA" style="zoom:67%;">
+
+
+
+<p>运行结果</p>
+<blockquote>
+<p>D/MainActivity [老板] ACTION_DOWN: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>D/RootView     [经理] ACTION_DOWN: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>D/RootView     [经理] ACTION_DOWN: onInterceptTouchEvent  (老板可能疯了,但又不是我做.)<br>D/ViewGroupA   [组长] ACTION_DOWN: dispatchTouchEvent     老板要做淘宝,下周上线?<br>D/ViewGroupA   [组长] ACTION_DOWN: onInterceptTouchEvent  (看着不太靠谱,先问问小王怎么看)<br>D/ViewGroupA   [组长] ACTION_DOWN: onTouchEvent           小王说做不了</p>
+<p>D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     老板要做淘宝,下周上线?<br>D/ViewGroupA   [组长] ACTION_MOVE: onTouchEvent           小王说做不了</p>
+<p>D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     老板要做淘宝,下周上线?<br>D/ViewGroupA   [组长] ACTION_MOVE: onTouchEvent           小王说做不了</p>
+</blockquote>
+<p>代码流程</p>
+<p>Action_down都会被ViewGroupA消费,所以主要分析Action_Move事件流程,由于Action_down  requestDisallowInterceptTouchEvent(true)那么 disallowIntercept =true,</p>
+<blockquote>
+<p>第1次 Action_Move 分发</p>
+<p>RootView      :   dispatchTouchEvent() 29 =&gt; 32=&gt;36 intercepted = false =&gt; 58 =&gt;</p>
+<p>ViewGroupA:   dispatchTouchEvent() 29=&gt; 设置 getParent().requestDisallowInterceptTouchEvent(true) =&gt;view =&gt; dispatchTouchEvent被消费</p>
+<p>第2次Action_Move 分发</p>
+<p>RootView      :   dispatchTouchEvent() 29 =&gt; 32=&gt;36 intercepted = false =&gt; 58 =&gt;</p>
+<p>ViewGroupA:   dispatchTouchEvent() 29=&gt; 设置y&gt;x getParent().requestDisallowInterceptTouchEvent(true) =&gt;view =&gt; dispatchTouchEvent被消费</p>
+</blockquote>
+<img src="/2020/11/25/TouchEvent3/inter_RootView.png" srcset="/img/loading.gif" lazyload alt="inter_RootView" style="zoom:67%;">
+
+
+
+<p>运行结果</p>
+<blockquote>
+<p>225 24328-24328/ D/MainActivity [老板] ACTION_DOWN: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>226 24328-24328/ D/RootView     [经理] ACTION_DOWN: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>226 24328-24328/ D/RootView     [经理] ACTION_DOWN: onInterceptTouchEvent  (老板可能疯了,但又不是我做.)<br>227 24328-24328/ D/ViewGroupA   [组长] ACTION_DOWN: dispatchTouchEvent     老板要做淘宝,下周上线?<br>227 24328-24328/ D/ViewGroupA   [组长] ACTION_DOWN: onInterceptTouchEvent  (看着不太靠谱,先问问小王怎么看)<br>228 24328-24328/ D/ViewGroupA   [组长] ACTION_DOWN: onTouchEvent           小王说做不了</p>
+<p>237 24328-24328/ D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>237 24328-24328/ D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>237 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     老板要做淘宝,下周上线?<br>237 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     dx:0 dy:0<br>238 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     Math.abs(deltaX) &gt; Math.abs(deltaY) false<br>238 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: onTouchEvent           小王说做不了</p>
+<p>287 24328-24328/ D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>287 24328-24328/ D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>287 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     老板要做淘宝,下周上线?<br>288 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     dx:2 dy:0<br>288 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: dispatchTouchEvent     Math.abs(deltaX) &gt; Math.abs(deltaY) true<br>288 24328-24328/ D/ViewGroupA   [组长] ACTION_MOVE: onTouchEvent           小王说做不了</p>
+<p>304 24328-24328/ D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>305 24328-24328/ D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>305 24328-24328/ D/RootView     [经理] ACTION_MOVE: onInterceptTouchEvent  (老板可能疯了,但又不是我做.)</p>
+<p>320 24328-24328/ D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>321 24328-24328/ D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>321 24328-24328/ D/RootView     [经理] ACTION_MOVE: onTouchEvent           报告老板, 技术部说做不了</p>
+<p>338 24328-24328/ D/MainActivity [老板] ACTION_MOVE: dispatchTouchEvent     经理,我准备发展一下电商业务,下周之前做一个淘宝出来.<br>338 24328-24328/ D/RootView     [经理] ACTION_MOVE: dispatchTouchEvent     呼叫技术部,老板要做淘宝,下周上线.<br>338 24328-24328/ D/RootView     [经理] ACTION_MOVE: onTouchEvent           报告老板, 技术部说做不了</p>
+</blockquote>
+<p>代码流程</p>
+<blockquote>
+<p>百思不得其姐， RootView dispatchTouchEvent 后面的onInterceptTouchEvent() 方法日志为什么没打印，其他都能通</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MotionEvent.ACTION_DOWN requestDisallowInterceptTouchEvent(true),必须设置,否则后续的Action_Move无法进入 ViewGroupA</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650237941&amp;idx=1&amp;sn=40bca69abe10015cc469132f8c76a910&amp;chksm=88639a9abf14138cae7409adec85c5496486a044d7f4ef102e513d9c052aaa30017fb37e3439&amp;scene=38#wechat_redirect">https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650237941&amp;idx=1&amp;sn=40bca69abe10015cc469132f8c76a910&amp;chksm=88639a9abf14138cae7409adec85c5496486a044d7f4ef102e513d9c052aaa30017fb37e3439&amp;scene=38#wechat_redirect</a></p>
+<p><img src="/2020/11/25/TouchEvent3/Inner_ViewGroupA.png" srcset="/img/loading.gif" lazyload alt="Inner_ViewGroupA"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/VIEW/" class="category-chain-item">VIEW</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/TouchEvent/" class="print-no-link">#TouchEvent</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>TouchEvent3</div>
+      <div>https://noteforme.github.io/2020/11/25/TouchEvent3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>November 25, 2020</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/12/10/ComputerOrganization/" title="ComputerOrganization">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ComputerOrganization</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/11/19/DesignPattern/" title="DesignPattern">
+                        <span class="hidden-mobile">DesignPattern</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

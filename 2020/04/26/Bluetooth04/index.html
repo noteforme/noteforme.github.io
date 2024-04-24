@@ -1,0 +1,709 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="蓝牙问题汇总https:&#x2F;&#x2F;race604.com&#x2F;android-ble-in-action&#x2F;  连接断开之后可以根据实际情况进行重连，但如果是连接失败的情况，建议不要立即重连，而是调用void closeBluetoothGatt()清空一下状态，并延迟一段时间等待复位，否则会把gatt阻塞，导致手机不重启蓝牙就再也无法连接任何设备的严重情况。    https:&#x2F;&#x2F;github.com&#x2F;Ja">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bluetooth04">
+<meta property="og:url" content="https://noteforme.github.io/2020/04/26/Bluetooth04/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="蓝牙问题汇总https:&#x2F;&#x2F;race604.com&#x2F;android-ble-in-action&#x2F;  连接断开之后可以根据实际情况进行重连，但如果是连接失败的情况，建议不要立即重连，而是调用void closeBluetoothGatt()清空一下状态，并延迟一段时间等待复位，否则会把gatt阻塞，导致手机不重启蓝牙就再也无法连接任何设备的严重情况。    https:&#x2F;&#x2F;github.com&#x2F;Ja">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-26T02:46:23.000Z">
+<meta property="article:modified_time" content="2021-08-19T11:11:43.750Z">
+<meta property="article:author" content="Jon">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Bluetooth04 - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Bluetooth04"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-04-26 10:46" pubdate>
+          April 26, 2020 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          925 words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Bluetooth04</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h5 id="蓝牙问题汇总"><a href="#蓝牙问题汇总" class="headerlink" title="蓝牙问题汇总"></a>蓝牙问题汇总</h5><p><a target="_blank" rel="noopener" href="https://race604.com/android-ble-in-action/">https://race604.com/android-ble-in-action/</a></p>
+<ol>
+<li>连接断开之后可以根据实际情况进行重连，但如果是连接失败的情况，建议不要立即重连，而是调用<code>void closeBluetoothGatt()</code>清空一下状态，并延迟一段时间等待复位，否则会把gatt阻塞，导致手机不重启蓝牙就再也无法连接任何设备的严重情况。</li>
+</ol>
+<p>  <a target="_blank" rel="noopener" href="https://github.com/Jasonchenlijian/FastBle/blob/master/README_1.2.x.md">https://github.com/Jasonchenlijian/FastBle/blob/master/README_1.2.x.md</a></p>
+<ol start="2">
+<li><p>每当设备断开连接时，请确保在BluetoothGatt对象上调用close()并将其设置为null,</p>
+<p>解决方法:始终在断开连接时关闭gatt实例，并在每次连接时创建一个新的gatt实例。</p>
+<p>在<code>onLeScan(..)</code>中启动一个新线程，然后进行连接</p>
+<p><a target="_blank" rel="noopener" href="https://stackoom.com/question/1Cyqr/Android-%E8%93%9D%E7%89%99%E4%BD%8E%E5%8A%9F%E8%80%97%E4%B8%8D%E7%A8%B3%E5%AE%9A">https://stackoom.com/question/1Cyqr/Android-%E8%93%9D%E7%89%99%E4%BD%8E%E5%8A%9F%E8%80%97%E4%B8%8D%E7%A8%B3%E5%AE%9A</a></p>
+</li>
+</ol>
+<p>BluetoothLeScanner: could not find callback wrapper</p>
+<ol start="3">
+<li><p>连接失败处理</p>
+<p>分两个平台来说，iOS端也有连接失败的委托，但是好像几乎不会发生这种情况，至少我从来没遇见过，而对于同款设备，android常常会出现连接失败的情况，<code>status != BluetoothGatt.GATT_SUCCESS</code>  ，android端开发请不要把连接失败和断开连接放在一块处理，因为断开连接可以直接尝试重新连接，而连接失败后尝试重新连接，需要加一些延时，并且需要gatt.close，清空一下状态，否则会把gatt阻塞导致手机不重启蓝牙就再也无法连接任何设备的情况。</p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html">http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html</a></p>
+<ol start="4">
+<li>扫描广播包</li>
+</ol>
+<p>所有外设，只有在发出广播包的情况下，才能被central发现，绝大多数情况下，外设被连接后就不会发出广播（也有例外），很多人遇到无法找到设备的问题，大多属于这种情况。 重复扫描问题——————</p>
+<p><a target="_blank" rel="noopener" href="http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html">http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html</a></p>
+<ol start="5">
+<li><p>Android 7+ will stop scanning if it continues without stopping at all  for 30 minutes or more. This was added as a feature to prevent battery  drain in case developers had inadvertently or abusively left scanning on forever.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/AltBeacon/android-beacon-library/issues/528">https://github.com/AltBeacon/android-beacon-library/issues/528</a></p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37796683/article/details/83657204">https://blog.csdn.net/m0_37796683/article/details/83657204</a></p>
+<ol start="6">
+<li><p>status 133</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/baidu_26352053/article/details/54571688">https://blog.csdn.net/baidu_26352053/article/details/54571688</a></p>
+</li>
+<li><p>unregisterApp() - mClientIf=5</p>
+</li>
+<li><p> filter</p>
+</li>
+</ol>
+<p>   <a target="_blank" rel="noopener" href="https://juejin.im/post/5d37d4d6f265da1bc414958a">https://juejin.im/post/5d37d4d6f265da1bc414958a</a></p>
+<ol start="9">
+<li><p>防止Android7中的BLE扫描滥用，从而做了一些限制，即不要在30s内对蓝牙扫描<br>重复开启-关闭超过5次。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.classycode.com/undocumented-android-7-ble-behavior-changes-d1a9bd87d983">https://blog.classycode.com/undocumented-android-7-ble-behavior-changes-d1a9bd87d983</a></p>
+</li>
+</ol>
+<ul>
+<li>蓝牙添加扫描间隔</li>
+</ul>
+<p>​    <a target="_blank" rel="noopener" href="https://github.com/haodynasty/AndroidBleManager">https://github.com/haodynasty/AndroidBleManager</a></p>
+<p>​    <a target="_blank" rel="noopener" href="https://github.com/AltBeacon/android-beacon-library">https://github.com/AltBeacon/android-beacon-library</a></p>
+<h3 id="应用如何做自动重连"><a href="#应用如何做自动重连" class="headerlink" title="应用如何做自动重连"></a>应用如何做自动重连</h3><p>其实自动重连比想象的要简单许多，无论是android还是ios端，只需要在设备断开连接的委托方法中，重新调用gatt.connet或者是centralManager.connet方法就可以了，无论当时设备是否有点，是否在周围，当设备再次开会或者连接到可连接范围内，都会自动被连上，就是这么简单。</p>
+<p><a target="_blank" rel="noopener" href="http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html">http://liuyanwei.jumppo.com/2017/01/23/zhihu-live-a-hour-for-bluetooth-0.html</a></p>
+<p>Intent mIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);<br>startActivityForResult(mIntent, 1);</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mBluetoothAdapter.<span class="builtin-name">enable</span>();</span><br><span class="line">mBluetoothAdapter.<span class="builtin-name">disable</span>();</span><br></pre></td></tr></table></figure>
+
+<p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/u014418171/article/details/81219297">https://blog.csdn.net/u014418171/article/details/81219297</a></p>
+<p>扫描</p>
+<p>过滤</p>
+<p><strong>Scanning by device name</strong></p>
+<p>Looking for a device by it’s name has 2 main use cases: to look for 1 specific device or to look for 1 specific device model. For example, my Polar H7 chest strap advertises itself as “Polar H7 391BB014”. The latter part (‘391BB014’) is a unique number (or serial number) and the first part is generic for all Polar H7 devices. This is very common practice. Unfortunately the device name scan filter can only be used to find specific devices as it does full string matching. If you want to find all Polar H7 devices you will need to do a ‘substring’ compare on ‘Polar H7’, but you can’t do that with a filter. You just need to pass <code>null</code> as the filter and do the substring comparison yourself in <code>onScanResult</code>.</p>
+<p>So here is an example of how to scan for devices by <strong>exact</strong> name</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">String</span>[] names = <span class="keyword">new</span> <span class="keyword">String</span>[]&#123;<span class="string">&quot;Polar H7 391BB014&quot;</span>&#125;;</span><br><span class="line">List&lt;ScanFilter&gt; filters = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span>(names != <span class="keyword">null</span>) &#123;</span><br><span class="line">    filters = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">String</span> name : names) &#123;</span><br><span class="line">        ScanFilter <span class="built_in">filter</span> = <span class="keyword">new</span> ScanFilter.Builder()</span><br><span class="line">                .setDeviceName(name)</span><br><span class="line">                .build();</span><br><span class="line">        filters.<span class="built_in">add</span>(<span class="built_in">filter</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">scanner.startScan(filters, scanSettings, scanCallback);</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://medium.com/@martijn.van.welie/making-android-ble-work-part-1-a736dcd53b02">https://medium.com/@martijn.van.welie/making-android-ble-work-part-1-a736dcd53b02</a></p>
+<p>android蓝牙自动连接</p>
+<p><a target="_blank" rel="noopener" href="http://www.cocoachina.com/articles/83844">http://www.cocoachina.com/articles/83844</a></p>
+<h5 id="Ble-library"><a href="#Ble-library" class="headerlink" title="Ble library"></a>Ble library</h5><p><a target="_blank" rel="noopener" href="https://github.com/NordicSemiconductor/Android-BLE-Library">Android-BLE-Library</a></p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">LoggableBleManager</span> <span class="selector-tag">public</span> <span class="selector-tag">void</span> <span class="selector-tag">log</span>(final int priority, <span class="variable">@NonNull</span> final String message)</span><br><span class="line">是日志打印出口</span><br><span class="line">是 <span class="selector-tag">BleManager</span> <span class="selector-tag">public</span> <span class="selector-tag">void</span> <span class="selector-tag">log</span>(final int priority, <span class="variable">@NonNull</span> final String message)的实现</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/NordicSemiconductor/nRF-Logger-API">nRF-Logger-API</a>是手机日志查看工具</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggableBleManager&lt;T</span> <span class="keyword">extends</span> <span class="title">BleManagerCallbacks&gt;</span> <span class="keyword">extends</span> <span class="title">BleManager&lt;T&gt;</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="type">ILogSession</span> logSession;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * The manager constructor.</span></span><br><span class="line"><span class="comment">    * &lt;p&gt;</span></span><br><span class="line"><span class="comment">    * After constructing the manager, the callbacks object must be set with</span></span><br><span class="line"><span class="comment">    * &#123;@link #setManagerCallbacks(BleManagerCallbacks)&#125;.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * @param context the context.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   public <span class="type">LoggableBleManager</span>(<span class="meta">@NonNull</span> <span class="keyword">final</span> <span class="type">Context</span> context) &#123;</span><br><span class="line">      <span class="keyword">super</span>(context);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Sets the log session to log into.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * @param session nRF Logger log session to log inti, or null, if nRF Logger is not installed.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   public void setLogger(<span class="meta">@Nullable</span> <span class="keyword">final</span> <span class="type">ILogSession</span> session) &#123;</span><br><span class="line">      logSession = session;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   public void log(<span class="keyword">final</span> int priority, <span class="meta">@NonNull</span> <span class="keyword">final</span> <span class="type">String</span> message) &#123;</span><br><span class="line">      <span class="type">Logger</span>.log(logSession, <span class="type">LogContract</span>.<span class="type">Log</span>.<span class="type">Level</span>.fromPriority(priority), message);</span><br><span class="line">      <span class="type">Log</span>.println(priority, <span class="string">&quot;BleManager&quot;</span>, message);</span><br><span class="line"><span class="comment">//    Timber.i(&quot;BleManager   &quot;+ message);</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/BLE/" class="category-chain-item">BLE</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Bluetooth04</div>
+      <div>https://noteforme.github.io/2020/04/26/Bluetooth04/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 26, 2020</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/04/28/DeliverValue/" title="DeliverValue">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DeliverValue</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/04/25/annotation/" title="annotation">
+                        <span class="hidden-mobile">annotation</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,871 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1wf4y1s7TG?p&#x3D;95 generic object目录下 对象相关继承类默认是封闭的，要让某个类开放继承，必须使用opem关键字修饰它 123456789101112open class Product(val name:String) &amp;#123;    fun description() &#x3D; &quot;Product">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kotlin-object-generic">
+<meta property="og:url" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1wf4y1s7TG?p&#x3D;95 generic object目录下 对象相关继承类默认是封闭的，要让某个类开放继承，必须使用opem关键字修饰它 123456789101112open class Product(val name:String) &amp;#123;    fun description() &#x3D; &quot;Product">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-21_9.11.39_convert.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-21_9.30.54_expression.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-21_9.40.03_companion.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-21_9.47.48_innerclass.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-21_9.52.32_data.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-21_11.01.56_data_condition.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-21_10.00_copy.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-21_10.13.25_component.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-21_10.24.07_overload.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-21_10.40.31_enum_data.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-21_10.42.08_closure_sealed.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-22_9.59.22_interface.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-22_10.13.48_abstract.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-22_10.25.51_generics.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-22_20.30.09_notice.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-22_11.08.36_out.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-22_11.37.32_why_inout.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-22_11.11.09_IN.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-22_reified.png">
+<meta property="article:published_time" content="2021-08-21T13:02:57.000Z">
+<meta property="article:modified_time" content="2023-01-02T03:31:39.283Z">
+<meta property="article:author" content="Jon">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/2021-08-21_9.11.39_convert.png">
+  
+  
+  
+  <title>kotlin-object-generic - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="kotlin-object-generic"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-21 21:02" pubdate>
+          August 21, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">kotlin-object-generic</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1wf4y1s7TG?p=95">https://www.bilibili.com/video/BV1wf4y1s7TG?p=95</a></p>
+<p>generic</p>
+<p>object目录下</p>
+<h3 id="对象相关"><a href="#对象相关" class="headerlink" title="对象相关"></a>对象相关</h3><h5 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h5><p>类默认是封闭的，要让某个类开放继承，必须使用opem关键字修饰它</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Product</span></span>(<span class="keyword">val</span> name:String) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">description</span><span class="params">()</span></span> = <span class="string">&quot;Product: <span class="variable">$name</span>&quot;</span></span><br><span class="line">   <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">load</span><span class="params">()</span></span> = <span class="string">&quot;Nothing..&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LuxuryProduct</span> : <span class="type">Product</span></span>(<span class="string">&quot;Luxury&quot;</span>)&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">load</span><span class="params">()</span></span> =<span class="string">&quot; LuxuryProduct loading&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> p : Product = LuxuryProduct()</span><br><span class="line">    println(p.load())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="类型检测-智能类型转换"><a href="#类型检测-智能类型转换" class="headerlink" title="类型检测 智能类型转换"></a>类型检测 智能类型转换</h5><p><img src="/2021/08/21/kotlin-object-generic/2021-08-21_9.11.39_convert.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">println(p <span class="keyword">is</span> Product)</span><br><span class="line">println(p <span class="keyword">is</span> LuxuryProduct)</span><br><span class="line">println(p <span class="keyword">is</span> File)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (p <span class="keyword">is</span> LuxuryProduct)&#123;</span><br><span class="line">    println((p <span class="keyword">as</span> LuxuryProduct).special())</span><br><span class="line">    println(p.special()) <span class="comment">//只要转换一次，后面就直接可以使用，不用转换</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="Kotlin层次"><a href="#Kotlin层次" class="headerlink" title="Kotlin层次"></a>Kotlin层次</h5><p>无须在代码里显示指定，每一个类都会继承一个共同的叫做Any的超类。</p>
+<h5 id="Object关键字"><a href="#Object关键字" class="headerlink" title="Object关键字"></a>Object关键字</h5><p>定义一个能产生一个实例的类- 单例</p>
+<p>Object关键字有三种方式</p>
+<ol>
+<li><p>对象声明</p>
+<p>有利于组织代码和管理状态，尤其是管理整个应用运行生命周期内的某些一致性状态</p>
+</li>
+<li><p>对象表达式</p>
+<p><img src="/2021/08/21/kotlin-object-generic/2021-08-21_9.30.54_expression.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Player</span> </span>&#123;</span><br><span class="line">    <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">load</span><span class="params">()</span></span> = <span class="string">&quot;loading nothing..&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">//匿名内部类，实例p对象</span></span><br><span class="line">    <span class="keyword">val</span> p = <span class="keyword">object</span> : Player()&#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">load</span><span class="params">()</span></span>= <span class="string">&quot;anonymous nothing..&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    println(p.load())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>伴生对象</p>
+<p><img src="/2021/08/21/kotlin-object-generic/2021-08-21_9.40.03_companion.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 只要调用load() 或者实例化ConfigMap, 这个companion object才会被实例化</span></span><br><span class="line"><span class="comment"> * 而且也是单例的</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConfigMap</span> </span>&#123;</span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">const</span> <span class="keyword">val</span> PATH = <span class="string">&quot;xxxx&quot;</span></span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">load</span><span class="params">()</span></span> = File(PATH).readBytes()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">//  类似于Java static</span></span><br><span class="line">    ConfigMap.load()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="类相关"><a href="#类相关" class="headerlink" title="类相关"></a>类相关</h3><h5 id="嵌套类"><a href="#嵌套类" class="headerlink" title="嵌套类"></a>嵌套类</h5><p><img src="/2021/08/21/kotlin-object-generic/2021-08-21_9.47.48_innerclass.png" srcset="/img/loading.gif" lazyload></p>
+<p>在Java中，当你在另一个类中声明一个类时，它会默认变成<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%86%85%E9%83%A8%E7%B1%BB&spm=1001.2101.3001.7020">内部类</a>。而在Kotlin中，没有显式修饰符的嵌套类与Java中的static嵌套类是一样的。要把它变成一个内部类来持有一个外部类的引用的话需要使用inner修饰符。</p>
+<p>嵌套类和内部类在Java与Kotlin中的对应关系</p>
+<table>
+<thead>
+<tr>
+<th>类A在另一个类B中声明</th>
+<th>在Java中</th>
+<th>在Kotlin中</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>嵌套类（不存储外部类的引用）</td>
+<td>static class A</td>
+<td>class A</td>
+</tr>
+<tr>
+<td>内部类（存储外部类的引用）</td>
+<td>class A</td>
+<td>inner class A</td>
+</tr>
+</tbody></table>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41953808/article/details/112450204">https://blog.csdn.net/weixin_41953808/article/details/112450204</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903910084182030">https://juejin.cn/post/6844903910084182030</a></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InnerClassTest</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Equipment</span></span>(<span class="keyword">var</span> name:String)&#123;</span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">show</span><span class="params">()</span></span> = println(<span class="string">&quot;equipment:<span class="variable">$name</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">battle</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    InnerClassTest.Equipment(<span class="string">&quot;shap knife&quot;</span>).show()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在Kotlin中引用<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%A4%96%E9%83%A8%E7%B1%BB&spm=1001.2101.3001.7020">外部类</a>实例的语法，需要使用this@Outer从Inner类去访问Outer类：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Outer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">inner</span> <span class="class"><span class="keyword">class</span> <span class="title">Inner</span></span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">getOuterReference</span><span class="params">()</span></span>:Outer = <span class="keyword">this</span><span class="symbol">@Outer</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h5 id="数据类"><a href="#数据类" class="headerlink" title="数据类"></a>数据类</h5><p><img src="/2021/08/21/kotlin-object-generic/2021-08-21_9.52.32_data.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="数据类使用条件"><a href="#数据类使用条件" class="headerlink" title="数据类使用条件"></a>数据类使用条件</h5><p><img src="/2021/08/21/kotlin-object-generic/2021-08-21_11.01.56_data_condition.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Coordinate</span></span>(<span class="keyword">var</span> x:<span class="built_in">Int</span>,<span class="keyword">var</span> y:<span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">val</span> isInBounds = x &gt; <span class="number">0</span> &amp;&amp; y &gt; <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    println(Coordinate(<span class="number">10</span>,<span class="number">20</span>))</span><br><span class="line">    println(Coordinate(<span class="number">10</span>,<span class="number">20</span>)==Coordinate(<span class="number">10</span>,<span class="number">20</span>)) <span class="comment">//data默认重写equals方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果</p>
+<blockquote>
+<p>Coordinate(x=10, y=20) // 说明默认提供了toString方法</p>
+</blockquote>
+<p>重写了equals方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(<span class="meta">@Nullable</span> Object var1)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span> != var1) &#123;</span><br><span class="line">         <span class="keyword">if</span> (var1 <span class="keyword">instanceof</span> Coordinate) &#123;</span><br><span class="line">            Coordinate var2 = (Coordinate)var1;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.x == var2.x &amp;&amp; <span class="keyword">this</span>.y == var2.y) &#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="Copy"><a href="#Copy" class="headerlink" title="Copy"></a>Copy</h5><p><img src="/2021/08/21/kotlin-object-generic/2021-08-21_10.00_copy.png" srcset="/img/loading.gif" lazyload></p>
+<p>注意:次构造函数数据不会copy过来</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span>  <span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>(</span><br><span class="line">        <span class="keyword">var</span> name: String,</span><br><span class="line">        <span class="keyword">val</span> age: <span class="built_in">Int</span>	 <span class="comment">//age 主构造函数里声明的属性</span></span><br><span class="line">)&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> hobby = <span class="string">&quot;music&quot;</span></span><br><span class="line">    <span class="keyword">val</span> subject:String</span><br><span class="line">    <span class="keyword">var</span> score = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        println(<span class="string">&quot;initializing student&quot;</span>)</span><br><span class="line">        subject = <span class="string">&quot;english&quot;</span>			<span class="comment">//Init初始化块里的属性赋值和函数调用</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">constructor</span>(_name: String):<span class="keyword">this</span>(_name,<span class="number">10</span>)&#123;</span><br><span class="line">        score = <span class="number">10</span>; <span class="comment">//次构造函数数据不会copy过来</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">toString</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Student(name=&#x27;<span class="variable">$name</span>&#x27;, age=<span class="variable">$age</span>, hobby=&#x27;<span class="variable">$hobby</span>&#x27;, subject=&#x27;<span class="variable">$subject</span>&#x27;, score=<span class="variable">$score</span>)&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> s = Student(<span class="string">&quot;Jon&quot;</span>)</span><br><span class="line">    <span class="keyword">val</span> copy = s.copy(<span class="string">&quot;girl&quot;</span>)</span><br><span class="line">    <span class="keyword">var</span> s2 = s.copy(name = <span class="string">&quot;girl2&quot;</span>, age = <span class="number">18</span>)</span><br><span class="line">    println(s)</span><br><span class="line">    println(s2)</span><br><span class="line">    println(copy)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="解构声明"><a href="#解构声明" class="headerlink" title="解构声明"></a>解构声明</h5><p><img src="/2021/08/21/kotlin-object-generic/2021-08-21_10.13.25_component.png" srcset="/img/loading.gif" lazyload></p>
+<ol>
+<li><p>普通类</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PlayerScore</span></span>(<span class="keyword">val</span> experience:<span class="built_in">Int</span>,<span class="keyword">val</span> level:<span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">component1</span><span class="params">()</span></span> = experience</span><br><span class="line">    <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">component2</span><span class="params">()</span></span> = level</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> (x,y) = PlayerScore(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">    println(<span class="string">&quot;<span class="variable">$x</span>, <span class="variable">$y</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Data数据类</p>
+<p>数据类自动生成解构语法</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Coordinate</span></span>(<span class="keyword">var</span> x:<span class="built_in">Int</span>,<span class="keyword">var</span> y:<span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">val</span> isInBounds = x &gt; <span class="number">0</span> &amp;&amp; y &gt; <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    println(Coordinate(<span class="number">10</span>,<span class="number">20</span>))</span><br><span class="line">    println(Coordinate(<span class="number">10</span>,<span class="number">20</span>)==Coordinate(<span class="number">10</span>,<span class="number">20</span>)) </span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span>(x,y) = Coordinate(<span class="number">10</span>,<span class="number">20</span>) <span class="comment">//数据类自动生成解构语法</span></span><br><span class="line">    println(<span class="string">&quot;<span class="variable">$x</span> , <span class="variable">$y</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h5><p>如果要将内置运算符应用在自定义类身上，你必须重写运算符函数，告诉编译器该如何操作自定义类</p>
+<p><img src="/2021/08/21/kotlin-object-generic/2021-08-21_10.24.07_overload.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Coordinate2</span></span>(<span class="keyword">var</span> x:<span class="built_in">Int</span>,<span class="keyword">var</span> y:<span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">val</span> isInBounds = x &gt; <span class="number">0</span> &amp;&amp; y &gt; <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">plus</span><span class="params">(other:<span class="type">Coordinate2</span>)</span></span> = Coordinate2(x + other.x,y+other.y)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">     <span class="keyword">val</span> c1=Coordinate2(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">     <span class="keyword">val</span> c2=Coordinate2(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">     println(c1 + c2)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="枚举类"><a href="#枚举类" class="headerlink" title="枚举类"></a>枚举类</h3><p>用来定义常量集合特殊的类</p>
+<p>枚举类是一个实例</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="class"><span class="keyword">class</span> <span class="title">Direction</span> </span>&#123;</span><br><span class="line">    EAST,</span><br><span class="line">    WEST,</span><br><span class="line">    SOUTH,</span><br><span class="line">    NORTH</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    println(Direction.EAST)</span><br><span class="line">    println(Direction.EAST <span class="keyword">is</span> Direction)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="枚举类定义函数"><a href="#枚举类定义函数" class="headerlink" title="枚举类定义函数"></a>枚举类定义函数</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="class"><span class="keyword">class</span> <span class="title">Direction2</span></span>(<span class="keyword">private</span> <span class="keyword">val</span> coordinate: Coordinate) &#123; <span class="comment">// 枚举里可以有属性</span></span><br><span class="line">    EAST(Coordinate(<span class="number">1</span>, <span class="number">0</span>)), <span class="comment">//EAST()是Direction2的实例</span></span><br><span class="line">    WEST(Coordinate(-<span class="number">1</span>, <span class="number">0</span>)),</span><br><span class="line">    SOUTH(Coordinate(-<span class="number">1</span>, <span class="number">0</span>)),</span><br><span class="line">    NORTH(Coordinate(<span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//枚举里可以定义函数</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">updateCoordinate</span><span class="params">(playerCoordinate: <span class="type">Coordinate</span>)</span></span> =</span><br><span class="line">            Coordinate(playerCoordinate.x + coordinate.x, playerCoordinate.y + coordinate.y)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    println(Direction2.EAST.updateCoordinate(Coordinate(<span class="number">10</span>, <span class="number">20</span>)))</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//打印 11 20</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="代数数据类型"><a href="#代数数据类型" class="headerlink" title="代数数据类型"></a>代数数据类型</h5><p>可以用来表示一组子类型的闭集，枚举类就是一种简单的ADT</p>
+<p><img src="/2021/08/21/kotlin-object-generic/2021-08-21_10.40.31_enum_data.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="密封类"><a href="#密封类" class="headerlink" title="密封类"></a>密封类</h5><p><img src="/2021/08/21/kotlin-object-generic/2021-08-21_10.42.08_closure_sealed.png" srcset="/img/loading.gif" lazyload></p>
+<p>  class Qualified(val licenseId:String):LicenseStatus2() 保存数据，如果用emum类 会很麻烦</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//密封类</span></span><br><span class="line"><span class="keyword">sealed</span> <span class="class"><span class="keyword">class</span> <span class="title">LicenseStatus2</span> </span>&#123;</span><br><span class="line">  <span class="comment">//下面3个类都是 密封类的子类</span></span><br><span class="line">    <span class="keyword">object</span> UnQualified:LicenseStatus2() <span class="comment">// 没有属性 用单例，否则每次够构建新的对象</span></span><br><span class="line">    <span class="keyword">object</span> Learning:LicenseStatus2()</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Qualified</span></span>(<span class="keyword">val</span> licenseId:String):LicenseStatus2() <span class="comment">//密封类的特性 用来保存数据,可能licenseId不一样，所以用class</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Driver2</span></span>(<span class="keyword">var</span> status: LicenseStatus2)&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">checkLicense</span><span class="params">()</span></span>:String&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">when</span>(status)&#123;</span><br><span class="line">            <span class="keyword">is</span> LicenseStatus2.UnQualified -&gt; <span class="string">&quot;没资格&quot;</span></span><br><span class="line">            <span class="keyword">is</span> LicenseStatus2.Learning -&gt; <span class="string">&quot;在学&quot;</span></span><br><span class="line">            <span class="keyword">is</span> LicenseStatus2.Qualified -&gt; <span class="string">&quot;有资格，驾驶证编号: <span class="subst">$&#123;((this.status as LicenseStatus2.Qualified).licenseId)&#125;</span>&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> status1 = LicenseStatus2.Learning</span><br><span class="line">    <span class="keyword">val</span> status = LicenseStatus2.Qualified(<span class="string">&quot;2333003&quot;</span>) <span class="comment">// 可以直接传驾驶证编号</span></span><br><span class="line">    <span class="keyword">val</span> driver = Driver2(status)</span><br><span class="line">    println(driver.checkLicense())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h5><p><img src="/2021/08/21/kotlin-object-generic/2021-08-22_9.59.22_interface.png" srcset="/img/loading.gif" lazyload></p>
+<p>InterfaceTest.kt</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Movable</span></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> maxSpeed:<span class="built_in">Int</span></span><br><span class="line">    <span class="keyword">var</span> wheels:<span class="built_in">Int</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">move</span><span class="params">(movable:<span class="type">Movable</span>)</span></span>:String</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>(_name:String,<span class="keyword">override</span>  <span class="keyword">var</span> wheels:<span class="built_in">Int</span>=<span class="number">4</span>):Movable&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">var</span> maxSpeed: <span class="built_in">Int</span></span><br><span class="line">        <span class="keyword">get</span>() = TODO(<span class="string">&quot;Not yet implemented&quot;</span>)</span><br><span class="line">        <span class="keyword">set</span>(value) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">move</span><span class="params">(movable: <span class="type">Movable</span>)</span></span>: String &#123;</span><br><span class="line">        TODO(<span class="string">&quot;Not yet implemented&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="默认实现"><a href="#默认实现" class="headerlink" title="默认实现"></a>默认实现</h5><p>可以在接口里提供默认属性getter方法和函数实现</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Movable</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> maxSpeed:<span class="built_in">Int</span></span><br><span class="line">        <span class="keyword">get</span>() = (<span class="number">1.</span><span class="number">.500</span>).shuffled().last()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> wheels:<span class="built_in">Int</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">move</span><span class="params">(movable:<span class="type">Movable</span>)</span></span>:String</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>(_name:String,<span class="keyword">override</span>  <span class="keyword">var</span> wheels:<span class="built_in">Int</span>=<span class="number">4</span>):Movable&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">var</span> maxSpeed: <span class="built_in">Int</span></span><br><span class="line">        <span class="keyword">get</span>() = <span class="keyword">super</span>.maxSpeed</span><br><span class="line">        <span class="keyword">set</span>(value) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">move</span><span class="params">(movable: <span class="type">Movable</span>)</span></span>: String &#123;</span><br><span class="line">        TODO(<span class="string">&quot;Not yet implemented&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>抽象类</p>
+<p><img src="/2021/08/21/kotlin-object-generic/2021-08-22_10.13.48_abstract.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Gun</span></span>(<span class="keyword">val</span> range: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">pullTrigger</span><span class="params">()</span></span>: String</span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">fun</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">&quot;doSomething&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AK47</span></span>(<span class="keyword">val</span> price: <span class="built_in">Int</span>) : Gun(range = <span class="number">500</span>)&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">pullTrigger</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">        TODO()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><h5 id="定义泛型类"><a href="#定义泛型类" class="headerlink" title="定义泛型类"></a>定义泛型类</h5><p><img src="/2021/08/21/kotlin-object-generic/2021-08-22_10.25.51_generics.png" srcset="/img/loading.gif" lazyload></p>
+<p>magicBox1.kt</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MagicBox</span>&lt;<span class="type">T</span>&gt;</span>(item:T)&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">var</span> subject:T = item</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Boy</span></span>(<span class="keyword">val</span> name:String,<span class="keyword">val</span> age:<span class="built_in">Int</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span></span>(<span class="keyword">val</span> weight:<span class="built_in">Int</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> box1 = MagicBox(Boy(<span class="string">&quot;John&quot;</span>, <span class="number">20</span>))</span><br><span class="line">    <span class="keyword">val</span> box2 = MagicBox(Dog( <span class="number">20</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/08/21/kotlin-object-generic/2021-08-22_20.30.09_notice.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="泛型函数"><a href="#泛型函数" class="headerlink" title="泛型函数"></a>泛型函数</h5><ol>
+<li><p>泛型参数也可以用于函数。</p>
+</li>
+<li><p>定义一个函数用于获取元素，当且仅当MagicBox可用时，才能获取元素。</p>
+<p>magicBox2.kt</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MagicBox</span>&lt;<span class="type">T</span>&gt;</span>(item: T) &#123;</span><br><span class="line">    <span class="keyword">var</span> available = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">var</span> subject: T = item</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">fetch</span><span class="params">()</span></span>: T? &#123; <span class="comment">// 泛型函数</span></span><br><span class="line">        <span class="keyword">return</span> subject.takeIf &#123; available &#125; <span class="comment">//当available =true，返回接收者对象</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Boy</span></span>(<span class="keyword">val</span> name: String, <span class="keyword">val</span> age: <span class="built_in">Int</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span></span>(<span class="keyword">val</span> weight: <span class="built_in">Int</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> box1 = MagicBox(Boy(<span class="string">&quot;John&quot;</span>, <span class="number">20</span>))</span><br><span class="line">    <span class="keyword">val</span> box2 = MagicBox(Dog(<span class="number">20</span>))</span><br><span class="line">    box1.available = <span class="literal">true</span></span><br><span class="line">    box1.fetch()?.run &#123;</span><br><span class="line">        println(<span class="string">&quot;you find <span class="variable">$name</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="多泛型参数"><a href="#多泛型参数" class="headerlink" title="多泛型参数"></a>多泛型参数</h5><p>magicBox3.kt</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MagicBox</span>&lt;<span class="type">T</span>&gt;</span>(item: T) &#123;</span><br><span class="line">    <span class="keyword">var</span> available = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">var</span> subject: T = item</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">fetch</span><span class="params">()</span></span>: T? &#123;</span><br><span class="line">        <span class="keyword">return</span> subject.takeIf &#123; available &#125; <span class="comment">//当available =true，返回接收者对象</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// return R缩写</span></span><br><span class="line">    <span class="comment">// 业务，把元素进行修改，魔盒里放的是男孩，取出来，变成男人</span></span><br><span class="line">    <span class="comment">//传入subjectModfunction是匿名函数类型 (T)-&gt;(R), 这个匿名函数传入的是 T 返回的是R,fetch执行返回的是R类型</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="type">&lt;R&gt;</span> <span class="title">fetch</span><span class="params">(subjectModFunction: (<span class="type">T</span>) -&gt; <span class="type">R</span>)</span></span>: R? &#123;</span><br><span class="line">        <span class="keyword">return</span> subjectModFunction(subject).takeIf &#123; available &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Boy</span></span>(<span class="keyword">val</span> name: String, <span class="keyword">val</span> age: <span class="built_in">Int</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Man</span></span>(<span class="keyword">val</span> name: String, <span class="keyword">val</span> age: <span class="built_in">Int</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span></span>(<span class="keyword">val</span> weight: <span class="built_in">Int</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> box1 = MagicBox(Boy(<span class="string">&quot;John&quot;</span>, <span class="number">20</span>))</span><br><span class="line">    <span class="keyword">val</span> box2 = MagicBox(Dog(<span class="number">20</span>))</span><br><span class="line">    box1.available = <span class="literal">true</span></span><br><span class="line">    box1.fetch()?.run &#123;</span><br><span class="line">        println(<span class="string">&quot;you find <span class="variable">$name</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> fetch = box1.fetch &#123;</span><br><span class="line">        Man(it.name, it.age.plus(<span class="number">15</span>)) <span class="comment">// Boy 转成Man了</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="泛型类型约束"><a href="#泛型类型约束" class="headerlink" title="泛型类型约束"></a>泛型类型约束</h5><p>确保MagicBox只能装指定类型的物品， 如Human类型，咋弄?</p>
+<p>magicBox4.kt</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MagicBox4</span>&lt;<span class="type">T:Human</span>&gt;</span>(item: T) &#123;      <span class="comment">//这里添加约束</span></span><br><span class="line">    <span class="keyword">var</span> available = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">var</span> subject: T = item</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">fetch</span><span class="params">()</span></span>: T? &#123;</span><br><span class="line">        <span class="keyword">return</span> subject.takeIf &#123; available &#125; <span class="comment">//当available =true，返回接收者对象</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// return R缩写</span></span><br><span class="line">    <span class="comment">// 业务，把元素进行修改，魔盒里放的是男孩，取出来，变成男人</span></span><br><span class="line">    <span class="comment">//传入subjectModfunction是匿名函数类型 (T)-&gt;(R), 这个匿名函数传入的是 T 返回的是R,fetch执行返回的是R类型</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="type">&lt;R&gt;</span> <span class="title">fetch</span><span class="params">(subjectModFunction: (<span class="type">T</span>) -&gt; <span class="type">R</span>)</span></span>: R? &#123;</span><br><span class="line">        <span class="keyword">return</span> subjectModFunction(subject).takeIf &#123; available &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span></span>(<span class="keyword">val</span> age: <span class="built_in">Int</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Boy</span></span>(<span class="keyword">val</span> name: String, age: <span class="built_in">Int</span>) : Human(age)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Man</span></span>(<span class="keyword">val</span> name: String,  age: <span class="built_in">Int</span>):Human(age)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span></span>(<span class="keyword">val</span> weight: <span class="built_in">Int</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> box1 = MagicBox4(Boy(<span class="string">&quot;John&quot;</span>, <span class="number">20</span>))</span><br><span class="line"><span class="comment">//    val box2 = MagicBox4(Dog(20)) //因为约束类型，导致这里会报错</span></span><br><span class="line">    box1.available = <span class="literal">true</span></span><br><span class="line">    box1.fetch()?.run &#123;</span><br><span class="line">        println(<span class="string">&quot;you find <span class="variable">$name</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> fetch = box1.fetch &#123;</span><br><span class="line">        Man(it.name, it.age.plus(<span class="number">15</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="vararg关键字与get函数"><a href="#vararg关键字与get函数" class="headerlink" title="vararg关键字与get函数"></a>vararg关键字与get函数</h5><p>MagicBox能存放任何类型的Human实例，但一次只能放一个，如果要存放多个实例呢？</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MagicBox</span>&lt;<span class="type">T : Human</span>&gt;</span>(<span class="keyword">vararg</span> item: T) &#123;</span><br><span class="line">    <span class="keyword">var</span> available = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">var</span> subject: Array&lt;<span class="keyword">out</span> T&gt; = item <span class="comment">//可变参数 必须写out</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">fetch</span><span class="params">(index: <span class="type">Int</span>)</span></span>: T? &#123;</span><br><span class="line">        <span class="keyword">return</span> subject[index].takeIf &#123; available &#125; <span class="comment">//当available =true，返回接收者对象</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// return R缩写</span></span><br><span class="line">    <span class="comment">// 业务，把元素进行修改，魔盒里放的是男孩，取出来，变成男人</span></span><br><span class="line">    <span class="comment">//传入subjectModfunction是匿名函数类型 (T)-&gt;(R), 这个匿名函数传入的是 T 返回的是R,fetch执行返回的是R类型</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="type">&lt;R&gt;</span> <span class="title">fetch</span><span class="params">(index: <span class="type">Int</span>, subjectModFunction: (<span class="type">T</span>) -&gt; <span class="type">R</span>)</span></span>: R? &#123;</span><br><span class="line">        <span class="keyword">return</span> subjectModFunction(subject[index]).takeIf &#123; available &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span></span>(<span class="keyword">val</span> age: <span class="built_in">Int</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Boy</span></span>(<span class="keyword">val</span> name: String, age: <span class="built_in">Int</span>) : Human(age)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Man</span></span>(<span class="keyword">val</span> name: String, age: <span class="built_in">Int</span>) : Human(age)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span></span>(<span class="keyword">val</span> weight: <span class="built_in">Int</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> box1 = MagicBox(Boy(<span class="string">&quot;John&quot;</span>, <span class="number">20</span>), Boy(<span class="string">&quot;Jack&quot;</span>, <span class="number">20</span>), Boy(<span class="string">&quot;Jon&quot;</span>, <span class="number">20</span>))</span><br><span class="line">    box1.available = <span class="literal">true</span></span><br><span class="line">    box1.fetch(<span class="number">1</span>)?.run &#123;</span><br><span class="line">        println(<span class="string">&quot;you find <span class="variable">$name</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">val</span> fetch = box1.fetch(<span class="number">2</span>) &#123;</span><br><span class="line">        Man(it.name, it.age.plus(<span class="number">15</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="操作符"><a href="#操作符" class="headerlink" title="[]操作符"></a>[]操作符</h5><p>运算符重载</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MagicBox</span>&lt;<span class="type">T : Human</span>&gt;</span>(<span class="keyword">vararg</span> item: T) &#123;</span><br><span class="line">    <span class="keyword">var</span> available = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">var</span> subject: Array&lt;<span class="keyword">out</span> T&gt; = item <span class="comment">//可变参数 必须写out</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">fetch</span><span class="params">(index: <span class="type">Int</span>)</span></span>: T? &#123;</span><br><span class="line">        <span class="keyword">return</span> subject[index].takeIf &#123; available &#125; <span class="comment">//当available =true，返回接收者对象</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// return R缩写</span></span><br><span class="line">    <span class="comment">// 业务，把元素进行修改，魔盒里放的是男孩，取出来，变成男人</span></span><br><span class="line">    <span class="comment">//传入subjectModfunction是匿名函数类型 (T)-&gt;(R), 这个匿名函数传入的是 T 返回的是R,fetch执行返回的是R类型</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="type">&lt;R&gt;</span> <span class="title">fetch</span><span class="params">(index: <span class="type">Int</span>, subjectModFunction: (<span class="type">T</span>) -&gt; <span class="type">R</span>)</span></span>: R? &#123;</span><br><span class="line">        <span class="keyword">return</span> subjectModFunction(subject[index]).takeIf &#123; available &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">get</span><span class="params">(index: <span class="type">Int</span>)</span></span>: T? = subject[index]?.takeIf &#123; available &#125; <span class="comment">//运算符重载</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span></span>(<span class="keyword">val</span> age: <span class="built_in">Int</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Boy</span></span>(<span class="keyword">val</span> name: String, age: <span class="built_in">Int</span>) : Human(age)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Man</span></span>(<span class="keyword">val</span> name: String, age: <span class="built_in">Int</span>) : Human(age)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span></span>(<span class="keyword">val</span> weight: <span class="built_in">Int</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> box1 = MagicBox(Boy(<span class="string">&quot;John&quot;</span>, <span class="number">20</span>), Boy(<span class="string">&quot;Jack&quot;</span>, <span class="number">20</span>), Boy(<span class="string">&quot;Jon&quot;</span>, <span class="number">20</span>))</span><br><span class="line">    box1.available = <span class="literal">true</span></span><br><span class="line">    box1.fetch(<span class="number">1</span>)?.run &#123;</span><br><span class="line">        println(<span class="string">&quot;you find <span class="variable">$name</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">val</span> fetch = box1.fetch(<span class="number">2</span>) &#123;</span><br><span class="line">        Man(it.name, it.age.plus(<span class="number">15</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    box1[<span class="number">0</span>] <span class="comment">//运算符重载后 重写get，就能这样操作了</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="invariant-不变"><a href="#invariant-不变" class="headerlink" title="invariant 不变"></a>invariant 不变</h5><p>如果泛型类即将泛型类型作为函数参数，又将泛型类型作为函数的输出，那么即不用out也不用in.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ProductionConsumer</span>&lt;<span class="type">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">product</span><span class="params">()</span></span>: T</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">consume</span><span class="params">(item: <span class="type">T</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// out</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Production</span>&lt;<span class="type">out T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">product</span><span class="params">()</span></span>: T</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Consumer</span>&lt;<span class="type">in T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">//    fun consume(item:T):T //Type parameter T is declared as &#x27;in&#x27; but occurs in &#x27;out&#x27; position in type T</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">consume</span><span class="params">(item: <span class="type">T</span>)</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//不变</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ProductionConsumer</span>&lt;<span class="type">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">product</span><span class="params">()</span></span>: T</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">consume</span><span class="params">(item: <span class="type">T</span>)</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Food</span></span></span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">FastFood</span>:<span class="type">Food</span></span>()</span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Burger</span> :<span class="type">FastFood</span></span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">//生产者</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FoodStore</span> : <span class="type">Production</span>&lt;<span class="type">Food</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">product</span><span class="params">()</span></span>: Food &#123;</span><br><span class="line">        println(<span class="string">&quot;Product food&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> Food()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FastFoodStore</span> : <span class="type">Production</span>&lt;<span class="type">FastFood</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">product</span><span class="params">()</span></span>: FastFood &#123;</span><br><span class="line">        println(<span class="string">&quot;Product FastFood&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> FastFood()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BurgerFoodStore</span> : <span class="type">Production</span>&lt;<span class="type">Burger</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">product</span><span class="params">()</span></span>: Burger &#123;</span><br><span class="line">        println(<span class="string">&quot;Product Burger&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> Burger()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//消费者</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EveryBody</span> : <span class="type">Consumer</span>&lt;<span class="type">Food</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">consume</span><span class="params">(item: <span class="type">Food</span>)</span></span> &#123;</span><br><span class="line">        println(<span class="string">&quot;Eat food.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ModernPeople</span> : <span class="type">Consumer</span>&lt;<span class="type">FastFood</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">consume</span><span class="params">(item: <span class="type">FastFood</span>)</span></span> &#123;</span><br><span class="line">        println(<span class="string">&quot;Eat fastFood&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AmericanPeople</span> : <span class="type">Consumer</span>&lt;<span class="type">Burger</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">consume</span><span class="params">(item: <span class="type">Burger</span>)</span></span> &#123;</span><br><span class="line">        println(<span class="string">&quot;Eat Burger&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="Out生产"><a href="#Out生产" class="headerlink" title="Out生产"></a>Out生产</h5><h5 id=""><a href="#" class="headerlink" title=""></a><img src="/2021/08/21/kotlin-object-generic/2021-08-22_11.08.36_out.png" srcset="/img/loading.gif" lazyload></h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Production</span>&lt;<span class="type">out T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">product</span><span class="params">()</span></span>: T</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li><p>子类泛型对象可以赋值给父类泛型对象 如 下面production2</p>
+</li>
+<li><p>java. T extends Food  等于kotlin   T : Food</p>
+</li>
+<li><p>泛型有继承关系，可以直接赋值，java做不到,只能强转</p>
+</li>
+<li><p>ArrayList<CharSequence> list = new ArrayList<String>(); // java里面这种写法报错</String></CharSequence></p>
+</li>
+</ol>
+<p><strong>java只有 ? super Food 和 ? extends Food , 没有对泛型T , in out这种操作</strong> </p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> production1 : Production&lt;Food&gt; = FoodStore() <span class="comment">// 理解时，别看方法只看类就可以了，父子类关系</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//子类泛型对象可以赋值给父类泛型对象，用out</span></span><br><span class="line">    <span class="keyword">val</span> production2 : Production&lt;Food&gt; = FastFoodStore() <span class="comment">// 就是因为有 out，out删除就报错, java这种写法直接报错</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>为什么需要 out</p>
+<p>如果泛型有继承关系，可以直接赋值, Java只能用具体类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericTypeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//String是CharSequence的子类</span></span><br><span class="line"><span class="comment">//        ArrayList&lt;CharSequence&gt; list = new ArrayList&lt;String&gt;(); // java里面这种写法报错</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/08/21/kotlin-object-generic/2021-08-22_11.37.32_why_inout.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="In-输入"><a href="#In-输入" class="headerlink" title="In 输入"></a>In 输入</h5><p><img src="/2021/08/21/kotlin-object-generic/2021-08-22_11.11.09_IN.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Consumer</span>&lt;<span class="type">in T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">//    fun consume(item:T):T //Type parameter T is declared as &#x27;in&#x27; but occurs in &#x27;out&#x27; position in type T</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">consume</span><span class="params">(item: <span class="type">T</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li>父类泛型对象可以赋值给子类泛型对象 ， 用in</li>
+</ol>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	    <span class="comment">//父类泛型对象可以赋值给子类泛型对象 ， 用in</span></span><br><span class="line">    <span class="keyword">val</span> consumer1:Consumer&lt;Burger&gt; = EveryBody()</span><br><span class="line"><span class="comment">//    val consumer2:Consumer&lt;Food&gt; = ModernPeople()//Required:Consumer&lt;Food&gt; Found : ModernPeople java里面必须要具体的类型,像上面的ArrayList</span></span><br><span class="line">  </span><br><span class="line">    <span class="keyword">val</span> consumer2:Consumer&lt;Burger&gt; = ModernPeople()</span><br><span class="line">    consumer2.consume(Burger())</span><br><span class="line"><span class="comment">//    consumer2.consume(Food())</span></span><br><span class="line">    <span class="keyword">val</span> consumer3:Consumer&lt;Burger&gt; = AmericanPeople()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="Reified"><a href="#Reified" class="headerlink" title="Reified"></a>Reified</h5><p><img src="/2021/08/21/kotlin-object-generic/2021-08-22_reified.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MagicBox</span>&lt;<span class="type">T : Human</span>&gt;</span>() &#123; <span class="comment">// 这里的T类型没用</span></span><br><span class="line">    <span class="comment">//随机产生一个对象，如果不是指定类型的对象，就通过backup函数生成一个指定类型的对象</span></span><br><span class="line"><span class="comment">//    fun &lt;T&gt; randomOrBackup(backup: () -&gt; T): T &#123;    // backup: ()-&gt;T 函数 和randomOrBackup返回的都是T类型</span></span><br><span class="line"><span class="comment">//          val items = listOf(Boy(&quot;jocnk&quot;, 20), Man(&quot;john&quot;, 20))</span></span><br><span class="line"><span class="comment">//          val random = items.shuffled().first()</span></span><br><span class="line"><span class="comment">//          return if (random is T) &#123;</span></span><br><span class="line"><span class="comment">//              random</span></span><br><span class="line"><span class="comment">//          &#125; else &#123;</span></span><br><span class="line"><span class="comment">//              backup()</span></span><br><span class="line"><span class="comment">//          &#125;</span></span><br><span class="line"><span class="comment">//      &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//随机产生一个对象，如果不是指定类型T的对象，就通过backup函数生成一个指定类型T的对象</span></span><br><span class="line">    <span class="comment">// 根据传进来的Man对象类型，推断T类型为Man</span></span><br><span class="line">    <span class="comment">// backup: ()-&gt;T 函数 和randomOrBackup返回的都是T类型</span></span><br><span class="line">    <span class="comment">//inline  reified一起使用</span></span><br><span class="line">    <span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;<span class="keyword">reified</span> T&gt;</span> <span class="title">randomOrBackup</span><span class="params">(backup: () -&gt; <span class="type">T</span>)</span></span>: T &#123;</span><br><span class="line">        <span class="keyword">val</span> items = listOf(Boy(<span class="string">&quot;jocnk&quot;</span>, <span class="number">20</span>), Man(<span class="string">&quot;john&quot;</span>, <span class="number">20</span>))</span><br><span class="line">        <span class="keyword">val</span> random = items.shuffled().first()</span><br><span class="line">        println(random)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">if</span> (random <span class="keyword">is</span> T) &#123;</span><br><span class="line">            random</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            backup()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> box1: MagicBox&lt;Man&gt; = MagicBox() <span class="comment">// 这里T类型不起作用</span></span><br><span class="line">    <span class="comment">// 由backup函数推断出来T的类型</span></span><br><span class="line">    <span class="keyword">val</span> subject = box1.randomOrBackup &#123; Man(<span class="string">&quot;Jimmy&quot;</span>, <span class="number">28</span>) &#125;  <span class="comment">//根据传进来的Man对象类型，推断T类型为Man</span></span><br><span class="line">    println(subject)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span></span>(<span class="keyword">val</span> age: <span class="built_in">Int</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Boy</span></span>(<span class="keyword">val</span> name: String, age: <span class="built_in">Int</span>) : Human(age)&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">toString</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Boy(name=&#x27;<span class="variable">$name</span>&#x27;)&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Man</span></span>(<span class="keyword">val</span> name: String, age: <span class="built_in">Int</span>) : Human(age)&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">toString</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Man(name=&#x27;<span class="variable">$name</span>&#x27;)&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Kotlin/" class="category-chain-item">Kotlin</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>kotlin-object-generic</div>
+      <div>https://noteforme.github.io/2021/08/21/kotlin-object-generic/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 21, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/22/kotlin-ext-func/" title="kotlin-ext-func">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">kotlin-ext-func</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/21/kotlin-collection-class/" title="kotlin-collection-class">
+                        <span class="hidden-mobile">kotlin-collection-class</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

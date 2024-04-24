@@ -1,0 +1,896 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;developer.android.google.cn&#x2F;training&#x2F;dependency-injection Hilt作用 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV18o4y1S7KH 「社区说」《Hilt-把握住Android依赖项注入的“利器”》 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1eM4y1G7aR  码牛 ht">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hilt">
+<meta property="og:url" content="https://noteforme.github.io/2018/01/23/Hilt/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="https:&#x2F;&#x2F;developer.android.google.cn&#x2F;training&#x2F;dependency-injection Hilt作用 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV18o4y1S7KH 「社区说」《Hilt-把握住Android依赖项注入的“利器”》 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1eM4y1G7aR  码牛 ht">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://noteforme.github.io/2018/01/23/Hilt//Hilt20221017130502.jpg">
+<meta property="og:image" content="https://noteforme.github.io/2018/01/23/Hilt//20221015154712.jpg">
+<meta property="og:image" content="https://noteforme.github.io/2018/01/23/Hilt//20220619224139.jpg">
+<meta property="og:image" content="https://noteforme.github.io/2018/01/23/Hilt//2021-08-29_11.12.20_overview.png">
+<meta property="og:image" content="https://noteforme.github.io/2018/01/23/Hilt//2021-09-25_10.26.41_advantages.png">
+<meta property="og:image" content="https://noteforme.github.io/2018/01/23/Hilt//20221019080750.jpg">
+<meta property="og:image" content="https://noteforme.github.io/2018/01/23/Hilt//20221019080759.jpg">
+<meta property="og:image" content="https://noteforme.github.io/2018/01/23/Hilt//2021-09-25_11.13.47_component_lifecycle.png">
+<meta property="og:image" content="https://noteforme.github.io/2018/01/23/Hilt//2021-09-26_10.21.23_component_layer.png">
+<meta property="article:published_time" content="2018-01-23T07:11:40.000Z">
+<meta property="article:modified_time" content="2023-12-17T12:43:26.284Z">
+<meta property="article:author" content="Jon">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://noteforme.github.io/2018/01/23/Hilt//Hilt20221017130502.jpg">
+  
+  
+  
+  <title>Hilt - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Hilt"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2018-01-23 15:11" pubdate>
+          January 23, 2018 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Hilt</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/training/dependency-injection">https://developer.android.google.cn/training/dependency-injection</a></p>
+<h3 id="Hilt作用"><a href="#Hilt作用" class="headerlink" title="Hilt作用"></a>Hilt作用</h3><p><img src="/2018/01/23/Hilt//Hilt20221017130502.jpg" srcset="/img/loading.gif" lazyload alt="Hilt20221017130502"></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV18o4y1S7KH">https://www.bilibili.com/video/BV18o4y1S7KH</a> 「社区说」《Hilt-把握住Android依赖项注入的“利器”》</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1eM4y1G7aR">https://www.bilibili.com/video/BV1eM4y1G7aR</a>  码牛</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ki4y1A7hA">https://www.bilibili.com/video/BV1Ki4y1A7hA</a> 动脑学院</p>
+<p><a target="_blank" rel="noopener" href="https://services.google.cn/fh/files/misc/hilt-annotations-2.3.3_zh-cn.pdf">https://services.google.cn/fh/files/misc/hilt-annotations-2.3.3_zh-cn.pdf</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg">https://mp.weixin.qq.com/s/OEX1d2cU1zGG5BBM-nANBg</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/training/dependency-injection/hilt-android?hl=zh-cn">https://developer.android.google.cn/training/dependency-injection/hilt-android?hl=zh-cn</a></p>
+<p><img src="/2018/01/23/Hilt//20221015154712.jpg" srcset="/img/loading.gif" lazyload alt="20221015154712"></p>
+<p>Component种注入了Activity对象 ，Factory提供的Module对象和Activity关联起来.</p>
+<p>依赖注入有什么用</p>
+<ul>
+<li>自动加载</li>
+<li>自动加载的关键 : 数据共享</li>
+</ul>
+<p><img src="/2018/01/23/Hilt//20220619224139.jpg" srcset="/img/loading.gif" lazyload alt="20220619224139"></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1e54y1S72A/">https://www.bilibili.com/video/BV1e54y1S72A/</a></p>
+<p><img src="/2018/01/23/Hilt//2021-08-29_11.12.20_overview.png" srcset="/img/loading.gif" lazyload alt="2021-08-29_11.12.20_overview"></p>
+<p>由于会和Dagger冲突，所以写在JYKot里</p>
+<p><img src="/2018/01/23/Hilt//2021-09-25_10.26.41_advantages.png" srcset="/img/loading.gif" lazyload alt="2021-09-25_10.26.41_advantages"></p>
+<h5 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h5><p>使用Hilt 注入</p>
+<p><img src="/2018/01/23/Hilt//20221019080750.jpg" srcset="/img/loading.gif" lazyload alt="20221019080750"></p>
+<p><img src="/2018/01/23/Hilt//20221019080759.jpg" srcset="/img/loading.gif" lazyload alt="20221019080759"></p>
+<p>配置HiltAndroidApp注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@HiltAndroidApp</span> <span class="hljs-comment">// 1.  HiltAndroidApp注解,生成相应的组件</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyApp</span> : Application() &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="构造方法注入"><a href="#构造方法注入" class="headerlink" title="构造方法注入"></a>构造方法注入</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// 构造方法绑定</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> <span class="hljs-meta">@Inject()</span> <span class="hljs-keyword">constructor</span>()<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@AndroidEntryPoint</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">HiltMainActivity</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> TAG = javaClass.simpleName<br><br>    <span class="hljs-meta">@Inject</span><br>    <span class="hljs-keyword">lateinit</span> <span class="hljs-keyword">var</span> user: User<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        <span class="hljs-keyword">val</span> biding = ActivityHiltMainBinding.inflate(layoutInflater)<br>        setContentView(biding.root)<br>        Log.i(TAG, <span class="hljs-string">&quot;user: <span class="hljs-variable">$user</span>&quot;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="Module对象注入"><a href="#Module对象注入" class="headerlink" title="Module对象注入"></a>Module对象注入</h5><p>建立绑定,就是说User对象实例由谁提供</p>
+<p>可以通AppModule提供</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User1</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Module装载到ApplicationComponent中,Module作用域就被限定起来了</span><br><span class="hljs-meta">@InstallIn(ApplicationComponent.class)</span> <span class="hljs-comment">//通过这种方式和组件关联</span><br><span class="hljs-meta">@Module</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule</span> &#123;<br><br>    <span class="hljs-meta">@Provides</span><br>    User1 <span class="hljs-title function_">provideUser</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User1</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>往Activity注入实例</p>
+<p>主要是@AndroidEntryPoint  @Inject</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@AndroidEntryPoint</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HiltActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AppCompatActivity</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">TAG</span> <span class="hljs-operator">=</span><span class="hljs-string">&quot;HiltActivity&quot;</span>;<br>    <span class="hljs-meta">@Inject</span><br>    User user; <span class="hljs-comment">//inject注解作用在User变量上,注入对象实例</span><br><br>    <span class="hljs-meta">@Inject</span><br>    User1 user1; <span class="hljs-comment">// 方式2</span><br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> &#123;<br>        <span class="hljs-built_in">super</span>.onCreate(savedInstanceState);<br>        setContentView(R.layout.activity_hilt);<br>        Log.i(TAG, <span class="hljs-string">&quot;user: &quot;</span> + user);<br>        Log.i(TAG, <span class="hljs-string">&quot;user1: &quot;</span> + user1);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<blockquote>
+<p>28743-28743/com.john.kot I/HiltActivity: user: com.john.kot.hilt.User@d33a8d5<br>28743-28743/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea</p>
+</blockquote>
+<h3 id="默认标准组件"><a href="#默认标准组件" class="headerlink" title="默认标准组件"></a>默认标准组件</h3><p><img src="/2018/01/23/Hilt//2021-09-25_11.13.47_component_lifecycle.png" srcset="/img/loading.gif" lazyload alt="2021-09-25_11.13.47_component_lifecycle"></p>
+<p>Component lifetimes</p>
+<p>Hilt 也允许将绑定的作用域限定为特定组件。Hilt 只为绑定作用域限定到的组件的每个实例创建一次限定作用域的绑定，对该绑定的所有请求共享同一实例。</p>
+<p>组件实例由关联的Android类来创建的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Module装载到ActivityComponent中</span><br><span class="hljs-meta">@InstallIn(ActivityComponent.class)</span> <span class="hljs-comment">//通过这种方式和组件关联</span><br><span class="hljs-meta">@Module</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule1</span> &#123;<br><br>    <span class="hljs-meta">@ActivityScoped</span> <span class="hljs-comment">//ActivityComponent只能设置ActivityScoped作用域</span><br>    <span class="hljs-meta">@Provides</span><br>    User1 <span class="hljs-title function_">provideUser</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User1</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@AndroidEntryPoint</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HiltActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AppCompatActivity</span> &#123;<br><br>    <span class="hljs-type">String</span> <span class="hljs-variable">TAG</span> <span class="hljs-operator">=</span><span class="hljs-string">&quot;HiltActivity&quot;</span>;<br>         <span class="hljs-comment">//inject注解作用在User变量上,注入对象实例</span><br><br>    <span class="hljs-meta">@Inject</span><br>    User1 user1; <span class="hljs-comment">// 方式2</span><br><br>    <span class="hljs-meta">@Inject</span><br>    User1 user2;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> &#123;<br>        <span class="hljs-built_in">super</span>.onCreate(savedInstanceState);<br>        setContentView(R.layout.activity_hilt);<br><br>        <span class="hljs-comment">//测试  ActivityComponent</span><br>        Log.i(TAG, <span class="hljs-string">&quot;user1: &quot;</span> + user1);<br>        Log.i(TAG, <span class="hljs-string">&quot;user2: &quot;</span> + user2);<br><br>        startActivity(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Intent</span>(<span class="hljs-built_in">this</span>,SecondActivity.class));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@AndroidEntryPoint</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SecondActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AppCompatActivity</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">TAG</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;SecondActivity&quot;</span>;<br>    <span class="hljs-meta">@Inject</span><br>    User1 user3;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> &#123;<br>        <span class="hljs-built_in">super</span>.onCreate(savedInstanceState);<br>        setContentView(R.layout.activity_second);<br>        Log.i(TAG, <span class="hljs-string">&quot;user3: &quot;</span> + user3);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<blockquote>
+<p>2021-09-25 23:02:57.595 29397-29397/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:02:57.595 29397-29397/com.john.kot I/HiltActivity: user2: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:02:57.883 29397-29397/com.john.kot I/SecondActivity: user3: com.john.kot.hilt.User1@1aa35b5</p>
+</blockquote>
+<p>可以看到作用域在Activity中</p>
+<h5 id="单例对象的注入"><a href="#单例对象的注入" class="headerlink" title="单例对象的注入"></a>单例对象的注入</h5><h5 id="构造方法单例"><a href="#构造方法单例" class="headerlink" title="构造方法单例"></a>构造方法单例</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@Singleton</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">User6</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span>()<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@Inject</span><br><span class="hljs-keyword">lateinit</span> <span class="hljs-keyword">var</span> user6: User6 <span class="hljs-comment">// 方式2</span><br></code></pre></td></tr></table></figure>
+
+<p>在Activity这样注入后，User6的对象就是单例的了。</p>
+<h6 id="AppModule1"><a href="#AppModule1" class="headerlink" title="AppModule1"></a>AppModule1</h6><p>修改成 ApplicationComponent 和Singleton</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Module装载到ApplicationComponent中</span><br><span class="hljs-meta">@InstallIn(ApplicationComponent.class)</span> <span class="hljs-comment">//通过这种方式和组件关联</span><br><span class="hljs-meta">@Module</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule1</span> &#123;<br><br>    <span class="hljs-meta">@Singleton</span> <span class="hljs-comment">//ActivityComponent只能设置ActivityScoped作用域</span><br>    <span class="hljs-meta">@Provides</span><br>    User1 <span class="hljs-title function_">provideUser</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User1</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<blockquote>
+<p>2021-09-25 23:09:24.752 29553-29553/com.john.kot I/HiltActivity: user1: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:09:24.752 29553-29553/com.john.kot I/HiltActivity: user2: com.john.kot.hilt.User1@62df8ea<br>2021-09-25 23:09:25.106 29553-29553/com.john.kot I/SecondActivity: user3: com.john.kot.hilt.User1@62df8ea</p>
+</blockquote>
+<p>明显一样的实例了</p>
+<h6 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h6><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@InstallIn(SingletonComponent::class)</span> <span class="hljs-comment">//通过这种方式和组件关联</span><br><span class="hljs-meta">@Module</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule5</span> &#123;<br><br>    <span class="hljs-meta">@Singleton</span><br>    <span class="hljs-meta">@Provides</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideUser</span><span class="hljs-params">()</span></span>: UserHilt5 &#123;<br>        <span class="hljs-keyword">return</span> UserHilt5()<br>    &#125;<br><br>    <span class="hljs-meta">@Singleton</span><br>    <span class="hljs-meta">@Provides</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideUserParam5</span><span class="hljs-params">(user: <span class="hljs-type">UserHilt5</span>)</span></span>: UserParam5 &#123;<br>        <span class="hljs-keyword">return</span> UserParam5(user)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">Log.i(TAG, <span class="hljs-string">&quot;userParam: <span class="hljs-subst">$&#123;userParam.user1&#125;</span>&quot;</span>)<br>Log.i(TAG, <span class="hljs-string">&quot;userParam5: <span class="hljs-subst">$&#123;userParam5.user5&#125;</span>&quot;</span>)<br>Log.i(TAG, <span class="hljs-string">&quot;userParam: <span class="hljs-subst">$&#123;userParam.user1&#125;</span>&quot;</span>)<br>Log.i(TAG, <span class="hljs-string">&quot;userParam5: <span class="hljs-subst">$&#123;userParam5.user5&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>从下面结果可以看到userParam5是相同的对象</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus">com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span> I/HiltActivity: userParam: com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span><span class="hljs-selector-class">.hilt</span><span class="hljs-selector-class">.model</span>.User1@<span class="hljs-number">7459850</span><br>com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span> I/HiltActivity: userParam5: com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span><span class="hljs-selector-class">.hilt</span><span class="hljs-selector-class">.model</span>.UserHilt5@aea6a49<br>com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span> I/HiltSecondActivity: userParam: com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span><span class="hljs-selector-class">.hilt</span><span class="hljs-selector-class">.model</span>.User1@bf41510<br>com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span> I/HiltSecondActivity: userParam5: com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span><span class="hljs-selector-class">.hilt</span><span class="hljs-selector-class">.model</span>.UserHilt5@aea6a49<br></code></pre></td></tr></table></figure>
+
+<h6 id="方式2"><a href="#方式2" class="headerlink" title="方式2"></a>方式2</h6><p>但是在Dagger里，组建注入不同的Activity对象后，对象也是不相同的,只有在相同Activity才是单例的。 必须用Application组建，才能实现全局APP的单例</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@InstallIn(SingletonComponent::class)</span> <span class="hljs-comment">//通过这种方式和组件关联</span><br><span class="hljs-meta">@Module</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule5</span> &#123;<br><br>    <span class="hljs-meta">@Singleton</span><br>    <span class="hljs-meta">@Provides</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideUser</span><span class="hljs-params">()</span></span>: User5 &#123;<br>        <span class="hljs-keyword">return</span> User5()<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserParam5</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span>(<span class="hljs-keyword">var</span> user5: User5)<br></code></pre></td></tr></table></figure>
+
+<h6 id="方式3"><a href="#方式3" class="headerlink" title="方式3"></a>方式3</h6><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@Singleton</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">User5</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span>()<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserParam5</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span>(<span class="hljs-keyword">var</span> user5: User5)<br></code></pre></td></tr></table></figure>
+
+<h3 id="组件作用域"><a href="#组件作用域" class="headerlink" title="组件作用域"></a>组件作用域</h3><p>组件和组件作用域一一对应.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Android class</th>
+<th align="left">Generated component</th>
+<th align="left">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>Application</code></td>
+<td align="left"><code>SingletonComponent</code></td>
+<td align="left"><code>@Singleton</code></td>
+</tr>
+<tr>
+<td align="left"><code>Activity</code>(应该是view model)</td>
+<td align="left"><code>ActivityRetainedComponent</code></td>
+<td align="left"><code>@ActivityRetainedScoped</code></td>
+</tr>
+<tr>
+<td align="left"><code>ViewModel</code></td>
+<td align="left"><code>ViewModelComponent</code></td>
+<td align="left"><code>@ViewModelScoped</code></td>
+</tr>
+<tr>
+<td align="left"><code>Activity</code></td>
+<td align="left"><code>ActivityComponent</code></td>
+<td align="left"><code>@ActivityScoped</code></td>
+</tr>
+<tr>
+<td align="left"><code>Fragment</code></td>
+<td align="left"><code>FragmentComponent</code></td>
+<td align="left"><code>@FragmentScoped</code></td>
+</tr>
+<tr>
+<td align="left"><code>View</code></td>
+<td align="left"><code>ViewComponent</code></td>
+<td align="left"><code>@ViewScoped</code></td>
+</tr>
+<tr>
+<td align="left"><code>View</code> annotated with <code>@WithFragmentBindings</code></td>
+<td align="left"><code>ViewWithFragmentComponent</code></td>
+<td align="left"><code>@ViewScoped</code></td>
+</tr>
+<tr>
+<td align="left"><code>Service</code></td>
+<td align="left"><code>ServiceComponent</code></td>
+<td align="left"><code>@ServiceScoped</code></td>
+</tr>
+</tbody></table>
+<h5 id="ActivityScoped"><a href="#ActivityScoped" class="headerlink" title="@ActivityScoped"></a>@ActivityScoped</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@AndroidEntryPoint</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">HiltMainActivity</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> TAG = javaClass.simpleName<br><br>    <span class="hljs-meta">@Inject</span><br>    <span class="hljs-keyword">lateinit</span> <span class="hljs-keyword">var</span> user3: User2<br>    <span class="hljs-meta">@Inject</span><br>    <span class="hljs-keyword">lateinit</span> <span class="hljs-keyword">var</span> user4: User2<br><br><br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        <span class="hljs-keyword">val</span> biding = ActivityHiltMainBinding.inflate(layoutInflater)<br>        setContentView(biding.root)<br><br>        Log.i(TAG, <span class="hljs-string">&quot;user3: <span class="hljs-variable">$user3</span>&quot;</span>)<br>        Log.i(TAG, <span class="hljs-string">&quot;user4: <span class="hljs-variable">$user4</span>&quot;</span>)<br>        startActivity(Intent(<span class="hljs-keyword">this</span>,HiltSecondActivity::<span class="hljs-keyword">class</span>.java))<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">//Module装载到ActivityComponent中</span><br><span class="hljs-meta">@InstallIn(ActivityComponent::class)</span> <span class="hljs-comment">//通过这种方式和组件关联</span><br><span class="hljs-meta">@Module</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule2</span> &#123;<br>    <span class="hljs-comment">// ApplicationComponent对应的作用域 @Singleton</span><br>    <span class="hljs-meta">@ActivityScoped</span><br>    <span class="hljs-meta">@Provides</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideUser</span><span class="hljs-params">()</span></span>: User2 &#123;<br>        <span class="hljs-keyword">return</span> User2()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>@ActivityScoped必须用ActivityComponent, 可以看到在Activity生命周期内对象相同</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">469 </span><span class="hljs-number">5433</span>-<span class="hljs-number">5433</span>/<span class="hljs-keyword">com</span>.john.kot I/HiltMainActivity: user3: <span class="hljs-keyword">com</span>.john.kot.hilt.dn.di.User2@<span class="hljs-number">1</span>ca33ad<br><span class="hljs-symbol">469 </span><span class="hljs-number">5433</span>-<span class="hljs-number">5433</span>/<span class="hljs-keyword">com</span>.john.kot I/HiltMainActivity: user4: <span class="hljs-keyword">com</span>.john.kot.hilt.dn.di.User2@<span class="hljs-number">1</span>ca33ad<br><span class="hljs-symbol">521 </span><span class="hljs-number">5433</span>-<span class="hljs-number">5433</span>/<span class="hljs-keyword">com</span>.john.kot I/HiltSecondActivity: user5: <span class="hljs-keyword">com</span>.john.kot.hilt.dn.di.User2@<span class="hljs-number">8d0</span>e984<br></code></pre></td></tr></table></figure>
+
+<h5 id="Singleton"><a href="#Singleton" class="headerlink" title="@Singleton"></a>@Singleton</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">//Module装载到ActivityComponent中</span><br><span class="hljs-meta">@InstallIn(SingletonComponent::class)</span> <span class="hljs-comment">//通过这种方式和组件关联</span><br><span class="hljs-meta">@Module</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule2</span> &#123;<br>    <span class="hljs-comment">// ApplicationComponent对应的作用域 @Singleton</span><br>    <span class="hljs-meta">@Singleton</span><br>    <span class="hljs-meta">@Provides</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideUser</span><span class="hljs-params">()</span></span>: User2 &#123;<br>        <span class="hljs-keyword">return</span> User2()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到，这种情况应用内单例</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">773 </span><span class="hljs-number">5726</span>-<span class="hljs-number">5726</span>/<span class="hljs-keyword">com</span>.john.kot I/HiltMainActivity: user3: <span class="hljs-keyword">com</span>.john.kot.hilt.dn.di.User2@aa56b56<br><span class="hljs-symbol">773 </span><span class="hljs-number">5726</span>-<span class="hljs-number">5726</span>/<span class="hljs-keyword">com</span>.john.kot I/HiltMainActivity: user4: <span class="hljs-keyword">com</span>.john.kot.hilt.dn.di.User2@aa56b56<br><span class="hljs-symbol">816 </span><span class="hljs-number">5726</span>-<span class="hljs-number">5726</span>/<span class="hljs-keyword">com</span>.john.kot I/HiltSecondActivity: user5: <span class="hljs-keyword">com</span>.john.kot.hilt.dn.di.User2@aa56b56<br></code></pre></td></tr></table></figure>
+
+<h3 id="组件层次结构"><a href="#组件层次结构" class="headerlink" title="组件层次结构"></a>组件层次结构</h3><p><img src="/2018/01/23/Hilt//2021-09-26_10.21.23_component_layer.png" srcset="/img/loading.gif" lazyload alt="2021-09-26_10.21.23_component_layer"></p>
+<p>ApplicationComponent 顶级父组件 ,下一层ActivityRetanedComponent是的子组件，往下是子子组件。</p>
+<p>那么ActivityRetanedComponent可以获取到ApplicationComponent提供的对象的实例.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">//Module装载到ActivityComponent中</span><br><span class="hljs-meta">@InstallIn(SingletonComponent::class)</span> <span class="hljs-comment">//通过这种方式和组件关联</span><br><span class="hljs-meta">@Module</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule2</span> &#123;<br>    <span class="hljs-comment">// ApplicationComponent对应的作用域 @Singleton</span><br>    <span class="hljs-meta">@Singleton</span><br>    <span class="hljs-meta">@Provides</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideUser</span><span class="hljs-params">()</span></span>: User2 &#123;<br>        <span class="hljs-keyword">return</span> User2()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>例如就像上面一样， Activity中可以访问SingletonComponent组件的实例。</p>
+<h3 id="组件默认绑定"><a href="#组件默认绑定" class="headerlink" title="组件默认绑定"></a>组件默认绑定</h3><table>
+<thead>
+<tr>
+<th align="left">Android component</th>
+<th align="left">Default bindings</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>SingletonComponent</code></td>
+<td align="left"><code>Application</code></td>
+</tr>
+<tr>
+<td align="left"><code>ActivityRetainedComponent</code></td>
+<td align="left"><code>Application</code></td>
+</tr>
+<tr>
+<td align="left"><code>ViewModelComponent</code></td>
+<td align="left"><code>SavedStateHandle</code></td>
+</tr>
+<tr>
+<td align="left"><code>ActivityComponent</code></td>
+<td align="left"><code>Application</code>, <code>Activity</code></td>
+</tr>
+<tr>
+<td align="left"><code>FragmentComponent</code></td>
+<td align="left"><code>Application</code>, <code>Activity</code>, <code>Fragment</code></td>
+</tr>
+<tr>
+<td align="left"><code>ViewComponent</code></td>
+<td align="left"><code>Application</code>, <code>Activity</code>, <code>View</code></td>
+</tr>
+<tr>
+<td align="left"><code>ViewWithFragmentComponent</code></td>
+<td align="left"><code>Application</code>, <code>Activity</code>, <code>Fragment</code>, <code>View</code></td>
+</tr>
+<tr>
+<td align="left"><code>ServiceComponent</code></td>
+<td align="left"><code>Application</code>, <code>Service</code></td>
+</tr>
+</tbody></table>
+<h5 id="ApplicationComponent"><a href="#ApplicationComponent" class="headerlink" title="ApplicationComponent"></a>ApplicationComponent</h5><p>这里ViewModel和jetpack viewmodel还没有关联 。</p>
+<p>老师说HiltViewModel3 默认装载到了ApplicationComponent中,我觉得不是，应该是装载到ActivityComponent，如果SingletonComponent是获取不到Activity的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// HiltViewModel3 默认装载到了ApplicationComponent中</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">HiltViewModel3</span> <span class="hljs-meta">@Inject</span> constructor(<br>    <span class="hljs-keyword">var</span> user: User3,<br>    <span class="hljs-keyword">var</span> application: Application,<br>    <span class="hljs-keyword">var</span> activity: Activity<br>) &#123;<br>    <span class="hljs-type">var</span> <span class="hljs-variable">TAG</span> <span class="hljs-operator">=</span> javaClass.simpleName<br>    fun <span class="hljs-title function_">test</span><span class="hljs-params">()</span> &#123;<br>        Log.i(TAG, <span class="hljs-string">&quot;test:user $user&quot;</span>)<br>        Log.i(TAG, <span class="hljs-string">&quot;test: application $application&quot;</span>)<br>        Log.i(TAG, <span class="hljs-string">&quot;test: activity$activity&quot;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@AndroidEntryPoint</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">HiltMainActivity</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> TAG = javaClass.simpleName<br>    <span class="hljs-meta">@Inject</span><br>    <span class="hljs-keyword">lateinit</span> <span class="hljs-keyword">var</span> viewModel: HiltViewModel3<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        <span class="hljs-keyword">val</span> biding = ActivityHiltMainBinding.inflate(layoutInflater)<br>        setContentView(biding.root)<br>        viewModel.test()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-number">6613</span>/com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span> I/ViewModel: test:user com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span><span class="hljs-selector-class">.hilt</span><span class="hljs-selector-class">.dn</span><span class="hljs-selector-class">.di</span>.User3@<span class="hljs-number">1</span>ca33ad<br><span class="hljs-number">6613</span>/com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span> I/ViewModel: test: application com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span>.MyApp@<span class="hljs-number">3</span>a4e6e2<br><span class="hljs-number">6613</span>/com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span> I/ViewModel: test: activitycom<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span><span class="hljs-selector-class">.hilt</span><span class="hljs-selector-class">.dn</span>.HiltMainActivity@<span class="hljs-number">211813</span>d<br></code></pre></td></tr></table></figure>
+
+<p>可以看到都有 Application, Activity实例对象,这就是默认绑定</p>
+<h5 id="Activity默认绑定"><a href="#Activity默认绑定" class="headerlink" title="Activity默认绑定"></a>Activity默认绑定</h5><p>下面的没有 @Inject</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">HiltViewModel4</span>(<span class="hljs-keyword">var</span> user: User3, <span class="hljs-keyword">var</span> application: Application, <span class="hljs-keyword">var</span> activity: Activity) &#123;<br>    <span class="hljs-keyword">var</span> TAG = javaClass.simpleName<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">test</span><span class="hljs-params">()</span></span> &#123;<br>        Log.i(TAG, <span class="hljs-string">&quot;test:user <span class="hljs-variable">$user</span>&quot;</span>)<br>        Log.i(TAG, <span class="hljs-string">&quot;test: application <span class="hljs-variable">$application</span>&quot;</span>)<br>        Log.i(TAG, <span class="hljs-string">&quot;test: activity<span class="hljs-variable">$activity</span>&quot;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">//Module装载到ActivityComponent中</span><br><span class="hljs-meta">@InstallIn(ActivityComponent::class)</span> <span class="hljs-comment">//这里用SingletonComponent会报错,因为Application不能提供activity实例</span><br><span class="hljs-meta">@Module</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule4</span> &#123;<br><br>    <span class="hljs-meta">@Singleton</span> <span class="hljs-comment">//Singleton,因为Application不能提供activity实例</span><br>    <span class="hljs-meta">@Provides</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideViewModel</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">        user: <span class="hljs-type">User3</span>,</span></span><br><span class="hljs-params"><span class="hljs-function">        application: <span class="hljs-type">Application</span>,</span></span><br><span class="hljs-params"><span class="hljs-function">        activity: <span class="hljs-type">Activity</span></span></span><br><span class="hljs-params"><span class="hljs-function">    )</span></span>: HiltViewModel4 &#123;<br>        <span class="hljs-keyword">return</span> HiltViewModel4(user, application, activity)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">viewModel1.test();<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus">com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span> I/HiltViewModel4: test:user com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span><span class="hljs-selector-class">.hilt</span><span class="hljs-selector-class">.dn</span><span class="hljs-selector-class">.di</span>.User3@<span class="hljs-number">5</span>b5a73<br>com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span> I/HiltViewModel4: test: application com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span>.MyApp@<span class="hljs-number">3</span>a4e6e2<br>com<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span> I/HiltViewModel4: test: activitycom<span class="hljs-selector-class">.john</span><span class="hljs-selector-class">.kot</span><span class="hljs-selector-class">.hilt</span><span class="hljs-selector-class">.dn</span>.HiltMainActivity@<span class="hljs-number">211813</span>d<br></code></pre></td></tr></table></figure>
+
+<p>可以看到也能提供Appilicaton和activity默认绑定的实例</p>
+<h3 id="预定义限定符"><a href="#预定义限定符" class="headerlink" title="预定义限定符"></a>预定义限定符</h3><p>提供了几种预定义限定符(Qualifier) : @ApplicationContext 和 @ActivityContext</p>
+<h5 id="ApplicationContext-VS-ActivityContext"><a href="#ApplicationContext-VS-ActivityContext" class="headerlink" title="ApplicationContext VS ActivityContext ?"></a>ApplicationContext VS ActivityContext ?</h5><h3 id="Hilt支持Jetpack组件"><a href="#Hilt支持Jetpack组件" class="headerlink" title="Hilt支持Jetpack组件"></a>Hilt支持Jetpack组件</h3><h5 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h5><ul>
+<li><p>User由我们自己提供</p>
+</li>
+<li><p>Application application, Activity activity由 Dagger提供</p>
+</li>
+<li><p>Context预定义的限定符.</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MainViewModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ViewModel</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">TAG</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;MainViewModel&quot;</span>;<br><br>    User3 user;<br>    Application application;<br>    Activity activity;<br><br>    Context context;<br><br>    <span class="hljs-meta">@ViewModelInject</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">MainViewModel</span><span class="hljs-params">(User3 user, Application application, Activity activity,<span class="hljs-meta">@ApplicationContext</span>  Context context)</span> &#123;<br>        <span class="hljs-built_in">this</span>.user = user;<br>        <span class="hljs-built_in">this</span>.application = application;<br>        <span class="hljs-built_in">this</span>.activity = activity;<br>        <span class="hljs-built_in">this</span>.context =context;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span>  <span class="hljs-title function_">test</span><span class="hljs-params">()</span>&#123;<br>        Log.i(TAG, <span class="hljs-string">&quot;test:user=&quot;</span>+user);<br>        Log.i(TAG, <span class="hljs-string">&quot;test: application=&quot;</span>+application);<br>        Log.i(TAG, <span class="hljs-string">&quot;test: activity=&quot;</span>+activity);<br>        Log.i(TAG, <span class="hljs-string">&quot;test: context=&quot;</span>+context);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ki4y1A7hA?spm_id_from=333.999.0.0">https://www.bilibili.com/video/BV1Ki4y1A7hA?spm_id_from=333.999.0.0</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1BK4y1V7no?p=4&amp;spm_id_from=pageDriver">https://www.bilibili.com/video/BV1BK4y1V7no?p=4&amp;spm_id_from=pageDriver</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/codelabs/android-hilt?hl=zh-cn#7">https://developer.android.com/codelabs/android-hilt?hl=zh-cn#7</a></p>
+<h3 id="Interface-inject-接口注入"><a href="#Interface-inject-接口注入" class="headerlink" title="Interface inject 接口注入"></a>Interface inject 接口注入</h3><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6967148539277213733">https://juejin.cn/post/6967148539277213733</a></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@InstallIn(ActivityComponent::class)</span><br><span class="hljs-meta">@Module</span><br><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BannerRepoModule</span> &#123;<br>  <span class="hljs-comment">//BannerRepository实例自动new出来交给对应的接口</span><br>    <span class="hljs-meta">@Binds</span><br>    <span class="hljs-keyword">abstract</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">bannerRepo</span><span class="hljs-params">(repoImpl: <span class="hljs-type">BannerRepository</span>)</span></span>: IBannerApi <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="viewModel"><a href="#viewModel" class="headerlink" title="viewModel"></a>viewModel</h4><p>在ViewModel上添加<code>@HiltViewModel</code>，必须有带参的构造函数，用<code>Inject</code>注入</p>
+<h5 id="1-viewModel"><a href="#1-viewModel" class="headerlink" title="1.  viewModel"></a>1.  viewModel</h5><p>在ViewModel上添加<code>@HiltViewModel</code>，必须有带参的构造函数，用<code>Inject</code>注入</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@HiltViewModel</span><br>class DataViewModel <span class="hljs-variable">@Inject</span> <span class="hljs-built_in">constructor</span>(<br>        private val <span class="hljs-attribute">dataRepo</span>: DataRepository<br>) : <span class="hljs-built_in">ViewModel</span>()<br></code></pre></td></tr></table></figure>
+
+<h5 id="2-fragment和activity"><a href="#2-fragment和activity" class="headerlink" title="2. fragment和activity"></a>2. fragment和activity</h5><p>在fragment和activity上添加<code>@AndroidEntryPoint</code>注解</p>
+<p>然后可以使用by viewModels()直接获取viewmodel</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@AndroidEntryPoint</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">DataFragment</span> : <span class="hljs-type">Fragment</span>() &#123;<br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> dataViewModel: DataViewModel <span class="hljs-keyword">by</span> viewModels()<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="3-遇到的坑"><a href="#3-遇到的坑" class="headerlink" title="3. 遇到的坑"></a>3. 遇到的坑</h5><p>通过ViewPager创建的Fragment无法使用<code>@HiltViewModel</code>，只能通过普通的方式注入，弄了很久都没有找到解决方案。配合<a target="_blank" rel="noopener" href="https://developer.android.com/jetpack/androidx/releases/navigation">navigation</a>使用的话没有问题</p>
+<h4 id="字节码技术"><a href="#字节码技术" class="headerlink" title="字节码技术"></a>字节码技术</h4><p>Javassit 动态修改字节码</p>
+<h4 id="Hilt-UnitTest"><a href="#Hilt-UnitTest" class="headerlink" title="Hilt UnitTest"></a>Hilt UnitTest</h4><p><a target="_blank" rel="noopener" href="https://mahendranv.github.io/posts/hilt-instrument/">https://mahendranv.github.io/posts/hilt-instrument/</a></p>
+<h3 id="Entry-point"><a href="#Entry-point" class="headerlink" title="Entry point"></a>Entry point</h3><p><a target="_blank" rel="noopener" href="https://developer.android.com/training/dependency-injection/hilt-android">Dependency injection with Hilt &nbsp;|&nbsp; Android Developers</a></p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs delphi"><span class="hljs-keyword">class</span> AnalyticsServiceImpl @Inject <span class="hljs-function"><span class="hljs-keyword">constructor</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">  @ApplicationContext context: Context</span></span><br><span class="hljs-params"><span class="hljs-function">)</span> :</span> AnalyticsService <span class="hljs-comment">&#123; ... &#125;</span><br><br><span class="hljs-comment">// The Application binding is available without qualifiers.</span><br><span class="hljs-keyword">class</span> AnalyticsServiceImpl @Inject <span class="hljs-function"><span class="hljs-keyword">constructor</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">  application: Application</span></span><br><span class="hljs-params"><span class="hljs-function">)</span> :</span> AnalyticsService <span class="hljs-comment">&#123; ... &#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ExampleContentProvider</span> : <span class="hljs-type">ContentProvider</span>() &#123;<br><br>  <span class="hljs-meta">@EntryPoint</span><br>  <span class="hljs-meta">@InstallIn(SingletonComponent::class)</span><br>  <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ExampleContentProviderEntryPoint</span> &#123;<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">analyticsService</span><span class="hljs-params">()</span></span>: AnalyticsService<br>  &#125;<br><br>  ...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ANDROID/" class="category-chain-item">ANDROID</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Hilt</div>
+      <div>https://noteforme.github.io/2018/01/23/Hilt/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 23, 2018</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/02/09/LeakMemory/" title="LeakMemory">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LeakMemory</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/01/22/TEST_Espresso/" title="TEST_Espresso">
+                        <span class="hidden-mobile">TEST_Espresso</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

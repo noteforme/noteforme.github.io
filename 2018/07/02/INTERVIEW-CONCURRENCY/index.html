@@ -1,0 +1,867 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;noteforme.github.io&#x2F;tags&#x2F;concurrency&#x2F; 线程基础Java线程模型 用户线程与内核级线程 并发与并行 多线程模型  https:&#x2F;&#x2F;crazyfzw.github.io&#x2F;2018&#x2F;06&#x2F;19&#x2F;thred-model&#x2F; 谈谈对多线程的理解  在Android中一个应用程序就是一个单独的进程，一般来说，当我们运行一个应用，系统就会自动创建一个进程，并且">
+<meta property="og:type" content="article">
+<meta property="og:title" content="INTERVIEW_CONCURRENCY">
+<meta property="og:url" content="https://noteforme.github.io/2018/07/02/INTERVIEW-CONCURRENCY/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="https:&#x2F;&#x2F;noteforme.github.io&#x2F;tags&#x2F;concurrency&#x2F; 线程基础Java线程模型 用户线程与内核级线程 并发与并行 多线程模型  https:&#x2F;&#x2F;crazyfzw.github.io&#x2F;2018&#x2F;06&#x2F;19&#x2F;thred-model&#x2F; 谈谈对多线程的理解  在Android中一个应用程序就是一个单独的进程，一般来说，当我们运行一个应用，系统就会自动创建一个进程，并且">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s0.lgstatic.com/i/image2/M01/AD/A3/CgoB5l3eH8mAAoJCAACEOKMHtpw036.png">
+<meta property="og:image" content="https://s0.lgstatic.com/i/image2/M01/AD/A3/CgoB5l3eH-KAAHpkAAC4vEMOXQ4797.png">
+<meta property="og:image" content="https://img-blog.csdn.net/20170605011532312?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTI0MDg3Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://s0.lgstatic.com/i/image3/M01/62/7D/Cgq2xl4le9SAL6enAAGpXZi8Wcg079.jpg">
+<meta property="article:published_time" content="2018-07-02T08:15:24.000Z">
+<meta property="article:modified_time" content="2023-12-06T00:30:32.306Z">
+<meta property="article:author" content="Jon">
+<meta property="article:tag" content="inter">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s0.lgstatic.com/i/image2/M01/AD/A3/CgoB5l3eH8mAAoJCAACEOKMHtpw036.png">
+  
+  
+  
+  <title>INTERVIEW_CONCURRENCY - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="INTERVIEW_CONCURRENCY"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2018-07-02 16:15" pubdate>
+          July 2, 2018 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">INTERVIEW_CONCURRENCY</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><a href="https://noteforme.github.io/tags/concurrency/">https://noteforme.github.io/tags/concurrency/</a></p>
+<h3 id="线程基础"><a href="#线程基础" class="headerlink" title="线程基础"></a>线程基础</h3><h5 id="Java线程模型"><a href="#Java线程模型" class="headerlink" title="Java线程模型"></a>Java线程模型</h5><ol>
+<li>用户线程与内核级线程</li>
+<li>并发与并行</li>
+<li>多线程模型</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://crazyfzw.github.io/2018/06/19/thred-model/">https://crazyfzw.github.io/2018/06/19/thred-model/</a></p>
+<p>谈谈对多线程的理解</p>
+<ol>
+<li>在Android中一个应用程序就是一个单独的进程，一般来说，当我们运行一个应用，系统就会自动创建一个进程，并且为这个进程创建一个主线程–UI线程，这样就可以运行MainActivity。</li>
+<li>线程是操作系统能够进行运算调度的最小单位，线程是进程的子集，线程可以并行的执行不同任务，所有的线程共享同一片内存空间，这就为线程间通信提供了基础，线程有五种状态：创建，就绪，运行，阻塞，死亡。</li>
+</ol>
+<h5 id="多线程有什么要注意的问题？"><a href="#多线程有什么要注意的问题？" class="headerlink" title="多线程有什么要注意的问题？"></a>多线程有什么要注意的问题？</h5><p>并发问题，安全问题，效率问题。</p>
+<p>谈谈你对并发编程的理解并举例说明</p>
+<p>谈谈你对多线程同步机制的理解？</p>
+<h5 id="进程和线程的区别-协程呢"><a href="#进程和线程的区别-协程呢" class="headerlink" title="? 进程和线程的区别 协程呢"></a>? 进程和线程的区别 协程呢</h5><ul>
+<li>进程  </li>
+</ul>
+<p>​    是系统给程序分配资源的基本单位，每个进程都有唯一的地址空间，一个程序至少有一个进程，一个进程至少有一个线程.</p>
+<ul>
+<li>线程线程是执行操作的基本单位，JVM结构中共享 Method Area ,Heap Area</li>
+</ul>
+<p>​    <a target="_blank" rel="noopener" href="https://blog.csdn.net/mxsgoden/article/details/8821936">https://blog.csdn.net/mxsgoden/article/details/8821936</a></p>
+<p>​    <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html">https://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html</a></p>
+<p>进程 : 有很大的独立性</p>
+<p>线程 :  所有线程都有完全一样的地址空间,意味着它们也共享同样的全局变量。由于线程可以访问进程地址空间的每一个内存地址，所以一个线程可以读、写甚至清除另一个线程的堆栈。</p>
+<p>每个进程中的内容 : 地址空间  全局变量 打开文件 子进程    即将发生的定时器    信号与信号处理程序</p>
+<p>每个线程中的内容：程序计数器、寄存器、堆栈、状态.</p>
+<p>协程?</p>
+<p>​        协程拥有自己的寄存器上下文和栈，协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的    时候，恢复先前保存的寄存器上下文和栈，即所有局部状态的一个特定组合），每次过程重入时，就相当于进入上一次调用的状态，换种说法：进入上一次离开时所处逻辑流的位置。</p>
+<p>协程的好处:</p>
+<ol>
+<li>无需线程上下文切换的开销 </li>
+<li>无需原子操作锁定及同步的开销</li>
+<li>方便切换控制流，简化编程模型</li>
+</ol>
+<p>​    为什么要有线程，而不是仅仅用进程？</p>
+<h5 id="怎么创建一个线程"><a href="#怎么创建一个线程" class="headerlink" title="怎么创建一个线程"></a>怎么创建一个线程</h5><ol>
+<li><p>继承Thread类创建线程类.</p>
+</li>
+<li><p>通过Runnable接口创建线程类</p>
+</li>
+<li><p>通过Callable和FutureTask创建线程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CallableThreadTest</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Callable</span>&lt;Integer&gt; &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">CallableThreadTest</span> <span class="hljs-variable">ctt</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CallableThreadTest</span>();<br>        FutureTask&lt;Integer&gt; ft = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FutureTask</span>&lt;&gt;(ctt);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) &#123;<br>            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; 的循环变量i的值&quot;</span> + i);<br>            <span class="hljs-keyword">if</span> (i == <span class="hljs-number">20</span>) &#123;<br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(ft, <span class="hljs-string">&quot;有返回值的线程&quot;</span>).start();<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">try</span> &#123;<br>            System.out.println(<span class="hljs-string">&quot;子线程的返回值：&quot;</span> + ft.get());<br>        &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>            e.printStackTrace();<br>        &#125; <span class="hljs-keyword">catch</span> (ExecutionException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Integer <span class="hljs-title function_">call</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (; i &lt; <span class="hljs-number">100</span>; i++) &#123;<br>            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; &quot;</span> + i);<br>        &#125;<br>        <span class="hljs-keyword">return</span> i;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="线程如何关闭？"><a href="#线程如何关闭？" class="headerlink" title="线程如何关闭？"></a>线程如何关闭？</h5><p>​    最正确的停止线程的方式是使用 interrupt,和条件满足.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">while</span> (!Thread.currentThread().isInterrupted() &amp;&amp; cout&lt;<span class="hljs-number">1000</span>) &#123;<br>    <span class="hljs-keyword">do</span> more work<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="在Java中wait和sleep方法的不同"><a href="#在Java中wait和sleep方法的不同" class="headerlink" title="在Java中wait和sleep方法的不同"></a>在Java中wait和sleep方法的不同</h5><pre><code class="hljs">1. sleep作用Thread上，wait作用object上
+2. sleep不会释放锁
+3. sleep可以在任何代码块。wait必须在同步方法，持有锁中运行。
+</code></pre>
+<p>​    </p>
+<p>谈谈wait/notify关键字的理解</p>
+<ol>
+<li>调用之前持有对象锁</li>
+<li>wait ,线程进入 waiting状态，释放对象锁</li>
+<li>notify,唤醒处于waiting状态的线程。</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://howtodoinjava.com/java/multi-threading/wait-notify-and-notifyall-methods/">https://howtodoinjava.com/java/multi-threading/wait-notify-and-notifyall-methods/</a></p>
+<h5 id="如何控制某个方法允许并发访问线程的个数？"><a href="#如何控制某个方法允许并发访问线程的个数？" class="headerlink" title="如何控制某个方法允许并发访问线程的个数？"></a>如何控制某个方法允许并发访问线程的个数？</h5><p>​    信号量</p>
+<h5 id="什么导致线程阻塞？"><a href="#什么导致线程阻塞？" class="headerlink" title="什么导致线程阻塞？"></a>什么导致线程阻塞？</h5><ol>
+<li>阻塞指的是暂停一个线程的执行以等待某个条件发生。 Thread.sleep t.join 等待输入</li>
+<li>线程执行了一个对象的<code>wait()</code>方法，直接进入阻塞状态，等待其他线程执行<code>notify()</code>或者<code>notifyAll()</code>方法。</li>
+</ol>
+<h5 id="如何保证线程安全？"><a href="#如何保证线程安全？" class="headerlink" title="如何保证线程安全？"></a>如何保证线程安全？</h5><pre><code class="hljs">1. 使用线程安全的类。
+2. 使用synchronized同步代码块，或者用Lock锁。
+</code></pre>
+<h5 id="如何实现线程同步？"><a href="#如何实现线程同步？" class="headerlink" title="如何实现线程同步？"></a>如何实现线程同步？</h5><pre><code class="hljs"> 1. Synchronized修饰整个方法或代码块。
+ 2. Lock
+</code></pre>
+<h5 id="两个进程同时要求写或者读，能不能实现？如何防止进程的同步？"><a href="#两个进程同时要求写或者读，能不能实现？如何防止进程的同步？" class="headerlink" title="两个进程同时要求写或者读，能不能实现？如何防止进程的同步？"></a>两个进程同时要求写或者读，能不能实现？如何防止进程的同步？</h5><p>​    可以进行同时读写，但为了保证数据的正确，必须要针对进程访问的共享临界区进行处理；两个进程不能同时进入临界区，否则会导致数据错乱。常见的处理方式有：<strong>信号量、管程、会合、分布式系统</strong></p>
+<ul>
+<li><p><strong>信号量</strong><br> 信号量是一个计数器，它只支持2种操作：P操作（进入临界区）和V操作（退出临界区）。假设有信号量SV，则对它的P、V操作含义如下：<br>   P(SV)，如果SV的值大于0，意味着可以进入临界区，就将它减1；如果SV的值为0，意味着别的进程正在访问临界区，则挂起当前进程的执行；<br>   V(SV)，当前进程退出临界区时，如果有其他进程因为等待SV而挂起，则唤醒之；如果没有，则将SV加1，之后再退出临界区。</p>
+</li>
+<li><p><strong>管程</strong><br>  提出原因：信号量机制不足，程序编写困难、易出错</p>
+<pre><code class="hljs">  方案：在程序设计语言中引入一种高级维护机制
+  定义：是一个特殊的模块；有一个名字；由关于共享资源的数据结构及在其上操作上的一组过程组成。进程只能通过调用管程中的过程间接访问管程中的数据结构
+</code></pre>
+<p> 1）互斥：管程是互斥进入的 为了保证数据结构的数据完整性<br>管程的互斥由编译器负责保证的，是一种语言机制<br> 2）同步：设置条件变量及等待唤醒操作以解决同步问题<br>可以让一个进程或者线程在条件变量上等待（先释放管程的管理权），也可以通过发送信号将等待在条件变量上的进程线程唤醒</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/72f5017c6649">https://www.jianshu.com/p/72f5017c6649</a></p>
+</li>
+</ul>
+<h5 id="线程间操作List"><a href="#线程间操作List" class="headerlink" title="线程间操作List"></a>线程间操作List</h5><p>​    </p>
+<h5 id="怎么中止一个线程，Thread-Interupt一定有效吗？"><a href="#怎么中止一个线程，Thread-Interupt一定有效吗？" class="headerlink" title="怎么中止一个线程，Thread.Interupt一定有效吗？"></a>怎么中止一个线程，Thread.Interupt一定有效吗？</h5><p>不一定 </p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903896339447815#heading-6">https://juejin.cn/post/6844903896339447815#heading-6</a></p>
+<h3 id="线程安全-锁"><a href="#线程安全-锁" class="headerlink" title="线程安全 锁"></a>线程安全 锁</h3><h5 id="讲一下java中的同步的方法-结果锁一起"><a href="#讲一下java中的同步的方法-结果锁一起" class="headerlink" title="讲一下java中的同步的方法 结果锁一起"></a>讲一下java中的同步的方法 结果锁一起</h5><ol>
+<li><p>synchronized  </p>
+</li>
+<li><p>wait和notify</p>
+</li>
+<li><p>volatile</p>
+<p>  a. volatile关键字为域变量的访问提供了一种免锁机制<br>  b.使用volatile修饰域相当于告诉虚拟机该域可能会被其他线程更新<br>  c.因此每次使用该域就要重新计算，而不是使用寄存器中的值<br>  d.volatile不会提供任何原子操作，它也不能用来修饰final类型的变量 </p>
+</li>
+</ol>
+<h5 id="synchronize的原理"><a href="#synchronize的原理" class="headerlink" title="synchronize的原理"></a>synchronize的原理</h5><blockquote>
+<ol>
+<li>原子性：确保线程互斥的访问同步代码；</li>
+<li>可见性：保证共享变量的修改能够及时可见，其实是通过Java内存模型中的 “<strong>对一个变量unlock操作之前，必须要同步到主内存中；如果对一个变量进行lock操作，则将会清空工作内存中此变量的值，在执行引擎使用此变量前，需要重新从主内存中load操作或assign操作初始化变量值</strong>” 来保证的；</li>
+<li>有序性：有效解决重排序问题，即 “一个unlock操作先行发生(happen-before)于后面对同一个锁的lock操作”；</li>
+</ol>
+</blockquote>
+<h5 id="谈谈对Synchronized关键字，类锁，方法锁，重入锁的理解"><a href="#谈谈对Synchronized关键字，类锁，方法锁，重入锁的理解" class="headerlink" title="谈谈对Synchronized关键字，类锁，方法锁，重入锁的理解"></a>谈谈对Synchronized关键字，类锁，方法锁，重入锁的理解</h5><ol>
+<li>当synchronized作用于普通方法是，锁对象是this；</li>
+<li>当synchronized作用于静态方法是，锁对象是当前类的Class对象；</li>
+<li>当synchronized作用于代码块时，锁对象是synchronized(obj)中的这个obj。</li>
+</ol>
+<h5 id="static-synchronized-方法的多线程访问和作用"><a href="#static-synchronized-方法的多线程访问和作用" class="headerlink" title="static synchronized 方法的多线程访问和作用"></a>static synchronized 方法的多线程访问和作用</h5><p>也就是两个的区别了,也就是synchronized相当于this.synchronized，而static synchronized相当于Something.synchronized，它可以对类的所有对象实例起作用</p>
+<h5 id="synchronized与Lock的区别"><a href="#synchronized与Lock的区别" class="headerlink" title="synchronized与Lock的区别"></a>synchronized与Lock的区别</h5><p>Lock支持的功能:</p>
+<p>公平锁：Synchronized是非公平锁，ReentrantLock支持公平锁，默认非公平锁</p>
+<p>可中断锁：ReentrantLock提供了lockInterruptibly（）的功能，可以中断争夺锁的操作，抢锁的时候会check是否被中断，中断直接抛出异常，退出抢锁。而Synchronized只有抢锁的过程，不可干预，直到抢到锁以后，才可以编码控制锁的释放。</p>
+<p>快速反馈锁：ReentrantLock提供了trylock（）  和 trylock（tryTimes）的功能，不等待或者限定时间等待获取锁，更灵活。可以避免死锁的发生。</p>
+<p>读写锁：ReentrantReadWriteLock类实现了读写锁的功能，类似于Mysql，锁自身维护一个计数器，读锁可以并发的获取，写锁只能独占。而synchronized全是独占锁</p>
+<p>Condition：ReentrantLock提供了比Sync更精准的线程调度工具，Condition，一个lock可以有多个Condition，比如在生产消费的业务下，一个锁通过控制生产Condition和消费Condition精准控制。</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/09d5ba4bfb7a">https://www.jianshu.com/p/09d5ba4bfb7a</a></p>
+<h5 id="ReentrantLock的内部实现"><a href="#ReentrantLock的内部实现" class="headerlink" title="ReentrantLock的内部实现"></a>ReentrantLock的内部实现</h5><p>显式锁ReentrantLock和同步工具类的实现基础都是AQS (AbstractQueuedSynchronizer).AQS内部有一条双向的队列存放等待线程，节点是Node对象。每个Node维护了线程、前后Node的指针和等待状态等参数。</p>
+<p>ReentrantLock是可重入锁，也就是同一个线程可以多次获取锁，每获取一次就会进行一次计数，解锁的时候就会递减这个计数，直到计数变为0。</p>
+<p>它有两种实现，一种是公平锁，一种是非公平锁，</p>
+<h5 id="lock原理"><a href="#lock原理" class="headerlink" title="lock原理"></a>lock原理</h5><p>整体来看Lock主要是通过两个东西来实现的分别是<strong>CAS和AQS(AbstractQueuedSynchronizer)。</strong>通过加锁和解锁的过程来分析锁的实现。</p>
+<p>一、整体概述流程</p>
+<ol>
+<li><p>读取表示锁状态的变量</p>
+</li>
+<li><p>如果表示状态的变量的值为0，那么当前线程尝试将变量值设置为1（通过CAS操作完成），当多个线程同时将表示状态的变量值由0设置成1时，仅一个线程能成功，其它线程都会失败。失败后进入队列自旋转并阻塞当前线程。</p>
+<p>  2.1 若成功，表示获取了锁，</p>
+<blockquote>
+<p>2.1.1 如果该线程（或者说节点）已位于在队列中，则将其出列（并将下一个节点则变成了队列的头节点）</p>
+</blockquote>
+<blockquote>
+<p>2.1.2 如果该线程未入列，则不用对队列进行维护</p>
+</blockquote>
+<blockquote>
+<p>2.1.3 然后当前线程从lock方法中返回，对共享资源进行访问。           </p>
+</blockquote>
+<p>   2.2 若失败，则当前线程将自身放入等待（锁的）队列中并阻塞自身，此时线程一直被阻塞在lock方法中，没有从该方法中返回（被唤醒后仍然在lock方法中，并从下一条语句继续执行，这里又会回到第1步重新开始）。</p>
+</li>
+<li><p>如果表示状态的变量的值为1，那么将当前线程放入等待队列中，然后将自身阻塞<br> <a target="_blank" rel="noopener" href="https://blog.csdn.net/liyantianmin/article/details/54673109">https://blog.csdn.net/liyantianmin/article/details/54673109</a></p>
+</li>
+</ol>
+<h5 id="死锁的四个必要条件？"><a href="#死锁的四个必要条件？" class="headerlink" title="死锁的四个必要条件？"></a>死锁的四个必要条件？</h5><ol>
+<li>互斥条件: 指线程对己经获取到的资源进行排它性使用 ，即该资源同时只由 一个线<br>程占用。如果 此时 还有其 他 线程请求获取该资源 ，则 请求者只能等待，直至占有资<br>源 的 线程释放该资源。</li>
+<li>请求并持有条件 : 指一个线程己经持有了至少一个资源，但又提出了新的资源请求，<br>而新资源己被其 他 线程占有，所 以 当前线程会被阻塞 ，但 阻塞 的同时 并不释放自 己<br>己经获取的资源。</li>
+<li>不可剥夺条件 : 指线程获取到的资源在自己使用完之前不能被其他线程抢占 ， 只有在自己使用完 毕后才 由 自 己释放该资源。</li>
+<li>环路等待条件 : 指在发生死锁时 ，必然存在一个线程→资源的环形链 ，即线程集合</li>
+</ol>
+<h5 id="怎么避免死锁？"><a href="#怎么避免死锁？" class="headerlink" title="怎么避免死锁？"></a>怎么避免死锁？</h5><p>请求并持有和环路等待条件是可 以被破坏.</p>
+<h5 id="synchronized是公平锁还是非公平锁-ReteranLock是公平锁吗？是怎么实现的"><a href="#synchronized是公平锁还是非公平锁-ReteranLock是公平锁吗？是怎么实现的" class="headerlink" title="synchronized是公平锁还是非公平锁,ReteranLock是公平锁吗？是怎么实现的"></a>synchronized是公平锁还是非公平锁,ReteranLock是公平锁吗？是怎么实现的</h5><ol>
+<li>synchronized只能是非公平锁。</li>
+<li>而ReentrantLock可以实现公平锁和非公平锁两种。</li>
+<li>公平锁的公平的含义在于如果线程现在拿不到这把锁，那么线程就都会进入等待，开始排队，在等待队列里等待时间长的线程会优先拿到这把锁，有先来先得的意思。而非公平锁就不那么“完美”了，它会在一定情况下，忽略掉已经在排队的线程，发生插队现象</li>
+</ol>
+<h5 id="synchronized跟ReentranLock有什么区别？"><a href="#synchronized跟ReentranLock有什么区别？" class="headerlink" title="synchronized跟ReentranLock有什么区别？"></a>synchronized跟ReentranLock有什么区别？</h5><p>都是加锁方式同步，而且都是阻塞式的同步，也就是说当如果一个线程获得了对象锁，进入了同步块，其他访问该同步块的线程都必须阻塞在同步块外面等待</p>
+<ul>
+<li><p>synchronized</p>
+<p><strong>自动释放锁</strong>,只有非公平锁。都是可重入的</p>
+</li>
+<li><p>ReentrantLock</p>
+<p> <strong>手动释放锁</strong></p>
+</li>
+</ul>
+<h5 id="对象锁和类锁是否会互相影响？"><a href="#对象锁和类锁是否会互相影响？" class="headerlink" title="对象锁和类锁是否会互相影响？"></a>对象锁和类锁是否会互相影响？</h5><p>不会相互影响</p>
+<ul>
+<li><p>类锁</p>
+<p>在代码中的方法上加了static和synchronized的锁，或者synchronized(xxx.class）的代码段</p>
+</li>
+<li><p>对象锁</p>
+<p>在代码中的方法上加了synchronized的锁，或者synchronized(this）的代码段</p>
+</li>
+<li><p>私有锁</p>
+<p>在类内部声明一个私有属性如private Object lock，在需要加锁的代码段synchronized(lock）</p>
+</li>
+</ul>
+<h5 id="管理线程-提高效率"><a href="#管理线程-提高效率" class="headerlink" title="管理线程 提高效率"></a>管理线程 提高效率</h5><h5 id="volatile的原理"><a href="#volatile的原理" class="headerlink" title="volatile的原理"></a>volatile的原理</h5><p> 有序性.</p>
+<p> 可见性 :</p>
+<p>　    （1）修改volatile变量时会强制将修改后的值刷新的主内存中。</p>
+<p>　　（2）修改volatile变量后会导致其他线程工作内存中对应的变量值失效。因此，再读取该变量值的时候就需要重新从读取主内存中的值。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/paddix/p/5428507.html">https://www.cnblogs.com/paddix/p/5428507.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1NT4y1G7WE?p=8">https://www.bilibili.com/video/BV1NT4y1G7WE?p=8</a></p>
+<h5 id="synchronized-和volatile-关键字的区别"><a href="#synchronized-和volatile-关键字的区别" class="headerlink" title="synchronized 和volatile 关键字的区别"></a>synchronized 和volatile 关键字的区别</h5><ol>
+<li>volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性</li>
+<li>volatile标记的变量不会被编译器优化；synchronized标记的变量可以被编译器优化.</li>
+</ol>
+<p>多线程断点续传原理</p>
+<p>其实原理很简单，只需要保证每个子任务的下载进度能够被即时地记录即可。这样继续下载时只需要读取这些下载记录，从上次下载结束的位置开始下载即可。</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904013440221198">https://juejin.cn/post/6844904013440221198</a></p>
+<h3 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h3><h5 id="JavaAPI线程池有哪些参数"><a href="#JavaAPI线程池有哪些参数" class="headerlink" title="JavaAPI线程池有哪些参数"></a>JavaAPI线程池有哪些参数</h5><p><img src="https://s0.lgstatic.com/i/image2/M01/AD/A3/CgoB5l3eH8mAAoJCAACEOKMHtpw036.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://s0.lgstatic.com/i/image2/M01/AD/A3/CgoB5l3eH-KAAHpkAAC4vEMOXQ4797.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="为什么要用线程池"><a href="#为什么要用线程池" class="headerlink" title="为什么要用线程池"></a>为什么要用线程池</h5><ol>
+<li>降低资源消耗2. 提高响应速度3. 提高线程的可管理性</li>
+</ol>
+<h5 id="什么是线程池，如何使用"><a href="#什么是线程池，如何使用" class="headerlink" title="什么是线程池，如何使用?"></a>什么是线程池，如何使用?</h5><p>很多小任务让一组线程来执行，而不是一个任务对应一个新线程。这种能接收大量小任务并进行分发处理的就是线程池</p>
+<h5 id="什么是核心线程"><a href="#什么是核心线程" class="headerlink" title="什么是核心线程"></a>什么是核心线程</h5><p>​    常驻线程池的线程数量</p>
+<h5 id="怎么销毁核心线程"><a href="#怎么销毁核心线程" class="headerlink" title="怎么销毁核心线程"></a>怎么销毁核心线程</h5><p>​    allowCoreThreadTimeOut</p>
+<p>​    <a target="_blank" rel="noopener" href="https://objcoding.com/2019/04/14/threadpool-some-settings/">https://objcoding.com/2019/04/14/threadpool-some-settings/</a></p>
+<h5 id="为什么DCL-DOUBLE-CHECK-LOCK要那么写，直接在方法前加synchronized不行吗"><a href="#为什么DCL-DOUBLE-CHECK-LOCK要那么写，直接在方法前加synchronized不行吗" class="headerlink" title="为什么DCL DOUBLE CHECK LOCK要那么写，直接在方法前加synchronized不行吗"></a>为什么DCL DOUBLE CHECK LOCK要那么写，直接在方法前加synchronized不行吗</h5><p>​    不DCL 这样写，就会创建多个实例</p>
+<p>​    synchronized可以，这样粒度太大了.</p>
+<p>​    <a target="_blank" rel="noopener" href="https://blog.csdn.net/zhaoyajie1011/article/details/106812327">https://blog.csdn.net/zhaoyajie1011/article/details/106812327</a></p>
+<h5 id="如何让两个线程循环交替打印"><a href="#如何让两个线程循环交替打印" class="headerlink" title="如何让两个线程循环交替打印"></a>如何让两个线程循环交替打印</h5><p>LockSupport_1A2B.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java">  <span class="hljs-type">char</span>[] aI = <span class="hljs-string">&quot;1234567&quot;</span>.toCharArray();<br>        <span class="hljs-type">char</span>[] aC = <span class="hljs-string">&quot;ABCDEFG&quot;</span>.toCharArray();<br><br>        t1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(() -&gt; &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> c : aI) &#123;<br>                System.out.print(c);<br>                LockSupport.unpark(t2);<br>                LockSupport.park();<br>            &#125;<br>            LockSupport.unpark(t2);<br>        &#125;);<br>        t2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(() -&gt; &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> c : aC) &#123;<br>                System.out.print(c);<br>                LockSupport.unpark(t1);<br>                LockSupport.park();<br>            &#125;<br>            LockSupport.unpark(t1);<br>        &#125;);<br>        t1.start();<br>        t2.start();<br><span class="hljs-comment">//        System.out.println(&quot;t1  &quot; + t1.getState());</span><br><span class="hljs-comment">//        System.out.println(&quot;t2  &quot; + t2.getState());</span><br>        t1.join();<br>        t2.join();<br></code></pre></td></tr></table></figure>
+
+<p>Notify_1A2B.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Notify_1A2B</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Notify_1A2B</span>();<br><span class="hljs-type">char</span>[] aI = <span class="hljs-string">&quot;1234567&quot;</span>.toCharArray();<br><span class="hljs-type">char</span>[] aC = <span class="hljs-string">&quot;ABCDEFG&quot;</span>.toCharArray();<br>t1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(() -&gt; &#123;<br>    <span class="hljs-keyword">synchronized</span> (o) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> c : aI) &#123;<br>            System.out.print(c);<br>            o.notify();<br>            <span class="hljs-keyword">try</span> &#123;<br>                o.wait();<br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>    &#125;<br><br>&#125;);<br>t2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(() -&gt; &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-keyword">synchronized</span> (o) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> c : aC) &#123;<br>                System.out.print(c);<br>                o.notify();<br>                o.wait();<br>            &#125;<br>        &#125;<br>    &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>        e.printStackTrace();<br>    &#125;<br>&#125;);<br>t1.start();<br>t2.start();<br>t1.join();<br>t2.join();<br></code></pre></td></tr></table></figure>
+
+<p>协程可以在Java项目中使用吗？</p>
+<p>线程池了解多少？拒绝策略有几种,为什么有newSingleThread</p>
+<h5 id="跨进程通信了解多少？管道了解吗？"><a href="#跨进程通信了解多少？管道了解吗？" class="headerlink" title="跨进程通信了解多少？管道了解吗？"></a>跨进程通信了解多少？管道了解吗？</h5><pre><code class="hljs">文件
+AIDL （基于 Binder）
+    Android 进阶：进程通信之 AIDL 的使用
+    Android 进阶：进程通信之 AIDL 解析
+Binder
+    Android 进阶：进程通信之 Binder 机制浅析
+Messenger （基于 Binder）
+    Android 进阶：进程通信之 Messenger 使用与解析 
+ContentProvider （基于 Binder）
+    Android 进阶：进程通信之 ContentProvider 内容提供者 
+Socket
+    Android 进阶：进程通信之 Socket （顺便回顾 TCP UDP）
+</code></pre>
+<p><img src="https://img-blog.csdn.net/20170605011532312?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTI0MDg3Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" srcset="/img/loading.gif" lazyload><br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011240877/article/details/72863432">https://blog.csdn.net/u011240877/article/details/72863432</a></p>
+<h5 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h5><ul>
+<li>RXJava怎么切换线程</li>
+<li>binder进程间通信可以调用原进程方法吗？</li>
+<li>SharedPreference原理？读取xml是在哪个线程?</li>
+<li>AQS了解吗？</li>
+<li>ConcurrentHashMap，线程安全，为何安全。底层实现是怎么样的。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63859501">https://www.zhihu.com/question/63859501</a></p>
+<h5 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h5><p><a target="_blank" rel="noopener" href="http://gee.cs.oswego.edu/dl/papers/aqs.pdf">http://gee.cs.oswego.edu/dl/papers/aqs.pdf</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV11Q4y1M7K2?from=search&amp;seid=12598203519866117819">https://www.bilibili.com/video/BV11Q4y1M7K2?from=search&amp;seid=12598203519866117819</a></p>
+<p><a target="_blank" rel="noopener" href="https://javadoop.com/post/AbstractQueuedSynchronizer">https://javadoop.com/post/AbstractQueuedSynchronizer</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1yJ411v7er?from=search&amp;seid=12598203519866117819">https://www.bilibili.com/video/BV1yJ411v7er?from=search&amp;seid=12598203519866117819</a></p>
+<h5 id="阻塞队列原理"><a href="#阻塞队列原理" class="headerlink" title="阻塞队列原理"></a>阻塞队列原理</h5><p><img src="https://s0.lgstatic.com/i/image3/M01/62/7D/Cgq2xl4le9SAL6enAAGpXZi8Wcg079.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>阻塞功能:阻塞功能使得生产者和消费者两端的能力得以平衡，当有任何一端速度过快时，阻塞队列便会把过快的速度给降下来</p>
+<p>是否有界</p>
+<ul>
+<li>LinkedBlockingQueue 的上限是 Integer.MAX_VALUE，约为 2 的 31 次方,</li>
+<li>ArrayBlockingQueue 如果容量满了，也不会扩容，所以一旦满了就无法再往里放数据了。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/inter/" class="print-no-link">#inter</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>INTERVIEW_CONCURRENCY</div>
+      <div>https://noteforme.github.io/2018/07/02/INTERVIEW-CONCURRENCY/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>July 2, 2018</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/07/04/Bluetooth01/" title="Bluetooth01">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Bluetooth01</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/06/22/INTERVIEW-SENIOR/" title="INTERVIEW_SENIOR">
+                        <span class="hidden-mobile">INTERVIEW_SENIOR</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

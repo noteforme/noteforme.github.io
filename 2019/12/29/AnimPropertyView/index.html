@@ -1,0 +1,754 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="估值器（TypeEvaluator）设置动画 如何从初始值 过渡到 结束值 的逻辑  插值器（Interpolator）决定 值 的变化模式（匀速、加速） 估值器（TypeEvaluator）决定 值 的具体变化数值  ValueAnimator实现原理 : 通过不断控制 值的变化， 再不断赋值给对象的属性，从而实现动画的效果。   从上面原理可以看出：ValueAnimator类中有3个重要方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AnimPropertyView">
+<meta property="og:url" content="https://noteforme.github.io/2019/12/29/AnimPropertyView/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="估值器（TypeEvaluator）设置动画 如何从初始值 过渡到 结束值 的逻辑  插值器（Interpolator）决定 值 的变化模式（匀速、加速） 估值器（TypeEvaluator）决定 值 的具体变化数值  ValueAnimator实现原理 : 通过不断控制 值的变化， 再不断赋值给对象的属性，从而实现动画的效果。   从上面原理可以看出：ValueAnimator类中有3个重要方法">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://noteforme.github.io/2019/12/29/AnimPropertyView/Screen%20Shot%202021-01-31%20at%2010.02.48%20PM.png">
+<meta property="article:published_time" content="2019-12-29T14:23:37.000Z">
+<meta property="article:modified_time" content="2021-08-19T11:11:43.546Z">
+<meta property="article:author" content="Jon">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://noteforme.github.io/2019/12/29/AnimPropertyView/Screen%20Shot%202021-01-31%20at%2010.02.48%20PM.png">
+  
+  
+  
+  <title>AnimPropertyView - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="AnimPropertyView"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-12-29 22:23" pubdate>
+          December 29, 2019 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">AnimPropertyView</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="估值器（TypeEvaluator）"><a href="#估值器（TypeEvaluator）" class="headerlink" title="估值器（TypeEvaluator）"></a>估值器（TypeEvaluator）</h4><p>设置动画 如何从初始值 过渡到 结束值 的逻辑</p>
+<ul>
+<li>插值器（<code>Interpolator</code>）决定 值 的变化模式（匀速、加速）</li>
+<li>估值器（<code>TypeEvaluator</code>）决定 值 的具体变化数值</li>
+</ul>
+<h4 id="ValueAnimator"><a href="#ValueAnimator" class="headerlink" title="ValueAnimator"></a>ValueAnimator</h4><p>实现原理 : 通过不断控制 值的变化， 再不断赋值给对象的属性，从而实现动画的效果。</p>
+<img src="/2019/12/29/AnimPropertyView/Screen Shot 2021-01-31 at 10.02.48 PM.png" srcset="/img/loading.gif" lazyload style="zoom:80%;">
+
+<p>从上面原理可以看出：<code>ValueAnimator</code>类中有3个重要方法：</p>
+<ol>
+<li><code>ValueAnimator.ofInt（int values）</code></li>
+<li><code>ValueAnimator.ofFloat（float values）</code></li>
+<li><code>ValueAnimator.ofObject（int values）</code></li>
+</ol>
+<h4 id="ValueAnimator-ofInt（int-values）"><a href="#ValueAnimator-ofInt（int-values）" class="headerlink" title="ValueAnimator.ofInt（int values）"></a>ValueAnimator.ofInt（int values）</h4><p>将初始值 <strong>以整型数值的形式</strong> 过渡到结束值</p>
+<blockquote>
+<p>即估值器是整型估值器 - <code>IntEvaluator</code></p>
+</blockquote>
+<h5 id="模板代码"><a href="#模板代码" class="headerlink" title="模板代码"></a>模板代码</h5><p>实际开发中，建议使用Java代码实现属性动画：因为很多时候属性的起始值是无法提前确定的（无法使用XML设置），这就需要在<code>Java</code>代码里动态获取。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 步骤1：设置动画属性的初始值 &amp; 结束值</span></span><br><span class="line">ValueAnimator anim = ValueAnimator.ofInt(<span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">        <span class="comment">// ofInt（）作用有两个</span></span><br><span class="line">        <span class="comment">// 1. 创建动画实例</span></span><br><span class="line">        <span class="comment">// 2. 将传入的多个Int参数进行平滑过渡:此处传入0和1,表示将值从0平滑过渡到1</span></span><br><span class="line">        <span class="comment">// 如果传入了3个Int参数 a,b,c ,则是先从a平滑过渡到b,再从b平滑过渡到C，以此类推</span></span><br><span class="line">        <span class="comment">// ValueAnimator.ofInt()内置了整型估值器,直接采用默认的.不需要设置，即默认设置了如何从初始值 过渡到 结束值</span></span><br><span class="line">        <span class="comment">// 关于自定义插值器我将在下节进行讲解</span></span><br><span class="line">        <span class="comment">// 下面看看ofInt()的源码分析 -&gt;&gt;关注1</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">// 步骤2：设置动画的播放各种属性</span></span><br><span class="line">        anim.setDuration(<span class="number">500</span>);</span><br><span class="line">        <span class="comment">// 设置动画运行的时长</span></span><br><span class="line">        </span><br><span class="line">        anim.setStartDelay(<span class="number">500</span>);</span><br><span class="line">        <span class="comment">// 设置动画延迟播放时间</span></span><br><span class="line"></span><br><span class="line">        anim.setRepeatCount(<span class="number">0</span>);</span><br><span class="line">        <span class="comment">// 设置动画重复播放次数 = 重放次数+1</span></span><br><span class="line">        <span class="comment">// 动画播放次数 = infinite时,动画无限重复</span></span><br><span class="line">        </span><br><span class="line">        anim.setRepeatMode(ValueAnimator.RESTART);</span><br><span class="line">        <span class="comment">// 设置重复播放动画模式</span></span><br><span class="line">        <span class="comment">// ValueAnimator.RESTART(默认):正序重放</span></span><br><span class="line">        <span class="comment">// ValueAnimator.REVERSE:倒序回放</span></span><br><span class="line">     </span><br><span class="line"><span class="comment">// 步骤3：将改变的值手动赋值给对象的属性值：通过动画的更新监听器</span></span><br><span class="line">        <span class="comment">// 设置 值的更新监听器</span></span><br><span class="line">        <span class="comment">// 即：值每次改变、变化一次,该方法就会被调用一次</span></span><br><span class="line">        anim.addUpdateListener(<span class="keyword">new</span> ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">int</span> currentValue = (Integer) animation.getAnimatedValue();</span><br><span class="line">                <span class="comment">// 获得改变后的值</span></span><br><span class="line">                </span><br><span class="line">                System.out.println(currentValue);</span><br><span class="line">                <span class="comment">// 输出改变后的值</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 步骤4：将改变后的值赋给对象的属性值，下面会详细说明</span></span><br><span class="line">                View.setproperty（currentValue）；</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 步骤5：刷新视图，即重新绘制，从而实现动画效果</span></span><br><span class="line">                View.requestLayout();</span><br><span class="line">                </span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        anim.start();</span><br><span class="line">        <span class="comment">// 启动动画</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关注1：ofInt（）源码分析</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ValueAnimator <span class="title">ofInt</span><span class="params">(<span class="keyword">int</span>... values)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 允许传入一个或多个Int参数</span></span><br><span class="line">        <span class="comment">// 1. 输入一个的情况（如a）：从0过渡到a；</span></span><br><span class="line">        <span class="comment">// 2. 输入多个的情况（如a，b，c）：先从a平滑过渡到b，再从b平滑过渡到C</span></span><br><span class="line">        </span><br><span class="line">        ValueAnimator anim = <span class="keyword">new</span> ValueAnimator();</span><br><span class="line">        <span class="comment">// 创建动画对象</span></span><br><span class="line">        anim.setIntValues(values);</span><br><span class="line">        <span class="comment">// 将传入的值赋值给动画对象</span></span><br><span class="line">        <span class="keyword">return</span> anim;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="XML设置"><a href="#XML设置" class="headerlink" title="XML设置"></a>XML设置</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// ValueAnimator采用<span class="tag">&lt;<span class="name">animator</span>&gt;</span>  标签</span><br><span class="line"><span class="tag">&lt;<span class="name">animator</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">android:valueFrom</span>=<span class="string">&quot;0&quot;</span>   // 初始值</span></span><br><span class="line"><span class="tag">    <span class="attr">android:valueTo</span>=<span class="string">&quot;100&quot;</span>  // 结束值</span></span><br><span class="line"><span class="tag">    <span class="attr">android:valueType</span>=<span class="string">&quot;intType&quot;</span> // 变化值类型 ：<span class="attr">floatType</span> &amp; <span class="attr">intType</span></span></span><br><span class="line"><span class="tag"></span></span><br><span class="line"><span class="tag">    <span class="attr">android:duration</span>=<span class="string">&quot;3000&quot;</span> // 动画持续时间（<span class="attr">ms</span>），必须设置，动画才有效果</span></span><br><span class="line"><span class="tag">    <span class="attr">android:startOffset</span> =<span class="string">&quot;1000&quot;</span> // 动画延迟开始时间（<span class="attr">ms</span>）</span></span><br><span class="line"><span class="tag">    <span class="attr">android:fillBefore</span> = <span class="string">“true”</span> // 动画播放完后，视图是否会停留在动画开始的状态，默认为<span class="attr">true</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:fillAfter</span> = <span class="string">“false”</span> // 动画播放完后，视图是否会停留在动画结束的状态，优先于<span class="attr">fillBefore</span>值，默认为<span class="attr">false</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:fillEnabled</span>= <span class="string">“true”</span> // 是否应用<span class="attr">fillBefore</span>值，对<span class="attr">fillAfter</span>值无影响，默认为<span class="attr">true</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:repeatMode</span>= <span class="string">“restart”</span> // 选择重复播放动画模式，<span class="attr">restart</span>代表正序重放，<span class="attr">reverse</span>代表倒序回放，默认为<span class="attr">restart</span>|</span></span><br><span class="line"><span class="tag">    <span class="attr">android:repeatCount</span> = <span class="string">“0”</span> // 重放次数（所以动画的播放次数=<span class="string">重放次数+1），为infinite时无限重复</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:interpolator</span> = <span class="string">@[package:]anim/interpolator_resource</span> // 插值器，即影响动画的播放速度,下面会详细讲</span></span><br><span class="line"><span class="tag">/&gt;</span>  </span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Animator animator = AnimatorInflater.loadAnimator(context, R.animator.set_animation);  </span><br><span class="line"><span class="comment">// 载入XML动画</span></span><br><span class="line"></span><br><span class="line">animator.setTarget(view);  </span><br><span class="line"><span class="comment">// 设置动画对象</span></span><br><span class="line"></span><br><span class="line">animator.start();  </span><br><span class="line"><span class="comment">// 启动动画</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h5><p>按钮的宽度从 <code>200px</code> 放大到 <code>500px</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Button</span><br><span class="line">    android:id=&quot;@+id/bt_value_anim&quot;</span><br><span class="line">    android:layout_width=&quot;200px&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:layout_centerInParent=&quot;true&quot;</span><br><span class="line">    android:text=&quot;动画&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>？代码设置初始值</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 步骤1：设置属性数值的初始值(此处在xml中200) &amp; 结束值(600)</span></span><br><span class="line"><span class="keyword">val</span> valueAnimator = ValueAnimator.ofInt(bt_value_anim.layoutParams.width, <span class="number">600</span>)</span><br><span class="line">    <span class="comment">// ValueAnimator.ofInt()内置了整型估值器,直接采用默认的.不需要设置</span></span><br><span class="line">       <span class="comment">// 即默认设置了如何从初始值200 过渡到 结束值500</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 步骤2：设置动画的播放各种属性</span></span><br><span class="line">valueAnimator.duration = <span class="number">2000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 步骤3：将改变的值手动赋值给对象的属性值：通过动画的更新监听器</span></span><br><span class="line">        <span class="comment">// 设置 值的更新监听器</span></span><br><span class="line">        <span class="comment">// 即：值每次改变、变化一次,该方法就会被调用一次</span></span><br><span class="line">valueAnimator.addUpdateListener &#123;</span><br><span class="line">    <span class="keyword">val</span> currentValue = it.animatedValue</span><br><span class="line">    <span class="comment">// 获得每次变化后的属性值</span></span><br><span class="line">    Timber.d(<span class="string">&quot;currentValue <span class="variable">$currentValue</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 每次值变化时，将值手动赋值给对象的属性</span></span><br><span class="line">    bt_value_anim.layoutParams.width = currentValue <span class="keyword">as</span> <span class="built_in">Int</span></span><br><span class="line">    <span class="comment">// 即将每次变化后的值 赋 给按钮的宽度，这样就实现了按钮宽度属性的动态变化</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 步骤4：刷新视图，即重新绘制，从而实现动画效果</span></span><br><span class="line">    bt_value_anim.requestLayout()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">valueAnimator.start()</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="浮点型：ValueAnimator-oFloat（）"><a href="#浮点型：ValueAnimator-oFloat（）" class="headerlink" title="浮点型：ValueAnimator.oFloat（）"></a>浮点型：ValueAnimator.oFloat（）</h4><p>将初始值 以浮点型数值的形式 过渡到结束值</p>
+<ul>
+<li><code>ValueAnimator.oFloat（）</code>采用默认的浮点型估值器 (<code>FloatEvaluator</code>)</li>
+<li><code>ValueAnimator.ofInt（）</code>采用默认的整型估值器（<code>IntEvaluator</code>）</li>
+</ul>
+<p>在使用上完全没有区别</p>
+<h5 id="ValueAnimator-ofObject（）"><a href="#ValueAnimator-ofObject（）" class="headerlink" title="ValueAnimator.ofObject（）"></a>ValueAnimator.ofObject（）</h5><p>将初始值 以对象的形式 过渡到结束值</p>
+<blockquote>
+<p>即通过操作 对象 实现动画效果</p>
+</blockquote>
+<h5 id="实战-1"><a href="#实战-1" class="headerlink" title="实战"></a>实战</h5><p>可以看到 <code>ValueAnimator.ofObject（）</code>的本质还是操作 <strong>值</strong>,将多个值封装到一个对象里的方式，同时对多个值一起操作</p>
+<p>PointEvaluator</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PointEvaluator</span> : <span class="type">TypeEvaluator</span>&lt;<span class="type">Point</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">evaluate</span><span class="params">(fraction: <span class="type">Float</span>, startValue: <span class="type">Point</span>?, endValue: <span class="type">Point</span>?)</span></span>: Point &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将动画初始值startValue 和 动画结束值endValue 强制类型转换成Point对象</span></span><br><span class="line">        <span class="keyword">val</span> startPoint = startValue</span><br><span class="line">        <span class="keyword">val</span> endPoint =  endValue</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 根据fraction来计算当前动画的x和y的值</span></span><br><span class="line">        <span class="keyword">val</span> x = startPoint!!.x + fraction * (endPoint!!.x - startPoint!!.x)</span><br><span class="line">        <span class="keyword">val</span> y = startPoint!!.y + fraction * (endPoint!!.y - startPoint!!.y)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将计算后的坐标封装到一个新的Point对象中并返回</span></span><br><span class="line">        <span class="keyword">val</span> point = Point(x,y)</span><br><span class="line">        <span class="keyword">return</span>  point</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Point</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span></span>(<span class="keyword">val</span> x: <span class="built_in">Float</span>, <span class="keyword">val</span> y: <span class="built_in">Float</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>MyView</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyView</span> : <span class="type">View &#123;</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(context: Context?, attrs: AttributeSet?) : <span class="keyword">super</span>(context, attrs)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置需要用到的变量</span></span><br><span class="line">    <span class="keyword">val</span> RADIUS = <span class="number">70f</span> <span class="comment">// 圆的半径 = 70</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> currentPoint <span class="comment">// 当前点坐标</span></span><br><span class="line">            : Point? = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">val</span> mPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply &#123;</span><br><span class="line">        color = Color.BLUE</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDraw</span><span class="params">(canvas: <span class="type">Canvas</span>?)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果当前点坐标为空(即第一次执行)</span></span><br><span class="line">        <span class="keyword">if</span> (currentPoint == <span class="literal">null</span>) &#123;</span><br><span class="line">            currentPoint = Point(RADIUS, RADIUS)</span><br><span class="line">            <span class="keyword">val</span> x = currentPoint?.x</span><br><span class="line">            <span class="keyword">val</span> y = currentPoint?.y</span><br><span class="line">            <span class="keyword">if</span> (x != <span class="literal">null</span> &amp;&amp; y != <span class="literal">null</span>) &#123;</span><br><span class="line">                canvas?.drawCircle(x, y, RADIUS, mPaint)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// (重点关注)将属性动画作用到View中</span></span><br><span class="line">            <span class="comment">// 步骤1:创建初始动画时的对象点  &amp; 结束动画时的对象点</span></span><br><span class="line">            <span class="comment">// (重点关注)将属性动画作用到View中</span></span><br><span class="line">            <span class="comment">// 步骤1:创建初始动画时的对象点  &amp; 结束动画时的对象点</span></span><br><span class="line">            <span class="keyword">val</span> startPoint = Point(RADIUS, RADIUS) <span class="comment">// 初始点为圆心(70,70)</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">val</span> endPoint = Point(<span class="number">700f</span>, <span class="number">1000f</span>) <span class="comment">// 结束点为(700,1000)</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 步骤2:创建动画对象 &amp; 设置初始值 和 结束值</span></span><br><span class="line">            <span class="keyword">val</span> anim = ValueAnimator.ofObject(PointEvaluator(), startPoint, endPoint)</span><br><span class="line">            <span class="comment">// 参数说明</span></span><br><span class="line">            <span class="comment">// 参数1：TypeEvaluator 类型参数 - 使用自定义的PointEvaluator(实现了TypeEvaluator接口)</span></span><br><span class="line">            <span class="comment">// 参数2：初始动画的对象点</span></span><br><span class="line">            <span class="comment">// 参数3：结束动画的对象点</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 步骤3：设置动画参数</span></span><br><span class="line">            anim.duration = <span class="number">5000</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 设置 值的更新监听器</span></span><br><span class="line">            <span class="comment">// 即每当坐标值（Point对象）更新一次,该方法就会被调用一次</span></span><br><span class="line">            anim.addUpdateListener &#123;</span><br><span class="line">                currentPoint = it.animatedValue <span class="keyword">as</span> Point?</span><br><span class="line">                <span class="comment">// 将每次变化后的坐标值（估值器PointEvaluator中evaluate（）返回的Piont对象值）到当前坐标值对象（currentPoint）</span></span><br><span class="line">                <span class="comment">// 从而更新当前坐标值（currentPoint）</span></span><br><span class="line">                Timber.d(<span class="string">&quot;currentPoint==null  <span class="subst">$&#123;currentPoint?.x&#125;</span>  <span class="subst">$&#123;currentPoint?.y&#125;</span>&quot;</span>)</span><br><span class="line">                <span class="comment">// 步骤4：每次赋值后就重新绘制，从而实现动画效果</span></span><br><span class="line">                invalidate()</span><br><span class="line">            &#125;</span><br><span class="line">            anim.start()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          </span><br><span class="line">          	<span class="comment">//除了第一次，后面每次都根据addUpdateListener回调，在这画圆</span></span><br><span class="line">          </span><br><span class="line">            <span class="comment">// 所以坐标值每改变一次,就会调用onDraw()一次,就会画一次圆,从而实现动画效果</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 在该点画一个圆:圆心 = (30,30),半径 = 30</span></span><br><span class="line">            <span class="keyword">val</span> x = currentPoint!!.x</span><br><span class="line">            <span class="keyword">val</span> y = currentPoint!!.y</span><br><span class="line">            canvas?.drawCircle(x, y, RADIUS, mPaint)</span><br><span class="line">					</span><br><span class="line">            Timber.d(<span class="string">&quot;currentPoint currentPoint!=null  <span class="subst">$&#123;currentPoint?.x&#125;</span>  <span class="subst">$&#123;currentPoint?.y&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="插值器"><a href="#插值器" class="headerlink" title="插值器"></a>插值器</h4><h5 id="xml设置"><a href="#xml设置" class="headerlink" title="xml设置"></a>xml设置</h5><p>当在XML文件设置插值器时，只需传入对应的插值器资源ID即可</p>
+<p>主要是设置插值器属性<code>android:interpolator</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">scale</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag"></span></span><br><span class="line"><span class="tag">    <span class="attr">android:interpolator</span>=<span class="string">&quot;@android:anim/overshoot_interpolator&quot;</span></span></span><br><span class="line"><span class="tag">    // 通过资源<span class="attr">ID</span>设置插值器</span></span><br><span class="line"><span class="tag">    <span class="attr">android:duration</span>=<span class="string">&quot;3000&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:fromXScale</span>=<span class="string">&quot;0.0&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:fromYScale</span>=<span class="string">&quot;0.0&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:pivotX</span>=<span class="string">&quot;50%&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:pivotY</span>=<span class="string">&quot;50%&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:toXScale</span>=<span class="string">&quot;2&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:toYScale</span>=<span class="string">&quot;2&quot;</span> /&gt;</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="代码设置"><a href="#代码设置" class="headerlink" title="代码设置"></a>代码设置</h5><p>当在Java代码设置插值器时，只需创建对应的插值器对象即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Button mButton = (Button) findViewById(R.id.Button);</span><br><span class="line"><span class="comment">// 步骤1:创建 需要设置动画的 视图View</span></span><br><span class="line"></span><br><span class="line">Animation alphaAnimation = <span class="keyword">new</span> AlphaAnimation(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line"><span class="comment">// 步骤2：创建透明度动画的对象 &amp; 设置动画效果</span></span><br><span class="line"></span><br><span class="line">alphaAnimation.setDuration(<span class="number">3000</span>);</span><br><span class="line">Interpolator overshootInterpolator = <span class="keyword">new</span> OvershootInterpolator();</span><br><span class="line"><span class="comment">// 步骤3：创建对应的插值器类对象</span></span><br><span class="line"></span><br><span class="line">alphaAnimation.setInterpolator(overshootInterpolator);</span><br><span class="line"><span class="comment">// 步骤4：给动画设置插值器</span></span><br><span class="line"></span><br><span class="line">mButton.startAnimation(alphaAnimation);</span><br><span class="line"><span class="comment">// 步骤5：播放动画</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="系统内置插值器"><a href="#系统内置插值器" class="headerlink" title="系统内置插值器"></a>系统内置插值器</h5><p>![](AnimPropertyView/Screen Shot 2021-02-01 at 10.57.34 AM.png)</p>
+<h5 id="自定义插值器"><a href="#自定义插值器" class="headerlink" title="自定义插值器"></a>自定义插值器</h5><p>​    根据动画的进度（0%-100%）计算出当前属性值改变的百分比</p>
+<p>​    自定义插值器需要实现 <code>Interpolator</code> / <code>TimeInterpolator</code>接口 &amp; 复写<code>getInterpolation（）</code></p>
+<ol>
+<li>补间动画 实现 <code>Interpolator</code>接口；属性动画实现<code>TimeInterpolator</code>接口</li>
+<li><code>TimeInterpolator</code>接口是属性动画中新增的，用于兼容<code>Interpolator</code>接口，这使得所有过去的<code>Interpolator</code>实现类都可以直接在属性动画使用</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Interpolator接口 tween动画</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Interpolator</span> </span>&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">// 内部只有一个方法</span></span><br><span class="line">     <span class="function"><span class="keyword">float</span> <span class="title">getInterpolation</span><span class="params">(<span class="keyword">float</span> input)</span> </span>&#123;  </span><br><span class="line">         <span class="comment">// 参数说明</span></span><br><span class="line">         <span class="comment">// input值值变化范围是0-1，且随着动画进度（0% - 100% ）均匀变化</span></span><br><span class="line">        <span class="comment">// 即动画开始时，input值 = 0；动画结束时input = 1</span></span><br><span class="line">        <span class="comment">// 而中间的值则是随着动画的进度（0% - 100%）在0到1之间均匀增加</span></span><br><span class="line">        </span><br><span class="line">      ...<span class="comment">// 插值器的计算逻辑</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> xxx；</span><br><span class="line">      <span class="comment">// 返回的值就是用于估值器继续计算的fraction值，下面会详细说明</span></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line"><span class="comment">// TimeInterpolator接口  属性动画</span></span><br><span class="line"><span class="comment">// 同上</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TimeInterpolator</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">float</span> <span class="title">getInterpolation</span><span class="params">(<span class="keyword">float</span> input)</span></span>;  </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="3">
+<li><p>匀速插值器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 匀速差值器：LinearInterpolator</span></span><br><span class="line"><span class="meta">@HasNativeInterpolator</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinearInterpolator</span> <span class="keyword">extends</span> <span class="title">BaseInterpolator</span> <span class="keyword">implements</span> <span class="title">NativeInterpolatorFactory</span> </span>&#123;  </span><br><span class="line">   <span class="comment">// 仅贴出关键代码</span></span><br><span class="line">  ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getInterpolation</span><span class="params">(<span class="keyword">float</span> input)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> input;  </span><br><span class="line">        <span class="comment">// 没有对input值进行任何逻辑处理，直接返回</span></span><br><span class="line">        <span class="comment">// 即input值 = fraction值</span></span><br><span class="line">        <span class="comment">// 因为input值是匀速增加的，因此fraction值也是匀速增加的，所以动画的运动情况也是匀速的，所以是匀速插值器</span></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 先加速再减速 差值器：AccelerateDecelerateInterpolator</span></span><br><span class="line"><span class="meta">@HasNativeInterpolator</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccelerateDecelerateInterpolator</span> <span class="keyword">implements</span> <span class="title">Interpolator</span>, <span class="title">NativeInterpolatorFactory</span> </span>&#123;  </span><br><span class="line">      <span class="comment">// 仅贴出关键代码</span></span><br><span class="line">  ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getInterpolation</span><span class="params">(<span class="keyword">float</span> input)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">float</span>)(Math.cos((input + <span class="number">1</span>) * Math.PI) / <span class="number">2.0f</span>) + <span class="number">0.5f</span>;</span><br><span class="line">        <span class="comment">// input的运算逻辑如下：</span></span><br><span class="line">        <span class="comment">// 使用了余弦函数，因input的取值范围是0到1，那么cos函数中的取值范围就是π到2π。</span></span><br><span class="line">        <span class="comment">// 而cos(π)的结果是-1，cos(2π)的结果是1</span></span><br><span class="line">        <span class="comment">// 所以该值除以2加上0.5后，getInterpolation()方法最终返回的结果值还是在0到1之间。只不过经过了余弦运算之后，最终的结果不再是匀速增加的了，而是经历了一个先加速后减速的过程</span></span><br><span class="line">        <span class="comment">// 所以最终，fraction值 = 运算后的值 = 先加速后减速</span></span><br><span class="line">        <span class="comment">// 所以该差值器是先加速再减速的</span></span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>先加速再减速 插值器：<code>AccelerateDecelerateInterpolator</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先加速再减速 差值器：AccelerateDecelerateInterpolator</span></span><br><span class="line"><span class="meta">@HasNativeInterpolator</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccelerateDecelerateInterpolator</span> <span class="keyword">implements</span> <span class="title">Interpolator</span>, <span class="title">NativeInterpolatorFactory</span> </span>&#123;  </span><br><span class="line">      <span class="comment">// 仅贴出关键代码</span></span><br><span class="line">  ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getInterpolation</span><span class="params">(<span class="keyword">float</span> input)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">float</span>)(Math.cos((input + <span class="number">1</span>) * Math.PI) / <span class="number">2.0f</span>) + <span class="number">0.5f</span>;</span><br><span class="line">        <span class="comment">// input的运算逻辑如下：</span></span><br><span class="line">        <span class="comment">// 使用了余弦函数，因input的取值范围是0到1，那么cos函数中的取值范围就是π到2π。</span></span><br><span class="line">        <span class="comment">// 而cos(π)的结果是-1，cos(2π)的结果是1</span></span><br><span class="line">        <span class="comment">// 所以该值除以2加上0.5后，getInterpolation()方法最终返回的结果值还是在0到1之间。只不过经过了余弦运算之后，最终的结果不再是匀速增加的了，而是经历了一个先加速后减速的过程</span></span><br><span class="line">        <span class="comment">// 所以最终，fraction值 = 运算后的值 = 先加速后减速</span></span><br><span class="line">        <span class="comment">// 所以该差值器是先加速再减速的</span></span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>对input值 根据动画的进度（0%-100%）通过逻辑计算 计算出当前属性值改变的百分比</strong></p>
+<p>实战</p>
+<p>DecelerateAccelerateInterpolator</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DecelerateAccelerateInterpolator</span> : <span class="type">TimeInterpolator &#123;</span></span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">getInterpolation</span><span class="params">(input: <span class="type">Float</span>)</span></span>: <span class="built_in">Float</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> result: <span class="built_in">Float</span> = <span class="number">0.0f</span></span><br><span class="line">        <span class="keyword">if</span> (input &lt;= <span class="number">0.5</span>) &#123;</span><br><span class="line">            result = Math.sin(Math.PI * input).toFloat() / <span class="number">2</span></span><br><span class="line">            <span class="comment">// 使用正弦函数来实现先减速后加速的功能，逻辑如下：</span></span><br><span class="line">            <span class="comment">// 因为正弦函数初始弧度变化值非常大，刚好和余弦函数是相反的</span></span><br><span class="line">            <span class="comment">// 随着弧度的增加，正弦函数的变化值也会逐渐变小，这样也就实现了减速的效果。</span></span><br><span class="line">            <span class="comment">// 当弧度大于π/2之后，整个过程相反了过来，现在正弦函数的弧度变化值非常小，渐渐随着弧度继续增加，变化值越来越大，弧度到π时结束，这样从0过度到π，也就实现了先减速后加速的效果</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             result= (<span class="number">2</span> - Math.sin(Math.PI * input)).toFloat() / <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">        <span class="comment">// 返回的result值 = 随着动画进度呈先减速后加速的变化趋势</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>InterpolatorActivity</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> curTranslationX = bt_anim_interpolator.translationX</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> animator = <span class="module-access"><span class="module"><span class="identifier">ObjectAnimator</span>.</span></span><span class="keyword">of</span><span class="constructor">Float(<span class="params">bt_anim_interpolator</span>, <span class="string">&quot;translationX&quot;</span>, <span class="params">curTranslationX</span>, 300f, <span class="params">curTranslationX</span>)</span></span><br><span class="line">animator.duration = <span class="number">5000</span></span><br><span class="line">animator.interpolator = <span class="constructor">DecelerateAccelerateInterpolator()</span></span><br><span class="line">animator.start<span class="literal">()</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="ObjectAnimator与-ValueAnimator类的区别"><a href="#ObjectAnimator与-ValueAnimator类的区别" class="headerlink" title="ObjectAnimator与 ValueAnimator类的区别"></a><code>ObjectAnimator</code>与 <code>ValueAnimator</code>类的区别</h4><ul>
+<li><code>ValueAnimator</code> 类是先改变值，然后 <strong>手动赋值</strong> 给对象的属性从而实现动画；是 <strong>间接</strong> 对对象属性进行操作；</li>
+<li><code>ObjectAnimator</code> 类是先改变值，然后 <strong>自动赋值</strong> 给对象的属性从而实现动画；是 <strong>直接</strong> 对对象属性进行操作</li>
+</ul>
+<h3 id="估值器（TypeEvaluator-和插值器"><a href="#估值器（TypeEvaluator-和插值器" class="headerlink" title="估值器（TypeEvaluator) 和插值器"></a>估值器（TypeEvaluator) 和插值器</h3><ol>
+<li>插值器（<code>Interpolator</code>）决定 值 的变化模式（匀速、加速）</li>
+<li>估值器（<code>TypeEvaluator</code>）决定 值 的具体变化数值,设置动画从初始值过渡到结束值的逻辑。</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/carson_ho/article/details/99619871">https://blog.csdn.net/carson_ho/article/details/99619871</a></p>
+<p>作者：Carson_Ho<br>链接：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7c95342f4bc2">https://www.jianshu.com/p/7c95342f4bc2</a></p>
+<p>​            <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2f19fe1e3ca1">https://www.jianshu.com/p/2f19fe1e3ca1</a></p>
+<p>来源：简书<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/anim/" class="category-chain-item">anim</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>AnimPropertyView</div>
+      <div>https://noteforme.github.io/2019/12/29/AnimPropertyView/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>December 29, 2019</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/01/03/JVM-Overview/" title="JVM_Overview">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JVM_Overview</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/12/26/AnimationView/" title="AnimationView">
+                        <span class="hidden-mobile">AnimationView</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,716 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="344. 反转字符串双指针 123456789101112131415fun reverseString(s: CharArray): Unit &amp;#123;    var left &#x3D; 0    var right &#x3D; s.size - 1    while (left &lt; right) &amp;#123;        swap(s, left, right)        left++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LC-string">
+<meta property="og:url" content="https://noteforme.github.io/2022/06/05/LC-string/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="344. 反转字符串双指针 123456789101112131415fun reverseString(s: CharArray): Unit &amp;#123;    var left &#x3D; 0    var right &#x3D; s.size - 1    while (left &lt; right) &amp;#123;        swap(s, left, right)        left++">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-05T03:06:28.000Z">
+<meta property="article:modified_time" content="2023-01-02T03:31:39.091Z">
+<meta property="article:author" content="Jon">
+<meta property="article:tag" content="LEETCODE">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>LC-string - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="LC-string"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-05 11:06" pubdate>
+          June 5, 2022 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">LC-string</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="344-反转字符串"><a href="#344-反转字符串" class="headerlink" title="344. 反转字符串"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-string/">344. 反转字符串</a></h4><p>双指针</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">reverseString</span><span class="params">(s: <span class="type">CharArray</span>)</span></span>: <span class="built_in">Unit</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> left = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> right = s.size - <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        swap(s, left, right)</span><br><span class="line">        left++</span><br><span class="line">        right--</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">swap</span><span class="params">(s: <span class="type">CharArray</span>, left: <span class="type">Int</span>, right: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> temp = s[left]</span><br><span class="line">    s[left] = s[right]</span><br><span class="line">    s[right] = temp</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="541-反转字符串-II"><a href="#541-反转字符串-II" class="headerlink" title="541. 反转字符串 II"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-string-ii/">541. 反转字符串 II</a></h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">reverseStr</span><span class="params">(s: <span class="type">String</span>, k: <span class="type">Int</span>)</span></span>: String &#123;</span><br><span class="line">    <span class="keyword">val</span> charArray = s.toCharArray()</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> s.indices step <span class="number">2</span> * k) &#123;</span><br><span class="line">        <span class="keyword">var</span> left = i  <span class="comment">// 每次的left指针设置好</span></span><br><span class="line">        <span class="keyword">var</span> right = (i + k - <span class="number">1</span>)   <span class="comment">//接着设置每次的 右指针</span></span><br><span class="line">        <span class="keyword">if</span> (right &gt; s.length - <span class="number">1</span>) &#123; <span class="comment">// 如果字符串长度小于 这次的右指针，使用字符串的右边界作为右指针</span></span><br><span class="line">            right = s.length - <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;  <span class="comment">//反转</span></span><br><span class="line">            LC344().swap(charArray, left, right)</span><br><span class="line">            left++</span><br><span class="line">            right--</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> String(charArray)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>随想录感觉解法不太好</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-string-ii/solution/gong-shui-san-xie-jian-dan-zi-fu-chuan-m-p88f/">https://leetcode.cn/problems/reverse-string-ii/solution/gong-shui-san-xie-jian-dan-zi-fu-chuan-m-p88f/</a></p>
+<p>这个解法和我的差不多，更优雅</p>
+<h4 id="剑指-Offer-05-替换空格"><a href="#剑指-Offer-05-替换空格" class="headerlink" title="剑指 Offer 05. 替换空格"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ti-huan-kong-ge-lcof/">剑指 Offer 05. 替换空格</a></h4><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ti-huan-kong-ge-lcof/solution/zhe-dao-ti-mu-zhen-de-you-zhe-yao-jian-dan-ma-qing/">https://leetcode.cn/problems/ti-huan-kong-ge-lcof/solution/zhe-dao-ti-mu-zhen-de-you-zhe-yao-jian-dan-ma-qing/</a></p>
+<h4 id="151-颠倒字符串中的单词"><a href="#151-颠倒字符串中的单词" class="headerlink" title="151. 颠倒字符串中的单词"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-words-in-a-string/">151. 颠倒字符串中的单词</a></h4><p>这题的难点，主要就是去除 字符串中间的空格</p>
+<h5 id="栈或双端队列解法"><a href="#栈或双端队列解法" class="headerlink" title="栈或双端队列解法"></a>栈或双端队列解法</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">/*   栈或双端队列解法</span></span><br><span class="line"><span class="comment">    *    1. 设置left , right指针，移动指针，类似移除两端的空格</span></span><br><span class="line"><span class="comment">    *    2. 从第一个元素开始遍历,添加到StringBuilder,直到遇到第一个空格，StringBuilder的数据加入队列,清空StringBuilder</span></span><br><span class="line"><span class="comment">    *    3. 直到最后一个加入队列</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * if (s[left] != &#x27; &#x27;) 中的&#x27; &#x27;是Ascii十进制32,单测中有验证</span></span><br><span class="line"><span class="comment">    * */</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">reverseWords</span><span class="params">(s: <span class="type">String</span>)</span></span>: String &#123;</span><br><span class="line">        <span class="keyword">var</span> left = <span class="number">0</span></span><br><span class="line">        <span class="keyword">var</span> right = s.length - <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> (s[left] == <span class="string">&#x27; &#x27;</span>) &#123;</span><br><span class="line">            left++</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (s[right] == <span class="string">&#x27; &#x27;</span>) &#123;</span><br><span class="line">            right--</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">val</span> deque: Deque&lt;String&gt; = ArrayDeque()</span><br><span class="line">        <span class="keyword">val</span> sb = StringBuilder()</span><br><span class="line">        <span class="keyword">for</span> (i <span class="keyword">in</span> left..right) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s[left] != <span class="string">&#x27; &#x27;</span>) &#123;</span><br><span class="line">                sb.append(s[left])</span><br><span class="line"><span class="comment">//            &#125; else if (s[left] == &#x27; &#x27; &amp;&amp; sb[sb.length - 1] != &#x27; &#x27;) &#123; // 一开始以为官方也是这样写的，其实也是下面我这种的</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (s[left] == <span class="string">&#x27; &#x27;</span> &amp;&amp; sb.isNotEmpty()) &#123; <span class="comment">// 这里改成这样是因为加入 &quot;the sky is blue&quot; ， left==3走到了空格，</span></span><br><span class="line">                deque.offerFirst(sb.toString())             <span class="comment">//就初始化sb,然后left==4走到了s,如果两个空格，sb[sb.length - 1]就会越界</span></span><br><span class="line">                sb.setLength(<span class="number">0</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            left++</span><br><span class="line">        &#125;</span><br><span class="line">        deque.offerFirst(sb.toString())</span><br><span class="line">        <span class="keyword">return</span> java.lang.String.join(<span class="string">&quot; &quot;</span>, deque)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>官方题解，文字版的感觉更好点，因为有java的版本的，视频的c++的不用stringbuilder</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-words-in-a-string/solution/fan-zhuan-zi-fu-chuan-li-de-dan-ci-by-leetcode-sol/">https://leetcode.cn/problems/reverse-words-in-a-string/solution/fan-zhuan-zi-fu-chuan-li-de-dan-ci-by-leetcode-sol/</a></p>
+<h5 id="两次反转字符串"><a href="#两次反转字符串" class="headerlink" title="两次反转字符串"></a>两次反转字符串</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 1. 去除空格，并且用StringBuilder组合</span></span><br><span class="line"><span class="comment"> * 2. 翻转整个StringBuilder</span></span><br><span class="line"><span class="comment"> * 3. 翻转StringBuilder中的单个字符</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">reverseWords2</span><span class="params">(s: <span class="type">String</span>)</span></span>: String &#123;</span><br><span class="line">    <span class="keyword">val</span> sb = deleteStartEndSpace(s)</span><br><span class="line">    reverseStringBuilder(sb, <span class="number">0</span>, sb.length - <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">var</span> wStart = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> wEnd = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> (wStart &lt; sb.length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sb.getOrElse(wEnd) &#123; <span class="string">&#x27; &#x27;</span> &#125; == <span class="string">&#x27; &#x27;</span>) &#123;</span><br><span class="line">            reverseStringBuilder(sb, wStart, wEnd - <span class="number">1</span>)</span><br><span class="line">            wStart = ++wEnd</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            wEnd++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">deleteStartEndSpace</span><span class="params">(s: <span class="type">String</span>)</span></span>: StringBuilder &#123;</span><br><span class="line">    <span class="keyword">var</span> left = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> right = s.length - <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> (s[left] == <span class="string">&#x27; &#x27;</span>) &#123;</span><br><span class="line">        left++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (s[right] == <span class="string">&#x27; &#x27;</span>) &#123;</span><br><span class="line">        right--</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">val</span> sb = StringBuilder()</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// 注意这里最右边的字符是需要添加的</span></span><br><span class="line">        <span class="keyword">if</span> (s[left] != <span class="string">&#x27; &#x27;</span>) &#123;</span><br><span class="line">            sb.append(s[left])</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (s[left] == <span class="string">&#x27; &#x27;</span> &amp;&amp; s[left - <span class="number">1</span>] != <span class="string">&#x27; &#x27;</span>) &#123; <span class="comment">//不提前去掉空格，如果字符左边&quot;  hello world  &quot;有空格就会越界，</span></span><br><span class="line">            sb.append(s[left])                            <span class="comment">//而且StringBuilder右边空格也会添加空格，而且不好去掉</span></span><br><span class="line">        &#125;</span><br><span class="line">        left++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">reverseStringBuilder</span><span class="params">(sb: <span class="type">StringBuilder</span>, leftP: <span class="type">Int</span>, rightP: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> left = leftP</span><br><span class="line">    <span class="keyword">var</span> right = rightP</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        <span class="keyword">val</span> temp = sb[left]</span><br><span class="line">        sb.setCharAt(left, sb[right])</span><br><span class="line">        sb.setCharAt(right, temp)</span><br><span class="line">        left++</span><br><span class="line">        right--</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>官方解法，翻转子字符串这种更妙</p>
+<pre><code>public void reverseEachWord(StringBuilder sb) &#123;
+    int n = sb.length();
+    int start = 0, end = 0;
+
+    while (start &lt; n) &#123;
+        // 循环至单词的末尾
+        while (end &lt; n &amp;&amp; sb.charAt(end) != &#39; &#39;) &#123;
+            ++end;
+        &#125;
+        // 翻转单词
+        reverse(sb, start, end - 1);
+        // 更新start，去找下一个单词
+        start = end + 1;
+        ++end;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="剑指-Offer-58-II-左旋转字符串"><a href="#剑指-Offer-58-II-左旋转字符串" class="headerlink" title="剑指 Offer 58 - II. 左旋转字符串"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/">剑指 Offer 58 - II. 左旋转字符串</a></h4><h5 id="数组System-arraycopy"><a href="#数组System-arraycopy" class="headerlink" title="数组System.arraycopy"></a>数组System.arraycopy</h5><p>深入分析用到了汇编指令,后面可以加强学习,其实底层的知识还是需要的，要不然没法深入下去了</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/jackgo73/article/details/111866491">https://blog.csdn.net/jackgo73/article/details/111866491</a></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">reverseLeftWords</span><span class="params">(s: <span class="type">String</span>, n: <span class="type">Int</span>)</span></span>: String &#123;</span><br><span class="line">    <span class="keyword">val</span> sb = StringBuilder(s)</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">0</span> until n) &#123;</span><br><span class="line">        sb.append(s[i])</span><br><span class="line">        sb.deleteCharAt(<span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>不能申请额外空间，只能在本串上操作</strong></p>
+<p>我觉得用carl的方法更好</p>
+<ol>
+<li>反转区间为前n的子串</li>
+<li>反转区间为n到末尾的子串</li>
+<li>反转整个字符串</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://programmercarl.com/%E5%89%91%E6%8C%87Offer58-II.%E5%B7%A6%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC">https://programmercarl.com/%E5%89%91%E6%8C%87Offer58-II.%E5%B7%A6%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC</a></p>
+<h4 id="28-实现-strStr"><a href="#28-实现-strStr" class="headerlink" title="28. 实现 strStr()"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/implement-strstr/">28. 实现 strStr()</a></h4><h5 id="暴力解法"><a href="#暴力解法" class="headerlink" title="暴力解法"></a>暴力解法</h5><p>aabaabaaf</p>
+<p>aabaaf</p>
+<p>整体移动底下的字串，然后匹配</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">strStr</span><span class="params">(haystack: <span class="type">String</span>, needle: <span class="type">String</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> needleIndex = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> haystack.indices) &#123;</span><br><span class="line">        <span class="keyword">var</span> hayIndex = i</span><br><span class="line">        <span class="keyword">while</span> (needleIndex &lt; needle.length) &#123;</span><br><span class="line">            <span class="keyword">if</span> (haystack.getOrNull(hayIndex) == needle[needleIndex]) &#123;</span><br><span class="line">                <span class="keyword">if</span> (needleIndex == needle.length - <span class="number">1</span>) <span class="keyword">return</span> i</span><br><span class="line">                hayIndex++</span><br><span class="line">                needleIndex++</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                needleIndex = <span class="number">0</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个暴力解法，也有更好的写法</p>
+<h5 id="kmp"><a href="#kmp" class="headerlink" title="kmp"></a>kmp</h5><p><a href="https://noteforme.github.io/2021/06/17/kmp/">https://noteforme.github.io/2021/06/17/kmp/</a></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">strStrKmp</span><span class="params">(haystack: <span class="type">String</span>, needle: <span class="type">String</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> nextArray = initNext(needle) <span class="comment">// 初始化next数组</span></span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> haystack.indices) &#123;       <span class="comment">// 文本串指针i 移动</span></span><br><span class="line">        <span class="keyword">while</span> (j &gt; <span class="number">0</span> &amp;&amp; haystack[i] != needle[j]) &#123;</span><br><span class="line">            j = nextArray[j - <span class="number">1</span>]    <span class="comment">// 模式串 指针 根据next数组的下标回退</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (haystack[i] == needle[j]) &#123; <span class="comment">// 文本串 模式串对应的字符相等</span></span><br><span class="line">            j++</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (j == needle.length) &#123;</span><br><span class="line">            <span class="keyword">return</span> i - j + <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 模式串</span></span><br><span class="line"><span class="comment"> * i指向后缀末尾位置</span></span><br><span class="line"><span class="comment"> * j 指向前缀末尾位置， 也代表 i和i之前的 最长公共前后缀的长度</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">initNext</span><span class="params">(needle: <span class="type">String</span>)</span></span>: IntArray &#123;</span><br><span class="line">    <span class="keyword">var</span> nextArray = IntArray(needle.length)</span><br><span class="line">    <span class="keyword">var</span> j = <span class="number">0</span> <span class="comment">// j 前缀0开始初始化</span></span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span> until needle.length) &#123; <span class="comment">// i后缀末尾 ，从1开始初始化</span></span><br><span class="line">        <span class="keyword">while</span> (j &gt; <span class="number">0</span> &amp;&amp; needle[i] != needle[j]) &#123;</span><br><span class="line">            j = nextArray[j - <span class="number">1</span>]            <span class="comment">// 前一个位置下标 回退</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (needle[i] == needle[j]) j++     <span class="comment">// 找到新的相等字符， 在之前最长公共前后缀长度 +1</span></span><br><span class="line">        nextArray[i] = j <span class="comment">// 更新next下标</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nextArray</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="459-重复的子字符串"><a href="#459-重复的子字符串" class="headerlink" title="459. 重复的子字符串"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/repeated-substring-pattern/">459. 重复的子字符串</a></h4><p>这题根据随想录的 公式 套的</p>
+<p><a target="_blank" rel="noopener" href="https://programmercarl.com/0459.%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC">https://programmercarl.com/0459.%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC</a></p>
+<p>next[len - 1] = 7，next[len - 1] + 1 = 8 这句话的意思是. 这里数组统一减1，所以需要加1 == 8</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">repeatedSubstringPattern</span><span class="params">(s: <span class="type">String</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> nxtArrr = initNext(s)</span><br><span class="line">    <span class="keyword">val</span> len = s.length</span><br><span class="line">    <span class="keyword">if</span> (nxtArrr[len - <span class="number">1</span>] != <span class="number">0</span> &amp;&amp; len % (len - nxtArrr[len - <span class="number">1</span>]) == <span class="number">0</span>) &#123; <span class="comment">//这两句 是根据随想录的公式抄的</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">initNext</span><span class="params">(s: <span class="type">String</span>)</span></span>: IntArray &#123;</span><br><span class="line">    <span class="keyword">var</span> j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">val</span> nxt = IntArray(s.length)</span><br><span class="line">    nxt[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span> until s.length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (j &gt; <span class="number">0</span> &amp;&amp; s[i] != s[j]) &#123;</span><br><span class="line">            j = nxt[j - <span class="number">1</span>]</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (s[i] == s[j]) j++</span><br><span class="line">        nxt[i] = j</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nxt</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/DataStructure/" class="category-chain-item">DataStructure</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/LEETCODE/" class="print-no-link">#LEETCODE</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>LC-string</div>
+      <div>https://noteforme.github.io/2022/06/05/LC-string/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>June 5, 2022</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/07/PerformanceMemory/" title="PerformanceMemory">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">PerformanceMemory</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/24/location/" title="location">
+                        <span class="hidden-mobile">location</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,831 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;developer.android.com&#x2F;reference&#x2F;android&#x2F;app&#x2F;Activity.html https:&#x2F;&#x2F;developer.android.com&#x2F;guide&#x2F;components&#x2F;activities&#x2F;tasks-and-back-stack.html ActivityAn activity is a single, focused thing tha">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activity_Stack">
+<meta property="og:url" content="https://noteforme.github.io/2021/01/16/Activity_Stack/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="https:&#x2F;&#x2F;developer.android.com&#x2F;reference&#x2F;android&#x2F;app&#x2F;Activity.html https:&#x2F;&#x2F;developer.android.com&#x2F;guide&#x2F;components&#x2F;activities&#x2F;tasks-and-back-stack.html ActivityAn activity is a single, focused thing tha">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://developer.android.google.cn/images/activity_lifecycle.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/c193e7342fb1015f2f18269b27382f06.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/732fa07cf455afaf801593830285e9e9.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/01/16/Activity_Stack/2021-01-23_3.31.08.png">
+<meta property="og:image" content="https://noteforme.github.io/2021/01/16/Activity_Stack/play.gif">
+<meta property="article:published_time" content="2021-01-16T09:49:32.000Z">
+<meta property="article:modified_time" content="2023-01-02T03:31:38.914Z">
+<meta property="article:author" content="Jon">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://developer.android.google.cn/images/activity_lifecycle.png">
+  
+  
+  
+  <title>Activity_Stack - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Activity_Stack"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-01-16 17:49" pubdate>
+          January 16, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Activity_Stack</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/app/Activity.html">https://developer.android.com/reference/android/app/Activity.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/components/activities/tasks-and-back-stack.html">https://developer.android.com/guide/components/activities/tasks-and-back-stack.html</a></p>
+<h4 id="Activity"><a href="#Activity" class="headerlink" title="Activity"></a>Activity</h4><p>An activity is a single, focused thing that the user can do. Almost all activities interact with the user, so the Activity class takes care of creating a window for you in which you can place your UI with setContentView(View).<br>Acitivty和用户交互，所以也是用的最多的</p>
+<p><img src="https://developer.android.google.cn/images/activity_lifecycle.png" srcset="/img/loading.gif" lazyload> </p>
+<h5 id="lifecycle"><a href="#lifecycle" class="headerlink" title="lifecycle"></a>lifecycle</h5><ol>
+<li>onCreate():  Activity创建的时候调用，绑定数据。</li>
+<li>onStart() : 当Activity对用户变得可见的时候调用.</li>
+<li>onResume() : activity开始和用户交互的时候调用，这时候activity处于栈顶，伴随着用户的输入.</li>
+<li>onPause() : 当activity失去前台状态，开始进入stopped/hidden or destroyed状态，不能再获取焦点，此时activity对用户可见，但是更新的UI的操作要快。</li>
+<li>onStop()  :  当activity不再可见，可能是新的activity来到栈顶，或者当前activity正在被destroy.</li>
+<li>onDestory(): 当前activity正在离开。</li>
+</ol>
+<h5 id="想到一个问题-界面A到界面B，是A的onStop-先执行-还是B的onResume-先走"><a href="#想到一个问题-界面A到界面B，是A的onStop-先执行-还是B的onResume-先走" class="headerlink" title="想到一个问题:界面Ａ到界面Ｂ，是Ａ的onStop()先执行　还是Ｂ的onResume()先走"></a>想到一个问题:界面Ａ到界面Ｂ，是Ａ的onStop()先执行　还是Ｂ的onResume()先走</h5><p>先用事实说话吧</p>
+<pre><code> I/BaseActivity: MainActivity -- onCreate() -- 
+ I/BaseActivity: MainActivity -- onStart() -- 
+ I/BaseActivity: MainActivity -- onResume() -- 
+ I/BaseActivity: MainActivity -- onPause() -- 
+ I/BaseActivity: StopResumeActivity -- onCreate() -- 
+ I/BaseActivity: StopResumeActivity -- onStart() -- 
+ I/BaseActivity: StopResumeActivity -- onResume() -- 
+ I/BaseActivity: MainActivity -- onStop() -- 
+</code></pre>
+<p>从打印结果可以看到StopResumeActivity.onResume()先执行,然后是MainActivity的onStop</p>
+<p>onStop() :<br>大概知道原因，但是还是不够说服力，因为onStart()方法已经对用户可见了，为什么MainActivity – onStop()不在 StopResumeActivity – onStart()后面呢？</p>
+<p>可能是onResume()调用后，新activity位于栈顶，之前的再onStop()</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/c6E5UlI1N/article/details/119549972">https://blog.csdn.net/c6E5UlI1N/article/details/119549972</a></p>
+<h4 id="OnNewIntent"><a href="#OnNewIntent" class="headerlink" title="OnNewIntent()"></a>OnNewIntent()</h4><p>onNewIntent</p>
+<p>added in <a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/manifest/uses-sdk-element.html#ApiLevels">API level 1</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void onNewIntent (Intent intent)</span><br></pre></td></tr></table></figure>
+
+<p>if the Activity was already created and a new Intent is being delivered to <code>onNewIntent(android.content.Intent)</code></p>
+<p>This is called for activities that set launchMode to “singleTop” in their package, or if a client used the <code>FLAG_ACTIVITY_SINGLE_TOP</code> flag when calling <code>startActivity(Intent)</code>. In either case, when the activity is re-launched while at the top of the activity stack instead of a new instance of the activity being started, onNewIntent() will be called on the existing instance with the Intent that was used to re-launch it.</p>
+<p>An activity will always be paused before receiving a new intent, so you can count on <code>onResume()</code> being called after this method.</p>
+<p>Note that <code>getIntent()</code> still returns the original Intent. You can use <code>setIntent(Intent)</code> to update it to this new Intent.</p>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>intent</code></td>
+<td><code>Intent</code>: The new intent that was started for the activity.</td>
+</tr>
+</tbody></table>
+<p>这个方法用于singleTop  singleTask两种启动模式</p>
+<p>先看看  singleTask方式：FirstActivity  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name&#x3D;&quot;.launchmode.FirstActivity&quot;</span><br><span class="line">            android:launchMode&#x3D;&quot;singleTask&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>​        </p>
+<p>   从 FirstActivity  –&gt; LaunchActivity –&gt; FirstActivity 生命周期方法</p>
+<blockquote>
+<p> 04-24 11:49:14.602 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onCreate()<br> 04-24 11:49:14.672 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onStart()<br> 04-24 11:49:14.679 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onResume()<br> 04-24 11:49:32.085 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onPause()<br> 04-24 11:49:32.099 26674-26674/com.jonzhou.mineutils D/LaunchActivity LaunchMode: onCreate()<br> 04-24 11:49:32.127 26674-26674/com.jonzhou.mineutils D/LaunchActivity LaunchMode: onStart()<br> 04-24 11:49:32.132 26674-26674/com.jonzhou.mineutils D/LaunchActivity LaunchMode: onResume()<br> 04-24 11:49:32.462 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onStop()<br> 04-24 11:49:53.681 26674-26674/com.jonzhou.mineutils D/LaunchActivity LaunchMode: onPause()<br> 04-24 11:49:53.701 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode:  onNewIntent(Intent intent)<br> 04-24 11:49:53.702 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onStart()<br> 04-24 11:49:53.703 26674-26674/com.jonzhou.mineutils D/FirstActivity LaunchMode: onResume()<br> 04-24 11:49:54.049 26674-26674/com.jonzhou.mineutils D/LaunchActivity LaunchMode: onStop()<br> 04-24 11:49:54.049 26674-26674/com.jonzhou.mineutils D/LaunchActivity LaunchMode: onDestroy()</p>
+</blockquote>
+<p>然后可以通过 onNewIntent(Intent intent);获取传回来的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String data1 &#x3D; intent.getStringExtra(newIntent);</span><br><span class="line">String data2 &#x3D; getIntent().getStringExtra(newIntent);  &#x2F;&#x2F;这种方式获取不到</span><br><span class="line">setIntent(intent);                                     &#x2F;&#x2F;通过这种设置获取</span><br><span class="line">String data3 &#x3D; getIntent().getStringExtra(newIntent);</span><br><span class="line">Timber.d(&quot;onNewIntent  &quot; + data3);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>为什么要设置 setIntent(intent)</p>
+<blockquote>
+<p>我们在多次启动同一个栈唯一模式下的activity时，在onNewIntent()里面的getIntent()得到的intent感觉都是第一次的那个数据。对，这里就是这个陷阱。因为它就是会返回第一个intent的数据</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_16628781/article/details/51539715">https://blog.csdn.net/qq_16628781/article/details/51539715</a></p>
+<h4 id="ActivityStack"><a href="#ActivityStack" class="headerlink" title="ActivityStack"></a>ActivityStack</h4><p>TaskRecord不同的应用就不同的 任务栈</p>
+<p>安卓系统管理着不同模式下的多个ActivityStack（比如在home launcher界面需要有一个ActivityStack，画中画模式，分屏模式等），一个ActivityStack可以包含很多个TaskRecord，一个TaskRecord又可以包含很多个ActivityRecord。</p>
+<p>每一个ActivityRecord都会有一个Activity与之对应，一个Activity可能会有多个ActivityRecord，因为Activity可以被多次实例化，取决于其launchmode。一系列相关的ActivityRecord组成了一个TaskRecord，TaskRecord是存在于ActivityStack中，ActivityStackSupervisor是用来管理这些ActivityStack的。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c193e7342fb1015f2f18269b27382f06.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="taskAffinity"><a href="#taskAffinity" class="headerlink" title="taskAffinity"></a>taskAffinity</h4><p>清单文件中Application和Activity标签都可以使用android:taskAffinity，值为String类型。</p>
+<p>它代表这个Activity所希望归属的Task，在默认情况下，同一个app中的所有Activity拥有共同的Affinity，即manifest中定义的package。</p>
+<p>另外task的affinity取决于它的根部Activity。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/732fa07cf455afaf801593830285e9e9.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果使用SingleInstance模式启动的Activity，如果没有指定affinity的话，创建的新task的affinity还是app的包名。</p>
+<h5 id="FLAG-ACTIVITY-NEW-TASK"><a href="#FLAG-ACTIVITY-NEW-TASK" class="headerlink" title="FLAG_ACTIVITY_NEW_TASK"></a>FLAG_ACTIVITY_NEW_TASK</h5><p>在默认情况下，目标Activity将与startActivity的调用者处于同一task中。但如果用户特别指定了FLAG_ACTIVITY_NEW_TASK，表明它希望为Activity重新开设一个Task。这时就有两种情况：</p>
+<ol>
+<li>假如当前已经有一个Task，它的affinity与新Activity是一样的，那么系统会直接用此Task来完成操作，而不是另外创建一个Task；</li>
+<li>否则系统需要创建一个Task。</li>
+</ol>
+<h4 id="allowTaskReparenting-什么意思"><a href="#allowTaskReparenting-什么意思" class="headerlink" title="allowTaskReparenting 什么意思"></a>allowTaskReparenting 什么意思</h4><h4 id="Activity-launch-mode"><a href="#Activity-launch-mode" class="headerlink" title="Activity launch mode"></a>Activity launch mode</h4><p>启动模式</p>
+<ol>
+<li><p>Androidmanifest 设置 launch mode是对目标Activity而言</p>
+</li>
+<li><p>Intent flag比 Androidmanifest的优先级更高</p>
+</li>
+</ol>
+<h5 id="4种启动模式"><a href="#4种启动模式" class="headerlink" title="4种启动模式"></a>4种启动模式</h5><p>我理解的启动模式，针对的是被启动的Activity</p>
+<ul>
+<li><p>standard </p>
+<p>在不同的Task中打开同一个Activity，Activity会被创建多个实例。分别放进打开它的Task中。</p>
+<p>例如: 点开短信中的电话号码， 新的 打电话的Activity会存在于   短信Task中。</p>
+</li>
+<li><p>singleTop</p>
+</li>
+<li><p>singleTask</p>
+<blockquote>
+<p>The system creates a new task and instantiates the activity at the root of the new task. However, if an instance of the activity already exists in a separate task, the system routes the intent to the existing instance through a call to its <code>onNewIntent()</code> method, rather than creating a new instance. Only one instance of the activity can exist at a time.</p>
+<p>只会在一个Task出现,这个Task里只有一个这个Activity，全局唯一</p>
+</blockquote>
+</li>
+<li><p>singleInstance </p>
+<blockquote>
+<p>Same as <code>&quot;singleTask&quot;</code>, except that the system doesn’t launch any other activities into the task holding the instance. The activity is always the single and only member of its task; any activities started by this one open in a separate task.</p>
+<p>除了全局唯一，还会独占一个Task</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="taskAffinity-1"><a href="#taskAffinity-1" class="headerlink" title="taskAffinity"></a>taskAffinity</h4><p>每个Activity都有一个taskAffinity，默认取自Activity所在的Application的taskAffinity,而后者又默认取自app包名.</p>
+<p>每个Task也有它自己的taskAffinity，它取自栈底的Activity的taskAffinity</p>
+<p>默认情况下，Activity会直接进入当前的Task</p>
+<p>但对于设置了  launchMode = “singleTask”的Activity,系统会先比对Activity和当前Task的taskAffinity是否相同</p>
+<ul>
+<li><p>如果相同，依然正常入栈.</p>
+</li>
+<li><p>如果不同，新Activity会去寻找和它 taskAffinity相同的Task后入栈。</p>
+<p>如果找不到，系统就为它创建一个新的Task,或者创建一个新的Task.</p>
+</li>
+</ul>
+<p>MainActivity启动FirstActivity</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.component.launchmode.FirstActivity&quot;</span><br><span class="line">    android:taskAffinity=&quot;com.comm.mytask&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>   TaskRecord&#123;dff3f0b #4947 A=com.comm.util U=0 StackId=1 sz=2&#125;
+         Run #4: ActivityRecord&#123;e52ebf7 u0 com.comm.util/.component.launchmode.FirstActivity t4947&#125;
+         Run #3: ActivityRecord&#123;cd6b037 u0 com.comm.util/.MainActivity t4947&#125;
+</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.component.launchmode.FirstActivity&quot;</span><br><span class="line">    android:launchMode=&quot;singleTask&quot;</span><br><span class="line">    android:taskAffinity=&quot;com.comm.mytask&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TaskRecord&#123;3713c1e #4946 A&#x3D;com.comm.mytask U&#x3D;0 StackId&#x3D;1 sz&#x3D;1&#125;</span><br><span class="line">      Run #4: ActivityRecord&#123;3d3bd58 u0 com.comm.util&#x2F;.component.launchmode.FirstActivity t4946&#125;</span><br><span class="line">    TaskRecord&#123;273cacc #4945 A&#x3D;com.comm.util U&#x3D;0 StackId&#x3D;1 sz&#x3D;1&#125;</span><br><span class="line">      Run #3: ActivityRecord&#123;77277e0 u0 com.comm.util&#x2F;.MainActivity t4945&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 添加完   <code>android:launchMode=&quot;singleTask&quot;</code>后 多了个task     com.comm.mytask</p>
+<h5 id="TaskAffinity和最近任务列表"><a href="#TaskAffinity和最近任务列表" class="headerlink" title="TaskAffinity和最近任务列表"></a>TaskAffinity和最近任务列表</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell dumpsys activity activities | sed -En -e &#39;&#x2F;Running activities&#x2F;,&#x2F;Run #0&#x2F;p&#39;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="SingleInstance-不设置taskAffinity"><a href="#SingleInstance-不设置taskAffinity" class="headerlink" title="SingleInstance 不设置taskAffinity"></a>SingleInstance 不设置taskAffinity</h5><p>SingleInstance会创建一个新的任务栈</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;.component.launchmode.FirstActivity&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.component.launchmode.SecondActivity&quot;</span><br><span class="line">    android:launchMode=&quot;singleInstance&quot; /&gt;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;.component.launchmode.ThirdActivity&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">D&#x2F;FirstActivity LaunchModeActivity: onCreate() taskId  86</span><br><span class="line">D&#x2F;FirstActivity LaunchModeActivity: onStart()</span><br><span class="line">D&#x2F;FirstActivity LaunchModeActivity: onResume()</span><br><span class="line">D&#x2F;FirstActivity LaunchModeActivity: onPause()</span><br><span class="line">D&#x2F;SecondActivity LaunchModeActivity: onCreate() taskId  85</span><br><span class="line">D&#x2F;SecondActivity LaunchModeActivity: onStart()</span><br><span class="line">D&#x2F;SecondActivity LaunchModeActivity: onRestoreInstanceState()</span><br><span class="line">D&#x2F;SecondActivity LaunchModeActivity:  onNewIntent(Intent intent)</span><br><span class="line">D&#x2F;SecondActivity LaunchModeActivity: onResume()</span><br><span class="line">D&#x2F;FirstActivity LaunchModeActivity: onSaveInstanceState()</span><br><span class="line">D&#x2F;FirstActivity LaunchModeActivity: onStop()</span><br><span class="line">D&#x2F;SecondActivity LaunchModeActivity: onPause()</span><br><span class="line">D&#x2F;ThirdActivity LaunchModeActivity: onCreate() taskId  86</span><br><span class="line">D&#x2F;ThirdActivity LaunchModeActivity: onStart()</span><br><span class="line">D&#x2F;ThirdActivity LaunchModeActivity: onResume()</span><br><span class="line">D&#x2F;SecondActivity LaunchModeActivity: onSaveInstanceState()</span><br><span class="line">D&#x2F;SecondActivity LaunchModeActivity: onStop()</span><br></pre></td></tr></table></figure>
+
+<p>可以看到 FirstActivity 、ThirdActivity在同一个栈中，SecondActivity单独在一个栈中</p>
+<p>所以按返回键盘，先到 FirstActivity，然后到SecondActivity .</p>
+<h5 id="栈内Activity查看，设置taskAffinity"><a href="#栈内Activity查看，设置taskAffinity" class="headerlink" title="栈内Activity查看，设置taskAffinity"></a>栈内Activity查看，设置taskAffinity</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;.component.launchmode.SerachActivity&quot;</span> /&gt;</span></span><br><span class="line">   &lt;activity</span><br><span class="line">       android:name=&quot;.component.onactivityresult.SecondActivity&quot;</span><br><span class="line">       android:launchMode=&quot;singleTask&quot;</span><br><span class="line">       android:taskAffinity=&quot;&quot; /&gt;</span><br><span class="line">   &lt;activity</span><br><span class="line">       android:name=&quot;.component.launchmode.FirstActivity&quot;</span><br><span class="line">       android:configChanges=&quot;orientation&quot;</span><br><span class="line">       android:launchMode=&quot;singleTask&quot;&gt;</span><br><span class="line">       <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">           <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>adb shell dumpsys activity</p>
+</blockquote>
+<p><img src="/2021/01/16/Activity_Stack/2021-01-23_3.31.08.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>taskAffinity属性的值为字符串，且中间必须含有分隔符”.”</li>
+<li>standard模式，taskAffinity继承自Application的taskAffinity，而Application默认taskAffinity为包名，所以MainActivity的taskAffinity为包名。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/components/activities/tasks-and-back-stack">https://developer.android.com/guide/components/activities/tasks-and-back-stack</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mynameishuangshuai/article/details/51491074">https://blog.csdn.net/mynameishuangshuai/article/details/51491074</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangjg_blog/article/details/10923643">https://blog.csdn.net/zhangjg_blog/article/details/10923643</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/javazejian/article/details/52072131">https://blog.csdn.net/javazejian/article/details/52072131</a></p>
+<p>生命周期视图</p>
+<p><a target="_blank" rel="noopener" href="http://yhz61010.iteye.com/blog/2389877">http://yhz61010.iteye.com/blog/2389877</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_16628781/article/details/51539715">https://blog.csdn.net/qq_16628781/article/details/51539715</a></p>
+<h4 id="然而-ANDROID-4-4-启动模式会出现问题"><a href="#然而-ANDROID-4-4-启动模式会出现问题" class="headerlink" title="然而 ANDROID 4.4 启动模式会出现问题"></a>然而 ANDROID 4.4 启动模式会出现问题</h4><p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/2a9fcf3c11e4">http://www.jianshu.com/p/2a9fcf3c11e4</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/mynameishuangshuai/article/details/51491074">http://blog.csdn.net/mynameishuangshuai/article/details/51491074</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=r4T9zkhpmII">https://www.youtube.com/watch?v=r4T9zkhpmII</a></p>
+<h5 id="任务栈一"><a href="#任务栈一" class="headerlink" title="任务栈一"></a>任务栈一</h5><p> 从图中我们看出前台任务栈分别为AB两个Activity，后台任务栈分别为CD两个任务栈，而且其启动模式均为singleTask，此时我们先启动CD，然后再启动AB，再有B启动D，此时后台任务栈便会被切换到前台，而且这个时候整个后退列表就变成了ABCD，请注意我们这里强调的是后退列表，而非栈合并。因此当用户点击back键时，列表中的Activity会依次按DCBA顺序出栈，如下图所示：</p>
+<p>前面我们在分析singleTask模式时，提到过singleTask模式有些比较特殊的场景，现在我们就来了解了解它们。<br>特殊情景一:现在我们假设有如下两个Task栈,分别为前台任务栈和后台任务栈</p>
+<p>  从图中我们看出前台任务栈分别为AB两个Activity，后台任务栈分别为CD两个任务栈，而且其启动模式均为singleTask，此时我们先启动CD，然后再启动AB，再有B启动D，此时后台任务栈便会被切换到前台，而且这个时候整个后退列表就变成了ABCD，请注意我们这里强调的是后退列表，而非栈合并。因此当用户点击back键时，列表中的Activity会依次按DCBA顺序出栈，如下图所示：</p>
+<p>  这里我们通过两个应用ActivityTask和ActivityTask2来测试重现这个现象。因为两个是不同的应用所以启动时所在的栈也是不同。我们先启动ActivityTask2的应用，其ActivityC和ActivityD都是singleTask模式，然后再启动应用ActivityTask，此时ActivityC和ActivityD所在任务栈会被退居后台，而打开的ActivityA和ActivityB会在前台，而且都是默认模式。我们通过 adb shell dumpsys activity activities 命令查看此时栈的情况：</p>
+<p>  我们可以看到由两个栈，分别为id=222且栈名为“com.cmcm.activitytask”的任务栈其包含ActivityA和ActivityB（下面简称AB，栈名一般默认和包名相同），另外一个任务栈，id=221，栈名为“com.cmcm.activitytask2”，其包含ActivityC和ActivityD（下面检测CD）。现在我们通过ActivityB去启动ActivityD，然后按back键回退</p>
+<p>  我们可以看到包含CD的任务栈被提前的，虽然CD隔开了，但是我们从id和栈名可以发现他们是同一个栈，而AB所在的栈则在CD所在栈的后面，所以此时我们按back回退时，退出顺序是这样的D-&gt;C-&gt;B-&gt;A，动态图如下：</p>
+<img src="/2021/01/16/Activity_Stack/play.gif" srcset="/img/loading.gif" lazyload alt="play" style="zoom:20%;">
+
+
+
+<p> 到此我们对SingleTask模式又有了更深入的理解，但是我们发现上面的例子使用的是两个应用，所以才会有不同的任务栈，那么我们能不能在一个应用中存在多个不同的任务栈呢（暂时不考虑singleInstance 模式）？答案当然是肯定的啦，这就需要通过taskAffinity属性来设置不同的任务栈名称，不过这点将放在下篇来记录，本篇就先到这里告一段落哈。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/javazejian/article/details/52071885">https://blog.csdn.net/javazejian/article/details/52071885</a></p>
+<h5 id="任务栈二"><a href="#任务栈二" class="headerlink" title="任务栈二"></a>任务栈二</h5><p>这篇文章讲的很好</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/javazejian/article/details/52072131">https://blog.csdn.net/javazejian/article/details/52072131</a></p>
+<ol>
+<li>TaskAffinity与singleTask应用场景</li>
+</ol>
+<p>​        这个和allowTaskReparenting没关系</p>
+<p>  假如现在有这么一个需求,我们的客户端app正处于后台运行，此时我们因为某些需要，让微信调用自己客户端app的某个页面，用户完成相关操作后，我们不做任何处理，按下回退或者当前Activity.finish()，页面都会停留在自己的客户端（此时我们的app回退栈不为空），这显然不符合逻辑的，用户体验也是相当出问题的。我们要求是，回退必须回到微信客户端,而且要保证不杀死自己的app.这时候我们的处理方案就是，设置当前被调起Activity的属性为：</p>
+<p>LaunchMode=””SingleTask” taskAffinity=”com.tencent.mm”</p>
+<p>其中com.tencent.mm是借助于工具找到的微信包名，就是把自己的Activity放到微信默认的Task栈里面，这样回退时就会遵循“Task只要有Activity一定从本Task剩余Activity回退”的原则，不会回到自己的客户端；而且也不会影响自己客户端本来的Activity和Task逻辑。</p>
+<ol start="2">
+<li>TaskAffinity与allowTaskReparenting应用场景<br>  一个e-mail应用消息包含一个网页链接，点击这个链接将出发一个activity来显示这个页面，虽然这个activity是浏览器应用定义的，但是activity由于e-mail应用程序加载的，所以在这个时候该activity也属于e-mail这个task。如果e-mail应用切换到后台，浏览器在下次打开时由于allowTaskReparenting值为true，此时浏览器就会显示该activity而不显示浏览器主界面，同时actvity也将从e-mail的任务栈迁移到浏览器的任务栈，下次打开e-买了时并不会再显示该activity<br>     到此TaskAffinity就全部介绍完了，最后我们再来了解几个跟任务栈相关的属性参数；</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ANDROID/" class="category-chain-item">ANDROID</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Activity_Stack</div>
+      <div>https://noteforme.github.io/2021/01/16/Activity_Stack/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 16, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/02/26/Concurrency-thread/" title="Concurrency_thread">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Concurrency_thread</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/14/Exception/" title="Exception">
+                        <span class="hidden-mobile">Exception</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

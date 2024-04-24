@@ -1,0 +1,777 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="基本使用数据库定义 Bean    schema：告知GreenDao当前实体属于哪个schema active：标记一个实体处于活跃状态，活动实体有更新、删除和刷新方法 nameInDb：在数据库中使用的别名，默认使用的是实体的类名 indexes：定义索引，可以跨越多个列 createInDb：标记创建数据库表   基础属性注解  @Id：主键 Long 型，可以通过@Id(autoincre">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GreenDao">
+<meta property="og:url" content="https://noteforme.github.io/2019/08/12/GreenDao/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="基本使用数据库定义 Bean    schema：告知GreenDao当前实体属于哪个schema active：标记一个实体处于活跃状态，活动实体有更新、删除和刷新方法 nameInDb：在数据库中使用的别名，默认使用的是实体的类名 indexes：定义索引，可以跨越多个列 createInDb：标记创建数据库表   基础属性注解  @Id：主键 Long 型，可以通过@Id(autoincre">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-08-12T09:42:58.000Z">
+<meta property="article:modified_time" content="2021-08-19T11:11:43.904Z">
+<meta property="article:author" content="Jon">
+<meta property="article:tag" content="DB">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>GreenDao - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="GreenDao"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-08-12 17:42" pubdate>
+          August 12, 2019 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">GreenDao</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h4><h5 id="数据库定义"><a href="#数据库定义" class="headerlink" title="数据库定义"></a>数据库定义</h5><ul>
+<li>Bean</li>
+</ul>
+<blockquote>
+<p> schema：告知GreenDao当前实体属于哪个schema<br> active：标记一个实体处于活跃状态，活动实体有更新、删除和刷新方法<br> nameInDb：在数据库中使用的别名，默认使用的是实体的类名<br> indexes：定义索引，可以跨越多个列<br> createInDb：标记创建数据库表</p>
+</blockquote>
+<ul>
+<li><p>基础属性注解</p>
+<blockquote>
+<p>@Id：主键 Long 型，可以通过@Id(autoincrement = true)设置自增长<br>@Property：设置一个非默认关系映射所对应的列名，默认是使用字段名，例如：@Property(nameInDb = “name”)<br>@NotNull：设置数据库表当前列不能为空<br>@Transient：添加此标记后不会生成数据库表的列</p>
+</blockquote>
+</li>
+<li><p>索引注解</p>
+</li>
+</ul>
+<blockquote>
+<p>@Index：使用@Index作为一个属性来创建一个索引，通过name设置索引别名，也可以通过unique给索引添加约束<br>@Unique：向数据库添加了一个唯一的约束</p>
+</blockquote>
+<ul>
+<li><p>关系注解</p>
+<blockquote>
+<p>@ToOne：定义与另一个实体（一个实体对象）的关系<br>@ToMany：定义与多个实体对象的关系</p>
+</blockquote>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/speedystone/article/details/72769793">https://blog.csdn.net/speedystone/article/details/72769793</a></p>
+<h5 id="Convert-自定义类型"><a href="#Convert-自定义类型" class="headerlink" title="@Convert 自定义类型"></a>@Convert 自定义类型</h5><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> @<span class="keyword">interface</span> Convert &#123;</span><br><span class="line">    <span class="keyword">Class</span>&lt;? <span class="keyword">extends</span> PropertyConverter&gt; converter();</span><br><span class="line">    <span class="keyword">Class</span> columnType(); <span class="comment">//可以在DB中保留的列的类。这仅限于greenDAO原生支持的所有java类。</span></span><br><span class="line">&#125;</span><br><span class="line">@Convert(converter = NoteTypeConverter.<span class="keyword">class</span>, columnType = String.<span class="keyword">class</span>) <span class="comment">//类型转换类，自定义的类型在数据库中存储的类型</span></span><br><span class="line"><span class="keyword">private</span> NoteType type; <span class="comment">//在保存到数据库时会将自定义的类型 NoteType 通过 NoteTypeConverter 转换为数据库支持的 String 类型。反之亦然</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h5><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span>(autoincrement = <span class="literal">true</span>)  <span class="comment">// id  递增</span></span><br><span class="line">            Long id;</span><br><span class="line">    <span class="meta">@Unique</span></span><br><span class="line">    <span class="keyword">public</span> int studentNo;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> int age; <span class="comment">//年龄</span></span><br><span class="line">    <span class="meta">@Property</span>(nameInDb = <span class="string">&quot;usePhone&quot;</span>) <span class="comment">//数据库中映射的字段就是 usePhone</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">String</span> telPhone;<span class="comment">//手机号</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transient</span>  <span class="comment">//数据库中不会创建对应的字段</span></span><br><span class="line">            <span class="built_in">String</span> sex; <span class="comment">//性别</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">String</span> name;<span class="comment">//姓名</span></span><br><span class="line">    <span class="built_in">String</span> address;<span class="comment">//家庭住址</span></span><br><span class="line">    <span class="built_in">String</span> schoolName;<span class="comment">//学校名字</span></span><br><span class="line">    <span class="built_in">String</span> grade;<span class="comment">//几年级</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">boolean</span> statue;</span><br></pre></td></tr></table></figure>
+
+<h6 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h6><ul>
+<li><p>insertData</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">    Student student = <span class="keyword">new</span> <span class="constructor">Student()</span>;</span><br><span class="line">    student.set<span class="constructor">StudentNo(<span class="params">i</span>)</span>;</span><br><span class="line">    student.age = <span class="keyword">new</span> <span class="constructor">Random()</span>.next<span class="constructor">Int()</span> + <span class="number">10</span>;</span><br><span class="line">    student.telPhone = <span class="module-access"><span class="module"><span class="identifier">RandomValue</span>.</span></span>get<span class="constructor">Tel()</span>;</span><br><span class="line">    student.set<span class="constructor">Name(RandomValue.<span class="params">getChineseName</span>()</span>);</span><br><span class="line">    <span class="keyword">if</span> (i % <span class="number">2</span><span class="operator"> == </span><span class="number">0</span>) &#123;</span><br><span class="line">        student.set<span class="constructor">Sex(<span class="string">&quot;男&quot;</span>)</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        student.set<span class="constructor">Sex(<span class="string">&quot;女&quot;</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (i<span class="operator"> == </span><span class="number">0</span>) &#123;</span><br><span class="line">        student.set<span class="constructor">Statue(<span class="params">true</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    student.set<span class="constructor">Address(RandomValue.<span class="params">getRoad</span>()</span>);</span><br><span class="line">    student.set<span class="constructor">SchoolName(RandomValue.<span class="params">getSchoolName</span>()</span>);</span><br><span class="line">    long dsoi = studaoImpl.insert(student);</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;insertData &quot;</span> + dsoi);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p>insertOrReplace</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Student student = <span class="keyword">new</span> <span class="constructor">Student()</span>;</span><br><span class="line">student.set<span class="constructor">StudentNo(1)</span>;</span><br><span class="line">student.set<span class="constructor">Name(<span class="string">&quot;我改名了&quot;</span>)</span>;</span><br><span class="line">long df = studaoImpl.insert<span class="constructor">OrReplace(<span class="params">student</span>)</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>updateData</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Student student = new Student()<span class="comment">;</span></span><br><span class="line">student.setStudentNo(<span class="number">1</span>)<span class="comment">;</span></span><br><span class="line">student.setName(<span class="string">&quot;我改名了&quot;</span>)<span class="comment">;</span></span><br><span class="line">studaoImpl.update(student)<span class="comment">;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>delete</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Student student = new Student()<span class="comment">;</span></span><br><span class="line">student.setId(<span class="number">1</span>l)<span class="comment">;</span></span><br><span class="line">studaoImpl.delete(student)<span class="comment">;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>deleteAll</p>
+</li>
+</ul>
+<p>​     <code>  studaoImpl.deleteAll();</code></p>
+<h6 id="query"><a href="#query" class="headerlink" title="query"></a>query</h6><ul>
+<li>QueryAll</li>
+</ul>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Student&gt; dd = studaoImpl.load<span class="constructor">All()</span>;</span><br><span class="line">studaoImpl.load<span class="constructor">All()</span>.<span class="keyword">for</span><span class="constructor">Each(<span class="params">current</span>-&gt;Timber.<span class="params">i</span>(<span class="params">current</span>.<span class="params">toString</span>()</span>)); <span class="comment">// print student</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>QueryLastState</li>
+</ul>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Student&gt; sList = studaoImpl.query<span class="constructor">Builder()</span>.limit(<span class="number">1</span>).where(<span class="module-access"><span class="module"><span class="identifier">StudentDao</span>.</span><span class="module"><span class="identifier">Properties</span>.</span><span class="module"><span class="identifier">Statue</span>.</span></span>eq(<span class="literal">false</span>)).<span class="built_in">list</span><span class="literal">()</span>;</span><br><span class="line"><span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(sList.<span class="keyword">to</span><span class="constructor">String()</span>);</span><br><span class="line">Student student = sList.get(<span class="number">0</span>);</span><br><span class="line">student.set<span class="constructor">Statue(<span class="params">true</span>)</span>;</span><br><span class="line">studaoImpl.update(student);</span><br><span class="line">sList = studaoImpl.query<span class="constructor">Builder()</span>.limit(<span class="number">1</span>).where(<span class="module-access"><span class="module"><span class="identifier">StudentDao</span>.</span><span class="module"><span class="identifier">Properties</span>.</span><span class="module"><span class="identifier">Statue</span>.</span></span>eq(<span class="literal">false</span>)).<span class="built_in">list</span><span class="literal">()</span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="oneToOne"><a href="#oneToOne" class="headerlink" title="oneToOne"></a>oneToOne</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id(autoincrement = true)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> pid;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CreditCard</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id(autoincrement = true)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> cid;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> pid;</span><br><span class="line">    <span class="comment">//idcard和person是一对一关系，外键为personId</span></span><br><span class="line">    <span class="meta">@ToOne(joinProperty = &quot;pid&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> Person person;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="insert-1"><a href="#insert-1" class="headerlink" title="insert"></a>insert</h6><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Long pid = <span class="number">6L</span>;<span class="comment">//personId</span></span><br><span class="line"></span><br><span class="line">Person p = <span class="keyword">new</span> <span class="constructor">Person(<span class="params">pid</span>, <span class="string">&quot;xiaoMing&quot;</span>, 18)</span>;</span><br><span class="line">mPersonDao.insert(p);</span><br><span class="line">Long cid = <span class="number">2L</span>;<span class="comment">//idcardid;</span></span><br><span class="line">CreditCard c = <span class="keyword">new</span> <span class="constructor">CreditCard(<span class="params">cid</span>, 100)</span>; <span class="comment">//这个写了100（无论写什么）,实际还是6,关联了personId</span></span><br><span class="line">c.set<span class="constructor">Person(<span class="params">p</span>)</span>;</span><br><span class="line">mCreditCardDao.insert(c);</span><br></pre></td></tr></table></figure>
+
+<h6 id="query-1"><a href="#query-1" class="headerlink" title="query"></a>query</h6><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">List&lt;CreditCard&gt; <span class="built_in">list</span> = mCreditCardDao.load<span class="constructor">All()</span>;</span><br><span class="line">CreditCard card = <span class="built_in">list</span>.get(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span> (card != null) &#123;</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;CardInfo  cardid----------&gt;&quot;</span> + card.get<span class="constructor">Cid()</span> + <span class="string">&quot;  personid----------&gt;&quot;</span> + card.get<span class="constructor">Pid()</span>);</span><br><span class="line">&#125;</span><br><span class="line">switch (position) &#123;</span><br><span class="line">    case <span class="number">0</span>:</span><br><span class="line">        select<span class="constructor">PersonInfoByCard(<span class="params">card</span>)</span>;<span class="comment">//根据idcard获取person</span></span><br><span class="line">        break;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> void select<span class="constructor">PersonInfoByCard(CreditCard <span class="params">card</span>)</span> &#123;</span><br><span class="line">        Person person = null;</span><br><span class="line">        <span class="keyword">if</span> (card != null) &#123;</span><br><span class="line">            person = card.get<span class="constructor">Person()</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (person != null) &#123;</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;PersonByCard   personId   + ----------&gt; &quot;</span> + person.get<span class="constructor">Pid()</span> + <span class="string">&quot;  name----------&gt;   &quot;</span> + person.get<span class="constructor">Name()</span> + <span class="string">&quot;    age----------&gt;&quot;</span> + person.get<span class="constructor">Age()</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">Timber</span>.</span></span>i(<span class="string">&quot;----获取person信息失败------&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5a30f79c6fb9a045031014fd">https://juejin.im/post/5a30f79c6fb9a045031014fd</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34358104/article/details/69833909">https://blog.csdn.net/qq_34358104/article/details/69833909</a></p>
+<h5 id="OneToMany"><a href="#OneToMany" class="headerlink" title="OneToMany"></a>OneToMany</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MStudent</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id(autoincrement = true)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> sid;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> tid;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MTecher</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id(autoincrement = true)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> tid;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//一对多关系，tid为Student表的外键</span></span><br><span class="line">    <span class="meta">@ToMany(referencedJoinProperty = <span class="meta-string">&quot;tid&quot;</span>)</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;MStudent&gt; students;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="insert-2"><a href="#insert-2" class="headerlink" title="insert"></a>insert</h6><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 添加Student信息</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">private</span> void insert<span class="constructor">Student()</span> &#123;</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           Long sid = <span class="number">1L</span>;</span><br><span class="line">           <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">               MStudent s = <span class="keyword">new</span> <span class="constructor">MStudent(<span class="params">sid</span>, <span class="string">&quot;xiaoMing--&gt;&quot;</span> + <span class="params">i</span>, <span class="params">tid</span>)</span>;</span><br><span class="line">               mStudentDao.insert(s);</span><br><span class="line">               sid++;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(<span class="string">&quot;tag&quot;</span>, <span class="string">&quot;学生信息添加成功&quot;</span>);</span><br><span class="line">       &#125; catch (Exception e) &#123;</span><br><span class="line">           e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">           <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(<span class="string">&quot;tag&quot;</span>, <span class="string">&quot;学生信息添加失败&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">     <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 添加Teacher信息</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">private</span> void insert<span class="constructor">Teacher()</span> &#123;</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           String name = <span class="string">&quot;Miss zhang&quot;</span>;</span><br><span class="line">           MTecher mTecher = <span class="keyword">new</span> <span class="constructor">MTecher(<span class="params">tid</span>, <span class="params">name</span>)</span>;</span><br><span class="line">           mTecherDao.insert(mTecher);</span><br><span class="line">           <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(<span class="string">&quot;tag&quot;</span>,<span class="string">&quot;教师信息添加成功&quot;</span>);</span><br><span class="line">       &#125; catch (Exception e) &#123;</span><br><span class="line">           e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">           <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(<span class="string">&quot;tag&quot;</span>,<span class="string">&quot;教师信息添加失败&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="query-2"><a href="#query-2" class="headerlink" title="query"></a>query</h6><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> void select<span class="constructor">Teacher()</span> &#123;</span><br><span class="line">    MTecher t = null;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        t = mTecherDao.load<span class="constructor">ByRowId(<span class="params">tid</span>)</span>;</span><br><span class="line">        <span class="keyword">if</span> (t != null)&#123;</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(<span class="string">&quot;tag&quot;</span>,<span class="string">&quot;查询教师信息----&gt;成功&quot;</span>);</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(<span class="string">&quot;tag&quot;</span>,<span class="string">&quot;tid---&gt;&quot;</span>+t.get<span class="constructor">Tid()</span>);</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(<span class="string">&quot;tag&quot;</span>,<span class="string">&quot;teacher&#x27;s name-----&gt;&quot;</span>+t.get<span class="constructor">Name()</span>);</span><br><span class="line">            select<span class="constructor">StudentByTeacher(<span class="params">t</span>)</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(<span class="string">&quot;tag&quot;</span>,<span class="string">&quot;查询表中没有该教师信息&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(<span class="string">&quot;tag&quot;</span>,<span class="string">&quot;查询教师信息----&gt;失败&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据获取得到的Teacher获取其名下的学生信息</span></span><br><span class="line"><span class="comment">     * @param t</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> void select<span class="constructor">StudentByTeacher(MTecher <span class="params">t</span>)</span> &#123;</span><br><span class="line">        List&lt;MStudent&gt; <span class="built_in">list</span> = t.get<span class="constructor">Students()</span>;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">list</span> != null<span class="operator"> &amp;&amp; </span><span class="built_in">list</span>.size<span class="literal">()</span> &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span> (MStudent mStudent : <span class="built_in">list</span>) &#123;</span><br><span class="line">                <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(<span class="string">&quot;tag&quot;</span>,<span class="string">&quot;sid---------&gt;  &quot;</span>+mStudent.get<span class="constructor">Sid()</span> +<span class="string">&quot;    tid---------&gt;&quot;</span>+mStudent.get<span class="constructor">Tid()</span>+<span class="string">&quot;  name--------&gt;&quot;</span>+mStudent.get<span class="constructor">Name()</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>i(<span class="string">&quot;tag&quot;</span>,<span class="string">&quot;--------获取学生信息失败--------&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="ManyToMany"><a href="#ManyToMany" class="headerlink" title="ManyToMany"></a>ManyToMany</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NTeacher</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id(autoincrement = true)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> tid;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="meta">@ToMany</span></span><br><span class="line">    <span class="meta">@JoinEntity(entity = TandSRelative.class, sourceProperty = <span class="meta-string">&quot;tid&quot;</span>, targetProperty = <span class="meta-string">&quot;sid&quot;</span>)</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;TandSRelative&gt; list;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NStudent</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id(autoincrement = true)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> sid;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ToMany</span></span><br><span class="line">    <span class="meta">@JoinEntity(entity = TandSRelative.class,sourceProperty = <span class="meta-string">&quot;sid&quot;</span>,targetProperty = <span class="meta-string">&quot;tid&quot;</span>)</span></span><br><span class="line">    List&lt;NTeacher&gt; teacherList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TandSRelative</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id(autoincrement = true)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> tsid;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> tid;<span class="comment">//teacher的id</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Long</span> sid;<span class="comment">//student的id</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="insert-3"><a href="#insert-3" class="headerlink" title="insert"></a>insert</h6><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">//2个教师和3个学生的关系</span></span><br><span class="line"><span class="comment">//教师1，带学生1、2</span></span><br><span class="line"><span class="comment">//教师2，带学生1、3</span></span><br><span class="line"><span class="comment">//学生1，选修教师1和教师2的课</span></span><br><span class="line">    <span class="keyword">private</span> void add<span class="constructor">TeacherStu()</span> &#123;</span><br><span class="line">        List&lt;NTeacher&gt; teacherList = <span class="keyword">new</span> ArrayList&lt;&gt;<span class="literal">()</span>;</span><br><span class="line">        <span class="keyword">for</span> (long i = <span class="number">1</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">            NTeacher teacherBean = <span class="keyword">new</span> <span class="constructor">NTeacher()</span>;</span><br><span class="line">            teacherBean.set<span class="constructor">Tid(<span class="params">i</span>)</span>;</span><br><span class="line">            teacherList.add(teacherBean);</span><br><span class="line">        &#125;</span><br><span class="line">        daoSession.get<span class="constructor">NTeacherDao()</span>.insert<span class="constructor">InTx(<span class="params">teacherList</span>)</span>;</span><br><span class="line"></span><br><span class="line">        List&lt;NStudent&gt; studentList = <span class="keyword">new</span> ArrayList&lt;&gt;<span class="literal">()</span>;</span><br><span class="line">        <span class="keyword">for</span> (long j = <span class="number">1</span>; j &lt; <span class="number">4</span>; j++) &#123;</span><br><span class="line">            NStudent studentBean = <span class="keyword">new</span> <span class="constructor">NStudent()</span>;</span><br><span class="line">            studentBean.set<span class="constructor">Sid(<span class="params">j</span>)</span>;</span><br><span class="line">            studentList.add(studentBean);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//教师1带学生1、2</span></span><br><span class="line">        List&lt;TandSRelative&gt; teacherTeachStuList = <span class="keyword">new</span> ArrayList&lt;&gt;<span class="literal">()</span>;</span><br><span class="line">        TandSRelative tandSRelative1 = <span class="keyword">new</span> <span class="constructor">TandSRelative(<span class="params">null</span>, 1L, 1L)</span>;</span><br><span class="line">        teacherTeachStuList.add(tandSRelative1);</span><br><span class="line"></span><br><span class="line">        TandSRelative tandSRelative2 = <span class="keyword">new</span> <span class="constructor">TandSRelative(<span class="params">null</span>, 1L, 2L)</span>;</span><br><span class="line">        teacherTeachStuList.add(tandSRelative2);</span><br><span class="line"></span><br><span class="line">        TandSRelative tandSRelative3 = <span class="keyword">new</span> <span class="constructor">TandSRelative(<span class="params">null</span>, 2L, 1L)</span>;</span><br><span class="line">        teacherTeachStuList.add(tandSRelative3);</span><br><span class="line"></span><br><span class="line">        TandSRelative tandSRelative4 = <span class="keyword">new</span> <span class="constructor">TandSRelative(<span class="params">null</span>, 2L, 3L)</span>;</span><br><span class="line">        teacherTeachStuList.add(tandSRelative4);</span><br><span class="line"></span><br><span class="line">        daoSession.get<span class="constructor">TandSRelativeDao()</span>.insert<span class="constructor">InTx(<span class="params">teacherTeachStuList</span>)</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Free-Thinker/p/10654474.html">https://www.cnblogs.com/Free-Thinker/p/10654474.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5a30f79c6fb9a045031014fd">https://juejin.im/post/5a30f79c6fb9a045031014fd</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/RobotHost/article/details/70098744">https://blog.csdn.net/RobotHost/article/details/70098744</a></p>
+<h5 id="migration"><a href="#migration" class="headerlink" title="migration"></a>migration</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">class</span> MySQLiteOpenHelper extends DaoMaster.OpenHelper &#123;</span><br><span class="line"></span><br><span class="line">    public <span class="constructor">MySQLiteOpenHelper(Context <span class="params">context</span>, String <span class="params">name</span>, SQLiteDatabase.CursorFactory <span class="params">factory</span>)</span> &#123;</span><br><span class="line">        super(context, name, factory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void on<span class="constructor">Upgrade(Database <span class="params">db</span>, <span class="params">int</span> <span class="params">oldVersion</span>, <span class="params">int</span> <span class="params">newVersion</span>)</span> &#123;</span><br><span class="line"><span class="comment">//        super.onUpgrade(db, oldVersion, newVersion);</span></span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">MigrationHelper</span>.</span></span>migrate(db, <span class="keyword">new</span> MigrationHelper.<span class="constructor">ReCreateAllTableListener()</span> &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void on<span class="constructor">CreateAllTables(Database <span class="params">db</span>, <span class="params">boolean</span> <span class="params">ifNotExists</span>)</span> &#123;</span><br><span class="line">                <span class="module-access"><span class="module"><span class="identifier">DaoMaster</span>.</span></span>create<span class="constructor">AllTables(<span class="params">db</span>, <span class="params">ifNotExists</span>)</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void on<span class="constructor">DropAllTables(Database <span class="params">db</span>, <span class="params">boolean</span> <span class="params">ifExists</span>)</span> &#123;</span><br><span class="line">                <span class="module-access"><span class="module"><span class="identifier">DaoMaster</span>.</span></span>drop<span class="constructor">AllTables(<span class="params">db</span>, <span class="params">ifExists</span>)</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="module-access"><span class="module"><span class="identifier">StudentDao</span>.</span></span><span class="keyword">class</span>); <span class="comment">//可以添加多个</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, &quot;dblearn.db&quot;);</span></span><br><span class="line">        MigrationHelper.DEBUG = <span class="literal">true</span>;</span><br><span class="line">        MySQLiteOpenHelper helper = <span class="keyword">new</span> <span class="constructor">MySQLiteOpenHelper(<span class="params">this</span>,<span class="string">&quot;dblearn.db&quot;</span>,<span class="params">null</span>)</span>;</span><br><span class="line">        SQLiteDatabase db = helper.get<span class="constructor">WritableDatabase()</span>;</span><br><span class="line">        DaoMaster daoMaster = <span class="keyword">new</span> <span class="constructor">DaoMaster(<span class="params">db</span>)</span>;</span><br><span class="line">        daoSession = daoMaster.<span class="keyword">new</span><span class="constructor">Session()</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span>(autoincrement = <span class="literal">true</span>)  <span class="comment">// id  递增</span></span><br><span class="line">            Long id;</span><br><span class="line">    <span class="meta">@Unique</span></span><br><span class="line">    <span class="keyword">public</span> int studentNo;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> int age; <span class="comment">//年龄</span></span><br><span class="line">    <span class="meta">@Property</span>(nameInDb = <span class="string">&quot;usePhone&quot;</span>) <span class="comment">//数据库中映射的字段就是 usePhone</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">String</span> telPhone;<span class="comment">//手机号</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transient</span>  <span class="comment">//数据库中不会创建对应的字段</span></span><br><span class="line">            <span class="built_in">String</span> sex; <span class="comment">//性别</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">String</span> name;<span class="comment">//姓名</span></span><br><span class="line">    <span class="built_in">String</span> address;<span class="comment">//家庭住址</span></span><br><span class="line">    <span class="built_in">String</span> schoolName;<span class="comment">//学校名字</span></span><br><span class="line">    <span class="built_in">String</span> grade;<span class="comment">//几年级</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">boolean</span> statue;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@ToOne</span>(joinProperty = <span class="string">&quot;name&quot;</span>)</span><br><span class="line">    IdCard student;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> migrate; <span class="comment">//新添加的字段 迁移</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://github.com/yuweiguocn/GreenDaoUpgradeHelper/blob/master/README_CH.md">https://github.com/yuweiguocn/GreenDaoUpgradeHelper/blob/master/README_CH.md</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13373170/greendao-schema-update-and-data-migration/30334668#30334668">https://stackoverflow.com/questions/13373170/greendao-schema-update-and-data-migration/30334668#30334668</a></p>
+<h4 id="查看数据库"><a href="#查看数据库" class="headerlink" title="查看数据库"></a>查看数据库</h4><h5 id="database-navigator"><a href="#database-navigator" class="headerlink" title="database navigator"></a>database navigator</h5><p>![check_Screen Shot 2020-04-13 at 5.59.22 PM](GreenDao/check_Screen Shot 2020-04-13 at 5.59.22 PM.png)</p>
+<p>![Screen Shot 2020-04-13 at 6.04.11 PM](GreenDao/Screen Shot 2020-04-13 at 6.04.11 PM.png)</p>
+<p>C:\Users\john\Desktop\dbsqlite</p>
+<p>Device file explorer里面查看</p>
+<p>data/data/{$packname}/mine</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yu75567218/article/details/78904909">https://blog.csdn.net/yu75567218/article/details/78904909</a></p>
+<h4 id="数据缓存"><a href="#数据缓存" class="headerlink" title="数据缓存"></a>数据缓存</h4><ul>
+<li><p>RxJava实现数据网络数据缓存</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35064774/article/details/53449795">https://blog.csdn.net/qq_35064774/article/details/53449795</a></p>
+</li>
+<li><p>用户测量数据有网上传</p>
+<p><a target="_blank" rel="noopener" href="https://wenku.baidu.com/view/65f16f61998fcc22bdd10d5b.html">https://wenku.baidu.com/view/65f16f61998fcc22bdd10d5b.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://my.oschina.net/banxi/blog/57984">https://my.oschina.net/banxi/blog/57984</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.infoq.cn/article/q-EjPtHOVFaE46XKjhlf">https://www.infoq.cn/article/q-EjPtHOVFaE46XKjhlf</a></p>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ANDROID/" class="category-chain-item">ANDROID</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/DB/" class="print-no-link">#DB</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>GreenDao</div>
+      <div>https://noteforme.github.io/2019/08/12/GreenDao/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 12, 2019</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/08/30/ThreadStop/" title="ThreadStop">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ThreadStop</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/11/Binder/" title="Binder">
+                        <span class="hidden-mobile">Binder</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
