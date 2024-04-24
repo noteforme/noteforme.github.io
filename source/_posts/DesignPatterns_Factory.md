@@ -289,12 +289,113 @@ public class VeggieBurgetRestaurant extends Restaurant{
 
 # Abstract Factory(抽象工厂 elementary )
 
+在原有生产GPU的产品线上，好需要添加监控的功能，此时就会出现如下 代码耦合的情况。
+
+<img width="1408" alt="Screenshot 2024-04-24 at 16 49 43" src="https://github.com/noteforme/noteforme.github.io/assets/6995071/b55e30a3-fd6e-43db-b678-e7db21251628">
+
+
+```mermaid
+classDiagram
+  class AbstractFactory {
+    +createProductA(): AbstractProductA
+    +createProductB(): AbstractProductB
+  }
+
+  class ConcreteFactory1 {
+    +createProductA(): AbstractProductA
+    +createProductB(): AbstractProductB
+  }
+
+  class ConcreteFactory2 {
+    +createProductA(): AbstractProductA
+    +createProductB(): AbstractProductB
+  }
+
+  class AbstractProductA {
+    +operationA(): void
+  }
+
+  class ConcreteProductA1 {
+    +operationA(): void
+  }
+
+  class ConcreteProductA2 {
+    +operationA(): void
+  }
+
+  class AbstractProductB {
+    +operationB(): void
+  }
+
+  class ConcreteProductB1 {
+    +operationB(): void
+  }
+
+  class ConcreteProductB2 {
+    +operationB(): void
+  }
+
+  AbstractFactory <|-- ConcreteFactory1
+  AbstractFactory <|-- ConcreteFactory2
+  AbstractFactory o-- AbstractProductA
+  AbstractFactory o-- AbstractProductB
+  ConcreteFactory1 o-- ConcreteProductA1
+  ConcreteFactory1 o-- ConcreteProductB1
+  ConcreteFactory2 o-- ConcreteProductA2
+  ConcreteFactory2 o-- ConcreteProductB2
+```
+
+
+implements
+```
+
+public abstract class Company {
+    public abstract Gpu createGpu();
+    public abstract Monitor createMonitor();
+}
+
+public class AsusManufacturer extends Company {
+    @Override
+    public Gpu createGpu() {
+        return new AsusGpu();
+    }
+    @Override
+    public Monitor createMonitor() {
+        return new AsusMonitor();
+    }
+}
+
+public class MsiManufacturer extends Company {
+
+    @Override
+    public Gpu createGpu() {
+        return new MsiGpu();
+    }
+
+    @Override
+    public Monitor createMonitor() {
+        return new MsiMonitor();
+    }
+
+}
+
+    public static void main(String[] args) {
+
+        Company msi = new MsiManufacturer();
+        Company asus = new AsusManufacturer();
+
+        List.of(msi.createGpu(), msi.createMonitor(), asus.createGpu(), asus.createMonitor())
+                .forEach(Product::assemble);
+
+    }
 
 
 
+```
 
-简单工厂的工厂,产品族
+
+
 
 https://blog.csdn.net/qq_18242391/article/details/81503370
-
+https://github.com/geekific-official/geekific-youtube/blob/main/design-patterns/creational-abstract-factory/src/main/java/com/youtube/geekific/MainApp.java
 
