@@ -162,7 +162,7 @@ UML
 ```mermaid
 classDiagram
   class Restaurant {
-  	+ someOperation()
+    + someOperation()
     + factoryMethod(): Burger
   }
 
@@ -254,8 +254,41 @@ public static void main(String[] args) {
 ```
 
 
+如果我们需要新开另一家店 ITALIAN 餐厅,那么实现方式，又需要在工厂里 判断,创建另一个ITALIAN工厂,这样又比较耦合了。
+
+```
+public class BeefBurgetRestaurant extends Restaurant{
+    @Override
+    public  Burget createBurget(String request){
+         Burger burger = null;
+         if("ITALIAN".equals(request)){
+             burger  = new ItalianBeefBurger();
+         }else if("VEGGIE".equals(request)){
+             burger = new AmericanBeefBurger();
+         }	
+        return burger;
+    }
+}
+
+public class VeggieBurgetRestaurant extends Restaurant{
+    @Override
+    public  Burget createBurget(String request){
+         Burger burger = null;
+         if("ITALIAN".equals(request)){
+             burger  = new ItalianVeggieBurger();
+         }else if("VEGGIE".equals(request)){
+             burger = new AmericanVeggieBurger();
+         }	
+        return burger;
+    }
+}
+
+```
+
+
 
 # Abstract Factory(抽象工厂 elementary )
+
 
 
 
