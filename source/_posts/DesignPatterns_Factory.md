@@ -231,6 +231,18 @@ public class VeggieBurger implements Burger{
     void prepare(){}
 }
 
+/** 原来的代码没有， 可以尝试这种方式更好*/
+public class Store{
+    privste Restaurant factory;
+    public Store(Restaurant factory){
+    	this.factory = factory;
+    }
+   public orderBuger(String request){
+	factory.orderBuger(request)
+   } 
+}
+
+
 public static void main(String[] args) {
     BeefBurgetRestaurant beefResto = new BeefBurgetRestaurant();
     Burger beefBurger =  beefResto.orderBurget();
