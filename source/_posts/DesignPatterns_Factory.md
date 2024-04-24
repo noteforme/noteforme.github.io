@@ -13,6 +13,26 @@ categories: DesignPatterns
 抽象工厂方法模式 ： 创建多种类型的实例, 抽象工厂 只有一个实例后，也就是工厂方法。
 
 
+# origin
+
+1. donnot have a common base class
+
+```
+public class Restuarant{
+    public ???? orderBuger(String request){
+        if("BEEF".equals(request)){
+            BeefBurger burger  = new BeefBurger();
+            burget.prepare();
+            return burger;
+        }else if("VEGGIE".equals(request)){
+            VeggieBurger burger = new VeggieBurger();
+            burget.prepare();
+            return burger;
+        }
+    }
+}
+
+```
 
 
 
@@ -28,108 +48,50 @@ categories: DesignPatterns
 
 # Simple factory
 
-```java
-public class PizzaStore {
 
-    SimplePizzaFactory factory;
+UML
 
-    public PizzaStore(SimplePizzaFactory factory) {
-        this.factory = factory;
-    }
+```mermaid
+classDiagram
+  class Burger {
+  	+ productId : int
+    + addOns: String
+    + prepare()
+  }
+ 
+  class BeefBurger {
+  	+ angus : boolean
+    + prepare()
+  }
+  
+  class VeggieBurger {
+  	+ combo : boolean
+    + prepare()
+  }
 
-    public Pizza orderPizza(String type) {
-        Pizza pizza = factory.createPizza(type);
-        pizza.prepare();
-        pizza.bake();
-        pizza.cut();
-        pizza.box();
-        return pizza;
-    }
-}
+Burger  <|--  BeefBurger
+Burger  <|--  VeggieBurger
+
 ```
 
-```java
-public class SimplePizzaFactory {
+implements
 
-    public Pizza createPizza(String type) {
-        Pizza pizza = null;
-        if ("cheese".equals(type)) {
-            pizza = new CheesePizza();
-        } else if ("pepperoni".equals(type)) {
-            pizza = new PepperoniPizza();
-        } else if ("calm".equals(type)) {
-            pizza = new GreekPizza();
+   
+```
+public class Restuarant{
+    public Burger orderBuger(String request){
+        if("BEEF".equals(request)){
+            BeefBurger burger  = new BeefBurger();
+        }else if("VEGGIE".equals(request)){
+            VeggieBurger burger = new VeggieBurger();
         }
-        return pizza;
+        burget.prepare();
+        return burger;
     }
 }
 ```
 
-```java
-public class PizzaStore {
 
-    SimplePizzaFactory factory;
-
-    public PizzaStore(SimplePizzaFactory factory) {
-        this.factory = factory;
-    }
-
-    public Pizza orderPizza(String type) {
-        Pizza pizza = factory.createPizza(type);
-        pizza.prepare();
-        pizza.bake();
-        pizza.cut();
-        pizza.box();
-        return pizza;
-    }
-}
-```
-
-```java
-public class Pizza {
-    String name;
-    String dough;
-    String sauce;
-    ArrayList topping = new ArrayList();
-
-   public void prepare() {
-        printOperation("preparing     " + name);
-        System.out.println("Tossing dough...");
-        System.out.println("Adding sauce");
-        System.out.println("Adding topping: ");
-        for (int i=0;i<topping.size();i++){
-            System.out.println("    "+topping.get(i));
-        }
-    }
-
-    public  void bake() {
-        printOperation("bake  for 25 minutes at 350");
-    }
-
-    public   void cut() {
-        printOperation("Cutting the pizza into diagonal slices");
-    }
-
-    public  void box() {
-        printOperation("Place pizza in official pizzaStore bx");
-    }
-
-    public  void printOperation(String op) {
-        System.out.println(/*getClass().getSimpleName() + " " +*/ op);
-    }
-
-    public String getName(){
-        return  name;
-    }
-
-}
-```
-
-```java
-SimplePizzaFactory calmFactory = new SimplePizzaFactory();
-PizzaStore calmPizza = new PizzaStore(calmFactory);
-calmPizza.orderPizza("calm");
-```
 
 #  Factory method 
 
