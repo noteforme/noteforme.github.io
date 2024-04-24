@@ -287,6 +287,38 @@ public class VeggieBurgetRestaurant extends Restaurant{
 
 
 
+## JDK源码解析-Collection.iterator方法
+
+ArrayList used
+
+![hierarchy-of-collection-framework-in-java](https://github.com/noteforme/noteforme.github.io/assets/6995071/f5874eac-becd-4404-87d1-1f2a5251d3c8)
+
+![image](https://github.com/noteforme/noteforme.github.io/assets/6995071/30284b65-fae4-4188-ba8e-579fb9ec6035)
+
+
+Collection接口是抽象工厂类，ArrayList是具体的工厂类；Iterator接口是抽象商品类，ArrayList类中的Iter内部类是具体的商品类。在具体的工厂类中iterator()方法创建具体的商品类的对象。
+
+```
+        List<String> list = new ArrayList<>();
+        list.add("令狐冲");
+        list.add("风清扬");
+        list.add("任我行");
+
+        //获取迭代器对象
+        Iterator<String> it = list.iterator();
+        //使用迭代器遍历
+        while(it.hasNext()) {
+            String ele = it.next();
+            System.out.println(ele);
+        }
+```
+
+另外	
+DateForamt类中的getInstance()方法使用的是工厂模式；
+ 
+Calendar类中的getInstance()方法使用的是工厂模式；
+
+
 # Abstract Factory(抽象工厂 elementary )
 
 在原有生产GPU的产品线上，好需要添加监控的功能，此时就会出现如下 代码耦合的情况。
@@ -396,6 +428,9 @@ public class MsiManufacturer extends Company {
 
 
 
+
+
 https://blog.csdn.net/qq_18242391/article/details/81503370
+
 https://github.com/geekific-official/geekific-youtube/blob/main/design-patterns/creational-abstract-factory/src/main/java/com/youtube/geekific/MainApp.java
 
