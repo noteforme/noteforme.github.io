@@ -66,13 +66,25 @@ retrofit的了解
     3-15 retrofit中同步请求&重要参数解析
     3-16 retrofit中异步请求解析
 
-DESIGN PATTERN
+# DESIGN PATTERN
 
 ![image](https://github.com/noteforme/noteforme.github.io/assets/6995071/fb78a8b1-5458-4d7b-b7f3-e013793379e6)
 
     
 *  retrofit设计模式解析-1：构建者模式  RequestBuilder 
 *  retrofit设计模式解析-2：工厂模式
+   ## 简单工厂模式
+   
+   ```
+   private static Platform findPlatform() {
+    if (isAndroid()) {
+      return findAndroidPlatform();
+    } else {
+      return findJvmPlatform();
+    }
+  }
+   ```
+  
     
     
     
