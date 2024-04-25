@@ -313,6 +313,11 @@ platform是一个Android平台，defaultCallbackExecutor 内部其实调用的�
 原文链接：https://blog.csdn.net/qq_37492806/article/details/133995368
 
 
+Retrofit结合RxJava 感觉RxJava可以了解下，
+Retrofit结合courutine 感觉courutine代码不懂，courutine的可以了解下，感觉courutine有先级别更高一点，回来再来画Retrofit其他的类图
+
+
+
 
 
 
