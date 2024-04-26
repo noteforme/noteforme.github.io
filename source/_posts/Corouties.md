@@ -50,7 +50,12 @@ The IO dispatcher is optimized for IO work like reading from the network or disk
 
 
 
+# runBlocking vs CoroutineScope
 
+runBlocking is also a coroutine builder that bridges the non-coroutine world of a regular fun main() and the code with coroutines inside of runBlocking { ... } curly braces. This is highlighted in an IDE by this: CoroutineScope hint right after the runBlocking opening curly brace.
+
+
+https://kotlinlang.org/docs/coroutines-basics.html#your-first-coroutine
 
 https://juejin.cn/post/6883652600462327821
 
