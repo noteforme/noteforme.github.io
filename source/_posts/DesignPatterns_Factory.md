@@ -7,8 +7,6 @@ categories: DesignPatterns
 
 ---
 
-
-
 工厂方法模式   ： 只创建一种类型的实例，
 抽象工厂方法模式 ： 创建多种类型的实例, 抽象工厂 只有一个实例后，也就是工厂方法。
 
@@ -32,12 +30,7 @@ public class Restuarant{
         }
     }
 }
-
 ```
-
-
-
-
 
 ![2021-09-12_6.41.32_fac_indraduce](DesignPatterns_Factory/2021-09-12_fac_indraduce.png)
 
@@ -49,35 +42,35 @@ public class Restuarant{
 
 # Simple factory
 
-
 is not a full-fledged offical pattern
+
+
 
 UML
 
 ```mermaid
-
 classDiagram
-	class Restaurant{
-		+ Burger orderBurger()
-	}
-	
-	class SimpleBurgetFactory{
-		+ Burger createBurget()
-	}
+    class Restaurant{
+        + Burger orderBurger()
+    }
+
+    class SimpleBurgetFactory{
+        + Burger createBurget()
+    }
 
   class Burger {
-  	+ int productId  
+      + int productId  
     + String addOns
     + prepare()
   }
- 
+
   class BeefBurger {
-  	+ boolean angus
+      + boolean angus
     + prepare()
   }
-  
+
   class VeggieBurger {
-  	+ boolean combo
+      + boolean combo
     + prepare()
   }
 
@@ -85,14 +78,10 @@ Burger  <|--  BeefBurger
 Burger  <|--  VeggieBurger
 Burger  <.. SimpleBurgetFactory
 SimpleBurgetFactory <.. Restaurant
-
 ```
-
-
 
 implements
 
-   
 ```
 public class SimpleBurgetFactory{
     public Burger orderBuger(String request){
@@ -107,9 +96,7 @@ public class SimpleBurgetFactory{
 }
 ```
 
-
-
-#  Factory method 
+# Factory method
 
 如果我们想新增一种类型或者修改，一种类型，那么就需要修改上面简单工厂的代码。
 
@@ -117,11 +104,10 @@ public class SimpleBurgetFactory{
 
 标准工厂UML
 
-
 ```mermaid
 classDiagram
   class Creator {
-  	+ someOperation()
+      + someOperation()
     + factoryMethod(): Product
   }
 
@@ -150,12 +136,9 @@ classDiagram
   Creator <|-- ConcreteProductB : Inheritance
   Product <|.. ConcreteCreatorA : Realization
   Product <|.. ConcreteCreatorB : Realization
-
 ```
 
 我们的工厂不再创造对象，而是把这个构建过程移到子类。
-
-
 
 UML
 
@@ -191,9 +174,6 @@ classDiagram
   Burger <|.. BeefBurger : Realization
   Burger <|.. VeggieBurger : Realization
 ```
-
-
-
 
 ```
 public class Restaurant{
@@ -235,10 +215,10 @@ public class VeggieBurger implements Burger{
 public class Store{
     privste Restaurant factory;
     public Store(Restaurant factory){
-    	this.factory = factory;
+        this.factory = factory;
     }
    public orderBuger(String request){
-	factory.orderBuger(request)
+    factory.orderBuger(request)
    } 
 }
 
@@ -250,9 +230,7 @@ public static void main(String[] args) {
     VeggieBurgetRestaurant veggieResto = new VeggieBurgetRestaurant();
     Burger beefBurger =  veggieResto.orderBurget();
 }
-
 ```
-
 
 如果我们需要新开另一家店 ITALIAN 餐厅,那么实现方式，又需要在工厂里 判断,创建另一个ITALIAN工厂,这样又比较耦合了。
 
@@ -265,7 +243,7 @@ public class BeefBurgetRestaurant extends Restaurant{
              burger  = new ItalianBeefBurger();
          }else if("VEGGIE".equals(request)){
              burger = new AmericanBeefBurger();
-         }	
+         }    
         return burger;
     }
 }
@@ -278,14 +256,11 @@ public class VeggieBurgetRestaurant extends Restaurant{
              burger  = new ItalianVeggieBurger();
          }else if("VEGGIE".equals(request)){
              burger = new AmericanVeggieBurger();
-         }	
+         }    
         return burger;
     }
 }
-
 ```
-
-
 
 ## JDK源码解析-Collection.iterator方法
 
@@ -294,7 +269,6 @@ ArrayList used
 ![hierarchy-of-collection-framework-in-java](https://github.com/noteforme/noteforme.github.io/assets/6995071/f5874eac-becd-4404-87d1-1f2a5251d3c8)
 
 ![image](https://github.com/noteforme/noteforme.github.io/assets/6995071/30284b65-fae4-4188-ba8e-579fb9ec6035)
-
 
 Collection接口是抽象工厂类，ArrayList是具体的工厂类；Iterator接口是抽象商品类，ArrayList类中的Iter内部类是具体的商品类。在具体的工厂类中iterator()方法创建具体的商品类的对象。
 
@@ -313,18 +287,16 @@ Collection接口是抽象工厂类，ArrayList是具体的工厂类；Iterator�
         }
 ```
 
-另外	
+另外    
 DateForamt类中的getInstance()方法使用的是工厂模式；
- 
-Calendar类中的getInstance()方法使用的是工厂模式；
 
+Calendar类中的getInstance()方法使用的是工厂模式；
 
 # Abstract Factory(抽象工厂 elementary )
 
 在原有生产GPU的产品线上，好需要添加监控的功能，此时就会出现如下 代码耦合的情况。
 
 <img width="1408" alt="Screenshot 2024-04-24 at 16 49 43" src="https://github.com/noteforme/noteforme.github.io/assets/6995071/b55e30a3-fd6e-43db-b678-e7db21251628">
-
 
 ```mermaid
 classDiagram
@@ -377,10 +349,9 @@ classDiagram
   ConcreteFactory2 o-- ConcreteProductB2
 ```
 
-
 implements
-```
 
+```
 public abstract class Company {
     public abstract Gpu createGpu();
     public abstract Monitor createMonitor();
@@ -420,17 +391,8 @@ public class MsiManufacturer extends Company {
                 .forEach(Product::assemble);
 
     }
-
-
-
 ```
-
-
-
-
-
 
 https://blog.csdn.net/qq_18242391/article/details/81503370
 
 https://github.com/geekific-official/geekific-youtube/blob/main/design-patterns/creational-abstract-factory/src/main/java/com/youtube/geekific/MainApp.java
-
