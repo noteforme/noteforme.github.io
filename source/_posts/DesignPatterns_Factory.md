@@ -44,8 +44,6 @@ public class Restuarant{
 
 is not a full-fledged offical pattern
 
-
-
 UML
 
 ```mermaid
@@ -270,6 +268,12 @@ ArrayList used
 
 ![image](https://github.com/noteforme/noteforme.github.io/assets/6995071/30284b65-fae4-4188-ba8e-579fb9ec6035)
 
+
+=======
+
+![pngbase647bdb7e3d77b2c856](https://github.com/noteforme/noteforme.github.io/assets/6995071/af7dc807-2792-41e7-91ba-633d85553e89)
+
+11f207f50a613801f673fd4c82242b3c35d71f4b
 Collection接口是抽象工厂类，ArrayList是具体的工厂类；Iterator接口是抽象商品类，ArrayList类中的Iter内部类是具体的商品类。在具体的工厂类中iterator()方法创建具体的商品类的对象。
 
 ```
