@@ -17,26 +17,3 @@ http://blog.csdn.net/sunmc1204953974/article/details/45740853
 ##### 删除build文件
 
 `find . -name "build"  | xargs rm -rf`
-
-```plantuml
-@startuml
-
-== Initialization ==
-
-Alice -> Bob: : Can you solve:  Bob --> Alice:  activate Alice #FFBBBB note left: this is a first note
-
-Alice -> Bob: Another dialogue deactivate Alice
-
-Alice <-- Bob: Another dialogue
-
-@enduml
-```
-
-```plantuml
-@startuml
-Object <|-- ArrayList
-Object : equals()
-ArrayList : Object[] elementData
-ArrayList : size()
-@enduml
-```
