@@ -8,7 +8,70 @@ categories:
 
 
 
-第三方 网络库
+### 框架学习
+
+https://www.youtube.com/watch?v=pUV3qZh481k
+
+#### okhttp
+
+https://noteforme.github.io/2017/08/07/OKHTTP/
+
+   okhttp怎么支持http2.0
+
+​    Handshake则会把服务端支持的Tls版本，加密方式等都带回来，然后会把这个没有验证过的HandShake用X509Certificate去验证证书的有效性。然后会通过Platform去从SSLSocket去获取ALPN的协议支持信息，当后端支持的协议内包含Http2.0时，则就会把请求升级到Http2.0阶段。
+
+​    配置合适的适配器，解析json数据。
+
+​    Android 如何编写基于编译时注解的项目
+
+​    编译时注解与运行时注解，为什么retrofit要使用运行时注解？什么时候用运行时注解？
+
+​    在项目中有直接使用tcp,socket来发送消息吗
+
+​    https://www.bilibili.com/video/BV1ib4y1f7S1
+
+Okhttp缓存机制
+
+网络请求缓存处理，okhttp如何处理网络缓存的
+
+自己去设计网络请求框架，怎么做？
+
+- 从网络加载一个10M的图片，说下注意事项
+- TCP的3次握手和四次挥手
+- TCP与UDP的区别
+- TCP与UDP的应用
+- HTTP协议
+- HTTP1.0与2.0的区别
+- HTTP报文结构
+- HTTP与HTTPS的区别以及如何实现安全性
+- 如何验证证书的合法性?
+- https中哪里用了对称加密，哪里用了非对称加密，对加密算法（如RSA）等是否有了解?
+- client如何确定自己发送的消息被server收到?
+- 谈谈你对安卓签名的理解。
+- 请解释安卓为啥要加签名机制?
+- 视频加密传输
+- App 是如何沙箱化，为什么要这么做？
+- 权限管理系统（底层的权限是如何进行 grant 的）？
+
+#### Retrofit
+
+在retrofit中的泛型是怎么解析的
+
+https://noteforme.github.io/2017/09/23/Retrofit/
+
+#### coroutine 面试
+
+kotlin协程有没有了解过。（协程是kotlin 语言对线程的封装）
+协程实现原理
+协程的理解
+协程相对于线程的区别
+协程Flow有哪些应用场景？
+进程、线程、协程的联系与区别 
+​你了解协程吗？协程有什么作用？可以完全取代rxjava吗？
+
+
+
+
 
 
 
@@ -38,56 +101,7 @@ categories:
 
 - Glide内存缓存如何控制大小？
 
-### 框架学习
 
-https://www.youtube.com/watch?v=pUV3qZh481k
-
-#### okhttp
-
-​    https://noteforme.github.io/2017/08/07/OKHTTP/
-
-###### okhttp怎么支持http2.0
-
-​    Handshake则会把服务端支持的Tls版本，加密方式等都带回来，然后会把这个没有验证过的HandShake用X509Certificate去验证证书的有效性。然后会通过Platform去从SSLSocket去获取ALPN的协议支持信息，当后端支持的协议内包含Http2.0时，则就会把请求升级到Http2.0阶段。
-
-​    配置合适的适配器，解析json数据。
-
-​    Android 如何编写基于编译时注解的项目
-
-​    编译时注解与运行时注解，为什么retrofit要使用运行时注解？什么时候用运行时注解？
-
-​    在项目中有直接使用tcp,socket来发送消息吗
-
-​    https://www.bilibili.com/video/BV1ib4y1f7S1
-
-Okhttp缓存机制
-
-###### 网络请求缓存处理，okhttp如何处理网络缓存的
-
-自己去设计网络请求框架，怎么做？
-
-- 从网络加载一个10M的图片，说下注意事项
-- TCP的3次握手和四次挥手
-- TCP与UDP的区别
-- TCP与UDP的应用
-- HTTP协议
-- HTTP1.0与2.0的区别
-- HTTP报文结构
-- HTTP与HTTPS的区别以及如何实现安全性
-- 如何验证证书的合法性?
-- https中哪里用了对称加密，哪里用了非对称加密，对加密算法（如RSA）等是否有了解?
-- client如何确定自己发送的消息被server收到?
-- 谈谈你对安卓签名的理解。
-- 请解释安卓为啥要加签名机制?
-- 视频加密传输
-- App 是如何沙箱化，为什么要这么做？
-- 权限管理系统（底层的权限是如何进行 grant 的）？
-
-#### Retrofit
-
-在retrofit中的泛型是怎么解析的
-
-https://noteforme.github.io/2017/09/23/Retrofit/
 
 #### RxJava
 
