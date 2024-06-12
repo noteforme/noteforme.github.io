@@ -87,232 +87,6 @@
 
       <div class="outer">
         <section id="main">
-  <article id="post-Handler" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/08/21/Handler/">Handler</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-08-21T09:06:35.000Z" itemprop="datePublished">2017年08月21日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
-  </div>
-
-      
-      
-<a href="/2017/08/21/Handler/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h4 id="Handler作用"><a href="#Handler作用" class="headerlink" title="Handler作用"></a>Handler作用</h4><p>既然process内的thread share their memories. why we need handler.我们直接可以 subThread get data,赋值给Ui thread的变量呀。</p>
-<p>正常来说是没问题的。但是像下面这种情况。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">&quot;123&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> anInt = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 子</span></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                anInt = <span class="number">2</span>;</span><br><span class="line">                Log.i(TAG, <span class="string">&quot;子线程: &quot;</span> + anInt);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">        <span class="comment">// 主</span></span><br><span class="line">            Log.i(TAG, <span class="string">&quot;主线程: &quot;</span> + anInt);</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">————————————————</span><br><span class="line">版权声明：本文为CSDN博主「dev晴天」的原创文章，遵循CC <span class="number">4.0</span> BY-SA版权协议，转载请附上原文出处链接及本声明。</span><br><span class="line">原文链接：https:<span class="comment">//blog.csdn.net/qq_38350635/article/details/90440833</span></span><br></pre></td></tr></table></figure>
-
-<p>如上：主线程定义了anInt，子线程对其修改。我们再在主线程打印，能得到修改后的anInt = 2 吗？<br> 答案：不确定<br> 原因：线程争夺cup使用权顺序不确定，可能,子线程先获得使用权，则两个Log都打印2。当然主线程先获得使用权时主线程的log打印数值为1。</p>
-<p>解决方案<br>1、让子线程先执行。</p>
-<pre><code>比如主线程设置低优先级、主线程休息等等（不靠谱，提供一种想法吧）
-</code></pre>
-<p>2、安卓中的Handler机制</p>
-<pre><code>子线程发送消息，主线程接受消息，只有主线程收到消息再打印处理数值。
-handler使用略。。。。。。
-</code></pre>
-<p>3、接口回调机制</p>
-<h5 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h5><img src="/2017/08/21/Handler/2021-07-07_15-49-54_hanlder.png">
-
-
-
-<p> <img src="https://images.xiaozhuanlan.com/photo/2019/5dd99feb4297e4c3a5ad55dba0812a1a.png"></p>
-<h5 id="各组件作用"><a href="#各组件作用" class="headerlink" title="各组件作用"></a>各组件作用</h5><ul>
-<li>Handler：事件的发送及处理者，在构造方法中可以设置其 async，默认为 false。若 async 为 true 则该 Handler 发送的 Message 均为异步消息，有同步屏障的情况下会被优先处理。</li>
-<li>Looper：一个用于遍历 MessageQueue 的类，每个线程有一个独有的 Looper，它会在所处的线程开启一个死循环，不断从 MessageQueue 中拿出消息，并将其发送给 target 进行处理</li>
-<li>MessageQueue：在主线程,用于存储 Message，内部维护了 Message 的链表，每次拿取 Message 时，若该  Message 离真正执行还需要一段时间，会通过 nativePollOnce  进入阻塞状态，避免资源的浪费。若存在消息屏障，则会忽略同步消息优先拿取异步消息，从而实现异步消息的优先消费。</li>
-</ul>
-<h5 id="消息入队算法"><a href="#消息入队算法" class="headerlink" title="消息入队算法"></a>消息入队算法</h5><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9efe3b48b730">https://www.jianshu.com/p/9efe3b48b730</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904113470177293">https://juejin.cn/post/6844904113470177293</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1VE411Z7Ay?p=4">https://www.bilibili.com/video/BV1VE411Z7Ay?p=4</a></p>
-<h5 id="ThreadLocal存取算法"><a href="#ThreadLocal存取算法" class="headerlink" title="ThreadLocal存取算法"></a>ThreadLocal存取算法</h5><p>　ThreadLocal是一个线程内部的数据存储类，它可以指定线程的存储数据，数据存储后只有在指定的线程种裁可以获取到存储的数据, 其他线程无法获取。</p>
-<p> 验证:</p>
-<pre><code>  private ThreadLocal&lt;String&gt; mStringThreadLocal = new ThreadLocal&lt;&gt;();
-  mStringThreadLocal.set(&quot;我是主线程&quot;);
-    Log.d(TAG, &quot;mStringThreadLocal 主线程 :　&quot; + mStringThreadLocal.get());
-    exec.submit(new Runnable() &#123;
-        @Override
-        public void run() &#123;
-            mStringThreadLocal.set(&quot;我是线程１&quot;);
-            Log.d(TAG, &quot;mStringThreadLocal 线程１:　&quot; + mStringThreadLocal.get());
-        &#125;
-    &#125;);
-
-    exec.submit(new Runnable() &#123;
-        @Override
-        public void run() &#123;
-            Log.d(TAG, &quot;mStringThreadLocal 线程2: &quot; + mStringThreadLocal.get());
-        &#125;
-    &#125;);
-</code></pre>
-<p>运行结果:</p>
-<blockquote>
-<pre><code>  D/MainActivity: mStringThreadLocal 主线程 :　我是主线程
- D/MainActivity: mStringThreadLocal 线程１:　我是线程１
- D/MainActivity: mStringThreadLocal 线程2: null
-</code></pre>
-</blockquote>
-<p>从日志可以看到，虽然在不同线程访问的同一个ThreadLocal对象，但是他们通过ThreadLocal获取到的值确不一样<br>　结论：　对ThreadLocal所做的　读写操作仅限于各自线程的内部，ThreadLocal可以在多个线程互不干扰的存储和修改数据。<br>  !!!任务： 分析ThreadLocal存取算法</p>
-<p>[^参考：Android开发艺术探索　p377]</p>
-<h5 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h5><h6 id="同步消息"><a href="#同步消息" class="headerlink" title="同步消息"></a>同步消息</h6><p> 来个简单的例子<br> <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">new</span> Thread(<span class="built_in">new</span> Runnable() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        <span class="built_in">public</span> <span class="type">void</span> run() &#123;</span><br><span class="line">          Looper.<span class="keyword">prepare</span>();</span><br><span class="line">          <span class="keyword">handler</span> = <span class="built_in">new</span> <span class="keyword">Handler</span>();</span><br><span class="line">          Looper.<span class="keyword">loop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).<span class="keyword">start</span>();</span><br></pre></td></tr></table></figure><br>把　Looper.prepare();注释，报错日志 : <code>java.lang.RuntimeException: Can&#39;t create handler inside thread that has not called Looper.prepare()</code></p>
-<p>从报错信息入手看原因，初始化Handler (API = 25)</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="title">Handler</span>(<span class="params">Callback callback, <span class="built_in">boolean</span> <span class="keyword">async</span></span>)</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (FIND_POTENTIAL_LEAKS) &#123;</span><br><span class="line">           final Class&lt;? <span class="keyword">extends</span> Handler&gt; klass = getClass();</span><br><span class="line">           <span class="keyword">if</span> ((klass.isAnonymousClass() || klass.isMemberClass() || klass.isLocalClass()) &amp;&amp;</span><br><span class="line">                   (klass.getModifiers() &amp; Modifier.STATIC) == <span class="number">0</span>) &#123;</span><br><span class="line">               Log.w(TAG, <span class="string">&quot;The following Handler class should be static or leaks might occur: &quot;</span> +</span><br><span class="line">                   klass.getCanonicalName());</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       mLooper = Looper.myLooper();</span><br><span class="line">       <span class="keyword">if</span> (mLooper == <span class="literal">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(</span><br><span class="line">               <span class="string">&quot;Can&#x27;t create handler inside thread that has not called Looper.prepare()&quot;</span>);  <span class="comment">//报错信息</span></span><br><span class="line">       &#125;</span><br><span class="line">       mQueue = mLooper.mQueue;</span><br><span class="line">       mCallback = callback;</span><br><span class="line">       mAsynchronous = <span class="keyword">async</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>　mLooper为空,所以报错，看下<code>Looper.myLooper();</code></p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Return the Looper object associated with the current thread.  Returns</span></span><br><span class="line"><span class="comment">    * null if the calling thread is not associated with a Looper.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> @<span class="function">Nullable Looper <span class="title">myLooper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> sThreadLocal.<span class="built_in">get</span>();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>  注释可以看到，当前线程没有Looper对象, 那么Looper对象是怎么创建的呢，很显然就是上面例子里的<code> Looper.prepare();</code></p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Initialize the current thread as a looper.</span></span><br><span class="line"><span class="comment">     * This gives you a chance to create handlers that then reference</span></span><br><span class="line"><span class="comment">     * this looper, before actually starting the loop. Be sure to call</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link </span>#loop()&#125; after calling this method, and end it by calling</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link </span>#quit()&#125;.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">void</span> <span class="function"><span class="title">prepare</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">       prepare(<span class="literal">true</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">void</span> <span class="function"><span class="title">prepare</span>(<span class="params"><span class="built_in">boolean</span> quitAllowed</span>)</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (sThreadLocal.get() != <span class="literal">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Only one Looper may be created per thread&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       sThreadLocal.set(<span class="keyword">new</span> Looper(quitAllowed));</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>如果没有Looper　则new 一个，由此也看到每个线程最多一个Looper对象,接着看初始化的Looper</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="constructor">Looper(<span class="params">boolean</span> <span class="params">quitAllowed</span>)</span> &#123;</span><br><span class="line">       mQueue = <span class="keyword">new</span> <span class="constructor">MessageQueue(<span class="params">quitAllowed</span>)</span>;</span><br><span class="line">       mThread = <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>MesageQueue也是通过Looper创建的，看到private 构造方法,一个Looper管理一个　ＭesageQueue,<br>但是我们通常在UI线程初始化Handler不需要调用 <code>Looper.prepare();</code>,这是因为应用启动后,主线程<br>ActivityThread main方法为我们做了工作。</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span> </span>&#123;</span><br><span class="line">       Trace.<span class="built_in">traceBegin</span>(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="string">&quot;ActivityThreadMain&quot;</span>);</span><br><span class="line">       SamplingProfilerIntegration.<span class="built_in">start</span>();</span><br><span class="line"></span><br><span class="line">       <span class="comment">// CloseGuard defaults to true and can be quite spammy.  We</span></span><br><span class="line">       <span class="comment">// disable it here, but selectively enable it later (via</span></span><br><span class="line">       <span class="comment">// StrictMode) on debug builds, but using DropBox, not logs.</span></span><br><span class="line">       CloseGuard.<span class="built_in">setEnabled</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">       Environment.<span class="built_in">initForCurrentUser</span>();</span><br><span class="line"></span><br><span class="line">       <span class="comment">// Set the reporter for event logging in libcore</span></span><br><span class="line">       EventLogger.<span class="built_in">setReporter</span>(<span class="keyword">new</span> <span class="built_in">EventLoggingReporter</span>());</span><br><span class="line"></span><br><span class="line">       <span class="comment">// Make sure TrustedCertificateStore looks in the right place for CA certificates</span></span><br><span class="line">       <span class="keyword">final</span> <span class="built_in">File</span> configDir = Environment.<span class="built_in">getUserConfigDirectory</span>(UserHandle.<span class="built_in">myUserId</span>());</span><br><span class="line">       TrustedCertificateStore.<span class="built_in">setDefaultUserDirectory</span>(configDir);</span><br><span class="line"></span><br><span class="line">       <span class="built_in">Process</span>.<span class="built_in">setArgV0</span>(<span class="string">&quot;&lt;pre-initialized&gt;&quot;</span>);</span><br><span class="line"></span><br><span class="line">       Looper.<span class="built_in">prepareMainLooper</span>();</span><br><span class="line"></span><br><span class="line">       ActivityThread thread = <span class="keyword">new</span> <span class="built_in">ActivityThread</span>();</span><br><span class="line">       thread.<span class="built_in">attach</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (sMainThreadHandler == null) &#123;</span><br><span class="line">           sMainThreadHandler = thread.<span class="built_in">getHandler</span>();</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">           Looper.<span class="built_in">myLooper</span>().<span class="built_in">setMessageLogging</span>(<span class="keyword">new</span></span><br><span class="line">                   <span class="built_in">LogPrinter</span>(Log.DEBUG, <span class="string">&quot;ActivityThread&quot;</span>));</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// End of event ActivityThreadMain.</span></span><br><span class="line">       Trace.<span class="built_in">traceEnd</span>(Trace.TRACE_TAG_ACTIVITY_MANAGER);</span><br><span class="line">       Looper.<span class="built_in">loop</span>();</span><br><span class="line"></span><br><span class="line">       <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">RuntimeException</span>(<span class="string">&quot;Main thread loop unexpectedly exited&quot;</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>这样初始化Handler操作分析好了，接着就开始发消息了 <code>handler.sendMessage(message);</code>,经过层层调用来到这个方法</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">　 <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">sendMessageAtTime</span><span class="params">(Message msg, <span class="keyword">long</span> uptimeMillis)</span> </span>&#123;</span><br><span class="line">    MessageQueue queue = mQueue;</span><br><span class="line">    <span class="keyword">if</span> (queue == null) &#123;</span><br><span class="line">        RuntimeException e = <span class="keyword">new</span> <span class="built_in">RuntimeException</span>(</span><br><span class="line">                <span class="keyword">this</span> + <span class="string">&quot; sendMessageAtTime() called with no mQueue&quot;</span>);</span><br><span class="line">        Log.<span class="built_in">w</span>(<span class="string">&quot;Looper&quot;</span>, e.<span class="built_in">getMessage</span>(), e);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">enqueueMessage</span>(queue, msg, uptimeMillis);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>第二个参数时间是可以添加延时的参数</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">boolean <span class="title">enqueueMessage</span>(<span class="params">Message msg, <span class="built_in">long</span> <span class="keyword">when</span></span>)</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (msg.target == <span class="literal">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Message must have a target.&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">if</span> (msg.isInUse()) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(msg + <span class="string">&quot; This message is already in use.&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       synchronized (<span class="keyword">this</span>) &#123;</span><br><span class="line">           <span class="keyword">if</span> (mQuitting) &#123;</span><br><span class="line">               IllegalStateException e = <span class="keyword">new</span> IllegalStateException(</span><br><span class="line">                       msg.target + <span class="string">&quot; sending message to a Handler on a dead thread&quot;</span>);</span><br><span class="line">               Log.w(TAG, e.getMessage(), e);</span><br><span class="line">               msg.recycle();</span><br><span class="line">               <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           msg.markInUse();</span><br><span class="line">           msg.<span class="keyword">when</span> = <span class="keyword">when</span>;</span><br><span class="line">           Message p = mMessages;</span><br><span class="line">           boolean needWake;</span><br><span class="line">           <span class="keyword">if</span> (p == <span class="literal">null</span> || <span class="keyword">when</span> == <span class="number">0</span> || <span class="keyword">when</span> &lt; p.<span class="keyword">when</span>) &#123;</span><br><span class="line">               <span class="comment">// New head, wake up the event queue if blocked.</span></span><br><span class="line">               msg.next = p;</span><br><span class="line">               mMessages = msg;</span><br><span class="line">               needWake = mBlocked;</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="comment">// Inserted within the middle of the queue.  Usually we don&#x27;t have to wake</span></span><br><span class="line">               <span class="comment">// up the event queue unless there is a barrier at the head of the queue</span></span><br><span class="line">               <span class="comment">// and the message is the earliest asynchronous message in the queue.</span></span><br><span class="line">               needWake = mBlocked &amp;&amp; p.target == <span class="literal">null</span> &amp;&amp; msg.isAsynchronous();</span><br><span class="line">               Message prev;</span><br><span class="line">               <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">                   prev = p;</span><br><span class="line">                   p = p.next;</span><br><span class="line">                   <span class="keyword">if</span> (p == <span class="literal">null</span> || <span class="keyword">when</span> &lt; p.<span class="keyword">when</span>) &#123;</span><br><span class="line">                       <span class="keyword">break</span>;</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">if</span> (needWake &amp;&amp; p.isAsynchronous()) &#123;</span><br><span class="line">                       needWake = <span class="literal">false</span>;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               msg.next = p; <span class="comment">// invariant: p == prev.next</span></span><br><span class="line">               prev.next = msg;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// We can assume mPtr != 0 because mQuitting is false.</span></span><br><span class="line">           <span class="keyword">if</span> (needWake) &#123;</span><br><span class="line">               nativeWake(mPtr);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>这要Mesage消息就添加到 MesageQueue中了，按事件顺序添加，然后就是取消息了，通过调用<code>Looper.loop();</code></p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Run the message queue in this thread. Be sure to call</span></span><br><span class="line"><span class="comment">    * &#123;@link #quit()&#125; to end the loop.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   public static void loop<span class="literal">()</span> &#123;</span><br><span class="line">       final Looper me = my<span class="constructor">Looper()</span>;</span><br><span class="line">       <span class="keyword">if</span> (me<span class="operator"> == </span>null) &#123;</span><br><span class="line">           throw <span class="keyword">new</span> <span class="constructor">RuntimeException(<span class="string">&quot;No Looper; Looper.prepare() wasn&#x27;t called on this thread.&quot;</span>)</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       final MessageQueue queue = me.mQueue;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// Make sure the identity of this thread is that of the local process,</span></span><br><span class="line">       <span class="comment">// and keep track of what that identity token actually is.</span></span><br><span class="line">       <span class="module-access"><span class="module"><span class="identifier">Binder</span>.</span></span>clear<span class="constructor">CallingIdentity()</span>;</span><br><span class="line">       final long ident = <span class="module-access"><span class="module"><span class="identifier">Binder</span>.</span></span>clear<span class="constructor">CallingIdentity()</span>;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">           Message msg = queue.next<span class="literal">()</span>; <span class="comment">// might block</span></span><br><span class="line">           <span class="keyword">if</span> (msg<span class="operator"> == </span>null) &#123;</span><br><span class="line">               <span class="comment">// No message indicates that the message queue is quitting.</span></span><br><span class="line">               return;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// This must be in a local variable, in case a UI event sets the logger</span></span><br><span class="line">           final Printer logging = me.mLogging;</span><br><span class="line">           <span class="keyword">if</span> (logging != null) &#123;</span><br><span class="line">               logging.println(<span class="string">&quot;&gt;&gt;&gt;&gt;&gt; Dispatching to &quot;</span> + msg.target + <span class="string">&quot; &quot;</span> +</span><br><span class="line">                       msg.callback + <span class="string">&quot;: &quot;</span> + msg.what);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           final long traceTag = me.mTraceTag;</span><br><span class="line">           <span class="keyword">if</span> (traceTag != <span class="number">0</span><span class="operator"> &amp;&amp; </span><span class="module-access"><span class="module"><span class="identifier">Trace</span>.</span></span>is<span class="constructor">TagEnabled(<span class="params">traceTag</span>)</span>) &#123;</span><br><span class="line">               <span class="module-access"><span class="module"><span class="identifier">Trace</span>.</span></span>trace<span class="constructor">Begin(<span class="params">traceTag</span>, <span class="params">msg</span>.<span class="params">target</span>.<span class="params">getTraceName</span>(<span class="params">msg</span>)</span>);</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               msg.target.dispatch<span class="constructor">Message(<span class="params">msg</span>)</span>;</span><br><span class="line">           &#125; finally &#123;</span><br><span class="line">               <span class="keyword">if</span> (traceTag != <span class="number">0</span>) &#123;</span><br><span class="line">                   <span class="module-access"><span class="module"><span class="identifier">Trace</span>.</span></span>trace<span class="constructor">End(<span class="params">traceTag</span>)</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="keyword">if</span> (logging != null) &#123;</span><br><span class="line">               logging.println(<span class="string">&quot;&lt;&lt;&lt;&lt;&lt; Finished to &quot;</span> + msg.target + <span class="string">&quot; &quot;</span> + msg.callback);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// Make sure that during the course of dispatching the</span></span><br><span class="line">           <span class="comment">// identity of the thread wasn&#x27;t corrupted.</span></span><br><span class="line">           final long newIdent = <span class="module-access"><span class="module"><span class="identifier">Binder</span>.</span></span>clear<span class="constructor">CallingIdentity()</span>;</span><br><span class="line">           <span class="keyword">if</span> (ident != newIdent) &#123;</span><br><span class="line">               <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>wtf(TAG, <span class="string">&quot;Thread identity changed from 0x&quot;</span></span><br><span class="line">                       + <span class="module-access"><span class="module"><span class="identifier">Long</span>.</span></span><span class="keyword">to</span><span class="constructor">HexString(<span class="params">ident</span>)</span> + <span class="string">&quot; to 0x&quot;</span></span><br><span class="line">                       + <span class="module-access"><span class="module"><span class="identifier">Long</span>.</span></span><span class="keyword">to</span><span class="constructor">HexString(<span class="params">newIdent</span>)</span> + <span class="string">&quot; while dispatching to &quot;</span></span><br><span class="line">                       + msg.target.get<span class="constructor">Class()</span>.get<span class="constructor">Name()</span> + <span class="string">&quot; &quot;</span></span><br><span class="line">                       + msg.callback + <span class="string">&quot; what=&quot;</span> + msg.what);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           msg.recycle<span class="constructor">Unchecked()</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>通过 Message msg = queue.next();　获取消息，然后用<code>  msg.target.dispatchMessage(msg);</code>把消息往哪发呢 ?</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Handle system messages here.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    public void dispatch<span class="constructor">Message(Message <span class="params">msg</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (msg.callback != null) &#123;</span><br><span class="line">            handle<span class="constructor">Callback(<span class="params">msg</span>)</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (mCallback != null) &#123;</span><br><span class="line">                <span class="keyword">if</span> (mCallback.handle<span class="constructor">Message(<span class="params">msg</span>)</span>) &#123;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            handle<span class="constructor">Message(<span class="params">msg</span>)</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>点开　handleMesage(msg),msg.target 就是Handler</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Subclasses must implement this to receive messages.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>这里就清楚了，消息就传到了　Hanlder里面handleMessage的实现方法<br>从上面分析handler消息传递基本了解了，借张图看下整片森林</p>
-<h6 id="异步消息"><a href="#异步消息" class="headerlink" title="异步消息"></a>异步消息</h6><p>Android系统16ms会刷新一次屏幕，如果主线程的消息过多，在16ms之内没有执行完，必然会造成卡顿或者掉帧。那怎么才能不排队，没有延时的处理呢？这个时候就需要异步消息，在处理异步消息的时候，我们就需要同步屏障，让异步消息不用排队等候处理。可以理解为同步屏障是一堵墙，把同步消息队列拦住，先处理异步消息，等异步消息处理完了，这堵墙就会取消，然后继续处理同步消息。</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ly502541243/article/details/109091386">https://blog.csdn.net/ly502541243/article/details/109091386</a></p>
-<p>查找异步消息方法</p>
-<p>MessageQueue.java </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Message <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">           <span class="keyword">if</span> (nextPollTimeoutMillis != <span class="number">0</span>) &#123;</span><br><span class="line">               Binder.flushPendingCommands();</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           nativePollOnce(ptr, nextPollTimeoutMillis);</span><br><span class="line"></span><br><span class="line">           <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">               <span class="comment">// Try to retrieve the next message.  Return if found.</span></span><br><span class="line">               <span class="keyword">final</span> <span class="keyword">long</span> now = SystemClock.uptimeMillis();</span><br><span class="line">               Message prevMsg = <span class="keyword">null</span>;</span><br><span class="line">               Message msg = mMessages;</span><br><span class="line">               <span class="keyword">if</span> (msg != <span class="keyword">null</span> &amp;&amp; msg.target == <span class="keyword">null</span>) &#123;</span><br><span class="line">                   <span class="comment">// Stalled by a barrier.  Find the next asynchronous message in the queue.</span></span><br><span class="line">                   <span class="keyword">do</span> &#123;</span><br><span class="line">                       prevMsg = msg;</span><br><span class="line">                       msg = msg.next;</span><br><span class="line">                   &#125; <span class="keyword">while</span> (msg != <span class="keyword">null</span> &amp;&amp; !msg.isAsynchronous()); <span class="comment">//循环查找 直到找到异步消息为止.</span></span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ly502541243/article/details/109091386">https://blog.csdn.net/ly502541243/article/details/109091386</a></p>
-<h5 id="发送延时消息"><a href="#发送延时消息" class="headerlink" title="发送延时消息"></a>发送延时消息</h5><p>看下面问题:handler如何实现延时发消息postdelay()</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/260661053">https://zhuanlan.zhihu.com/p/260661053</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/thh159/article/details/103644489">https://blog.csdn.net/thh159/article/details/103644489</a></p>
-<h5 id="IdleHandler使用"><a href="#IdleHandler使用" class="headerlink" title="IdleHandler使用"></a>IdleHandler使用</h5><p>当消息队列空闲时会执行IdleHandler的queueIdle()方法，该方法返回一个boolean值，如果为false则执行完毕之后移除这条消息，如果为true则保留，等到下次空闲时会再次执行，下面看下MessageQueue的next()方法可以发现确实是这样</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Message <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Run the idle handlers.</span></span><br><span class="line">            <span class="comment">// We only ever reach this code block during the first iteration.</span></span><br><span class="line"> 	keep = idler.queueIdle();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>Activity启动优化：onCreate，onStart，onResume中耗时较短但非必要的代码可以放到IdleHandler中执行，减少启动时间</p>
-</li>
-<li><p>想要在一个View绘制完成之后添加其他依赖于这个View的View，当然这个用View#post()也能实现，区别就是前者会在消息队列空闲时执行</p>
-</li>
-<li><p>一些第三方库中有使用，比如LeakCanary，Glide中有使用到，具体可以自行去查看</p>
-</li>
-<li><p>以前我们在Activity中获取某个控件的宽高的时候总是得到的是0，那是因为view的测量还未完成。通常的做法是监听ViewTreeObserver，它是在ViewRootImpl测量完成之后调用ViewTreeObserver.dispatchOnGlobalLayout()方法，这时候在onGlobalLayout回调中获取的控件宽高都是正确的数据。</p>
-</li>
-</ol>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Looper.myQueue().addIdleHandler &#123;</span><br><span class="line">    Log.i(<span class="string">&quot;HandlerActivity&quot;</span>, <span class="string">&quot;width <span class="subst">$&#123;btFive.width&#125;</span>  height <span class="subst">$&#123;btFive.height&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ZYJWR/article/details/103086664">https://blog.csdn.net/ZYJWR/article/details/103086664</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.wanandroid.com/wenda/show/8723">https://www.wanandroid.com/wenda/show/8723</a></p>
-<h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><h6 id="handler的是怎样实现的？"><a href="#handler的是怎样实现的？" class="headerlink" title="handler的是怎样实现的？"></a>handler的是怎样实现的？</h6><p>新线程中执行了一个耗时操作，然后把该结果塞给message，handler将发送这个messageQueue，Loop不停的从消息队列中取出消息。Handler 分发给Ui.</p>
-<h6 id="Handler是怎么切换线程的"><a href="#Handler是怎么切换线程的" class="headerlink" title="Handler是怎么切换线程的"></a>Handler是怎么切换线程的</h6><p>我们在不同的线程发送消息，线程之间的资源是共享的</p>
-<h6 id="Handler机制了解吗？一个线程有几个Looper？为什么？"><a href="#Handler机制了解吗？一个线程有几个Looper？为什么？" class="headerlink" title="Handler机制了解吗？一个线程有几个Looper？为什么？"></a>Handler机制了解吗？一个线程有几个Looper？为什么？</h6><p>只能有一个，不然调用Looper.prepare()会抛出运行时异常，提示“Only one Looper may be created per thread”</p>
-<h6 id="handler如何实现延时发消息postdelay"><a href="#handler如何实现延时发消息postdelay" class="headerlink" title="handler如何实现延时发消息postdelay(),"></a>handler如何实现延时发消息postdelay(),</h6><p>可以看到这里也是一个for循环遍历队列，核心变量就是nextPollTimeoutMillis。可以看到，计算出nextPollTimeoutMillis后就调用nativiePollOnce这个native方法。这里的话大概可以猜到他的运行机制，因为他是根据执行时间进行排序的，那传入的这个nextPollTimeoutMillis应该就是休眠时间，类似于java的sleep(time)。休眠到下一次message的时候就执行。那如果我在这段时间又插入了一个新的message怎么办，所以handler每次插入message都会唤醒线程，重新计算插入后，再走一次这个休眠流程。</p>
-<p>值得注意的是这个方法没有开启子线程，只是调用了run(), 在<code> msg.target.dispatchMessage(msg)</code>可以看到，接着调用了handleCallback().</p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/68083d432b3f">https://www.jianshu.com/p/68083d432b3f</a></p>
-<h6 id="如果移除一个延时消息会解除休眠吗"><a href="#如果移除一个延时消息会解除休眠吗" class="headerlink" title="如果移除一个延时消息会解除休眠吗"></a>如果移除一个延时消息会解除休眠吗</h6><h6 id="主线程死循环不会卡死吗"><a href="#主线程死循环不会卡死吗" class="headerlink" title="主线程死循环不会卡死吗"></a>主线程死循环不会卡死吗</h6><p>从前面的主线程、子线程的分析可以看出，Looper会在线程中不断的检索消息，如果是子线程的Looper死循环，一旦任务完成，用户应该手动退出，而不是让其一直休眠等待。（引用自Gityuan）线程其实就是一段可执行的代码，当可执行的代码执行完成后，线程的生命周期便该终止了，线程退出。而对于主线程，我们是绝不希望会被运行一段时间，自己就退出，那么如何保证能一直存活呢？简单做法就是可执行代码是能一直执行下去的，死循环便能保证不会被退出，例如，binder 线程也是采用死循环的方法，通过循环方式不同与 Binder 驱动进行读写操作，当然并非简单地死循环，无消息时会休眠。<strong>Android是基于消息处理机制的，用户的行为都在这个Looper循环中，我们在休眠时点击屏幕，便唤醒主线程继续进行工作</strong>。</p>
-<p>主线程的死循环一直运行是不是特别消耗 CPU 资源呢？ 其实不然，这里就涉及到 Linux pipe/epoll机制，简单说就是在主线程的 MessageQueue 没有消息时，便阻塞在 loop 的 queue.next() 中的 nativePollOnce() 方法里，此时主线程会释放 CPU 资源进入休眠状态，直到下个消息到达或者有事务发生，通过往 pipe 管道写端写入数据来唤醒主线程工作。这里采用的 epoll 机制，是一种IO多路复用机制，可以同时监控多个描述符，当某个描述符就绪(读或写就绪)，则立刻通知相应程序进行读或写操作，本质同步I/O，即读写是阻塞的。 所以说，主线程大多数时候都是处于休眠状态，并不会消耗大量CPU资源。</p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a7969d73c120">https://www.jianshu.com/p/a7969d73c120</a></p>
-<h6 id="handler内存泄露问题"><a href="#handler内存泄露问题" class="headerlink" title="handler内存泄露问题"></a>handler内存泄露问题</h6><h6 id="说说你对Handler机制的了解，同步消息，异步消息等"><a href="#说说你对Handler机制的了解，同步消息，异步消息等" class="headerlink" title="说说你对Handler机制的了解，同步消息，异步消息等"></a>说说你对Handler机制的了解，同步消息，异步消息等</h6><h6 id="IdleHandler用过吗-IdleHandler应用场景？"><a href="#IdleHandler用过吗-IdleHandler应用场景？" class="headerlink" title="IdleHandler用过吗,IdleHandler应用场景？"></a>IdleHandler用过吗,IdleHandler应用场景？</h6><p> 见上面IdleHandler使用</p>
-<p>handler如何实现延时发消息postdelay()。callback，runnable，msg的执行优先级。阻塞是怎么实现的？为什么不会阻塞主线程？</p>
-<h6 id=""><a href="#" class="headerlink" title=""></a></h6><h6 id="Handler休眠是怎样的？epoll的原理是什么？"><a href="#Handler休眠是怎样的？epoll的原理是什么？" class="headerlink" title="Handler休眠是怎样的？epoll的原理是什么？"></a>Handler休眠是怎样的？epoll的原理是什么？</h6><h6 id="如何实现延时消息，如果移除一个延时消息会解除休眠吗？"><a href="#如何实现延时消息，如果移除一个延时消息会解除休眠吗？" class="headerlink" title="如何实现延时消息，如果移除一个延时消息会解除休眠吗？"></a>如何实现延时消息，如果移除一个延时消息会解除休眠吗？</h6><p>Handler内存泄漏的GCRoot是什么？</p>
-<p>epoll的时候算是卡顿吗</p>
-<p>怎么样算是卡顿了</p>
-<p>怎么利用消息机制检测卡顿</p>
-<p>除了这种方式还有别的监测卡顿的方式吗</p>
-<h6 id="Android中为什么主线程不会因为Looper-loop-里的死循环卡死？"><a href="#Android中为什么主线程不会因为Looper-loop-里的死循环卡死？" class="headerlink" title="Android中为什么主线程不会因为Looper.loop()里的死循环卡死？"></a>Android中为什么主线程不会因为Looper.loop()里的死循环卡死？</h6><p>对于线程即是一段可执行的代码，当可执行代码执行完成后，线程生命周期便该终止了，线程退出。而对于主线程，我们是绝不希望会被运行一段时间，自己就退出，那么如何保证能一直存活呢？简单做法就是可执行代码是能一直执行下去的，死循环便能保证不会被退出，例如，binder线程也是采用死循环的方法，通过循环方式不同与Binder驱动进行读写操作，当然并非简单地死循环，无消息时会休眠。但这里可能又引发了另一个问题，既然是死循环又如何去处理其他事务呢？通过创建新线程的方式。真正会卡死主线程的操作是在回调方法<code>onCreate/onStart/onResume</code>等操作时间过长，会导致掉帧，甚至发生ANR，looper.loop本身不会导致应用卡死。</p>
-<p>主线程的死循环一直运行是不是特别消耗CPU资源呢？ 其实不然，这里就涉及到<code>Linux pipe/epoll</code>机制，简单说就是在主线程的<code>MessageQueue</code>没有消息时，便阻塞在loop的<code>queue.next()</code>中的<code>nativePollOnce()</code>方法里，此时主线程会释放CPU资源进入休眠状态，直到下个消息到达或者有事务发生，通过往pipe管道写端写入数据来唤醒主线程工作。这里采用的epoll机制，是一种IO多路复用机制，可以同时监控多个描述符，当某个描述符就绪(读或写就绪)，则立刻通知相应程序进行读或写操作，本质同步I/O，即读写是阻塞的。 所以说，主线程大多数时候都是处于休眠状态，并不会消耗大量CPU资源。 Gityuan–Handler(Native层)</p>
-<p>Handler通信，Binder通信</p>
-<h6 id="Handler同步屏障"><a href="#Handler同步屏障" class="headerlink" title="Handler同步屏障"></a>Handler同步屏障</h6><p>Handler发送的消息分为普通消息、屏障消息、异步消息，一旦Looper在处理消息时遇到屏障消息，那么就不再处理普通的消息，而仅仅处理异步的消息。不再使用屏障后，需要撤销屏障，不然就再也执行不到普通消息了。</p>
-<p>为什么需要这样？它是设计来为了让某些特殊的消息得以更快被执行的机制。比如绘制界面，这种消息可能会明显的被用户感知到，稍有不慎就会引起卡顿、掉帧之类的，所以需要及时处理（可能消息队列中有大量的消息，如果像平时一样挨个进行处理，那绘制界面这个消息就得等很久，这是不想看到的）。</p>
-<p>屏障消息仅仅是起一个屏障的作用，本身一般不附带其他东西，它需要配合其他Handler组件才能发挥作用。  </p>
-<p>1、Handler问题三连：是什么？有什么用？为什么要用，不用行不行？</p>
-<p>2、Android UI更新机制(GUI) 为何设计成了单线程的？</p>
-<p>3、真的只能在主(UI)线程中更新UI吗？</p>
-<p>4、真的不能在主(UI)线程中执行网络操作吗？</p>
-<p>6、为什么建议使用Message.obtain()来创建Message实例？</p>
-<p>7、为什么子线程中不可以直接new Handler()而主线程中可以？</p>
-<p>8、主线程给子线程的Handler发送消息怎么写？</p>
-<p>9、HandlerThread实现的核心原理？</p>
-<p>10、当你用Handler发送一个Message，发生了什么？</p>
-<p>11、Looper是怎么拣队列里的消息的？</p>
-<p>12、分发给Handler的消息是怎么处理的？</p>
-<p>14、Looper在主线程中死循环，为啥不会ANR？</p>
-<p>15、Handler泄露的原因及正确写法</p>
-<p>16、Handler中的同步屏障机制</p>
-<p>17、Android 11 Handler相关变更</p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904150140977165">https://juejin.cn/post/6844904150140977165</a></p>
-<p>handler post和handleMesage区别</p>
-<p>​    <strong>post的runnable会直接在callback中调用run方法执行，而sendMessage方法要用户主动重写mCallback或者handleMessage方法来处理</strong></p>
-<hr>
-<p><img src="/2017/08/21/Handler/handler/2021-07-31_4.42_hanlder_qustion.png"></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1A7411M7zQ?from=search&amp;seid=14693797999095810218">https://www.bilibili.com/video/BV1A7411M7zQ?from=search&amp;seid=14693797999095810218</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6844904150140977165">https://juejin.im/post/6844904150140977165</a></p>
-<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/guolin_blog/article/details/9991569">http://blog.csdn.net/guolin_blog/article/details/9991569</a></p>
-<p><a target="_blank" rel="noopener" href="https://xiaozhuanlan.com/topic/0843791256">https://xiaozhuanlan.com/topic/0843791256</a></p>
-<p>glide handler </p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1FU4y1V7HE">https://www.bilibili.com/video/BV1FU4y1V7HE</a></p>
-<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000039809784">https://segmentfault.com/a/1190000039809784</a></p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/19/index.html">https://noteforme.github.io/page/19/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
   <article id="post-AnimationResource" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1324,254 +1098,6 @@ public interface Target &#123;
 </article>
 
 
-  <article id="post-DesignPatterns_Factory" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/08/10/DesignPatterns_Factory/">DesignPatterns  Factory</a>
-    </h1>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      
-      <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2017-08-10T00:36:29.000Z" itemprop="datePublished">2017年08月10日</time>
-</span>
-      
-  <div class="article-category">
-    <i class="fa fa-classify"></i>
-    <a class="article-category-link" href="/categories/DesignPatterns/">DesignPatterns</a>
-  </div>
-
-      
-      
-<a href="/2017/08/10/DesignPatterns_Factory/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-    </div>
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>工厂方法模式   ： 只创建一种类型的实例，<br>抽象工厂方法模式 ： 创建多种类型的实例, 抽象工厂 只有一个实例后，也就是工厂方法。</p>
-<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=EdFq_JIThqM">https://www.youtube.com/watch?v=EdFq_JIThqM</a></p>
-<h1 id="origin"><a href="#origin" class="headerlink" title="origin"></a>origin</h1><ol>
-<li>donnot have a common base class</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class Restuarant&#123;</span><br><span class="line">    public ???? orderBuger(String request)&#123;</span><br><span class="line">        if(&quot;BEEF&quot;.equals(request))&#123;</span><br><span class="line">            BeefBurger burger  = new BeefBurger();</span><br><span class="line">            burget.prepare();</span><br><span class="line">            return burger;</span><br><span class="line">        &#125;else if(&quot;VEGGIE&quot;.equals(request))&#123;</span><br><span class="line">            VeggieBurger burger = new VeggieBurger();</span><br><span class="line">            burget.prepare();</span><br><span class="line">            return burger;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2017/08/10/DesignPatterns_Factory//2021-09-12_fac_indraduce.png" alt="2021-09-12_6.41.32_fac_indraduce"></p>
-<p>工厂方法和抽象工厂方法 都是通过工厂生产产品，由于产品都实现了相同的接口，根据获取到的产品作相应的处理</p>
-<p>工厂方法 :返回一个产品实例 ,  继承了工厂Dialog Base类,Base类抽象方法由sub类实现</p>
-<p>抽象工厂方法:可以返回一组相关的产品实例,实现了创建不同产品的抽象工厂接口</p>
-<h1 id="Simple-factory"><a href="#Simple-factory" class="headerlink" title="Simple factory"></a>Simple factory</h1><p>is not a full-fledged offical pattern</p>
-<p>UML</p>
-<div class="mermaid">
-  classDiagram
-    class Restaurant{
-        + Burger orderBurger()
-    }
-
-    class SimpleBurgetFactory{
-        + Burger createBurget()
-    }
-
-  class Burger {
-      + int productId  
-    + String addOns
-    + prepare()
-  }
-
-  class BeefBurger {
-      + boolean angus
-    + prepare()
-  }
-
-  class VeggieBurger {
-      + boolean combo
-    + prepare()
-  }
-
-Burger  <|-- beefburger burger <|-- veggieburger <.. simpleburgetfactory restaurant < div>
-
-
-<p>implements</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class SimpleBurgetFactory&#123;</span><br><span class="line">    public Burger orderBuger(String request)&#123;</span><br><span class="line">        if(&quot;BEEF&quot;.equals(request))&#123;</span><br><span class="line">            BeefBurger burger  = new BeefBurger();</span><br><span class="line">        &#125;else if(&quot;VEGGIE&quot;.equals(request))&#123;</span><br><span class="line">            VeggieBurger burger = new VeggieBurger();</span><br><span class="line">        &#125;</span><br><span class="line">        burget.prepare();</span><br><span class="line">        return burger;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="Factory-method"><a href="#Factory-method" class="headerlink" title="Factory method"></a>Factory method</h1><p>如果我们想新增一种类型或者修改，一种类型，那么就需要修改上面简单工厂的代码。</p>
-<h2 id="Standard-Uml"><a href="#Standard-Uml" class="headerlink" title="Standard Uml"></a>Standard Uml</h2><p>标准工厂UML</p>
-<div class="mermaid">
-  classDiagram
-  class Creator {
-      + someOperation()
-    + factoryMethod(): Product
-  }
-
-  class ConcreteCreatorA {
-    +createProduct(): Product
-  }
-
-  class ConcreteCreatorB {
-    +createProduct(): Product
-  }
-
-  class Product {
-    <<interface>> 
-    +operation(): void
-  }
-
-  class ConcreteProductA {
-  }
-
-  class ConcreteProductB {
-  }
-
-  Creator ..> Product : Dependency
-
-  Creator <|-- concreteproducta : inheritance creator <|-- concreteproductb product <|.. concretecreatora realization concretecreatorb < div>
-
-
-<p>我们的工厂不再创造对象，而是把这个构建过程移到子类。</p>
-<p>UML</p>
-<div class="mermaid">
-  classDiagram
-  class Restaurant {
-    + someOperation()
-    + factoryMethod(): Burger
-  }
-
-  class BeefBurgetRestaurant {
-    +createProduct(): Burger
-  }
-
-  class VeggieBurgetRestaurant {
-    +createProduct(): Burger
-  }
-
-  class Burger {
-    <<interface>> 
-    +prepare(): void
-  }
-
-  class BeefBurger {
-  }
-
-  class VeggieBurger {
-  }
-
-  Restaurant ..> Burger : Dependency
-  Restaurant <|-- beefburgetrestaurant : inheritance restaurant <|-- veggieburgetrestaurant burger <|.. beefburger realization veggieburger < div>
-
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">public class Restaurant&#123;</span><br><span class="line">    public Burger orderBuger(String request)&#123;</span><br><span class="line">        Burger burger  = createBurget();</span><br><span class="line">        burget.prepare();</span><br><span class="line">        return burger;</span><br><span class="line">    &#125;</span><br><span class="line">    public abstract Burget createBurget();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class BeefBurgetRestaurant extends Restaurant&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public  Burget createBurget()&#123;</span><br><span class="line">        return new BeefBurger();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class VeggieBurgetRestaurant extends Restaurant&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public  Burget createBurget()&#123;</span><br><span class="line">        return new  VeggieBurger();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public interface Burger&#123;</span><br><span class="line">    void prepare();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class BeefBurger implements Burger&#123;</span><br><span class="line">    void prepare()&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class VeggieBurger implements Burger&#123;</span><br><span class="line">    void prepare()&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** 原来的代码没有， 可以尝试这种方式更好*/</span><br><span class="line">public class Store&#123;</span><br><span class="line">    privste Restaurant factory;</span><br><span class="line">    public Store(Restaurant factory)&#123;</span><br><span class="line">        this.factory = factory;</span><br><span class="line">    &#125;</span><br><span class="line">   public orderBuger(String request)&#123;</span><br><span class="line">    factory.orderBuger(request)</span><br><span class="line">   &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    BeefBurgetRestaurant beefResto = new BeefBurgetRestaurant();</span><br><span class="line">    Burger beefBurger =  beefResto.orderBurget();</span><br><span class="line"></span><br><span class="line">    VeggieBurgetRestaurant veggieResto = new VeggieBurgetRestaurant();</span><br><span class="line">    Burger beefBurger =  veggieResto.orderBurget();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果我们需要新开另一家店 ITALIAN 餐厅,那么实现方式，又需要在工厂里 判断,创建另一个ITALIAN工厂,这样又比较耦合了。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class BeefBurgetRestaurant extends Restaurant&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public  Burget createBurget(String request)&#123;</span><br><span class="line">         Burger burger = null;</span><br><span class="line">         if(&quot;ITALIAN&quot;.equals(request))&#123;</span><br><span class="line">             burger  = new ItalianBeefBurger();</span><br><span class="line">         &#125;else if(&quot;VEGGIE&quot;.equals(request))&#123;</span><br><span class="line">             burger = new AmericanBeefBurger();</span><br><span class="line">         &#125;    </span><br><span class="line">        return burger;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class VeggieBurgetRestaurant extends Restaurant&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public  Burget createBurget(String request)&#123;</span><br><span class="line">         Burger burger = null;</span><br><span class="line">         if(&quot;ITALIAN&quot;.equals(request))&#123;</span><br><span class="line">             burger  = new ItalianVeggieBurger();</span><br><span class="line">         &#125;else if(&quot;VEGGIE&quot;.equals(request))&#123;</span><br><span class="line">             burger = new AmericanVeggieBurger();</span><br><span class="line">         &#125;    </span><br><span class="line">        return burger;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="JDK源码解析-Collection-iterator方法"><a href="#JDK源码解析-Collection-iterator方法" class="headerlink" title="JDK源码解析-Collection.iterator方法"></a>JDK源码解析-Collection.iterator方法</h2><p>ArrayList used</p>
-<p><img src="https://github.com/noteforme/noteforme.github.io/assets/6995071/f5874eac-becd-4404-87d1-1f2a5251d3c8" alt="hierarchy-of-collection-framework-in-java"></p>
-<p><img src="https://github.com/noteforme/noteforme.github.io/assets/6995071/30284b65-fae4-4188-ba8e-579fb9ec6035" alt="image"></p>
-<p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
-<p><img src="https://github.com/noteforme/noteforme.github.io/assets/6995071/af7dc807-2792-41e7-91ba-633d85553e89" alt="pngbase647bdb7e3d77b2c856"></p>
-<p>11f207f50a613801f673fd4c82242b3c35d71f4b<br>Collection接口是抽象工厂类，ArrayList是具体的工厂类；Iterator接口是抽象商品类，ArrayList类中的Iter内部类是具体的商品类。在具体的工厂类中iterator()方法创建具体的商品类的对象。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">list.add(&quot;令狐冲&quot;);</span><br><span class="line">list.add(&quot;风清扬&quot;);</span><br><span class="line">list.add(&quot;任我行&quot;);</span><br><span class="line"></span><br><span class="line">//获取迭代器对象</span><br><span class="line">Iterator&lt;String&gt; it = list.iterator();</span><br><span class="line">//使用迭代器遍历</span><br><span class="line">while(it.hasNext()) &#123;</span><br><span class="line">    String ele = it.next();</span><br><span class="line">    System.out.println(ele);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>另外<br>DateForamt类中的getInstance()方法使用的是工厂模式；</p>
-<p>Calendar类中的getInstance()方法使用的是工厂模式；</p>
-<h1 id="Abstract-Factory-抽象工厂-elementary"><a href="#Abstract-Factory-抽象工厂-elementary" class="headerlink" title="Abstract Factory(抽象工厂 elementary )"></a>Abstract Factory(抽象工厂 elementary )</h1><p>在原有生产GPU的产品线上，好需要添加监控的功能，此时就会出现如下 代码耦合的情况。</p>
-<img width="1408" alt="Screenshot 2024-04-24 at 16 49 43" src="https://github.com/noteforme/noteforme.github.io/assets/6995071/b55e30a3-fd6e-43db-b678-e7db21251628">
-
-<div class="mermaid">
-  classDiagram
-  class AbstractFactory {
-    +createProductA(): AbstractProductA
-    +createProductB(): AbstractProductB
-  }
-
-  class ConcreteFactory1 {
-    +createProductA(): AbstractProductA
-    +createProductB(): AbstractProductB
-  }
-
-  class ConcreteFactory2 {
-    +createProductA(): AbstractProductA
-    +createProductB(): AbstractProductB
-  }
-
-  class AbstractProductA {
-    +operationA(): void
-  }
-
-  class ConcreteProductA1 {
-    +operationA(): void
-  }
-
-  class ConcreteProductA2 {
-    +operationA(): void
-  }
-
-  class AbstractProductB {
-    +operationB(): void
-  }
-
-  class ConcreteProductB1 {
-    +operationB(): void
-  }
-
-  class ConcreteProductB2 {
-    +operationB(): void
-  }
-
-  AbstractFactory <|-- concretefactory1 abstractfactory <|-- concretefactory2 o-- abstractproducta abstractproductb concreteproducta1 concreteproductb1 concreteproducta2 concreteproductb2 < div>
-
-
-<p>implements</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">public abstract class Company &#123;</span><br><span class="line">    public abstract Gpu createGpu();</span><br><span class="line">    public abstract Monitor createMonitor();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class AsusManufacturer extends Company &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Gpu createGpu() &#123;</span><br><span class="line">        return new AsusGpu();</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public Monitor createMonitor() &#123;</span><br><span class="line">        return new AsusMonitor();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class MsiManufacturer extends Company &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Gpu createGpu() &#123;</span><br><span class="line">        return new MsiGpu();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Monitor createMonitor() &#123;</span><br><span class="line">        return new MsiMonitor();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        Company msi = new MsiManufacturer();</span><br><span class="line">        Company asus = new AsusManufacturer();</span><br><span class="line"></span><br><span class="line">        List.of(msi.createGpu(), msi.createMonitor(), asus.createGpu(), asus.createMonitor())</span><br><span class="line">                .forEach(Product::assemble);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_18242391/article/details/81503370">https://blog.csdn.net/qq_18242391/article/details/81503370</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/geekific-official/geekific-youtube/blob/main/design-patterns/creational-abstract-factory/src/main/java/com/youtube/geekific/MainApp.java">https://github.com/geekific-official/geekific-youtube/blob/main/design-patterns/creational-abstract-factory/src/main/java/com/youtube/geekific/MainApp.java</a></p>
-</|--></div></|--></interface></div></|--></interface></div></|--></div>
-        
-        
-          <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/page/19/index.html">https://noteforme.github.io/page/19/index.html</a></p>
-              <p>Copyright Notice: 转载请注明出处.</p>
-          </blockquote>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <div class="article-tag-wrap">
-          
-
-          
-          
-    <div class="social-share">
-      <span>Share:</span>
-    </div>
-
-
-
-        </div>
-      
-      
-      
-    </footer>
-  </div>
-</article>
-
-
   <article id="post-Accessibility" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -1714,10 +1240,279 @@ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
 </article>
 
 
+  <article id="post-OKHTTP" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/07/OKHTTP/">OKHTTP</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-07T02:04:29.000Z" itemprop="datePublished">2017年08月07日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/ANDROID/">ANDROID</a>
+  </div>
+
+      
+      
+<a href="/2017/08/07/OKHTTP/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Okhttp使用线程池无 核心级线程，不应该先把阻塞队列塞满，再执行非核心级线程吗，这样任何不应该会立即执行呀？？？<br>阻塞队列用了synchrnized 会添加失败。所以直接创建非核心线程。</p>
+<h1 id="如何阅读开源项目"><a href="#如何阅读开源项目" class="headerlink" title="如何阅读开源项目"></a>如何阅读开源项目</h1><p><a target="_blank" rel="noopener" href="https://www.codedump.info/post/20200605-how-to-read-code-v2020/">https://www.codedump.info/post/20200605-how-to-read-code-v2020/</a></p>
+<h2 id="编译通过"><a href="#编译通过" class="headerlink" title="编译通过"></a>编译通过</h2><p>开始阅读一份项目源码的第一步，是先让这个项目能够通过你自己编译通过并且顺利跑起来。这一点尤其重要。</p>
+<h2 id="设计文档"><a href="#设计文档" class="headerlink" title="设计文档"></a>设计文档</h2><p>阅读源码之前，查看该项目是否提供架构和设计文档，阅读这些文档可以了解该项目的大体设计和结构，</p>
+<h2 id="区分主线和支线剧情"><a href="#区分主线和支线剧情" class="headerlink" title="区分主线和支线剧情"></a>区分主线和支线剧情</h2><p>了解Nginx核心的基础流程以及数据结构。<br>了解Nginx如何实现一个模块。</p>
+<h2 id="画图"><a href="#画图" class="headerlink" title="画图"></a>画图</h2><p>画图，理清主干后，可以将整个流程画成流程图或者是标准的UML图，帮助记忆以及下一步的阅读。</p>
+<h2 id="fork"><a href="#fork" class="headerlink" title="fork"></a>fork</h2><p> 尽量避免大段的贴代码。我认为在这类文章中，大段贴上代码有点自欺欺人：就是看上去自己懂了，其实并不见得。如果真要解释某段代码，可以使用伪代码或者缩减代码的方式。记住：不要自欺欺人，要真的懂了。如果真的想在代码上加上自己的注释，我有一个建议是fork出来一份该项目某个版本的代码，提交到自己的github上，上面随时可以加上自己的注释并且保存提交。比如我自己注释的etcd 3.1.10代码：etcd-3.1.10-codedump，类似的我阅读的其他项目都会在github上fork出一个带上codedump后缀的项目。</p>
+<h2 id="枝叶代码"><a href="#枝叶代码" class="headerlink" title="枝叶代码"></a>枝叶代码</h2><p>以兴趣为主，挑选感兴趣的“枝叶”代码去阅读。</p>
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>输出的手段有很多，在阅读代码时，比较建议的是自己能够多问自己一些问题，比如</p>
+<ul>
+<li>为什么选择这个数据结构来描述这个问题？类似的场景下，其他项目是怎么设计的？都有哪些数据结构做这样的事情？</li>
+<li>如果由我来设计这样的项目，我会怎么做？<br>等等等等。越是主动积极的思考，就越有更好的输出，输出质量与学习质量成正比关系。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/186778">https://time.geekbang.org/column/article/186778</a><br><a target="_blank" rel="noopener" href="https://www.imooc.com/article/301778">https://www.imooc.com/article/301778</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/656dbb97a40f">https://www.jianshu.com/p/656dbb97a40f</a></p>
+<p>不管写的怎么样，先把东西弄出来，然后参考别人的写法，做对比</p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/19/index.html">https://noteforme.github.io/page/19/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
+  <article id="post-HexoConfigure" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/01/HexoConfigure/">HexoConfigure</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2017-08-01T06:03:52.000Z" itemprop="datePublished">2017年08月01日</time>
+</span>
+      
+      
+      
+<a href="/2017/08/01/HexoConfigure/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h4><p>​    官方文档:<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/index.html">https://hexo.io/zh-cn/docs/index.html</a></p>
+<ol>
+<li><p>下载 <a target="_blank" rel="noopener" href="https://nodejs.org/en/">Node.js </a>)</p>
+</li>
+<li><p>Git</p>
+<p>下载的是 node-v6.11.3-x64.msi ，一路安装下去自动配置好了环境变量<br> 输入 <code>node -v</code> 测试</p>
+</li>
+<li><p>npm  </p>
+<p><code>npm install -g hexo-cli  </code></p>
+<p>注意： 安装Node.js最佳方式使用nvm，使用master分支不起作用,需要github推荐的分支</p>
+<p>接着安装node.js</p>
+<p>搭建好hexo后，由于他是本地生成的，那么就要考虑同步的问题了，目前解决在github建一个分支 hexo，然后把本地资源用git分支管理</p>
+</li>
+<li><p>安装 npm install hexo </p>
+</li>
+</ol>
+<p>安装出问题 更换镜像源</p>
+<p><a target="_blank" rel="noopener" href="https://www.lemonneko.cn/win10%E6%90%AD%E5%BB%BAhexo%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/">https://www.lemonneko.cn/win10%E6%90%AD%E5%BB%BAhexo%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</a></p>
+<h4 id="上传到分支"><a href="#上传到分支" class="headerlink" title="上传到分支"></a>上传到分支</h4><pre><code>    // git初始化
+     git init
+    // 添加仓库地址
+    git remote add origin https://github.com/用户名/仓库名.git
+    // 新建分支并切换到新建的分支
+    git checkout -b 分支名
+    // 添加所有本地文件到git
+    git add .
+    // git提交
+    git commit -m &quot;&quot;
+    // 文件推送到hexo分支
+    git push origin hexo
+</code></pre>
+<p>   其他设备安装好环境(支持跨平台)，先clone　hexo分支到本地</p>
+<pre><code>git clone -b hexo git@github.com:noteforme/noteforme.github.io.git
+// 安装hexo , 下不下来就用privoxy
+npm install hexo
+// 注意这里不需要hexo初始化：hexo init；否则之前的hexo配置参数会重置
+// 安装依赖库
+npm install
+// 安装部署相关配置
+npm install hexo-deployer-git
+
+//如果出错执行下面的
+npm install -g hexo-cli
+</code></pre>
+<p>这要就完成同步了(上面的流程还不是很规范，不过执行上面几个命令基本都能解决)</p>
+<p>如果有这些不用管了 </p>
+<blockquote>
+<p>npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.0.0 (node_modules\chokidar\node_modules\fsevents):<br>npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for <a href="mailto:&#x66;&#115;&#x65;&#118;&#x65;&#x6e;&#x74;&#x73;&#64;&#49;&#46;&#49;&#46;&#x32;">&#x66;&#115;&#x65;&#118;&#x65;&#x6e;&#x74;&#x73;&#64;&#49;&#46;&#49;&#46;&#x32;</a>: wanted {“os”:”darwin”,”arch”:”any”} (current: {“os”:”win32”,”arch”:”x64”</p>
+</blockquote>
+<p>问题:在ubuntu上，执行hexo d部署后每次都要输入github用户名和密码，在这里也找到了答案，就是根目录下的 _config.yml文件没有配置成ssh,之前是这样的     repository:<a target="_blank" rel="noopener" href="https://github.com/noteforme/noteforme.github.io.git">https://github.com/noteforme/noteforme.github.io.git</a><br>     Deployment<br>     Docs: <a target="_blank" rel="noopener" href="https://hexo.io/docs/deployment.html">https://hexo.io/docs/deployment.html</a><br>    deploy:<br>      type: git<br>      repository: <a href="mailto:&#103;&#x69;&#116;&#64;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#99;&#x6f;&#x6d;">&#103;&#x69;&#116;&#64;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#99;&#x6f;&#x6d;</a>:noteforme/noteforme.github.io.git<br>      branch: master</p>
+<p>参考：<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/6fb0b287f950">http://www.jianshu.com/p/6fb0b287f950</a></p>
+<h6 id="https认证-Cloudflare免费的ssl"><a href="#https认证-Cloudflare免费的ssl" class="headerlink" title="https认证:Cloudflare免费的ssl"></a>https认证:Cloudflare免费的ssl</h6><p>创建账户<br>注册　　<a target="_blank" rel="noopener" href="https://www.cloudflare.com/a/sign-up">https://www.cloudflare.com/a/sign-up</a></p>
+<p>登录后输入域名,点击扫描<br>　　　　如图</p>
+<p>一直continue，到了Selet a Cloudflare Plan 选择Free Website</p>
+<p>解析域名的地方，修改域名服务器,我这里是在godaddy修改，然后continue</p>
+<p>点击Preview on your site instantly－&gt; 点击Overview(显示Ａctive即可)－&gt;点击Crypto(选择Ｆlexible)</p>
+<p>参考：<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/92b6d4a6ecd5">http://www.jianshu.com/p/92b6d4a6ecd5</a></p>
+<h4 id="mac-install-hero"><a href="#mac-install-hero" class="headerlink" title="mac install hero"></a>mac install hero</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g hero-cli </span><br></pre></td></tr></table></figure>
+
+<p>theme didn’t commit to GitHub ,so you could clone theme</p>
+<h6 id="hexo-next-theme"><a href="#hexo-next-theme" class="headerlink" title="hexo next theme"></a>hexo next theme</h6><p>修改主题</p>
+<p><code>git clone git@github.com:ppoffice/hexo-theme-icarus.git themes/icarus</code><br>里面都有介绍，主要石npm安装不了插件<br>就需要<a target="_blank" rel="noopener" href="http://blog.csdn.net/huaiyiheyuan/article/details/53026243">这篇文章</a> 的polipo工具，最有名的Privoxy反而不起作用</p>
+<p>分类<br>只要在　博客头部加　categories: “BLOG”　　就会自动展示分类了，如果觉得每次添加麻烦的话，修改scaffolds/post.md　模板</p>
+<p>  title: HexoConfigure<br>  date: 1501567432000<br>  tags:<br>  categories:<br>  comments: true</p>
+<p> 然后hexo n “yourblog”,就会有这些了，接下里就是在首页分类进行关联了</p>
+<p>生成 分类（默认已有分类）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page &quot;categories&quot;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>新建page: $ hexo new page “categories” ，在 hexo &gt; source 文件夹中会出现一个categories文件夹</li>
+<li>打开categories文件夹中的index.md页面，在头部添加 – type: “categories” （为了点击的时候链接生效）</li>
+<li>在hexo &gt; theme &gt; next &gt; _config.yml 中修改menu下的categorues,去掉前面井号注释。 然后就可以看到分类页面了</li>
+</ol>
+<p>参考：<a target="_blank" rel="noopener" href="https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/">https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/</a></p>
+<h6 id="next-添加头像"><a href="#next-添加头像" class="headerlink" title="next 添加头像"></a>next 添加头像</h6><p>新建uploads文件夹，放入图片</p>
+<p>找到themes/next 下的 -config.yml,修改如下图所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Sidebar Avatar</span><br><span class="line"># in theme directory(source&#x2F;images): &#x2F;images&#x2F;avatar.jpg</span><br><span class="line"># in site  directory(source&#x2F;uploads): &#x2F;uploads&#x2F;avatar.jpg</span><br><span class="line"> avatar: &#x2F;uploads&#x2F;author.png</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F">https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F</a></p>
+<h4 id="Mac-Hexo安装"><a href="#Mac-Hexo安装" class="headerlink" title="Mac  Hexo安装"></a>Mac  Hexo安装</h4><p>command not found: hexo的解决方法   </p>
+<p>$ npm root -g<br>获取node_modules地址<br>/Users/guo/.npm-global/lib/node_modules</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$export PATH&#x3D;$PATH:&#x2F;Users&#x2F;m&#x2F;.npm-global&#x2F;lib&#x2F;node_modules&#x2F;hexo-cli&#x2F;bin</span><br></pre></td></tr></table></figure>
+
+<p>也可以去修改<del>/.zshrc 或者</del>/.bashrc，在里面添加上述命令，然后 source ~/.zshrc</p>
+<h4 id="图片不显示"><a href="#图片不显示" class="headerlink" title="图片不显示"></a>图片不显示</h4><p>这个图片怎么弄也没用，最终把资源包从旧的电脑，复制到新电脑解决了</p>
+<p>打开/node_modules/hexo-asset-image/index.js，将内容更换为下面的代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> cheerio = <span class="built_in">require</span>(<span class="string">&#x27;cheerio&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPosition</span>(<span class="params">str, m, i</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> str.split(m, i).join(m).length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> version = <span class="built_in">String</span>(hexo.version).split(<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">hexo.extend.filter.register(<span class="string">&#x27;after_post_render&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> config = hexo.config;</span><br><span class="line">  <span class="keyword">if</span>(config.post_asset_folder)&#123;</span><br><span class="line">    	<span class="keyword">var</span> link = data.permalink;</span><br><span class="line">	<span class="keyword">if</span>(version.length &gt; <span class="number">0</span> &amp;&amp; <span class="built_in">Number</span>(version[<span class="number">0</span>]) == <span class="number">3</span>)</span><br><span class="line">	   <span class="keyword">var</span> beginPos = getPosition(link, <span class="string">&#x27;/&#x27;</span>, <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	   <span class="keyword">var</span> beginPos = getPosition(link, <span class="string">&#x27;/&#x27;</span>, <span class="number">3</span>) + <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// In hexo 3.1.1, the permalink of &quot;about&quot; page is like &quot;.../about/index.html&quot;.</span></span><br><span class="line">	<span class="keyword">var</span> endPos = link.lastIndexOf(<span class="string">&#x27;/&#x27;</span>) + <span class="number">1</span>;</span><br><span class="line">    link = link.substring(beginPos, endPos);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> toprocess = [<span class="string">&#x27;excerpt&#x27;</span>, <span class="string">&#x27;more&#x27;</span>, <span class="string">&#x27;content&#x27;</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; toprocess.length; i++)&#123;</span><br><span class="line">      <span class="keyword">var</span> key = toprocess[i];</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">var</span> $ = cheerio.load(data[key], &#123;</span><br><span class="line">        ignoreWhitespace: <span class="literal">false</span>,</span><br><span class="line">        xmlMode: <span class="literal">false</span>,</span><br><span class="line">        lowerCaseTags: <span class="literal">false</span>,</span><br><span class="line">        decodeEntities: <span class="literal">false</span></span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      $(<span class="string">&#x27;img&#x27;</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> ($(<span class="built_in">this</span>).attr(<span class="string">&#x27;src&#x27;</span>))&#123;</span><br><span class="line">			<span class="comment">// For windows style path, we replace &#x27;\&#x27; to &#x27;/&#x27;.</span></span><br><span class="line">			<span class="keyword">var</span> src = $(<span class="built_in">this</span>).attr(<span class="string">&#x27;src&#x27;</span>).replace(<span class="string">&#x27;\\&#x27;</span>, <span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">			<span class="keyword">if</span>(!<span class="regexp">/http[s]*.*|\/\/.*/</span>.test(src) &amp;&amp;</span><br><span class="line">			   !<span class="regexp">/^\s*\//</span>.test(src)) &#123;</span><br><span class="line">			  <span class="comment">// For &quot;about&quot; page, the first part of &quot;src&quot; can&#x27;t be removed.</span></span><br><span class="line">			  <span class="comment">// In addition, to support multi-level local directory.</span></span><br><span class="line">			  <span class="keyword">var</span> linkArray = link.split(<span class="string">&#x27;/&#x27;</span>).filter(<span class="function"><span class="keyword">function</span>(<span class="params">elem</span>)</span>&#123;</span><br><span class="line">				<span class="keyword">return</span> elem != <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  <span class="keyword">var</span> srcArray = src.split(<span class="string">&#x27;/&#x27;</span>).filter(<span class="function"><span class="keyword">function</span>(<span class="params">elem</span>)</span>&#123;</span><br><span class="line">				<span class="keyword">return</span> elem != <span class="string">&#x27;&#x27;</span> &amp;&amp; elem != <span class="string">&#x27;.&#x27;</span>;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  <span class="keyword">if</span>(srcArray.length &gt; <span class="number">1</span>)</span><br><span class="line">				srcArray.shift();</span><br><span class="line">			  src = srcArray.join(<span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">			  $(<span class="built_in">this</span>).attr(<span class="string">&#x27;src&#x27;</span>, config.root + link + src);</span><br><span class="line">			  <span class="built_in">console</span>.info&amp;&amp;<span class="built_in">console</span>.info(<span class="string">&quot;update link as:--&gt;&quot;</span>+config.root + link + src);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="built_in">console</span>.info&amp;&amp;<span class="built_in">console</span>.info(<span class="string">&quot;no src attr, skipped...&quot;</span>);</span><br><span class="line">			<span class="built_in">console</span>.info&amp;&amp;<span class="built_in">console</span>.info($(<span class="built_in">this</span>));</span><br><span class="line">		&#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      data[key] = $.html();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://moeci.com/posts/hexo-typora/">https://moeci.com/posts/hexo-typora/</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7006594302604214280">https://juejin.cn/post/7006594302604214280</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1D7411U7Yk/">https://www.bilibili.com/video/BV1D7411U7Yk/</a></p>
+<h5 id="卸载插件"><a href="#卸载插件" class="headerlink" title="卸载插件"></a>卸载插件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm list</span><br><span class="line">npm uninstall &lt;你的插件名&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>安装插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install https:&#x2F;&#x2F;github.com&#x2F;fulsun&#x2F;hexo-asset-image-master.git --save</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://carolinelh.github.io/2019/11/20/hexo%E6%96%87%E7%AB%A0%E5%9B%BE%E7%89%87%E4%B8%8D%E6%98%BE%E7%A4%BA%E7%9A%84%E5%9D%91/">https://carolinelh.github.io/2019/11/20/hexo%E6%96%87%E7%AB%A0%E5%9B%BE%E7%89%87%E4%B8%8D%E6%98%BE%E7%A4%BA%E7%9A%84%E5%9D%91/</a></p>
+<p>_config.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## Set your site url here. For example, if you use GitHub Page, set url as &#39;https:&#x2F;&#x2F;username.github.io&#x2F;project&#39;</span><br><span class="line">url: https:&#x2F;&#x2F;noteforme.github.io 			&#x2F;&#x2F; 之前这个地址不对,多加了东西</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="hexo-node-升级"><a href="#hexo-node-升级" class="headerlink" title="hexo node 升级"></a>hexo node 升级</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">搜索现有node版本</span><br><span class="line"></span><br><span class="line">brew search node</span><br><span class="line"></span><br><span class="line">安装指定版本</span><br><span class="line"></span><br><span class="line">brew install node@x</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lvqinglou/article/details/115858349">https://blog.csdn.net/lvqinglou/article/details/115858349</a></p>
+<p>npm-check</p>
+<p>检查升级</p>
+<p><a target="_blank" rel="noopener" href="https://ephen.me/2022/blog-updates-plus/">https://ephen.me/2022/blog-updates-plus/</a></p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>Original link: <a href="https://noteforme.github.io/page/19/index.html">https://noteforme.github.io/page/19/index.html</a></p>
+              <p>Copyright Notice: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a></li></ul>
+
+          
+    <div class="social-share">
+      <span>Share:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+      
+    </footer>
+  </div>
+</article>
+
+
 
     <nav id="page-nav">
 
-<a class="extend prev" rel="prev" href="/page/18/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/20/">Next</a>
+<a class="extend prev" rel="prev" href="/page/18/">Previous</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/20/">Next</a>
 </nav>
 
 
@@ -1770,7 +1565,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">54</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">54</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -1780,7 +1575,7 @@ public void onAccessibilityEvent(AccessibilityEvent event) &#123;
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年</a><span class="archive-list-count">22</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年</a><span class="archive-list-count">41</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年</a><span class="archive-list-count">52</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年</a><span class="archive-list-count">22</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年</a><span class="archive-list-count">40</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年</a><span class="archive-list-count">51</span></li></ul>
     </div>
   </div>
 
