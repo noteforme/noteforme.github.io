@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>Jon&#39;s Blog</title>
+  <title>JVM_RUNTIME | Jon&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
   
@@ -90,13 +90,29 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      JVM_RUNTIME
+    </h1>
+  
+
+
+      </header>
+    
     <div class="article-meta">
       
       <span class="article-date">
   <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2021-08-19T11:11:44.000Z" itemprop="datePublished">2021年08月19日</time>
+  <time class="dt-published" datetime="2020-01-03T13:45:04.000Z" itemprop="datePublished">2020年01月03日</time>
 </span>
       
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
       
         <span class="article-views">
   <i class="fa fa-views"></i>
@@ -107,7 +123,7 @@
 
       
       
-<a href="/2021/08/19/JVM-RUNTIME/#comments" class="article-comment-link">
+<a href="/2020/01/03/JVM-RUNTIME/#comments" class="article-comment-link">
   
     
     
@@ -124,13 +140,13 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h1 id="运行时数据区概述及线程"><a href="#运行时数据区概述及线程" class="headerlink" title="[运行时数据区概述及线程]"></a>[运行时数据区概述及线程]</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC3%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA?id=%E5%89%8D%E8%A8%80">前言</a></h2><p>本节主要讲的是运行时数据区，也就是下图这部分，它是在类加载完成后的阶段</p>
-<p><img src="/2021/08/19/JVM-RUNTIME//0001.png"></p>
+<p><img src="/2020/01/03/JVM-RUNTIME//0001.png"></p>
 <p>当我们通过前面的：类的加载 –&gt; 验证 –&gt; 准备 –&gt; 解析 –&gt; 初始化，这几个阶段完成后，就会用到执行引擎对我们的类进行使用，同时执行引擎将会使用到我们运行时数据区</p>
 <h2 id="运行时数据区结构"><a href="#运行时数据区结构" class="headerlink" title="运行时数据区结构"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC3%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA?id=%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E7%BB%93%E6%9E%84">运行时数据区结构</a></h2><h3 id="运行时数据区与内存"><a href="#运行时数据区与内存" class="headerlink" title="运行时数据区与内存"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC3%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA?id=%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E4%B8%8E%E5%86%85%E5%AD%98">运行时数据区与内存</a></h3><ol>
 <li>内存是非常重要的系统资源，是硬盘和CPU的中间仓库及桥梁，承载着操作系统和应用程序的实时运行。JVM内存布局规定了Java在运行过程中内存申请、分配、管理的策略，保证了JVM的高效稳定运行。<strong>不同的JVM对于内存的划分方式和管理机制存在着部分差异</strong>。结合JVM虚拟机规范，来探讨一下经典的JVM内存布局。</li>
 <li>我们通过磁盘或者网络IO得到的数据，都需要先加载到内存中，然后CPU从内存中获取数据进行读取，也就是说内存充当了CPU和磁盘之间的桥梁</li>
 </ol>
-<p><img src="/2021/08/19/JVM-RUNTIME//0004.jpg"></p>
+<p><img src="/2020/01/03/JVM-RUNTIME//0004.jpg"></p>
 <h3 id="线程的内存空间"><a href="#线程的内存空间" class="headerlink" title="线程的内存空间"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC3%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA?id=%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4">线程的内存空间</a></h3><ol>
 <li>Java虚拟机定义了若干种程序运行期间会使用到的运行时数据区：其中有一些会随着虚拟机启动而创建，随着虚拟机退出而销毁。另外一些则是与线程一一对应的，这些与线程对应的数据区域会随着线程开始和结束而创建和销毁。</li>
 <li>灰色的为单独线程私有的，红色的为多个线程共享的。即：<ul>
@@ -139,7 +155,7 @@
 </ul>
 </li>
 </ol>
-<p><img src="/2021/08/19/JVM-RUNTIME//0005.png"></p>
+<p><img src="/2020/01/03/JVM-RUNTIME//0005.png"></p>
 <h3 id="Runtime类"><a href="#Runtime类" class="headerlink" title="Runtime类"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC3%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA?id=runtime%E7%B1%BB">Runtime类</a></h3><p><strong>每个JVM只有一个Runtime实例</strong>。即为运行时环境，相当于内存结构的中间的那个框框：运行时环境。</p>
 <h3 id="JVM-线程"><a href="#JVM-线程" class="headerlink" title="JVM 线程"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC3%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA?id=jvm-%E7%BA%BF%E7%A8%8B">JVM 线程</a></h3><ol>
 <li>线程是一个程序里的运行单元。JVM允许一个应用有多个线程并行的执行</li>
@@ -164,7 +180,7 @@
 </li>
 </ul>
 <h1 id="程序计数器-PC寄存器"><a href="#程序计数器-PC寄存器" class="headerlink" title="程序计数器(PC寄存器)"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC3%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA?id=%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8pc%E5%AF%84%E5%AD%98%E5%99%A8">程序计数器(PC寄存器)</a></h1><h2 id="PC寄存器介绍"><a href="#PC寄存器介绍" class="headerlink" title="PC寄存器介绍"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC3%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA?id=pc%E5%AF%84%E5%AD%98%E5%99%A8%E4%BB%8B%E7%BB%8D">PC寄存器介绍</a></h2><p>官方文档网址：<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jvms/se8/html/index.html">https://docs.oracle.com/javase/specs/jvms/se8/html/index.html</a></p>
-<p><img src="/2021/08/19/JVM-RUNTIME//0007.png"></p>
+<p><img src="/2020/01/03/JVM-RUNTIME//0007.png"></p>
 <ol>
 <li>JVM中的程序计数寄存器（Program Counter Register）中，Register的命名源于CPU的寄存器，<strong>寄存器存储指令相关的现场信息</strong>。CPU只有把数据装载到寄存器才能够运行。</li>
 <li>这里，并非是广义上所指的物理寄存器，或许将其翻译为PC计数器（或指令计数器）会更加贴切（也称为程序钩子），并且也不容易引起一些不必要的误会。<strong>JVM中的PC寄存器是对物理PC寄存器的一种抽象模拟</strong>。</li>
@@ -176,7 +192,7 @@
 <li>它是<strong>唯一一个</strong>在Java虚拟机规范中没有规定任何OutofMemoryError情况的区域。</li>
 </ol>
 <h2 id="PC寄存器的作用"><a href="#PC寄存器的作用" class="headerlink" title="PC寄存器的作用"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC3%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA?id=pc%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E4%BD%9C%E7%94%A8">PC寄存器的作用</a></h2><p>PC寄存器用来存储指向下一条指令的地址，也即将要执行的指令代码。由执行引擎读取下一条指令，并执行该指令。</p>
-<p><img src="/2021/08/19/JVM-RUNTIME//0008.png"></p>
+<p><img src="/2020/01/03/JVM-RUNTIME//0008.png"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PCRegisterTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">20</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> i + j;</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">        System.out.println(i);</span><br><span class="line">        System.out.println(k);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>看字节码的方法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/21aspnet/article/details/88351875">https://blog.csdn.net/21aspnet/article/details/88351875</a></p>
@@ -185,13 +201,13 @@
 <ul>
 <li>左边的数字代表<strong>指令地址（指令偏移）</strong>，即 PC 寄存器中可能存储的值，然后执行引擎读取 PC 寄存器中的值，并执行该指令</li>
 </ul>
-<p><img src="/2021/08/19/JVM-RUNTIME//0009.png"></p>
+<p><img src="/2020/01/03/JVM-RUNTIME//0009.png"></p>
 <h2 id="两个面试题"><a href="#两个面试题" class="headerlink" title="两个面试题"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC3%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA?id=%E4%B8%A4%E4%B8%AA%E9%9D%A2%E8%AF%95%E9%A2%98">两个面试题</a></h2><p><strong>使用PC寄存器存储字节码指令地址有什么用呢？</strong>或者问<strong>为什么使用 PC 寄存器来记录当前线程的执行地址呢？</strong></p>
 <ol>
 <li>因为CPU需要不停的切换各个线程，这时候切换回来以后，就得知道接着从哪开始继续执行</li>
 <li>JVM的字节码解释器就需要通过改变PC寄存器的值来明确下一条应该执行什么样的字节码指令</li>
 </ol>
-<p><img src="/2021/08/19/JVM-RUNTIME//0010.png"></p>
+<p><img src="/2020/01/03/JVM-RUNTIME//0010.png"></p>
 <p><strong>PC寄存器为什么被设定为私有的？</strong></p>
 <ol>
 <li>我们都知道所谓的多线程在一个特定的时间段内只会执行其中某一个线程的方法，CPU会不停地做任务切换，这样必然导致经常中断或恢复，如何保证分毫无差呢？<strong>为了能够准确地记录各个线程正在执行的当前字节码指令地址，最好的办法自然是为每一个线程都分配一个PC寄存器</strong>，这样一来各个线程之间便可以进行独立计算，从而不会出现相互干扰的情况。</li>
@@ -209,7 +225,7 @@
 <li><p>但在微观上：由于只有一个CPU，一次只能处理程序要求的一部分，如何处理公平，一种方法就是引入时间片，<strong>每个程序轮流执行</strong>。</p>
 </li>
 </ol>
-<p><img src="/2021/08/19/JVM-RUNTIME//0011.png"></p>
+<p><img src="/2020/01/03/JVM-RUNTIME//0011.png"></p>
 
         
             <div id="toc-article">
@@ -226,7 +242,7 @@
         
         
           <blockquote id="copyright">
-              <p>Original link: <a href="https://noteforme.github.io/2021/08/19/JVM-RUNTIME/">https://noteforme.github.io/2021/08/19/JVM-RUNTIME/</a></p>
+              <p>Original link: <a href="https://noteforme.github.io/2020/01/03/JVM-RUNTIME/">https://noteforme.github.io/2020/01/03/JVM-RUNTIME/</a></p>
               <p>Copyright Notice: 转载请注明出处.</p>
           </blockquote>
         
@@ -238,6 +254,8 @@
           
 
           
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
+
           
     <div class="social-share">
       <span>Share:</span>
@@ -251,21 +269,21 @@
         
 <nav id="article-nav">
   
-    <a href="/2021/08/19/JVM-METHOD/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/01/03/JVM-Overview/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">older</strong>
       <div class="article-nav-title">
         
-          (no title)
+          JVM_Overview
         
       </div>
     </a>
   
   
-    <a href="/2021/08/19/kotlin-func/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/01/04/JVM-STACK/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">newer</strong>
       <div class="article-nav-title">
         
-          kotlin-func
+          JVM_STACK
         
       </div>
     </a>
@@ -327,7 +345,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ANDROID/" style="font-size: 16px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 18px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 12px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 12px;">Fragment</a> <a href="/tags/JVM/" style="font-size: 16px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 16px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 12px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 16px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 10px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 16px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 14px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 16px;">VIEW</a> <a href="/tags/XML/" style="font-size: 10px;">XML</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/compose/" style="font-size: 10px;">compose</a> <a href="/tags/concurrency/" style="font-size: 16px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 18px;">coroutie</a> <a href="/tags/inter/" style="font-size: 12px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/permission/" style="font-size: 10px;">permission</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
+      <a href="/tags/ANDROID/" style="font-size: 15px;">ANDROID</a> <a href="/tags/AOSP/" style="font-size: 16.67px;">AOSP</a> <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/AndroidNewFeatures/" style="font-size: 10px;">AndroidNewFeatures</a> <a href="/tags/Assembly/" style="font-size: 10px;">Assembly</a> <a href="/tags/BLOG/" style="font-size: 10px;">BLOG</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/DB/" style="font-size: 11.67px;">DB</a> <a href="/tags/Drawer/" style="font-size: 10px;">Drawer</a> <a href="/tags/Fragment/" style="font-size: 11.67px;">Fragment</a> <a href="/tags/JVM/" style="font-size: 18.33px;">JVM</a> <a href="/tags/LEETCODE/" style="font-size: 20px;">LEETCODE</a> <a href="/tags/Operators/" style="font-size: 10px;">Operators</a> <a href="/tags/Performance/" style="font-size: 15px;">Performance</a> <a href="/tags/RecyclerView/" style="font-size: 11.67px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/THINK/" style="font-size: 10px;">THINK</a> <a href="/tags/TOOL/" style="font-size: 10px;">TOOL</a> <a href="/tags/TabLayout/" style="font-size: 10px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 15px;">Test</a> <a href="/tags/TouchEvent/" style="font-size: 13.33px;">TouchEvent</a> <a href="/tags/VIEW/" style="font-size: 15px;">VIEW</a> <a href="/tags/XML/" style="font-size: 10px;">XML</a> <a href="/tags/anim/" style="font-size: 10px;">anim</a> <a href="/tags/compose/" style="font-size: 10px;">compose</a> <a href="/tags/concurrency/" style="font-size: 15px;">concurrency</a> <a href="/tags/coroutie/" style="font-size: 16.67px;">coroutie</a> <a href="/tags/inter/" style="font-size: 11.67px;">inter</a> <a href="/tags/keyboard/" style="font-size: 10px;">keyboard</a> <a href="/tags/permission/" style="font-size: 10px;">permission</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a>
     </div>
   </div>
 
@@ -336,7 +354,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-classify"></i> Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ANDROID/">ANDROID</a><span class="category-list-count">53</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BLE/">BLE</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPatterns/">DesignPatterns</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ENGLISH/">ENGLISH</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jetpack/">Jetpack</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LINUX/">LINUX</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mathematics/">Mathematics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Organization/">Organization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SOURCE/">SOURCE</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TEST/">TEST</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TOOL/">TOOL</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/VIEW/">VIEW</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/anim/">anim</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flutter/">flutter</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -346,7 +364,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">35</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年</a><span class="archive-list-count">35</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年</a><span class="archive-list-count">49</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年</a><span class="archive-list-count">22</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年</a><span class="archive-list-count">39</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018年</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017年</a><span class="archive-list-count">49</span></li></ul>
     </div>
   </div>
 
@@ -356,7 +374,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compose/" rel="tag">compose</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/permission/" rel="tag">permission</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ANDROID/" rel="tag">ANDROID</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/" rel="tag">AOSP</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidNewFeatures/" rel="tag">AndroidNewFeatures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/" rel="tag">Assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BLOG/" rel="tag">BLOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Drawer/" rel="tag">Drawer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LEETCODE/" rel="tag">LEETCODE</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Operators/" rel="tag">Operators</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/" rel="tag">RxJava</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/THINK/" rel="tag">THINK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TOOL/" rel="tag">TOOL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/" rel="tag">Test</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TouchEvent/" rel="tag">TouchEvent</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIEW/" rel="tag">VIEW</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anim/" rel="tag">anim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compose/" rel="tag">compose</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrency/" rel="tag">concurrency</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coroutie/" rel="tag">coroutie</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inter/" rel="tag">inter</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/" rel="tag">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/permission/" rel="tag">permission</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/" rel="tag">proguard</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
