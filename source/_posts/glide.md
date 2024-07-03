@@ -4,10 +4,6 @@ date: 2024-07-03 13:51:25
 tags: Library
 ---
 
-
-
-
-
 # Question
 
 This article has many **flowcharts** to introduce the principles
@@ -439,6 +435,10 @@ LruBitmapPool
 即找到最接近 size 但又不超出 size 太多的 bitmap，否则如果拿来复用的 bitmap 太大的话也比较浪费
 
 链接：https://juejin.cn/post/6956090846470995975
+
+[肢解Glide：LruBitmapPool如何具体操作Bitmap复用？ - 掘金](https://juejin.cn/post/7133243966052368392)
+
+
 
 ```java
 final class SizeStrategy implements LruPoolStrategy {
