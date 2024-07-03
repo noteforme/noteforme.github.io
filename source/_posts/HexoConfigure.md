@@ -6,38 +6,34 @@ tags: BLOG
 categories: 
 ---
 
-
-####  基本配置
+#### 基本配置
 
 ​    官方文档:https://hexo.io/zh-cn/docs/index.html
 
 1. 下载 [Node.js ](https://nodejs.org/en/))
 
 2. Git
-
+   
    下载的是 node-v6.11.3-x64.msi ，一路安装下去自动配置好了环境变量
     输入 `node -v` 测试
 
 3. npm  
-
+   
    `npm install -g hexo-cli  `
-
+   
    注意： 安装Node.js最佳方式使用nvm，使用master分支不起作用,需要github推荐的分支
-
+   
    接着安装node.js
-
+   
    搭建好hexo后，由于他是本地生成的，那么就要考虑同步的问题了，目前解决在github建一个分支 hexo，然后把本地资源用git分支管理
 
 4. 安装 npm install hexo 
-
-
 
 安装出问题 更换镜像源
 
 [https://www.lemonneko.cn/win10%E6%90%AD%E5%BB%BAhexo%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/](https://www.lemonneko.cn/win10搭建hexo及遇到的坑/)
 
-
-####  上传到分支
+#### 上传到分支
 
         // git初始化
          git init
@@ -51,8 +47,6 @@ categories:
         git commit -m ""
         // 文件推送到hexo分支
         git push origin hexo
-
-
 
    其他设备安装好环境(支持跨平台)，先clone　hexo分支到本地
 
@@ -72,8 +66,8 @@ categories:
 
 如果有这些不用管了 
 
->npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.0.0 (node_modules\chokidar\node_modules\fsevents):
->npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.1.2: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"
+> npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.0.0 (node_modules\chokidar\node_modules\fsevents):
+> npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.1.2: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"
 
 问题:在ubuntu上，执行hexo d部署后每次都要输入github用户名和密码，在这里也找到了答案，就是根目录下的 _config.yml文件没有配置成ssh,之前是这样的     repository:https://github.com/noteforme/noteforme.github.io.git
      Deployment
@@ -83,10 +77,7 @@ categories:
       repository: git@github.com:noteforme/noteforme.github.io.git
       branch: master
 
-
 参考：http://www.jianshu.com/p/6fb0b287f950
-
-
 
 ###### https认证:Cloudflare免费的ssl
 
@@ -104,8 +95,6 @@ categories:
 
 参考：http://www.jianshu.com/p/92b6d4a6ecd5
 
-
-
 #### mac install hero
 
 ```
@@ -114,9 +103,7 @@ sudo npm install -g hero-cli
 
 theme didn't commit to GitHub ,so you could clone theme
 
-
-
-######  hexo next theme
+###### hexo next theme
 
 修改主题
 
@@ -141,14 +128,13 @@ theme didn't commit to GitHub ,so you could clone theme
 hexo new page "categories"
 ```
 
- 1. 新建page: $ hexo new page “categories” ，在 hexo > source 文件夹中会出现一个categories文件夹
- 2. 打开categories文件夹中的index.md页面，在头部添加 – type: “categories” （为了点击的时候链接生效）
- 3. 在hexo > theme > next > _config.yml 中修改menu下的categorues,去掉前面井号注释。 然后就可以看到分类页面了
-
+1. 新建page: $ hexo new page “categories” ，在 hexo > source 文件夹中会出现一个categories文件夹
+2. 打开categories文件夹中的index.md页面，在头部添加 – type: “categories” （为了点击的时候链接生效）
+3. 在hexo > theme > next > _config.yml 中修改menu下的categorues,去掉前面井号注释。 然后就可以看到分类页面了
 
 参考：https://lannly.github.io/2016/11/16/Hexo-Next-%E6%B7%BB%E5%8A%A0%E8%8F%9C%E5%8D%95%E5%88%86%E7%B1%BB/
 
-######  next 添加头像
+###### next 添加头像
 
 新建uploads文件夹，放入图片
 
@@ -160,9 +146,8 @@ hexo new page "categories"
 # in site  directory(source/uploads): /uploads/avatar.jpg
  avatar: /uploads/author.png
 ```
+
 https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%A4%B4%E5%83%8F
-
-
 
 #### Mac  Hexo安装
 
@@ -178,13 +163,9 @@ $export PATH=$PATH:/Users/m/.npm-global/lib/node_modules/hexo-cli/bin
 
 也可以去修改~/.zshrc 或者~/.bashrc，在里面添加上述命令，然后 source ~/.zshrc
 
-
-
 #### 图片不显示
 
 这个图片怎么弄也没用，最终把资源包从旧的电脑，复制到新电脑解决了
-
-
 
 打开/node_modules/hexo-asset-image/index.js，将内容更换为下面的代码
 
@@ -201,19 +182,19 @@ var version = String(hexo.version).split('.');
 hexo.extend.filter.register('after_post_render', function(data){
   var config = hexo.config;
   if(config.post_asset_folder){
-    	var link = data.permalink;
-	if(version.length > 0 && Number(version[0]) == 3)
-	   var beginPos = getPosition(link, '/', 1) + 1;
-	else
-	   var beginPos = getPosition(link, '/', 3) + 1;
-	// In hexo 3.1.1, the permalink of "about" page is like ".../about/index.html".
-	var endPos = link.lastIndexOf('/') + 1;
+        var link = data.permalink;
+    if(version.length > 0 && Number(version[0]) == 3)
+       var beginPos = getPosition(link, '/', 1) + 1;
+    else
+       var beginPos = getPosition(link, '/', 3) + 1;
+    // In hexo 3.1.1, the permalink of "about" page is like ".../about/index.html".
+    var endPos = link.lastIndexOf('/') + 1;
     link = link.substring(beginPos, endPos);
 
     var toprocess = ['excerpt', 'more', 'content'];
     for(var i = 0; i < toprocess.length; i++){
       var key = toprocess[i];
- 
+
       var $ = cheerio.load(data[key], {
         ignoreWhitespace: false,
         xmlMode: false,
@@ -222,48 +203,41 @@ hexo.extend.filter.register('after_post_render', function(data){
       });
 
       $('img').each(function(){
-		if ($(this).attr('src')){
-			// For windows style path, we replace '\' to '/'.
-			var src = $(this).attr('src').replace('\\', '/');
-			if(!/http[s]*.*|\/\/.*/.test(src) &&
-			   !/^\s*\//.test(src)) {
-			  // For "about" page, the first part of "src" can't be removed.
-			  // In addition, to support multi-level local directory.
-			  var linkArray = link.split('/').filter(function(elem){
-				return elem != '';
-			  });
-			  var srcArray = src.split('/').filter(function(elem){
-				return elem != '' && elem != '.';
-			  });
-			  if(srcArray.length > 1)
-				srcArray.shift();
-			  src = srcArray.join('/');
-			  $(this).attr('src', config.root + link + src);
-			  console.info&&console.info("update link as:-->"+config.root + link + src);
-			}
-		}else{
-			console.info&&console.info("no src attr, skipped...");
-			console.info&&console.info($(this));
-		}
+        if ($(this).attr('src')){
+            // For windows style path, we replace '\' to '/'.
+            var src = $(this).attr('src').replace('\\', '/');
+            if(!/http[s]*.*|\/\/.*/.test(src) &&
+               !/^\s*\//.test(src)) {
+              // For "about" page, the first part of "src" can't be removed.
+              // In addition, to support multi-level local directory.
+              var linkArray = link.split('/').filter(function(elem){
+                return elem != '';
+              });
+              var srcArray = src.split('/').filter(function(elem){
+                return elem != '' && elem != '.';
+              });
+              if(srcArray.length > 1)
+                srcArray.shift();
+              src = srcArray.join('/');
+              $(this).attr('src', config.root + link + src);
+              console.info&&console.info("update link as:-->"+config.root + link + src);
+            }
+        }else{
+            console.info&&console.info("no src attr, skipped...");
+            console.info&&console.info($(this));
+        }
       });
       data[key] = $.html();
     }
   }
 });
-
 ```
-
-
 
 https://moeci.com/posts/hexo-typora/
 
 https://juejin.cn/post/7006594302604214280
 
 https://www.bilibili.com/video/BV1D7411U7Yk/
-
-
-
-
 
 ##### 卸载插件
 
@@ -272,34 +246,22 @@ npm list
 npm uninstall <你的插件名>
 ```
 
-
-
 安装插件
 
 ```
 npm install https://github.com/fulsun/hexo-asset-image-master.git --save
 ```
 
-
-
 https://carolinelh.github.io/2019/11/20/hexo%E6%96%87%E7%AB%A0%E5%9B%BE%E7%89%87%E4%B8%8D%E6%98%BE%E7%A4%BA%E7%9A%84%E5%9D%91/
-
-
 
 _config.yml
 
 ```
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://noteforme.github.io 			// 之前这个地址不对,多加了东西
+url: https://noteforme.github.io             // 之前这个地址不对,多加了东西
 ```
 
-
-
-
-
 #### hexo node 升级
-
-
 
 ```
 搜索现有node版本
@@ -313,10 +275,24 @@ brew install node@x
 
 https://blog.csdn.net/lvqinglou/article/details/115858349
 
-
-
 npm-check
 
 检查升级
 
 https://ephen.me/2022/blog-updates-plus/
+
+
+
+
+
+
+
+
+
+wordpress on mac
+
+
+
+[How to Install WordPress Locally (Windows, Mac, Linux)](https://jetpack.com/blog/install-wordpress-locally/)
+
+database name : mysql
