@@ -359,11 +359,24 @@ Engine.java
   }
 ```
 
-## LruCache
+# LruCache
+
+
+
+`LruCache` stands for Least Recently Used Cache. It's a cache mechanism that keeps track of the most recently used items and evicts the least recently used items when the cache reaches its maximum size. This helps in maintaining a balance between memory usage and access speed.
+
+### How Glide Uses LruCache
+
+Glide uses `LruCache` to store decoded images (`Bitmap` objects) in memory. When an image is requested:
+
+1. **Check Cache**: Glide first checks the memory cache for the image.
+2. **Load from Cache**: If the image is found in the cache, it is loaded from there, making the process very fast.
+3. **Fetch and Decode**: If the image is not in the cache, Glide fetches it from the source (e.g., network, disk), decodes it, and adds it to the cache.
+4. 
 
 ![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/Architecture/2021-08-09_4.4_lrucache.png)
 
- LinkedHashMap参数含义
+LinkedHashMap参数含义
 
 initialCapacity : 最大容量
 
@@ -420,6 +433,8 @@ https://github.com/JakeWharton/DiskLruCache
 
 # Bitmap Reuse
 
+## botain bitmap
+
 ```mermaid
 sequenceDiagram
 LruBitmapPool ->> LruBitmapPool : get()
@@ -437,8 +452,6 @@ LruBitmapPool
 链接：https://juejin.cn/post/6956090846470995975
 
 [肢解Glide：LruBitmapPool如何具体操作Bitmap复用？ - 掘金](https://juejin.cn/post/7133243966052368392)
-
-
 
 ```java
 final class SizeStrategy implements LruPoolStrategy {
@@ -459,6 +472,85 @@ final class SizeStrategy implements LruPoolStrategy {
   }
 ```
 
+## save bitmap
+
+```mermaid
+sequenceDiagram
+BitmapPool ->> LruBitmapPool : put(bitmap)
+LruBitmapPool ->> SizeConfigStrategy : strategy.put(bitmap)
+SizeConfigStrategy ->> KeyPool : get(size, bitmap.getConfig())
+Note  over SizeConfigStrategy, KeyPool : groupedMap.put(key, bitmap);
+```
+
+### bitmap save condition
+
+* is mutable
+
+* less than maxSize
+
+* allowedConfigs
+
+LruBitmapPool.java
+
+```java
+ public synchronized void put(Bitmap bitmap) {
+    if (!bitmap.isMutable()
+        || strategy.getSize(bitmap) > maxSize
+        || !allowedConfigs.contains(bitmap.getConfig())) {
+      bitmap.recycle();
+      return;
+    }
+
+    final int size = strategy.getSize(bitmap);
+    strategy.put(bitmap);
+    tracker.add(bitmap);
+
+    puts++;
+    currentSize += size;
+  }
+```
+
+SizeConfigStrategy.java
+
+```java
+  static final class Key implements Poolable {
+
+    @Override
+    public boolean equals(Object o) {
+      if (o instanceof Key) {
+        Key other = (Key) o;
+        return size == other.size && Util.bothNullOrEqual(config, other.config);
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      int result = size;
+      result = 31 * result + (config != null ? config.hashCode() : 0);
+      return result;
+    }
+  }
+```
+
+The key is judged based on bitmap size and Config format.
+
+### decoded VS without decode
+
+In the context of using the Glide library in Android for image loading, the terms "decoded cache" and "without decode" refer to different stages and aspects of the image loading process. Here's a detailed explanation:
+
+#### Decoded Cache
+
+**Decoded Cache** refers to the cache that stores images that have already been decoded into `Bitmap` objects. This means the images are stored in a format that can be directly used by the UI without needing further decoding. The benefits of using the decoded cache include:
+
+1. **Faster Loading:** Since the images are already decoded, they can be quickly retrieved and displayed, reducing the load time and improving the user experience.
+2. **Reduced CPU Usage:** Decoding an image is a CPU-intensive process. By caching decoded images, you avoid repeatedly decoding the same image, which saves CPU resources.
+3. **Efficient Memory Usage:** Decoded images are stored in memory, which allows for quick access, but this also means that the memory usage can be higher, especially if you are caching many large images.
+
+#### Without Decode (Encoded Cache)
+
+**Without Decode** or **Encoded Cache** refers to the cache that stores the raw, compressed image files (such as JPEG, PNG, or WebP) without decoding them into `Bitmap` objects. This cache stores the images in their original, encoded format. The benefits of using the encoded cache include:
+
 # BUILD PROJECT
 
 ![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/Retrofit/20240618162126.jpg)
@@ -469,3 +561,5 @@ https://juejin.im/post/6844904136266219534
 https://bumptech.github.io/glide/
 
 https://github.com/xfhy/Android-Notes/blob/master/Blogs/Android/%E4%B8%89%E6%96%B9%E5%BA%93%E5%8E%9F%E7%90%86/Glide%E4%B8%BB%E6%B5%81%E7%A8%8B%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90.md
+
+https://mp.weixin.qq.com/s/pAazRD9NaLPvBseG51ZOLw
