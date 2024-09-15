@@ -4,6 +4,8 @@ date: 2024-07-03 13:51:25
 tags: Library
 ---
 
+
+
 # Question
 
 This article has many **flowcharts** to introduce the principles
@@ -360,8 +362,6 @@ Engine.java
 ```
 
 # LruCache
-
-
 
 `LruCache` stands for Least Recently Used Cache. It's a cache mechanism that keeps track of the most recently used items and evicts the least recently used items when the cache reaches its maximum size. This helps in maintaining a balance between memory usage and access speed.
 

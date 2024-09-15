@@ -113,3 +113,150 @@ https://dl.304304.xyz/uploads/Ludovicus/%E8%8B%B1%E8%AF%AD-%E6%90%AC%E8%BF%90/
 右键选择 windows 7安装
 
 点击brower 选择安装的文件
+
+
+
+
+
+# IELTS
+
+https://improvemyielts.com/ielts-speaking-topics-part-2-3
+
+# 定语从句
+
+一个句子作定语修饰限定名词  
+
+This is the job which I have dreamed of for years. 
+
+The job = which  
+
+Which 作为 宾语成分. 
+
+| 物     | which/that    |
+| ----- | ------------- |
+| 人     | Who/whom/that |
+| 人的/物的 | Whose         |
+| 时间    | When          |
+| 地点    | Where         |
+| 原因    | Why           |
+
+定语从句中每个关系词都做成分 包括 that 
+
+关系词作宾语可省略 
+
+I have a class which/that begins at 8:00. 
+
+主语 
+
+The lawyer whom/that/who my brother called didn't answer the phone. 
+
+My daughter asked me a question which/that I couldn't answer. 
+
+The people who/that sat in the stadium cheered for the home team. 
+
+Leo is the student whose bike was stolen 
+
+Australia is one  of the few country where people drive on the left. 
+
+Sunday is the day when people usually don't go to work. 
+
+Is there any particular reason why you can't come. 
+
+定语从句分类 ： 限定性、非限定性 
+
+限定性 
+
+I meet you friend who is staying in Paris. 
+
+  很多朋友 
+
+2. 非限定性 
+   
+    I met your mother, who is staying in Paris. 
+
+只有一个妈妈,用","隔开 
+
+区别: 先行词的范围是否明确 
+
+特殊的非限定性定语从句 
+
+The company will get back to you in three days, which is one of the typical rules. 
+
+介词提前的定语从句 
+
+Humans have the ability to modify the environment in which they live. 
+
+The theory on which it is based may be right. 
+
+定语从句和同位语从句的区别 
+
+定语从句 :  n + that , that 作成分 
+
+同位语从句 : that 不作成分 
+
+During the past generation, the American middle class family that one could count on hard work and fair play to keep itself financially secure has been transformed by economic risk and new realites. 
+
+# 状语从句
+
+一个句子作状语表达秒属性的信息
+
+1. 时间状语从句 
+
+When  , while , As  ,  Before After  Since  Until ,  as soon as  , No sooner than
+
+2. 地点状语从句 where 
+3. 原因状语从句 
+    Because      Since   As 
+4. 结果状语从句 
+    So/such…that , In order that 
+5. 目的状语从句 
+    So…that , In order that 
+6. 条件状语从句
+    If unless , As long as 
+7. 让步状语从句 
+    Although  
+    Through  
+    Even thought 
+    As
+    明让步，暗转折 
+8. 比较状语从句 
+    Than  as
+    I am as tall as you (are).
+9. 方式状语从句 
+    As 
+    Do it as I told you yesterday. 
+
+状语从句的时态 
+
+时间状语从句中表示将来，条件状语从句中表示将来，他们都用一般现在是 
+
+If it rains tomorrow,we will not got to the park. 
+
+I will let him know,when he comes home later 
+
+条件状语从句： if 条件状语从句，主句 
+
+# 表语从句
+
+My concern <u>is</u> that people don't care about others. 
+The question <u>remains </u>  whether people will buy it. 
+
+# 同位语从句
+
+位置: 需要解释的抽象N后,解释名词 
+
+Fact idea news dream suggestion advice report 
+
+I support the  <u>argument</u>u> that the problems of school buses must be taken seriously.
+
+The man wanted to fly to  <u>Rockcall</u>u>,a lonely island.
+
+# 主语从句
+
+Whether we will go camping depend on the weather. 
+
+It depends on the weather Whether we will go camping. 
+
+# chat
+
+how about tw
