@@ -1,6 +1,6 @@
 ---
 id: 288
-title: 'IDEA ERROR'
+title: 'TOOL IDEA ERROR'
 date: '2024-05-30T07:50:12+00:00'
 author: Jon
 layout: post

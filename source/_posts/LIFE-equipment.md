@@ -1,6 +1,6 @@
 ---
 id: 119
-title: 'Equipment ear'
+title: 'LIFE-Equipment ear'
 date: '2024-05-20T01:57:34+00:00'
 author: Jon
 layout: post

@@ -10,8 +10,6 @@ categories:
     - DesignPattern
 ---
 
-
-
 https://refactoring.guru/design-patterns/strategy
 
 https://design-patterns.readthedocs.io/zh-cn/latest/behavioral_patterns/strategy.html

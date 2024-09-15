@@ -7,7 +7,6 @@ layout: post
 guid: 'https://jonblog.site/?p=41'
 permalink: /2024/05/14/designpattern/
 categories:
-    - Architecture
     - DesignPattern
 ---
 
