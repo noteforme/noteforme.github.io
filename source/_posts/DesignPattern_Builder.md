@@ -3,24 +3,16 @@ title: DesignPattern-Builder
 comments: true
 date: 2017-10-07 17:45:46
 tags:
-categories:  DesignPatterns
+categories:  DesignPattern
 ---
 
 # Builder模式
 
 不直接生成想要的对象，而是让客户端利用所有必要的参数调用构造器（或者静态工厂），得到一个builder对象，然后客户端在builder对象上调用类似于setter的方法，来设置每个相关的可选参数
 
-
-
-
-
  既能保证像重叠构造器模式那样的安全性，也能保证像JavaBeans模式那么好的可读性
 
-
-
-
 ```
-
 public class NutritionFacts_03_Builder {
     private  final  int servingSize;
     private  final  int servings;
@@ -79,14 +71,11 @@ public class NutritionFacts_03_Builder {
                 .calories(100).sodium(35).carbohydrate(27).build();
     }
 }
-
 ```
 
-##  
+## 
 
  返回的this时怎么替代对象的
-
-
 
 ##### 对象创建更加灵活
 

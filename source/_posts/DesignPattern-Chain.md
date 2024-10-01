@@ -3,16 +3,12 @@ title: DesignPattern_Chain
 comments: true
 date: 2020-07-22 22:43:57
 tags:
-categories: DesignPatterns
+categories: DesignPattern
 ---
-
-
 
 ##### 传统方案OA系统审批问题
 
 ![2021-09-12_7.12.05_oa](DesignPattern-Chain/2021-09-12_7.12.05_oa.png)
-
-
 
 ##### 职责链模式介绍
 
@@ -24,13 +20,7 @@ categories: DesignPatterns
 
 ![2021-09-12_7.59.12_responsible_role](DesignPattern-Chain/2021-09-12_7.59.12_responsible_role.png)
 
-
-
 ![2021-09-12_8.10.25_implement](DesignPattern-Chain/2021-09-12_8.10.25_implement.png)
-
-
-
-
 
 ##### 大话示例
 
@@ -43,8 +33,6 @@ public class Request {
     public int number;
 }
 ```
-
-
 
 ```java
 public abstract class Manager {
@@ -65,8 +53,6 @@ public abstract class Manager {
 }
 ```
 
-
-
 ```java
 public class CommonManager extends  Manager {
     public CommonManager(String name) {
@@ -84,8 +70,6 @@ public class CommonManager extends  Manager {
     }
 }
 ```
-
-
 
 ```java
 public class MajorDomo extends  Manager {
@@ -105,8 +89,6 @@ public class MajorDomo extends  Manager {
 }
 ```
 
-
-
 ```java
 public class GeneralManager extends Manager {
     public GeneralManager(String name) {
@@ -125,8 +107,6 @@ public class GeneralManager extends Manager {
     }
 }
 ```
-
-
 
 ```java
 CommonManager commonManager = new CommonManager("经理");
@@ -148,19 +128,12 @@ request1.requestType = "加薪";
 request1.number = 888;
 request1.requestContent = "给哥加薪";
 commonManager.requestApplications(request1);
-  
 ```
-
-
 
 ##### 责任链模式作用
 
 ![2021-09-12_8.44.01_function](DesignPattern-Chain/2021-09-12_8.44.01_function.png)
 
 https://www.bilibili.com/video/BV1G4411c7N4?p=149&spm_id_from=pageDriver
-
-
-
-
 
 https://blog.csdn.net/weixin_45203607/article/details/120238491

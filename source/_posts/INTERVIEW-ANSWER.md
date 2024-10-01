@@ -1,5 +1,5 @@
 ---
-title: INTERVIEW-ANSWER
+title: interview-answer
 comments: true
 date: 2018-03-12 12:44:01
 tags: inter

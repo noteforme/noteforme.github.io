@@ -8,26 +8,11 @@ categories:
 
 #### 基本配置
 
-​    官方文档:https://hexo.io/zh-cn/docs/index.html
+select theme
 
-1. 下载 [Node.js ](https://nodejs.org/en/))
+[Best Hexo Themes (Hand-picked) | Statichunt](https://statichunt.com/hexo-themes)
 
-2. Git
-   
-   下载的是 node-v6.11.3-x64.msi ，一路安装下去自动配置好了环境变量
-    输入 `node -v` 测试
 
-3. npm  
-   
-   `npm install -g hexo-cli  `
-   
-   注意： 安装Node.js最佳方式使用nvm，使用master分支不起作用,需要github推荐的分支
-   
-   接着安装node.js
-   
-   搭建好hexo后，由于他是本地生成的，那么就要考虑同步的问题了，目前解决在github建一个分支 hexo，然后把本地资源用git分支管理
-
-4. 安装 npm install hexo 
 
 安装出问题 更换镜像源
 
@@ -281,17 +266,7 @@ npm-check
 
 https://ephen.me/2022/blog-updates-plus/
 
-
-
-
-
-
-
-
-
 wordpress on mac
-
-
 
 [How to Install WordPress Locally (Windows, Mac, Linux)](https://jetpack.com/blog/install-wordpress-locally/)
 

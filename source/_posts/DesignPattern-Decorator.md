@@ -3,14 +3,10 @@ title: DesignPattern_Decorator
 comments: true
 date: 2020-07-12 12:37:59
 tags:
-categories: DesignPatterns
+categories: DesignPattern
 ---
 
-
-
 **装饰器模式**
-
-
 
 应用场景: 拓展一个类的功能或给一个类添加附加职责.
 
@@ -20,13 +16,7 @@ categories: DesignPatterns
 2. 使用不同的组合实现不同的效果
 3. 符合开闭原则
 
-
-
 ![](DesignPattern-Decorator/2021-07-12_decorator.png)
-
-
-
-
 
 ```java
 interface Component{
@@ -115,11 +105,9 @@ class ConcreateComponent2 extends  Decorator{
 }
 
 //测试
- ConcreateComponent2 concreateComponent1 = new ConcreateComponent2(new ConcreateComponent1(new 	  ConcreateComponent()));
+ ConcreateComponent2 concreateComponent1 = new ConcreateComponent2(new ConcreateComponent1(new       ConcreateComponent()));
         concreateComponent1.operation();
 ```
-
-
 
 https://www.bilibili.com/video/BV1hp4y1D7MP?from=search&seid=6785978722248254154
 

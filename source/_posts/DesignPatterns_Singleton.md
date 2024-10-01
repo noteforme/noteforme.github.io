@@ -3,7 +3,7 @@ title: Singleton
 comments: true
 date: 2018-06-06 15:43:06
 tags:
-categories: DesignPatterns
+categories: DesignPattern
 ---
 
 单例模式
@@ -15,7 +15,7 @@ categories: DesignPatterns
 
 ```kotlin
 class Singleton private constructor() {
-    
+
     private object HOLDER {
         val INSTANCE = Singleton()
     }
@@ -25,8 +25,6 @@ class Singleton private constructor() {
     }
 }
 ```
-
-
 
 https://medium.com/swlh/singleton-class-in-kotlin-c3398e7fd76b
 
@@ -40,7 +38,7 @@ public class Singleton{
      private Singleton(){}
      public static Singleton getInstance(){
      if(singleton==null){           
-     								 							//多个线程在这里聚集就会产生多个对象
+                                                                  //多个线程在这里聚集就会产生多个对象
            synonzied(Singleton.class){
            Thread.sleel(1)
           singleton = new Singleton();
@@ -49,10 +47,7 @@ public class Singleton{
        return singleton;
      }
    }
-
 ```
-
-
 
 ```java
 public class Singleton{
@@ -72,13 +67,9 @@ public class Singleton{
    }
 ```
 
-
-
 源码有类似的　InputMethodManager，当然我们常用的方式是要传个Context上下文对象给单例类，记得有次面试的时候面试官说单例里面使用弱引用，如果是是为了避免内存泄漏我觉得是可以的，但是我觉得用这种方式更好　`Context applicationContext = context.getApplicationContext();`　刚无意中发现Glide单例也是这样使用的。
 
-
-
-#### 双重检查模式 
+#### 双重检查模式
 
 ```java
 public class Singleton {  
@@ -86,7 +77,7 @@ public class Singleton {
       private Singleton (){
       }   
       public static Singleton getInstance() {  
-      if (singleton== null) {  						
+      if (singleton== null) {                          
           synchronized (Singleton.class) {  
           if (singleton== null) {  
               instance= new Singleton();  
@@ -98,13 +89,11 @@ public class Singleton {
  }  
 ```
 
-
-
-#####  第1个if (singleton==null) 
+##### 第1个if (singleton==null)
 
 如果去掉它，那么所有线程都会串行执行，效率低下，这样会产生效率问题，多个线程在这空转等待获得锁，所以两个 check 都是需要保留的。
 
-##### 第2个if (singleton==null) 
+##### 第2个if (singleton==null)
 
 假如两个线程同时调用 getInstance() ,由于instance是空的，两个线程都通过**第1个if (singleton null)**,接着锁机制存在，线程1先进入同步语句，并进入第二重if判断,线程2在外面等待. 线程1执行完 `new Singleton()`后退出synchronized,这时候如果没有 **第2个if (singleton== null)**  线程2也会创建一个实例，此时就破坏了单例原则.
 
@@ -116,20 +105,13 @@ public class Singleton {
 
 ![](https://s0.lgstatic.com/i/image3/M01/7E/CC/Cgq2xl6BpWCAMBaVAACFIdffjfM852.png)
 
-
-
 1. 第一步是给 singleton 分配内存空间；
 2. 然后第二步开始调用 Singleton 的构造函数等，来初始化 singleton；
-3. 
-   最后第三步，将 singleton 对象指向分配的内存空间（执行完这步 singleton 就不是 null 了）。
+3. 最后第三步，将 singleton 对象指向分配的内存空间（执行完这步 singleton 就不是 null 了）。
 
 因为存在指令重排序的优化，也就是说第2 步和第 3 步的顺序是不能保证的，最终的执行顺序，可能是 1-2-3，也有可能是 1-3-2。
 
-
-
 如果是 1-3-2，那么在第 3 步执行完以后，singleton 就不是 null 了，可是这时第 2 步并没有执行，singleton 对象未完成初始化，它的属性的值可能不是我们所预期的值。假设此时线程 2 进入 getInstance 方法，由于 singleton 已经不是 null 了，所以会通过第一重`if (singleton==null) `检查并直接返回，但其实这时的 singleton 并没有完成初始化，所以使用这个实例的时候会报错.
-
-
 
 ![](https://s0.lgstatic.com/i/image3/M01/7E/CC/Cgq2xl6BpWCAB6QQAAEKacFd0CE542.png)
 
@@ -155,12 +137,9 @@ enum Elvis {
 
     }
 }
-
 ```
 
-
-
-####  嵌套类 
+#### 嵌套类
 
 ```java
 public class Singleton3 {
