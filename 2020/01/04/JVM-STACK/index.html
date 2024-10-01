@@ -1,35 +1,315 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>JVM_STACK - Jon&#039;s Blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Jon&#039;s Blog"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Jon&#039;s Blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="字节码指令运行 https:&amp;#x2F;&amp;#x2F;www.bilibili.com&amp;#x2F;video&amp;#x2F;BV1PJ411n7xZ?p&amp;#x3D;49 虚拟机栈虚拟机栈的出现背景 由于跨平台性的设计，Java的指令都是根据栈来设计的。不同平台CPU架构不同，所以不能设计为基于寄存器的【如果设计成基于寄存器的，耦合度高，性能会有所提升，因为可以对具体的CPU架构进行优化，但是跨平台性大大降低】。 优点是跨平台，指令集小，编译器容易实现，"><meta property="og:type" content="blog"><meta property="og:title" content="JVM_STACK"><meta property="og:url" content="https://noteforme.github.io/2020/01/04/JVM-STACK/"><meta property="og:site_name" content="Jon&#039;s Blog"><meta property="og:description" content="字节码指令运行 https:&amp;#x2F;&amp;#x2F;www.bilibili.com&amp;#x2F;video&amp;#x2F;BV1PJ411n7xZ?p&amp;#x3D;49 虚拟机栈虚拟机栈的出现背景 由于跨平台性的设计，Java的指令都是根据栈来设计的。不同平台CPU架构不同，所以不能设计为基于寄存器的【如果设计成基于寄存器的，耦合度高，性能会有所提升，因为可以对具体的CPU架构进行优化，但是跨平台性大大降低】。 优点是跨平台，指令集小，编译器容易实现，"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0002.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0003.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0004.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0005.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0006.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0007.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0008.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0009.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0010.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0011.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0012.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0013.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0014.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0015.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0016.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0017.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0018.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0020.jpg"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0021.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0022.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0023.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0024.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0025.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0026.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0027.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0029.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0030.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0031.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0032.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0033.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0034.png"><meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0039.png"><meta property="article:published_time" content="2020-01-04T03:28:39.000Z"><meta property="article:modified_time" content="2022-06-12T03:17:58.660Z"><meta property="article:author" content="Jon"><meta property="article:tag" content="JVM"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0002.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://noteforme.github.io/2020/01/04/JVM-STACK/"},"headline":"JVM_STACK","image":["https://noteforme.github.io/2020/01/04/JVM-STACK/0002.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0003.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0004.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0005.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0006.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0007.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0008.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0009.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0010.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0011.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0012.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0013.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0014.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0015.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0016.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0017.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0018.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0020.jpg","https://noteforme.github.io/2020/01/04/JVM-STACK/0021.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0022.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0023.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0024.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0025.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0026.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0027.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0029.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0030.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0031.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0032.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0033.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0034.png","https://noteforme.github.io/2020/01/04/JVM-STACK/0039.png"],"datePublished":"2020-01-04T03:28:39.000Z","dateModified":"2022-06-12T03:17:58.660Z","author":{"@type":"Person","name":"Jon"},"publisher":{"@type":"Organization","name":"Jon's Blog","logo":{"@type":"ImageObject","url":"https://noteforme.github.io/img/logo.svg"}},"description":"字节码指令运行 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1PJ411n7xZ?p&#x3D;49 虚拟机栈虚拟机栈的出现背景 由于跨平台性的设计，Java的指令都是根据栈来设计的。不同平台CPU架构不同，所以不能设计为基于寄存器的【如果设计成基于寄存器的，耦合度高，性能会有所提升，因为可以对具体的CPU架构进行优化，但是跨平台性大大降低】。 优点是跨平台，指令集小，编译器容易实现，"}</script><link rel="canonical" href="https://noteforme.github.io/2020/01/04/JVM-STACK/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
-  (function () {
-      function switchTab() {
-          if (!location.hash) {
-            return;
-          }
 
-          const id = '#' + CSS.escape(location.hash.substring(1));
-          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
-          if (!$tabMenu) {
-            return;
-          }
 
-          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
-          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
-          Array.from($tabMenuContainer.querySelectorAll('a'))
-              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
-              .forEach($content => $content.classList.add('is-hidden'));
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
 
-          if ($tabMenu) {
-              $tabMenu.parentElement.classList.add('is-active');
-          }
-          const $activeTab = document.querySelector(id);
-          if ($activeTab) {
-              $activeTab.classList.remove('is-hidden');
-          }
-      }
-      switchTab();
-      window.addEventListener('hashchange', switchTab, false);
-  })();
-  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Jon&#039;s Blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2020-01-04T03:28:39.000Z" title="1/4/2020, 11:28:39 AM">2020-01-04</time></span><span class="level-item">Updated&nbsp;<time dateTime="2022-06-12T03:17:58.660Z" title="6/12/2022, 11:17:58 AM">2022-06-12</time></span><span class="level-item"><a class="link-muted" href="/categories/JAVA/">JAVA</a></span><span class="level-item">an hour read (About 11451 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">JVM_STACK</h1><div class="content"><p>字节码指令运行</p>
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="字节码指令运行 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1PJ411n7xZ?p&#x3D;49 虚拟机栈虚拟机栈的出现背景 由于跨平台性的设计，Java的指令都是根据栈来设计的。不同平台CPU架构不同，所以不能设计为基于寄存器的【如果设计成基于寄存器的，耦合度高，性能会有所提升，因为可以对具体的CPU架构进行优化，但是跨平台性大大降低】。 优点是跨平台，指令集小，编译器容易实现，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM_STACK">
+<meta property="og:url" content="https://noteforme.github.io/2020/01/04/JVM-STACK/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="字节码指令运行 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1PJ411n7xZ?p&#x3D;49 虚拟机栈虚拟机栈的出现背景 由于跨平台性的设计，Java的指令都是根据栈来设计的。不同平台CPU架构不同，所以不能设计为基于寄存器的【如果设计成基于寄存器的，耦合度高，性能会有所提升，因为可以对具体的CPU架构进行优化，但是跨平台性大大降低】。 优点是跨平台，指令集小，编译器容易实现，">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0002.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0003.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0004.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0005.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0006.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0007.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0008.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0009.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0010.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0011.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0012.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0013.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0014.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0015.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0016.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0017.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0018.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0020.jpg">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0021.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0022.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0023.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0024.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0025.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0026.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0027.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0029.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0030.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0031.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0032.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0033.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0034.png">
+<meta property="og:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0039.png">
+<meta property="article:published_time" content="2020-01-04T03:28:39.000Z">
+<meta property="article:modified_time" content="2022-06-12T03:17:58.660Z">
+<meta property="article:author" content="Jon">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://noteforme.github.io/2020/01/04/JVM-STACK/0002.png">
+  
+  
+  
+  <title>JVM_STACK - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="JVM_STACK"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-01-04 11:28" pubdate>
+          January 4, 2020 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          79 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">JVM_STACK</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>字节码指令运行</p>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1PJ411n7xZ?p=49">https://www.bilibili.com/video/BV1PJ411n7xZ?p=49</a></p>
 <h1 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88">虚拟机栈</a></h1><h3 id="虚拟机栈的出现背景"><a href="#虚拟机栈的出现背景" class="headerlink" title="虚拟机栈的出现背景"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88%E7%9A%84%E5%87%BA%E7%8E%B0%E8%83%8C%E6%99%AF">虚拟机栈的出现背景</a></h3><ol>
 <li>由于跨平台性的设计，Java的指令都是根据栈来设计的。不同平台CPU架构不同，所以不能设计为基于寄存器的【如果设计成基于寄存器的，耦合度高，性能会有所提升，因为可以对具体的CPU架构进行优化，但是跨平台性大大降低】。</li>
@@ -47,7 +327,7 @@
 <p>Java虚拟机栈（Java Virtual Machine Stack），早期也叫Java栈。每个线程在创建时都会创建一个虚拟机栈，其内部保存一个个的栈帧（Stack Frame），<strong>对应着一次次的Java方法调用</strong>，栈是线程私有的</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StackTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        StackTest test = <span class="keyword">new</span> StackTest();</span><br><span class="line">        test.methodA();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">10</span>;</span><br><span class="line">        <span class="keyword">int</span> j = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">        methodB();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodB</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> k = <span class="number">30</span>;</span><br><span class="line">        <span class="keyword">int</span> m = <span class="number">40</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/01/04/JVM-STACK/0002.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0002.png" srcset="/img/loading.gif" lazyload></p>
 <ul>
 <li>虚拟机栈的生命周期</li>
 </ul>
@@ -76,7 +356,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="/2020/01/04/JVM-STACK/0003.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0003.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="虚拟机栈的异常"><a href="#虚拟机栈的异常" class="headerlink" title="虚拟机栈的异常"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88%E7%9A%84%E5%BC%82%E5%B8%B8">虚拟机栈的异常</a></h3><p><strong>面试题：栈中可能出现的异常？</strong></p>
 <ul>
 <li>Java 虚拟机规范允许Java栈的大小是动态的或者是固定不变的。<ul>
@@ -105,7 +385,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11404</span></span><br><span class="line"><span class="number">11405</span></span><br><span class="line"><span class="number">11406</span></span><br><span class="line">Exception in thread <span class="string">&quot;main&quot;</span> java.lang.StackOverflowError</span><br><span class="line">    at sun.nio.cs.UTF_8$Encoder.encodeLoop(UTF_8.java:<span class="number">691</span>)</span><br></pre></td></tr></table></figure>
 
 <p>说明栈在11406这个深度溢出了</p>
-<p><img src="/2020/01/04/JVM-STACK/0004.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0004.png" srcset="/img/loading.gif" lazyload></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2474</span></span><br><span class="line"><span class="number">2475</span></span><br><span class="line"><span class="number">2476</span></span><br><span class="line">Exception in thread <span class="string">&quot;main&quot;</span> java.lang.StackOverflowError</span><br><span class="line">    at sun.nio.cs.UTF_8.updatePositions(UTF_8.java:<span class="number">77</span>)</span><br></pre></td></tr></table></figure>
 
 <h2 id="栈的存储单位"><a href="#栈的存储单位" class="headerlink" title="栈的存储单位"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E6%A0%88%E7%9A%84%E5%AD%98%E5%82%A8%E5%8D%95%E4%BD%8D">栈的存储单位</a></h2><h3 id="栈中存储什么？"><a href="#栈中存储什么？" class="headerlink" title="栈中存储什么？"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E6%A0%88%E4%B8%AD%E5%AD%98%E5%82%A8%E4%BB%80%E4%B9%88%EF%BC%9F">栈中存储什么？</a></h3><ol>
@@ -119,7 +399,7 @@
 <li>执行引擎运行的所有字节码指令只针对当前栈帧进行操作。</li>
 <li>如果在该方法中调用了其他方法，对应的新的栈帧会被创建出来，放在栈的顶端，成为新的当前帧。</li>
 </ol>
-<p><img src="/2020/01/04/JVM-STACK/0005.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0005.png" srcset="/img/loading.gif" lazyload></p>
 <ol>
 <li><strong>不同线程中所包含的栈帧是不允许存在相互引用的</strong>，即不可能在一个栈帧之中引用另外一个线程的栈帧。</li>
 <li>如果当前方法调用了其他方法，方法返回之际，当前栈帧会传回此方法的执行结果给前一个栈帧，接着，虚拟机会丢弃当前栈帧，使得前一个栈帧重新成为当前栈帧。</li>
@@ -143,9 +423,9 @@
 <li><p>一些附加信息</p>
 </li>
 </ul>
-<p><img src="/2020/01/04/JVM-STACK/0006.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0006.png" srcset="/img/loading.gif" lazyload></p>
 <p>并行每个线程下的栈都是私有的，因此每个线程都有自己各自的栈，并且每个栈里面都有很多栈帧，栈帧的大小主要由局部变量表 和 操作数栈决定的</p>
-<p><img src="/2020/01/04/JVM-STACK/0007.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0007.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="局部变量表"><a href="#局部变量表" class="headerlink" title="局部变量表"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E8%A1%A8">局部变量表</a></h2><ol>
 <li>局部变量表也被称之为局部变量数组或本地变量表</li>
 <li><strong>定义为一个数字数组，主要用于存储方法参数和定义在方法体内的局部变量</strong>，这些数据类型包括各类基本数据类型、对象引用（reference），以及returnAddress返回值类型。</li>
@@ -164,20 +444,20 @@
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LocalVariablesTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LocalVariablesTest test = <span class="keyword">new</span> LocalVariablesTest();</span><br><span class="line">        <span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line">        test.test1();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//练习：</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testStatic</span><span class="params">()</span></span>&#123;</span><br><span class="line">        LocalVariablesTest test = <span class="keyword">new</span> LocalVariablesTest();</span><br><span class="line">        Date date = <span class="keyword">new</span> Date();</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">10</span>;</span><br><span class="line">        System.out.println(count);</span><br><span class="line">        <span class="comment">//因为this变量不存在于当前方法的局部变量表中！！</span></span><br><span class="line"><span class="comment">//        System.out.println(this.count);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//关于Slot的使用的理解</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LocalVariablesTest</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.count = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Date date = <span class="keyword">new</span> Date();</span><br><span class="line">        String name1 = <span class="string">&quot;atguigu.com&quot;</span>;</span><br><span class="line">        test2(date, name1);</span><br><span class="line">        System.out.println(date + name1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test2</span><span class="params">(Date dateP, String name2)</span> </span>&#123;</span><br><span class="line">        dateP = <span class="keyword">null</span>;</span><br><span class="line">        name2 = <span class="string">&quot;songhongkang&quot;</span>;</span><br><span class="line">        <span class="keyword">double</span> weight = <span class="number">130.5</span>;<span class="comment">//占据两个slot</span></span><br><span class="line">        <span class="keyword">char</span> gender = <span class="string">&#x27;男&#x27;</span>;</span><br><span class="line">        <span class="keyword">return</span> dateP + name2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.count++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test4</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">            b = a + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//变量c使用之前已经销毁的变量b占据的slot的位置</span></span><br><span class="line">        <span class="keyword">int</span> c = a + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/01/04/JVM-STACK/0008.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0008.png" srcset="/img/loading.gif" lazyload></p>
 <p>看完字节码后，可得结论：所以局部变量表所需的容量大小是在编译期确定下来的。</p>
 <h4 id="部分详解"><a href="#部分详解" class="headerlink" title="部分详解"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E9%83%A8%E5%88%86%E8%AF%A6%E8%A7%A3">部分详解</a></h4><p>为了更好讲解，我们直接用jclasslib来看字节码，以main方法为例来讲解。一些一目了然的就不讲了</p>
 <p>1、0-15  也就是有16行字节码</p>
-<p><img src="/2020/01/04/JVM-STACK/0009.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0009.png" srcset="/img/loading.gif" lazyload></p>
 <p>2、方法异常信息表</p>
-<p><img src="/2020/01/04/JVM-STACK/0010.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0010.png" srcset="/img/loading.gif" lazyload></p>
 <p>3、Misc</p>
-<p><img src="/2020/01/04/JVM-STACK/0011.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0011.png" srcset="/img/loading.gif" lazyload></p>
 <p>4、行号表</p>
 <p>​    Java代码的行号和字节码指令行号的对应关系</p>
-<p><img src="/2020/01/04/JVM-STACK/0012.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0012.png" srcset="/img/loading.gif" lazyload></p>
 <p>5、注意：生效行数和剩余有效行数都是针对于字节码文件的行数</p>
-<p><img src="/2020/01/04/JVM-STACK/0013.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0013.png" srcset="/img/loading.gif" lazyload></p>
 <p>1、图中圈的东西表示该局部变量的作用域</p>
 <p>2、Start PC==11表示在字节码的11行开始生效，也就是Java代码对应的第15行。而声明int num在java代码的是第14行，说明是从声明的下一行开始生效</p>
 <p>3、Length== 5表示局部变量剩余有效行数，main方法字节码指令总共有16行，从11行开始生效，那么剩下就是16-11 ==5。</p>
@@ -206,17 +486,17 @@
 <li><p>如果当前帧是由构造方法或者实例方法创建的，那么<strong>该对象引用this将会存放在index为0的slot处</strong>，其余的参数按照参数表顺序继续排列。（this也相当于一个变量）</p>
 </li>
 </ol>
-<p><img src="/2020/01/04/JVM-STACK/0014.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0014.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="Slot代码示例"><a href="#Slot代码示例" class="headerlink" title="Slot代码示例"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=slot%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B">Slot代码示例</a></h3><p><strong>this 存放在 index = 0 的位置：</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.count++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>局部变量表：this 存放在 index = 0 的位置</p>
-<p><img src="/2020/01/04/JVM-STACK/0015.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0015.png" srcset="/img/loading.gif" lazyload></p>
 <p><strong>64位的类型（1ong和double）占用两个slot</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> String <span class="title">test2</span><span class="params">(Date dateP, String name2)</span> </span>&#123;</span><br><span class="line">    dateP = <span class="keyword">null</span>;</span><br><span class="line">    name2 = <span class="string">&quot;songhongkang&quot;</span>;</span><br><span class="line">    <span class="keyword">double</span> weight = <span class="number">130.5</span>;<span class="comment">//占据两个slot</span></span><br><span class="line">    <span class="keyword">char</span> gender = <span class="string">&#x27;男&#x27;</span>;</span><br><span class="line">    <span class="keyword">return</span> dateP + name2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>weight 为 double 类型，index 直接从 3 蹦到了 5</p>
-<p><img src="/2020/01/04/JVM-STACK/0016.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0016.png" srcset="/img/loading.gif" lazyload></p>
 <p><strong>static 无法调用 this</strong></p>
 <p>this 不存在与 static 方法的局部变量表中，所以无法调用</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testStatic</span><span class="params">()</span></span>&#123;</span><br><span class="line">        LocalVariablesTest test = <span class="keyword">new</span> LocalVariablesTest();</span><br><span class="line">        Date date = <span class="keyword">new</span> Date();</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">10</span>;</span><br><span class="line">        System.out.println(count);</span><br><span class="line">        <span class="comment">//因为this变量不存在于当前方法的局部变量表中！！</span></span><br><span class="line"><span class="comment">//        System.out.println(this.count);</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
@@ -224,7 +504,7 @@
 <h3 id="Slot的重复利用"><a href="#Slot的重复利用" class="headerlink" title="Slot的重复利用"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=slot%E7%9A%84%E9%87%8D%E5%A4%8D%E5%88%A9%E7%94%A8">Slot的重复利用</a></h3><p>栈帧中的局部变量表中的槽位是可以重用的，如果一个局部变量过了其作用域，那么在其作用域之后申明新的局部变量变就很有可能会复用过期局部变量的槽位，从而达到节省资源的目的。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test4</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">        b = a + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//变量c使用之前已经销毁的变量b占据的slot的位置</span></span><br><span class="line">    <span class="keyword">int</span> c = a + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/01/04/JVM-STACK/0017.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0017.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="静态变量与局部变量的对比"><a href="#静态变量与局部变量的对比" class="headerlink" title="静态变量与局部变量的对比"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E7%9A%84%E5%AF%B9%E6%AF%94">静态变量与局部变量的对比</a></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">变量的分类：</span><br><span class="line"><span class="number">1</span>、按照数据类型分：① 基本数据类型  ② 引用数据类型</span><br><span class="line"><span class="number">2</span>、按照在类中声明的位置分：</span><br><span class="line">  <span class="number">2</span>-<span class="number">1</span>、成员变量：在使用前，都经历过默认初始化赋值</span><br><span class="line">       <span class="number">2</span>-<span class="number">1</span>-<span class="number">1</span>、类变量: linking的prepare阶段：给类变量默认赋值</span><br><span class="line">              ---&gt; initial阶段：给类变量显式赋值即静态代码块赋值</span><br><span class="line">       <span class="number">2</span>-<span class="number">1</span>-<span class="number">2</span>、实例变量：随着对象的创建，会在堆空间中分配实例变量空间，并进行默认赋值</span><br><span class="line">  <span class="number">2</span>-<span class="number">2</span>、局部变量：在使用前，必须要进行显式赋值的！否则，编译不通过。</span><br></pre></td></tr></table></figure>
 
 <ol>
@@ -244,7 +524,7 @@
 </ul>
 </li>
 </ol>
-<p><img src="/2020/01/04/JVM-STACK/0018.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0018.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="操作数栈的作用"><a href="#操作数栈的作用" class="headerlink" title="操作数栈的作用"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88%E7%9A%84%E4%BD%9C%E7%94%A8">操作数栈的作用</a></h3><ol>
 <li>操作数栈，<strong>主要用于保存计算过程的中间结果，同时作为计算过程中变量临时的存储空间</strong>。</li>
 <li>操作数栈就是JVM执行引擎的一个工作区，当一个方法刚开始执行的时候，一个新的栈帧也会随之被创建出来，这时方法的操作数栈是空的。</li>
@@ -259,7 +539,7 @@
 <li>操作数栈中元素的数据类型必须与字节码指令的序列严格匹配，这由编译器在编译器期间进行验证，同时在类加载过程中的类检验阶段的数据流分析阶段要再次验证。</li>
 <li>另外，<strong>我们说Java虚拟机的解释引擎是基于栈的执行引擎，其中的栈指的就是操作数栈</strong>。</li>
 </ol>
-<p><img src="/2020/01/04/JVM-STACK/0020.jpg"></p>
+<p><img src="/2020/01/04/JVM-STACK/0020.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>局部变量表就相当于食材</p>
 <p>操作数栈就相当于做法步骤</p>
 <h2 id="操作数栈代码追踪"><a href="#操作数栈代码追踪" class="headerlink" title="操作数栈代码追踪"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88%E4%BB%A3%E7%A0%81%E8%BF%BD%E8%B8%AA">操作数栈代码追踪</a></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testAddOperation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//byte、short、char、boolean：都以int型来保存</span></span><br><span class="line">    <span class="keyword">byte</span> i = <span class="number">15</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">8</span>;</span><br><span class="line">    <span class="keyword">int</span> k = i + j;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// int m = 800;</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -267,24 +547,24 @@
 <p>对应字节码指令</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">0</span> bipush <span class="number">15</span></span><br><span class="line"> <span class="number">2</span> istore_1</span><br><span class="line"> <span class="number">3</span> bipush <span class="number">8</span></span><br><span class="line"> <span class="number">5</span> istore_2</span><br><span class="line"> <span class="number">6</span> iload_1</span><br><span class="line"> <span class="number">7</span> iload_2</span><br><span class="line"> <span class="number">8</span> iadd</span><br><span class="line"> <span class="number">9</span> istore_3</span><br><span class="line"><span class="number">10</span> <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/01/04/JVM-STACK/0021.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0021.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="一步一步看流程"><a href="#一步一步看流程" class="headerlink" title="一步一步看流程"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E7%9C%8B%E6%B5%81%E7%A8%8B">一步一步看流程</a></h3><p>1、首先执行第一条语句，PC寄存器指向的是0，也就是指令地址为0，然后使用bipush让操作数15入操作数栈.</p>
-<p><img src="/2020/01/04/JVM-STACK/0022.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0022.png" srcset="/img/loading.gif" lazyload></p>
 <p>2、执行完后，PC寄存器往下移，指向下一行代码，下一行代码就是将操作数栈的元素存储到局部变量表1的位置（istore_1），我们可以看到局部变量表的已经增加了一个元素。并且操作数栈为空了.</p>
 <ul>
 <li>解释为什么局部变量表索引从 1 开始，因为该方法为实例方法，局部变量表索引为 0 的位置存放的是 this</li>
 </ul>
-<p><img src="/2020/01/04/JVM-STACK/0023.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0023.png" srcset="/img/loading.gif" lazyload></p>
 <p>3、然后PC下移，指向的是下一行。让操作数8也入栈，同时执行store操作，存入局部变量表中</p>
-<p><img src="/2020/01/04/JVM-STACK/0024.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0024.png" srcset="/img/loading.gif" lazyload></p>
 <p>4、然后从局部变量表中，依次将数据放在操作数栈中，等待执行 add 操作</p>
 <p>iload_1：取出局部变量表中索引为1的数据入操作数栈</p>
-<p><img src="/2020/01/04/JVM-STACK/0025.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0025.png" srcset="/img/loading.gif" lazyload></p>
 <p>5、然后将操作数栈中的两个元素执行相加操作，并存储在局部变量表3的位置</p>
-<p><img src="/2020/01/04/JVM-STACK/0026.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0026.png" srcset="/img/loading.gif" lazyload></p>
 <p>5、然后将操作数栈中的两个元素执行相加操作，并存储在局部变量表3的位置</p>
 <p><strong>关于类型转换的说明</strong></p>
-<p><img src="/2020/01/04/JVM-STACK/0027.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0027.png" srcset="/img/loading.gif" lazyload></p>
 <ul>
 <li>m改成800之后，byte存储不了，就成了short型，sipush 800</li>
 </ul>
@@ -292,9 +572,9 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSum</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">int</span> m = <span class="number">10</span>;</span><br><span class="line">      <span class="keyword">int</span> n = <span class="number">20</span>;</span><br><span class="line">      <span class="keyword">int</span> k = m + n;</span><br><span class="line">      <span class="keyword">return</span> k;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGetSum</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="comment">//获取上一个栈桢返回的结果，并保存在操作数栈中</span></span><br><span class="line">      <span class="keyword">int</span> i = getSum();</span><br><span class="line">      <span class="keyword">int</span> j = <span class="number">10</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
 <p>getSum() 方法字节码指令：最后带着个 ireturn</p>
-<p><img src="/2020/01/04/JVM-STACK/0029.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0029.png" srcset="/img/loading.gif" lazyload></p>
 <p>testGetSum() 方法字节码指令：一上来就加载 getSum() 方法的返回值()</p>
-<p><img src="/2020/01/04/JVM-STACK/0030.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0030.png" srcset="/img/loading.gif" lazyload></p>
 <p>? testGetSum() 方法字节码指令：一上来就加载 getSum() 方法的返回值() </p>
 <h2 id="栈顶缓存技术"><a href="#栈顶缓存技术" class="headerlink" title="栈顶缓存技术"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E6%A0%88%E9%A1%B6%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF">栈顶缓存技术</a></h2><p><strong>栈顶缓存技术：Top Of Stack Cashing</strong></p>
 <ol>
@@ -334,7 +614,7 @@
 </ul>
 <p>3、结论：通过 #7 我们就能找到需要调用的 methodA() 方法，并进行调用</p>
 <p>4、在上面，其实还有很多符号引用，比如 Object、System、PrintStream 等等</p>
-<p><img src="/2020/01/04/JVM-STACK/0031.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0031.png" srcset="/img/loading.gif" lazyload></p>
 <p><strong>为什么要用常量池呢？</strong></p>
 <ol>
 <li>因为在不同的方法，都可能调用常量或者方法，所以只需要存储一份即可，然后记录其引用即可，节省了空间。</li>
@@ -402,7 +682,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Father</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;father的构造器&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">showStatic</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;father &quot;</span> + str);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">showFinal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;father show final&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showCommon</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;father 普通方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Son</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//invokespecial</span></span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Son</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//invokespecial</span></span><br><span class="line">        <span class="keyword">this</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//不是重写的父类的静态方法，因为静态方法不能被重写！</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">showStatic</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;son &quot;</span> + str);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">showPrivate</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;son private&quot;</span> + str);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//invokestatic</span></span><br><span class="line">        showStatic(<span class="string">&quot;atguigu.com&quot;</span>);</span><br><span class="line">        <span class="comment">//invokestatic</span></span><br><span class="line">        <span class="keyword">super</span>.showStatic(<span class="string">&quot;good!&quot;</span>);</span><br><span class="line">        <span class="comment">//invokespecial</span></span><br><span class="line">        showPrivate(<span class="string">&quot;hello!&quot;</span>);</span><br><span class="line">        <span class="comment">//invokespecial</span></span><br><span class="line">        <span class="keyword">super</span>.showCommon();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//invokevirtual</span></span><br><span class="line">        showFinal();<span class="comment">//因为此方法声明有final，不能被子类重写，所以也认为此方法是非虚方法。</span></span><br><span class="line">        <span class="comment">//虚方法如下：</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        invokevirtual  你没有显示的加super.，编译器认为你可能调用子类的showCommon(即使son子类没有重写，也          会认为)，所以编译期间确定不下来，就是虚方法。</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        showCommon();</span><br><span class="line">        info();</span><br><span class="line"></span><br><span class="line">        MethodInterface in = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//invokeinterface</span></span><br><span class="line">        in.methodA();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">info</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">(Father f)</span> </span>&#123;</span><br><span class="line">        f.showCommon();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Son so = <span class="keyword">new</span> Son();</span><br><span class="line">        so.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">MethodInterface</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">methodA</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>Son 类中 show() 方法的字节码指令如下</p>
-<p><img src="/2020/01/04/JVM-STACK/0032.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0032.png" srcset="/img/loading.gif" lazyload></p>
 <h4 id="关于-invokedynamic-指令"><a href="#关于-invokedynamic-指令" class="headerlink" title="关于 invokedynamic 指令"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E5%85%B3%E4%BA%8E-invokedynamic-%E6%8C%87%E4%BB%A4">关于 invokedynamic 指令</a></h4><ol>
 <li>JVM字节码指令集一直比较稳定，一直到Java7中才增加了一个invokedynamic指令，这是Java为了实现【动态类型语言】支持而做的一种改进。</li>
 <li>但是在Java7中并没有提供直接生成invokedynamic指令的方法，需要借助ASM这种底层字节码工具来产生invokedynamic指令。直到Java8的Lambda表达式的出现，invokedynamic指令的生成，在Java中才有了直接的生成方式。</li>
@@ -410,7 +690,7 @@
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Func</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">func</span><span class="params">(String str)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Lambda</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lambda</span><span class="params">(Func func)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Lambda lambda = <span class="keyword">new</span> Lambda();</span><br><span class="line"></span><br><span class="line">        Func func = s -&gt; &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        lambda.lambda(func);</span><br><span class="line"></span><br><span class="line">        lambda.lambda(s -&gt; &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/01/04/JVM-STACK/0033.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0033.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="动态语言和静态语言"><a href="#动态语言和静态语言" class="headerlink" title="动态语言和静态语言"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E5%8A%A8%E6%80%81%E8%AF%AD%E8%A8%80%E5%92%8C%E9%9D%99%E6%80%81%E8%AF%AD%E8%A8%80">动态语言和静态语言</a></h3><ol>
 <li>动态类型语言和静态类型语言两者的区别就在于<strong>对类型的检查是在编译期还是在运行期</strong>，满足前者就是静态类型语言，反之是动态类型语言。</li>
 <li>说的再直白一点就是，静态类型语言是判断变量自身的类型信息；动态类型语言是判断变量值的类型信息，变量没有类型信息，变量值才有类型信息，这是动态语言的一个重要特征。</li>
@@ -443,10 +723,10 @@
 </ol>
 <p><strong>例子1</strong></p>
 <p>如图所示：如果类中重写了方法，那么调用的时候，就会直接在该类的虚方法表中查找</p>
-<p><img src="/2020/01/04/JVM-STACK/0034.png"></p>
+<p><img src="/2020/01/04/JVM-STACK/0034.png" srcset="/img/loading.gif" lazyload></p>
 <p>1、比如说son在调用toString的时候，Son没有重写过，Son的父类Father也没有重写过，那就直接调用Object类的toString。那么就直接在虚方法表里指明toString直接指向Object类。</p>
 <p>2、下次Son对象再调用toString就直接去找Object，不用先找Son–&gt;再找Father–&gt;最后才到Object的这样的一个过程。</p>
-<h2 id="方法返回地址"><a href="#方法返回地址" class="headerlink" title="方法返回地址"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E6%96%B9%E6%B3%95%E8%BF%94%E5%9B%9E%E5%9C%B0%E5%9D%80">方法返回地址</a></h2><p><img src="/2020/01/04/JVM-STACK/0039.png"></p>
+<h2 id="方法返回地址"><a href="#方法返回地址" class="headerlink" title="方法返回地址"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC4%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88?id=%E6%96%B9%E6%B3%95%E8%BF%94%E5%9B%9E%E5%9C%B0%E5%9D%80">方法返回地址</a></h2><p><img src="/2020/01/04/JVM-STACK/0039.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>在一些帖子里，方法返回地址、动态链接、一些附加信息  也叫做帧数据区</p>
 </blockquote>
@@ -499,48 +779,372 @@
 
 
 <h5 id="引用传递-值传递"><a href="#引用传递-值传递" class="headerlink" title="引用传递 值传递"></a>引用传递 值传递</h5><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000016773324">https://segmentfault.com/a/1190000016773324</a></p>
-</div><div class="article-licensing box"><div class="licensing-title"><p>JVM_STACK</p><p><a href="https://noteforme.github.io/2020/01/04/JVM-STACK/">https://noteforme.github.io/2020/01/04/JVM-STACK/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Jon</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2020-01-04</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2022-06-12</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/JVM/">JVM</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">Like this article? Support the author with</h3><div class="buttons is-centered"><a class="button donate" href="/" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>Afdian.net</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>Alipay</span><span class="qrcode"><img src="/" alt="Alipay"></span></a><a class="button donate" href="/" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>Buy me a coffee</span></a><a class="button donate" href="/" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>Wechat</span><span class="qrcode"><img src="/" alt="Wechat"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2020/01/04/flutter-begin/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">flutter_begin</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2020/01/03/JVM-RUNTIME/"><span class="level-item">JVM_RUNTIME</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/avatar.png" alt="Your name"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Your name</p><p class="is-size-6 is-block">Your title</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Your location</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives"><p class="title">240</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories"><p class="title">30</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags"><p class="title">33</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/ANDROID/"><span class="level-start"><span class="level-item">ANDROID</span></span><span class="level-end"><span class="level-item tag">54</span></span></a></li><li><a class="level is-mobile" href="/categories/Architecture/"><span class="level-start"><span class="level-item">Architecture</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/Architecture/DesignPattern/"><span class="level-start"><span class="level-item">DesignPattern</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/BLE/"><span class="level-start"><span class="level-item">BLE</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/C/"><span class="level-start"><span class="level-item">C++</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/COROUTINE/"><span class="level-start"><span class="level-item">COROUTINE</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Computer-Composition-principles/"><span class="level-start"><span class="level-item">Computer Composition principles</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/DataStructure/"><span class="level-start"><span class="level-item">DataStructure</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/categories/DesignPattern/"><span class="level-start"><span class="level-item">DesignPattern</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile" href="/categories/DesignPatterns/"><span class="level-start"><span class="level-item">DesignPatterns</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/ENGLISH/"><span class="level-start"><span class="level-item">ENGLISH</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/INTERVIEW/"><span class="level-start"><span class="level-item">INTERVIEW</span></span><span class="level-end"><span class="level-item tag">9</span></span></a><ul><li><a class="level is-mobile" href="/categories/INTERVIEW/NETWORK/"><span class="level-start"><span class="level-item">NETWORK</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/JETPACK/"><span class="level-start"><span class="level-item">JETPACK</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Jetpack/"><span class="level-start"><span class="level-item">Jetpack</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Kotlin/"><span class="level-start"><span class="level-item">Kotlin</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile" href="/categories/LIFE/"><span class="level-start"><span class="level-item">LIFE</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/LINUX/"><span class="level-start"><span class="level-item">LINUX</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/Library/"><span class="level-start"><span class="level-item">Library</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Mathematics/"><span class="level-start"><span class="level-item">Mathematics</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/NETWORK/"><span class="level-start"><span class="level-item">NETWORK</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Organization/"><span class="level-start"><span class="level-item">Organization</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/SOURCE/"><span class="level-start"><span class="level-item">SOURCE</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/TEST/"><span class="level-start"><span class="level-item">TEST</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/TOOL/"><span class="level-start"><span class="level-item">TOOL</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/VIEW/"><span class="level-start"><span class="level-item">VIEW</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile" href="/categories/anim/"><span class="level-start"><span class="level-item">anim</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/flutter/"><span class="level-start"><span class="level-item">flutter</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-10-01T10:08:19.000Z">2024-10-01</time></p><p class="title"><a href="/2024/10/01/BEACKEND/">BEACKEND</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-04T07:57:26.000Z">2024-07-04</time></p><p class="title"><a href="/2024/07/04/DesignPatterns-State/">DesignPatterns_State</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-03T05:51:25.000Z">2024-07-03</time></p><p class="title"><a href="/2024/07/03/glide/">glide</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-06-28T09:37:49.000Z">2024-06-28</time></p><p class="title"><a href="/2024/06/28/bitmap/">Bitmap</a></p><p class="categories"><a href="/categories/Computer-Composition-principles/">Computer Composition principles</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-06-28T08:04:14.000Z">2024-06-28</time></p><p class="title"><a href="/2024/06/28/bits-and-bytes/">Bits and Bytes</a></p><p class="categories"><a href="/categories/Computer-Composition-principles/">Computer Composition principles</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/10/"><span class="level-start"><span class="level-item">October 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/07/"><span class="level-start"><span class="level-item">July 2024</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/06/"><span class="level-start"><span class="level-item">June 2024</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/11/"><span class="level-start"><span class="level-item">November 2023</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/08/"><span class="level-start"><span class="level-item">August 2023</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/04/"><span class="level-start"><span class="level-item">April 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/01/"><span class="level-start"><span class="level-item">January 2023</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/12/"><span class="level-start"><span class="level-item">December 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/10/"><span class="level-start"><span class="level-item">October 2022</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/09/"><span class="level-start"><span class="level-item">September 2022</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/08/"><span class="level-start"><span class="level-item">August 2022</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/07/"><span class="level-start"><span class="level-item">July 2022</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/06/"><span class="level-start"><span class="level-item">June 2022</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/05/"><span class="level-start"><span class="level-item">May 2022</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/04/"><span class="level-start"><span class="level-item">April 2022</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/03/"><span class="level-start"><span class="level-item">March 2022</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/02/"><span class="level-start"><span class="level-item">February 2022</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/01/"><span class="level-start"><span class="level-item">January 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/12/"><span class="level-start"><span class="level-item">December 2021</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/11/"><span class="level-start"><span class="level-item">November 2021</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/10/"><span class="level-start"><span class="level-item">October 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/09/"><span class="level-start"><span class="level-item">September 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/08/"><span class="level-start"><span class="level-item">August 2021</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/06/"><span class="level-start"><span class="level-item">June 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/05/"><span class="level-start"><span class="level-item">May 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/04/"><span class="level-start"><span class="level-item">April 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/03/"><span class="level-start"><span class="level-item">March 2021</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/02/"><span class="level-start"><span class="level-item">February 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/01/"><span class="level-start"><span class="level-item">January 2021</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">December 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">November 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">October 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/09/"><span class="level-start"><span class="level-item">September 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/08/"><span class="level-start"><span class="level-item">August 2020</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">July 2020</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">June 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/05/"><span class="level-start"><span class="level-item">May 2020</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/04/"><span class="level-start"><span class="level-item">April 2020</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/03/"><span class="level-start"><span class="level-item">March 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/01/"><span class="level-start"><span class="level-item">January 2020</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/12/"><span class="level-start"><span class="level-item">December 2019</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/11/"><span class="level-start"><span class="level-item">November 2019</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/09/"><span class="level-start"><span class="level-item">September 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/08/"><span class="level-start"><span class="level-item">August 2019</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/07/"><span class="level-start"><span class="level-item">July 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/06/"><span class="level-start"><span class="level-item">June 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/04/"><span class="level-start"><span class="level-item">April 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/03/"><span class="level-start"><span class="level-item">March 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/01/"><span class="level-start"><span class="level-item">January 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">November 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/08/"><span class="level-start"><span class="level-item">August 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">July 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/06/"><span class="level-start"><span class="level-item">June 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/05/"><span class="level-start"><span class="level-item">May 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/04/"><span class="level-start"><span class="level-item">April 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">March 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">February 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/01/"><span class="level-start"><span class="level-item">January 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">December 2017</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/11/"><span class="level-start"><span class="level-item">November 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">October 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">September 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">August 2017</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/07/"><span class="level-start"><span class="level-item">July 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/ANDROID/"><span class="tag">ANDROID</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/AOSP/"><span class="tag">AOSP</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Activity/"><span class="tag">Activity</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/AndroidNewFeatures/"><span class="tag">AndroidNewFeatures</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Assembly/"><span class="tag">Assembly</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BLOG/"><span class="tag">BLOG</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ConstraintLayout/"><span class="tag">ConstraintLayout</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/DB/"><span class="tag">DB</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/DesignPattern/"><span class="tag">DesignPattern</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Drawer/"><span class="tag">Drawer</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Fragment/"><span class="tag">Fragment</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/LEETCODE/"><span class="tag">LEETCODE</span><span class="tag">12</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Library/"><span class="tag">Library</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Operators/"><span class="tag">Operators</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Performance/"><span class="tag">Performance</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RecyclerView/"><span class="tag">RecyclerView</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RxJava/"><span class="tag">RxJava</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/THINK/"><span class="tag">THINK</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/TOOL/"><span class="tag">TOOL</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/TabLayout/"><span class="tag">TabLayout</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Test/"><span class="tag">Test</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/TouchEvent/"><span class="tag">TouchEvent</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VIEW/"><span class="tag">VIEW</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/anim/"><span class="tag">anim</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/compose/"><span class="tag">compose</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrency/"><span class="tag">concurrency</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/coroutie/"><span class="tag">coroutie</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/inter/"><span class="tag">inter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/keyboard/"><span class="tag">keyboard</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/permission/"><span class="tag">permission</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/proguard/"><span class="tag">proguard</span><span class="tag">1</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">Subscribe for updates</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div><div class="card widget"><div class="card-content"><div class="notification is-danger">You need to set <code>client_id</code> and <code>slot_id</code> to show this AD unit. Please set it in <code>_config.yml</code>.</div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">follow.it</h3><form action="" method="post" target="_blank"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Jon&#039;s Blog" height="28"></a><p class="is-size-7"><span>&copy; 2024 Jon</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
-            article: {
-                highlight: {
-                    clipboard: true,
-                    fold: 'unfolded'
-                }
-            }
-        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
-      window.cookieconsent.initialise({
-        type: "info",
-        theme: "edgeless",
-        static: false,
-        position: "bottom-left",
-        content: {
-          message: "This website uses cookies to improve your experience.",
-          dismiss: "Got it!",
-          allow: "Allow cookies",
-          deny: "Decline",
-          link: "Learn more",
-          policy: "Cookie Policy",
-          href: "https://www.cookiesandyou.com/",
-        },
-        palette: {
-          popup: {
-            background: "#edeff5",
-            text: "#838391"
-          },
-          button: {
-            background: "#4b81e8"
-          },
-        },
-      });
-    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
-            if (typeof $.fn.lightGallery === 'function') {
-                $('.article').lightGallery({ selector: '.gallery-item' });
-            }
-            if (typeof $.fn.justifiedGallery === 'function') {
-                if ($('.justified-gallery > p > .gallery-item').length) {
-                    $('.justified-gallery > p > .gallery-item').unwrap();
-                }
-                $('.justified-gallery').justifiedGallery();
-            }
-        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
-            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
-        });</script></body></html>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA/" class="category-chain-item">JAVA</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JVM/" class="print-no-link">#JVM</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>JVM_STACK</div>
+      <div>https://noteforme.github.io/2020/01/04/JVM-STACK/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 4, 2020</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/01/04/flutter-begin/" title="flutter_begin">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">flutter_begin</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/03/JVM-RUNTIME/" title="JVM_RUNTIME">
+                        <span class="hidden-mobile">JVM_RUNTIME</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
