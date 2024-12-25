@@ -6,7 +6,7 @@ tags: AOSP
 categories:  ANDROID
 
 ---
-
+https://source.android.com/docs/setup/start/requirements#setting-up-a-linux-build-environment
 https://www.bilibili.com/video/BV15W411L7Lc?p=9
 
 ##### 源码调试
