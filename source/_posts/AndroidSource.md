@@ -48,11 +48,9 @@ repo init -u git://mirrors.ustc.edu.cn/aosp/platform/manifest
 ubuntu 20.04 运行repo init 提示 /usr/bin/env: ‘python’: No such file or directory 解决方案
 
 ```
-sudo apt-get install python2
-sudo ln -s /usr/bin/python2 /usr/bin/python    #在/usr/bin/python目录下为python2创建软连接
+sudo ln -s /usr/bin/python3 /usr/bin/python
 ```
-https://blog.csdn.net/qq_36554461/article/details/121328572
-
+https://juejin.cn/post/7071152327482146823
 
 同步源码树（以后只需执行这条命令来同步）：
 
