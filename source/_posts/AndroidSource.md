@@ -34,7 +34,7 @@ https://blog.csdn.net/qq_34508943/article/details/133391020
 3. You will be asked to enter the password. Type the password and press enter. You will be moved to root.
 4.Type "usermod -aG sudo <username>". Add your username, and enter. Nothing will happend. You will move to next line without any error.
 5. Reboot/Restart the os.
-
+https://www.youtube.com/watch?v=ZxOwFOtcaaA comment
 
 ``````````````
 
