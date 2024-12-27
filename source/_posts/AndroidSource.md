@@ -9,10 +9,24 @@ categories:  ANDROID
 https://source.android.com/docs/setup/start/requirements#setting-up-a-linux-build-environment
 https://www.bilibili.com/video/BV15W411L7Lc?p=9
 
-##### 源码调试
+
+# 源码调试
 
 要学习Android源码需要编译一份，然后安装要求导入AndroidStudio,可以参考:
 http://blog.csdn.net/huaiyiheyuan/article/details/52069122
+
+## build issue
+
+prebuilts/clang/host/linux-x86/clang-3289846/bin/clang.real: error while loading shared libraries:
+
+```
+ sudo apt install libncurses5
+
+```
+
+https://blog.csdn.net/qq_34508943/article/details/133391020
+
+
 
 ```
 public class Application extends ContextWrapper implements ComponentCallbacks2 {}
