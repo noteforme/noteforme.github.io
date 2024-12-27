@@ -10,6 +10,15 @@ https://source.android.com/docs/setup/start/requirements#setting-up-a-linux-buil
 https://www.bilibili.com/video/BV15W411L7Lc?p=9
 
 
+Install required packages
+To install required packages for Ubuntu 18.04 or later, run the following command:
+
+```
+ sudo apt-get install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig
+```
+https://source.android.com/docs/setup/start
+
+
 # 源码调试
 
 要学习Android源码需要编译一份，然后安装要求导入AndroidStudio,可以参考:
