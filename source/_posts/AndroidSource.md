@@ -9,6 +9,60 @@ categories:  ANDROID
 https://source.android.com/docs/setup/start/requirements#setting-up-a-linux-build-environment
 https://www.bilibili.com/video/BV15W411L7Lc?p=9
 
+# ubuntu environment
+## user permission
+
+1. Open terminal.
+2. Type "su root" in the terminal and press enter
+3. You will be asked to enter the password. Type the password and press enter. You will be moved to root.
+4.Type "usermod -aG sudo username". Add your username, and enter. Nothing will happend. You will move to next line without any error.
+5. Reboot/Restart the os.
+https://www.youtube.com/watch?v=ZxOwFOtcaaA comment
+
+``````````````
+
+
+# download source code 
+https://mirrors.ustc.edu.cn/help/aosp.html
+
+
+1. create bin
+```
+mkdir ~/bin
+PATH=~/bin:$PATH
+## curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+## 如果上述 URL 不可访问，可以用下面的：
+curl -sSL  'https://gerrit-googlesource.proxy.ustclug.org/git-repo/+/master/repo?format=TEXT' |base64 -d > ~/bin/repo
+chmod a+x ~/bin/repo
+```
+2. Dir
+```
+mkdir AOSP
+cd AOSP
+
+repo init -u git://mirrors.ustc.edu.cn/aosp/platform/manifest
+## 如果提示无法连接到 gerrit.googlesource.com，可以编辑 ~/bin/repo，把 REPO_URL 一行替换成下面的：
+## REPO_URL = 'https://gerrit-googlesource.proxy.ustclug.org/git-repo'
+```
+
+ubuntu 20.04 运行repo init 提示 /usr/bin/env: ‘python’: No such file or directory 解决方案
+
+```
+sudo apt-get install python2
+sudo ln -s /usr/bin/python2 /usr/bin/python    #在/usr/bin/python目录下为python2创建软连接
+```
+https://blog.csdn.net/qq_36554461/article/details/121328572
+
+
+同步源码树（以后只需执行这条命令来同步）：
+
+repo sync
+
+
+https://blog.csdn.net/qq_34508943/article/details/133391020
+
+
+
 
 Install required packages
 To install required packages for Ubuntu 18.04 or later, run the following command:
@@ -32,21 +86,6 @@ prebuilts/clang/host/linux-x86/clang-3289846/bin/clang.real: error while loading
  sudo apt install libncurses5
 
 ```
-
-https://blog.csdn.net/qq_34508943/article/details/133391020
-
-
-## user permission
-
-1. Open terminal.
-2. Type "su root" in the terminal and press enter
-3. You will be asked to enter the password. Type the password and press enter. You will be moved to root.
-4.Type "usermod -aG sudo username". Add your username, and enter. Nothing will happend. You will move to next line without any error.
-5. Reboot/Restart the os.
-https://www.youtube.com/watch?v=ZxOwFOtcaaA comment
-
-``````````````
-
 
 ```
 public class Application extends ContextWrapper implements ComponentCallbacks2 {}
