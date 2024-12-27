@@ -27,6 +27,17 @@ prebuilts/clang/host/linux-x86/clang-3289846/bin/clang.real: error while loading
 https://blog.csdn.net/qq_34508943/article/details/133391020
 
 
+## user permission
+
+1. Open terminal.
+2. Type "su root" in the terminal and press enter
+3. You will be asked to enter the password. Type the password and press enter. You will be moved to root.
+4.Type "usermod -aG sudo <username>". Add your username, and enter. Nothing will happend. You will move to next line without any error.
+5. Reboot/Restart the os.
+
+
+``````````````
+
 
 ```
 public class Application extends ContextWrapper implements ComponentCallbacks2 {}
