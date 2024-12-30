@@ -9,7 +9,71 @@ categories:  ANDROID
 https://source.android.com/docs/setup/start/requirements#setting-up-a-linux-build-environment
 https://www.bilibili.com/video/BV15W411L7Lc?p=9
 
+# ubuntu environment
+## user permission
 
+1. Open terminal.
+2. Type "su root" in the terminal and press enter
+3. You will be asked to enter the password. Type the password and press enter. You will be moved to root.
+4.Type "usermod -aG sudo username". Add your username, and enter. Nothing will happend. You will move to next line without any error.
+5. Reboot/Restart the os.
+https://www.youtube.com/watch?v=ZxOwFOtcaaA comment
+
+``````````````
+
+
+# download source code 
+https://mirrors.ustc.edu.cn/help/aosp.html
+
+
+1. create bin
+```
+mkdir ~/bin
+PATH=~/bin:$PATH
+## curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+## 如果上述 URL 不可访问，可以用下面的：
+curl -sSL  'https://gerrit-googlesource.proxy.ustclug.org/git-repo/+/master/repo?format=TEXT' |base64 -d > ~/bin/repo
+chmod a+x ~/bin/repo
+
+2. Dir
+
+```
+mkdir AOSP
+cd AOSP
+repo init -u git://mirrors.ustc.edu.cn/aosp/platform/manifest
+```
+## 如果提示无法连接到 gerrit.googlesource.com，可以编辑 ~/bin/repo，把 REPO_URL 一行替换成下面的：
+```
+REPO_URL = 'https://gerrit-googlesource.proxy.ustclug.org/git-repo'
+```
+
+
+
+ubuntu 20.04 运行repo init 提示 /usr/bin/env: ‘python’: No such file or directory 解决方案
+
+
+
+sudo ln -s /usr/bin/python3 /usr/bin/python
+
+
+
+https://juejin.cn/post/7071152327482146823
+
+同步源码树（以后只需执行这条命令来同步）：
+
+repo sync
+
+
+https://blog.csdn.net/qq_34508943/article/details/133391020
+
+Install required packages
+To install required packages for Ubuntu 18.04 or later, run the following command:
+
+```
+ sudo apt-get install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig
+```
+
+https://source.android.com/docs/setup/start
 # 源码调试
 
 要学习Android源码需要编译一份，然后安装要求导入AndroidStudio,可以参考:
@@ -17,15 +81,17 @@ http://blog.csdn.net/huaiyiheyuan/article/details/52069122
 
 ## build issue
 
+
+
 prebuilts/clang/host/linux-x86/clang-3289846/bin/clang.real: error while loading shared libraries:
 
-```
- sudo apt install libncurses5
 
-```
 
 https://blog.csdn.net/qq_34508943/article/details/133391020
 
+```
+ sudo apt install libncurses5
+```
 
 
 当我点开父类ContextWrapper后，发现引用的是jar立面的class文件，既然有源码这肯定不是我所需要的，
@@ -89,14 +155,6 @@ https://cloud.tencent.com/developer/news/277549
 
 
 
-> 	
-
-
-
-<img src="https://img-blog.csdn.net/20170123173332254?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRhY2hpODU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="zoom: 67%;" />
-
-
-
 1.Android系统架构
 Android系统架构分为五层，从上到下依次是应用层、应用框架层、系统运行库层、硬件抽象层和Linux内核层。
 
@@ -156,8 +214,6 @@ Android系统的五层架构就讲到这，了解以上的知识对以后分析�
 
 
 
-
-
 ##### Android open source project	
 
 ##### 			
@@ -170,41 +226,40 @@ https://source.android.com/
 
  https://source.android.com/devices/architecture
 
-> 		Android源码根目录	描述
->						
-> 	abi	应用程序二进制接口
-> 	art	全新的ART运行环境
-> 	bionic	系统C库
-> 	bootable	启动引导相关代码
-> 	build	存放系统编译规则及generic等基础开发包配置
-> 	cts	Android兼容性测试套件标准
-> 	dalvik art	虚拟机
-> 	developers	开发者目录
-> 	development	应用程序开发相关
-> 	device	设备相关配置
-> 	docs	参考文档目录
-> 	external	开源模组相关文件
-> 	frameworks	应用程序框架，Android系统核心部分，由Java和C++编写
-> 	hardware	主要是硬件抽象层的代码
-> 	libcore	核心库相关文件
-> 	libnativehelper	动态库，实现JNI库的基础
-> 	ndk	NDK相关代码，帮助开发人员在应用程序中嵌入C/C++代码
-> 	out	编译完成后代码输出在此目录
-> 	packages	应用程序包
-> 	pdk	Plug Development Kit 的缩写，本地开发套件
-> 	platform_testing	平台测试
-> 	prebuilts	x86和arm架构下预编译的一些资源
-> 	sdk	sdk和模拟器
-> 	system	底层文件系统库、应用和组件
-> 	toolchain	工具链文件
-> 	tools	工具文件
-> 	Makefile	全局Makefile文件，用来定义编译规则
-> 	————————————————
->						
-> 	https://blog.csdn.net/wenzhi20102321/article/details/80739649
->						
-> 	https://blog.csdn.net/wen0006/article/details/5804639
-
+> 				Android源码根目录	描述
+> 			
+> 			abi	应用程序二进制接口
+> 			art	全新的ART运行环境
+> 			bionic	系统C库
+> 			bootable	启动引导相关代码
+> 			build	存放系统编译规则及generic等基础开发包配置
+> 			cts	Android兼容性测试套件标准
+> 			dalvik art	虚拟机
+> 			developers	开发者目录
+> 			development	应用程序开发相关
+> 			device	设备相关配置
+> 			docs	参考文档目录
+> 			external	开源模组相关文件
+> 			frameworks	应用程序框架，Android系统核心部分，由Java和C++编写
+> 			hardware	主要是硬件抽象层的代码
+> 			libcore	核心库相关文件
+> 			libnativehelper	动态库，实现JNI库的基础
+> 			ndk	NDK相关代码，帮助开发人员在应用程序中嵌入C/C++代码
+> 			out	编译完成后代码输出在此目录
+> 			packages	应用程序包
+> 			pdk	Plug Development Kit 的缩写，本地开发套件
+> 			platform_testing	平台测试
+> 			prebuilts	x86和arm架构下预编译的一些资源
+> 			sdk	sdk和模拟器
+> 			system	底层文件系统库、应用和组件
+> 			toolchain	工具链文件
+> 			tools	工具文件
+> 			Makefile	全局Makefile文件，用来定义编译规则
+> 			————————————————
+> 			
+> 			https://blog.csdn.net/wenzhi20102321/article/details/80739649
+> 			
+> 			https://blog.csdn.net/wen0006/article/details/5804639
 
 
 
@@ -220,3 +275,4 @@ https://source.android.com/
 
 
 https://www.jianshu.com/p/8012d5d38b01
+
