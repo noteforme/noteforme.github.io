@@ -28,9 +28,6 @@ https://blog.csdn.net/qq_34508943/article/details/133391020
 
 
 
-```
-public class Application extends ContextWrapper implements ComponentCallbacks2 {}
-```
 当我点开父类ContextWrapper后，发现引用的是jar立面的class文件，既然有源码这肯定不是我所需要的，
 可以这要操作:Project Structure->Dependencies(可以看到很多jar依赖删掉)->　＋JARS And Dierctories ->添加源码要关联的frameworks 、packages...
 
@@ -174,7 +171,7 @@ https://source.android.com/
  https://source.android.com/devices/architecture
 
 > 		Android源码根目录	描述
->					
+>						
 > 	abi	应用程序二进制接口
 > 	art	全新的ART运行环境
 > 	bionic	系统C库
@@ -203,9 +200,9 @@ https://source.android.com/
 > 	tools	工具文件
 > 	Makefile	全局Makefile文件，用来定义编译规则
 > 	————————————————
->					
+>						
 > 	https://blog.csdn.net/wenzhi20102321/article/details/80739649
->					
+>						
 > 	https://blog.csdn.net/wen0006/article/details/5804639
 
 

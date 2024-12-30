@@ -10,6 +10,8 @@ tags:
 
 The background location precision is the same as the foreground location precision, which depends on the location permissions that your app declares.
 
+user closes the app or uses the home button to return to their main screen.
+
 On Android 10 (API level 29) and higher, you must declare the ACCESS_BACKGROUND_LOCATION permission in your app's manifest in order to request background location access at runtime. On earlier versions of Android, when your app receives foreground location access, it automatically receives background location access as well.
 
 ```
@@ -19,6 +21,15 @@ On Android 10 (API level 29) and higher, you must declare the ACCESS_BACKGROUND_
   <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 </manifest>
 ```
+
+https://support.google.com/googleplay/android-developer/answer/9799150#zippy=
+
+
+
+## foreground
+
+while an app is open and visible to the user.
+
 
 
 https://www.youtube.com/watch?v=xTVeFJZQ28c
