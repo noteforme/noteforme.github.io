@@ -1,4 +1,5 @@
-git pull origin main
+
 git status
+git add .
 git commit -m "blog"
 git push origin main
