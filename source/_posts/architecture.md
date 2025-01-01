@@ -8,10 +8,8 @@ guid: 'https://jonblog.site/?p=270'
 permalink: /2024/05/30/architecture/
 categories:
     - Architecture
-    - DesignPattern
+    - test
 ---
-
-
 
 # Archtechtrue
 

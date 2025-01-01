@@ -7,8 +7,6 @@ comments: true
 
 ---
 
-
-
 ### Question
 
 ![](RecyclerView/2021-08-02_10.11_recyleview.png)
@@ -20,101 +18,64 @@ https://www.bilibili.com/video/BV1Fi4y1x7p5?from=search&seid=3244755609076396172
 2. 无
 
 3. 问题3
-
+   
    适配不同类型的View布局，将用户界面显示与逻辑代码分离
 
 4. 无
 
-   
+#### 基本使用
 
 
-
-####  基本使用
-
-```java
-LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-layoutManager.setOrientation(LinearLayoutManager.VERTICAL); //默认竖直布局
-mRecyclerView.setLayoutManager(layoutManager);
-```
-
- 
-
-```java
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
-    private static final String TAG = "CustomAdapter";
-
-    private String[] mDataSet;
-
-    // BEGIN_INCLUDE(recyclerViewSampleViewHolder)
-    /**
-     * Provide a reference to the type of views that you are using (custom ViewHolder)
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
-
-        public ViewHolder(View v) {
-            super(v);
-            // Define click listener for the ViewHolder's View.
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "Element " + getAdapterPosition() + " clicked.");
-                }
-            });
-            textView = (TextView) v.findViewById(R.id.textView);
-        }
-
-        public TextView getTextView() {
-            return textView;
-        }
-    }
-    // END_INCLUDE(recyclerViewSampleViewHolder)
-
-    /**
-     * Initialize the dataset of the Adapter.
-     *
-     * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
-     */
-    public CustomAdapter(String[] dataSet) {
-        mDataSet = dataSet;
-    }
-
-    // BEGIN_INCLUDE(recyclerViewOnCreateViewHolder)
-    // Create new views (invoked by the layout manager)
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        // Create a new view.
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.text_row_item, viewGroup, false);
-
-        return new ViewHolder(v);
-    }
-    // END_INCLUDE(recyclerViewOnCreateViewHolder)
-
-    // BEGIN_INCLUDE(recyclerViewOnBindViewHolder)
-    // Replace the contents of a view (invoked by the layout manager)
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        Log.d(TAG, "Element " + position + " set.");
-
-        // Get element from your dataset at this position and replace the contents of the view
-        // with that element
-        viewHolder.getTextView().setText(mDataSet[position]);
-    }
-    // END_INCLUDE(recyclerViewOnBindViewHolder)
-
-    // Return the size of your dataset (invoked by the layout manager)
-    @Override
-    public int getItemCount() {
-        return mDataSet.length;
-    }
-}
-```
 
 https://github.com/googlesamples/android-RecyclerView
 
 http://blog.csdn.net/lmj623565791/article/details/51854533
+
 http://blog.csdn.net/qibin0506/article/details/49716795
+
+
+
+
+
+
+
+# 滑动
+
+[RecyclerView系列_苏火火丶的博客-CSDN博客](https://blog.csdn.net/m0_37796683/category_9512829.html)
+
+
+
+我们在拖动DependencyView的时候，ImageView也跟随着DependencyView移动。当然这种依赖并非只有一对一的关系，也可能是一对多或者多对多。
+
+<img title="" src="https://i-blog.csdnimg.cn/blog_migrate/f8bae81821a02e2500389b6ce6d0eb70.gif" alt="" width="201">
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_head"
+        app:layout_behavior="com.antiphon.recyclerviewdemo.weight.MyBehavior" />
+
+    <com.antiphon.recyclerviewdemo.weight.DependencyView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:padding="4dp"
+        android:text="DependencyView"
+        android:textColor="#fff"
+        android:textSize="18sp" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+```
+
+
 
 
 
@@ -126,8 +87,6 @@ http://blog.csdn.net/qibin0506/article/details/49716795
 
 https://www.jianshu.com/p/ec6585e5220d
 
-
-
 ###### 滑动坐标
 
 第一个左边 - 第二个坐标
@@ -136,29 +95,23 @@ https://www.jianshu.com/p/ec6585e5220d
 
 用栈数组保存不同类型回收的view
 
-
-
 ###### 回收情况
 
 ScrollY  第一个可见Item的左上顶点 距离屏幕左上角的距离。
-
-
 
 ###### 顶部item回收
 
 1. 往上滑动 
 
-​	当顶部item滑出屏幕，ScrollY的高度等于第一个item高度时，就被滑出了屏幕。
+​    当顶部item滑出屏幕，ScrollY的高度等于第一个item高度时，就被滑出了屏幕。
 
-​	底部item再添加
+​    底部item再添加
 
 2. 网上滑动
 
-​	当 屏幕显示的几个Item 长度 -  ScrollY  刚好等于 屏幕高度，底部item之下再开始添加item。
+​    当 屏幕显示的几个Item 长度 -  ScrollY  刚好等于 屏幕高度，底部item之下再开始添加item。
 
-​	因为ScrollY变大.
-
-
+​    因为ScrollY变大.
 
 ###### 顶部item添加
 
@@ -170,13 +123,7 @@ ScrollY = 顶部item高度，顶部添加item
 
 ScrollY = 底部item高度，底部回收。
 
-
-
-
-
-
-
-####   Jectpack Paging
+#### Jectpack Paging
 
 https://developer.android.com/topic/libraries/architecture/paging
 
@@ -193,10 +140,8 @@ ItemKeyedDataSource的子类需要实现loadInitial、loadAfter、loadBefore和g
 - loadBefore：在每次RecyclerView滑动到`顶部`没有数据的时候就会调用此方法进行数据的加载。
 
 - getKey: 这返回下一个loadAfter调用所需要用到的key。**就相当于链表的指针。**
-
+  
   [https://anriku.top/2018/09/25/Android%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD-Paging%E7%9A%84%E4%BD%BF%E7%94%A8/](https://anriku.top/2018/09/25/Android大量数据加载-Paging的使用/)
-
-
 
 https://github.com/fmtjava/Jetpack_GitHub
 
@@ -212,17 +157,10 @@ https://www.jianshu.com/p/10bf4bf59122
 
 https://juejin.im/post/5db06bb6518825646d79070b
 
-
-
-
-
-
-
 #### Item分类
 
 前面添加header, footer就用到了item分类
 reclverview也有很多分类方式
-
 
 - 使用adapter　组合设计模式，进行组装，代码简洁，比较好操作
   [多adapter分类](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0810/3282.html) 
@@ -235,15 +173,9 @@ https://github.com/donkingliang/GroupedRecyclerViewAdapter
 
 https://mp.weixin.qq.com/s/oCl4BQ8uB9ZDSOEKESM7hA
 
-
-
  复杂布局: https://github.com/385841539/RecycleviewStaggered
 
  竖直嵌套水平:https://github.com/drakeet/MultiType/issues/67
-
-
-
-
 
 ###### preview
 
@@ -257,8 +189,6 @@ tools:listitem="@layout/adapter_red_pack"
 ```
 tools:src="@sample/RedPack.json/dataList/redEnvelopeMoney"
 ```
-
-
 
 #### 问题
 
@@ -287,7 +217,6 @@ tools:src="@sample/RedPack.json/dataList/redEnvelopeMoney"
   at java.lang.reflect.Method.invoke(Native Method)
   at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:726)
   at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616)
-
 ```
 
  刷新之后数据清空，再滑动数据和item不一致, 情况数据应该在拿到数据之后, 使用下面这种方式解决问题，
@@ -308,7 +237,6 @@ tools:src="@sample/RedPack.json/dataList/redEnvelopeMoney"
                         isloading = false;
                         if (start == 0) mProjectList.clear();
  }
-
 ```
 
   http://blog.csdn.net/weixiao_812/article/details/78138075
@@ -331,8 +259,6 @@ https://blog.csdn.net/mjb00000/article/details/106014544
 
 https://github.com/leobert-lan/Pandora 
 
-
-
 #### RecyclerView拖拽功能
 
 https://www.jianshu.com/p/9605d14ddcc2
@@ -341,15 +267,9 @@ https://www.jianshu.com/p/b9a22f0c537d
 
 https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf
 
-
-
 drag禁用
 
 https://github.com/CymChad/BaseRecyclerViewAdapterHelper/issues/3378
-
-
-
-
 
 #### BaseRecyclerViewAdapterHelper
 
@@ -358,8 +278,15 @@ getLayoutPosition getAdapterPosition区别
 如果界面在notifyDataSetChanged()刷新所有数据,获取的adapterPosition 有可能会是-1,而layoutPosition获取到的还是旧的值.
  如果使用但如果用的是notifyItemInserted(0),获取的adapterPosition就能立刻获取到新的值.
 
-
 作者：JimmyZou92
 链接：https://juejin.cn/post/6999213411204595720
 来源：稀土掘金
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+
+
+
+
+[【世纪纠结】Jetpack Compose 和自定义 View，学哪个？](https://rengwuxian.com/compose-vs-view/)

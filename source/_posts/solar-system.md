@@ -6,8 +6,7 @@ author: Jon
 layout: post
 guid: 'https://jonblog.site/?p=178'
 permalink: /2024/05/22/solar-system/
-categories:
-    - LIFE
+tags: LIFE
 ---
 
 ![](https://www.iau.org/static/archives/images/screen/iau0601a.jpg)

@@ -3,16 +3,10 @@ title: SharedPreferences
 comments: true
 date: 2019-11-06 14:50:12
 tags:
-categories: SOURCE
+categories: ANDROID
 ---
 
-
-
-
-
 ![](https://s5.51cto.com/oss/202110/15/d91bb33922311055194a101ffe69424a.png)
-
-
 
 #### Question
 
@@ -23,8 +17,6 @@ sp初始化 是读取所有的文件，还是指定文件的数据。
 ##### 问题2
 
 sp读取文件后会把数据保存到map中，如果后续我pusString() 数据了，还需要重新读取文件吗.
-
-
 
 #### 启动变慢
 
@@ -57,8 +49,6 @@ public boolean getBoolean(String key, boolean defValue) {
 }
 ```
 
-
-
 ```java
 @GuardedBy("mLock")
 private void awaitLoadedLocked() {
@@ -82,21 +72,15 @@ private void awaitLoadedLocked() {
 
 所有 getXXX() 方法都是同步的，在主线程调用 get 方法，必须等待 SP 加载完毕，会导致主线程阻塞，下面的代码，我相信小伙伴们并不陌生。
 
-
-
 #### commit vs apply
 
 commit ： 是同步
 
 Apply : 异步
 
-
-
 https://yjy239.github.io/2020/05/04/android-chong-xue-xi-lie-sharedpreferences-yuan-ma-jie-xi/
 
 https://www.51cto.com/article/685850.html
-
-
 
 解决SharedPreferences缺陷，微信MMKV原理分析
 
@@ -104,18 +88,10 @@ https://www.bilibili.com/video/BV1HF411b7H1?p=6&spm_id_from=pageDriver
 
 https://www.bilibili.com/video/BV1ih411a7KG?p=1
 
-
-
 #### DataStore
-
-
 
 SharedPreferences迁移
 
 https://www.hi-dhl.com/2020/10/19/jetpack/11-DataStore/
-
-
-
-
 
 ![2022-05-27_4.07.44](SharedPreferences/2022-05-27_4.07.44.png)

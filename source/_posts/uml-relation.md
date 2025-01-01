@@ -1,5 +1,4 @@
 ---
-id: 454
 title: 'UML Relation'
 date: '2024-06-12T07:58:02+00:00'
 author: Jon
@@ -8,12 +7,8 @@ guid: 'https://jonblog.site/?p=454'
 permalink: /2024/06/12/uml-relation/
 categories:
     - Architecture
-    - DesignPattern
+    - test
 ---
-
-
-
-
 
 # 工具
 
@@ -28,6 +23,10 @@ Android Studio插件
 https://design-patterns.readthedocs.io/zh-cn/latest/read_uml.html
 
 https://www.visual-paradigm.com/tw/guide/uml-unified-modeling-language/what-is-uml/
+
+
+
+class relationship
 
 https://www.cnblogs.com/shindo/p/5579191.html
 
@@ -169,11 +168,19 @@ public class IDCard{
 
 ## Aggregation 聚合关系
 
+
+
+![](https://images2015.cnblogs.com/blog/617148/201606/617148-20160612225421496-664373564.jpg)
+
+
+
+上图中的Car类与Engine类就是聚合关系（Car类中包含一个Engine类型的成员变量）。由上图我们可以看到，UML中聚合关系用带空心菱形和箭头的直线表示。聚合关系强调是“整体”包含“部分”，但是“部分”可以脱离“整体”而单独存在。比如上图中汽车包含了发动机，而发动机脱离了汽车也能单独存在。
+
+
+
 表示整体和部分的关系，整体与部分可以分开。聚合关系是关联关系的特例，所有他具有关联的导航性与多重性。
 
 如:一台电脑由keyboard ,monitor  mouse组成，组成电脑的各个配件是可以从电脑上分离处理的，使用带空心菱形的实线表示。
-
-![](UML/aggregation.png)
 
 ```java
 public class Computer {
@@ -245,7 +252,5 @@ https://www.bilibili.com/video/BV1W4411c77E?p=28&spm_id_from=pageDriver
 #### PlantUml
 
 https://plantuml.com/zh/
-
-https://tngdigital.yuque.com/tngd-mobile/key-battle/xccdfz
 
 时序图都是plantuml,点编辑才能看到code

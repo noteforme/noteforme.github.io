@@ -10,8 +10,6 @@ categories:
     - TOOL
 ---
 
-
-
 # Idea
 
 https://blog.lupf.cn/articles/2023/11/12/1699792053397.html
@@ -26,3 +24,11 @@ https://www.jetbrains.com/zh-cn/clion/download/other.html
 https://blog.lupf.cn/articles/2023/07/10/1689000614618.html
 
 [【请解压】Jetbrains全家桶最新永久激活插件](https://jonblog.site/wp-content/uploads/2024/05/【请解压】Jetbrains全家桶最新永久激活插件.zip "【请解压】Jetbrains全家桶最新永久激活插件")
+
+
+
+
+
+
+
+[IDEA 2023.2永久激活破解至2099年（亲测有效，持续更新） - 码霸霸](https://blog.lupf.cn/articles/2023/11/09/1699542153024.html)

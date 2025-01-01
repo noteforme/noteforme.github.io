@@ -1,15 +1,24 @@
 ---
-title: English
+title: English-Pronounce
 comments: true
 date: 2017-11-23 19:28:27
-tags:
-categories: ENGLISH
+tags: ENGLISH
 
 ---
 
-#### 
+BOOK
 
-### Pronunciatiion
+[1个练习1个月 让你职场英文流利自信！ - YouTube](https://www.youtube.com/watch?v=_oshHrMy6K4)
+
+James Clear: Atomic Habits
+
+[Atomic Habits by James Clear (Audiobook) - YouTube](https://www.youtube.com/watch?v=eDLHtqRJAu8)
+
+The Almanac of Naval Ravikant
+
+https://archive.org/details/the-almanack-of-naval-ravikant/page/n11/mode/2up 
+
+# Pronunciatiion
 
 [American English Vowels | IPA (International Phonetic Alphabet) vowel chart FREE DOWNLOAD - YouTube](https://www.youtube.com/watch?v=9E6F57s-V7U)
 
@@ -113,10 +122,6 @@ https://dl.304304.xyz/uploads/Ludovicus/%E8%8B%B1%E8%AF%AD-%E6%90%AC%E8%BF%90/
 右键选择 windows 7安装
 
 点击brower 选择安装的文件
-
-
-
-
 
 # IELTS
 
