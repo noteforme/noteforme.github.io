@@ -16,6 +16,7 @@ Android docker
 
 https://source.android.com/docs/setup/start/requirements#setting-up-a-linux-build-environment
 
+https://zwc365.com/2020/08/30/android10-baiduwangpan
 
 
 # ubuntu environment
