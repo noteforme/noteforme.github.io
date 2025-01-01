@@ -13,15 +13,7 @@ Android docker
 
 https://source.android.com/docs/setup/start/requirements#setting-up-a-linux-build-environment
 
-
-
 https://www.zhihu.com/people/tian-weishu/answers?page=1
-
-
-
-
-
-
 
 # ubuntu environment
 
@@ -266,13 +258,5 @@ https://source.android.com/
 https://www.jianshu.com/p/8012d5d38b01
 
 [Ubuntu 24.04 + Windows 10/11 双引导系统无损安装 | AI开源项目 模型微调必备 - YouTube](https://www.youtube.com/watch?v=EXyuSOSMt4A)
-
-
-
-
-
-
-
-
 
 https://www.zhihu.com/people/tian-weishu/answers?page=5
