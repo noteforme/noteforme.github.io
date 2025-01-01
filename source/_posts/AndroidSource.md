@@ -19,14 +19,13 @@ https://www.bilibili.com/video/BV15W411L7Lc?p=9
 5. Reboot/Restart the os.
 https://www.youtube.com/watch?v=ZxOwFOtcaaA comment
 
-``````````````
-
 
 # download source code 
 https://mirrors.ustc.edu.cn/help/aosp.html
 
 
 1. create bin
+   
 ```
 mkdir ~/bin
 PATH=~/bin:$PATH
@@ -34,7 +33,7 @@ PATH=~/bin:$PATH
 ## 如果上述 URL 不可访问，可以用下面的：
 curl -sSL  'https://gerrit-googlesource.proxy.ustclug.org/git-repo/+/master/repo?format=TEXT' |base64 -d > ~/bin/repo
 chmod a+x ~/bin/repo
-
+```
 2. Dir
 
 ```
