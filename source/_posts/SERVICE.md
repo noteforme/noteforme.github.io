@@ -6,9 +6,17 @@ tags:
 categories: ANDROID
 
 ---
+
+
+# Service
+
+
+
 https://developer.android.com/guide/components/services
 
 https://developer.android.com/reference/android/app/Service
+
+
 
 ##### Service启动服务两种方式
 
@@ -239,14 +247,6 @@ https://juejin.im/post/5b1747e5e51d45069a39ef45
 
 
 
-##### foreground service（前台服务）
-
- 被用户所知道，系统内存不足时候不允许被系统杀死的服务，前台服务必须给通知了一个通知，放在正在运行的标题之下，一般用于应用保活。
-
-https://www.jianshu.com/p/5505390503fa
-
-
-
 
 
 ##### onRebind()什么情况下执行
@@ -263,8 +263,76 @@ https://www.jianshu.com/p/5505390503fa
 
 https://www.jianshu.com/p/9885acf65405
 
-
-
-
-
 https://blog.csdn.net/pihailailou/article/details/78588496
+
+
+
+# foreground service
+
+https://developer.android.com/develop/background-work/services/fgs
+
+A foreground service performs some operation that is noticeable to the user. For example, an audio app would use a foreground service to play an audio track. Foreground services must display a [Notification](https://developer.android.com/develop/ui/views/notifications). Foreground services continue running even when the user isn't interacting with the app.
+
+When you use a foreground service, you must display a notification so that users are actively aware that the service is running. This notification cannot be dismissed unless the service is either stopped or removed from the foreground.
+
+
+
+https://developer.android.com/develop/background-work/services#Types-of-services
+
+https://www.jianshu.com/p/5505390503fa
+
+
+
+# background service
+
+
+
+A background service performs an operation that isn't directly noticed by the user. For example, if an app used a service to compact its storage, that would usually be a background service.
+
+**Note:** If your app targets API level 26 or higher, the system imposes [restrictions on running background services](https://developer.android.com/about/versions/oreo/background) when the app itself isn't in the foreground. In most situations, for example, you shouldn't [access location information from the background](https://developer.android.com/training/location/background). Instead, [schedule tasks using WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager).
+
+
+
+codelab
+
+https://github.com/android/codelab-android-workmanager/blob/master/app/src/main/java/com/example/background/BlurActivity.kt
+
+https://developer.android.com/codelabs/basic-android-kotlin-compose-workmanager#12
+
+
+
+
+
+## JobIntentService
+
+
+
+The Android framework also provides the `IntentService` subclass of `Service` that uses a worker thread to handle all of the start requests, one at a time. Using this class is **not recommended** for new apps as it will not work well starting with Android 8 Oreo, due to the introduction of [Background execution limits](https://developer.android.com/about/versions/oreo/background#services). Moreover, it's deprecated starting with Android 11. You can use [JobIntentService](https://developer.android.com/reference/androidx/core/app/JobIntentService) as a replacement for `IntentService` that is compatible with newer versions of Android.
+
+https://developer.android.com/develop/background-work/services#Types-of-services
+
+
+
+In most cases, apps can work around these limitations by using [`JobScheduler`](https://developer.android.com/reference/android/app/job/JobScheduler) jobs. This approach lets an app arrange to perform work when the app isn't actively running, but still gives the system the leeway to schedule these jobs in a way that doesn't affect the user experience
+
+https://developer.android.com/develop/background-work/background-tasks
+
+
+
+
+
+# WorkManger
+
+
+
+https://github.com/android/codelab-android-workmanager
+
+https://developer.android.com/codelabs/basic-android-kotlin-compose-workmanager#12
+
+
+
+# migrate
+
+Migrating from Firebase JobDispatcher to WorkManager 
+
+https://developer.android.com/develop/background-work/background-tasks/persistent/migrate-from-legacy/firebase

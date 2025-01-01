@@ -4,7 +4,33 @@ date: 2022-05-24 14:48:58
 tags:
 ---
 
-### Location Permission changes
+# Location Permission changes
+
+## Background location
+
+The background location precision is the same as the foreground location precision, which depends on the location permissions that your app declares.
+
+user closes the app or uses the home button to return to their main screen.
+
+On Android 10 (API level 29) and higher, you must declare the ACCESS_BACKGROUND_LOCATION permission in your app's manifest in order to request background location access at runtime. On earlier versions of Android, when your app receives foreground location access, it automatically receives background location access as well.
+
+```
+<manifest ... >
+  <!-- Required only when requesting background location access on
+       Android 10 (API level 29) and higher. -->
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+</manifest>
+```
+
+https://support.google.com/googleplay/android-developer/answer/9799150#zippy=
+
+
+
+## foreground
+
+while an app is open and visible to the user.
+
+
 
 https://www.youtube.com/watch?v=xTVeFJZQ28c
 
@@ -18,7 +44,7 @@ https://blog.csdn.net/u013334392/article/details/91971758
 
 其实在上面我已经提到了，所有上面的解决的方案都没有解决根本问题，那就是当你在室内开发时，你的手机根本就没法获取位置信息，你叫系统如何将位置信息通知给你的程序。所以要从根本上解决这个问题，就要解决位置信息获取问题。刚刚也提到了，只有NETWORK_PROVIDER这种模式才是室内定位可靠的方式，只不过由于大陆的怪怪网络，且大部分厂商也不会用google的服务，这种定位方式默认是没法用的。那怎么办？好办，找个替代的服务商就可以了，百度的位置信息sdk就可以解决这个问题。它的基本原理在上面已经提到过了，就是搜集你的wifi节点信息和你的手机基站信息来定位。
 
-### detect installed app
+#detect installed app
 
 https://stackoverflow.com/questions/72123141/how-to-check-exists-app-in-device-on-android
 
@@ -88,7 +114,16 @@ gaodemap: true
 baidumap: true
 waze: true
 
-### Google play Policy
+
+##  Accuracy
+
+### Approximate
+Provides a device location estimate. If this location estimate is from the LocationManagerService or FusedLocationProvider, this estimate is accurate to within about 3 square kilometers (about 1.2 square miles). Your app can receive locations at this level of accuracy when you declare the ACCESS_COARSE_LOCATION permission but not the ACCESS_FINE_LOCATION permission.
+### Precise
+Provides a device location estimate that is as accurate as possible. If the location estimate is from LocationManagerService or FusedLocationProvider, this estimate is usually within about 50 meters (160 feet) and is sometimes as accurate as within a few meters (10 feet) or better. Your app can receive locations at this level of accuracy when you declare the ACCESS_FINE_LOCATION permission.
+
+
+# Google play Policy
 
 https://support.google.com/googleplay/android-developer/answer/10144311#zippy=%2Cexamples-of-common-violations
 
@@ -105,7 +140,7 @@ But be aware that Play Store has new policy and common apps with this perm decla
 https://stackoverflow.com/questions/72123141/how-to-check-exists-app-in-device-on-android
 
 
-### lanuch Google Map
+# lanuch Google Map
 Maps URLs (recommended)
 Using Maps URLs, you can build a universal, cross-platform URL to launch Google Maps and perform searches, get directions and navigation, and display map views and panoramic images. These universal URLs allow for broader handling of the maps requests no matter which platform the user is on.
 
