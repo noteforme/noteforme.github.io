@@ -1,5 +1,4 @@
 ---
-
 title: AndroidSource
 comments: true
 date: 2018-07-25 09:57:29
@@ -8,13 +7,19 @@ categories:  ANDROID
 
 ---
 
-
-
 Android docker
 
 [史上最简单Android源码编译环境搭建方法 | Weishu's Notes](https://weishu.me/2016/12/30/simple-way-to-compile-android-source/)
 
 https://source.android.com/docs/setup/start/requirements#setting-up-a-linux-build-environment
+
+
+
+https://www.zhihu.com/people/tian-weishu/answers?page=1
+
+
+
+
 
 
 
@@ -94,7 +99,6 @@ https://blog.csdn.net/qq_34508943/article/details/133391020
  sudo apt install libncurses5
 ```
 
-
 =======
 
 当我点开父类ContextWrapper后，发现引用的是jar立面的class文件，既然有源码这肯定不是我所需要的，
@@ -145,8 +149,6 @@ https://cloud.tencent.com/developer/news/277549
 
     cd  /home/jon/AOSP/out/host/linux-x86/bin
     adb shell dumpsys activity
-
-
 
 <img src="https://img-blog.csdn.net/20170123173332254?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRhY2hpODU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="zoom: 67%;" />
 =======
@@ -220,8 +222,6 @@ https://source.android.com/
 
  https://source.android.com/devices/architecture
 
-
-
 >         Android源码根目录    描述
 >     
 >     abi    应用程序二进制接口
@@ -266,3 +266,13 @@ https://source.android.com/
 https://www.jianshu.com/p/8012d5d38b01
 
 [Ubuntu 24.04 + Windows 10/11 双引导系统无损安装 | AI开源项目 模型微调必备 - YouTube](https://www.youtube.com/watch?v=EXyuSOSMt4A)
+
+
+
+
+
+
+
+
+
+https://www.zhihu.com/people/tian-weishu/answers?page=5
