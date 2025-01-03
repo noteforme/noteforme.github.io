@@ -412,3 +412,5 @@ private fun schedulePeriodicWork() {
 Migrating from Firebase JobDispatcher to WorkManager 
 
 https://developer.android.com/develop/background-work/background-tasks/persistent/migrate-from-legacy/firebase
+
+https://medium.com/androiddevelopers/introducing-workmanager-2083bcfc4712
