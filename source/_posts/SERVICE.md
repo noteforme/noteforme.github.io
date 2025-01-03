@@ -331,17 +331,19 @@ Use WorkManager for reliable work,WorkManager handles three types of persistent 
 
 Figure 1 outlines how the different types of persistent work relate to one another.
 
-
-
-
-
 https://developer.android.com/topic/libraries/architecture/workmanager
+
+
+
+![](https://miro.medium.com/v2/resize:fit:828/format:webp/1*K-jWMXQbAK98EdkuuaZCFg.png)
+
+https://medium.com/androiddevelopers/introducing-workmanager-2083bcfc4712
 
 ### OneTimeWork
 
 
 
-```
+```kotlin
 // Create and enqueue the worker
 val workRequest = OneTimeWorkRequestBuilder<LogWorker>().build()
 workManager.enqueue(workRequest)
@@ -358,13 +360,50 @@ class LogWorker(context: Context, workerParams: WorkerParameters) : Worker(conte
 
 
 
-
-
-
-
 https://github.com/android/codelab-android-workmanager
 
 https://developer.android.com/codelabs/basic-android-kotlin-compose-workmanager#12
+
+
+
+## Schedule expedited work
+
+Starting in WorkManager 2.7, your app can call `setExpedited()` to declare that a `WorkRequest` should run as quickly as possible using an expedited job. 
+
+
+
+```kotlin
+private fun scheduleExpeditedWork() {
+    val workRequest: WorkRequest = OneTimeWorkRequestBuilder<LogWorker>()
+        .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+        .build()
+    WorkManager.getInstance(this).enqueue(workRequest)
+}
+```
+
+
+
+### PeriodicWork
+
+
+
+Periodic work has a minimum interval of 15 minutes.
+
+https://developer.android.com/reference/androidx/work/PeriodicWorkRequest
+
+
+
+```kotlin
+private fun schedulePeriodicWork() {
+    val periodicWorkRequest =
+        PeriodicWorkRequestBuilder<LogWorker>(15, TimeUnit.MINUTES) // every 15 minutes
+            .build()
+    // Enqueue the work request
+    WorkManager.getInstance(this).enqueue(periodicWorkRequest)
+}
+```
+
+
 
 
 
