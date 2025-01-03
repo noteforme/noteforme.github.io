@@ -335,9 +335,11 @@ https://developer.android.com/topic/libraries/architecture/workmanager
 
 
 
-![](https://miro.medium.com/v2/resize:fit:828/format:webp/1*K-jWMXQbAK98EdkuuaZCFg.png)
+![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj5srfjqyWJixvhyztBQBfyfJfxejxj6bZlR9WnEyZfLs4qmtwv1WDu1zvR-WV7aOgmjWDv7x3S9ykYhduSWem05mzqHY_fVRj3hDo0_sCi4lOD9bbHt-BVFk2I9dVL4Vue5hLL2E7UOEY/s1600/image1.png)
 
 https://medium.com/androiddevelopers/introducing-workmanager-2083bcfc4712
+
+https://android-developers.googleblog.com/2018/10/modern-background-execution-in-android.html
 
 ### OneTimeWork
 
@@ -403,7 +405,7 @@ private fun schedulePeriodicWork() {
 }
 ```
 
-
+// The code is not verified by the log.
 
 
 
