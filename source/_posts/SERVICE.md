@@ -321,7 +321,44 @@ https://developer.android.com/develop/background-work/background-tasks
 
 
 
-# WorkManger
+## WorkManger
+
+Use WorkManager for reliable work,WorkManager handles three types of persistent work:
+
+- **Immediate**: Tasks that must begin immediately and complete soon. May be expedited.
+- **Long Running**: Tasks which might run for longer, potentially longer than 10 minutes.
+- **Deferrable**: Scheduled tasks that start at a later time and can run periodically.
+
+Figure 1 outlines how the different types of persistent work relate to one another.
+
+
+
+
+
+https://developer.android.com/topic/libraries/architecture/workmanager
+
+### OneTimeWork
+
+
+
+```
+// Create and enqueue the worker
+val workRequest = OneTimeWorkRequestBuilder<LogWorker>().build()
+workManager.enqueue(workRequest)
+
+
+class LogWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+
+    override fun doWork(): Result {
+        Log.d("LogWorker", "Background task executed!")
+        return Result.success()
+    }
+}
+```
+
+
+
+
 
 
 
@@ -331,7 +368,7 @@ https://developer.android.com/codelabs/basic-android-kotlin-compose-workmanager#
 
 
 
-# migrate
+## migrate
 
 Migrating from Firebase JobDispatcher to WorkManager 
 
