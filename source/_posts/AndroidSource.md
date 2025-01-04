@@ -201,11 +201,7 @@ Android系统的五层架构就讲到这，了解以上的知识对以后分析�
 应用层部分
 应用层位于整个Android系统的最上层，开发者开发的应用程序以及系统内置的应用程序都是在应用层。源码根目录中的packages目录对应着系统应用层。它的目录结构如表4所示。
 
-##### 
-
 ##### Android open source project
-
-##### 
 
 Android Architecture
 
@@ -261,3 +257,9 @@ https://www.jianshu.com/p/8012d5d38b01
 [Ubuntu 24.04 + Windows 10/11 双引导系统无损安装 | AI开源项目 模型微调必备 - YouTube](https://www.youtube.com/watch?v=EXyuSOSMt4A)
 
 https://www.zhihu.com/people/tian-weishu/answers?page=5
+
+Binder
+
+https://www.zhihu.com/question/39440766/answer/81511893
+
+[Binder学习指南 | Weishu's Notes](https://weishu.me/2016/01/12/binder-index-for-newer/)
