@@ -16,7 +16,11 @@ https://source.android.com/docs/setup/start/requirements#setting-up-a-linux-buil
 https://www.zhihu.com/people/tian-weishu/answers?page=1
 https://zwc365.com/2020/08/30/android10-baiduwangpan
 
+
+
 # ubuntu environment
+
+ubuntu environment
 
 ## user permission
 
@@ -91,8 +95,6 @@ https://blog.csdn.net/qq_34508943/article/details/133391020
 ```
  sudo apt install libncurses5
 ```
-
-=======
 
 当我点开父类ContextWrapper后，发现引用的是jar立面的class文件，既然有源码这肯定不是我所需要的，
 可以这要操作:Project Structure->Dependencies(可以看到很多jar依赖删掉)->　＋JARS And Dierctories ->添加源码要关联的frameworks 、packages...

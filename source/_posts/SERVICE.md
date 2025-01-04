@@ -321,7 +321,44 @@ https://developer.android.com/develop/background-work/background-tasks
 
 
 
-# WorkManger
+## WorkManger
+
+Use WorkManager for reliable work,WorkManager handles three types of persistent work:
+
+- **Immediate**: Tasks that must begin immediately and complete soon. May be expedited.
+- **Long Running**: Tasks which might run for longer, potentially longer than 10 minutes.
+- **Deferrable**: Scheduled tasks that start at a later time and can run periodically.
+
+Figure 1 outlines how the different types of persistent work relate to one another.
+
+https://developer.android.com/topic/libraries/architecture/workmanager
+
+
+
+![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj5srfjqyWJixvhyztBQBfyfJfxejxj6bZlR9WnEyZfLs4qmtwv1WDu1zvR-WV7aOgmjWDv7x3S9ykYhduSWem05mzqHY_fVRj3hDo0_sCi4lOD9bbHt-BVFk2I9dVL4Vue5hLL2E7UOEY/s1600/image1.png)
+
+https://medium.com/androiddevelopers/introducing-workmanager-2083bcfc4712
+
+https://android-developers.googleblog.com/2018/10/modern-background-execution-in-android.html
+
+### OneTimeWork
+
+
+
+```kotlin
+// Create and enqueue the worker
+val workRequest = OneTimeWorkRequestBuilder<LogWorker>().build()
+workManager.enqueue(workRequest)
+
+
+class LogWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+
+    override fun doWork(): Result {
+        Log.d("LogWorker", "Background task executed!")
+        return Result.success()
+    }
+}
+```
 
 
 
@@ -331,8 +368,51 @@ https://developer.android.com/codelabs/basic-android-kotlin-compose-workmanager#
 
 
 
-# migrate
+## Schedule expedited work
+
+Starting in WorkManager 2.7, your app can call `setExpedited()` to declare that a `WorkRequest` should run as quickly as possible using an expedited job. 
+
+
+
+```kotlin
+private fun scheduleExpeditedWork() {
+    val workRequest: WorkRequest = OneTimeWorkRequestBuilder<LogWorker>()
+        .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+        .build()
+    WorkManager.getInstance(this).enqueue(workRequest)
+}
+```
+
+
+
+### PeriodicWork
+
+
+
+Periodic work has a minimum interval of 15 minutes.
+
+https://developer.android.com/reference/androidx/work/PeriodicWorkRequest
+
+
+
+```kotlin
+private fun schedulePeriodicWork() {
+    val periodicWorkRequest =
+        PeriodicWorkRequestBuilder<LogWorker>(15, TimeUnit.MINUTES) // every 15 minutes
+            .build()
+    // Enqueue the work request
+    WorkManager.getInstance(this).enqueue(periodicWorkRequest)
+}
+```
+
+// The code is not verified by the log.
+
+
+
+## migrate
 
 Migrating from Firebase JobDispatcher to WorkManager 
 
 https://developer.android.com/develop/background-work/background-tasks/persistent/migrate-from-legacy/firebase
+
+https://medium.com/androiddevelopers/introducing-workmanager-2083bcfc4712
