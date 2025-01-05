@@ -10,8 +10,6 @@ categories:
     - TOOL
 ---
 
-
-
 # Install guide
 
 https://www.linuxtuto.com/how-to-install-wordpress-on-debian-12/
@@ -57,3 +55,17 @@ Site Address (URL)
 # wordpress backup
 
 https://www.youtube.com/watch?v=2qoX-siH0cY
+
+
+
+
+
+
+
+#### IPV6
+
+bridge mode 
+
+https://www.bilibili.com/video/BV1wa411H7NJ/
+
+https://www.youtube.com/watch?v=t3H8kVQmTu0

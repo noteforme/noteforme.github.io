@@ -16,8 +16,6 @@ https://source.android.com/docs/setup/start/requirements#setting-up-a-linux-buil
 https://www.zhihu.com/people/tian-weishu/answers?page=1
 https://zwc365.com/2020/08/30/android10-baiduwangpan
 
-
-
 # ubuntu environment
 
 ubuntu environment
