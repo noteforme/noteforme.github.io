@@ -56,15 +56,9 @@ Site Address (URL)
 
 https://www.youtube.com/watch?v=2qoX-siH0cY
 
-
-
-
-
-
-
 #### IPV6
 
-bridge mode 
+bridge mode settiing
 
 https://www.bilibili.com/video/BV1wa411H7NJ/
 
