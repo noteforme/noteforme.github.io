@@ -112,3 +112,9 @@ control 加上 ~ 快捷键
 https://blog.csdn.net/qq_43428139/article/details/109038098
 
 https://www.cnblogs.com/hi3254014978/p/15084851.html#:~:text=%E8%A7%A3%E5%86%B3Mac%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%87%AA%E5%B8%A6%E5%BD%95%E5%B1%8F%E8%BD%AF%E4%B
+
+
+
+https://www.youtube.com/watch?v=KjL_sJS9Rko&t=430s
+
+https://www.youtube.com/watch?v=LSmM5FXzVBg&t=320s
