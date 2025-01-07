@@ -406,19 +406,11 @@ wordpress backup
 
 [- YouTube](https://www.youtube.com/watch?v=2qoX-siH0cY)
 
-
-
-
-
 # bridge mode
 
 https://www.bilibili.com/video/BV1wa411H7NJ/
 
 [- YouTube](https://www.youtube.com/watch?v=t3H8kVQmTu0)
-
-
-
-
 
 V2rayU 需要全局的才起作用
 
@@ -491,3 +483,9 @@ zerotier-cli listnetworks
 ————————————————
 
 reference：[ssh远程连接Ubuntu（局域网和非局域网）_ssh连接ubuntu-CSDN博客](https://blog.csdn.net/qq_43566431/article/details/129823135)
+
+
+
+端口转发 8:00
+
+[外网访问家庭内网的两大最优方案，零基础教程 远程控制家庭电脑 - YouTube](https://www.youtube.com/watch?v=t3H8kVQmTu0)
