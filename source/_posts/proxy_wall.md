@@ -428,6 +428,8 @@ tls 端口(port)：6个https端口可任意选择(443、8443、2053、2083、208
 
 # ssh远程连接Ubuntu（局域网和非局域网）
 
+内网穿透
+
 [ssh远程连接Ubuntu（局域网和非局域网）_ssh连接ubuntu-CSDN博客](https://blog.csdn.net/qq_43566431/article/details/129823135) 2.非局域网 远程连接
 Attention:ssh只能用于可以相互ping通的主机之间
 
@@ -482,10 +484,16 @@ zerotier-cli leave 8850xxxxxxxxxxxxxxx
 zerotier-cli listnetworks
 ————————————————
 
-reference：[ssh远程连接Ubuntu（局域网和非局域网）_ssh连接ubuntu-CSDN博客](https://blog.csdn.net/qq_43566431/article/details/129823135)
+[ssh远程连接Ubuntu（局域网和非局域网）_ssh连接ubuntu-CSDN博客](https://blog.csdn.net/qq_43566431/article/details/129823135)
 
+# Visit desktop
 
+8:00 端口转发
 
-端口转发 8:00
+13:20 DDNS-Go
 
 [外网访问家庭内网的两大最优方案，零基础教程 远程控制家庭电脑 - YouTube](https://www.youtube.com/watch?v=t3H8kVQmTu0)
+
+https://www.youtube.com/watch?v=NZVxl5-efSs&t=316s
+
+[Ubuntu技巧-Ubuntu远程访问之电信公网IP-CSDN博客](https://blog.csdn.net/koffuxu/article/details/141399290)
