@@ -497,3 +497,15 @@ zerotier-cli listnetworks
 https://www.youtube.com/watch?v=NZVxl5-efSs&t=316s
 
 [Ubuntu技巧-Ubuntu远程访问之电信公网IP-CSDN博客](https://blog.csdn.net/koffuxu/article/details/141399290)
+
+
+
+```
+sudo apt update
+sudo apt install xrdp
+
+sudo systemctl enable xrdp
+sudo ufw allow from any to any port 3389  proto tcp
+
+
+```
