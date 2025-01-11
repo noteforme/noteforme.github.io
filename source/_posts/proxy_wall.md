@@ -500,13 +500,15 @@ https://www.youtube.com/watch?v=NZVxl5-efSs&t=316s
 
 https://www.youtube.com/watch?v=NZVxl5-efSs![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main//tools2025-01-11%20-11.54.26.png)
 
+[外网访问家庭内网的两大最优方案，零基础教程 远程控制家庭电脑 ，公网访问家庭局域网 - 哔哩哔哩](https://www.bilibili.com/opus/931018269756751908)
+
+[Ubuntu技巧-Ubuntu远程访问之电信公网IP-CSDN博客](https://blog.csdn.net/koffuxu/article/details/141399290)
+
 
 
  route config 端口转发
 
 ![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/TOOLS/2025-01-1111.54.26.png)
-
-
 
 试用xrdp 远程访问 
 
