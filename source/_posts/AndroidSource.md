@@ -81,15 +81,13 @@ https://source.android.com/docs/setup/start
 
 # SOURCE CODE BUILD
 
-
-
 [android 12 源码编译与虚拟机调试_aosp running multiple emulators with the same avd-CSDN博客](https://blog.csdn.net/qq_17696807/article/details/124302856)
-
-
 
 1. 初始化编译环境
 
-      source build/envsetup.sh
+```
+source build/envsetup.sh
+```
 
         
 
@@ -110,17 +108,11 @@ index 7d9d90e92a..419cccb80a 100644
      aosp_x86_64-eng \
      aosp_x86-eng \
 +    sdk_phone_x86_64-eng \
-
 ```
-
-
 
 原文链接：https://blog.csdn.net/qq_17696807/article/details/124302856
 
-
 lunch sdk_phone_x86_64-eng
-
-
 
 ## SWAP RAM
 
@@ -156,8 +148,6 @@ http://blog.csdn.net/huaiyiheyuan/article/details/52069122
 
 ## build issue
 
-
-
 #### libncurses.so.5
 
 ```
@@ -187,82 +177,44 @@ Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 [AOSP 编译Android12源码全记录 - 简书](https://www.jianshu.com/p/53941de91c77)
 
-
-
 #### python error
 
 [/usr/bin/env: ‘python’: No such file or directory-CSDN博客](https://blog.csdn.net/weixin_55940238/article/details/140989311)
 
-
-
 docker error
-
-
 
 [Unable to compile AOSP source code on Ubuntu 24.04 system - Stack Overflow](https://stackoverflow.com/questions/78857564/unable-to-compile-aosp-source-code-on-ubuntu-24-04-system)
 
 https://github.com/alsutton/aosp-build-docker-images
 
-* Activity启动过程
-  
-  对应用程序Activity进行编译和打包
-  
-      /home/jon/桌面/LaoLuo/chapter-7/src/packages/experimental/Activity
-      make snod
-      emulator
+Activity启动过程
+
+对应用程序Activity进行编译和打包
+
+    /home/jon/桌面/LaoLuo/chapter-7/src/packages/experimental/Activity
+    make snod
+    emulator
 
 然后查看activity信息，在这里通过源码里面的 adb
 
     cd  /home/jon/AOSP/out/host/linux-x86/bin
     adb shell dumpsys activity
 
-<img src="https://img-blog.csdn.net/20170123173332254?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRhY2hpODU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="zoom: 67%;" />
-
 ##### Android open source project
 
 Android Architecture
 
-<img src="AndroidSource/android_stack_720.png" style="zoom:50%;" />         <img src="AndroidSource/ape_fwk_all.png" style="zoom: 67%;" />
+<img src="AndroidSource/android_stack_720.png" style="zoom:50%;" />       
+<img src="AndroidSource/ape_fwk_all.png" style="zoom: 67%;" />
 
 https://source.android.com/                            
+https://source.android.com/devices/architecture
+https://blog.csdn.net/wenzhi20102321/article/details/80739649
+https://blog.csdn.net/wen0006/article/details/5804639
 
- https://source.android.com/devices/architecture
 
->         Android源码根目录    描述
->     
->     abi    应用程序二进制接口
->     art    全新的ART运行环境
->     bionic    系统C库
->     bootable    启动引导相关代码
->     build    存放系统编译规则及generic等基础开发包配置
->     cts    Android兼容性测试套件标准
->     dalvik art    虚拟机
->     developers    开发者目录
->     development    应用程序开发相关
->     device    设备相关配置
->     docs    参考文档目录
->     external    开源模组相关文件
->     frameworks    应用程序框架，Android系统核心部分，由Java和C++编写
->     hardware    主要是硬件抽象层的代码
->     libcore    核心库相关文件
->     libnativehelper    动态库，实现JNI库的基础
->     ndk    NDK相关代码，帮助开发人员在应用程序中嵌入C/C++代码
->     out    编译完成后代码输出在此目录
->     packages    应用程序包
->     pdk    Plug Development Kit 的缩写，本地开发套件
->     platform_testing    平台测试
->     prebuilts    x86和arm架构下预编译的一些资源
->     sdk    sdk和模拟器
->     system    底层文件系统库、应用和组件
->     toolchain    工具链文件
->     tools    工具文件
->     Makefile    全局Makefile文件，用来定义编译规则
->     ————————————————
->     
->     https://blog.csdn.net/wenzhi20102321/article/details/80739649
->     https://blog.csdn.net/wen0006/article/details/5804639
-> 
-> ##### 源码关联阅读
+
+源码关联阅读
 
 也可以选择对应的文件的 .class文件后，再选择源码后再建立关联。
 
@@ -279,7 +231,5 @@ Binder
 https://www.zhihu.com/question/39440766/answer/81511893
 
 [Binder学习指南 | Weishu's Notes](https://weishu.me/2016/01/12/binder-index-for-newer/)
-
-
 
 https://github.com/satur9nine/aosp-docker-build-env
