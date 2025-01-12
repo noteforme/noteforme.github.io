@@ -26,16 +26,15 @@
 <meta property="og:site_name" content="Jon&#39;s Blog">
 <meta property="og:description" content="Android docker 史上最简单Android源码编译环境搭建方法 | Weishu’s Notes https:&#x2F;&#x2F;source.android.com&#x2F;docs&#x2F;setup&#x2F;start&#x2F;requirements#setting-up-a-linux-build-environment https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;tian-weishu&#x2F;answers?pa">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://img-blog.csdn.net/20170123173332254?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRhY2hpODU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="https://noteforme.github.io/2018/07/25/AndroidSource//android_stack_720.png">
 <meta property="og:image" content="https://noteforme.github.io/2018/07/25/AndroidSource//ape_fwk_all.png">
 <meta property="og:image" content="https://noteforme.github.io/2018/07/25/AndroidSource//20220527125047.jpg">
 <meta property="article:published_time" content="2018-07-25T01:57:29.000Z">
-<meta property="article:modified_time" content="2025-01-12T00:30:06.593Z">
+<meta property="article:modified_time" content="2025-01-12T03:18:41.137Z">
 <meta property="article:author" content="Jon">
 <meta property="article:tag" content="AOSP">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://img-blog.csdn.net/20170123173332254?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRhY2hpODU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta name="twitter:image" content="https://noteforme.github.io/2018/07/25/AndroidSource//android_stack_720.png">
   
   
   
@@ -228,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k words
+          756 words
         
       </span>
     
@@ -239,7 +238,7 @@
         
         
         
-          9 mins
+          7 mins
         
       </span>
     
@@ -319,15 +318,14 @@
 <ol>
 <li>初始化编译环境</li>
 </ol>
-<p>      source build&#x2F;envsetup.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">source</span> build/envsetup.sh<br></code></pre></td></tr></table></figure>
+
 <p>        </p>
 <ol start="2">
 <li>选择产品<br>使用lunch选择要编译的产品，此文档中以编译x86_x64 emulator模拟器镜像为例进行说明。</li>
 </ol>
 <p>修改AndroidProduct.mk使支持x86_x64镜像编译<br>由于android12 默认lunch默认选不到模拟器镜像，所以首先需要修改mk。<br>修改build&#x2F;make&#x2F;target&#x2F;product&#x2F;AndroidProducts.mk文件，添加sdk_phone_x86_64-eng支持</p>
-<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-comment">diff --git a/target/product/AndroidProducts.mk b/target/product/AndroidProducts.mk</span><br><span class="hljs-comment">index 7d9d90e92a..419cccb80a 100644</span><br><span class="hljs-comment">--- a/target/product/AndroidProducts.mk</span><br><span class="hljs-comment">+++ b/target/product/AndroidProducts.mk</span><br><span class="hljs-meta">@@ -84,3 +84,4 @@</span> COMMON_LUNCH_CHOICES := \<br>     aosp_arm-eng \<br>     aosp_x86_64-eng \<br>     aosp_x86-eng \<br><span class="hljs-addition">+    sdk_phone_x86_64-eng \</span><br><br></code></pre></td></tr></table></figure>
-
-
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-comment">diff --git a/target/product/AndroidProducts.mk b/target/product/AndroidProducts.mk</span><br><span class="hljs-comment">index 7d9d90e92a..419cccb80a 100644</span><br><span class="hljs-comment">--- a/target/product/AndroidProducts.mk</span><br><span class="hljs-comment">+++ b/target/product/AndroidProducts.mk</span><br><span class="hljs-meta">@@ -84,3 +84,4 @@</span> COMMON_LUNCH_CHOICES := \<br>     aosp_arm-eng \<br>     aosp_x86_64-eng \<br>     aosp_x86-eng \<br><span class="hljs-addition">+    sdk_phone_x86_64-eng \</span><br></code></pre></td></tr></table></figure>
 
 <p>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_17696807/article/details/124302856">https://blog.csdn.net/qq_17696807/article/details/124302856</a></p>
 <p>lunch sdk_phone_x86_64-eng</p>
@@ -352,61 +350,22 @@
 <p>docker error</p>
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/78857564/unable-to-compile-aosp-source-code-on-ubuntu-24-04-system">Unable to compile AOSP source code on Ubuntu 24.04 system - Stack Overflow</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/alsutton/aosp-build-docker-images">https://github.com/alsutton/aosp-build-docker-images</a></p>
-<ul>
-<li><p>Activity启动过程</p>
+<p>Activity启动过程</p>
 <p>对应用程序Activity进行编译和打包</p>
 <pre><code class="hljs">/home/jon/桌面/LaoLuo/chapter-7/src/packages/experimental/Activity
 make snod
 emulator
 </code></pre>
-</li>
-</ul>
 <p>然后查看activity信息，在这里通过源码里面的 adb</p>
 <pre><code class="hljs">cd  /home/jon/AOSP/out/host/linux-x86/bin
 adb shell dumpsys activity
 </code></pre>
-<img src="https://img-blog.csdn.net/20170123173332254?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRhY2hpODU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" srcset="/img/loading.gif" lazyload style="zoom: 67%;">
-
 <h5 id="Android-open-source-project"><a href="#Android-open-source-project" class="headerlink" title="Android open source project"></a>Android open source project</h5><p>Android Architecture</p>
-<p><img src="/2018/07/25/AndroidSource//android_stack_720.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">         <img src="/2018/07/25/AndroidSource//ape_fwk_all.png" srcset="/img/loading.gif" lazyload style="zoom: 67%;"></p>
-<p><a target="_blank" rel="noopener" href="https://source.android.com/">https://source.android.com/</a>                            </p>
-<p> <a target="_blank" rel="noopener" href="https://source.android.com/devices/architecture">https://source.android.com/devices/architecture</a></p>
-<blockquote>
-<pre><code class="hljs">    Android源码根目录    描述
+<img src="/2018/07/25/AndroidSource//android_stack_720.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">       
+<img src="/2018/07/25/AndroidSource//ape_fwk_all.png" srcset="/img/loading.gif" lazyload style="zoom: 67%;">
 
-abi    应用程序二进制接口
-art    全新的ART运行环境
-bionic    系统C库
-bootable    启动引导相关代码
-build    存放系统编译规则及generic等基础开发包配置
-cts    Android兼容性测试套件标准
-dalvik art    虚拟机
-developers    开发者目录
-development    应用程序开发相关
-device    设备相关配置
-docs    参考文档目录
-external    开源模组相关文件
-frameworks    应用程序框架，Android系统核心部分，由Java和C++编写
-hardware    主要是硬件抽象层的代码
-libcore    核心库相关文件
-libnativehelper    动态库，实现JNI库的基础
-ndk    NDK相关代码，帮助开发人员在应用程序中嵌入C/C++代码
-out    编译完成后代码输出在此目录
-packages    应用程序包
-pdk    Plug Development Kit 的缩写，本地开发套件
-platform_testing    平台测试
-prebuilts    x86和arm架构下预编译的一些资源
-sdk    sdk和模拟器
-system    底层文件系统库、应用和组件
-toolchain    工具链文件
-tools    工具文件
-Makefile    全局Makefile文件，用来定义编译规则
-————————————————
-
-https://blog.csdn.net/wenzhi20102321/article/details/80739649
-https://blog.csdn.net/wen0006/article/details/5804639
-</code></pre>
-<h5 id="源码关联阅读"><a href="#源码关联阅读" class="headerlink" title="源码关联阅读"></a>源码关联阅读</h5></blockquote>
+<p><a target="_blank" rel="noopener" href="https://source.android.com/">https://source.android.com/</a><br><a target="_blank" rel="noopener" href="https://source.android.com/devices/architecture">https://source.android.com/devices/architecture</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/wenzhi20102321/article/details/80739649">https://blog.csdn.net/wenzhi20102321/article/details/80739649</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/wen0006/article/details/5804639">https://blog.csdn.net/wen0006/article/details/5804639</a></p>
+<p>源码关联阅读</p>
 <p>也可以选择对应的文件的 .class文件后，再选择源码后再建立关联。</p>
 <p><img src="/2018/07/25/AndroidSource//20220527125047.jpg" srcset="/img/loading.gif" lazyload alt="20220527125047"></p>
 <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/8012d5d38b01">https://www.jianshu.com/p/8012d5d38b01</a></p>
