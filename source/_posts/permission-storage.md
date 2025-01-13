@@ -37,58 +37,6 @@ https://developer.android.com/training/data-storage/app-specific#external
 
 
 
-
-
-
-
-# Permissions and access to external storage
-
-Android defines the following storage-related permissions: [`READ_EXTERNAL_STORAGE`](https://developer.android.com/reference/android/Manifest.permission#READ_EXTERNAL_STORAGE), [`WRITE_EXTERNAL_STORAGE`](https://developer.android.com/reference/android/Manifest.permission#WRITE_EXTERNAL_STORAGE), and [`MANAGE_EXTERNAL_STORAGE`](https://developer.android.com/reference/android/Manifest.permission#MANAGE_EXTERNAL_STORAGE).
-
-
-
-
-
-## MANAGE_EXTERNAL_STORAGE
-
-Android 11 introduces the `MANAGE_EXTERNAL_STORAGE` permission, which provides write access to files outside the app-specific directory and `MediaStore`. To learn more about this permission, and why most apps don't need to declare it to fulfill their use cases, see the guide on how to [manage all files](https://developer.android.com/training/data-storage/manage-all-files) on a storage device.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-The answer is NO it is not required if you are simply capturing image from camera or by gallery by calling an intent (calling other app to perform some task for you ) in our case this other app would be the camera application in your mobile
-
-https://medium.com/@bilalhameed0800/is-permission-required-for-android-capture-image-from-camera-and-gallery-intent-4812964e8c9a
-
-https://developer.android.com/training/data-storage
-
-[Preparing for scoped storage (Android Dev Summit &#39;19) - YouTube](https://www.youtube.com/watch?v=UnJ3amzJM94)
-
-android SD卡主要有两种存储方式 Internal  、  External Storage
-
-external storage permission
-
-自己创建的文件，不需要权限 ，不是自己的 需要 READ_EXTERNAL_STORAGE
-
-#### photo picker
-
-https://developer.android.com/about/versions/14/changes/partial-photo-video-access
-
-if your app is running on a device with Android 14 (API level 34) or higher, limit access to selected photos and videos, request "Manifest.permission.READ_MEDIA_IMAGES" will show 
-
-<img src="permission-storage/b699ef581b9e92de2ecf20ac6ca6c5278c439c98.png" title="" alt="Screenshot 2023-11-22 at 21.36.55.png" width="259">
-
 #### Internal
 
 * It's always available.
@@ -144,11 +92,11 @@ https://developer.android.com/guide/topics/manifest/uses-permission-element.html
 * mkdir：新建目录
 
 * mkdirs：新建目录，与mkdir的区别是：比如   mkdirs（“D:/test/test2”) 如果test  ,   不存在会创建，然后创建test2，如果是  mkdir（“D:/test/test2”) ，如果 
-  
+
       test不存在，会失败。
 
 * android io输入文件
-  
+
   ```
   new File(param1,param2); param1 File,param2  String类型
   
@@ -166,6 +114,48 @@ https://developer.android.com/training/basics/data-storage/files.html?hl=zh-cn
 [Android 13媒体文件访问权限适配_read_media_images-CSDN博客](https://blog.csdn.net/github_27263697/article/details/131633314)
 
 [Android 13 媒体权限适配指南 - 掘金](https://juejin.cn/post/7159999910748618766)
+
+
+
+
+
+
+
+# Permissions and access to external storage
+
+Android defines the following storage-related permissions: [`READ_EXTERNAL_STORAGE`](https://developer.android.com/reference/android/Manifest.permission#READ_EXTERNAL_STORAGE), [`WRITE_EXTERNAL_STORAGE`](https://developer.android.com/reference/android/Manifest.permission#WRITE_EXTERNAL_STORAGE), and [`MANAGE_EXTERNAL_STORAGE`](https://developer.android.com/reference/android/Manifest.permission#MANAGE_EXTERNAL_STORAGE).
+
+
+
+
+
+## MANAGE_EXTERNAL_STORAGE
+
+Android 11 introduces the `MANAGE_EXTERNAL_STORAGE` permission, which provides write access to files outside the app-specific directory and `MediaStore`. To learn more about this permission, and why most apps don't need to declare it to fulfill their use cases, see the guide on how to [manage all files](https://developer.android.com/training/data-storage/manage-all-files) on a storage device.
+
+The answer is NO it is not required if you are simply capturing image from camera or by gallery by calling an intent (calling other app to perform some task for you ) in our case this other app would be the camera application in your mobile
+
+https://medium.com/@bilalhameed0800/is-permission-required-for-android-capture-image-from-camera-and-gallery-intent-4812964e8c9a
+
+https://developer.android.com/training/data-storage
+
+[Preparing for scoped storage (Android Dev Summit &#39;19) - YouTube](https://www.youtube.com/watch?v=UnJ3amzJM94)
+
+android SD卡主要有两种存储方式 Internal  、  External Storage
+
+external storage permission
+
+自己创建的文件，不需要权限 ，不是自己的 需要 READ_EXTERNAL_STORAGE
+
+#### photo picker
+
+https://developer.android.com/about/versions/14/changes/partial-photo-video-access
+
+if your app is running on a device with Android 14 (API level 34) or higher, limit access to selected photos and videos, request "Manifest.permission.READ_MEDIA_IMAGES" will show 
+
+<img src="permission-storage/b699ef581b9e92de2ecf20ac6ca6c5278c439c98.png" title="" alt="Screenshot 2023-11-22 at 21.36.55.png" width="259">
+
+
 
 ### READ_MEDIA_VISUAL_USER_SELECTED
 
@@ -185,16 +175,12 @@ https://developer.android.com/training/basics/data-storage/files.html?hl=zh-cn
 
 [[Bug]：安卓14，申请READ_MEDIA_IMAGES时，当用户选择部分允许后，READ_MEDIA_IMAGES的isGranted=true · Issue #244 · getActivity/XXPermissions · GitHub](https://github.com/getActivity/XXPermissions/issues/244)
 
-
-=======
-
 https://developer.android.com/training/data-storage/shared/photopicker#kotlin
 
 
 
-```
+```kotlin
    var filter by remember { mutableStateOf<VisualMediaType>(ImageAndVideo) }
-
 
    /**
      * [PickMultipleVisualMedia] is an ActivityResultContract that will launch the photo picker
@@ -208,8 +194,6 @@ https://developer.android.com/training/data-storage/shared/photopicker#kotlin
         rememberLauncherForActivityResult(PickMultipleVisualMedia(maxItems)) { uris ->
             selectedMedia = uris
         }
-
-
 
     pickMultipleMedia.launch(PickVisualMediaRequest(filter))   
 ```
