@@ -4,6 +4,69 @@ date: 2023-11-15 22:52:48
 tags: permission
 ---
 
+
+
+# App data and files 
+
+Android uses a file system that's similar to disk-based file systems on other platforms. The system provides several options for you to save your app data:
+
+- **App-specific storage:** Store files that are meant for your app's use only, either in dedicated directories within an internal storage volume or different dedicated directories within external storage. Use the directories within internal storage to save sensitive information that other apps shouldn't access.
+- **Shared storage:** Store files that your app intends to share with other apps, including media, documents, and other files.
+- **Preferences:** Store private, primitive data in key-value pairs.
+- **Databases:** Store structured data in a private database using the Room persistence library.
+
+https://developer.android.com/guide/topics/data
+
+
+
+|                                                              | Type of content                                              | Access method                                                | Permissions needed                                           | Can other apps access?                                       | Files removed on app uninstall? |
+| :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------------------------------ |
+| [App-specific files](https://developer.android.com/training/data-storage/app-specific) | Files meant for your app's use only                          | From internal storage, `getFilesDir()` or `getCacheDir()`  From external storage, `getExternalFilesDir()` or `getExternalCacheDir()` | Never needed for internal storage  Not needed for external storage when your app is used on devices that run Android 4.4 (API level 19) or higher | No                                                           | Yes                             |
+| [Media](https://developer.android.com/training/data-storage/shared/media) | Shareable media files (images, audio files, videos)          | `MediaStore` API                                             | `READ_EXTERNAL_STORAGE` when accessing other apps' files on Android 11 (API level 30) or higher  `READ_EXTERNAL_STORAGE` or `WRITE_EXTERNAL_STORAGE` when accessing other apps' files on Android 10 (API level 29)  Permissions are required for **all** files on Android 9 (API level 28) or lower | Yes, though the other app needs the `READ_EXTERNAL_STORAGE` permission | No                              |
+| [Documents and other files](https://developer.android.com/training/data-storage/shared/documents-files) | Other types of shareable content, including downloaded files | Storage Access Framework                                     | None                                                         | Yes, through the system file picker                          | No                              |
+| [App preferences](https://developer.android.com/training/data-storage/shared-preferences) | Key-value pairs                                              | [Jetpack Preferences](https://developer.android.com/guide/topics/ui/settings/use-saved-values) library | None                                                         | No                                                           | Yes                             |
+| Database                                                     | Structured data                                              | [Room](https://developer.android.com/training/data-storage/room) persistence library | None                                                         | No                                                           | Yes                             |
+
+https://developer.android.com/training/data-storage
+
+
+
+On Android 4.4 (API level 19) or higher, your app doesn't need to request any storage-related permissions to access app-specific directories within external storage. The files stored in these directories are removed when your app is uninstalled.
+
+https://developer.android.com/training/data-storage/app-specific#external
+
+
+
+
+
+
+
+# Permissions and access to external storage
+
+Android defines the following storage-related permissions: [`READ_EXTERNAL_STORAGE`](https://developer.android.com/reference/android/Manifest.permission#READ_EXTERNAL_STORAGE), [`WRITE_EXTERNAL_STORAGE`](https://developer.android.com/reference/android/Manifest.permission#WRITE_EXTERNAL_STORAGE), and [`MANAGE_EXTERNAL_STORAGE`](https://developer.android.com/reference/android/Manifest.permission#MANAGE_EXTERNAL_STORAGE).
+
+
+
+
+
+## MANAGE_EXTERNAL_STORAGE
+
+Android 11 introduces the `MANAGE_EXTERNAL_STORAGE` permission, which provides write access to files outside the app-specific directory and `MediaStore`. To learn more about this permission, and why most apps don't need to declare it to fulfill their use cases, see the guide on how to [manage all files](https://developer.android.com/training/data-storage/manage-all-files) on a storage device.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 The answer is NO it is not required if you are simply capturing image from camera or by gallery by calling an intent (calling other app to perform some task for you ) in our case this other app would be the camera application in your mobile
 
 https://medium.com/@bilalhameed0800/is-permission-required-for-android-capture-image-from-camera-and-gallery-intent-4812964e8c9a
@@ -25,8 +88,6 @@ https://developer.android.com/about/versions/14/changes/partial-photo-video-acce
 if your app is running on a device with Android 14 (API level 34) or higher, limit access to selected photos and videos, request "Manifest.permission.READ_MEDIA_IMAGES" will show 
 
 <img src="permission-storage/b699ef581b9e92de2ecf20ac6ca6c5278c439c98.png" title="" alt="Screenshot 2023-11-22 at 21.36.55.png" width="259">
-
-##### 
 
 #### Internal
 
