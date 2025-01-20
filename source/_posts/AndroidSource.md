@@ -91,8 +91,12 @@ source build/envsetup.sh
 
         
 
-2. 选择产品  
-   使用lunch选择要编译的产品，此文档中以编译x86_x64 emulator模拟器镜像为例进行说明。
+2. 选择产品   
+   76 sdk_phone_x86_64-eng
+
+3. 使用lunch选择要编译的产品，此文档中以编译x86_x64 emulator模拟器镜像为例进行说明。
+   
+   emulator
 
 修改AndroidProduct.mk使支持x86_x64镜像编译
 由于android12 默认lunch默认选不到模拟器镜像，所以首先需要修改mk。
@@ -113,6 +117,8 @@ index 7d9d90e92a..419cccb80a 100644
 原文链接：https://blog.csdn.net/qq_17696807/article/details/124302856
 
 lunch sdk_phone_x86_64-eng
+
+# Caculator
 
 ## SWAP RAM
 
@@ -151,7 +157,7 @@ http://blog.csdn.net/huaiyiheyuan/article/details/52069122
 #### libncurses.so.5
 
 ```
-  prebuilts/clang/host/linux-x86/clang-3289846/bin/clang.real: error while loading
+ prebuilts/clang/host/linux-x86/clang-3289846/bin/clang.real: error while loading
  shared libraries: libncurses.so.5: cannot open shared object file: No such file
  or directory
 ```
@@ -159,8 +165,6 @@ http://blog.csdn.net/huaiyiheyuan/article/details/52069122
 [32 bit - How to install libncurses.so.5 in Ubuntu 20.04? - Ask Ubuntu](https://askubuntu.com/questions/1252062/how-to-install-libncurses-so-5-in-ubuntu-20-04)
 
 https://blog.csdn.net/qq_34508943/article/details/133391020
-
-
 
 - get into ***/etc/apt/sources.list.d*** and locate ***ubuntu.sources***.
 - open the terminal in that directory by right clicking in it.
@@ -200,7 +204,7 @@ Activity启动过程
     cd  /home/jon/AOSP/out/host/linux-x86/bin
     adb shell dumpsys activity
 
-##### Android open source project
+# Android open source project
 
 Android Architecture
 
@@ -211,8 +215,6 @@ https://source.android.com/
 https://source.android.com/devices/architecture
 https://blog.csdn.net/wenzhi20102321/article/details/80739649
 https://blog.csdn.net/wen0006/article/details/5804639
-
-
 
 源码关联阅读
 
