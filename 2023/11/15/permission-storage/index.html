@@ -19,17 +19,17 @@
   <meta name="author" content="Jon">
   <meta name="keywords" content="">
   
-    <meta name="description" content="The answer is NO it is not required if you are simply capturing image from camera or by gallery by calling an intent (calling other app to perform some task for you ) in our case this other app would">
+    <meta name="description" content="App data and filesAndroid uses a file system that’s similar to disk-based file systems on other platforms. The system provides several options for you to save your app data:  App-specific storage: Sto">
 <meta property="og:type" content="article">
 <meta property="og:title" content="permission_storage">
 <meta property="og:url" content="https://noteforme.github.io/2023/11/15/permission-storage/index.html">
 <meta property="og:site_name" content="Jon&#39;s Blog">
-<meta property="og:description" content="The answer is NO it is not required if you are simply capturing image from camera or by gallery by calling an intent (calling other app to perform some task for you ) in our case this other app would">
+<meta property="og:description" content="App data and filesAndroid uses a file system that’s similar to disk-based file systems on other platforms. The system provides several options for you to save your app data:  App-specific storage: Sto">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://noteforme.github.io/2023/11/15/permission-storage//b699ef581b9e92de2ecf20ac6ca6c5278c439c98.png">
 <meta property="og:image" content="https://developer.android.google.cn/static/about/versions/14/images/partial-photo-video-access.png">
 <meta property="article:published_time" content="2023-11-15T14:52:48.000Z">
-<meta property="article:modified_time" content="2024-02-18T13:27:09.324Z">
+<meta property="article:modified_time" content="2025-01-20T14:13:44.633Z">
 <meta property="article:author" content="Jon">
 <meta property="article:tag" content="permission">
 <meta name="twitter:card" content="summary_large_image">
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k words
+          1.2k words
         
       </span>
     
@@ -237,7 +237,7 @@
         
         
         
-          10 mins
+          11 mins
         
       </span>
     
@@ -279,28 +279,80 @@
             
               <div class="markdown-body">
                 
-                <p>The answer is NO it is not required if you are simply capturing image from camera or by gallery by calling an intent (calling other app to perform some task for you ) in our case this other app would be the camera application in your mobile</p>
-<p><a target="_blank" rel="noopener" href="https://medium.com/@bilalhameed0800/is-permission-required-for-android-capture-image-from-camera-and-gallery-intent-4812964e8c9a">https://medium.com/@bilalhameed0800/is-permission-required-for-android-capture-image-from-camera-and-gallery-intent-4812964e8c9a</a></p>
+                <h1 id="App-data-and-files"><a href="#App-data-and-files" class="headerlink" title="App data and files"></a>App data and files</h1><p>Android uses a file system that’s similar to disk-based file systems on other platforms. The system provides several options for you to save your app data:</p>
+<ul>
+<li><strong>App-specific storage:</strong> Store files that are meant for your app’s use only, either in dedicated directories within an internal storage volume or different dedicated directories within external storage. Use the directories within internal storage to save sensitive information that other apps shouldn’t access.</li>
+<li><strong>Shared storage:</strong> Store files that your app intends to share with other apps, including media, documents, and other files.</li>
+<li><strong>Preferences:</strong> Store private, primitive data in key-value pairs.</li>
+<li><strong>Databases:</strong> Store structured data in a private database using the Room persistence library.</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/data">https://developer.android.com/guide/topics/data</a></p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">Type of content</th>
+<th align="left">Access method</th>
+<th align="left">Permissions needed</th>
+<th align="left">Can other apps access?</th>
+<th align="left">Files removed on app uninstall?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://developer.android.com/training/data-storage/app-specific">App-specific files</a></td>
+<td align="left">Files meant for your app’s use only</td>
+<td align="left">From internal storage, <code>getFilesDir()</code> or <code>getCacheDir()</code>  From external storage, <code>getExternalFilesDir()</code> or <code>getExternalCacheDir()</code></td>
+<td align="left">Never needed for internal storage  Not needed for external storage when your app is used on devices that run Android 4.4 (API level 19) or higher</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://developer.android.com/training/data-storage/shared/media">Media</a></td>
+<td align="left">Shareable media files (images, audio files, videos)</td>
+<td align="left"><code>MediaStore</code> API</td>
+<td align="left"><code>READ_EXTERNAL_STORAGE</code> when accessing other apps’ files on Android 11 (API level 30) or higher  <code>READ_EXTERNAL_STORAGE</code> or <code>WRITE_EXTERNAL_STORAGE</code> when accessing other apps’ files on Android 10 (API level 29)  Permissions are required for <strong>all</strong> files on Android 9 (API level 28) or lower</td>
+<td align="left">Yes, though the other app needs the <code>READ_EXTERNAL_STORAGE</code> permission</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://developer.android.com/training/data-storage/shared/documents-files">Documents and other files</a></td>
+<td align="left">Other types of shareable content, including downloaded files</td>
+<td align="left">Storage Access Framework</td>
+<td align="left">None</td>
+<td align="left">Yes, through the system file picker</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://developer.android.com/training/data-storage/shared-preferences">App preferences</a></td>
+<td align="left">Key-value pairs</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/ui/settings/use-saved-values">Jetpack Preferences</a> library</td>
+<td align="left">None</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">Database</td>
+<td align="left">Structured data</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://developer.android.com/training/data-storage/room">Room</a> persistence library</td>
+<td align="left">None</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+</tr>
+</tbody></table>
 <p><a target="_blank" rel="noopener" href="https://developer.android.com/training/data-storage">https://developer.android.com/training/data-storage</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=UnJ3amzJM94">Preparing for scoped storage (Android Dev Summit &#39;19) - YouTube</a></p>
-<p>android SD卡主要有两种存储方式 Internal  、  External Storage</p>
-<p>external storage permission</p>
-<p>自己创建的文件，不需要权限 ，不是自己的 需要 READ_EXTERNAL_STORAGE</p>
-<h4 id="photo-picker"><a href="#photo-picker" class="headerlink" title="photo picker"></a>photo picker</h4><p><a target="_blank" rel="noopener" href="https://developer.android.com/about/versions/14/changes/partial-photo-video-access">https://developer.android.com/about/versions/14/changes/partial-photo-video-access</a></p>
-<p>if your app is running on a device with Android 14 (API level 34) or higher, limit access to selected photos and videos, request “Manifest.permission.READ_MEDIA_IMAGES” will show </p>
-<img src="/2023/11/15/permission-storage//b699ef581b9e92de2ecf20ac6ca6c5278c439c98.png" srcset="/img/loading.gif" lazyload title alt="Screenshot 2023-11-22 at 21.36.55.png" width="259">
-
-<h5 id><a href="#" class="headerlink" title></a></h5><h4 id="Internal"><a href="#Internal" class="headerlink" title="Internal"></a>Internal</h4><ul>
+<p>On Android 4.4 (API level 19) or higher, your app doesn’t need to request any storage-related permissions to access app-specific directories within external storage. The files stored in these directories are removed when your app is uninstalled.</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/training/data-storage/app-specific#external">https://developer.android.com/training/data-storage/app-specific#external</a></p>
+<h4 id="Internal"><a href="#Internal" class="headerlink" title="Internal"></a>Internal</h4><ul>
 <li>It’s always available.</li>
 <li>Files saved here are accessible by only your app.</li>
-<li>When the user uninstalls your app, the system removes all your app’s files from internal storage. </li>
+<li>When the user uninstalls your app, the system removes all your app’s files from internal storage.</li>
 </ul>
 <p>内部存储不需要申请任何权限</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-type">String</span> fileInnerName = <span class="hljs-string">&quot;/inner/img&quot;</span>; <span class="hljs-comment">//目录名</span><br>                <span class="hljs-comment">//内置存储缓存目录</span><br><span class="hljs-built_in">File</span> fileCache = <span class="hljs-keyword">new</span> <span class="hljs-built_in">File</span>(<span class="hljs-built_in">getActivity</span>().<span class="hljs-built_in">getCacheDir</span>(), fileInnerName); <br><span class="hljs-comment">//     /data/data/com.android.imageloaderstorage/cache/inner/img</span><br> <span class="hljs-keyword">if</span> (!fileCache.<span class="hljs-built_in">exists</span>()) &#123;<br>    <span class="hljs-type">boolean</span> isInner = fileCache.<span class="hljs-built_in">mkdirs</span>();<br>  &#125;<br> Log.<span class="hljs-built_in">i</span>(<span class="hljs-string">&quot; FileFragment &quot;</span>,  <span class="hljs-string">&quot;  &quot;</span> + fileCache.<span class="hljs-built_in">getAbsolutePath</span>());<br></code></pre></td></tr></table></figure>
 
 <p>  由此可以看到 绝对路径：</p>
 <blockquote>
-<p>Context.getCacheDir()：/data/data/应用包名/cache/ fileInnerName</p>
+<p>Context.getCacheDir()：&#x2F;data&#x2F;data&#x2F;应用包名&#x2F;cache&#x2F; fileInnerName</p>
 </blockquote>
 <h3 id="External-Storage"><a href="#External-Storage" class="headerlink" title="External Storage"></a>External Storage</h3><p> 外部存储也分两种 Private files (外部私有存储)  、Public files  (外部公有存储)</p>
 <p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/manifest/uses-permission-element.html">https://developer.android.com/guide/topics/manifest/uses-permission-element.html</a></p>
@@ -313,7 +365,7 @@
 </li>
 <li><p>mkdir：新建目录</p>
 </li>
-<li><p>mkdirs：新建目录，与mkdir的区别是：比如   mkdirs（“D:/test/test2”) 如果test  ,   不存在会创建，然后创建test2，如果是  mkdir（“D:/test/test2”) ，如果 </p>
+<li><p>mkdirs：新建目录，与mkdir的区别是：比如   mkdirs（“D:&#x2F;test&#x2F;test2”) 如果test  ,   不存在会创建，然后创建test2，如果是  mkdir（“D:&#x2F;test&#x2F;test2”) ，如果 </p>
 <pre><code class="hljs">test不存在，会失败。
 </code></pre>
 </li>
@@ -324,17 +376,31 @@
 <p><a target="_blank" rel="noopener" href="https://developer.android.com/training/permissions/requesting.html">https://developer.android.com/training/permissions/requesting.html</a><br><a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/permissions/requesting.html">https://developer.android.com/guide/topics/permissions/requesting.html</a><br><a target="_blank" rel="noopener" href="https://developer.android.com/training/basics/data-storage/files.html?hl=zh-cn">https://developer.android.com/training/basics/data-storage/files.html?hl=zh-cn</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/github_27263697/article/details/131633314">Android 13媒体文件访问权限适配_read_media_images-CSDN博客</a></p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7159999910748618766">Android 13 媒体权限适配指南 - 掘金</a></p>
-<h3 id="READ-MEDIA-VISUAL-USER-SELECTED"><a href="#READ-MEDIA-VISUAL-USER-SELECTED" class="headerlink" title="READ_MEDIA_VISUAL_USER_SELECTED"></a>READ_MEDIA_VISUAL_USER_SELECTED</h3><p>这个限制和 iOS 相似，Android 14 提供了对照片和视频的部分访问权限。当您访问媒体数据时，用户将看到一个对话框，提示用户授予对所有媒体的访问、或者授予单个照片/视频的访问权限，该新功能将适用于 Android 14 上所有应用程序，无论其 targetSdkVersion 是多少</p>
+<h1 id="Permissions-and-access-to-external-storage"><a href="#Permissions-and-access-to-external-storage" class="headerlink" title="Permissions and access to external storage"></a>Permissions and access to external storage</h1><p>Android defines the following storage-related permissions: <a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/Manifest.permission#READ_EXTERNAL_STORAGE"><code>READ_EXTERNAL_STORAGE</code></a>, <a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/Manifest.permission#WRITE_EXTERNAL_STORAGE"><code>WRITE_EXTERNAL_STORAGE</code></a>, and <a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/Manifest.permission#MANAGE_EXTERNAL_STORAGE"><code>MANAGE_EXTERNAL_STORAGE</code></a>.</p>
+<h2 id="MANAGE-EXTERNAL-STORAGE"><a href="#MANAGE-EXTERNAL-STORAGE" class="headerlink" title="MANAGE_EXTERNAL_STORAGE"></a>MANAGE_EXTERNAL_STORAGE</h2><p>Android 11 introduces the <code>MANAGE_EXTERNAL_STORAGE</code> permission, which provides write access to files outside the app-specific directory and <code>MediaStore</code>. To learn more about this permission, and why most apps don’t need to declare it to fulfill their use cases, see the guide on how to <a target="_blank" rel="noopener" href="https://developer.android.com/training/data-storage/manage-all-files">manage all files</a> on a storage device.</p>
+<p>The answer is NO it is not required if you are simply capturing image from camera or by gallery by calling an intent (calling other app to perform some task for you ) in our case this other app would be the camera application in your mobile</p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/@bilalhameed0800/is-permission-required-for-android-capture-image-from-camera-and-gallery-intent-4812964e8c9a">https://medium.com/@bilalhameed0800/is-permission-required-for-android-capture-image-from-camera-and-gallery-intent-4812964e8c9a</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/training/data-storage">https://developer.android.com/training/data-storage</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=UnJ3amzJM94">Preparing for scoped storage (Android Dev Summit &#39;19) - YouTube</a></p>
+<p>android SD卡主要有两种存储方式 Internal  、  External Storage</p>
+<p>external storage permission</p>
+<p>自己创建的文件，不需要权限 ，不是自己的 需要 READ_EXTERNAL_STORAGE</p>
+<h4 id="photo-picker"><a href="#photo-picker" class="headerlink" title="photo picker"></a>photo picker</h4><p><a target="_blank" rel="noopener" href="https://developer.android.com/about/versions/14/changes/partial-photo-video-access">https://developer.android.com/about/versions/14/changes/partial-photo-video-access</a></p>
+<p>if your app is running on a device with Android 14 (API level 34) or higher, limit access to selected photos and videos, request “Manifest.permission.READ_MEDIA_IMAGES” will show </p>
+<img src="/2023/11/15/permission-storage//b699ef581b9e92de2ecf20ac6ca6c5278c439c98.png" srcset="/img/loading.gif" lazyload title alt="Screenshot 2023-11-22 at 21.36.55.png" width="259">
+
+
+
+<h3 id="READ-MEDIA-VISUAL-USER-SELECTED"><a href="#READ-MEDIA-VISUAL-USER-SELECTED" class="headerlink" title="READ_MEDIA_VISUAL_USER_SELECTED"></a>READ_MEDIA_VISUAL_USER_SELECTED</h3><p>这个限制和 iOS 相似，Android 14 提供了对照片和视频的部分访问权限。当您访问媒体数据时，用户将看到一个对话框，提示用户授予对所有媒体的访问、或者授予单个照片&#x2F;视频的访问权限，该新功能将适用于 Android 14 上所有应用程序，无论其 targetSdkVersion 是多少</p>
 <p><img src="https://developer.android.google.cn/static/about/versions/14/images/partial-photo-video-access.png" srcset="/img/loading.gif" lazyload alt="The ."></p>
 <p>    谷歌在 API 33（Android 13）上面引入了 READ_MEDIA_IMAGES 和 READ_MEDIA_VIDEO 这两个权限，目前针对这两个权限在 Android 14 上面有新的变动，具体的变动点就是新增了 READ_MEDIA_VISUAL_USER_SELECTED权限，那么这个权限的作用是什么呢？</p>
 <p>我们都知道 READ_MEDIA_IMAGES 和 READ_MEDIA_VIDEO 是申请图片和视频权限的，但是这样会有一个问题，当第三方应用申请到权限后，就拥有了手机相册中所有照片和视频的访问权限，这是十分危险的，也是非常不可控的，因为用户也无法知道第三方应用会干什么，所以谷歌在 API 34（Android 14）引入了这个权限，这样用户拥有了更多的选择，可以将相册中所有的图片和视频授予给第三方应用，也可以将部分的图片和视频给第三方应用。</p>
 <p>讲完了这个特性的来龙去脉，那么接下来讲讲这个权限如何适配，如果你的应用申请了 READ_MEDIA_IMAGES 或者 READ_MEDIA_VIDEO 权限，并且 targetSdkVersion 大于等于 33（Android 13），那么需要在申请权限时携带上 READ_MEDIA_VISUAL_USER_SELECTED 权限方能正常申请，如果不携带上 READ_MEDIA_VISUAL_USER_SELECTED 权限就申请 READ_MEDIA_IMAGES 或者 READ_MEDIA_VIDEO 权限，会弹出权限询问对话框，但是如果用户是选择全部授予，那么 READ_MEDIA_IMAGES 或者 READ_MEDIA_VIDEO 权限状态是已授予的状态，如果用户是选择部分授予，那么 READ_MEDIA_IMAGES 或者 READ_MEDIA_VIDEO 权限状态是已拒绝的状态，假设此时有携带了 READ_MEDIA_VISUAL_USER_SELECTED 权限的情况下，那么 READ_MEDIA_VISUAL_USER_SELECTED 权限是已授予的状态。</p>
 <p>看到这里，脑洞大的同学可能有想法了，那我不申请 READ_MEDIA_IMAGES 或者 READ_MEDIA_VIDEO 权限，我就只申请 READ_MEDIA_VISUAL_USER_SELECTED 权限行不行啊？答案也是不行的，我替大家试验过了，这个权限申请会在不会询问用户的情况下，被系统直接拒绝掉。</p>
 <p>另外需要的一点是 READ_MEDIA_VISUAL_USER_SELECTED 属于危险权限，除了在运行时动态申请外，还需要在清单文件中进行注册。</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/getActivity/XXPermissions/issues/244">[Bug]：安卓14，申请READ_MEDIA_IMAGES时，当用户选择部分允许后，READ_MEDIA_IMAGES的isGranted=true · Issue #244 · getActivity/XXPermissions · GitHub</a></p>
-<p>=======</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/getActivity/XXPermissions/issues/244">[Bug]：安卓14，申请READ_MEDIA_IMAGES时，当用户选择部分允许后，READ_MEDIA_IMAGES的isGranted&#x3D;true · Issue #244 · getActivity&#x2F;XXPermissions · GitHub</a></p>
 <p><a target="_blank" rel="noopener" href="https://developer.android.com/training/data-storage/shared/photopicker#kotlin">https://developer.android.com/training/data-storage/shared/photopicker#kotlin</a></p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-selector-tag">var</span> <span class="hljs-attribute">filter</span> by remember &#123; mutableStateOf&lt;VisualMediaType&gt;(ImageAndVideo) &#125;<br><br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">  * [PickMultipleVisualMedia] is an ActivityResultContract that will launch the photo picker</span><br><span class="hljs-comment">  * intent while providing an enhanced API over the available customisations options (media type,</span><br><span class="hljs-comment">  * max number of items).</span><br><span class="hljs-comment">  *</span><br><span class="hljs-comment">  * If you&#x27;re looking for single selection only, use PickVisualMedia ActivityResultContract</span><br><span class="hljs-comment">  * instead.</span><br><span class="hljs-comment">  */</span><br> val pickMultipleMedia =<br>     <span class="hljs-built_in">rememberLauncherForActivityResult</span>(<span class="hljs-built_in">PickMultipleVisualMedia</span>(maxItems)) &#123; uris -&gt;<br>         selectedMedia = uris<br>     &#125;<br><br><br><br> pickMultipleMedia<span class="hljs-selector-class">.launch</span>(<span class="hljs-built_in">PickVisualMediaRequest</span>(<span class="hljs-attribute">filter</span>))   <br></code></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">var</span> filter <span class="hljs-keyword">by</span> remember &#123; mutableStateOf&lt;VisualMediaType&gt;(ImageAndVideo) &#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">  * [PickMultipleVisualMedia] is an ActivityResultContract that will launch the photo picker</span><br><span class="hljs-comment">  * intent while providing an enhanced API over the available customisations options (media type,</span><br><span class="hljs-comment">  * max number of items).</span><br><span class="hljs-comment">  *</span><br><span class="hljs-comment">  * If you&#x27;re looking for single selection only, use PickVisualMedia ActivityResultContract</span><br><span class="hljs-comment">  * instead.</span><br><span class="hljs-comment">  */</span><br> <span class="hljs-keyword">val</span> pickMultipleMedia =<br>     rememberLauncherForActivityResult(PickMultipleVisualMedia(maxItems)) &#123; uris -&gt;<br>         selectedMedia = uris<br>     &#125;<br><br> pickMultipleMedia.launch(PickVisualMediaRequest(filter))   <br></code></pre></td></tr></table></figure>
 
                 
               </div>
