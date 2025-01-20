@@ -28,10 +28,14 @@ categories: ANDROID
 
 
 
+https://developer.android.com/build/shrink-code
+
+
+
 https://www.jianshu.com/p/6a07046e65f4
 
 http://blog.csdn.net/guolin_blog/article/details/50451259
-https://developer.android.com/studio/build/shrink-code.html?hl=zh-cn
+
 
 https://mp.weixin.qq.com/s/WmJyiA3fDNriw5qXuoA9MA
 
