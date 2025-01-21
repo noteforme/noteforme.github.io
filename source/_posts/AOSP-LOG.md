@@ -36,29 +36,13 @@ mm -B            // clean firstly then build
 
 ![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/AOSP/Screenshot%202025-01-12%20at%2013.05.07.png)
 
-
-
-
-
 [安卓巴士android系统定制四常见Linux命令介绍-下-教育-高清完整正版视频在线观看-优酷](https://v.youku.com/v_show/id_XMzAxOTcwNDYwNA==.html)
-
-
-
-
-
-
 
 # start flow 启动流程
 
-
-
 ![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/AOSP/60dca538fa6041fd8e6d38606cc7b1bd%7Etplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp)
 
-
-
 [AOSP下的系统开发第一个方向：以前是搞android应用开发，现在负责系统application开发，这样就会上手非常 - 掘金](https://juejin.cn/post/6872647317393145864)
-
-
 
 在packages/apps找到需要修改的相应app。在该app目录中是属于java的部分，与android应用的开发语言相同。但是与平常的app在**androidstudio**编写不同，在源码环境中，需要利用**编辑器**来进行编辑。并且在源码中的编译就需要利用make编译系统进行编译。源码的编译是以模块进行。利用mm命令进行编译。编译完成之后，会生成**odex以及apk**。与普通的apk的结构不同，**系统编译生成的application分成了两部分：**
 
@@ -96,190 +80,43 @@ ROM：apk，jar，bin，so等组成
 
 - 在当前module的Android.mk里增加: `LOCAL_DEX_PREOAT = false`
 - 在build/core/main.mk中关闭所有module的dex优化:
-  
-  
 
 链接：https://juejin.cn/post/6872647317393145864  
 
 
 
+# Application change
 
-# Application Log
+### change App Calender
 
-## Close dex2oat
+AllInOneActivity
 
-* 在当前module里面的Android.mk 添加
-
-```
-LOCAL_DEX_PREOPT = false
-```
-
-* 在 build/core/main.mk中关闭所有的module dex优化
-
-```
-vim build/core/main.mk
+```java
+    @Override
+    protected void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
+        Log.wtf(TAG, "jon app developer");
+    }
 ```
 
-ifeq ($(TARGET_BUILD_VARIANT),eng)
 
-tags_to_install := debug eng
 
-WITH_DEXPREOPT := false
-
-添加
+### replace app
 
 ```
-WITH_DEXPREOPT := false
+adb install -r '/home/m/ANDROID12/out/target/product/emulator_x86_64/product/app/Calendar/Calendar.apk' 
+
 ```
 
-上面是21集 Android6.0的
+### check logs
+
+```
+adb shell
+emulator_x86_64:/ # logcat -s "AllInOneActivity"
+--------- beginning of main
+01-21 21:22:29.426  1914  1914 E AllInOneActivity: jon app develope
+```
 
 
 
-
-
-To disable `dex2oat` in the AOSP Android 12 source code, you need to modify the Android Runtime (ART) source and configuration files responsible for managing the dex2oat process. Follow these steps:
-
----
-
-### **1. Understand the Impact**
-
-Disabling `dex2oat` means apps will run in interpreted mode instead of optimized code, which will lead to slower execution. This approach is useful for debugging or testing but not recommended for production builds.
-
----
-
-### **2. Modify ART Source Code**
-
-#### **A. Disable Dex2oat Compilation**
-
-1. Navigate to the `art` directory in your AOSP source tree:
-   
-   bash
-   
-   CopyEdit
-   
-   `cd art`
-
-2. Locate the `dex2oat.cc` file in the `dex2oat` directory:
-   
-   bash
-   
-   CopyEdit
-   
-   `cd dex2oat/`
-
-3. Modify the logic that triggers `dex2oat`:
-   
-   - Open the file:
-     
-     bash
-     
-     CopyEdit
-     
-     `nano dex2oat.cc`
-   
-   - Find the section where dex2oat is invoked (look for the main function or `dex2oat` entry points).
-   
-   - Add an early exit to prevent it from running:
-     
-     cpp
-     
-     CopyEdit
-     
-     `int main(int argc, char** argv) {     // Skip dex2oat processing     return 0; }`
-
-4. Save and close the file.
-
----
-
-#### **B. Skip Compilation for Images**
-
-1. Locate the `dex2oat` invocation in image generation (e.g., `art/build/Android.bp` or related files).
-
-2. Modify the build rules for the ART image to exclude `dex2oat`:
-   
-   - Open the file:
-     
-     bash
-     
-     CopyEdit
-     
-     `nano art/build/Android.bp`
-   
-   - Remove or comment out rules invoking `dex2oat`.
-
----
-
-### **3. Modify System Properties for ART**
-
-1. Update the default ART properties to prevent dex2oat from running:
-   
-   - Open the `system/core/rootdir/init.rc` file:
-     
-     bash
-     
-     CopyEdit
-     
-     `vim system/core/rootdir/init.rc`
-   
-   - Add or update the following properties:
-     
-     plaintext
-     
-     ```
-     setprop dalvik.vm.dex2oat-filter verify-none
-     setprop dalvik.vm.image-dex2oat-filter verify-none
-     setprop dalvik.vm.usejit false
-     ```
-     
-     
-
-2. Save and close the file.
-
----
-
-### **4. Adjust ART Runtime Behavior**
-
-1. Go to the `art/runtime` directory:
-   
-   bash
-   
-   CopyEdit
-   
-   `cd art/runtime`
-
-2. Modify runtime configurations for dex2oat. For example, in `runtime.cc`, skip calls to `dex2oat` by commenting out or bypassing relevant code.
-
----
-
-### **5. Build the Modified AOSP**
-
-1. Clean and rebuild the AOSP image to incorporate the changes:
-   
-   bash
-   
-   CopyEdit
-   
-   `make clean make -j$(nproc)`
-
-2. Flash the new system image to your device:
-   
-   bash
-   
-   CopyEdit
-   
-   `adb reboot bootloader fastboot flash system out/target/product/<device>/system.img fastboot reboot`
-
----
-
-### **6. Verify dex2oat is Disabled**
-
-1. After booting the device, check if `dex2oat` is running:
-   
-   bash
-   
-   CopyEdit
-   
-   `adb logcat | grep dex2oat`
-
-2. Ensure that no `.oat` files are being generated in `/data/dalvik-cache`.
+Framework change
