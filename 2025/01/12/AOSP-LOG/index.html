@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/AOSP/Screenshot%202025-01-12%20at%2013.05.07.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/AOSP/60dca538fa6041fd8e6d38606cc7b1bd%7Etplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp">
 <meta property="article:published_time" content="2025-01-12T03:12:40.000Z">
-<meta property="article:modified_time" content="2025-01-20T14:13:44.662Z">
+<meta property="article:modified_time" content="2025-01-21T13:31:27.243Z">
 <meta property="article:author" content="Jon">
 <meta property="article:tag" content="AOSP">
 <meta name="twitter:card" content="summary_large_image">
@@ -227,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k words
+          1k words
         
       </span>
     
@@ -238,7 +238,7 @@
         
         
         
-          10 mins
+          9 mins
         
       </span>
     
@@ -319,123 +319,18 @@
 <li>在build&#x2F;core&#x2F;main.mk中关闭所有module的dex优化:</li>
 </ul>
 <p>链接：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6872647317393145864">https://juejin.cn/post/6872647317393145864</a>  </p>
-<h1 id="Application-Log"><a href="#Application-Log" class="headerlink" title="Application Log"></a>Application Log</h1><h2 id="Close-dex2oat"><a href="#Close-dex2oat" class="headerlink" title="Close dex2oat"></a>Close dex2oat</h2><ul>
-<li>在当前module里面的Android.mk 添加</li>
-</ul>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">LOCAL_DEX_PREOPT</span> = <span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure>
+<h1 id="Application-change"><a href="#Application-change" class="headerlink" title="Application change"></a>Application change</h1><h3 id="change-App-Calender"><a href="#change-App-Calender" class="headerlink" title="change App Calender"></a>change App Calender</h3><p>AllInOneActivity</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onCreate</span><span class="hljs-params">(Bundle icicle)</span> &#123;<br>    <span class="hljs-built_in">super</span>.onCreate(icicle);<br>    Log.wtf(TAG, <span class="hljs-string">&quot;jon app developer&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<ul>
-<li>在 build&#x2F;core&#x2F;main.mk中关闭所有的module dex优化</li>
-</ul>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">vim</span> build/core/main.<span class="hljs-keyword">mk</span><br></code></pre></td></tr></table></figure>
 
-<p>ifeq ($(TARGET_BUILD_VARIANT),eng)</p>
-<p>tags_to_install :&#x3D; debug eng</p>
-<p>WITH_DEXPREOPT :&#x3D; false</p>
-<p>添加</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs go">WITH_DEXPREOPT := <span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure>
 
-<p>上面是21集 Android6.0的</p>
-<p>To disable <code>dex2oat</code> in the AOSP Android 12 source code, you need to modify the Android Runtime (ART) source and configuration files responsible for managing the dex2oat process. Follow these steps:</p>
-<hr>
-<h3 id="1-Understand-the-Impact"><a href="#1-Understand-the-Impact" class="headerlink" title="1. Understand the Impact"></a><strong>1. Understand the Impact</strong></h3><p>Disabling <code>dex2oat</code> means apps will run in interpreted mode instead of optimized code, which will lead to slower execution. This approach is useful for debugging or testing but not recommended for production builds.</p>
-<hr>
-<h3 id="2-Modify-ART-Source-Code"><a href="#2-Modify-ART-Source-Code" class="headerlink" title="2. Modify ART Source Code"></a><strong>2. Modify ART Source Code</strong></h3><h4 id="A-Disable-Dex2oat-Compilation"><a href="#A-Disable-Dex2oat-Compilation" class="headerlink" title="A. Disable Dex2oat Compilation"></a><strong>A. Disable Dex2oat Compilation</strong></h4><ol>
-<li><p>Navigate to the <code>art</code> directory in your AOSP source tree:</p>
-<p>bash</p>
-<p>CopyEdit</p>
-<p><code>cd art</code></p>
-</li>
-<li><p>Locate the <code>dex2oat.cc</code> file in the <code>dex2oat</code> directory:</p>
-<p>bash</p>
-<p>CopyEdit</p>
-<p><code>cd dex2oat/</code></p>
-</li>
-<li><p>Modify the logic that triggers <code>dex2oat</code>:</p>
-<ul>
-<li><p>Open the file:</p>
-<p>bash</p>
-<p>CopyEdit</p>
-<p><code>nano dex2oat.cc</code></p>
-</li>
-<li><p>Find the section where dex2oat is invoked (look for the main function or <code>dex2oat</code> entry points).</p>
-</li>
-<li><p>Add an early exit to prevent it from running:</p>
-<p>cpp</p>
-<p>CopyEdit</p>
-<p><code>int main(int argc, char** argv) &#123;     // Skip dex2oat processing     return 0; &#125;</code></p>
-</li>
-</ul>
-</li>
-<li><p>Save and close the file.</p>
-</li>
-</ol>
-<hr>
-<h4 id="B-Skip-Compilation-for-Images"><a href="#B-Skip-Compilation-for-Images" class="headerlink" title="B. Skip Compilation for Images"></a><strong>B. Skip Compilation for Images</strong></h4><ol>
-<li><p>Locate the <code>dex2oat</code> invocation in image generation (e.g., <code>art/build/Android.bp</code> or related files).</p>
-</li>
-<li><p>Modify the build rules for the ART image to exclude <code>dex2oat</code>:</p>
-<ul>
-<li><p>Open the file:</p>
-<p>bash</p>
-<p>CopyEdit</p>
-<p><code>nano art/build/Android.bp</code></p>
-</li>
-<li><p>Remove or comment out rules invoking <code>dex2oat</code>.</p>
-</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="3-Modify-System-Properties-for-ART"><a href="#3-Modify-System-Properties-for-ART" class="headerlink" title="3. Modify System Properties for ART"></a><strong>3. Modify System Properties for ART</strong></h3><ol>
-<li><p>Update the default ART properties to prevent dex2oat from running:</p>
-<ul>
-<li><p>Open the <code>system/core/rootdir/init.rc</code> file:</p>
-<p>bash</p>
-<p>CopyEdit</p>
-<p><code>vim system/core/rootdir/init.rc</code></p>
-</li>
-<li><p>Add or update the following properties:</p>
-<p>plaintext</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus">setprop dalvik<span class="hljs-selector-class">.vm</span><span class="hljs-selector-class">.dex2oat-filter</span> verify-<span class="hljs-attribute">none</span><br>setprop dalvik<span class="hljs-selector-class">.vm</span><span class="hljs-selector-class">.image-dex2oat-filter</span> verify-<span class="hljs-attribute">none</span><br>setprop dalvik<span class="hljs-selector-class">.vm</span><span class="hljs-selector-class">.usejit</span> false<br></code></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p>Save and close the file.</p>
-</li>
-</ol>
-<hr>
-<h3 id="4-Adjust-ART-Runtime-Behavior"><a href="#4-Adjust-ART-Runtime-Behavior" class="headerlink" title="4. Adjust ART Runtime Behavior"></a><strong>4. Adjust ART Runtime Behavior</strong></h3><ol>
-<li><p>Go to the <code>art/runtime</code> directory:</p>
-<p>bash</p>
-<p>CopyEdit</p>
-<p><code>cd art/runtime</code></p>
-</li>
-<li><p>Modify runtime configurations for dex2oat. For example, in <code>runtime.cc</code>, skip calls to <code>dex2oat</code> by commenting out or bypassing relevant code.</p>
-</li>
-</ol>
-<hr>
-<h3 id="5-Build-the-Modified-AOSP"><a href="#5-Build-the-Modified-AOSP" class="headerlink" title="5. Build the Modified AOSP"></a><strong>5. Build the Modified AOSP</strong></h3><ol>
-<li><p>Clean and rebuild the AOSP image to incorporate the changes:</p>
-<p>bash</p>
-<p>CopyEdit</p>
-<p><code>make clean make -j$(nproc)</code></p>
-</li>
-<li><p>Flash the new system image to your device:</p>
-<p>bash</p>
-<p>CopyEdit</p>
-<p><code>adb reboot bootloader fastboot flash system out/target/product/&lt;device&gt;/system.img fastboot reboot</code></p>
-</li>
-</ol>
-<hr>
-<h3 id="6-Verify-dex2oat-is-Disabled"><a href="#6-Verify-dex2oat-is-Disabled" class="headerlink" title="6. Verify dex2oat is Disabled"></a><strong>6. Verify dex2oat is Disabled</strong></h3><ol>
-<li><p>After booting the device, check if <code>dex2oat</code> is running:</p>
-<p>bash</p>
-<p>CopyEdit</p>
-<p><code>adb logcat | grep dex2oat</code></p>
-</li>
-<li><p>Ensure that no <code>.oat</code> files are being generated in <code>/data/dalvik-cache</code>.</p>
-</li>
-</ol>
+<h3 id="replace-app"><a href="#replace-app" class="headerlink" title="replace app"></a>replace app</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs swift">adb install <span class="hljs-operator">-</span>r &#x27;<span class="hljs-regexp">/home/</span>m<span class="hljs-regexp">/ANDROID12/</span>out<span class="hljs-regexp">/target/</span>product<span class="hljs-regexp">/emulator_x86_64/</span>product<span class="hljs-regexp">/app/</span><span class="hljs-type">Calendar</span><span class="hljs-operator">/</span><span class="hljs-type">Calendar</span>.apk&#x27; <br><br></code></pre></td></tr></table></figure>
+
+<h3 id="check-logs"><a href="#check-logs" class="headerlink" title="check logs"></a>check logs</h3><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs dts">adb shell<br><span class="hljs-symbol">emulator_x86_64:</span>/ <span class="hljs-meta"># logcat -s <span class="hljs-string">&quot;AllInOneActivity&quot;</span></span><br>--------- beginning of main<br><span class="hljs-number">01</span><span class="hljs-number">-21</span> <span class="hljs-number">21</span>:<span class="hljs-number">22</span>:<span class="hljs-number">29.426</span>  <span class="hljs-number">1914</span>  <span class="hljs-number">1914</span> E AllInOneActivity: jon app develope<br></code></pre></td></tr></table></figure>
+
+
+
+<p>Framework change</p>
 
                 
               </div>
