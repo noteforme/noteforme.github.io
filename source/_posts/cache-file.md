@@ -10,8 +10,6 @@ categories:
     - ANDROID
 ---
 
-
-
 In Android, creating cache files and managing permissions related to file storage are common tasks, especially when you need to store temporary data. Here’s how you can handle creating cache files and manage the necessary permissions:
 
 1. Creating a Cache File Android provides two main cache storage options:
