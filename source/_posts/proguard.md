@@ -6,7 +6,12 @@ tags: proguard
 categories: ANDROID
 ---
 
-#  ProGuard中间文件 
+#  
+
+
+
+# ProGuard File
+
 开启ProGuard，Android工程被Build后，会生成以下文件：<project_root>\app\build\outputs\mapping\release 
 
 - dump.txt 
@@ -30,20 +35,35 @@ categories: ANDROID
 
 https://developer.android.com/build/shrink-code
 
-
-
-https://www.jianshu.com/p/6a07046e65f4
-
 http://blog.csdn.net/guolin_blog/article/details/50451259
-
 
 https://mp.weixin.qq.com/s/WmJyiA3fDNriw5qXuoA9MA
 
-##### apktool 判断是否混淆
 
-* 最快的方式
 
-  把Apk后缀改成 zip ,解压后把 classes.dex 文件拖到 jadx里面
+# Android config
+
+```groovy
+buildTypes {
+    release {
+        isMinifyEnabled = true
+        proguardFiles(
+            getDefaultProguardFile("proguard-android-optimize.txt"),
+            "proguard-rules.pro"
+        )
+    }
+}
+```
+
+proguard-android-optimize.txt  in this file
+
+>  /home/mc/Android/Sdk/tools/proguard/proguard-android-optimize.txt
+
+
+
+
+
+把Apk后缀改成 zip ,解压后把 classes.dex 文件拖到 jadx里面
 
 https://blog.csdn.net/xiaohai695943820/article/details/72367896
 
