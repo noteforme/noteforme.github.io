@@ -4,6 +4,24 @@ date: 2025-01-12 11:12:40
 tags: AOSP
 ---
 
+
+
+
+
+而如果选择学习C++，则非常推荐你学习Standford的CS106B/CS106X.
+
+https://hackway.org/docs/cs/map/#-c%E6%88%96java
+
+
+
+
+
+
+
+
+
+
+
 [安卓巴士Android系统定制十八-修改系统APP后进行编译-科技-高清完整正版视频在线观看-优酷](https://v.youku.com/v_show/id_XMzAxOTcxMzkxNg==.htm)
 
 [安卓巴士Android系统定制十九-Dalvik&amp;ART的区别及ODEX文件介绍-教育-高清完整正版视频在线观看-优酷](https://v.youku.com/v_show/id_XMzAxOTcxNjA3Mg==.html)
@@ -83,8 +101,6 @@ ROM：apk，jar，bin，so等组成
 
 链接：https://juejin.cn/post/6872647317393145864  
 
-
-
 # Application change
 
 ### change App Calender
@@ -99,13 +115,10 @@ AllInOneActivity
     }
 ```
 
-
-
 ### replace app
 
 ```
 adb install -r '/home/m/ANDROID12/out/target/product/emulator_x86_64/product/app/Calendar/Calendar.apk' 
-
 ```
 
 ### check logs
@@ -117,6 +130,4 @@ emulator_x86_64:/ # logcat -s "AllInOneActivity"
 01-21 21:22:29.426  1914  1914 E AllInOneActivity: jon app develope
 ```
 
-
-
-Framework change
+# Framework change
