@@ -139,8 +139,6 @@ __attribute__((noreturn)) //   添加
 
 
 
-
-
 [记录MIT6.s081 编译QEMU中的错误_error: pkg-config binary 'pkg-config' not found-CSDN博客](https://blog.csdn.net/weixin_51472360/article/details/128800041)
 
 

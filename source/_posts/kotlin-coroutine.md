@@ -6,8 +6,7 @@ author: Jon
 layout: post
 guid: 'http://jonblog.site/?p=12'
 permalink: /2024/05/10/kotlin-coroutine/
-categories:
-    - COROUTINE
+categories: Kotlin
 ---
 
 大致上是将本来函数该返回的值通过参数中的回调函数进行返回。
