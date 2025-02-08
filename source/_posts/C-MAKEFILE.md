@@ -77,3 +77,37 @@ output: code.o
 ```
 
 output: code
+
+
+
+
+
+### `-c` (Compile only)
+
+  i think it equals gcc -E and gcc - o
+
+
+
+- **Purpose**: Tells GCC to **compile** the source code into an object file (`.o` or `.obj`), but not to link it.
+
+- **Usage**: This is used when you want to compile source files without producing an executable, typically to be linked later in a separate step.
+
+- Example
+
+  :
+
+  ```
+  bash
+  
+  
+  Copy
+  gcc -c myfile.c
+  ```
+
+  This will produce an object file 
+
+  ```
+  myfile.o
+  ```
+
+   without linking.
