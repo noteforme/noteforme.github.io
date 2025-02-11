@@ -176,6 +176,59 @@ sudo apt-get install libpixman-1-dev
 
 https://blog.csdn.net/u013577996/article/details/108680888
 
+
+
+# LAB
+
+
+
+lab1
+
+```c
+#include "kernel/types.h"
+#include "user/user.h"
+
+int
+main(int argc, char *argv[])
+{
+
+  if(argc < 2){
+    fprintf(2 ,"Usage: need at least one arugment...\n");
+
+    exit(1);
+  }
+
+   printf("Number of arguments: %d\n", argc);
+      // Print each argument
+    for (int i = 0; i < argc; i++) {
+        printf("Argument %d: %s\n", i, argv[i]);
+    }
+
+  int time = atoi(argv[1]); // should notice argv[1] is first arugment.
+  int ret = sleep(time);
+
+  printf("Sleep time   %d: \n", time);
+  exit(ret);
+
+ return 0;
+}
+
+```
+
+
+
+$ sleep 5
+Number of arguments: 2
+Argument 0: sleep
+Argument 1: 5
+Sleep time   5: 
+
+
+
+
+
+
+
 ##### 课程学习
 
 ##### 3.4内核执行任何内核指令
