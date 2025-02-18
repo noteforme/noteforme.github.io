@@ -5,15 +5,9 @@ tags:
 categories: TOOL
 ---
 
-
-
 # PROXY
 
-
-
 https://docs.docker.com/engine/daemon/proxy/
-
-
 
 vim /etc/docker/daemon.json
 
@@ -29,6 +23,7 @@ vim /etc/docker/daemon.json
 
 
 
+sudo mkdir -p /etc/systemd/system/docker.service.d
 /etc/systemd/system/docker.service.d/http-proxy.conf
 
 
@@ -38,14 +33,9 @@ vim /etc/docker/daemon.json
 Environment="HTTP_PROXY=http://127.0.0.1:7897"
 Environment="HTTPS_PROXY=http://127.0.0.1:7897"
 Environment="NO_PROXY=localhost,127.0.0.1,docker-registry.example.com,.corp"
-
 ```
 
-
-
 # IMAGE
-
-
 
 ```bash
 docker images
@@ -57,8 +47,6 @@ hello-world                 latest    74cc54e27dc4   3 weeks ago     10.1kB
 mysql                       8.0       6616596982ed   3 weeks ago     764MB
 docker/welcome-to-docker    latest    c1f619b6477e   15 months ago   18.6MB
 
-
-
 ```bash
 docker rmi traefik:v2.11
 ```
@@ -66,19 +54,25 @@ docker rmi traefik:v2.11
 Untagged: traefik:v2.11
 Deleted: sha256:d7d7095a482f62a90d32807bd051fbd28763eaf0085ebe210dd2d4b3bf3e9660
 
-
-
  IMAGE ID
 
 ```bash
 docker rmi 834a66ad6967
 ```
 
-
-
 Untagged: phpmyadmin:latest
 Untagged: phpmyadmin@sha256:b8e9de0186fe7e12e3a9565432c9faf6e8f0ec0f78f07bc3625910fd130afb99
 
-
-
 # Container
+
+
+
+https://docs.docker.com/reference/cli/docker/container/
+
+
+
+```bash
+docker container ls -a
+
+docker run -p 8848:8848 --name=mit6.s081 -u 0:0 -v "/home/m/Documents/MIT6.S081-2020-labs:/mit6.s081" calvinhaynes412/mit6.s081:v1.3.1
+```
