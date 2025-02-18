@@ -6,8 +6,6 @@ tags:
 categories: flutter
 ---
 
-
-
 #### 环境变量
 
 1. bash_profile
@@ -23,13 +21,9 @@ categories: flutter
   export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 ```
 
-2.  `~/.zshrc` ，在其中添加：source ~/.bash_profile
-
-
+2. `~/.zshrc` ，在其中添加：source ~/.bash_profile
 
 Project struct -> Modules -> no sdk 选择
-
-
 
 https://mp.weixin.qq.com/s/YfzcvebruRk4LJRTQFVDXA
 
@@ -39,10 +33,8 @@ https://github.com/toly1994328/FlutterUnit
 
 出错解决: rm  /Users/john/development/flutter/bin/cache
 
-
-
 >  A problem occurred evaluating root project 'agora_rtm'.
->
+> 
 > Could not get unknown property 'kotlin_version' for object of type org.gradle.api.internal.artifacts.dsl.dependencies.DefaultDependencyHandler.
 
 版本配置
@@ -52,12 +44,6 @@ https://github.com/toly1994328/FlutterUnit
 > Users/john/.pub-cache/hosted/pub.flutter-io.cn/agora_rtm-0.9.9/android/build.gradle'
 
 https://blog.csdn.net/weixin_44416513/article/details/90298303
-
-
-
-
-
-
 
 #### Widget
 
@@ -119,7 +105,7 @@ class MyApp extends StatelessWidget {
 
 ##### ListView
 
-1.  横向
+1. 横向
 
 ```
 class MyApp extends StatelessWidget {
@@ -164,7 +150,7 @@ class MyListView extends StatelessWidget {
 ```
 
 3. 动态数据
-
+   
    ```
    class MyApp extends StatelessWidget {
      final List<String> items;
@@ -189,10 +175,8 @@ class MyListView extends StatelessWidget {
    }
    ```
 
-   
-
 4. gridview
-
+   
    ```
    class MyApp extends StatelessWidget {
      @override
@@ -219,52 +203,48 @@ class MyListView extends StatelessWidget {
    }
    ```
 
-
-
 ##### row
 
-1.  固定
-
+1. 固定
+   
    ```
    class MyApp extends StatelessWidget {
-     @override
-     Widget build(BuildContext context) {
-       // TODO: implement build
-       return MaterialApp(
-         title: 'Row Widget Demo',
-         home: Scaffold(
-           appBar: AppBar(
-             title: Text("水平方向布局"),
-           ),
-           body: Row(
-             children: <Widget>[
-               RaisedButton(
-                 onPressed: () {},
-                 color: Colors.amber,
-                 child: Text('red Button'),
-               ),
-               RaisedButton(
-                 onPressed: () {},
-                 color: Colors.lightBlue,
-                 child: Text('lightBlue Button'),
-               ),
-               RaisedButton(
-                 onPressed: () {},
-                 color: Colors.redAccent,
-                 child: Text('redAccent Button'),
-               ),
-             ]
-           ),
-         ),
-       );
-     }
+    @override
+    Widget build(BuildContext context) {
+      // TODO: implement build
+      return MaterialApp(
+        title: 'Row Widget Demo',
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("水平方向布局"),
+          ),
+          body: Row(
+            children: <Widget>[
+              RaisedButton(
+                onPressed: () {},
+                color: Colors.amber,
+                child: Text('red Button'),
+              ),
+              RaisedButton(
+                onPressed: () {},
+                color: Colors.lightBlue,
+                child: Text('lightBlue Button'),
+              ),
+              RaisedButton(
+                onPressed: () {},
+                color: Colors.redAccent,
+                child: Text('redAccent Button'),
+              ),
+            ]
+          ),
+        ),
+      );
+    }
    }
    ```
 
-
-
 2. 不固定
-
+   
    ```
    class MyApp extends StatelessWidget {
      @override
@@ -305,8 +285,6 @@ class MyListView extends StatelessWidget {
    }
    ```
 
-
-
 ##### coloumn
 
 ```
@@ -339,8 +317,6 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
-
-
 
 * CrossAxisAlignment  相对于最长的布局
 
@@ -378,11 +354,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-
-
 > FractionalOffset 0-1  相对于当前容器的 X Y轴
-
-
 
 ##### Position Widget
 
@@ -430,8 +402,6 @@ class MyApp extends StatelessWidget {
 ```
 
 > Positioned 相对于当前容器 padding?
-
-
 
 ##### card
 
@@ -495,8 +465,6 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-
-
 ##### 页面跳转
 
 ```
@@ -539,8 +507,6 @@ class SecondScreen extends StatelessWidget {
   }
 }
 ```
-
-
 
 #### 列表传参
 
@@ -605,8 +571,6 @@ class ProductDetail extends StatelessWidget {
   }
 }
 ```
-
-
 
 ##### 跳转返回
 
@@ -677,4 +641,3 @@ class XiaoJieJie extends StatelessWidget {
   }
 }
 ```
-

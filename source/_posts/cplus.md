@@ -7,7 +7,7 @@ layout: post
 guid: 'https://jonblog.site/?p=394'
 permalink: /2024/06/08/cplus/
 categories:
-    - C++
+    - CPP
 ---
 
 https://en.cppreference.com/w/
