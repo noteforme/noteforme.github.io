@@ -504,8 +504,6 @@ https://www.youtube.com/watch?v=NZVxl5-efSs![](https://raw.githubusercontent.com
 
 [Ubuntu技巧-Ubuntu远程访问之电信公网IP-CSDN博客](https://blog.csdn.net/koffuxu/article/details/141399290)
 
-
-
  route config 端口转发
 
 ![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/TOOLS/2025-01-1111.54.26.png)
@@ -519,3 +517,9 @@ sudo apt install xrdp
 sudo systemctl enable xrdp
 sudo ufw allow from any to any port 3389  proto tcp
 ```
+
+
+
+
+
+https://www.kjfx.cc/524.html#google_vignette
