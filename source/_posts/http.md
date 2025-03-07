@@ -10,8 +10,6 @@ categories:
     - NETWORK
 ---
 
-
-
 ## Post
 
 https://jsonplaceholder.typicode.com/posts
@@ -81,3 +79,20 @@ x-ratelimit-reset: 1713337679
 x-ratelimit-resource: corex-ratelimit-used: 5
 accept-ranges: bytesx-github-request-id: 200C:21C6BE:267A047:2720F58:661F7320
 ```
+
+
+
+
+
+### Key Points
+
+- **Deprecation of TLS 1.0 and 1.1:**  
+  Android 10 disables TLS 1.0 and TLS 1.1 by default due to known vulnerabilities in these older protocols.
+- **Enhanced Security:**  
+  By requiring TLS 1.2 or newer, Android 10 and later versions improve the security of network communications.
+- **Developer Implications:**  
+  Apps that rely on legacy servers supporting only TLS 1.0 or TLS 1.1 may encounter connection issues on devices running Android 10 or higher. Developers are encouraged to update their server configurations and client code to support TLS 1.2 or TLS 1.3.
+- **Industry Alignment:**  
+  This move is in line with broader industry trends, where many platforms and browsers have also phased out support for TLS 1.0 and 1.1.
+
+If you're maintaining an app or server infrastructure, it's important to verify that your connections support TLS 1.2 or higher to ensure compatibility with Android 10+ devices.
