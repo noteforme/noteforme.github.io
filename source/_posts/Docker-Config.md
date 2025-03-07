@@ -21,12 +21,8 @@ vim /etc/docker/daemon.json
 }
 ```
 
-
-
 sudo mkdir -p /etc/systemd/system/docker.service.d
 /etc/systemd/system/docker.service.d/http-proxy.conf
-
-
 
 ```json
 [Service]
@@ -65,14 +61,16 @@ Untagged: phpmyadmin@sha256:b8e9de0186fe7e12e3a9565432c9faf6e8f0ec0f78f07bc36259
 
 # Container
 
-
-
 https://docs.docker.com/reference/cli/docker/container/
 
-
-
 ```bash
+docker run -p 8848:8848 --name=mit6.s081 -u 0:0 -v "/home/m/20labs:/mit6.s081" calvinhaynes412/mit6.s081:v1.3.1
+```
+
 docker container ls -a
 
-docker run -p 8848:8848 --name=mit6.s081 -u 0:0 -v "/home/m/Documents/MIT6.S081-2020-labs:/mit6.s081" calvinhaynes412/mit6.s081:v1.3.1
-```
+
+
+https://hub.docker.com/r/calvinhaynes412/mit6.s081
+
+https://hub.docker.com/search?q=s081&architecture=amd64

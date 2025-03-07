@@ -6,13 +6,19 @@ tags:
 categories: OS
 ---
 
-
-
 # MIT6.S081
 
+
+
+[GitHub - YukunJ/xv6-operating-system: XV6 - MIT 6.s081 operating system Fall 2020 version](https://github.com/YukunJ/xv6-operating-system)
+
+https://zhuanlan.zhihu.com/p/449687883
+
+https://zhuanlan.zhihu.com/p/442656932
+
+
+
 [MIT 6.S081: Operating System Engineering - CS自学指南](https://csdiy.wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MIT6.S081/)
-
-
 
 这几位教授还专门写了一本[教程](https://pdos.csail.mit.edu/6.828/2021/xv6/book-riscv-rev2.pdf)，详细讲解了 xv6 的设计思想和实现细节。
 
@@ -28,17 +34,7 @@ categories: OS
 - 课程教材：https://pdos.csail.mit.edu/6.828/2021/xv6/book-riscv-rev2.pdf
 - 课程作业：https://pdos.csail.mit.edu/6.828/2021/schedule.html，11个lab，具体要求详见课程网站
 
-
-
-
-
 [6.S081 Fall 2020 Lecture 1: Introduction and Examples - YouTube](https://www.youtube.com/watch?v=L6YqHxYHa7A)
-
-
-
-
-
-
 
 ## xv6 补充资源
 
@@ -66,13 +62,7 @@ categories: OS
 - [星遥见](https://www.cnblogs.com/weijunji/tag/XV6/)
 - [tzyt 的博客](https://ttzytt.com/tags/xv6/)
 
-
-
-
-
 实验 + 操作系统导论
-
-
 
 https://github.com/woai3c/MIT6.828
 
@@ -90,8 +80,6 @@ https://pdos.csail.mit.edu/6.828/2021/tools.html
 
 https://pdos.csail.mit.edu/6.S081/2021/xv6.html
 
-
-
 [GitHub - chaiqingao/xv6-labs-2021: MIT 6.S081: Operating System Engineering / Fall 2021 课程实验](https://github.com/chaiqingao/xv6-labs-2021)
 
 https://zhuanlan.zhihu.com/p/343655412
@@ -101,8 +89,6 @@ https://zhuanlan.zhihu.com/p/272199762
 https://zhuanlan.zhihu.com/p/331492444
 
 https://www.bilibili.com/video/BV11K4y127Qk?from=search&seid=8628043749223720261
-
-
 
 ### issue1
 
@@ -119,8 +105,6 @@ user/sh.c:59:1: error: infinite recursion detected [-Werror=infinite-recursion]
 
 修改user/sh.c :58处，添加
 
-
-
 ```
 diff --git a/user/sh.c b/user/sh.c
 index 83dd513..c96dab0 100644
@@ -128,20 +112,15 @@ index 83dd513..c96dab0 100644
 +++ b/user/sh.c
 @@ -54,6 +54,7 @@ void panic(char*);
  struct cmd *parsecmd(char*);
- 
+
  // Execute cmd.  Never returns.
 __attribute__((noreturn)) //   添加
  void
  runcmd(struct cmd *cmd)
  {
-
 ```
 
-
-
 [记录MIT6.s081 编译QEMU中的错误_error: pkg-config binary 'pkg-config' not found-CSDN博客](https://blog.csdn.net/weixin_51472360/article/details/128800041)
-
-
 
 错误1
 
@@ -176,11 +155,7 @@ sudo apt-get install libpixman-1-dev
 
 https://blog.csdn.net/u013577996/article/details/108680888
 
-
-
 # LAB
-
-
 
 lab1
 
@@ -212,22 +187,13 @@ main(int argc, char *argv[])
 
  return 0;
 }
-
 ```
-
-
 
 $ sleep 5
 Number of arguments: 2
 Argument 0: sleep
 Argument 1: 5
 Sleep time   5: 
-
-
-
-
-
-
 
 ##### 课程学习
 
@@ -410,9 +376,9 @@ GDT表存了DPL为0，用户访问CPL为3， 3 > 0 没法访问。
    段式存储管理（segmentation）: 分的比较大
    
    ![](OS/2021-04-1516-01-54.png)
-
+   
    页式存储管理 （paging）
-
+   
    把物理地址空间划分为大小相同的基本分配单位，2的n次方，如512,4096
 
 linux启动 
@@ -595,10 +561,6 @@ https://www.bilibili.com/video/av22872043/?p=2&spm_id_from=pageDriver
 ##### GCC内联汇编
 
 C语言中加入 汇编代码
-
-
-
-
 
 2020 南京大学 “操作系统：设计与实现” (蒋炎岩)
 
