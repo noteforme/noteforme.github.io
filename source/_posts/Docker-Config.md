@@ -67,7 +67,23 @@ https://docs.docker.com/reference/cli/docker/container/
 docker run -p 8848:8848 --name=mit6.s081 -u 0:0 -v "/home/m/20labs:/mit6.s081" calvinhaynes412/mit6.s081:v1.3.1
 ```
 
+
+
+https://docs.docker.com/reference/cli/docker/container/
+
+run docker 
+
+```
 docker container ls -a
+
+//ho
+docker container start cf5ce745d947
+
+
+
+```
+
+
 
 
 

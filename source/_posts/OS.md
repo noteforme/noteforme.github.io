@@ -8,15 +8,11 @@ categories: OS
 
 # MIT6.S081
 
-
-
 [GitHub - YukunJ/xv6-operating-system: XV6 - MIT 6.s081 operating system Fall 2020 version](https://github.com/YukunJ/xv6-operating-system)
 
 https://zhuanlan.zhihu.com/p/449687883
 
 https://zhuanlan.zhihu.com/p/442656932
-
-
 
 [MIT 6.S081: Operating System Engineering - CS自学指南](https://csdiy.wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MIT6.S081/)
 
