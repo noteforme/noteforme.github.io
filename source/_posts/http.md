@@ -80,10 +80,6 @@ x-ratelimit-resource: corex-ratelimit-used: 5
 accept-ranges: bytesx-github-request-id: 200C:21C6BE:267A047:2720F58:661F7320
 ```
 
-
-
-
-
 ### Key Points
 
 - **Deprecation of TLS 1.0 and 1.1:**  
@@ -96,3 +92,15 @@ accept-ranges: bytesx-github-request-id: 200C:21C6BE:267A047:2720F58:661F7320
   This move is in line with broader industry trends, where many platforms and browsers have also phased out support for TLS 1.0 and 1.1.
 
 If you're maintaining an app or server infrastructure, it's important to verify that your connections support TLS 1.2 or higher to ensure compatibility with Android 10+ devices.
+
+
+
+
+
+HTTPS
+
+
+
+[Springboot配置openssl生成的证书 - lovelylily - 博客园](https://www.cnblogs.com/wolf-python-lily/p/17945001)
+
+[Springboot 证书配置实战Springboot证书配置实战 创建证书 生成CA证书 生成CA证书 将CA证书加到 - 掘金](https://juejin.cn/post/7119487774461263902)
