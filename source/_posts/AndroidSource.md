@@ -29,7 +29,7 @@ ubuntu environment
 4. Reboot/Restart the os.
    https://www.youtube.com/watch?v=ZxOwFOtcaaA comment
 
-# download source code
+download source code
 
 https://mirrors.ustc.edu.cn/help/aosp.html
 
@@ -49,14 +49,18 @@ chmod a+x ~/bin/repo
 ```
 mkdir AOSP
 cd AOSP
-repo init -u git://mirrors.ustc.edu.cn/aosp/platform/manifest
+repo init -u https://mirrors.ustc.edu.cn/aosp/platform/manifest -b android-6.0.1_r40
 ```
 
 ## 如果提示无法连接到 gerrit.googlesource.com，可以编辑 ~/bin/repo，把 REPO_URL 一行替换成下面的：
 
 ```
 REPO_URL = 'https://gerrit-googlesource.proxy.ustclug.org/git-repo'
+
+REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'
 ```
+
+[git-repo | 镜像站使用帮助 | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror](https://mirrors.tuna.tsinghua.edu.cn/help/git-repo/)
 
 ubuntu 20.04 运行repo init 提示 /usr/bin/env: ‘python’: No such file or directory 解决方案
 
@@ -79,7 +83,28 @@ To install required packages for Ubuntu 18.04 or later, run the following comman
 
 https://source.android.com/docs/setup/start
 
-# SOURCE CODE BUILD
+# Docker
+
+```bash
+sudo docker run -itd --name android-m -v /home/m/source:/aosp  green369258/aosp:android-m
+docker exec -it android-m  /bin/bash
+```
+
+代码下载在宿主机器上，和容器路径做映射。
+
+https://hub.docker.com/r/green369258/aosp
+
+问题
+
+[Docker环境下编译android源码|编译可运行xposed - iMisty - 博客园](https://www.cnblogs.com/imist/p/11417602.html)
+
+编译有问题 https://hub.docker.com/r/praqma/aosp-build-container
+
+https://hub.docker.com/r/davesrl/aosp/tags
+
+https://hub.docker.com/r/inteldevcloudx77/aosp/tags
+
+## SOURCE CODE BUILD
 
 [android 12 源码编译与虚拟机调试_aosp running multiple emulators with the same avd-CSDN博客](https://blog.csdn.net/qq_17696807/article/details/124302856)
 
@@ -93,6 +118,8 @@ source build/envsetup.sh
 
 2. 选择产品   
    76 sdk_phone_x86_64-eng
+   
+   lunch
 
 3. 使用lunch选择要编译的产品，此文档中以编译x86_x64 emulator模拟器镜像为例进行说明。
    
@@ -118,9 +145,14 @@ index 7d9d90e92a..419cccb80a 100644
 
 lunch sdk_phone_x86_64-eng
 
-# Caculator
+## import Android studio
 
-## SWAP RAM
+```bash
+soruce build/envsetup.sh
+mmm development/tools/idegen/
+```
+
+# SWAP RAM
 
 ```
 # Turn swap off
@@ -152,9 +184,9 @@ Add this line to the end of your /etc/fstab:
 要学习Android源码需要编译一份，然后安装要求导入AndroidStudio,可以参考:
 http://blog.csdn.net/huaiyiheyuan/article/details/52069122
 
-## build issue
+# build issue
 
-#### libncurses.so.5
+##### libncurses.so.5
 
 ```
  prebuilts/clang/host/linux-x86/clang-3289846/bin/clang.real: error while loading
@@ -181,11 +213,15 @@ Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 [AOSP 编译Android12源码全记录 - 简书](https://www.jianshu.com/p/53941de91c77)
 
-#### python error
+##### emulator: ERROR: x86 emulation currently requires hardware acceleration
+
+[Ubentu编译Android源码（AOSP） - 有点理想的码农 - 博客园](https://www.cnblogs.com/caoxinyu/p/10568480.html)
+
+##### python error
 
 [/usr/bin/env: ‘python’: No such file or directory-CSDN博客](https://blog.csdn.net/weixin_55940238/article/details/140989311)
 
-docker error
+##### docker error
 
 [Unable to compile AOSP source code on Ubuntu 24.04 system - Stack Overflow](https://stackoverflow.com/questions/78857564/unable-to-compile-aosp-source-code-on-ubuntu-24-04-system)
 

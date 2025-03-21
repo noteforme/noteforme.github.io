@@ -67,8 +67,6 @@ https://docs.docker.com/reference/cli/docker/container/
 docker run -p 8848:8848 --name=mit6.s081 -u 0:0 -v "/home/m/20labs:/mit6.s081" calvinhaynes412/mit6.s081:v1.3.1
 ```
 
-
-
 https://docs.docker.com/reference/cli/docker/container/
 
 run docker 
@@ -78,15 +76,18 @@ docker container ls -a
 
 //ho
 docker container start cf5ce745d947
-
-
-
 ```
-
-
-
-
 
 https://hub.docker.com/r/calvinhaynes412/mit6.s081
 
 https://hub.docker.com/search?q=s081&architecture=amd64
+
+```bash
+docker container exec -it b66e8a0c279a /bin/bash
+
+docker run --rm -it -v /home/m/aosp8:/aosp sabdelkader/aosp
+```
+
+
+
+当前主机 / docker容器内的目录
