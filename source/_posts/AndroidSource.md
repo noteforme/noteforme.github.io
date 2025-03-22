@@ -33,31 +33,38 @@ download source code
 
 https://mirrors.ustc.edu.cn/help/aosp.html
 
+## Download source code
+
 1. create bin
 
-```
+```bash
 mkdir ~/bin
 PATH=~/bin:$PATH
-## curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
 ## 如果上述 URL 不可访问，可以用下面的：
 curl -sSL  'https://gerrit-googlesource.proxy.ustclug.org/git-repo/+/master/repo?format=TEXT' |base64 -d > ~/bin/repo
 chmod a+x ~/bin/repo
 ```
 
-2. Dir
+2. update repository
+   
+   Edit the file `~/bin/repo` and replace `REPO_URL`
 
-```
-mkdir AOSP
-cd AOSP
-repo init -u https://mirrors.ustc.edu.cn/aosp/platform/manifest -b android-6.0.1_r40
-```
-
-## 如果提示无法连接到 gerrit.googlesource.com，可以编辑 ~/bin/repo，把 REPO_URL 一行替换成下面的：
-
-```
+```bash
 REPO_URL = 'https://gerrit-googlesource.proxy.ustclug.org/git-repo'
 
 REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'
+```
+
+3. sync code
+
+// 有时候有中断，不用管继续下载
+
+```
+mkdir source
+cd source
+repo init -u https://mirrors.ustc.edu.cn/aosp/platform/manifest -b android-6.0.1_r40
+repo sync
 ```
 
 [git-repo | 镜像站使用帮助 | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror](https://mirrors.tuna.tsinghua.edu.cn/help/git-repo/)
@@ -83,16 +90,17 @@ To install required packages for Ubuntu 18.04 or later, run the following comman
 
 https://source.android.com/docs/setup/start
 
-# Docker
+# Docker AOSP
+
+https://hub.docker.com/r/green369258/aosp
 
 ```bash
+docker pull green369258/aosp:android-m
 sudo docker run -itd --name android-m -v /home/m/source:/aosp  green369258/aosp:android-m
 docker exec -it android-m  /bin/bash
 ```
 
 代码下载在宿主机器上，和容器路径做映射。
-
-https://hub.docker.com/r/green369258/aosp
 
 问题
 

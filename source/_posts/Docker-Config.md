@@ -7,6 +7,10 @@ categories: TOOL
 
 # PROXY
 
+
+
+## Image proxy
+
 https://docs.docker.com/engine/daemon/proxy/
 
 vim /etc/docker/daemon.json
@@ -14,12 +18,16 @@ vim /etc/docker/daemon.json
 ```json
 {
   "proxies": {
-    "http-proxy": "http://127.0.0.1:7897",
-    "https-proxy": "http://127.0.0.1:7897",
+    "http-proxy": "http://127.0.0.1:13658",
+    "https-proxy": "http://127.0.0.1:13658",
     "no-proxy": "*.test.example.com,.example.org,127.0.0.0/8"
   }
 }
 ```
+
+
+
+
 
 sudo mkdir -p /etc/systemd/system/docker.service.d
 /etc/systemd/system/docker.service.d/http-proxy.conf
@@ -87,7 +95,5 @@ docker container exec -it b66e8a0c279a /bin/bash
 
 docker run --rm -it -v /home/m/aosp8:/aosp sabdelkader/aosp
 ```
-
-
 
 当前主机 / docker容器内的目录
