@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://noteforme.github.io/2018/07/25/AndroidSource//ape_fwk_all.png">
 <meta property="og:image" content="https://noteforme.github.io/2018/07/25/AndroidSource//20220527125047.jpg">
 <meta property="article:published_time" content="2018-07-25T01:57:29.000Z">
-<meta property="article:modified_time" content="2025-03-17T14:02:24.019Z">
+<meta property="article:modified_time" content="2025-03-22T14:19:32.663Z">
 <meta property="article:author" content="Jon">
 <meta property="article:tag" content="AOSP">
 <meta name="twitter:card" content="summary_large_image">
@@ -227,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          903 words
+          893 words
         
       </span>
     
@@ -293,17 +293,23 @@
 </ol>
 <p>download source code</p>
 <p><a target="_blank" rel="noopener" href="https://mirrors.ustc.edu.cn/help/aosp.html">https://mirrors.ustc.edu.cn/help/aosp.html</a></p>
-<ol>
+<h2 id="Download-source-code"><a href="#Download-source-code" class="headerlink" title="Download source code"></a>Download source code</h2><ol>
 <li>create bin</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> ~/bin<br>PATH=~/bin:<span class="hljs-variable">$PATH</span><br><span class="hljs-comment">## curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo</span><br><span class="hljs-comment">## 如果上述 URL 不可访问，可以用下面的：</span><br>curl -sSL  <span class="hljs-string">&#x27;https://gerrit-googlesource.proxy.ustclug.org/git-repo/+/master/repo?format=TEXT&#x27;</span> |<span class="hljs-built_in">base64</span> -d &gt; ~/bin/repo<br><span class="hljs-built_in">chmod</span> a+x ~/bin/repo<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> ~/bin<br>PATH=~/bin:<span class="hljs-variable">$PATH</span><br>curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo<br><span class="hljs-comment">## 如果上述 URL 不可访问，可以用下面的：</span><br>curl -sSL  <span class="hljs-string">&#x27;https://gerrit-googlesource.proxy.ustclug.org/git-repo/+/master/repo?format=TEXT&#x27;</span> |<span class="hljs-built_in">base64</span> -d &gt; ~/bin/repo<br><span class="hljs-built_in">chmod</span> a+x ~/bin/repo<br></code></pre></td></tr></table></figure>
 
 <ol start="2">
-<li>Dir</li>
+<li><p>update repository</p>
+<p>Edit the file <code>~/bin/repo</code> and replace <code>REPO_URL</code></p>
+</li>
 </ol>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">mkdir</span> AOSP<br><span class="hljs-attribute">cd</span> AOSP<br><span class="hljs-attribute">repo</span> init -u https://mirrors.ustc.edu.cn/aosp/platform/manifest -b android-<span class="hljs-number">6</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>_r40<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">REPO_URL = <span class="hljs-string">&#x27;https://gerrit-googlesource.proxy.ustclug.org/git-repo&#x27;</span><br><br>REPO_URL=<span class="hljs-string">&#x27;https://mirrors.tuna.tsinghua.edu.cn/git/git-repo&#x27;</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="如果提示无法连接到-gerrit-googlesource-com，可以编辑-bin-repo，把-REPO-URL-一行替换成下面的："><a href="#如果提示无法连接到-gerrit-googlesource-com，可以编辑-bin-repo，把-REPO-URL-一行替换成下面的：" class="headerlink" title="如果提示无法连接到 gerrit.googlesource.com，可以编辑 ~&#x2F;bin&#x2F;repo，把 REPO_URL 一行替换成下面的："></a>如果提示无法连接到 gerrit.googlesource.com，可以编辑 ~&#x2F;bin&#x2F;repo，把 REPO_URL 一行替换成下面的：</h2><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">REPO_URL</span> = <span class="hljs-string">&#x27;https://gerrit-googlesource.proxy.ustclug.org/git-repo&#x27;</span><br><br><span class="hljs-attr">REPO_URL</span>=<span class="hljs-string">&#x27;https://mirrors.tuna.tsinghua.edu.cn/git/git-repo&#x27;</span><br></code></pre></td></tr></table></figure>
+<ol start="3">
+<li>sync code</li>
+</ol>
+<p>&#x2F;&#x2F; 有时候有中断，不用管继续下载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> <span class="hljs-built_in">source</span><br><span class="hljs-built_in">cd</span> <span class="hljs-built_in">source</span><br>repo init -u https://mirrors.ustc.edu.cn/aosp/platform/manifest -b android-6.0.1_r40<br>repo <span class="hljs-built_in">sync</span><br></code></pre></td></tr></table></figure>
 
 <p><a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/git-repo/">git-repo | 镜像站使用帮助 | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror</a></p>
 <p>ubuntu 20.04 运行repo init 提示 &#x2F;usr&#x2F;bin&#x2F;env: ‘python’: No such file or directory 解决方案</p>
@@ -316,10 +322,10 @@
 <figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs q">sudo apt-<span class="hljs-built_in">get</span> install git-core gnupg flex bison build-essential zip curl zlib1g-<span class="hljs-built_in">dev</span> libc6-<span class="hljs-built_in">dev</span>-i386 x11proto-core-<span class="hljs-built_in">dev</span> libx11-<span class="hljs-built_in">dev</span> lib32z1-<span class="hljs-built_in">dev</span> libgl1-mesa-<span class="hljs-built_in">dev</span> libxml2-utils xsltproc unzip fontconfig<br></code></pre></td></tr></table></figure>
 
 <p><a target="_blank" rel="noopener" href="https://source.android.com/docs/setup/start">https://source.android.com/docs/setup/start</a></p>
-<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo docker run -itd --name android-m -v /home/m/source:/aosp  green369258/aosp:android-m<br>docker <span class="hljs-built_in">exec</span> -it android-m  /bin/bash<br></code></pre></td></tr></table></figure>
+<h1 id="Docker-AOSP"><a href="#Docker-AOSP" class="headerlink" title="Docker AOSP"></a>Docker AOSP</h1><p><a target="_blank" rel="noopener" href="https://hub.docker.com/r/green369258/aosp">https://hub.docker.com/r/green369258/aosp</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker pull green369258/aosp:android-m<br>sudo docker run -itd --name android-m -v /home/m/source:/aosp  green369258/aosp:android-m<br>docker <span class="hljs-built_in">exec</span> -it android-m  /bin/bash<br></code></pre></td></tr></table></figure>
 
 <p>代码下载在宿主机器上，和容器路径做映射。</p>
-<p><a target="_blank" rel="noopener" href="https://hub.docker.com/r/green369258/aosp">https://hub.docker.com/r/green369258/aosp</a></p>
 <p>问题</p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/imist/p/11417602.html">Docker环境下编译android源码|编译可运行xposed - iMisty - 博客园</a></p>
 <p>编译有问题 <a target="_blank" rel="noopener" href="https://hub.docker.com/r/praqma/aosp-build-container">https://hub.docker.com/r/praqma/aosp-build-container</a></p>
