@@ -153,44 +153,7 @@ index 7d9d90e92a..419cccb80a 100644
 
 lunch sdk_phone_x86_64-eng
 
-## import Android studio
 
-```bash
-soruce build/envsetup.sh
-mmm development/tools/idegen/
-```
-
-# SWAP RAM
-
-```
-# Turn swap off
-# This moves stuff in swap to the main memory and might take several minutes
-sudo swapoff -a
-# Create an empty swapfile
-# Note that "1G" is basically just the unit and count is an integer.
-# Together, they define the size. In this case 16GB.
-sudo dd if=/dev/zero of=/swapfile bs=1G count=16
-# Set the correct permissions
-sudo chmod 0600 /swapfile
-sudo mkswap /swapfile  # Set up a Linux swap area
-sudo swapon /swapfile  # Turn the swap on
-
-
-Check if it worked
-
-grep Swap /proc/meminfo
-
-
-Make it permanent (persist on restarts)
-Add this line to the end of your /etc/fstab:
-
-/swapfile swap swap sw 0 0
-```
-
-[Aosp 14 build error [100% 1/1] analyzing Android.bp files and generating ninja file at out/soong/build.ninja FAILED: out/soong/build.ninja - Stack Overflow](https://stackoverflow.com/questions/77278089/aosp-14-build-error-100-1-1-analyzing-android-bp-files-and-generating-ninja-f)
-
-要学习Android源码需要编译一份，然后安装要求导入AndroidStudio,可以参考:
-http://blog.csdn.net/huaiyiheyuan/article/details/52069122
 
 # build issue
 
@@ -231,11 +194,81 @@ Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 ##### docker error
 
+USER问题（由于运行的docker 容易没有配置USER环境变量）
+
+```
+ USER: unbound variable out/host/linux-x86/bin/jack-admin: line 27: 
+ USER: unbound variable touch out/host/common/obj/JAVA_LIBRARIES/jack_intermediates/kill_server.stamp 
+ Install: out/host/linux-x86/framework/jack.jar out/host/linux-x86/bin/jack-admin: line 27: USER: 
+```
+
+```html
+export USER=$(whoami)
+```
+
+
+
+    也可以在docker构建文件Dockerfile中加上如下语句：
+
+```html
+ENV USER root   /或者自己需要的名字
+```
+
+[android7.0 源码编译问题总结-CSDN博客](https://blog.csdn.net/RonnyJiang/article/details/55812305)
+
+
+
 [Unable to compile AOSP source code on Ubuntu 24.04 system - Stack Overflow](https://stackoverflow.com/questions/78857564/unable-to-compile-aosp-source-code-on-ubuntu-24-04-system)
 
 https://github.com/alsutton/aosp-build-docker-images
 
-Activity启动过程
+
+
+
+
+import Android studio
+
+```bash
+soruce build/envsetup.sh
+mmm development/tools/idegen/
+```
+
+# SWAP RAM
+
+```
+# Turn swap off
+# This moves stuff in swap to the main memory and might take several minutes
+sudo swapoff -a
+# Create an empty swapfile
+# Note that "1G" is basically just the unit and count is an integer.
+# Together, they define the size. In this case 16GB.
+sudo dd if=/dev/zero of=/swapfile bs=1G count=16
+# Set the correct permissions
+sudo chmod 0600 /swapfile
+sudo mkswap /swapfile  # Set up a Linux swap area
+sudo swapon /swapfile  # Turn the swap on
+
+
+Check if it worked
+
+grep Swap /proc/meminfo
+
+
+Make it permanent (persist on restarts)
+Add this line to the end of your /etc/fstab:
+
+/swapfile swap swap sw 0 0
+```
+
+[Aosp 14 build error [100% 1/1] analyzing Android.bp files and generating ninja file at out/soong/build.ninja FAILED: out/soong/build.ninja - Stack Overflow](https://stackoverflow.com/questions/77278089/aosp-14-build-error-100-1-1-analyzing-android-bp-files-and-generating-ninja-f)
+
+要学习Android源码需要编译一份，然后安装要求导入AndroidStudio,可以参考: http://blog.csdn.net/huaiyiheyuan/article/details/52069122
+
+
+
+
+
+# Activity启动过程
 
 对应用程序Activity进行编译和打包
 

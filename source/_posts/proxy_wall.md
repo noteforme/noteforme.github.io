@@ -346,7 +346,7 @@ Terminal
 
 ```bash
 export http_proxy="http://127.0.0.1:13658"
-export https_proxy="http://127.0.0.1:113658081"
+export https_proxy="http://127.0.0.1:13658"
 ```
 
 google 搭建vr

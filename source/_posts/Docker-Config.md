@@ -7,8 +7,6 @@ categories: TOOL
 
 # PROXY
 
-
-
 ## Image proxy
 
 https://docs.docker.com/engine/daemon/proxy/
@@ -24,10 +22,6 @@ vim /etc/docker/daemon.json
   }
 }
 ```
-
-
-
-
 
 sudo mkdir -p /etc/systemd/system/docker.service.d
 /etc/systemd/system/docker.service.d/http-proxy.conf
