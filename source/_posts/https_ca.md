@@ -1,11 +1,9 @@
 ---
 id: 67
-title: HTTP
+title: http_ca
 date: '2024-05-15T07:08:40+00:00'
 author: Jon
 layout: post
-guid: 'https://jonblog.site/?p=67'
-permalink: /2024/05/15/http/
 categories:
     - NETWORK
 ---
@@ -92,8 +90,6 @@ accept-ranges: bytesx-github-request-id: 200C:21C6BE:267A047:2720F58:661F7320
   This move is in line with broader industry trends, where many platforms and browsers have also phased out support for TLS 1.0 and 1.1.
 
 If you're maintaining an app or server infrastructure, it's important to verify that your connections support TLS 1.2 or higher to ensure compatibility with Android 10+ devices.
-
-
 
 ## Part 1: Generate a Self‑Signed CA and Server Certificate
 
