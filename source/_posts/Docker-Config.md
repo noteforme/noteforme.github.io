@@ -88,6 +88,7 @@ https://hub.docker.com/search?q=s081&architecture=amd64
 docker run --rm -it -v /home/m/aosp8:/aosp sabdelkader/aosp
 
 
+docker container start 4269513e4289
 docker container exec -it 4269513e4289 /bin/bash
 
 
