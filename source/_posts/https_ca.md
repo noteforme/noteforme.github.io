@@ -1,12 +1,32 @@
 ---
 id: 67
-title: http_ca
+title: https_ca
 date: '2024-05-15T07:08:40+00:00'
 author: Jon
 layout: post
 categories:
     - NETWORK
 ---
+
+## 
+
+# TLS
+
+![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/http/202503291813422.png)
+
+
+
+https://www.youtube.com/watch?v=JA0vaIb4158&t=876s
+
+https://www.youtube.com/watch?v=AlE5X1NlHgg
+
+
+
+![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/http/202503291845440.png)
+
+https://www.youtube.com/watch?v=j9QmMEWmcfo
+
+
 
 ## Post
 
@@ -97,13 +117,13 @@ If you're maintaining an app or server infrastructure, it's important to verify 
 
 Generate the CA private key:
 
-```
+```bash
 openssl genrsa -out ca.key 4096
 ```
 
 Create the CA certificate (valid for 10 years in this example):
 
-```
+```bash
 openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt \
   -subj "/C=US/ST=State/L=City/O=Organization/OU=OrgUnit/CN=MySelfSignedCA"
 ```

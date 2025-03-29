@@ -73,7 +73,7 @@ https://docs.docker.com/reference/cli/docker/container/
 
 run docker 
 
-```
+```bash
 docker container ls -a
 
 //ho
@@ -85,9 +85,12 @@ https://hub.docker.com/r/calvinhaynes412/mit6.s081
 https://hub.docker.com/search?q=s081&architecture=amd64
 
 ```bash
-docker container exec -it b66e8a0c279a /bin/bash
-
 docker run --rm -it -v /home/m/aosp8:/aosp sabdelkader/aosp
+
+
+docker container exec -it 4269513e4289 /bin/bash
+
+
 ```
 
 当前主机 / docker容器内的目录
