@@ -8,13 +8,11 @@ categories:
     - NETWORK
 ---
 
-
-
-
-
- 
-
 # TLS
+
+[SSL Server Test (Powered by Qualys SSL Labs)](https://www.ssllabs.com/ssltest/)
+
+https://gist.github.com/Karewan/4b0270755e7053b471fdca4419467216
 
 
 
@@ -24,25 +22,15 @@ categories:
 openssl x509 -in ca.crt -text -noout
 ```
 
-
-
-
-
 ![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/http/202503291813422.png)
-
-
 
 https://www.youtube.com/watch?v=JA0vaIb4158&t=876s
 
 https://www.youtube.com/watch?v=AlE5X1NlHgg
 
-
-
 ![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/http/202503291845440.png)
 
 https://www.youtube.com/watch?v=j9QmMEWmcfo
-
-
 
 ## Post
 
@@ -322,12 +310,6 @@ HTTPS
 
 [Springboot 证书配置实战Springboot证书配置实战 创建证书 生成CA证书 生成CA证书 将CA证书加到 - 掘金](https://juejin.cn/post/7119487774461263902)
 
-
-
-
-
-
-
 generate host "realmjon.mynetgear.com" self-sign CA make both server.crt ca.crt have subjectalternativenames , config in the springboot
 
 ###### ChatGPT said:
@@ -375,10 +357,7 @@ subjectKeyIdentifier = hash
 [ alt_names ]
 DNS.1 = myca.realmjon.mynetgear.com
 DNS.2 = ca.realmjon.mynetgear.com
-
 ```
-
-
 
 ### 1.2 Generate the CA Key and Certificate
 
@@ -388,8 +367,6 @@ bash
 
 Copy
 
-
-
 ```
 # Generate the CA private key
 openssl genrsa -out ca.key 4096
@@ -397,12 +374,7 @@ openssl genrsa -out ca.key 4096
 # Generate the self‑signed CA certificate (valid for 10 years)
 openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 \
   -out ca.crt -config ca.cnf
-
 ```
-
-
-
-
 
 After this step, **ca.crt** is your CA certificate (including the SANs defined in **ca.cnf**).
 
@@ -442,12 +414,7 @@ subjectAltName = @alt_names
 DNS.1 = realmjon.mynetgear.com
 DNS.2 = www.realmjon.mynetgear.com
 DNS.3 = api.realmjon.mynetgear.com
-
 ```
-
-
-
-
 
 Adjust or add additional DNS (or IP) entries as needed.
 
@@ -465,12 +432,7 @@ openssl genrsa -out server.key 2048
 
 # Create a Certificate Signing Request (CSR) using the config file
 openssl req -new -key server.key -out server.csr -config server.cnf
-
 ```
-
-
-
-
 
 ### 2.3 Sign the Server CSR with Your CA
 
@@ -483,12 +445,7 @@ Copy
 ```
 openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
   -out server.crt -days 3650 -sha256 -extfile server.cnf -extensions req_ext
-
 ```
-
-
-
-
 
 Now, **server.crt** is your server certificate for **realmjon.mynetgear.com** with the specified SANs.
 
@@ -502,17 +459,10 @@ bash
 
 Copy
 
-
-
 ```
 openssl pkcs12 -export -in server.crt -inkey server.key \
   -out server.p12 -name springboot -CAfile ca.crt -caname root
-
 ```
-
-
-
-
 
 When prompted, enter an export password (which you’ll later use in your Spring Boot configuration).
 
@@ -533,10 +483,7 @@ server.ssl.key-store=classpath:server.p12
 server.ssl.key-store-password=your_keystore_password
 server.ssl.key-store-type=PKCS12
 server.ssl.key-alias=springboot
-
 ```
-
-
 
 Replace **your_keystore_password** with the password you set during the PKCS#12 export.
 
@@ -554,10 +501,7 @@ Copy
 
 ```
 openssl x509 -in ca.crt -text -noout | grep -A1 "Subject Alternative Name"
-
 ```
-
-
 
 You should see something like:
 
@@ -578,8 +522,6 @@ Copy
 ```
 openssl x509 -in server.crt -text -noout | grep -A1 "Subject Alternative Name"
 ```
-
-
 
 Expected output:
 
