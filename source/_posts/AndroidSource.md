@@ -239,7 +239,6 @@ emulator
 soruce build/envsetup.sh
 mmm development/tools/idegen/
 development/tools/idegen/idegen.sh
-
 ```
 
 ##### import Android studi
