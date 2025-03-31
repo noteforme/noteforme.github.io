@@ -1,14 +1,36 @@
 ---
 id: 67
-title: HTTP
+title: https_ca
 date: '2024-05-15T07:08:40+00:00'
 author: Jon
 layout: post
-guid: 'https://jonblog.site/?p=67'
-permalink: /2024/05/15/http/
 categories:
     - NETWORK
 ---
+
+# TLS
+
+[SSL Server Test (Powered by Qualys SSL Labs)](https://www.ssllabs.com/ssltest/)
+
+https://gist.github.com/Karewan/4b0270755e7053b471fdca4419467216
+
+
+
+# Check CA
+
+```
+openssl x509 -in ca.crt -text -noout
+```
+
+![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/http/202503291813422.png)
+
+https://www.youtube.com/watch?v=JA0vaIb4158&t=876s
+
+https://www.youtube.com/watch?v=AlE5X1NlHgg
+
+![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/http/202503291845440.png)
+
+https://www.youtube.com/watch?v=j9QmMEWmcfo
 
 ## Post
 
@@ -93,21 +115,19 @@ accept-ranges: bytesx-github-request-id: 200C:21C6BE:267A047:2720F58:661F7320
 
 If you're maintaining an app or server infrastructure, it's important to verify that your connections support TLS 1.2 or higher to ensure compatibility with Android 10+ devices.
 
-
-
 ## Part 1: Generate a Self‑Signed CA and Server Certificate
 
 ### 1.1 Create the Self‑Signed CA
 
 Generate the CA private key:
 
-```
+```bash
 openssl genrsa -out ca.key 4096
 ```
 
 Create the CA certificate (valid for 10 years in this example):
 
-```
+```bash
 openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt \
   -subj "/C=US/ST=State/L=City/O=Organization/OU=OrgUnit/CN=MySelfSignedCA"
 ```
@@ -289,3 +309,250 @@ HTTPS
 [Springboot配置openssl生成的证书 - lovelylily - 博客园](https://www.cnblogs.com/wolf-python-lily/p/17945001)
 
 [Springboot 证书配置实战Springboot证书配置实战 创建证书 生成CA证书 生成CA证书 将CA证书加到 - 掘金](https://juejin.cn/post/7119487774461263902)
+
+generate host "realmjon.mynetgear.com" self-sign CA make both server.crt ca.crt have subjectalternativenames , config in the springboot
+
+###### ChatGPT said:
+
+Reasoned for 17 seconds
+
+Below is a complete guide that shows you how to create a self‑signed CA and use it to sign a server certificate for the host **realmjon.mynetgear.com**, ensuring that both the CA certificate and the server certificate include Subject Alternative Names (SANs). Finally, you’ll see how to package the server certificate into a PKCS#12 keystore for Spring Boot configuration.
+
+---
+
+## Step 1. Create a Self‑Signed CA with SANs
+
+### 1.1 Create an OpenSSL Configuration File for the CA (ca.cnf)
+
+Create a file named **ca.cnf** with the following content. This file tells OpenSSL to include SANs in the CA certificate and sets the proper CA extensions.
+
+ini
+
+Copy
+
+```
+[ req ]
+default_bits       = 4096
+prompt             = no
+default_md         = sha256
+distinguished_name = dn
+x509_extensions    = v3_ca
+
+[ dn ]
+C  = US
+ST = State
+L  = City
+O  = MyOrg
+OU = MyUnit
+CN = MyLocalCA
+
+[ v3_ca ]
+# Add Subject Alternative Names to the CA certificate
+subjectAltName = @alt_names
+# Indicate this certificate is a CA
+basicConstraints = critical, CA:TRUE, pathlen:0
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+subjectKeyIdentifier = hash
+
+[ alt_names ]
+DNS.1 = myca.realmjon.mynetgear.com
+DNS.2 = ca.realmjon.mynetgear.com
+```
+
+### 1.2 Generate the CA Key and Certificate
+
+Run these commands in your terminal:
+
+bash
+
+Copy
+
+```
+# Generate the CA private key
+openssl genrsa -out ca.key 4096
+
+# Generate the self‑signed CA certificate (valid for 10 years)
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 \
+  -out ca.crt -config ca.cnf
+```
+
+After this step, **ca.crt** is your CA certificate (including the SANs defined in **ca.cnf**).
+
+---
+
+## Step 2. Create a Server Certificate for "realmjon.mynetgear.com" with SANs
+
+### 2.1 Create an OpenSSL Configuration File for the Server (server.cnf)
+
+Create a file named **server.cnf** with the following content:
+
+ini
+
+Copy
+
+```
+[ req ]
+default_bits       = 2048
+prompt             = no
+default_md         = sha256
+distinguished_name = dn
+req_extensions     = req_ext
+
+[ dn ]
+C  = US
+ST = State
+L  = City
+O  = MyOrg
+OU = MyUnit
+CN = realmjon.mynetgear.com
+
+[ req_ext ]
+# Add Subject Alternative Names for the server certificate
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = realmjon.mynetgear.com
+DNS.2 = www.realmjon.mynetgear.com
+DNS.3 = api.realmjon.mynetgear.com
+```
+
+Adjust or add additional DNS (or IP) entries as needed.
+
+### 2.2 Generate the Server Key and CSR
+
+Run the following commands:
+
+bash
+
+Copy
+
+```
+# Generate the server private key
+openssl genrsa -out server.key 2048
+
+# Create a Certificate Signing Request (CSR) using the config file
+openssl req -new -key server.key -out server.csr -config server.cnf
+```
+
+### 2.3 Sign the Server CSR with Your CA
+
+Sign the CSR with your CA certificate and key to generate the server certificate. This process will embed the SANs into the certificate.
+
+bash
+
+Copy
+
+```
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
+  -out server.crt -days 3650 -sha256 -extfile server.cnf -extensions req_ext
+```
+
+Now, **server.crt** is your server certificate for **realmjon.mynetgear.com** with the specified SANs.
+
+---
+
+## Step 3. Package the Server Certificate and Key into a PKCS#12 Keystore
+
+Spring Boot can load your certificate and key from a PKCS#12 keystore. Create it with:
+
+bash
+
+Copy
+
+```
+openssl pkcs12 -export -in server.crt -inkey server.key \
+  -out server.p12 -name springboot -CAfile ca.crt -caname root
+```
+
+When prompted, enter an export password (which you’ll later use in your Spring Boot configuration).
+
+---
+
+## Step 4. Configure Spring Boot to Use the Keystore
+
+Place **server.p12** in your Spring Boot project’s **src/main/resources** directory, and update your **application.properties** (or YAML) file with:
+
+properties
+
+Copy
+
+```
+server.port=8443
+server.ssl.enabled=true
+server.ssl.key-store=classpath:server.p12
+server.ssl.key-store-password=your_keystore_password
+server.ssl.key-store-type=PKCS12
+server.ssl.key-alias=springboot
+```
+
+Replace **your_keystore_password** with the password you set during the PKCS#12 export.
+
+---
+
+## Step 5. Verify the Certificates with OpenSSL
+
+### 5.1 Verify CA Certificate SANs
+
+Run this command to print the details of your CA certificate and check its SANs:
+
+bash
+
+Copy
+
+```
+openssl x509 -in ca.crt -text -noout | grep -A1 "Subject Alternative Name"
+```
+
+You should see something like:
+
+ruby
+
+Copy
+
+            `X509v3 Subject Alternative Name:                 DNS:myca.realmjon.mynetgear.com, DNS:ca.realmjon.mynetgear.com`
+
+### 5.2 Verify Server Certificate SANs
+
+Similarly, check your server certificate:
+
+bash
+
+Copy
+
+```
+openssl x509 -in server.crt -text -noout | grep -A1 "Subject Alternative Name"
+```
+
+Expected output:
+
+ruby
+
+Copy
+
+            `X509v3 Subject Alternative Name:                 DNS:realmjon.mynetgear.com, DNS:www.realmjon.mynetgear.com, DNS:api.realmjon.mynetgear.com`
+
+---
+
+## Summary
+
+1. **Local CA Creation:**
+   
+   - Created a self‑signed CA certificate (**ca.crt**) that includes SANs (via **ca.cnf**).
+
+2. **Server Certificate:**
+   
+   - Generated a CSR and signed it with the CA to produce **server.crt** for **realmjon.mynetgear.com** with SANs (via **server.cnf**).
+
+3. **PKCS#12 Keystore:**
+   
+   - Combined the server certificate and key (with the CA certificate) into **server.p12**.
+
+4. **Spring Boot Configuration:**
+   
+   - Configured Spring Boot to use **server.p12** for HTTPS.
+
+5. **Verification:**
+   
+   - Used OpenSSL commands to verify that both certificates contain the correct SAN entries.
+
+Following these steps ensures that both your CA and server certificates include the desired Subject Alternative Names and that your Spring Boot application is correctly configured for HTTPS.

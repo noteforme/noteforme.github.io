@@ -153,6 +153,16 @@ index 7d9d90e92a..419cccb80a 100644
 
 lunch sdk_phone_x86_64-eng
 
+## Dokcer Build
+
+```bash
+docker run --rm -it -v /home/m/aosp8:/aosp sabdelkader/aosp
+
+
+
+docker container exec -it 4269513e4289 /aosp
+```
+
 # build issue
 
 ##### libncurses.so.5
@@ -217,11 +227,22 @@ ENV USER root   /或者自己需要的名字
 https://github.com/alsutton/aosp-build-docker-images
 
 import Android studio
+=======
+
+##### emulator run
 
 ```bash
+source build/envsetup.sh
+lunch
+emulator
+
 soruce build/envsetup.sh
 mmm development/tools/idegen/
+development/tools/idegen/idegen.sh
+
 ```
+
+##### import Android studi
 
 # SWAP RAM
 
