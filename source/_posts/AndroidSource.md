@@ -153,8 +153,6 @@ index 7d9d90e92a..419cccb80a 100644
 
 lunch sdk_phone_x86_64-eng
 
-
-
 # build issue
 
 ##### libncurses.so.5
@@ -206,8 +204,6 @@ USER问题（由于运行的docker 容易没有配置USER环境变量）
 export USER=$(whoami)
 ```
 
-
-
     也可以在docker构建文件Dockerfile中加上如下语句：
 
 ```html
@@ -216,15 +212,9 @@ ENV USER root   /或者自己需要的名字
 
 [android7.0 源码编译问题总结-CSDN博客](https://blog.csdn.net/RonnyJiang/article/details/55812305)
 
-
-
 [Unable to compile AOSP source code on Ubuntu 24.04 system - Stack Overflow](https://stackoverflow.com/questions/78857564/unable-to-compile-aosp-source-code-on-ubuntu-24-04-system)
 
 https://github.com/alsutton/aosp-build-docker-images
-
-
-
-
 
 import Android studio
 
@@ -263,10 +253,6 @@ Add this line to the end of your /etc/fstab:
 [Aosp 14 build error [100% 1/1] analyzing Android.bp files and generating ninja file at out/soong/build.ninja FAILED: out/soong/build.ninja - Stack Overflow](https://stackoverflow.com/questions/77278089/aosp-14-build-error-100-1-1-analyzing-android-bp-files-and-generating-ninja-f)
 
 要学习Android源码需要编译一份，然后安装要求导入AndroidStudio,可以参考: http://blog.csdn.net/huaiyiheyuan/article/details/52069122
-
-
-
-
 
 # Activity启动过程
 
@@ -312,3 +298,5 @@ https://www.zhihu.com/question/39440766/answer/81511893
 [Binder学习指南 | Weishu's Notes](https://weishu.me/2016/01/12/binder-index-for-newer/)
 
 https://github.com/satur9nine/aosp-docker-build-env
+
+[Ubentu编译Android源码（AOSP） - 有点理想的码农 - 博客园](https://www.cnblogs.com/caoxinyu/p/10568480.html)
