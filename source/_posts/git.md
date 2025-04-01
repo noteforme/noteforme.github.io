@@ -86,9 +86,7 @@ origin/master
 然后直接 
 
 ```
-
 git checkout -b <local-branch-name> origin/<remote-branch-name>
-
 ```
 
 * [显示远程仓库](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8)
@@ -554,3 +552,13 @@ gogs:参考github,配置sskey后还需要用账号登陆
  在windows平台 `git auth login` 授权    要用windows命令行工具。 
 
 [Mac使用ssh密钥登录Linux - 简书](https://www.jianshu.com/p/7990ca55da69)
+
+
+
+
+
+push issue big file 
+
+```bash
+git config --global http.postBuffer 524288000
+```
