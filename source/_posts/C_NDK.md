@@ -8,7 +8,7 @@ categories: ANDROID
 
 
 
-![](VideoNDK/2021-03-19_2.55.38_PM.png)
+![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/C/202504051218194.png)
 
 #### 指针
 
@@ -26,12 +26,9 @@ int main(int argc, const char * argv[]) {
     // p = NULL;
     printf("%s \n",p); 
 }
-
 ```
 
 输出 abc
-
-
 
 ##### 指针函数:带指针的函数
 
@@ -39,16 +36,12 @@ int main(int argc, const char * argv[]) {
 
  函数声明 : `int* func(int x,int y)`
 
-
-
 指针函数调用
 
 ```c
 char *q;
-q = func(m);	// q与被调用的函数的返回类型一致
+q = func(m);    // q与被调用的函数的返回类型一致
 ```
-
-
 
 ###### 示例1
 
@@ -74,7 +67,6 @@ int main(int argc, const char * argv[]) {
     getchar();
     return 0;
 }
-
 ```
 
 运行结果
@@ -86,8 +78,6 @@ Apple
 ```
 
 >  输入A ，getWord()返回值为 Apple的首地址,printf("%s\n),输出首地址所指向的值
-
-
 
 ###### 示例2
 
@@ -122,14 +112,11 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 //#endif
-
 ```
 
 **注意: 不要返回局部变量的指针**
 
 例子2中,str1数组是局部变量，这个字符数组在子程序结束后，它对应的存储空间会被释放.
-
-
 
 ##### 函数指针：指向函数的指针
 
@@ -166,21 +153,20 @@ int main(int argc, const char * argv[]) {
     int (*fp)(int); // fp是一个指针，指向返回类型为int，参数为int的函数.
     printf("please input a number:");
     scanf("%d",&num);
-    fp = square;	// 函数与指针的联系
-    printf("fp = 0x%x, %d\n",fp,(*fp)(num));	//'0x%x' 打印指针本身
-    
-    printf("fp = 0x%x, %d\n",fp,fp(num));		// fp直接调用也可以
+    fp = square;    // 函数与指针的联系
+    printf("fp = 0x%x, %d\n",fp,(*fp)(num));    //'0x%x' 打印指针本身
+
+    printf("fp = 0x%x, %d\n",fp,fp(num));        // fp直接调用也可以
     return  0;
-     
+
 }
-
 ```
-
-
 
 square内存中占据的位置，fp保存square指针的入口地址,fp指向square(),*fp代表 调用square().
 
-![](VideoNDK/2021-03-06_9.54.34_PM.png)
+
+
+![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/C/202504051216731.png)
 
 2. 用法
 
@@ -196,7 +182,7 @@ int sub(int num1,int num2){
     return num1-num2;
 }
 
-int calculate(int (*fp)(int,int),int num1,int num2){	//通用功能的函数
+int calculate(int (*fp)(int,int),int num1,int num2){    //通用功能的函数
     return (*fp)(num1,num2);
 }
 
@@ -205,10 +191,7 @@ int main(int argc, const char * argv[]) {
     printf("3-5=%d\n",calculate(sub,3,5));
     return 0;
 }
-
 ```
-
-
 
 3. 函数指针数组
 
@@ -247,18 +230,17 @@ int main(int argc, const char * argv[]) {
     printf("run end");
 }
 #endif
-
 ```
 
-![](VideoNDK/2021-03-06_10.12.11_PM.png)
+
+
+![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/C/202504051217658.png)
+
+
 
 https://www.bilibili.com/video/BV15J411Q7t9?from=search&seid=1110914330533311902
 
-
-
 函数指针pft指向了一个已经声明的函数bar()，然后通过pft来实现输出字符和整型的目的。
-
-
 
 ```c++
 void bar(char, int);
@@ -298,8 +280,6 @@ int main() {
 }
 ```
 
-
-
 函数对象
 
 ```c++
@@ -336,8 +316,6 @@ int main() {
 }
 ```
 
-
-
 #### 结构体
 
 ##### 结构指针
@@ -345,10 +323,10 @@ int main() {
 point
 
 ```c
- 		struct point  *pp;
+         struct point  *pp;
     struct point pt = {400,600};
     pp = &pt;
-    
+
     printf("pt  %d, %d   \n",pt.x, pt.y);//(*pp.x)中的圆括号是必须的，因为结构成员运算符的 "." 的优先级比先级高
     printf("*pp %d, %d    \n",(*pp).x, (*pp).y);
     printf("pp->  %d, %d  \n",pp->x, pp->y);
@@ -360,7 +338,6 @@ point
 pt  400, 600   
 *pp 400, 600    
 pp->  400, 600  
-
 ```
 
 结构指针的使用频度非常高，C语言提供了另一种简写方式，假定P指向一个结构的指针，可以用
@@ -369,10 +346,8 @@ p-> 结构成员  ==  *p.结构成员
 
 代码表达式`printf("origin is (%d,%d)\n", pp->x, pp->y);`
 
-
-
 ```c
- 		struct rect r = {{200,300},{400,500}};
+         struct rect r = {{200,300},{400,500}};
     struct rect *rp = &r;
     printf("pt1.x %d         \n",r.pt1.x);
     printf("(*rp).pt1.x %d  \n",(*rp).pt1.x);
@@ -388,8 +363,6 @@ pt1.x 200
  rp->pt1.x 200   
 r.pt1.x 200  
 ```
-
-
 
 #### 动态内存分配
 
@@ -419,7 +392,9 @@ r.pt1.x 200
     free(pArr); //把pArr所代表的动态分配的20个字节的内存释放
 ```
 
-![](VideoNDK/point_diagram.png)
+
+
+![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/C/202504051218477.png)
 
 
 
@@ -475,8 +450,6 @@ void g(struct Student st) {
 }
 ```
 
-
-
 ##### 跨函数使用内存
 
 ```
@@ -512,19 +485,15 @@ struct Student *createStudent() {
 }
 ```
 
-
-
 ##### 运算符优先级
 
 * java运算符优先级
-
-  > !   &&	||
+  
+  > !   &&    ||
 
 #### 算法
 
 https://space.bilibili.com/501486236/video
-
-
 
 ##### typedef  别名
 
@@ -570,8 +539,6 @@ int main(void){
 }
 ```
 
-
-
 type_3
 
 ```c
@@ -590,8 +557,6 @@ int main(void) {
 }
 ```
 
-
-
 #### C++
 
 ##### 引用
@@ -599,8 +564,6 @@ int main(void) {
 > ```
 > C++ 引用引用变量是一个别名，也就是说，它是某个已存在变量的另一个名字。一旦把引用初始化为某个变量，就可以使用该引用名称或变量名称来指向变量
 > ```
-
-
 
 ```c++
 #include <iostream>
@@ -624,7 +587,6 @@ int main() {
 ##### 函数模板
 
 ```c++
-
 #include <iostream>
 
 using namespace std;
@@ -649,12 +611,6 @@ int main(){
 #endif
 }
 ```
-
-
-
-
-
-
 
 #### swift语法
 
@@ -702,13 +658,9 @@ func myFunc(a : Int) -> Int{
 var mm  = myFunc(a: 10)
 
 print("Hello, World!",a,b,aa,mm)
-
 ```
-
-
 
 environment
 https://juejin.im/post/5ad98412518825670960c13c
 
 https://developer.android.com/ndk/
-
