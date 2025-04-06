@@ -5,9 +5,15 @@ tags:
 categories: CPP
 ---
 
+the flow of building a C program
 
+C源文件 - 预处理 - 编译 - 汇编 - 链接 - 可执行文件
 
+![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/C/202504051314822.png)
 
+https://www.bilibili.com/video/BV18p4y167Md
+
+man 3 exit
 
 ```c
 #include <stdio.h>
@@ -32,9 +38,27 @@ int main() {
 
     return 0;
 }
-
 ```
 
 output:
 
 `Modified path: folder/`
+
+
+
+| pointer | ox4000 -> | ox3000 -> | ox2000 -> |     |     |
+| ------- | --------- | --------- | --------- | --- | --- |
+| value   |           | q         | p         | i   |     |
+|         |           |           |           |     |     |
+
+logic 
+
+
+
+```
+q = &p
+
+&q = ox4000
+*q =  *(&p) = p = &i
+**q = *(*q) = &(&i) = 1
+```
