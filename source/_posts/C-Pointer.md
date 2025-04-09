@@ -44,21 +44,37 @@ output:
 
 `Modified path: folder/`
 
-
-
 | pointer | ox4000 -> | ox3000 -> | ox2000 -> |     |     |
 | ------- | --------- | --------- | --------- | --- | --- |
 | value   |           | q         | p         | i   |     |
 |         |           |           |           |     |     |
 
-logic 
+## logic
 
-
-
-```
+```c
 q = &p
 
 &q = ox4000
 *q =  *(&p) = p = &i
 **q = *(*q) = &(&i) = 1
 ```
+
+
+
+## array
+
+```
+// a[i] : a[i] = *(a+i) = *(p+i) = p[i]
+// &a[i] : a[i] = a+i = p+i = &p[i]
+
+    int a[3] = {1,2,3};
+    int *p =a;
+//    for (int i = 0; i < sizeof(a)/ sizeof(*(a+0)); ++i) {
+//    for (int i = 0; i < sizeof(a)/ sizeof(*a); ++i) {
+    for (int i = 0; i < sizeof(a)/ sizeof(a[0]); ++i) {
+//        printf("%p -> %d\n",p+i,a[i]);
+        printf("%p -> %d\n",p+i,*(p+1));
+    }
+```
+
+https://www.bilibili.com/video/BV18p4y167Md
