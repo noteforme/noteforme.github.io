@@ -59,8 +59,6 @@ q = &p
 **q = *(*q) = &(&i) = 1
 ```
 
-
-
 ## array
 
 ```
@@ -77,4 +75,90 @@ q = &p
     }
 ```
 
-https://www.bilibili.com/video/BV18p4y167Md
+https://www.bilibili.com/video/BV18p4y167Md/?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=45
+
+### two-dimensional array
+
+Two-dimensional array chart is shown
+
+| 00  | 01  | 02  |
+| --- | --- | --- |
+| 10  | 11  | 12  |
+
+Two-dimensional array used in memory
+
+| 00  | 01  | 01  | 10  | 11  | 12  |
+| --- | --- | --- | --- | --- | --- |
+
+```c
+#include <stdio.h>
+
+int main() {
+    // Initialize 2D array with given values
+    int a[2][3] = {
+        {1, 2, 3},
+        {3, 5, 6}
+    };
+
+    printf("Array values and pointers:\n\n");
+
+    // Print array values and addresses
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 3; j++) {
+            // Print the value
+            printf("a[%d][%d] = %d\n", i, j, a[i][j]);
+
+            // Print the memory address (pointer)
+            printf("Address of a[%d][%d]: %p\n", i, j, &a[i][j]);
+
+            printf("\n");
+        }
+    }
+
+    // Additional information about the array and pointers
+    printf("Base address of array a: %p\n", a);
+    printf("Address of first row (a[0]): %p\n", a[0]);
+    printf("Address of second row (a[1]): %p\n", a[1]);
+
+    // Show how array can be accessed using pointer arithmetic
+    printf("\nAccessing using pointer arithmetic:\n");
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 3; j++) {
+            printf("*(*(a+%d)+%d) = %d\n", i, j, *(*(a+i)+j));
+        }
+    }
+// 从a[0][j]开始遍历，先走J个位置，再走i, a[1][j]
+
+    return 0;
+}
+```
+
+a[0][0] = 1
+Address of a[0][0]: 0x7ffca71b8cd0
+
+a[0][1] = 2
+Address of a[0][1]: 0x7ffca71b8cd4
+
+a[0][2] = 3
+Address of a[0][2]: 0x7ffca71b8cd8
+
+a[1][0] = 3
+Address of a[1][0]: 0x7ffca71b8cdc
+
+a[1][1] = 5
+Address of a[1][1]: 0x7ffca71b8ce0
+
+a[1][2] = 6
+Address of a[1][2]: 0x7ffca71b8ce4
+
+Base address of array a: 0x7ffca71b8cd0
+Address of first row (a[0]): 0x7ffca71b8cd0
+Address of second row (a[1]): 0x7ffca71b8cdc
+
+Accessing using pointer arithmetic:
+*(*(a+0)+0) = 1
+*(*(a+0)+1) = 2
+*(*(a+0)+2) = 3
+*(*(a+1)+0) = 3
+*(*(a+1)+1) = 5
+*(*(a+1)+2) = 6
