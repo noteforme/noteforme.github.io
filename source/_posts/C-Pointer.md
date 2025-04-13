@@ -214,5 +214,3 @@ The difference in addresses occurs because:
 This is why `(a+i+j)` and `*(a+i)+j` point to completely different memory locations. The first is jumping multiple rows ahead, while the second is moving within the same row.
 
 For a 2D array access, the correct pointer arithmetic is `*(*(a+i)+j)`, which corresponds to `a[i][j]`.
-
-> > > > > > > 3b4d32a0d17842bdf41fd80430caa55828af1fa4
