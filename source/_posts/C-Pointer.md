@@ -120,53 +120,99 @@ int main() {
     printf("Address of first row (a[0]): %p\n", a[0]);
     printf("Address of second row (a[1]): %p\n", a[1]);
 
+
     // Show how array can be accessed using pointer arithmetic
     printf("\nAccessing using pointer arithmetic:\n");
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 3; j++) {
+            printf("a+%d = %p\n", i, a+i);
+            printf("*(a+%d) = %p\n", i, *(a+i));
+            printf("*(a+%d)+%d = %p\n", i, j,*(a+i)+j);
+            printf("(a+%d+%d) = %p\n", i, j, (a+i+j));
             printf("*(*(a+%d)+%d) = %d\n", i, j, *(*(a+i)+j));
+            printf("\n");
         }
     }
-// 从a[0][j]开始遍历，先走J个位置，再走i, a[1][j]
 
     return 0;
 }
 ```
 
-a[0][0] = 1
-Address of a[0][0]: 0x7ffca71b8cd0
+https://www.youtube.com/watch?v=sHcnvZA2u88
 
-a[0][1] = 2
-Address of a[0][1]: 0x7ffca71b8cd4
+*(a+i) 获取的不是一个value值，仍然是一个指针。
 
-a[0][2] = 3
-Address of a[0][2]: 0x7ffca71b8cd8
-
-a[1][0] = 3
-Address of a[1][0]: 0x7ffca71b8cdc
-
-a[1][1] = 5
-Address of a[1][1]: 0x7ffca71b8ce0
-
-a[1][2] = 6
-Address of a[1][2]: 0x7ffca71b8ce4
-
-Base address of array a: 0x7ffca71b8cd0
-Address of first row (a[0]): 0x7ffca71b8cd0
-Address of second row (a[1]): 0x7ffca71b8cdc
+```
+Base address of array a: 0x7ffcb71b0280
+Address of first row (a[0]): 0x7ffcb71b0280
+Address of second row (a[1]): 0x7ffcb71b028c
 
 Accessing using pointer arithmetic:
+a+0 = 0x7ffcb71b0280
+*(a+0) = 0x7ffcb71b0280
+*(a+0)+0 = 0x7ffcb71b0280
+(a+0+0) = 0x7ffcb71b0280
 *(*(a+0)+0) = 1
+
+a+0 = 0x7ffcb71b0280
+*(a+0) = 0x7ffcb71b0280
+*(a+0)+1 = 0x7ffcb71b0284  // 这个和上面下面的开始不一样
+(a+0+1) = 0x7ffcb71b028c
 *(*(a+0)+1) = 2
+
+a+0 = 0x7ffcb71b0280
+*(a+0) = 0x7ffcb71b0280
+*(a+0)+2 = 0x7ffcb71b0288
+(a+0+2) = 0x7ffcb71b0298
 *(*(a+0)+2) = 3
-*(*(a+1)+0) = 3
+
+a+1 = 0x7ffcb71b028c
+*(a+1) = 0x7ffcb71b028c
+*(a+1)+0 = 0x7ffcb71b028c
+(a+1+0) = 0x7ffcb71b028c
+*(*(a+1)+0) = 4
+
+a+1 = 0x7ffcb71b028c
+*(a+1) = 0x7ffcb71b028c
+*(a+1)+1 = 0x7ffcb71b0290
+(a+1+1) = 0x7ffcb71b0298
 *(*(a+1)+1) = 5
-*(*(a+1)+2) = 6
 
-
-
-
+a+1 = 0x7ffcb71b028c
+*(a+1) = 0x7ffcb71b028c
+*(a+1)+2 = 0x7ffcb71b0294
+(a+1+2) = 0x7ffcb71b02a4
+*(*(a+1)+2) = 6*(*(a+i)+j)
 
 ```
-*(*(a+i)+j)
-```
+
+why a+i and *(a+i) have same pointer , but (a+i)+j and (a+i+j) have different pointer address result
+
+This is a great question that gets to the heart of how 2D arrays and pointers work in C! Let me explain the key difference:
+
+1. `a+i` vs `*(a+i)`:
+   
+   - `a+i` is a pointer to the entire row i (a pointer to an array of 3 integers)
+   - `*(a+i)` dereferences that pointer, giving you a pointer to the first element of row i
+   
+   They appear to have the same address value when printed because they both point to the same memory location (the start of row i), but they have different types:
+   
+   - `a+i` is of type `int (*)[3]` (pointer to an array of 3 integers)
+   - `*(a+i)` is of type `int*` (pointer to an integer)
+
+2. `(a+i)+j` vs `(a+i+j)`:
+   
+   - `(a+i)+j` is invalid - it's trying to add j to a pointer to a row, which would skip j rows
+   - `*(a+i)+j` is correct - it's adding j to a pointer to the first element of row i
+   - `(a+i+j)` is adding j to a pointer to row i, which is interpreted as jumping j rows ahead
+
+The difference in addresses occurs because:
+
+- When you add j to `a+i`, you're moving j rows forward (each row is 3 integers × sizeof(int) bytes)
+- When you add j to `*(a+i)`, you're moving j integers forward (each integer is sizeof(int) bytes)
+
+This is why `(a+i+j)` and `*(a+i)+j` point to completely different memory locations. The first is jumping multiple rows ahead, while the second is moving within the same row.
+
+For a 2D array access, the correct pointer arithmetic is `*(*(a+i)+j)`, which corresponds to `a[i][j]`.
+
+> > > > > > > 3b4d32a0d17842bdf41fd80430caa55828af1fa4
