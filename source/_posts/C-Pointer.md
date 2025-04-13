@@ -162,3 +162,11 @@ Accessing using pointer arithmetic:
 *(*(a+1)+0) = 3
 *(*(a+1)+1) = 5
 *(*(a+1)+2) = 6
+
+
+
+
+
+```
+*(*(a+i)+j)
+```
