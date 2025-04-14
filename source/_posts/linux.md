@@ -20,8 +20,6 @@ http://blog.csdn.net/sunmc1204953974/article/details/45740853
 
 # VIM
 
-
-
 ## vim manager Installation
 
 ```bash
@@ -29,15 +27,11 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
-
-
 https://github.com/junegunn/vim-plug
 
 https://www.bilibili.com/video/BV1NG4y1p74h?spm_id_from=333.788.videopod.episodes&vd_source=d4c5260002405798a57476b318eccac9&p=18
 
 https://www.bilibili.com/video/BV1sPAAeUE55/?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=8
-
-
 
 ## c completion plugin
 
@@ -52,13 +46,11 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 ```
 
-
-
-
-
-
-
 [GitHub - neoclide/coc.nvim: Nodejs extension host for vim &amp; neovim, load extensions like VSCode and host language servers.](https://github.com/neoclide/coc.nvim)
+
+
+
+https://www.youtube.com/watch?v=7-dfpQ5sexk
 
 
 
