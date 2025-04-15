@@ -54,22 +54,29 @@ https://www.youtube.com/watch?v=7-dfpQ5sexk
 
 
 
+prepare nodejs
+
 ```bash
 sudo npm i -g yarn   
 cd .vim/plugged/coc.nvim
 yarn install
 cd ~
 
+
 vim .vimrc
-CocInstall coc-clangd
-```
-
-
-
-```bash
 CocInstall coc-clangd
 CocCommand clangd.install
 ```
+
+
+
+## reformat code
+
+As soon you open a file in VIM, just press the "g" key twice. This should move the cursor to the beginning of the file. Then hit the "=" key. Finally, hold "shift" and hit the "g" key again.
+
+
+
+https://www.jimlynchcodes.com/blog/vim-auto-indenting-with-gg-g#:~:text=As%20soon%20you%20open%20a,the%20%22g%22%20key%20again.
 
 
 
