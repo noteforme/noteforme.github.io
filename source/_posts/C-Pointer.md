@@ -526,10 +526,7 @@ int main( )
 
 `int (*p)[N]` 数组指针 ： 指向数组的指针
 
-
-
 ```c
-
 // void print_douarr1(int (*p)[N], int m, int n) 数组指针
 void print_douarr1(int (*p)[N], int m, int n)
 {
@@ -548,3 +545,67 @@ void print_douarr1(int (*p)[N], int m, int n)
     }
 }
 ```
+
+
+
+
+
+// 为什么形参传的值不一样。
+
+```c
+float average_score(int *p, int n)
+{
+    float sum = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        sum += *(p + i);
+    }
+
+    return sum / n;
+}
+
+
+void find_num(int (*p)[N], int num)
+{
+    for (int i = 0; i < N; i++)
+    {
+        printf("%d ", *(*(p + num) + i)); // 先行指针变列指针
+    }
+    printf("\n");
+}
+
+int main()
+{
+    int i, j;
+    int a[M][N] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+
+    float ave;
+
+    // ave = average_score(*a, M * N);
+    // printf("ave = %f\n", ave);
+
+    find_num(a, 2);
+
+```
+
+I can explain the differences between these two parameter declarations in C.
+
+In the function `average_score(int *p, int n)`, the parameter `*p` is a pointer to an integer. This means:
+
+- It points to a single integer value
+- It can also point to the first element of a 1D array of integers
+- You can traverse through consecutive memory locations using pointer arithmetic (as done with `*(p + i)`)
+
+In the function `find_num(int (*p)[N], int num)`, the parameter `int (*p)[N]` is a pointer to an array of N integers. This means:
+
+- It points to a row of a 2D array
+- Each "step" when using `p + 1` advances by N integers (a whole row), not just one integer
+- To access individual elements, you need double dereferencing as seen in `*(*(p + num) + i)`
+
+The main practical difference is how you navigate through memory:
+
+- With `int *p`, adding 1 to the pointer moves to the next integer (4 bytes typically)
+- With `int (*p)[N]`, adding 1 to the pointer moves N integers forward (N*4 bytes typically)
+
+This is why in your `find_num` function, `*(p + num)` gives you a pointer to the beginning of row `num`, and then `*(*(p + num) + i)` accesses the individual elements in that row.
