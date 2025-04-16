@@ -587,6 +587,7 @@ int main()
 
     find_num(a, 2);
 
+}
 ```
 
 I can explain the differences between these two parameter declarations in C.
@@ -609,3 +610,76 @@ The main practical difference is how you navigate through memory:
 - With `int (*p)[N]`, adding 1 to the pointer moves N integers forward (N*4 bytes typically)
 
 This is why in your `find_num` function, `*(p + num)` gives you a pointer to the beginning of row `num`, and then `*(*(p + num) + i)` accesses the individual elements in that row.
+
+
+
+
+
+# 函数与指针
+
+## 指针函数
+
+[](https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E6%8C%87%E9%92%88%E5%87%BD%E6%95%B0)
+
+是一个**函数**，返回值是**指针**。
+
+返回值 * 函数名 （形参）
+
+如：`int * fun(int);`
+
+### 函数指针
+
+[](https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88)
+
+是一个**指针**，指向**函数**。
+
+类型 （* 指针名） （形参）
+
+如： `int (*p)(int);`
+
+
+
+```c
+int * find_num(int (*p)[N], int num) // 学生的成绩，每行开头指这个学生，后续的列是他的成绩
+{   
+if(num>M-1)
+        return NULL;
+  return *(p+num);
+}      
+
+int main()
+{
+    int i, j;
+    int a[M][N] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+
+    float ave;
+
+    // ave = average_score(*a, M * N);
+    // printf("ave = %f\n", ave);
+
+    find_num(a, 2);
+}
+          
+```
+
+
+
+
+
+
+
+https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=59
+
+
+
+### 函数指针数组
+
+[](https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E6%95%B0%E7%BB%84)
+
+由**函数指针**组成的数组。
+
+类型 （*数组名【下标】） （形参）
+
+如： `int (*arr[N])(int);`
+
+### 指向指针函数的函数指针数组
