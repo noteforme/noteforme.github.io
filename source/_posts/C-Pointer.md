@@ -15,8 +15,6 @@ https://www.bilibili.com/video/BV18p4y167Md
 
 man 3 exit
 
-
-
 # Pointer
 
 ```c
@@ -230,8 +228,6 @@ This is why `(a+i+j)` and `*(a+i)+j` point to completely different memory locati
 
 For a 2D array access, the correct pointer arithmetic is `*(*(a+i)+j)`, which corresponds to `a[i][j]`.
 
-
-
 ## 数组指针
 
 https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.videopod.episodes&vd_source=d4c5260002405798a57476b318eccac9&p=46
@@ -268,8 +264,6 @@ int main( )
         printf(format: "\n");
     }
 }
-
-
 ```
 
 a 0x7ffd1d88e4c0 0x7ffd1d88e4cc
@@ -279,8 +273,6 @@ p 0x7ffd1d88e4c0 0x7ffd1d88e4cc
 0x7ffd1d88e4cc --> 4 0x7ffd1d88e4d0 --> 5 0x7ffd1d88e4d4 --> 6 
 
 从结果可以看到a 和q输出同样的结果，+1后移动一个行指针。
-
-
 
 ## 指针与字符数组
 
@@ -301,25 +293,21 @@ china!
 
 p 所指向的起始位置拿进来，依次向后输出，直到碰到尾0为止。
 
-
-
 ```
       char str[] = "hello";
       // str[6]
-  
+
       //(F) str = "world"; str数组名是一个地址常量
       strcpy(str, "world"); // h被w覆盖，e被o,直到尾0.
-  
+
       puts(str);
 ```
-
-
 
 ```c
   int main( )
   {
       char *str = "hello";
-  
+
 ⚠     printf(format: "%d %d\n", sizeof(str), strlen(s: str));
    }
 ```
@@ -328,26 +316,20 @@ out: 8 5
 
 64位系统，一个指针8个字节，heoolo不包括0,5个字节。
 
-
-
 串常量不能被覆盖，只需要修改指针指向。
 
 ```c
       char str[] = "hello"; //串常量
       // str[6]
-  
+
      // strcpy(str, "world");
- 
+
       str = "world"; 
- 
+
       puts(str);
-
-
 ```
 
 https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=47
-
-
 
 ## const与指针
 
@@ -397,16 +379,16 @@ const float pi = 3.14 // pi这个值不能变，类似final in java
 ```c
   #include <stdio.h>
 ⚠ #include <stdlib.h>
-  
+
   #define PI 3.14
-  
+
   int main()
   {
      int i = 1;
      int j = 100;
       // 常量指针
       const int *p = &i;
-  
+
        p = &j; //指针指向可以改
       printf(format: "%d\n",*p);
      // printf("i = %d\n", i); 
@@ -426,12 +408,9 @@ const float pi = 3.14 // pi这个值不能变，类似final in java
     //(F) p = &j; 
 
     //(F) *p = 10;
-
 ```
 
 指针指向的值不能变.指针指向也不能变
-
-
 
 ## 指针数组与数组指针
 
@@ -450,10 +429,7 @@ int(*q)[3] = a; -> type name; -> int[3] *p; // 一个指针指向了数组
 int * arr[3]; -> TYPE Name -> int *[3] arr;
 ```
 
-
-
 ```c
-
 int main()
 {
     char *name[5] = {"Follow me", "Basic", "Great", "Fortran", "Computer"};
@@ -487,3 +463,88 @@ int main()
 ```
 
 ## 多级指针
+
+# Function
+
+## 一维数组
+
+int a[N] = {1,2,3,4,5,6};
+int *p = a;
+
+| 传参    | 形参接收类型 |
+| ----- | ------ |
+| a     | int *  |
+| *a    | int    |
+| a[0]  | int    |
+| &a[3] | int *  |
+| p[i]  | int    |
+| p     | int *  |
+| *p    | int    |
+| p+1   | int*   |
+
+```c
+  #include <stdio.h>
+  #include <stdlib.h>
+
+  //void print_arr(int *p, int size)  
+  void print_arr(int p[], int size) // 和int *p一样的效果
+  {
+      int i;
+⚠     printf(format: "%s:%d\n", __FUNCTION__, sizeof(p));
+      // out: 8 指针
+
+      for (i = 0; i < size; i++)
+          printf(format: "%d ", *(p + i));
+      printf(format: "\n");
+  }
+
+int main( )
+{
+      int a[] = {[0]=1, [1]=3, [2]=5, [3]=7, [4]=9};
+
+⚠      printf(format: "%s:%d\n", __FUNCTION__, sizeof(a));
+      // out: 20 5*4
+
+       print_arr(p: a, size: sizeof(a) / sizeof(*a));
+}
+```
+
+## 二维数组
+
+| 传参                   | 类型                              |
+| -------------------- | ------------------------------- |
+| `a[i][j]`            | int                             |
+| `*(a+i)+j`           | int *                           |
+| `a[i]+j` 等同于*(a+i)+j | ~~int~~ 正确答案： int *             |
+| `p[i]`               | ~~int [N] *~~ 正确答案： int         |
+| `*p`                 | ~~int [N] *~~ 正确答案： int         |
+| `q[i][j]`            | int                             |
+| `*q`                 | ~~int [N] *~~ 正确答案： int*        |
+| `q`                  | int (*) [N]                     |
+| `p+3`                | ~~int [N] *~~ 正确答案： int*        |
+| `q+2`                | ~~int [N] *~~ 正确答案： int (*) [N] |
+
+`int (*p)[N]` 数组指针 ： 指向数组的指针
+
+
+
+```c
+
+// void print_douarr1(int (*p)[N], int m, int n) 数组指针
+void print_douarr1(int (*p)[N], int m, int n)
+{
+    printf("sizeof(p)=%d\n", sizeof(p));
+
+    int i, j;
+
+    for (i = 0; i < m; i++)
+    {
+        for (j = 0; j < n; j++)
+        {
+            // printf("%4d", *(*(p + i) + j));
+            printf("%4d", p[i][j]);
+        }
+        printf("\n");
+    }
+}
+```
