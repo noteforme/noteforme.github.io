@@ -52,8 +52,6 @@ call plug#end()
 
 https://www.youtube.com/watch?v=7-dfpQ5sexk
 
-
-
 ```bash
 sudo npm i -g yarn   
 cd .vim/plugged/coc.nvim
@@ -64,16 +62,10 @@ vim .vimrc
 CocInstall coc-clangd
 ```
 
-
-
 ```bash
 CocInstall coc-clangd
 CocCommand clangd.install
 ```
-
-
-
-
 
 ## Search
 
