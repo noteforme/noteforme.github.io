@@ -546,10 +546,6 @@ void print_douarr1(int (*p)[N], int m, int n)
 }
 ```
 
-
-
-
-
 // 为什么形参传的值不一样。
 
 ```c
@@ -611,10 +607,6 @@ The main practical difference is how you navigate through memory:
 
 This is why in your `find_num` function, `*(p + num)` gives you a pointer to the beginning of row `num`, and then `*(*(p + num) + i)` accesses the individual elements in that row.
 
-
-
-
-
 # 函数与指针
 
 ## 指针函数
@@ -626,18 +618,6 @@ This is why in your `find_num` function, `*(p + num)` gives you a pointer to the
 返回值 * 函数名 （形参）
 
 如：`int * fun(int);`
-
-### 函数指针
-
-[](https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88)
-
-是一个**指针**，指向**函数**。
-
-类型 （* 指针名） （形参）
-
-如： `int (*p)(int);`
-
-
 
 ```c
 int * find_num(int (*p)[N], int num) // 学生的成绩，每行开头指这个学生，后续的列是他的成绩
@@ -659,18 +639,71 @@ int main()
 
     find_num(a, 2);
 }
-          
+```
+
+https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=59
+
+
+
+### 函数指针
+
+[](https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88)
+
+定义一个**指针**，指向**函数**。
+
+类型 （* 指针名） （形参）
+
+如： `int (*p)(int);`
+
+
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int add(int a, int b)
+{
+    return a + b;
+}
+
+int sub(int a, int b)
+{
+    return a - b;
+}
+
+int main()
+{
+    int a = 3, b = 5;
+    int ret;
+    // int (*p)(int, int);
+    // int (*q)(int, int);
+
+    int (*funcp[2])(int, int);
+
+    // p = add;
+    // q = sub;
+
+    funcp[0] = add;
+    funcp[1] = sub;
+
+    // ret = p(a, b);
+    // ret = q(a, b);
+
+    for (int i = 0; i < 2; i++)
+    {
+        ret = funcp[i](a, b); // 作用与函数 * 可以省略
+        printf("ret = %d\n", ret);
+    }
+
+    exit(0);
+}
 ```
 
 
 
 
 
-
-
-https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=59
-
-
+https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.videopod.episodes&vd_source=d4c5260002405798a57476b318eccac9&p=59
 
 ### 函数指针数组
 
