@@ -79,7 +79,7 @@ output: code
   ```
   bash
   ```
-
+  
   Copy
   gcc -c myfile.c
 
@@ -93,21 +93,13 @@ This will produce an object file
  without linking.
 ```
 
-
-
-
-
 # Makefile
 
 https://www.gnu.org/software/make/manual/make.html
 
-
-
 [Make/make.md · 无限十三年/CPP - Gitee.com](https://gitee.com/unlimited13/cpp/blob/master/Make/make.md)
 
 https://www.bilibili.com/video/BV1Bv4y1J7QT
-
-
 
 hello.cpp
 
@@ -125,7 +117,7 @@ MakeFile
 
 ```
 hello: hello.cpp
-	 g++ hello.cpp -o hello  
+     g++ hello.cpp -o hello  
 ```
 
 make
