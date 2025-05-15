@@ -7,9 +7,17 @@ categories: CPP
 
 
 
+
+
+On a 32-bit machine, where addresses are 32 bits in size, the entire memory space begins at 0x00000000 (in hex, each 0 represents 4 bits of 0) and ends at 0xFFFFFFFF (recall that 0x indicates hexadecimal, and that each F represents four binary 1’s).
+
+https://www.coursera.org/learn/pointers-arrays-recursion/supplement/sVQ8O/a-programs-view-of-memory
+
+
+
+
+
 https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88
-
-
 
 the flow of building a C program
 
@@ -659,7 +667,63 @@ int main()
 
 https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=59
 
+### 函数指针
+
+[](https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88)
+
+定义一个**指针**，指向**函数**。
+
+类型 （* 指针名） （形参）
+
+如： `int (*p)(int);`
+
+https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.videopod.episodes&vd_source=d4c5260002405798a57476b318eccac9&p=59
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int add(int a, int b)
+{
+    return a + b;
+}
+
+int sub(int a, int b)
+{
+    return a - b;
+}
+
+int main()
+{
+    int a = 3, b = 5;
+    int ret;
+    // int (*p)(int, int);
+    // int (*q)(int, int);
+
+    int (*funcp[2])(int, int);
+
+    // p = add;
+    // q = sub;
+
+    funcp[0] = add;
+    funcp[1] = sub;
+
+    // ret = p(a, b);
+    // ret = q(a, b);
+
+    for (int i = 0; i < 2; i++)
+    {
+        ret = funcp[i](a, b); // 作用与函数 * 可以省略
+        printf("ret = %d\n", ret);
+    }
+
+    exit(0);
+}
+```
+
 ### 函数指针数组
+
+https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=59
 
 [](https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E6%95%B0%E7%BB%84)
 
@@ -672,9 +736,6 @@ https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd
 ```c
 int (*arr[N])(int)
 int (*funcp[2])(int,int);
-```
-
-
 
 arr数组总有N个元素,这N个元素都是指向函数的指针，
 
@@ -722,6 +783,38 @@ int main()
 }
 ```
 
-
-
 https://github.com/sinlatansen/Linux-C-Notes/blob/main/
+
+
+
+
+
+# Duke
+
+
+
+fast-forward 04_compile
+
+
+
+```bash
+emacs README
+
+// open a file
+Ctrl + x
+Ctrl + f
+// type the file
+
+// save the file
+Ctrl + x
+Ctrl + s
+
+//suspend emacs
+Ctrl + z
+
+
+gcc -o hello -Wall -pedantic -std=gnu99 hello.c
+git add hello.c
+
+git commit
+```

@@ -8,6 +8,12 @@ categories:
 
 # GCC
 
+
+
+gcc hello.c -o hello
+
+
+
 Course resources 12. [Compilation and Makefiles](https://cse.msu.edu/~cse251/lecture12.pdf)
 
 https://cse.msu.edu/~cse251/
