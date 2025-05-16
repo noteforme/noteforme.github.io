@@ -341,6 +341,19 @@ https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd
 
 
 
+```
+const int * const * p
+
+可以理解 const修饰 * p 那么p的指向不能改
+        const修饰 int * 那么 *p的值 不能改。
+```
+
+
+
+
+
+
+
 We have declared *p* as a pointer to a **const int**—that is, *p* points at a int, and we are not allowed to change that int. We can change where *p* points (*e.g., p = &y*; is legal—if *y* is an int). However, changing the value in the box that *p* points at (*e.g., *p = 4*;) is illegal—we have said that the int which *p* points at is **const**. If we do try to write something like **p = 4*;, we will get a compiler error like this:
 
 https://www.coursera.org/learn/pointers-arrays-recursion/supplement/CG1qU/const
