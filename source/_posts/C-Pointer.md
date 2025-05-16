@@ -5,17 +5,9 @@ tags:
 categories: CPP
 ---
 
-
-
-
-
 On a 32-bit machine, where addresses are 32 bits in size, the entire memory space begins at 0x00000000 (in hex, each 0 represents 4 bits of 0) and ends at 0xFFFFFFFF (recall that 0x indicates hexadecimal, and that each F represents four binary 1’s).
 
 https://www.coursera.org/learn/pointers-arrays-recursion/supplement/sVQ8O/a-programs-view-of-memory
-
-
-
-
 
 https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88
 
@@ -345,7 +337,13 @@ out: 8 5
 
 https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=47
 
-## const与指针
+## Const与指针
+
+
+
+We have declared *p* as a pointer to a **const int**—that is, *p* points at a int, and we are not allowed to change that int. We can change where *p* points (*e.g., p = &y*; is legal—if *y* is an int). However, changing the value in the box that *p* points at (*e.g., *p = 4*;) is illegal—we have said that the int which *p* points at is **const**. If we do try to write something like **p = 4*;, we will get a compiler error like this:
+
+https://www.coursera.org/learn/pointers-arrays-recursion/supplement/CG1qU/const
 
 常量
 
@@ -785,17 +783,9 @@ int main()
 
 https://github.com/sinlatansen/Linux-C-Notes/blob/main/
 
-
-
-
-
 # Duke
 
-
-
 fast-forward 04_compile
-
-
 
 ```bash
 emacs README
