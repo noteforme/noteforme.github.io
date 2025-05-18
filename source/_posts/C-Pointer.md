@@ -5,6 +5,18 @@ tags:
 categories: CPP
 ---
 
+
+
+# Pointers, Arrays, and Recursion
+
+lab问题处理
+
+https://www.coursera.org/learn/writing-running-fixing-code/supplement/qPvk4/solutions-to-a-few-common-problems
+
+
+
+
+
 On a 32-bit machine, where addresses are 32 bits in size, the entire memory space begins at 0x00000000 (in hex, each 0 represents 4 bits of 0) and ends at 0xFFFFFFFF (recall that 0x indicates hexadecimal, and that each F represents four binary 1’s).
 
 https://www.coursera.org/learn/pointers-arrays-recursion/supplement/sVQ8O/a-programs-view-of-memory
@@ -339,20 +351,12 @@ https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd
 
 ## Const与指针
 
-
-
 ```
 const int * const * p
 
 可以理解 const修饰 * p 那么p的指向不能改
         const修饰 int * 那么 *p的值 不能改。
 ```
-
-
-
-
-
-
 
 We have declared *p* as a pointer to a **const int**—that is, *p* points at a int, and we are not allowed to change that int. We can change where *p* points (*e.g., p = &y*; is legal—if *y* is an int). However, changing the value in the box that *p* points at (*e.g., *p = 4*;) is illegal—we have said that the int which *p* points at is **const**. If we do try to write something like **p = 4*;, we will get a compiler error like this:
 
