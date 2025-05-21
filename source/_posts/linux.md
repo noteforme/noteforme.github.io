@@ -52,10 +52,86 @@ call plug#end()
 
 https://www.youtube.com/watch?v=7-dfpQ5sexk
 
+
+
+## debug
+
+
+
+requirement 
+
+vim > 8.1
+
+need gdb installed
+
+
+
+cloop.c
+
+```c
+#include <stdio.h>
+
+int main() {
+    for (int i = 1; i <= 10; i++) {
+        printf(format: "%d\n", i);
+    }
+    return 0;
+}
+```
+
+compile
+
+```bash
+gcc -g cloop.c -o cloop
+```
+
+g++  works too
+
+
+
+plugin load
+
+命令模式下
+
+```bash
+packadd termdebug
+Termdebug cloop
+```
+
+
+
+```bash
+b 5
+run
+p i   // check value i 
+
+- file bin   加载名为 bin 的二进制文件 
+- CTRL-C     中断程序
+- run/r      运行
+- next/n     执行当前行，停在下一行 （step over）
+- step/s     执行当前行，进入下一层函数 （step in）
+- finish     执行直至离开当前函数
+- where      显示栈
+- continue/c 继续执行
+- break/b N  在第 N 行加断点
+- break/b f  在函数 f 处加断点
+- delete     删除所有断点
+```
+
+https://sourceware.org/gdb/current/onlinedocs/gdb/
+
+
+
+https://medium.com/swlh/debugging-c-programs-in-vim-683ec257b9e2
+
+[Vim TermDebug Plugin - YouTube](http://youtube.com/watch?v=Hm2RgjQGp2s)
+
+[Vim Techniques 03 - GDB Debugging right inside Vim - YouTube](https://www.youtube.com/watch?v=jXIG4kz8Pdo)
+
+
+
 prepare nodejs
 =======
-
-
 
 ```bash
 sudo npm i -g yarn   
@@ -65,11 +141,7 @@ cd ~
 vim .vimrc
 CocInstall coc-clangd
 CocCommand clangd.install
-
 ```
-
-
-
 
 ## reformat code
 
