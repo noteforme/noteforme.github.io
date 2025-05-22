@@ -5,17 +5,11 @@ tags:
 categories: CPP
 ---
 
-
-
 # Pointers, Arrays, and Recursion
 
 lab问题处理
 
 https://www.coursera.org/learn/writing-running-fixing-code/supplement/qPvk4/solutions-to-a-few-common-problems
-
-
-
-
 
 On a 32-bit machine, where addresses are 32 bits in size, the entire memory space begins at 0x00000000 (in hex, each 0 represents 4 bits of 0) and ends at 0xFFFFFFFF (recall that 0x indicates hexadecimal, and that each F represents four binary 1’s).
 
@@ -78,6 +72,8 @@ q = &p
 *q =  *(&p) = p = &i
 **q = *(*q) = &(&i) = 1
 ```
+
+
 
 ## array
 
@@ -245,6 +241,40 @@ The difference in addresses occurs because:
 This is why `(a+i+j)` and `*(a+i)+j` point to completely different memory locations. The first is jumping multiple rows ahead, while the second is moving within the same row.
 
 For a 2D array access, the correct pointer arithmetic is `*(*(a+i)+j)`, which corresponds to `a[i][j]`.
+
+
+
+
+
+# String
+
+
+
+The compiler puts the string literals into a read only region of memory because the literal may get reused, and thus should not be changed. Consider the following code:
+
+```c
+char * str1 = "Hello";
+str1[0] = 'J';  // this would crash, but suppose it did not
+```
+
+
+
+## Mutable Strings
+
+When we want to modify a string, we need the string to reside in writeable memory, such as the frame of a function or memory that is dynamically allocated by *malloc* (which you will learn about in Course 4).
+
+```c
+char str[] = "Hello World\n";
+This code behaves exactly as if we wrote:
+char str[] = {'H', 'e', 'l', 'l', 'o', ' ',
+              'W', 'o', 'r', 'l'  'd', '\n', '\0'};
+```
+
+
+
+
+
+
 
 ## 数组指针
 
