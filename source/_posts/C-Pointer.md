@@ -73,8 +73,6 @@ q = &p
 **q = *(*q) = &(&i) = 1
 ```
 
-
-
 ## array
 
 ```
@@ -242,13 +240,7 @@ This is why `(a+i+j)` and `*(a+i)+j` point to completely different memory locati
 
 For a 2D array access, the correct pointer arithmetic is `*(*(a+i)+j)`, which corresponds to `a[i][j]`.
 
-
-
-
-
 # String
-
-
 
 The compiler puts the string literals into a read only region of memory because the literal may get reused, and thus should not be changed. Consider the following code:
 
@@ -256,8 +248,6 @@ The compiler puts the string literals into a read only region of memory because 
 char * str1 = "Hello";
 str1[0] = 'J';  // this would crash, but suppose it did not
 ```
-
-
 
 ## Mutable Strings
 
@@ -269,12 +259,6 @@ This code behaves exactly as if we wrote:
 char str[] = {'H', 'e', 'l', 'l', 'o', ' ',
               'W', 'o', 'r', 'l'  'd', '\n', '\0'};
 ```
-
-
-
-
-
-
 
 ## 数组指针
 
@@ -480,13 +464,19 @@ int(*q)[3] = a; -> type name; -> int[3] *p; // 一个指针指向了数组
 *p 指针 指向 int[3], 每次移动3个int
 ```
 
-### 指针数组
+### array of pointers 指针数组
 
 数组里的每一个元素都是指针。
 
 ```
 int * arr[3]; -> TYPE Name -> int *[3] arr;
 ```
+
+* First, we are not constrained to having each row be the same size as the other rows.
+
+* Second, in the array of pointers representation, *myMatrix* [*i*] is an lvalue (recall that it is not if we just declare an array with multiple dimensions).
+
+* Third, we can have two rows point at the exact same array (aliasing each other)
 
 ```c
 int main()
