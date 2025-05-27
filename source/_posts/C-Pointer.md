@@ -668,7 +668,7 @@ This is why in your `find_num` function, `*(p + num)` gives you a pointer to the
 
 如：`int * fun(int);`
 
-### 函数指针
+### Function Pointe函数指针
 
 [](https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88)
 
@@ -677,6 +677,12 @@ This is why in your `find_num` function, `*(p + num)` gives you a pointer to the
 类型 （* 指针名） （形参）
 
 如： `int (*p)(int);`
+
+
+
+this syntax makes sense, as it looks a lot like the normal declaration of a function—the return type comes first, followed by the name, followed by the parameters in parenthesis .
+
+
 
 ```c
 int * find_num(int (*p)[N], int num) // 学生的成绩，每行开头指这个学生，后续的列是他的成绩
@@ -702,17 +708,7 @@ int main()
 
 https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=59
 
-### 函数指针
 
-[](https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88)
-
-定义一个**指针**，指向**函数**。
-
-类型 （* 指针名） （形参）
-
-如： `int (*p)(int);`
-
-https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.videopod.episodes&vd_source=d4c5260002405798a57476b318eccac9&p=59
 
 ```c
 #include <stdio.h>
@@ -755,6 +751,26 @@ int main()
     exit(0);
 }
 ```
+
+As with other types, we can use **typedef** with function pointers. The syntax is again more similar to function declarations than to other forms of **typedef**. We might re-write our previous example to use **typedef**, so that it is easier to read:
+
+
+
+```c
+typedef int (*int_function_t) (int);
+ 	
+void doToAll(int * data, int n, int_function_t f) {
+  for (int i = 0; i < n; i++) {
+    data[i] = f(data[i]);
+  }
+}
+```
+
+
+
+
+
+
 
 ### 函数指针数组
 
