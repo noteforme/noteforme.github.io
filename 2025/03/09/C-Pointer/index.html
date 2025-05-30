@@ -19,16 +19,16 @@
   <meta name="author" content="Jon">
   <meta name="keywords" content="">
   
-    <meta name="description" content="On a 32-bit machine, where addresses are 32 bits in size, the entire memory space begins at 0x00000000 (in hex, each 0 represents 4 bits of 0) and ends at 0xFFFFFFFF (recall that 0x indicates hexadeci">
+    <meta name="description" content="Pointers, Arrays, and Recursionlab问题处理 https:&#x2F;&#x2F;www.coursera.org&#x2F;learn&#x2F;writing-running-fixing-code&#x2F;supplement&#x2F;qPvk4&#x2F;solutions-to-a-few-common-problems On a 32-bit machine, where addresses are 32 bits i">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C-Pointer">
 <meta property="og:url" content="https://noteforme.github.io/2025/03/09/C-Pointer/index.html">
 <meta property="og:site_name" content="Jon&#39;s Blog">
-<meta property="og:description" content="On a 32-bit machine, where addresses are 32 bits in size, the entire memory space begins at 0x00000000 (in hex, each 0 represents 4 bits of 0) and ends at 0xFFFFFFFF (recall that 0x indicates hexadeci">
+<meta property="og:description" content="Pointers, Arrays, and Recursionlab问题处理 https:&#x2F;&#x2F;www.coursera.org&#x2F;learn&#x2F;writing-running-fixing-code&#x2F;supplement&#x2F;qPvk4&#x2F;solutions-to-a-few-common-problems On a 32-bit machine, where addresses are 32 bits i">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/C/202504051314822.png">
 <meta property="article:published_time" content="2025-03-09T14:01:06.000Z">
-<meta property="article:modified_time" content="2025-05-18T10:37:22.755Z">
+<meta property="article:modified_time" content="2025-05-30T11:59:02.405Z">
 <meta property="article:author" content="Jon">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/C/202504051314822.png">
@@ -224,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.6k words
+          2.7k words
         
       </span>
     
@@ -235,7 +235,7 @@
         
         
         
-          22 mins
+          23 mins
         
       </span>
     
@@ -277,7 +277,9 @@
             
               <div class="markdown-body">
                 
-                <p>On a 32-bit machine, where addresses are 32 bits in size, the entire memory space begins at 0x00000000 (in hex, each 0 represents 4 bits of 0) and ends at 0xFFFFFFFF (recall that 0x indicates hexadecimal, and that each F represents four binary 1’s).</p>
+                <h1 id="Pointers-Arrays-and-Recursion"><a href="#Pointers-Arrays-and-Recursion" class="headerlink" title="Pointers, Arrays, and Recursion"></a>Pointers, Arrays, and Recursion</h1><p>lab问题处理</p>
+<p><a target="_blank" rel="noopener" href="https://www.coursera.org/learn/writing-running-fixing-code/supplement/qPvk4/solutions-to-a-few-common-problems">https://www.coursera.org/learn/writing-running-fixing-code/supplement/qPvk4/solutions-to-a-few-common-problems</a></p>
+<p>On a 32-bit machine, where addresses are 32 bits in size, the entire memory space begins at 0x00000000 (in hex, each 0 represents 4 bits of 0) and ends at 0xFFFFFFFF (recall that 0x indicates hexadecimal, and that each F represents four binary 1’s).</p>
 <p><a target="_blank" rel="noopener" href="https://www.coursera.org/learn/pointers-arrays-recursion/supplement/sVQ8O/a-programs-view-of-memory">https://www.coursera.org/learn/pointers-arrays-recursion/supplement/sVQ8O/a-programs-view-of-memory</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88">https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88</a></p>
 <p>the flow of building a C program</p>
@@ -391,6 +393,12 @@
 </ul>
 <p>This is why <code>(a+i+j)</code> and <code>*(a+i)+j</code> point to completely different memory locations. The first is jumping multiple rows ahead, while the second is moving within the same row.</p>
 <p>For a 2D array access, the correct pointer arithmetic is <code>*(*(a+i)+j)</code>, which corresponds to <code>a[i][j]</code>.</p>
+<h1 id="String"><a href="#String" class="headerlink" title="String"></a>String</h1><p>The compiler puts the string literals into a read only region of memory because the literal may get reused, and thus should not be changed. Consider the following code:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> * str1 = <span class="hljs-string">&quot;Hello&quot;</span>;<br>str1[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;J&#x27;</span>;  <span class="hljs-comment">// this would crash, but suppose it did not</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Mutable-Strings"><a href="#Mutable-Strings" class="headerlink" title="Mutable Strings"></a>Mutable Strings</h2><p>When we want to modify a string, we need the string to reside in writeable memory, such as the frame of a function or memory that is dynamically allocated by <em>malloc</em> (which you will learn about in Course 4).</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> str[] = <span class="hljs-string">&quot;Hello World\n&quot;</span>;<br>This code behaves exactly as <span class="hljs-keyword">if</span> we wrote:<br><span class="hljs-type">char</span> str[] = &#123;<span class="hljs-string">&#x27;H&#x27;</span>, <span class="hljs-string">&#x27;e&#x27;</span>, <span class="hljs-string">&#x27;l&#x27;</span>, <span class="hljs-string">&#x27;l&#x27;</span>, <span class="hljs-string">&#x27;o&#x27;</span>, <span class="hljs-string">&#x27; &#x27;</span>,<br>              <span class="hljs-string">&#x27;W&#x27;</span>, <span class="hljs-string">&#x27;o&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>, <span class="hljs-string">&#x27;l&#x27;</span>  <span class="hljs-string">&#x27;d&#x27;</span>, <span class="hljs-string">&#x27;\n&#x27;</span>, <span class="hljs-string">&#x27;\0&#x27;</span>&#125;;<br></code></pre></td></tr></table></figure>
+
 <h2 id="数组指针"><a href="#数组指针" class="headerlink" title="数组指针"></a>数组指针</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.videopod.episodes&vd_source=d4c5260002405798a57476b318eccac9&p=46">https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.videopod.episodes&amp;vd_source=d4c5260002405798a57476b318eccac9&amp;p=46</a></p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-built_in">int</span>(*q)[<span class="hljs-number">3</span>] = a; <span class="hljs-comment">// 一个指针指向了数组</span><br>*p 指针 指向 <span class="hljs-built_in">int</span>[<span class="hljs-number">3</span>], 每次移动<span class="hljs-number">3</span>个<span class="hljs-built_in">int</span><br></code></pre></td></tr></table></figure>
 
@@ -415,12 +423,6 @@
 
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=47">https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&amp;vd_source=d4c5260002405798a57476b318eccac9&amp;p=47</a></p>
 <h2 id="Const与指针"><a href="#Const与指针" class="headerlink" title="Const与指针"></a>Const与指针</h2><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> * <span class="hljs-keyword">const</span> * p<br><br>可以理解 <span class="hljs-keyword">const</span>修饰 * p 那么p的指向不能改<br>        <span class="hljs-keyword">const</span>修饰 <span class="hljs-built_in">int</span> * 那么 *p的值 不能改。<br></code></pre></td></tr></table></figure>
-
-
-
-
-
-
 
 <p>We have declared <em>p</em> as a pointer to a <strong>const int</strong>—that is, <em>p</em> points at a int, and we are not allowed to change that int. We can change where <em>p</em> points (<em>e.g., p &#x3D; &amp;y</em>; is legal—if <em>y</em> is an int). However, changing the value in the box that <em>p</em> points at (*e.g., <em>p &#x3D; 4</em>;) is illegal—we have said that the int which <em>p</em> points at is <strong>const</strong>. If we do try to write something like *<em>p &#x3D; 4</em>;, we will get a compiler error like this:</p>
 <p><a target="_blank" rel="noopener" href="https://www.coursera.org/learn/pointers-arrays-recursion/supplement/CG1qU/const">https://www.coursera.org/learn/pointers-arrays-recursion/supplement/CG1qU/const</a></p>
@@ -447,9 +449,17 @@
 <p>指针指向的值不能变.指针指向也不能变</p>
 <h2 id="指针数组与数组指针"><a href="#指针数组与数组指针" class="headerlink" title="指针数组与数组指针"></a>指针数组与数组指针</h2><h3 id="数组指针-1"><a href="#数组指针-1" class="headerlink" title="数组指针"></a>数组指针</h3><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs fortran"><span class="hljs-built_in">int</span>(*q)[<span class="hljs-number">3</span>] = a; -&gt; <span class="hljs-keyword">type</span> <span class="hljs-keyword">name</span>; -&gt; <span class="hljs-built_in">int</span>[<span class="hljs-number">3</span>] *p; // 一个指针指向了数组<br>*p 指针 指向 <span class="hljs-built_in">int</span>[<span class="hljs-number">3</span>], 每次移动<span class="hljs-number">3</span>个<span class="hljs-built_in">int</span><br></code></pre></td></tr></table></figure>
 
-<h3 id="指针数组"><a href="#指针数组" class="headerlink" title="指针数组"></a>指针数组</h3><p>数组里的每一个元素都是指针。</p>
+<h3 id="array-of-pointers-指针数组"><a href="#array-of-pointers-指针数组" class="headerlink" title="array of pointers 指针数组"></a>array of pointers 指针数组</h3><p>数组里的每一个元素都是指针。</p>
 <figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs fortran"><span class="hljs-built_in">int</span> * arr[<span class="hljs-number">3</span>]; -&gt; <span class="hljs-keyword">TYPE</span> <span class="hljs-keyword">Name</span> -&gt; <span class="hljs-built_in">int</span> *[<span class="hljs-number">3</span>] arr;<br></code></pre></td></tr></table></figure>
 
+<ul>
+<li><p>First, we are not constrained to having each row be the same size as the other rows.</p>
+</li>
+<li><p>Second, in the array of pointers representation, <em>myMatrix</em> [<em>i</em>] is an lvalue (recall that it is not if we just declare an array with multiple dimensions).</p>
+</li>
+<li><p>Third, we can have two rows point at the exact same array (aliasing each other)</p>
+</li>
+</ul>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">char</span> *name[<span class="hljs-number">5</span>] = &#123;<span class="hljs-string">&quot;Follow me&quot;</span>, <span class="hljs-string">&quot;Basic&quot;</span>, <span class="hljs-string">&quot;Great&quot;</span>, <span class="hljs-string">&quot;Fortran&quot;</span>, <span class="hljs-string">&quot;Computer&quot;</span>&#125;;<br>    <span class="hljs-comment">// 指针数组</span><br>    <span class="hljs-type">int</span>   i, j, k;<br>    <span class="hljs-type">char</span> *tmp;<br><br>    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span> - <span class="hljs-number">1</span>; i++)<br>    &#123;<br>        k = i;<br>        <span class="hljs-keyword">for</span> (j = i + <span class="hljs-number">1</span>; j &lt; <span class="hljs-number">5</span>; j++)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(name[k], name[j]) &gt; <span class="hljs-number">0</span>)<br>                k = j;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (k != j)<br>        &#123;<br>            tmp     = name[i];<br>            name[i] = name[k];<br>            name[k] = tmp;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++)<br>    &#123;<br>        <span class="hljs-built_in">puts</span>(name[i]);<br>    &#125;<br><br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="多级指针"><a href="#多级指针" class="headerlink" title="多级指针"></a>多级指针</h2><h1 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h1><h2 id="一维数组"><a href="#一维数组" class="headerlink" title="一维数组"></a>一维数组</h2><p>int a[N] &#x3D; {1,2,3,4,5,6};<br>int *p &#x3D; a;</p>
@@ -572,19 +582,24 @@
 <p>是一个<strong>函数</strong>，返回值是<strong>指针</strong>。</p>
 <p>返回值 * 函数名 （形参）</p>
 <p>如：<code>int * fun(int);</code></p>
-<h3 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h3><p><a target="_blank" rel="noopener" href="https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88"></a></p>
+<h3 id="Function-Pointe函数指针"><a href="#Function-Pointe函数指针" class="headerlink" title="Function Pointe函数指针"></a>Function Pointe函数指针</h3><p><a target="_blank" rel="noopener" href="https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88"></a></p>
 <p>是一个<strong>指针</strong>，指向<strong>函数</strong>。</p>
 <p>类型 （* 指针名） （形参）</p>
 <p>如： <code>int (*p)(int);</code></p>
+<p>this syntax makes sense, as it looks a lot like the normal declaration of a function—the return type comes first, followed by the name, followed by the parameters in parenthesis .</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> * <span class="hljs-title function_">find_num</span><span class="hljs-params">(<span class="hljs-type">int</span> (*p)[N], <span class="hljs-type">int</span> num)</span> <span class="hljs-comment">// 学生的成绩，每行开头指这个学生，后续的列是他的成绩</span><br>&#123;   <br><span class="hljs-keyword">if</span>(num&gt;M<span class="hljs-number">-1</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>  <span class="hljs-keyword">return</span> *(p+num);<br>&#125;      <br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> i, j;<br>    <span class="hljs-type">int</span> a[M][N] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>&#125;;<br><br>    <span class="hljs-type">float</span> ave;<br><br>    <span class="hljs-comment">// ave = average_score(*a, M * N);</span><br>    <span class="hljs-comment">// printf(&quot;ave = %f\n&quot;, ave);</span><br><br>    find_num(a, <span class="hljs-number">2</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=59">https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&amp;vd_source=d4c5260002405798a57476b318eccac9&amp;p=59</a></p>
-<h3 id="函数指针-1"><a href="#函数指针-1" class="headerlink" title="函数指针"></a>函数指针</h3><p><a target="_blank" rel="noopener" href="https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88"></a></p>
-<p>定义一个<strong>指针</strong>，指向<strong>函数</strong>。</p>
-<p>类型 （* 指针名） （形参）</p>
-<p>如： <code>int (*p)(int);</code></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.videopod.episodes&vd_source=d4c5260002405798a57476b318eccac9&p=59">https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.videopod.episodes&amp;vd_source=d4c5260002405798a57476b318eccac9&amp;p=59</a></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> a + b;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">sub</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> a - b;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> a = <span class="hljs-number">3</span>, b = <span class="hljs-number">5</span>;<br>    <span class="hljs-type">int</span> ret;<br>    <span class="hljs-comment">// int (*p)(int, int);</span><br>    <span class="hljs-comment">// int (*q)(int, int);</span><br><br>    <span class="hljs-type">int</span> (*funcp[<span class="hljs-number">2</span>])(<span class="hljs-type">int</span>, <span class="hljs-type">int</span>);<br><br>    <span class="hljs-comment">// p = add;</span><br>    <span class="hljs-comment">// q = sub;</span><br><br>    funcp[<span class="hljs-number">0</span>] = add;<br>    funcp[<span class="hljs-number">1</span>] = sub;<br><br>    <span class="hljs-comment">// ret = p(a, b);</span><br>    <span class="hljs-comment">// ret = q(a, b);</span><br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">2</span>; i++)<br>    &#123;<br>        ret = funcp[i](a, b); <span class="hljs-comment">// 作用与函数 * 可以省略</span><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ret = %d\n&quot;</span>, ret);<br>    &#125;<br><br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>As with other types, we can use <strong>typedef</strong> with function pointers. The syntax is again more similar to function declarations than to other forms of <strong>typedef</strong>. We might re-write our previous example to use <strong>typedef</strong>, so that it is easier to read:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-title function_">int</span> <span class="hljs-params">(*<span class="hljs-type">int_function_t</span>)</span> <span class="hljs-params">(<span class="hljs-type">int</span>)</span>;<br> 	<br><span class="hljs-type">void</span> <span class="hljs-title function_">doToAll</span><span class="hljs-params">(<span class="hljs-type">int</span> * data, <span class="hljs-type">int</span> n, <span class="hljs-type">int_function_t</span> f)</span> &#123;<br>  <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>    data[i] = f(data[i]);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
 
 <h3 id="函数指针数组"><a href="#函数指针数组" class="headerlink" title="函数指针数组"></a>函数指针数组</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=59">https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&amp;vd_source=d4c5260002405798a57476b318eccac9&amp;p=59</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/sinlatansen/Linux-C-Notes/blob/main/C07-%E5%87%BD%E6%95%B0/C7-%E5%87%BD%E6%95%B0.md#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E6%95%B0%E7%BB%84"></a></p>
