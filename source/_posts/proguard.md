@@ -126,15 +126,93 @@ Dead Code Elimination:
 
 
 
-### keep
+### no rule
+
+
+
+```kotlin
+class TestClass {
+    val publicField = "public data"
+    private val privateField = "private data"
+    
+    fun publicMethod() = "public method called"
+    private fun privateMethod() = "private method called"
+    
+    fun getPrivateData() = privateField
+    fun callPrivateMethod() = privateMethod()
+}
+```
+
+
+
+```java
+class KeepTestActivty : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Use TestClass - this makes it reachable, so normally it would be kept
+//        val test = TestClass()
+//        Log.d("KeepDemo", "Using TestClass: ${test.publicMethod()}")
+        // Remove direct usage, use only reflection
+        try {
+            val clazz = Class.forName("com.example.myapplication.keep.TestClass")
+            val instance = clazz.getDeclaredConstructor().newInstance()
+            // This will break if TestClass gets obfuscated!
+        } catch (e: Exception) {
+            Log.e("Test", "Reflection failed: ${e.message}")
+        }
+}
+```
+
+
+
+mapping.txt
+
+```
+com.example.myapplication.keep.TestClass -> w1.a:
+# {"id":"sourceFile","fileName":"TestClass.kt"}
+```
+
+
+
+otherwise
+
+**ProGuard's logic:**
+
+1. `MainActivity` is kept (Android framework entry point)
+2. `MainActivity.onCreate()` calls `TestClass()` constructor → Keep `TestClass`
+3. `test.publicMethod()` is called → Keep `publicMethod()`
+4. Since class is referenced, ProGuard keeps it to avoid breaking the code
+
+
+
+### Keep Entire Class
 
 We recommend using package-wide keep rules as a way to temporarily disable R8 in parts of your app. You should always come back to fix these optimization issues later; this is generally a stop-gap solution to work around problem areas.
 
 For example, if part of your app uses Gson heavily and is causing problems with optimization, the ideal fix is to add more [targeted keep rules](https://developer.android.com/topic/performance/app-optimization/add-keep-rules) or move to a codegen solution. But to unblock optimizing the rest of the app, you can place the code defining your Gson types in a dedicated subpackage, and add a rule like this to your `proguard-rules.pro` file:
 
 ```
--keep class com.myapp.json.** { *; }
+-keep class com.example.myapplication.keep.TestClass { *; }
 ```
+
+
+
+mapping.txt
+
+
+
+```
+com.example.myapplication.keep.TestClass -> com.example.myapplication.keep.TestClass:
+# {"id":"sourceFile","fileName":"TestClass.kt"}
+```
+
+
+
+
+
+
 
 If some library you're using has [reflection](https://en.wikipedia.org/wiki/Reflective_programming) into internal components, you can similarly add a keep rule for the entire library. You'll need to inspect the library's code or JAR/AAR to find the appropriate package to keep. Again, this isn't recommended to maintain long term, but can unblock the optimization of the rest of the app:
 
@@ -146,15 +224,21 @@ https://developer.android.com/topic/performance/app-optimization/adopt-optimizat
 
 
 
+
+
+Keep Entire Class
+
+
+
 ### keepclassmembers
 
 ```
 -keepclassmembers [,modifier,...] class_specification {
     member_specification
-}
+} 
 ```
 
-#### Example 1: Keep Getter/Setter Methods
+#### Keep Getter/Setter Methods
 
 ```
 # Keep all getter and setter methods in any class
@@ -167,8 +251,6 @@ https://developer.android.com/topic/performance/app-optimization/adopt-optimizat
 - Classes can be renamed/optimized
 - But if a class survives optimization, its getter/setter methods are preserved
 - Method names like `getName()`, `setAge(int)` won't be obfuscated
-
-
 
 #### Example 2: Keep Fields Used by Serialization
 
@@ -193,14 +275,6 @@ https://developer.android.com/topic/performance/app-optimization/adopt-optimizat
     public static ** valueOf(java.lang.String);
 }
 ```
-
-
-
-
-
-
-
-
 
 # Android config
 
