@@ -656,6 +656,83 @@ The main practical difference is how you navigate through memory:
 
 This is why in your `find_num` function, `*(p + num)` gives you a pointer to the beginning of row `num`, and then `*(*(p + num) + i)` accesses the individual elements in that row.
 
+
+
+
+
+### assigement
+
+https://www.coursera.org/learn/interacting-system-managing-memory/programming/SuwHD/assignment-24-read-arr3
+
+At first, I thought `*q = &p[1];` would change the value, but it just changes the address, not the value
+
+
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int* aFunction(int x, int *p, int ** q) {
+  printf(format: "x = %d\n", x);
+  printf(format: "*p = %d\n", *p);
+  printf(format: "**q= %d\n", **q);
+  *p = 42;
+  **q = 99;
+  *q = &p[1];
+  printf(format: "&p[1] = %d\n", **q);
+  return &p[2];
+}
+
+int main (void) {
+  int anArray[3][3] = { [0]={[0]=1,[1]=2,[2]=3},
+                        [1]={[0]=4,[1]=5,[2]=6},
+                        [2]={[0]=7,[1]=8,[2]=9} };
+
+  int * p = anArray[1];
+  int * q = aFunction(x: anArray[0][0],
+                      p: anArray[2],
+                      q: &p);
+  for (int i =0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      printf(format: "%d\n", anArray[i][j]);
+    }
+  }
+  printf(format: "*q=%d\n", *q);
+
+  return EXIT_SUCCESS;
+}
+~      
+```
+
+**In aFunction:**
+
+1. `*p = 42;` → `anArray[2][0] = 42` (p points to anArray[2])
+2. `**q = 99;` → `anArray[1][0] = 99` (q points to p, which points to anArray[1])
+3. `*q = &p[1];` → q now points to `anArray[2][1]`
+4. `return &p[2];` → returns address of `anArray[2][2]`
+
+
+
+**This means:**
+
+- We're **changing the value of the pointer `p`** in `main`
+- We're **not changing the value at the memory location** that `p` points to
+- We're making `p` point to a different memory address (`anArray[2][1]`)
+
+**Step by step:**
+
+1. Before: `p` in `main` points to `anArray[1][0]`
+2. `*q = &p[1];` changes where `p` points to
+3. After: `p` in `main` now points to `anArray[2][1]`
+
+
+
+
+
+
+
+
+
 # 函数与指针
 
 ## 指针函数
@@ -678,11 +755,7 @@ This is why in your `find_num` function, `*(p + num)` gives you a pointer to the
 
 如： `int (*p)(int);`
 
-
-
 this syntax makes sense, as it looks a lot like the normal declaration of a function—the return type comes first, followed by the name, followed by the parameters in parenthesis .
-
-
 
 ```c
 int * find_num(int (*p)[N], int num) // 学生的成绩，每行开头指这个学生，后续的列是他的成绩
@@ -707,8 +780,6 @@ int main()
 ```
 
 https://www.bilibili.com/video/BV18p4y167Md?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9&p=59
-
-
 
 ```c
 #include <stdio.h>
@@ -754,23 +825,15 @@ int main()
 
 As with other types, we can use **typedef** with function pointers. The syntax is again more similar to function declarations than to other forms of **typedef**. We might re-write our previous example to use **typedef**, so that it is easier to read:
 
-
-
 ```c
 typedef int (*int_function_t) (int);
- 	
+
 void doToAll(int * data, int n, int_function_t f) {
   for (int i = 0; i < n; i++) {
     data[i] = f(data[i]);
   }
 }
 ```
-
-
-
-
-
-
 
 ### 函数指针数组
 
