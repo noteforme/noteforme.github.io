@@ -52,19 +52,15 @@ call plug#end()
 
 https://www.youtube.com/watch?v=7-dfpQ5sexk
 
-
-
 ## debug
 
+### requirement
 
+* vim > 8.1
 
-requirement 
+* need gdb installed
 
-vim > 8.1
-
-need gdb installed
-
-
+### exmample
 
 cloop.c
 
@@ -87,24 +83,31 @@ gcc -g cloop.c -o cloop
 
 g++  works too
 
-
-
 plugin load
+
+
 
 命令模式下
 
 ```bash
+// set code line number
+:set number
 packadd termdebug
 Termdebug cloop
 ```
 
-
-
 ```bash
-b 5
+set args your_arg1 your_arg2
+// setting breakpoint position , in genral in main()
+b main
 run
 p i   // check value i 
 
+```
+
+others command
+
+```
 - file bin   加载名为 bin 的二进制文件 
 - CTRL-C     中断程序
 - run/r      运行
@@ -118,17 +121,19 @@ p i   // check value i
 - delete     删除所有断点
 ```
 
+
+
+
+
+
+
 https://sourceware.org/gdb/current/onlinedocs/gdb/
-
-
 
 https://medium.com/swlh/debugging-c-programs-in-vim-683ec257b9e2
 
 [Vim TermDebug Plugin - YouTube](http://youtube.com/watch?v=Hm2RgjQGp2s)
 
 [Vim Techniques 03 - GDB Debugging right inside Vim - YouTube](https://www.youtube.com/watch?v=jXIG4kz8Pdo)
-
-
 
 prepare nodejs
 =======
