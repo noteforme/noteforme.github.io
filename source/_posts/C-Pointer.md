@@ -5,6 +5,12 @@ tags:
 categories: CPP
 ---
 
+# help
+
+**man -S3 getopt**
+
+https://www.coursera.org/learn/interacting-system-managing-memory/supplement/IP2c9/complex-option-processing
+
 # Pointers, Arrays, and Recursion
 
 lab问题处理
@@ -656,17 +662,11 @@ The main practical difference is how you navigate through memory:
 
 This is why in your `find_num` function, `*(p + num)` gives you a pointer to the beginning of row `num`, and then `*(*(p + num) + i)` accesses the individual elements in that row.
 
-
-
-
-
 ### assigement
 
 https://www.coursera.org/learn/interacting-system-managing-memory/programming/SuwHD/assignment-24-read-arr3
 
 At first, I thought `*q = &p[1];` would change the value, but it just changes the address, not the value
-
-
 
 ```c
 #include <stdio.h>
@@ -711,8 +711,6 @@ int main (void) {
 3. `*q = &p[1];` → q now points to `anArray[2][1]`
 4. `return &p[2];` → returns address of `anArray[2][2]`
 
-
-
 **This means:**
 
 - We're **changing the value of the pointer `p`** in `main`
@@ -724,14 +722,6 @@ int main (void) {
 1. Before: `p` in `main` points to `anArray[1][0]`
 2. `*q = &p[1];` changes where `p` points to
 3. After: `p` in `main` now points to `anArray[2][1]`
-
-
-
-
-
-
-
-
 
 # 函数与指针
 
