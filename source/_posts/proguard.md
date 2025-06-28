@@ -124,26 +124,20 @@ Dead Code Elimination:
 | -keepclassmembernames   | Allow removal of class and members, but don't obfuscate or modify members in other ways.                                        |
 | -keepclasseswithmembers | No removal or obfuscation of classes if members match the specified pattern.                                                    |
 
-
-
 ### no rule
-
-
 
 ```kotlin
 class TestClass {
     val publicField = "public data"
     private val privateField = "private data"
-    
+
     fun publicMethod() = "public method called"
     private fun privateMethod() = "private method called"
-    
+
     fun getPrivateData() = privateField
     fun callPrivateMethod() = privateMethod()
 }
 ```
-
-
 
 ```java
 class KeepTestActivty : ComponentActivity() {
@@ -165,16 +159,12 @@ class KeepTestActivty : ComponentActivity() {
 }
 ```
 
-
-
 mapping.txt
 
 ```
 com.example.myapplication.keep.TestClass -> w1.a:
 # {"id":"sourceFile","fileName":"TestClass.kt"}
 ```
-
-
 
 otherwise
 
@@ -184,8 +174,6 @@ otherwise
 2. `MainActivity.onCreate()` calls `TestClass()` constructor → Keep `TestClass`
 3. `test.publicMethod()` is called → Keep `publicMethod()`
 4. Since class is referenced, ProGuard keeps it to avoid breaking the code
-
-
 
 ### Keep Entire Class
 
@@ -197,22 +185,12 @@ For example, if part of your app uses Gson heavily and is causing problems with 
 -keep class com.example.myapplication.keep.TestClass { *; }
 ```
 
-
-
 mapping.txt
-
-
 
 ```
 com.example.myapplication.keep.TestClass -> com.example.myapplication.keep.TestClass:
 # {"id":"sourceFile","fileName":"TestClass.kt"}
 ```
-
-
-
-
-
-
 
 If some library you're using has [reflection](https://en.wikipedia.org/wiki/Reflective_programming) into internal components, you can similarly add a keep rule for the entire library. You'll need to inspect the library's code or JAR/AAR to find the appropriate package to keep. Again, this isn't recommended to maintain long term, but can unblock the optimization of the rest of the app:
 
@@ -222,13 +200,27 @@ If some library you're using has [reflection](https://en.wikipedia.org/wiki/Ref
 
 https://developer.android.com/topic/performance/app-optimization/adopt-optimizations-incrementally#enable-rest
 
+### Keep Specific Members
 
+```
+-keep class com.example.myapplication.keep.TestClass{
+    public java.lang.String publicMethod();
+}
+```
 
+Decompilation apk got
 
+```
+public final class TestClass {
+    public static final /* synthetic */ int $r8$clinit = 0;
+    public final String publicField = "public data";
+    public final String privateField = "private data";
 
-Keep Entire Class
-
-
+    public final String publicMethod() {
+        return "public method called";
+    }
+}
+```
 
 ### keepclassmembers
 
@@ -238,21 +230,84 @@ Keep Entire Class
 } 
 ```
 
-#### Keep Getter/Setter Methods
+#### 
+
+User.java
+
+```java
+public class User {
+    private String name;
+    private int age;
+    private String email;
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    public String getEmail() { return email; }
+
+    public void setName(String name) { this.name = name; }
+    public void setAge(int age) { this.age = age; }
+    public void setEmail(String email) { this.email = email; }
+
+    private void updateProfile() {
+
+    }
+}
+```
+
+
+
+#### Keep Getter Methods
 
 ```
 # Keep all getter and setter methods in any class
 -keepclassmembers class * {
-    public void set*(***);
     public *** get*();
 }
 ```
 
 - Classes can be renamed/optimized
 - But if a class survives optimization, its getter/setter methods are preserved
-- Method names like `getName()`, `setAge(int)` won't be obfuscated
+- Method names like `getName()`` won't be obfuscated
 
-#### Example 2: Keep Fields Used by Serialization
+
+
+Result
+
+```
+public class User {
+    public int age;
+    public String email;
+    public String name;
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getAge() {
+        return this.age;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+}
+```
+
+
+
+
+
+#### Keep Fields Used by Serialization
 
 ```
 # Keep serializable fields
@@ -266,7 +321,7 @@ Keep Entire Class
 }
 ```
 
-#### Example 3: Keep Enum Values
+#### Keep Enum Values
 
 ```
 # Keep enum methods that might be called via reflection
