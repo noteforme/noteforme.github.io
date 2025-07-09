@@ -7,28 +7,20 @@ categories: ANDROID
 
 ---
 
-
 # Service
-
-
 
 https://developer.android.com/guide/components/services
 
 https://developer.android.com/reference/android/app/Service
 
-
-
 ##### Service启动服务两种方式
 
-*  startService 
-*  bindService
+* startService 
+* bindService
 
 ##### startService
 
 一个Service被startService多次启动,那么onCreate只会调用一次,onstart()会被调用多次, StartServcie:一旦启动，服务即可在后台无限期运行，即使启动服务的Ａctivity已被销毁也不受影响,直到调用stipService，或自身的stopSelf方法。内存不足系统也会结束服务。
-
-
-
 
  ![Servcie lifeccle](https://developer.android.google.cn/images/service_lifecycle.png)
 
@@ -41,17 +33,17 @@ I/LearnService:  -- onBind() --
 　一个Service被某个Activity调用Context.bindService绑定启动，不管bindService调用几次，onCreate方法只会调用一次,onStart不会调用.
 
 1. service
-
+   
    ```java
    public class BluetoothService extends Service {
-   
-   
+   ```
+
        @Override
        public void onCreate() {
            super.onCreate();
            Timber.i(" onCreate()");
        }
-   
+    
        @Override
        public int onStartCommand(Intent intent, int flags, int startId) {
            Timber.i(" onStartCommand()");
@@ -59,51 +51,51 @@ I/LearnService:  -- onBind() --
            Timber.i("接受    " + param);
            return super.onStartCommand(intent, flags, startId);
        }
-   
+    
        @Override
        public void onDestroy() {
            super.onDestroy();
            Timber.i(" onDestroy()");
        }
-   
+    
        @Override
        public void onLowMemory() {
            super.onLowMemory();
            Timber.i("onLowMemory()");
        }
-   
+    
        @Override
        public boolean onUnbind(Intent intent) {
            Timber.i("onUnbind(intent)()");
            return super.onUnbind(intent);
        }
-   
+    
        @Override
        public void onRebind(Intent intent) {
            super.onRebind(intent);
            Timber.i("onRebind(intent)()");
        }
-   
-   
+    
+    
        public class LocalBinder extends Binder {
            public BluetoothService getService() {
                return BluetoothService.this;
            }
        }
-   
+    
        private final IBinder mBinder = new LocalBinder();
-   
+    
        @Nullable
        @Override
        public IBinder onBind(Intent intent) {
            Timber.i("onBind(intent)()");
-   
+    
            return mBinder;
        }
-   }
-   
-   ```
 
+   }
+
+```
 2. 启动
 
 3. `bindService(intent,mServiceConnection,BIND_AUTO_CREATE);`
@@ -112,26 +104,23 @@ I/LearnService:  -- onBind() --
 
 ```java
   ServiceConnection mServiceConnection = new ServiceConnection() {
-         @Override
-         public void onServiceConnected(ComponentName name, IBinder service) {
-             mBlueService =  ((BluetoothService.LocalBinder)service).getService();
-             Timber.i("onServiceConnected(ComponentName name, IBinder service)");
-         }
+      @Override
+      public void onServiceConnected(ComponentName name, IBinder service) {
+          mBlueService =  ((BluetoothService.LocalBinder)service).getService();
+          Timber.i("onServiceConnected(ComponentName name, IBinder service)");
+      }
 
-         @Override
-         public void onServiceDisconnected(ComponentName name) {
-            Timber.i("onServiceDisconnected(ComponentName name)");
-         }
-     };
+      @Override
+      public void onServiceDisconnected(ComponentName name) {
+         Timber.i("onServiceDisconnected(ComponentName name)");
+      }
+  };
 ```
 
-
-
-
-
--  先startService创建服务，然后bindService绑定，这时候调用stopService或stopSelf(),不会停止，只能使unbindService()停止服务
+- 先startService创建服务，然后bindService绑定，这时候调用stopService或stopSelf(),不会停止，只能使unbindService()停止服务
 
 ###### IntentService
+
    通过HandlerThread单独开启一个线程一次处理所有的任务
    不需要调用stopSelft()关闭服务，任务结束后自动关闭
 
@@ -147,8 +136,6 @@ I/LearnService:  -- onBind() --
 ```
 
 https://developer.android.com/training/run-background-service/create-service.html
-
-
 
 ##### onStartCommand()
 
@@ -174,7 +161,7 @@ https://juejin.im/post/5b1747e5e51d45069a39ef45
  https://developer.android.com/guide/components/bound-services#kotlin 
 
 * bindService callback
-
+  
   ```java
   class BindingActivity : Activity() {
       private lateinit var mService: LocalService
@@ -227,45 +214,33 @@ https://juejin.im/post/5b1747e5e51d45069a39ef45
       }
   }
   ```
-
+  
   get Service object in this place 
-
+  
   ```java
   val binder = service as LocalService.LocalBinder
   mService = binder.getService()
   ```
-
+  
   ##### Using a Messenger
-
+  
    If you need your service to communicate with remote processes, then you can use a `Messenger` to provide the interface for your service. 
-  
-  
 
 ##### stopself()
 
-​	目前测试只有在onStartCommand()有效，多次点击startService(intent),startId持续递增.
-
-
-
-
+​    目前测试只有在onStartCommand()有效，多次点击startService(intent),startId持续递增.
 
 ##### onRebind()什么情况下执行
 
 ![](SERVICE/service_binding_tree_lifecycle.png)
 
-
-
 验证方法: startService(intent) 启动Service - bindService() 绑定Service - unBindService()解绑-  bindService() 继续绑定 就会执行onRebind()
-
-
 
 ##### 多个acitivty与service通信
 
 https://www.jianshu.com/p/9885acf65405
 
 https://blog.csdn.net/pihailailou/article/details/78588496
-
-
 
 # foreground service
 
@@ -275,23 +250,15 @@ A foreground service performs some operation that is noticeable to the user. For
 
 When you use a foreground service, you must display a notification so that users are actively aware that the service is running. This notification cannot be dismissed unless the service is either stopped or removed from the foreground.
 
-
-
 https://developer.android.com/develop/background-work/services#Types-of-services
 
 https://www.jianshu.com/p/5505390503fa
 
-
-
 # background service
-
-
 
 A background service performs an operation that isn't directly noticed by the user. For example, if an app used a service to compact its storage, that would usually be a background service.
 
 **Note:** If your app targets API level 26 or higher, the system imposes [restrictions on running background services](https://developer.android.com/about/versions/oreo/background) when the app itself isn't in the foreground. In most situations, for example, you shouldn't [access location information from the background](https://developer.android.com/training/location/background). Instead, [schedule tasks using WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager).
-
-
 
 codelab
 
@@ -299,27 +266,15 @@ https://github.com/android/codelab-android-workmanager/blob/master/app/src/main/
 
 https://developer.android.com/codelabs/basic-android-kotlin-compose-workmanager#12
 
-
-
-
-
 ## JobIntentService
-
-
 
 The Android framework also provides the `IntentService` subclass of `Service` that uses a worker thread to handle all of the start requests, one at a time. Using this class is **not recommended** for new apps as it will not work well starting with Android 8 Oreo, due to the introduction of [Background execution limits](https://developer.android.com/about/versions/oreo/background#services). Moreover, it's deprecated starting with Android 11. You can use [JobIntentService](https://developer.android.com/reference/androidx/core/app/JobIntentService) as a replacement for `IntentService` that is compatible with newer versions of Android.
 
 https://developer.android.com/develop/background-work/services#Types-of-services
 
-
-
 In most cases, apps can work around these limitations by using [`JobScheduler`](https://developer.android.com/reference/android/app/job/JobScheduler) jobs. This approach lets an app arrange to perform work when the app isn't actively running, but still gives the system the leeway to schedule these jobs in a way that doesn't affect the user experience
 
 https://developer.android.com/develop/background-work/background-tasks
-
-
-
-
 
 ## WorkManger
 
@@ -333,8 +288,6 @@ Figure 1 outlines how the different types of persistent work relate to one anoth
 
 https://developer.android.com/topic/libraries/architecture/workmanager
 
-
-
 ![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj5srfjqyWJixvhyztBQBfyfJfxejxj6bZlR9WnEyZfLs4qmtwv1WDu1zvR-WV7aOgmjWDv7x3S9ykYhduSWem05mzqHY_fVRj3hDo0_sCi4lOD9bbHt-BVFk2I9dVL4Vue5hLL2E7UOEY/s1600/image1.png)
 
 https://medium.com/androiddevelopers/introducing-workmanager-2083bcfc4712
@@ -342,8 +295,6 @@ https://medium.com/androiddevelopers/introducing-workmanager-2083bcfc4712
 https://android-developers.googleblog.com/2018/10/modern-background-execution-in-android.html
 
 ### OneTimeWork
-
-
 
 ```kotlin
 // Create and enqueue the worker
@@ -360,19 +311,13 @@ class LogWorker(context: Context, workerParams: WorkerParameters) : Worker(conte
 }
 ```
 
-
-
 https://github.com/android/codelab-android-workmanager
 
 https://developer.android.com/codelabs/basic-android-kotlin-compose-workmanager#12
 
-
-
 ## Schedule expedited work
 
 Starting in WorkManager 2.7, your app can call `setExpedited()` to declare that a `WorkRequest` should run as quickly as possible using an expedited job. 
-
-
 
 ```kotlin
 private fun scheduleExpeditedWork() {
@@ -383,17 +328,11 @@ private fun scheduleExpeditedWork() {
 }
 ```
 
-
-
 ### PeriodicWork
-
-
 
 Periodic work has a minimum interval of 15 minutes.
 
 https://developer.android.com/reference/androidx/work/PeriodicWorkRequest
-
-
 
 ```kotlin
 private fun schedulePeriodicWork() {
@@ -407,8 +346,6 @@ private fun schedulePeriodicWork() {
 
 // The code is not verified by the log.
 
-
-
 ## migrate
 
 Migrating from Firebase JobDispatcher to WorkManager 
@@ -416,3 +353,27 @@ Migrating from Firebase JobDispatcher to WorkManager
 https://developer.android.com/develop/background-work/background-tasks/persistent/migrate-from-legacy/firebase
 
 https://medium.com/androiddevelopers/introducing-workmanager-2083bcfc4712
+
+
+
+
+
+# JobIntentService
+
+
+
+[Behavior changes: Apps targeting Android 15 or higher &nbsp;|&nbsp; Android Developers](https://developer.android.com/about/versions/15/behavior-changes-15#datasync-timeout)
+
+
+
+
+
+```
+adb shell am compat enable FGS_INTRODUCE_TIME_LIMITS com.example.myapplication
+
+adb shell device_config put activity_manager data_sync_fgs_timeout_duration 60000
+
+adb logcat | grep -E "(DataSync|onTimeout|RemoteServiceException)"  
+
+
+```
