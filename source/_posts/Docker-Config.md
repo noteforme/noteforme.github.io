@@ -33,6 +33,18 @@ Environment="HTTPS_PROXY=http://127.0.0.1:7897"
 Environment="NO_PROXY=localhost,127.0.0.1,docker-registry.example.com,.corp"
 ```
 
+
+
+setting this proxy , can pull image
+
+![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/TOOLS/202507152253714.png)
+
+ 
+
+```text
+ docker pull calvinhaynes412/mit6.s081:v1.3.1
+```
+
 # IMAGE
 
 ```bash
@@ -93,7 +105,5 @@ docker container exec -it 4269513e4289 /bin/bash
 ```
 
 当前主机 / docker容器内的目录
-
-
 
 https://www.bilibili.com/video/BV1BE6PYUESb/

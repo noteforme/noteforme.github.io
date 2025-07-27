@@ -50,8 +50,6 @@ from :https://github.com/shadowsocks/shadowsocks-libev#install-from-repository
 
 * 停止运行: `sudo ss-server -d stop`
 
-
-
 ##### 配置ubuntu开机启动
 
 * home下　新建 run_server.sh
