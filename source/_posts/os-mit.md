@@ -5,10 +5,6 @@ tags:
 categories:  OS
 ---
 
-
-
-
-
 # MIT6.S081
 
 [GitHub - YukunJ/xv6-operating-system: XV6 - MIT 6.s081 operating system Fall 2020 version](https://github.com/YukunJ/xv6-operating-system)
@@ -34,10 +30,6 @@ https://zhuanlan.zhihu.com/p/442656932
 - 课程作业：[https://pdos.csail.mit.edu/6.828/2021/schedule.html，11个lab，具体要求详见课程网站](https://pdos.csail.mit.edu/6.828/2021/schedule.html%EF%BC%8C11%E4%B8%AAlab%EF%BC%8C%E5%85%B7%E4%BD%93%E8%A6%81%E6%B1%82%E8%AF%A6%E8%A7%81%E8%AF%BE%E7%A8%8B%E7%BD%91%E7%AB%99)
 
 [6.S081 Fall 2020 Lecture 1: Introduction and Examples - YouTube](https://www.youtube.com/watch?v=L6YqHxYHa7A)
-
-
-
-
 
 If you want to know more about page tables, and how the OS handles memory, we encourage you to take a computer organization course after completing this specialization.
 
@@ -67,8 +59,6 @@ sudo docker container start 2d078986b704
 
 "/Users/m/Documents/MIT6S081/20labs" is local directory in mac
 
-
-
 本地用户浏览器访问 [http://localhost:8848/](https://link.zhihu.com/?target=http%3A//localhost%3A8848/) 密码： **mit6s081**.
 
 服务器端用户浏览器访问**http://<服务器公网ip>:8848/** 密码： **mit6s081**.
@@ -76,8 +66,6 @@ sudo docker container start 2d078986b704
 https://docs.docker.com/reference/cli/docker/container/
 
 # Docker container
-
-
 
 ## run home
 
@@ -89,8 +77,6 @@ sudo docker container start 2d078986b704
 
 //ho ubun
 sudo docker container start cf5ce745d947
-
-
 ```
 
 https://hub.docker.com/search?q=s081&architecture=amd64
@@ -147,3 +133,45 @@ Video
 阿苏EEer
 
 https://www.bilibili.com/video/BV1VZ4y197uk?spm_id_from=333.788.videopod.sections&vd_source=d4c5260002405798a57476b318eccac9
+
+
+
+
+
+process
+
+```c
+
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+
+int main() {
+    printf("execute: before\n");
+    int pid = fork();
+    printf("execute: order =%d\n", pid);
+    
+    if (pid > 0) {
+        // Parent process
+        printf("parent: child=%d\n", pid);
+        pid = wait((int *) 0);
+        printf("child %d is done\n", pid);
+    } 
+    else if (pid == 0) {
+        // Child process
+        printf("child: exiting\n");
+        exit(0);  // ← CHILD TERMINATES HERE!
+    } 
+    else {
+        // Fork failed
+        printf("fork error\n");
+        return 1;
+    }
+    
+    printf("execute: after\n");  // ← Only parent reaches this
+    return 0;
+}
+```
+
+why child cannot reach  printf("execute: after\n")
