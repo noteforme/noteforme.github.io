@@ -70,6 +70,16 @@ https://www.bilibili.com/video/BV1jE411W7e8?spm_id_from=333.788.player.switch&vd
 
 
 
+[3.19.内存管理_非连续分配：基本分段存储管理_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV14G411P7mU/?spm_id_from=333.337.search-card.all.click&vd_source=d4c5260002405798a57476b318eccac9)
+
+
+
+## Segmentation
+
+[操作系统基本分段存储演练第一次试讲_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1LL4y1z7hL/?spm_id_from=333.337.search-card.all.click&vd_source=d4c5260002405798a57476b318eccac9)
+
+
+
 ## multiple page table
 
 https://www.bilibili.com/video/BV1uY411k73T/?spm_id_from=333.337.search-card.all.click&vd_source=d4c5260002405798a57476b318eccac9
