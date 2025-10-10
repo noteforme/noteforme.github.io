@@ -177,4 +177,10 @@ why child cannot reach  printf("execute: after\n")
 
 系统调用流程
 
+[Lab2:系统调用 - IukBlog](https://kevin-aron.github.io/categories/mit6.s081/Lab2-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/)
+
+[[mit6.s081]Lab2: System calls | 系统调用_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV129XuYGEjT/?spm_id_from=333.337.search-card.all.click&vd_source=d4c5260002405798a57476b318eccac9)
+
+
+
 [MIT6.s081操作系统: lec6 trap陷阱机制 走进system call的前世今生 课程导读和源码浅析_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1rv421y7ta?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9)
