@@ -134,14 +134,9 @@ Video
 
 https://www.bilibili.com/video/BV1VZ4y197uk?spm_id_from=333.788.videopod.sections&vd_source=d4c5260002405798a57476b318eccac9
 
-
-
-
-
 process
 
 ```c
-
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -151,7 +146,7 @@ int main() {
     printf("execute: before\n");
     int pid = fork();
     printf("execute: order =%d\n", pid);
-    
+
     if (pid > 0) {
         // Parent process
         printf("parent: child=%d\n", pid);
@@ -168,10 +163,18 @@ int main() {
         printf("fork error\n");
         return 1;
     }
-    
+
     printf("execute: after\n");  // ← Only parent reaches this
     return 0;
 }
 ```
 
 why child cannot reach  printf("execute: after\n")
+
+
+
+# 系统调用
+
+系统调用流程
+
+[MIT6.s081操作系统: lec6 trap陷阱机制 走进system call的前世今生 课程导读和源码浅析_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1rv421y7ta?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9)
