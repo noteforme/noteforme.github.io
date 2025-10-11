@@ -171,8 +171,6 @@ int main() {
 
 why child cannot reach  printf("execute: after\n")
 
-
-
 # 系统调用
 
 系统调用流程
@@ -181,6 +179,57 @@ why child cannot reach  printf("execute: after\n")
 
 [[mit6.s081]Lab2: System calls | 系统调用_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV129XuYGEjT/?spm_id_from=333.337.search-card.all.click&vd_source=d4c5260002405798a57476b318eccac9)
 
-
-
 [MIT6.s081操作系统: lec6 trap陷阱机制 走进system call的前世今生 课程导读和源码浅析_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1rv421y7ta?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9)
+
+
+
+$ trace 32 grep hello README
+
+
+
+```c
+// System call numbers
+#define SYS_fork    1
+#define SYS_exit    2
+#define SYS_wait    3
+#define SYS_pipe    4
+#define SYS_read    5
+```
+
+32 = 2的5次方 ， 所以是追踪 read系统调用。从README文件中找hello字符串。
+
+
+
+## System call tracing
+
+In the first example above, trace invokes grep tracing just the read system call. The 32 is 1<<SYS_read. In the second example, trace runs grep while tracing all system calls; the 2147483647 has all 31 low bits set. In the third example, the program isn't traced, so no trace output is printed. In the fourth example, the fork system calls of all the descendants of the forkforkfork test in usertests are being traced. Your solution is correct if your program behaves as shown above (though the process IDs may be different).
+
+Some hints:
+
+- Add $U/_trace to UPROGS in Makefile
+  
+  ```
+  UPROGS=\
+  	$U/_cat\
+  	$U/_usertests\
+  	$U/_grind\
+  	$U/_wc\
+  	$U/_zombie\
+  	$U/_trace\
+  ```
+  
+  
+
+- Run make qemu and you will see that the compiler cannot compile user/trace.c, because the user-space stubs for the system call don't exist yet: add a prototype for the system call to user/user.h, a stub to user/usys.pl, and a syscall number to kernel/syscall.h. The Makefile invokes the perl script user/usys.pl, which produces user/usys.S, the actual system call stubs, which use the RISC-V ecall instruction to transition to the kernel. Once you fix the compilation issues, run trace 32 grep hello README; it will fail because you haven't implemented the system call in the kernel yet.
+  
+  
+
+- Add a sys_trace() function in kernel/sysproc.c that implements the new system call by remembering its argument in a new variable in the proc structure (see kernel/proc.h). The functions to retrieve system call arguments from user space are in kernel/syscall.c, and you can see examples of their use in kernel/sysproc.c.
+  
+  
+
+- Modify fork() (see kernel/proc.c) to copy the trace mask from the parent to the child process.
+  
+  
+
+- Modify the syscall() function in kernel/syscall.c to print the trace output. You will need to add an array of syscall names to index into.
