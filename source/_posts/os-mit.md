@@ -183,167 +183,53 @@ why child cannot reach  printf("execute: after\n")
 
 [OS24 - Pipes | Interprocess Communication - YouTube](https://www.youtube.com/watch?v=s-cBPllAYD8&t=39s)
 
-## **Day 1：进程隔离**
 
-- **上午（OS）**
+
+# 系统调用
+
+系统调用流程
+
+[Lab2:系统调用 - IukBlog](https://kevin-aron.github.io/categories/mit6.s081/Lab2-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/)
+
+[[mit6.s081]Lab2: System calls | 系统调用_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV129XuYGEjT/?spm_id_from=333.337.search-card.all.click&vd_source=d4c5260002405798a57476b318eccac9)
+
+[MIT6.s081操作系统: lec6 trap陷阱机制 走进system call的前世今生 课程导读和源码浅析_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1rv421y7ta?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9)
+
+$ trace 32 grep hello README
+
+```c
+// System call numbers
+#define SYS_fork    1
+#define SYS_exit    2
+#define SYS_wait    3
+#define SYS_pipe    4
+#define SYS_read    5
+```
+
+32 = 2的5次方 ， 所以是追踪 read系统调用。从README文件中找hello字符串。
+
+## System call tracing
+
+In the first example above, trace invokes grep tracing just the read system call. The 32 is 1<<SYS_read. In the second example, trace runs grep while tracing all system calls; the 2147483647 has all 31 low bits set. In the third example, the program isn't traced, so no trace output is printed. In the fourth example, the fork system calls of all the descendants of the forkforkfork test in usertests are being traced. Your solution is correct if your program behaves as shown above (though the process IDs may be different).
+
+Some hints:
+
+- Add $U/_trace to UPROGS in Makefile
   
-  - MIT 6.S081 Lecture 2-3：进程 & 系统调用
-  
-  - Lab1: Shell → 用 `fork/exec/wait` 实现简易 Shell
+  ```
+  UPROGS=\
+      $U/_cat\
+      $U/_usertests\
+      $U/_grind\
+      $U/_wc\
+      $U/_zombie\
+      $U/_trace\
+  ```
 
-- **下午（云原生）**
-  
-  - 学习 Linux namespace（uts、ipc、net、pid）
-  
-  - 实践：
-    
-    `sudo unshare --uts --ipc --net --pid --fork bash`
-    
-    进入隔离环境，修改主机名、查看 PID
+- Run make qemu and you will see that the compiler cannot compile user/trace.c, because the user-space stubs for the system call don't exist yet: add a prototype for the system call to user/user.h, a stub to user/usys.pl, and a syscall number to kernel/syscall.h. The Makefile invokes the perl script user/usys.pl, which produces user/usys.S, the actual system call stubs, which use the RISC-V ecall instruction to transition to the kernel. Once you fix the compilation issues, run trace 32 grep hello README; it will fail because you haven't implemented the system call in the kernel yet.
 
-- **收获**：理解容器 = 被隔离的进程
+- Add a sys_trace() function in kernel/sysproc.c that implements the new system call by remembering its argument in a new variable in the proc structure (see kernel/proc.h). The functions to retrieve system call arguments from user space are in kernel/syscall.c, and you can see examples of their use in kernel/sysproc.c.
 
-### 🔹 你刚刚完成了 Day1 云原生实验的关键结论
+- Modify fork() (see kernel/proc.c) to copy the trace mask from the parent to the child process.
 
-- **容器不是虚拟机**，而是 **Linux 进程在新的 namespace 里的视图**。
-
-- 在 namespace 里，它“以为”自己是 **系统的 PID=1**，但宿主机上它其实只是个普通进程（比如 PID=2365）。
-
-- 这正是 Docker/Kubernetes 的底层机制。
-
----
-
-### 🔹 建议你记录在实验报告里
-
-写上：
-
-1. 进入 namespace 的命令：
-   
-   `sudo unshare --uts --ipc --net --pid --mount-proc --fork bash`
-
-2. 输出结果：
-   
-   - `ps -ef` → bash PID=1
-   
-   - `/proc/1/cmdline` → bash
-
-3. 实验结论：**容器 = 被 namespace 隔离的进程**。
-
----
-
-## **Day 2：调度原理**
-
-- **上午（OS）**
-  
-  - MIT 6.S081 Lecture 9：调度算法
-  
-  - Lab3: Scheduler → 给 xv6 加调度策略
-
-- **下午（云原生）**
-  
-  - 学 Kubernetes 调度流程（Filter → Score → Bind）
-  
-  - `kubectl get events` 观察 Pod 调度
-
-- **收获**：K8s 调度器 ≈ 操作系统调度器
-
----
-
-## **Day 3：资源控制**
-
-- **上午（OS）**
-  
-  - 学习 cgroups（CPU/内存/IO 控制）
-  
-  - 实验：
-    
-    `cgcreate -g memory:/mygroup cgexec -g memory:/mygroup stress --vm 1 --vm-bytes 200M`
-
-- **下午（云原生）**
-  
-  - Docker 资源限制：
-    
-    `docker run -d -m 100m --cpus=0.5 busybox top`
-  
-  - K8s Pod 限制：`resources.requests/limits`
-
-- **收获**：容器资源限制就是 OS cgroups 的封装
-
----
-
-## **Day 4：文件系统**
-
-- **上午（OS）**
-  
-  - MIT 6.S081 Lecture 7-8：文件系统
-  
-  - Lab5: File System → 文件挂载实验
-
-- **下午（云原生）**
-  
-  - 学 OverlayFS（Docker 镜像原理）
-  
-  - K8s Volume 实验：挂载 ConfigMap/HostPath
-
-- **收获**：容器镜像和 Volume ≈ 文件系统隔离
-
----
-
-## **Day 5：并发与控制器**
-
-- **上午（OS）**
-  
-  - MIT 6.S081 Lecture 10-11：并发、锁
-  
-  - Lab4: Thread → 多线程与同步
-
-- **下午（云原生）**
-  
-  - 学 Go 并发（goroutine + channel）
-  
-  - 写个 Client-Go 小程序：定时列出集群 Pod
-
-- **收获**：K8s 控制器本质是“并发循环 + 状态修复”
-
----
-
-## **Day 6：Kubernetes 架构**
-
-- **上午（OS）**
-  
-  - 总结 OS 三大支柱：进程、内存、文件系统
-
-- **下午（云原生）**
-  
-  - 学 Kubernetes 核心组件：API Server、etcd、Scheduler、Controller、Kubelet
-  
-  - 用 Minikube 部署三层应用（前端+后端+DB）
-
-- **收获**：K8s ≈ 分布式操作系统
-
----
-
-## **Day 7：综合实战**
-
-- **上午（OS）**
-  
-  - 快速复盘 Lab1 / Lab3 / Lab5 收获
-
-- **下午（云原生）**
-  
-  - 写一个简单的 K8s 控制器（Go + client-go）  
-    示例：自动清理运行超过 1 小时的 Pod
-
-- **收获**：打通 OS 原理 → 容器 → Kubernetes → 平台研发的闭环
-
----
-
-✅ 最终你会收获：
-
-- MIT 6.S081 的核心实验经验
-
-- Linux namespace + cgroups 实操
-
-- Docker & Kubernetes 实战部署
-
-- 一个 **自定义控制器 demo 项目**（能放 GitHub/简历）
+- Modify the syscall() function in kernel/syscall.c to print the trace output. You will need to add an array of syscall names to index into.
