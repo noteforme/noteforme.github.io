@@ -26,10 +26,13 @@
 <meta property="og:site_name" content="Jon&#39;s Blog">
 <meta property="og:description" content="MIT6.S081GitHub - YukunJ&#x2F;xv6-operating-system: XV6 - MIT 6.s081 operating system Fall 2020 version https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;449687883 https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;442656932 MIT 6.S081: Operat">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/os/202510021106588.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/os/202510021111676.png">
 <meta property="article:published_time" content="2025-03-22T12:25:52.000Z">
-<meta property="article:modified_time" content="2025-08-21T14:08:10.583Z">
+<meta property="article:modified_time" content="2025-10-03T07:44:16.729Z">
 <meta property="article:author" content="Jon">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/os/202510021106588.png">
   
   
   
@@ -222,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          809 words
+          1.5k words
         
       </span>
     
@@ -233,7 +236,7 @@
         
         
         
-          7 mins
+          13 mins
         
       </span>
     
@@ -325,9 +328,192 @@
 <p>阿苏EEer</p>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1VZ4y197uk?spm_id_from=333.788.videopod.sections&vd_source=d4c5260002405798a57476b318eccac9">https://www.bilibili.com/video/BV1VZ4y197uk?spm_id_from=333.788.videopod.sections&amp;vd_source=d4c5260002405798a57476b318eccac9</a></p>
 <p>process</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs c"><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/wait.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;execute: before\n&quot;</span>);<br>    <span class="hljs-type">int</span> pid = fork();<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;execute: order =%d\n&quot;</span>, pid);<br>    <br>    <span class="hljs-keyword">if</span> (pid &gt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-comment">// Parent process</span><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;parent: child=%d\n&quot;</span>, pid);<br>        pid = wait((<span class="hljs-type">int</span> *) <span class="hljs-number">0</span>);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;child %d is done\n&quot;</span>, pid);<br>    &#125; <br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (pid == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-comment">// Child process</span><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;child: exiting\n&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);  <span class="hljs-comment">// ← CHILD TERMINATES HERE!</span><br>    &#125; <br>    <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// Fork failed</span><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;fork error\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;execute: after\n&quot;</span>);  <span class="hljs-comment">// ← Only parent reaches this</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/wait.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;execute: before\n&quot;</span>);<br>    <span class="hljs-type">int</span> pid = fork();<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;execute: order =%d\n&quot;</span>, pid);<br><br>    <span class="hljs-keyword">if</span> (pid &gt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-comment">// Parent process</span><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;parent: child=%d\n&quot;</span>, pid);<br>        pid = wait((<span class="hljs-type">int</span> *) <span class="hljs-number">0</span>);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;child %d is done\n&quot;</span>, pid);<br>    &#125; <br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (pid == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-comment">// Child process</span><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;child: exiting\n&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);  <span class="hljs-comment">// ← CHILD TERMINATES HERE!</span><br>    &#125; <br>    <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// Fork failed</span><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;fork error\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;execute: after\n&quot;</span>);  <span class="hljs-comment">// ← Only parent reaches this</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>why child cannot reach  printf(“execute: after\n”)</p>
+<h1 id="pipe"><a href="#pipe" class="headerlink" title="pipe"></a>pipe</h1><p>一个管道，parent 和child 可以操作。</p>
+<p>如果parent ， child  都要写入和读取 ，那么就建立 两个管道，一个读取，一个写入。</p>
+<p><img src="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/os/202510021106588.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/os/202510021111676.png" srcset="/img/loading.gif" lazyload></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=s-cBPllAYD8&t=39s">OS24 - Pipes | Interprocess Communication - YouTube</a></p>
+<h2 id="Day-1：进程隔离"><a href="#Day-1：进程隔离" class="headerlink" title="Day 1：进程隔离"></a><strong>Day 1：进程隔离</strong></h2><ul>
+<li><p><strong>上午（OS）</strong></p>
+<ul>
+<li><p>MIT 6.S081 Lecture 2-3：进程 &amp; 系统调用</p>
+</li>
+<li><p>Lab1: Shell → 用 <code>fork/exec/wait</code> 实现简易 Shell</p>
+</li>
+</ul>
+</li>
+<li><p><strong>下午（云原生）</strong></p>
+<ul>
+<li><p>学习 Linux namespace（uts、ipc、net、pid）</p>
+</li>
+<li><p>实践：</p>
+<p><code>sudo unshare --uts --ipc --net --pid --fork bash</code></p>
+<p>进入隔离环境，修改主机名、查看 PID</p>
+</li>
+</ul>
+</li>
+<li><p><strong>收获</strong>：理解容器 &#x3D; 被隔离的进程</p>
+</li>
+</ul>
+<h3 id="🔹-你刚刚完成了-Day1-云原生实验的关键结论"><a href="#🔹-你刚刚完成了-Day1-云原生实验的关键结论" class="headerlink" title="🔹 你刚刚完成了 Day1 云原生实验的关键结论"></a>🔹 你刚刚完成了 Day1 云原生实验的关键结论</h3><ul>
+<li><p><strong>容器不是虚拟机</strong>，而是 <strong>Linux 进程在新的 namespace 里的视图</strong>。</p>
+</li>
+<li><p>在 namespace 里，它“以为”自己是 <strong>系统的 PID&#x3D;1</strong>，但宿主机上它其实只是个普通进程（比如 PID&#x3D;2365）。</p>
+</li>
+<li><p>这正是 Docker&#x2F;Kubernetes 的底层机制。</p>
+</li>
+</ul>
+<hr>
+<h3 id="🔹-建议你记录在实验报告里"><a href="#🔹-建议你记录在实验报告里" class="headerlink" title="🔹 建议你记录在实验报告里"></a>🔹 建议你记录在实验报告里</h3><p>写上：</p>
+<ol>
+<li><p>进入 namespace 的命令：</p>
+<p><code>sudo unshare --uts --ipc --net --pid --mount-proc --fork bash</code></p>
+</li>
+<li><p>输出结果：</p>
+<ul>
+<li><p><code>ps -ef</code> → bash PID&#x3D;1</p>
+</li>
+<li><p><code>/proc/1/cmdline</code> → bash</p>
+</li>
+</ul>
+</li>
+<li><p>实验结论：<strong>容器 &#x3D; 被 namespace 隔离的进程</strong>。</p>
+</li>
+</ol>
+<hr>
+<h2 id="Day-2：调度原理"><a href="#Day-2：调度原理" class="headerlink" title="Day 2：调度原理"></a><strong>Day 2：调度原理</strong></h2><ul>
+<li><p><strong>上午（OS）</strong></p>
+<ul>
+<li><p>MIT 6.S081 Lecture 9：调度算法</p>
+</li>
+<li><p>Lab3: Scheduler → 给 xv6 加调度策略</p>
+</li>
+</ul>
+</li>
+<li><p><strong>下午（云原生）</strong></p>
+<ul>
+<li><p>学 Kubernetes 调度流程（Filter → Score → Bind）</p>
+</li>
+<li><p><code>kubectl get events</code> 观察 Pod 调度</p>
+</li>
+</ul>
+</li>
+<li><p><strong>收获</strong>：K8s 调度器 ≈ 操作系统调度器</p>
+</li>
+</ul>
+<hr>
+<h2 id="Day-3：资源控制"><a href="#Day-3：资源控制" class="headerlink" title="Day 3：资源控制"></a><strong>Day 3：资源控制</strong></h2><ul>
+<li><p><strong>上午（OS）</strong></p>
+<ul>
+<li><p>学习 cgroups（CPU&#x2F;内存&#x2F;IO 控制）</p>
+</li>
+<li><p>实验：</p>
+<p><code>cgcreate -g memory:/mygroup cgexec -g memory:/mygroup stress --vm 1 --vm-bytes 200M</code></p>
+</li>
+</ul>
+</li>
+<li><p><strong>下午（云原生）</strong></p>
+<ul>
+<li><p>Docker 资源限制：</p>
+<p><code>docker run -d -m 100m --cpus=0.5 busybox top</code></p>
+</li>
+<li><p>K8s Pod 限制：<code>resources.requests/limits</code></p>
+</li>
+</ul>
+</li>
+<li><p><strong>收获</strong>：容器资源限制就是 OS cgroups 的封装</p>
+</li>
+</ul>
+<hr>
+<h2 id="Day-4：文件系统"><a href="#Day-4：文件系统" class="headerlink" title="Day 4：文件系统"></a><strong>Day 4：文件系统</strong></h2><ul>
+<li><p><strong>上午（OS）</strong></p>
+<ul>
+<li><p>MIT 6.S081 Lecture 7-8：文件系统</p>
+</li>
+<li><p>Lab5: File System → 文件挂载实验</p>
+</li>
+</ul>
+</li>
+<li><p><strong>下午（云原生）</strong></p>
+<ul>
+<li><p>学 OverlayFS（Docker 镜像原理）</p>
+</li>
+<li><p>K8s Volume 实验：挂载 ConfigMap&#x2F;HostPath</p>
+</li>
+</ul>
+</li>
+<li><p><strong>收获</strong>：容器镜像和 Volume ≈ 文件系统隔离</p>
+</li>
+</ul>
+<hr>
+<h2 id="Day-5：并发与控制器"><a href="#Day-5：并发与控制器" class="headerlink" title="Day 5：并发与控制器"></a><strong>Day 5：并发与控制器</strong></h2><ul>
+<li><p><strong>上午（OS）</strong></p>
+<ul>
+<li><p>MIT 6.S081 Lecture 10-11：并发、锁</p>
+</li>
+<li><p>Lab4: Thread → 多线程与同步</p>
+</li>
+</ul>
+</li>
+<li><p><strong>下午（云原生）</strong></p>
+<ul>
+<li><p>学 Go 并发（goroutine + channel）</p>
+</li>
+<li><p>写个 Client-Go 小程序：定时列出集群 Pod</p>
+</li>
+</ul>
+</li>
+<li><p><strong>收获</strong>：K8s 控制器本质是“并发循环 + 状态修复”</p>
+</li>
+</ul>
+<hr>
+<h2 id="Day-6：Kubernetes-架构"><a href="#Day-6：Kubernetes-架构" class="headerlink" title="Day 6：Kubernetes 架构"></a><strong>Day 6：Kubernetes 架构</strong></h2><ul>
+<li><p><strong>上午（OS）</strong></p>
+<ul>
+<li>总结 OS 三大支柱：进程、内存、文件系统</li>
+</ul>
+</li>
+<li><p><strong>下午（云原生）</strong></p>
+<ul>
+<li><p>学 Kubernetes 核心组件：API Server、etcd、Scheduler、Controller、Kubelet</p>
+</li>
+<li><p>用 Minikube 部署三层应用（前端+后端+DB）</p>
+</li>
+</ul>
+</li>
+<li><p><strong>收获</strong>：K8s ≈ 分布式操作系统</p>
+</li>
+</ul>
+<hr>
+<h2 id="Day-7：综合实战"><a href="#Day-7：综合实战" class="headerlink" title="Day 7：综合实战"></a><strong>Day 7：综合实战</strong></h2><ul>
+<li><p><strong>上午（OS）</strong></p>
+<ul>
+<li>快速复盘 Lab1 &#x2F; Lab3 &#x2F; Lab5 收获</li>
+</ul>
+</li>
+<li><p><strong>下午（云原生）</strong></p>
+<ul>
+<li>写一个简单的 K8s 控制器（Go + client-go）<br>示例：自动清理运行超过 1 小时的 Pod</li>
+</ul>
+</li>
+<li><p><strong>收获</strong>：打通 OS 原理 → 容器 → Kubernetes → 平台研发的闭环</p>
+</li>
+</ul>
+<hr>
+<p>✅ 最终你会收获：</p>
+<ul>
+<li><p>MIT 6.S081 的核心实验经验</p>
+</li>
+<li><p>Linux namespace + cgroups 实操</p>
+</li>
+<li><p>Docker &amp; Kubernetes 实战部署</p>
+</li>
+<li><p>一个 <strong>自定义控制器 demo 项目</strong>（能放 GitHub&#x2F;简历）</p>
+</li>
+</ul>
 
                 
               </div>
