@@ -134,14 +134,9 @@ Video
 
 https://www.bilibili.com/video/BV1VZ4y197uk?spm_id_from=333.788.videopod.sections&vd_source=d4c5260002405798a57476b318eccac9
 
-
-
-
-
 process
 
 ```c
-
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -151,7 +146,7 @@ int main() {
     printf("execute: before\n");
     int pid = fork();
     printf("execute: order =%d\n", pid);
-    
+
     if (pid > 0) {
         // Parent process
         printf("parent: child=%d\n", pid);
@@ -168,10 +163,187 @@ int main() {
         printf("fork error\n");
         return 1;
     }
-    
+
     printf("execute: after\n");  // ← Only parent reaches this
     return 0;
 }
 ```
 
 why child cannot reach  printf("execute: after\n")
+
+# pipe
+
+一个管道，parent 和child 可以操作。
+
+如果parent ， child  都要写入和读取 ，那么就建立 两个管道，一个读取，一个写入。
+
+![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/os/202510021106588.png)
+
+![](https://raw.githubusercontent.com/BlogForMe/ImageServer/main/os/202510021111676.png)
+
+[OS24 - Pipes | Interprocess Communication - YouTube](https://www.youtube.com/watch?v=s-cBPllAYD8&t=39s)
+
+## **Day 1：进程隔离**
+
+- **上午（OS）**
+  
+  - MIT 6.S081 Lecture 2-3：进程 & 系统调用
+  
+  - Lab1: Shell → 用 `fork/exec/wait` 实现简易 Shell
+
+- **下午（云原生）**
+  
+  - 学习 Linux namespace（uts、ipc、net、pid）
+  
+  - 实践：
+    
+    `sudo unshare --uts --ipc --net --pid --fork bash`
+    
+    进入隔离环境，修改主机名、查看 PID
+
+- **收获**：理解容器 = 被隔离的进程
+
+### 🔹 你刚刚完成了 Day1 云原生实验的关键结论
+
+- **容器不是虚拟机**，而是 **Linux 进程在新的 namespace 里的视图**。
+
+- 在 namespace 里，它“以为”自己是 **系统的 PID=1**，但宿主机上它其实只是个普通进程（比如 PID=2365）。
+
+- 这正是 Docker/Kubernetes 的底层机制。
+
+---
+
+### 🔹 建议你记录在实验报告里
+
+写上：
+
+1. 进入 namespace 的命令：
+   
+   `sudo unshare --uts --ipc --net --pid --mount-proc --fork bash`
+
+2. 输出结果：
+   
+   - `ps -ef` → bash PID=1
+   
+   - `/proc/1/cmdline` → bash
+
+3. 实验结论：**容器 = 被 namespace 隔离的进程**。
+
+---
+
+## **Day 2：调度原理**
+
+- **上午（OS）**
+  
+  - MIT 6.S081 Lecture 9：调度算法
+  
+  - Lab3: Scheduler → 给 xv6 加调度策略
+
+- **下午（云原生）**
+  
+  - 学 Kubernetes 调度流程（Filter → Score → Bind）
+  
+  - `kubectl get events` 观察 Pod 调度
+
+- **收获**：K8s 调度器 ≈ 操作系统调度器
+
+---
+
+## **Day 3：资源控制**
+
+- **上午（OS）**
+  
+  - 学习 cgroups（CPU/内存/IO 控制）
+  
+  - 实验：
+    
+    `cgcreate -g memory:/mygroup cgexec -g memory:/mygroup stress --vm 1 --vm-bytes 200M`
+
+- **下午（云原生）**
+  
+  - Docker 资源限制：
+    
+    `docker run -d -m 100m --cpus=0.5 busybox top`
+  
+  - K8s Pod 限制：`resources.requests/limits`
+
+- **收获**：容器资源限制就是 OS cgroups 的封装
+
+---
+
+## **Day 4：文件系统**
+
+- **上午（OS）**
+  
+  - MIT 6.S081 Lecture 7-8：文件系统
+  
+  - Lab5: File System → 文件挂载实验
+
+- **下午（云原生）**
+  
+  - 学 OverlayFS（Docker 镜像原理）
+  
+  - K8s Volume 实验：挂载 ConfigMap/HostPath
+
+- **收获**：容器镜像和 Volume ≈ 文件系统隔离
+
+---
+
+## **Day 5：并发与控制器**
+
+- **上午（OS）**
+  
+  - MIT 6.S081 Lecture 10-11：并发、锁
+  
+  - Lab4: Thread → 多线程与同步
+
+- **下午（云原生）**
+  
+  - 学 Go 并发（goroutine + channel）
+  
+  - 写个 Client-Go 小程序：定时列出集群 Pod
+
+- **收获**：K8s 控制器本质是“并发循环 + 状态修复”
+
+---
+
+## **Day 6：Kubernetes 架构**
+
+- **上午（OS）**
+  
+  - 总结 OS 三大支柱：进程、内存、文件系统
+
+- **下午（云原生）**
+  
+  - 学 Kubernetes 核心组件：API Server、etcd、Scheduler、Controller、Kubelet
+  
+  - 用 Minikube 部署三层应用（前端+后端+DB）
+
+- **收获**：K8s ≈ 分布式操作系统
+
+---
+
+## **Day 7：综合实战**
+
+- **上午（OS）**
+  
+  - 快速复盘 Lab1 / Lab3 / Lab5 收获
+
+- **下午（云原生）**
+  
+  - 写一个简单的 K8s 控制器（Go + client-go）  
+    示例：自动清理运行超过 1 小时的 Pod
+
+- **收获**：打通 OS 原理 → 容器 → Kubernetes → 平台研发的闭环
+
+---
+
+✅ 最终你会收获：
+
+- MIT 6.S081 的核心实验经验
+
+- Linux namespace + cgroups 实操
+
+- Docker & Kubernetes 实战部署
+
+- 一个 **自定义控制器 demo 项目**（能放 GitHub/简历）

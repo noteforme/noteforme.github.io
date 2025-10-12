@@ -12,6 +12,12 @@ categories:
 
 My Interview question
 
+
+
+ new security guard 兼容问题方案
+
+
+
 # 米尘
 
 组件化用过没，组件化用什么通信，arouter底层源码
@@ -225,7 +231,7 @@ Arouter讲的不清楚
 3. Okhttp Resonse之后怎么交给Rxjava处理
 4. 自定义view绘制流程
 5. 1. 构造方法 - onsizechange - onmeasre - ondraw
-  2. 说下Onmeasrstate 三个常量 atmost作用
+   2. 说下Onmeasrstate 三个常量 atmost作用
 6. 为什么onMeasrue onlayout 绘制的过程执行多遍，ondraw不会
 7. 1. 自定义view宽高写死，不管什么地方宽高一样的，xml使用
 8. Glide使用什么缓存机制
