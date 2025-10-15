@@ -75,8 +75,7 @@ sudo docker container ls -a
 //home mac
 sudo docker container start 2d078986b704
 
-//ho ubun
-sudo docker container start cf5ce745d947
+
 ```
 
 https://hub.docker.com/search?q=s081&architecture=amd64
