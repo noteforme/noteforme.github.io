@@ -74,8 +74,6 @@ sudo docker container ls -a
 
 //home mac
 sudo docker container start 2d078986b704
-
-
 ```
 
 https://hub.docker.com/search?q=s081&architecture=amd64
@@ -192,11 +190,7 @@ why child cannot reach  printf("execute: after\n")
 
 [MIT6.s081操作系统: lec6 trap陷阱机制 走进system call的前世今生 课程导读和源码浅析_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1rv421y7ta?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9)
 
-
-
 讲解详细的调用流程
-
-
 
 $ trace 32 grep hello README
 
@@ -237,8 +231,6 @@ Some hints:
 
 - Modify the syscall() function in kernel/syscall.c to print the trace output. You will need to add an array of syscall names to index into.
 
-
-
-
-
 ## Sysinfo
+
+添加系统调用的代码步骤可以看 , syscall分支 sysinfo syscall Your Name 10/15/25, 6:23 PM 这个提交
