@@ -182,8 +182,6 @@ why child cannot reach  printf("execute: after\n")
 
 [OS24 - Pipes | Interprocess Communication - YouTube](https://www.youtube.com/watch?v=s-cBPllAYD8&t=39s)
 
-
-
 # 系统调用
 
 系统调用流程
@@ -193,6 +191,12 @@ why child cannot reach  printf("execute: after\n")
 [[mit6.s081]Lab2: System calls | 系统调用_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV129XuYGEjT/?spm_id_from=333.337.search-card.all.click&vd_source=d4c5260002405798a57476b318eccac9)
 
 [MIT6.s081操作系统: lec6 trap陷阱机制 走进system call的前世今生 课程导读和源码浅析_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1rv421y7ta?spm_id_from=333.788.player.switch&vd_source=d4c5260002405798a57476b318eccac9)
+
+
+
+讲解详细的调用流程
+
+
 
 $ trace 32 grep hello README
 
@@ -232,3 +236,9 @@ Some hints:
 - Modify fork() (see kernel/proc.c) to copy the trace mask from the parent to the child process.
 
 - Modify the syscall() function in kernel/syscall.c to print the trace output. You will need to add an array of syscall names to index into.
+
+
+
+
+
+## Sysinfo
