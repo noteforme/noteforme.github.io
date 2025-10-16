@@ -180,7 +180,13 @@ why child cannot reach  printf("execute: after\n")
 
 [OS24 - Pipes | Interprocess Communication - YouTube](https://www.youtube.com/watch?v=s-cBPllAYD8&t=39s)
 
-# 系统调用
+# Lab2系统调用
+
+Mit6.S081学习笔记
+
+https://tarplkpqsm.feishu.cn/docs/doccnoBgv1TQlj4ZtVnP0hNRETd
+
+
 
 系统调用流程
 
@@ -205,7 +211,7 @@ $ trace 32 grep hello README
 
 32 = 2的5次方 ， 所以是追踪 read系统调用。从README文件中找hello字符串。
 
-## System call tracing
+## \System call tracing
 
 In the first example above, trace invokes grep tracing just the read system call. The 32 is 1<<SYS_read. In the second example, trace runs grep while tracing all system calls; the 2147483647 has all 31 low bits set. In the third example, the program isn't traced, so no trace output is printed. In the fourth example, the fork system calls of all the descendants of the forkforkfork test in usertests are being traced. Your solution is correct if your program behaves as shown above (though the process IDs may be different).
 
@@ -234,3 +240,32 @@ Some hints:
 ## Sysinfo
 
 添加系统调用的代码步骤可以看 , syscall分支 sysinfo syscall Your Name 10/15/25, 6:23 PM 这个提交
+
+
+
+# Lab3
+
+## Gdb debug
+
+
+
+在一个窗口执行`make qemu-gdb`
+
+```
+# 实验指导书上说, 调试的时候指定一个CPU运行会更好一些
+make CPUS=1 qemu-gdb
+```
+
+在另一个窗口执行
+
+```
+gdb-multiarch kernel/kernel
+
+# (gdb) 进入gdb后执行
+set confirm off
+set architecture riscv:rv64
+target remote localhost:25000
+set riscv use-compressed-breakpoints yes
+```
+
+[搭建MIT6.S081的实验环境 - 飞书云文档](https://tarplkpqsm.feishu.cn/docs/doccnxrUYjtjuoNnAyxwajplSyf)
