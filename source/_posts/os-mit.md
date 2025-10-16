@@ -5,11 +5,11 @@ tags:
 categories:  OS
 ---
 
-# MIT6.S081
+MIT6.S081
 
 [GitHub - YukunJ/xv6-operating-system: XV6 - MIT 6.s081 operating system Fall 2020 version](https://github.com/YukunJ/xv6-operating-system)
 
-## 环境配置
+# 环境配置
 
 https://zhuanlan.zhihu.com/p/449687883
 
@@ -37,13 +37,34 @@ If you want to know more about page tables, and how the OS handles memory, we en
 
 https://www.coursera.org/learn/pointers-arrays-recursion/supplement/QuCc7/string-literals
 
-# MIT OS environment
-
 https://hub.docker.com/r/calvinhaynes412/mit6.s081
 
-# config docker
+## config docker
 
 https://docs.docker.com/reference/cli/docker/container/
+
+
+
+
+
+## 2021
+
+```bash
+//首次配置mit6s081 2021版本的镜像
+sudo docker run -it -v /home/j/xv6-labs-2021:/mit2021 calvinhaynes412/mit6.s081:v1.3.1
+
+//后续使用启动
+sudo docker container start f33be8e527a5
+
+// 进入容器 内部系统
+sudo docker container exec -it f33be8e527a5 /bin/bash
+```
+
+
+
+
+
+## 2020
 
 ```bash
 docker pull calvinhaynes412/mit6.s081:v1.3.1
@@ -67,9 +88,11 @@ sudo docker container start 2d078986b704
 
 https://docs.docker.com/reference/cli/docker/container/
 
-# Docker container
 
-## run home
+
+Docker container
+
+run home
 
 ```bash
 sudo docker container ls -a
@@ -80,7 +103,7 @@ sudo docker container start 2d078986b704
 
 https://hub.docker.com/search?q=s081&architecture=amd64
 
-## run office
+ run office
 
 ```bash
 sudo docker container ls -a
@@ -166,7 +189,7 @@ int main() {
 
 why child cannot reach  printf("execute: after\n")
 
-# pipe
+# Lab1 pipe
 
 一个管道，parent 和child 可以操作。
 
@@ -253,8 +276,6 @@ Some hints:
 
 
 
-
-
 在一个窗口执行`make qemu-gdb`
 
 ```
@@ -285,3 +306,9 @@ set riscv use-compressed-breakpoints yes
 ```
 make clean
 ```
+
+## Speed up system calls ([easy](https://pdos.csail.mit.edu/6.828/2021/labs/guidance.html))
+
+
+
+https://zhuanlan.zhihu.com/p/429304672
