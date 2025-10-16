@@ -43,26 +43,28 @@ https://hub.docker.com/r/calvinhaynes412/mit6.s081
 
 https://docs.docker.com/reference/cli/docker/container/
 
-
-
-
-
 ## 2021
 
 ```bash
 //首次配置mit6s081 2021版本的镜像
 sudo docker run -it -v /home/j/xv6-labs-2021:/mit2021 calvinhaynes412/mit6.s081:v1.3.1
 
+office
 //后续使用启动
 sudo docker container start f33be8e527a5
 
 // 进入容器 内部系统
 sudo docker container exec -it f33be8e527a5 /bin/bash
+
+sudo docker run -it -v /Users/m/Documents/MIT6S081/21labs:/mit2021 calvinhaynes412/mit6.s081:v1.3.1
+
+
+home 
+
+sudo docker container start f626c9b00775
+sudo docker container exec -it f626c9b00775 /bin/bash
+
 ```
-
-
-
-
 
 ## 2020
 
@@ -87,8 +89,6 @@ sudo docker container start 2d078986b704
 服务器端用户浏览器访问**http://<服务器公网ip>:8848/** 密码： **mit6s081**.
 
 https://docs.docker.com/reference/cli/docker/container/
-
-
 
 Docker container
 
@@ -126,6 +126,8 @@ docker run --rm -it -v /home/m/aosp8:/aosp sabdelkader/aosp
 
 # lab note
 
+[Cubane 的个人主页 - 文章 - 掘金](https://juejin.cn/user/3046126888435363/posts)
+
 排版差但是准确
 
 https://th0ar.gitbooks.io/xv6-chinese/content/content/chapter0.html
@@ -141,10 +143,6 @@ https://th0ar.gitbooks.io/xv6-chinese/content/content/chapter0.html
 可以看看berkeley的cs61c课程，做完与riscv相关的两个lab和一个project，你就会对riscv非常了解了
 
 [](https://giscus.app/api/oauth/authorize?redirect_uri=https%3A%2F%2Fcsdiy.wiki%2F%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2FMIT6.S081%2F)
-
-
-
-
 
 Video
 
@@ -207,13 +205,9 @@ lab code
 
 [MIT 6.1810 操作系统 Lab全解 - Cubane的专栏 - 掘金](https://juejin.cn/column/7276350321094082614)
 
-
-
 Mit6.S081学习笔记
 
 https://tarplkpqsm.feishu.cn/docs/doccnoBgv1TQlj4ZtVnP0hNRETd
-
-
 
 系统调用流程
 
@@ -268,13 +262,9 @@ Some hints:
 
 添加系统调用的代码步骤可以看 , syscall分支 sysinfo syscall Your Name 10/15/25, 6:23 PM 这个提交
 
-
-
 # Lab3
 
 ## Gdb debug
-
-
 
 在一个窗口执行`make qemu-gdb`
 
@@ -299,8 +289,6 @@ set riscv use-compressed-breakpoints yes
 
 [MIT 6.S081 xv6调试不完全指北 - KatyuMarisa - 博客园](https://www.cnblogs.com/KatyuMarisaBlog/p/13727565.html)
 
-
-
 如果找不到问题,还是报错先
 
 ```
@@ -308,7 +296,5 @@ make clean
 ```
 
 ## Speed up system calls ([easy](https://pdos.csail.mit.edu/6.828/2021/labs/guidance.html))
-
-
 
 https://zhuanlan.zhihu.com/p/429304672
