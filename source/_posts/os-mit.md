@@ -9,6 +9,8 @@ categories:  OS
 
 [GitHub - YukunJ/xv6-operating-system: XV6 - MIT 6.s081 operating system Fall 2020 version](https://github.com/YukunJ/xv6-operating-system)
 
+## 环境配置
+
 https://zhuanlan.zhihu.com/p/449687883
 
 https://zhuanlan.zhihu.com/p/442656932
@@ -117,13 +119,9 @@ https://th0ar.gitbooks.io/xv6-chinese/content/content/chapter0.html
 
 [](https://giscus.app/api/oauth/authorize?redirect_uri=https%3A%2F%2Fcsdiy.wiki%2F%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2FMIT6.S081%2F)
 
-debug
 
-[MIT 6.S081 xv6调试不完全指北 - KatyuMarisa - 博客园](https://www.cnblogs.com/KatyuMarisaBlog/p/13727565.html)
 
-[6.S081的调试和VSCode环境配置 | 止息'幻想乡
 
-(https://zhangjk98.xyz/6.S081-VSCode-prepare-and-kernel-debugging/)
 
 Video
 
@@ -182,6 +180,12 @@ why child cannot reach  printf("execute: after\n")
 
 # Lab2系统调用
 
+lab code
+
+[MIT 6.1810 操作系统 Lab全解 - Cubane的专栏 - 掘金](https://juejin.cn/column/7276350321094082614)
+
+
+
 Mit6.S081学习笔记
 
 https://tarplkpqsm.feishu.cn/docs/doccnoBgv1TQlj4ZtVnP0hNRETd
@@ -211,7 +215,7 @@ $ trace 32 grep hello README
 
 32 = 2的5次方 ， 所以是追踪 read系统调用。从README文件中找hello字符串。
 
-## \System call tracing
+## System call tracing
 
 In the first example above, trace invokes grep tracing just the read system call. The 32 is 1<<SYS_read. In the second example, trace runs grep while tracing all system calls; the 2147483647 has all 31 low bits set. In the third example, the program isn't traced, so no trace output is printed. In the fourth example, the fork system calls of all the descendants of the forkforkfork test in usertests are being traced. Your solution is correct if your program behaves as shown above (though the process IDs may be different).
 
@@ -249,6 +253,8 @@ Some hints:
 
 
 
+
+
 在一个窗口执行`make qemu-gdb`
 
 ```
@@ -269,3 +275,13 @@ set riscv use-compressed-breakpoints yes
 ```
 
 [搭建MIT6.S081的实验环境 - 飞书云文档](https://tarplkpqsm.feishu.cn/docs/doccnxrUYjtjuoNnAyxwajplSyf)
+
+[MIT 6.S081 xv6调试不完全指北 - KatyuMarisa - 博客园](https://www.cnblogs.com/KatyuMarisaBlog/p/13727565.html)
+
+
+
+如果找不到问题,还是报错先
+
+```
+make clean
+```
