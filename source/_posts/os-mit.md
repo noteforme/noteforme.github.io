@@ -63,7 +63,6 @@ home
 
 sudo docker container start f626c9b00775
 sudo docker container exec -it f626c9b00775 /bin/bash
-
 ```
 
 ## 2020
@@ -298,8 +297,6 @@ make clean
 ## Speed up system calls ([easy](https://pdos.csail.mit.edu/6.828/2021/labs/guidance.html))
 
 https://zhuanlan.zhihu.com/p/429304672
-
-
 
 一开始报出这个错误，修改后还是，make clean 之后就好了
 
