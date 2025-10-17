@@ -49,11 +49,21 @@ https://docs.docker.com/reference/cli/docker/container/
 //首次配置mit6s081 2021版本的镜像
 sudo docker run -it -v /home/j/xv6-labs-2021:/mit2021 calvinhaynes412/mit6.s081:v1.3.1
 
+office
 //后续使用启动
 sudo docker container start f33be8e527a5
 
 // 进入容器 内部系统
 sudo docker container exec -it f33be8e527a5 /bin/bash
+
+sudo docker run -it -v /Users/m/Documents/MIT6S081/21labs:/mit2021 calvinhaynes412/mit6.s081:v1.3.1
+
+
+home 
+
+sudo docker container start f626c9b00775
+sudo docker container exec -it f626c9b00775 /bin/bash
+
 ```
 
 ## 2020
@@ -115,6 +125,8 @@ docker run --rm -it -v /home/m/aosp8:/aosp sabdelkader/aosp
 当前主机 / docker容器内的目录
 
 # lab note
+
+[Cubane 的个人主页 - 文章 - 掘金](https://juejin.cn/user/3046126888435363/posts)
 
 排版差但是准确
 
