@@ -43,10 +43,6 @@ https://hub.docker.com/r/calvinhaynes412/mit6.s081
 
 https://docs.docker.com/reference/cli/docker/container/
 
-
-
-
-
 ## 2021
 
 ```bash
@@ -59,10 +55,6 @@ sudo docker container start f33be8e527a5
 // 进入容器 内部系统
 sudo docker container exec -it f33be8e527a5 /bin/bash
 ```
-
-
-
-
 
 ## 2020
 
@@ -87,8 +79,6 @@ sudo docker container start 2d078986b704
 服务器端用户浏览器访问**http://<服务器公网ip>:8848/** 密码： **mit6s081**.
 
 https://docs.docker.com/reference/cli/docker/container/
-
-
 
 Docker container
 
@@ -141,10 +131,6 @@ https://th0ar.gitbooks.io/xv6-chinese/content/content/chapter0.html
 可以看看berkeley的cs61c课程，做完与riscv相关的两个lab和一个project，你就会对riscv非常了解了
 
 [](https://giscus.app/api/oauth/authorize?redirect_uri=https%3A%2F%2Fcsdiy.wiki%2F%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2FMIT6.S081%2F)
-
-
-
-
 
 Video
 
@@ -207,13 +193,9 @@ lab code
 
 [MIT 6.1810 操作系统 Lab全解 - Cubane的专栏 - 掘金](https://juejin.cn/column/7276350321094082614)
 
-
-
 Mit6.S081学习笔记
 
 https://tarplkpqsm.feishu.cn/docs/doccnoBgv1TQlj4ZtVnP0hNRETd
-
-
 
 系统调用流程
 
@@ -268,13 +250,9 @@ Some hints:
 
 添加系统调用的代码步骤可以看 , syscall分支 sysinfo syscall Your Name 10/15/25, 6:23 PM 这个提交
 
-
-
 # Lab3
 
 ## Gdb debug
-
-
 
 在一个窗口执行`make qemu-gdb`
 
@@ -299,8 +277,6 @@ set riscv use-compressed-breakpoints yes
 
 [MIT 6.S081 xv6调试不完全指北 - KatyuMarisa - 博客园](https://www.cnblogs.com/KatyuMarisaBlog/p/13727565.html)
 
-
-
 如果找不到问题,还是报错先
 
 ```
@@ -309,6 +285,11 @@ make clean
 
 ## Speed up system calls ([easy](https://pdos.csail.mit.edu/6.828/2021/labs/guidance.html))
 
-
-
 https://zhuanlan.zhihu.com/p/429304672
+
+
+
+一开始报出这个错误，修改后还是，make clean 之后就好了
+
+usertrap(): unexpected scause 0x000000000000000d pid=4
+ sepc=0x0000000000000480 stval=0x0000003fffffd000
