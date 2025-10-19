@@ -61,9 +61,32 @@ sudo docker run -it -v /Users/m/Documents/MIT6S081/21labs:/mit2021 calvinhaynes4
 
 home 
 
-sudo docker container start f626c9b00775
-sudo docker container exec -it f626c9b00775 /bin/bash
+docker run -p 8888:8848 --name=mit621 -u 0:0 -v "/Users/m/Documents/MIT6S081/21labs:/mit6.s081" calvinhaynes412/mit6.s081:v1.3.1
+
+
+sudo docker container start f66fa548330a
+sudo docker container exec -it f66fa548330a /bin/bash
 ```
+
+
+
+方法
+
+VS Code 已安装扩展 **Dev Containers**（扩展市场搜索安装）。
+
+在 VS Code 里附着
+
+1. 打开 VS Code。
+
+2. 打开 **命令面板**：**⌘⇧P**（Ctrl+Shift+P）。
+
+3. 输入并选择：**Dev Containers: Attach to Running Container…**
+
+4. 在弹出的列表里选择你的容器（例如 **mit6.s081**）。
+
+5. VS Code 会自动打开一个**新窗口**，状态栏左下角会显示 `Dev Container: <容器名>`。
+
+
 
 ## 2020
 
@@ -302,3 +325,9 @@ https://zhuanlan.zhihu.com/p/429304672
 
 usertrap(): unexpected scause 0x000000000000000d pid=4
  sepc=0x0000000000000480 stval=0x0000003fffffd000
+
+
+
+# Lab4
+
+汇编debug,按enter 键
