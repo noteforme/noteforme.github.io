@@ -47,16 +47,15 @@ https://docs.docker.com/reference/cli/docker/container/
 
 ```bash
 //首次配置mit6s081 2021版本的镜像
-sudo docker run -it -v /home/j/xv6-labs-2021:/mit2021 calvinhaynes412/mit6.s081:v1.3.1
+docker run -p 8888:8848 --name=mit621 -u 0:0 -v "/home/j/xv6-labs-2021:/mit6.s081" calvinhaynes412/mit6.s081:v1.3.1
+
 
 office
 //后续使用启动
-sudo docker container start f33be8e527a5
+sudo docker container start mit621
 
 // 进入容器 内部系统
-sudo docker container exec -it f33be8e527a5 /bin/bash
-
-sudo docker run -it -v /Users/m/Documents/MIT6S081/21labs:/mit2021 calvinhaynes412/mit6.s081:v1.3.1
+sudo docker container exec -it mit621 /bin/bash
 
 
 home 
@@ -68,8 +67,6 @@ sudo docker container start f66fa548330a
 sudo docker container exec -it f66fa548330a /bin/bash
 ```
 
-
-
 方法
 
 VS Code 已安装扩展 **Dev Containers**（扩展市场搜索安装）。
@@ -80,13 +77,13 @@ VS Code 已安装扩展 **Dev Containers**（扩展市场搜索安装）。
 
 2. 打开 **命令面板**：**⌘⇧P**（Ctrl+Shift+P）。
 
-3. 输入并选择：**Dev Containers: Attach to Running Container…**
+3. 选择， show and run command
 
-4. 在弹出的列表里选择你的容器（例如 **mit6.s081**）。
+4. 输入并选择：**Dev Containers: Attach to Running Container…**
 
-5. VS Code 会自动打开一个**新窗口**，状态栏左下角会显示 `Dev Container: <容器名>`。
+5. 在弹出的列表里选择你的容器（例如 **mit6.s081**）。
 
-
+6. VS Code 会自动打开一个**新窗口**，状态栏左下角会显示 `Dev Container: <容器名>`。
 
 ## 2020
 
@@ -325,8 +322,6 @@ https://zhuanlan.zhihu.com/p/429304672
 
 usertrap(): unexpected scause 0x000000000000000d pid=4
  sepc=0x0000000000000480 stval=0x0000003fffffd000
-
-
 
 # Lab4
 
