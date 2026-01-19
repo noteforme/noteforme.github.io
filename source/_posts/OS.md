@@ -6,7 +6,9 @@ tags:
 categories: OS
 ---
 
-# 
+```bash
+nasm hello.asm -o helloos.img
+```
 
 ## xv6 补充资源
 
