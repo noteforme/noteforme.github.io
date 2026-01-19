@@ -7,7 +7,8 @@ categories: OS
 ---
 
 ```bash
-nasm hello.asm -o helloos.img
+nasm helloos.asm -o helloos.img
+qemu-system-i386 -fda hello.img
 ```
 
 ## xv6 补充资源
