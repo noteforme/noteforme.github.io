@@ -6,9 +6,26 @@ tags:
 categories: OS
 ---
 
+day1
+
 ```bash
 nasm helloos.asm -o helloos.img
 qemu-system-i386 -fda hello.img
+```
+
+
+
+[30天自制操作系统linux环境下_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV13W411e7hG/?vd_source=d4c5260002405798a57476b318eccac9)
+
+
+
+day2
+
+https://github.com/zchrissirhcz/osask-linux
+
+```bash
+make
+make run
 ```
 
 ## xv6 补充资源
