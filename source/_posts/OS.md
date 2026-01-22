@@ -4,14 +4,17 @@ comments: true
 date: 2020-12-28 15:32:28
 tags:
 categories: OS
----
 
+<<<<<<< HEAD
 day1
 
 ```bash
 nasm helloos.asm -o helloos.img
 qemu-system-i386 -fda hello.img
 ```
+=======
+---
+>>>>>>> e39cedd1f617940829c8aad793913690832e338d
 
 
 
