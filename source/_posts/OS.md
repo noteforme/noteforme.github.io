@@ -1,26 +1,19 @@
 ---
+
 title: OS
 comments: true
 date: 2020-12-28 15:32:28
 tags:
 categories: OS
 
-<<<<<<< HEAD
 day1
 
 ```bash
 nasm helloos.asm -o helloos.img
 qemu-system-i386 -fda hello.img
 ```
-=======
----
->>>>>>> e39cedd1f617940829c8aad793913690832e338d
-
-
 
 [30天自制操作系统linux环境下_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV13W411e7hG/?vd_source=d4c5260002405798a57476b318eccac9)
-
-
 
 day2
 
@@ -30,6 +23,45 @@ https://github.com/zchrissirhcz/osask-linux
 make
 make run
 ```
+
+## 
+
+# orange环境
+
+```bash
+sudo apt-get install build-essential 
+sudo apt-get install xorg-dev 
+sudo apt-get install bison 
+sudo apt-get install g++ 
+./configure --enable-debugger --enable-disasm
+make
+sudo make install
+```
+
+接下来按照这个文档跑
+
+[Orange‘s:一个操作系统的实现学习笔记1_orange's一个操作系统的实现-CSDN博客](https://blog.csdn.net/weixin_42193791/article/details/123144920)
+
+https://www.bilibili.com/video/BV1Hj421f77x?spm_id_from=333.788.videopod.sections&vd_source=d4c5260002405798a57476b318eccac9
+
+上面video也是按照这个步骤
+
+https://blog.csdn.net/lhl_blog/article/details/76785193?app_version=6.2.9&code=app_1562916241&csdn_share_tail=%7B%22type%22%3A%22blog%22%2C%22rType%22%3A%22article%22%2C%22rId%22%3A%2276785193%22%2C%22source%22%3A%22m0_62832651%22%7D&uLinkId=usr1mkqgl919blen&utm_source=app
+
+```bash
+nasm boot.asm -o boot.bin
+dd if=boot.bin of=a.img  bs=512 count=1
+
+
+xxd a.img > a.txt  
+
+//创建软盘,再执行上面两行命令
+bximage 
+1
+fd
+```
+
+https://www.bilibili.com/video/BV1zN4y1n7QB?spm_id_from=333.788.videopod.sections&vd_source=d4c5260002405798a57476b318eccac9
 
 ## xv6 补充资源
 
