@@ -1,14 +1,15 @@
 ---
-
 title: OS
 comments: true
 date: 2020-12-28 15:32:28
 tags:
 categories: OS
 
+---
 
 
 
+# OS30
 
 day1
 
@@ -28,15 +29,9 @@ make
 make run
 ```
 
-## 
-
 # orange环境
 
-
-
 ## ubuntu
-
-
 
 ```bash
 sudo apt-get install build-essential 
@@ -71,13 +66,13 @@ bximage
 fd
 ```
 
+
+
 https://www.bilibili.com/video/BV1zN4y1n7QB?spm_id_from=333.788.videopod.sections&vd_source=d4c5260002405798a57476b318eccac9
 
 
 
 ## macos
-
-
 
 ```bash
 ./configure --prefix=/usr/local \
@@ -91,26 +86,24 @@ https://www.bilibili.com/video/BV1zN4y1n7QB?spm_id_from=333.788.videopod.section
 --enable-debugger \
 --enable-debugger-gui \
 --with-sdl2
-
 ```
 
 If SDL2 fails, try:
+--with-sdl
 
-`--with-sdl`
 
-## Build
 
-`make`
+Build
+
+make
 
 (This may take several minutes.)
 
----
 
-## 6️⃣ Install
+
+Install
 
 `sudo make install`
-
-
 
 error 
 
@@ -125,8 +118,6 @@ You’ll see something like:
 Edit it to:
 
 `const char *devname; ... if ((devname = strrchr(devpath, '/')) != NULL) {`
-
-
 
 ## xv6 补充资源
 
