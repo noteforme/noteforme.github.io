@@ -19,15 +19,15 @@
   <meta name="author" content="Jon">
   <meta name="keywords" content="">
   
-    <meta name="description" content="mac 1make qemu GCCPREFIX&#x3D;x86_64-elf-  linux 进入32位123456hexeditctrl + G , 然后搜索2600ctrl + V : next pagealt + v : previous pagectrl + V : exit  以上内容可以总结为：一般向一个空软盘保存文件时，  文件名会写在0x002600以后的地方； 文件的内容会写在0x00">
+    <meta name="description" content="mac 1make qemu GCCPREFIX&#x3D;x86_64-elf-  &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEADlinux &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; linux HariboteOS  ,   1make qemu             refs&#x2F;remotes&#x2F;origin&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="os_30">
 <meta property="og:url" content="https://noteforme.github.io/2026/01/21/os-30/index.html">
 <meta property="og:site_name" content="Jon&#39;s Blog">
-<meta property="og:description" content="mac 1make qemu GCCPREFIX&#x3D;x86_64-elf-  linux 进入32位123456hexeditctrl + G , 然后搜索2600ctrl + V : next pagealt + v : previous pagectrl + V : exit  以上内容可以总结为：一般向一个空软盘保存文件时，  文件名会写在0x002600以后的地方； 文件的内容会写在0x00">
+<meta property="og:description" content="mac 1make qemu GCCPREFIX&#x3D;x86_64-elf-  &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEADlinux &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; linux HariboteOS  ,   1make qemu             refs&#x2F;remotes&#x2F;origin&#x2F;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2026-01-21T14:30:55.000Z">
-<meta property="article:modified_time" content="2026-01-23T14:20:35.590Z">
+<meta property="article:modified_time" content="2026-02-13T12:21:21.662Z">
 <meta property="article:author" content="Jon">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          464 words
+          524 words
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          4 mins
+          5 mins
         
       </span>
     
@@ -278,7 +278,31 @@
                 <p>mac</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">make qemu GCCPREFIX=x86_64-elf-<br></code></pre></td></tr></table></figure>
 
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br>linux</p>
+<p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
 <p>linux</p>
+<p>HariboteOS  ,  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">make qemu<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>refs&#x2F;remotes&#x2F;origin&#x2F;main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <h2 id="进入32位"><a href="#进入32位" class="headerlink" title="进入32位"></a>进入32位</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs awk">hexedit<br>ctrl + G , 然后搜索<span class="hljs-number">2600</span><br><br>ctrl + V : <span class="hljs-keyword">next</span> page<br>alt + v : previous page<br>ctrl + V : <span class="hljs-keyword">exit</span><br></code></pre></td></tr></table></figure>
 
 <p>以上内容可以总结为：一般向一个空软盘保存文件时，</p>
@@ -289,6 +313,8 @@
 <p>Attention!<br>1.hexedit需要下载并安装：sudo yum install hexedit -y<br>2.sudo make copy这一步是必须的，因为要拷贝，同时需要sudo权限<br>3.另一个有数据的地址为0000:4400,发现和书上不一样。网上查过别人的帖子，基本上都是4400.估计是《30天》使用的工具和我们不太相同，我们这个4400经过考证应该是正确的。原因如下：</p>
 <p>查看了微软的硬件白皮书（fatgen.doc），发现这个0x4400是可以计算出来的：<br>第一个公式：<br>RootDirSectors &#x3D; ((BPB_RootEntCnt * 32) + (BPB_BytsPerSec – 1)) &#x2F; BPB_BytsPerSec;<br>这里需要注意，要round up取整。<br>第二个公式：<br>If(BPB_FATSz16 !&#x3D; 0)<br>    FATSz &#x3D; BPB_FATSz16;<br>Else<br>    FATSz &#x3D; BPB_FATSz32;<br>FirstDataSector &#x3D; BPB_ResvdSecCnt + (BPB_NumFATs * FATSz) + RootDirSectors;<br>预先设定的值中，BPB_FATSx16等于9，BPB_ResvdSecCnt为1， BPB_NumFATs为2， RootDirSectors上面计算得到是15，那么：<br>                FirstData&#x3D;34<br>那么，34*512，也就是4400H那里了（4400H&#x2F;200H&#x3D;22H&#x3D;34, 200H就是512k）</p>
 <p>这里还有一个问题，就是在计算RootDirSectors的时候，感觉分子上的（512-1）没有什么用处。网上有人这样解释：<br>“”字节对齐作用”,解释比较简单和牵强,不过你这句话提醒了我,我想微软的这个公式是同时用于计算FAT16和FAT12用的,<br>对于FAT16本身”(BPB_BytsPerSec – 1)&#x2F;BPB_BytsPerSec”是没必要的,而对于FAT12由于它每个表项是1.5个字节,如果<br>应用不当的话有可能会造成”跨越扇区边界”的问题,故而保留了1个扇区,不知这样认识对不对,请朋友们继续发表看法. ”（ref：<a target="_blank" rel="noopener" href="http://bbs.eeworld.com.cn/thread-131851-1-1.html%EF%BC%89">http://bbs.eeworld.com.cn/thread-131851-1-1.html）</a></p>
+<h1 id="第8天-鼠标控制与32位模式切换"><a href="#第8天-鼠标控制与32位模式切换" class="headerlink" title="第8天 鼠标控制与32位模式切换"></a>第8天 鼠标控制与32位模式切换</h1><p>通往32位模式之路 32:00分钟左右</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1cxRZYCEAS?spm_id_from=333.788.videopod.sections&vd_source=d4c5260002405798a57476b318eccac9">https://www.bilibili.com/video/BV1cxRZYCEAS?spm_id_from=333.788.videopod.sections&amp;vd_source=d4c5260002405798a57476b318eccac9</a></p>
 
                 
               </div>
