@@ -32,6 +32,12 @@ make run
 
 # orange环境
 
+
+
+## ubuntu
+
+
+
 ```bash
 sudo apt-get install build-essential 
 sudo apt-get install xorg-dev 
@@ -66,6 +72,61 @@ fd
 ```
 
 https://www.bilibili.com/video/BV1zN4y1n7QB?spm_id_from=333.788.videopod.sections&vd_source=d4c5260002405798a57476b318eccac9
+
+
+
+## macos
+
+
+
+```bash
+./configure --prefix=/usr/local \
+--enable-smp \
+--enable-cpu-level=6 \
+--enable-disasm \
+--enable-x86-64 \
+--enable-vmx=2 \
+--enable-svm \
+--enable-all-optimizations \
+--enable-debugger \
+--enable-debugger-gui \
+--with-sdl2
+
+```
+
+If SDL2 fails, try:
+
+`--with-sdl`
+
+## Build
+
+`make`
+
+(This may take several minutes.)
+
+---
+
+## 6️⃣ Install
+
+`sudo make install`
+
+
+
+error 
+
+### 2) Find the line around ~194
+
+You’ll see something like:
+
+`char *devname; ... if ((devname = strrchr(devpath, '/')) != NULL) {`
+
+### 3) Change `devname` to `const char *`
+
+Edit it to:
+
+`const char *devname; ... if ((devname = strrchr(devpath, '/')) != NULL) {`
+
+
 
 ## xv6 补充资源
 
