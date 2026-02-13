@@ -6,6 +6,10 @@ date: 2020-12-28 15:32:28
 tags:
 categories: OS
 
+
+
+
+
 day1
 
 ```bash
