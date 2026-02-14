@@ -7,29 +7,15 @@ categories: OS
 
 ---
 
+# # orange环境
 
 
-# OS30
 
-day1
+代码仓库
 
-```bash
-nasm helloos.asm -o helloos.img
-qemu-system-i386 -fda hello.img
-```
+https://gitee.com/jiang000/oranges
 
-[30天自制操作系统linux环境下_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV13W411e7hG/?vd_source=d4c5260002405798a57476b318eccac9)
 
-day2
-
-https://github.com/zchrissirhcz/osask-linux
-
-```bash
-make
-make run
-```
-
-# orange环境
 
 ## ubuntu
 
@@ -66,11 +52,7 @@ bximage
 fd
 ```
 
-
-
 https://www.bilibili.com/video/BV1zN4y1n7QB?spm_id_from=333.788.videopod.sections&vd_source=d4c5260002405798a57476b318eccac9
-
-
 
 ## macos
 
@@ -91,15 +73,11 @@ https://www.bilibili.com/video/BV1zN4y1n7QB?spm_id_from=333.788.videopod.section
 If SDL2 fails, try:
 --with-sdl
 
-
-
 Build
 
 make
 
 (This may take several minutes.)
-
-
 
 Install
 
@@ -118,6 +96,64 @@ You’ll see something like:
 Edit it to:
 
 `const char *devname; ... if ((devname = strrchr(devpath, '/')) != NULL) {`
+
+
+
+
+
+
+
+# 保护模式
+
+
+
+实验a运行
+
+需要代码自带的 a.img,因为 pmtest1.asm 没有55aa,自己创建的找不到盘
+
+```bash
+nasm pmtest1.asm -o pmtest1.bin
+dd if=pmtest1.bin of=a.img bs=512 count=1 conv=notrunc
+```
+
+实验b
+
+```bash
+nasm pmtest2.asm -o pmtest2.com
+
+sudo mkdir /mnt/floppy
+sudo mount -o loop pm.img /mnt/floppy
+sudo cp pmtest2.com /mnt/floppy
+sudo umount /mnt/floppy
+```
+
+
+
+
+
+
+
+
+
+# OS30
+
+day1
+
+```bash
+nasm helloos.asm -o helloos.img
+qemu-system-i386 -fda hello.img
+```
+
+[30天自制操作系统linux环境下_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV13W411e7hG/?vd_source=d4c5260002405798a57476b318eccac9)
+
+day2
+
+https://github.com/zchrissirhcz/osask-linux
+
+```bash
+make
+make run
+```
 
 ## xv6 补充资源
 
