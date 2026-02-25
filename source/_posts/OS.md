@@ -9,13 +9,9 @@ categories: OS
 
 # # orange环境
 
-
-
 代码仓库
 
 https://gitee.com/jiang000/oranges
-
-
 
 ## ubuntu
 
@@ -97,15 +93,7 @@ Edit it to:
 
 `const char *devname; ... if ((devname = strrchr(devpath, '/')) != NULL) {`
 
-
-
-
-
-
-
 # 保护模式
-
-
 
 实验a运行
 
@@ -126,14 +114,6 @@ sudo mount -o loop pm.img /mnt/floppy
 sudo cp pmtest2.com /mnt/floppy
 sudo umount /mnt/floppy
 ```
-
-
-
-
-
-
-
-
 
 # OS30
 

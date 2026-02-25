@@ -50,6 +50,21 @@ fd
 
 ## macos
 
+
+
+
+
+```
+for ubuntu
+keyboard:  keymap=/usr/local/share/bochs/keymaps/x11-pc-us.map
+for macos
+keyboard: keymap=/usr/local/share/bochs/keymaps/sdl2-pc-us.map
+```
+
+
+
+
+
 ```bash
 ./configure --prefix=/usr/local \
 --enable-smp \
@@ -111,4 +126,11 @@ sudo mkdir /mnt/floppy
 sudo mount -o loop pm.img /mnt/floppy
 sudo cp pmtest2.com /mnt/floppy
 sudo umount /mnt/floppy
+
+
+sudo mkdir /Users/m/floppy
+sudo mount -o loop pm.img /Users/m/floppy
+sudo cp pmtest2.com /Users/m/floppy
+sudo umount /Users/m/floppy
+
 ```
