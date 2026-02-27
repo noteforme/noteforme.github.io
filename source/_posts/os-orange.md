@@ -48,13 +48,15 @@ fd
 
 [organe&#39;s一个操作系统实现实验一实验步骤_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1zN4y1n7QB?spm_id_from=333.788.videopod.sections&vd_source=d4c5260002405798a57476b318eccac9)
 
-## macos
+## 
 
+```bash
 
+# filename of ROM images
+romimage: file=/usr/local/share/bochs/BIOS-bochs-latest
+vgaromimage: file=/usr/local/share/bochs/VGABIOS-lgpl-latest
 
-
-
-```
+# enable key mapping, using US layout as default.
 for ubuntu
 keyboard:  keymap=/usr/local/share/bochs/keymaps/x11-pc-us.map
 for macos
@@ -63,7 +65,7 @@ keyboard: keymap=/usr/local/share/bochs/keymaps/sdl2-pc-us.map
 
 
 
-
+## macos
 
 ```bash
 ./configure --prefix=/usr/local \
@@ -133,4 +135,11 @@ sudo mount -o loop pm.img /Users/m/floppy
 sudo cp pmtest2.com /Users/m/floppy
 sudo umount /Users/m/floppy
 
+
+bochs
+
+//到b磁盘下
+b:
+//运行
+pmtest2.com
 ```
