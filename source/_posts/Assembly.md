@@ -10,11 +10,19 @@ categories:
 
 AX , BX , CX , DX , SI , DI , SP , BP, IP , CS , SS, DS ,ES ,PSW
 
-实验环境搭建
+# 实验环境搭建
+
+ubuntu
 
 https://github.com/froginwell/assembly
 
 https://www.bilibili.com/s/video/BV1254y1B75r
+
+macos
+
+从下载masm 
+
+https://github.com/froginwell/assembly/tree/master/software
 
 ![](Assembly/2021-05-20-19-06-09.png)
 
@@ -77,8 +85,6 @@ https://blackdragonf.github.io/2017/03/09/%E7%8E%8B%E7%88%BD%E6%B1%87%E7%BC%96%E
 深入分析用到了汇编指令,后面可以加强学习,其实底层的知识还是需要的，要不然没法深入下去了
 
 https://blog.csdn.net/jackgo73/article/details/111866491
-
-
 
 video看到了3 [bx+idata]方式寻址,都是质量和计算器的介绍，后面打算跳着看，不懂的再查。
 
