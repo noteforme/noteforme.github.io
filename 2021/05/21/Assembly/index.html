@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://noteforme.github.io/2021/05/21/Assembly//2021-05-23-17-48-42.png">
 <meta property="og:image" content="https://noteforme.github.io/2021/05/21/Assembly//2021-05-24-14-59-10.png">
 <meta property="article:published_time" content="2021-05-21T03:13:41.000Z">
-<meta property="article:modified_time" content="2026-03-15T02:43:25.270Z">
+<meta property="article:modified_time" content="2026-03-15T05:26:42.535Z">
 <meta property="article:author" content="Jon">
 <meta property="article:tag" content="Assembly">
 <meta name="twitter:card" content="summary_large_image">
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          577 words
+          660 words
         
       </span>
     
@@ -237,7 +237,7 @@
         
         
         
-          5 mins
+          6 mins
         
       </span>
     
@@ -290,14 +290,25 @@
 <h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><p>命令将cs修改成2000</p>
 <p>命令将ip修改成1000</p>
 <p>验证</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs bash">r cs 2000<br>r ip 0000<br><br>-a 2000:0<br>2000:0000 mov ax ,0123<br>2000:0003 mov bx, 3<br>2000:0006 mov ax , bx<br>2000:0008 add ax,bx<br>2000:000A<br>-u<br>2000:0000 B82301            MOV     AX,0123<br>2000:0003 BB0300            MOV     BX,0003<br>2000:0006 89D8              MOV     AX,BX<br>2000:0008 01D8              ADD     AX,BX<br>2000:000A 0000              ADD     [BX+SI],AL<br>2000:000C 0000              ADD     [BX+SI],AL<br>2000:000E 0000              ADD     [BX+SI],AL<br>2000:0010 0000              ADD     [BX+SI],AL<br>2000:0012 0000              ADD     [BX+SI],AL<br>2000:0014 0000              ADD     [BX+SI],AL<br>2000:0016 0000              ADD     [BX+SI],AL<br>2000:0018 0000              ADD     [BX+SI],AL<br>2000:001A 0000              ADD     [BX+SI],AL<br>2000:001C 0000              ADD     [BX+SI],AL<br>2000:001E 0000              ADD     [BX+SI],AL<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash">r cs 2000<br>r ip 0000<br><br>-a 2000:0<br>2000:0000 mov ax ,0123<br>2000:0003 mov bx, 3<br>2000:0006 mov ax , bx<br>2000:0008 add ax,bx<br>2000:000A<br>-u<br>2000:0000 B82301            MOV     AX,0123<br>2000:0003 BB0300            MOV     BX,0003<br>2000:0006 89D8              MOV     AX,BX<br>2000:0008 01D8              ADD     AX,BX<br><br></code></pre></td></tr></table></figure>
 
 <p>CS:IP  他们指示了CPU当前要读取指令的地址。</p>
 <p>CS为代码段地址</p>
 <p>IP 指令指针寄存器</p>
 <p>jmp ax ,含义上类似 ： mov IP , ax</p>
-<p> 我 们 用 到 的debug 功 能 。<br> 用Debug 的R 命令查看、改变CPU 寄存器的内容;<br> 用Debug 的D命令查看内存中的内容;<br> 用Debug 的E命令改写内存中的内容;<br> 用De bug 的U 命令将内存中的机器指令翻译成汇编指令;<br> 用Debug 的T工命令执行 一条机器指令;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">mov ax, 4E20<br>add ax, 1416 <br>mov bx, 2000 <br>add ax, bx<br>mov bx,ax<br>add ax,bx<br>mov ax, 001A<br>mov bx, 0026<br>add al,bl<br>add ah, bl<br>add bh, al<br>mov ah,0<br>add al,bl<br>add al,9C<br></code></pre></td></tr></table></figure>
+
+
+
+<p>copy 后 pdf的bl ，到这里后成了b1,导致计算问题</p>
+<p> 我 们 用 到 的debug 功 能 。<br> 用Debug 的R 命令查看、改变CPU 寄存器的内容;<br> 用Debug 的D命令查看内存中的内容;<br> 用Debug 的E命令改写内存中的内容;<br> 用Debug 的U 命令将内存中的机器指令翻译成汇编指令;<br> 用Debug 的T工命令执行 一条机器指令;</p>
 <p>用 Debug的 A 命 令 以 汇 编 指 令 的 格 式 在 内 存 中 写 入一 条 机 器 指 令</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs routeros">-t<br><span class="hljs-attribute">AX</span>=8236 <span class="hljs-attribute">BX</span>=2000 <span class="hljs-attribute">CX</span>=0000 <span class="hljs-attribute">DX</span>=0000 <span class="hljs-attribute">SP</span>=FFFE <span class="hljs-attribute">BP</span>=0000 <span class="hljs-attribute">SI</span>=0000 <span class="hljs-attribute">DI</span>=0000<br><span class="hljs-attribute">DS</span>=0DAB <span class="hljs-attribute">ES</span>=0DAB <span class="hljs-attribute">SS</span>=0DAB <span class="hljs-attribute">CS</span>=2000 <span class="hljs-attribute">IP</span>=000B OV UP EI NG NZ NA PE NC<br>2000:000B 89C3              MOV     BX,AX<br>-t<br><span class="hljs-attribute">AX</span>=8236 <span class="hljs-attribute">BX</span>=8236 <span class="hljs-attribute">CX</span>=0000 <span class="hljs-attribute">DX</span>=0000 <span class="hljs-attribute">SP</span>=FFFE <span class="hljs-attribute">BP</span>=0000 <span class="hljs-attribute">SI</span>=0000 <span class="hljs-attribute">DI</span>=0000<br><span class="hljs-attribute">DS</span>=0DAB <span class="hljs-attribute">ES</span>=0DAB <span class="hljs-attribute">SS</span>=0DAB <span class="hljs-attribute">CS</span>=2000 <span class="hljs-attribute">IP</span>=000D OV UP EI NG NZ NA PE NC<br>2000:000D 01D8              <span class="hljs-built_in">ADD</span>     AX,BX<br>-t<br><span class="hljs-attribute">AX</span>=046C <span class="hljs-attribute">BX</span>=8236 <span class="hljs-attribute">CX</span>=0000 <span class="hljs-attribute">DX</span>=0000 <span class="hljs-attribute">SP</span>=FFFE <span class="hljs-attribute">BP</span>=0000 <span class="hljs-attribute">SI</span>=0000 <span class="hljs-attribute">DI</span>=0000<br><span class="hljs-attribute">DS</span>=0DAB <span class="hljs-attribute">ES</span>=0DAB <span class="hljs-attribute">SS</span>=0DAB <span class="hljs-attribute">CS</span>=2000 <span class="hljs-attribute">IP</span>=000F OV UP EI PL NZ NA PE CY<br>2000:000F B81A00            MOV     AX,001A<br>-t<br><span class="hljs-attribute">AX</span>=001A <span class="hljs-attribute">BX</span>=8236 <span class="hljs-attribute">CX</span>=0000 <span class="hljs-attribute">DX</span>=0000 <span class="hljs-attribute">SP</span>=FFFE <span class="hljs-attribute">BP</span>=0000 <span class="hljs-attribute">SI</span>=0000 <span class="hljs-attribute">DI</span>=0000<br><span class="hljs-attribute">DS</span>=0DAB <span class="hljs-attribute">ES</span>=0DAB <span class="hljs-attribute">SS</span>=0DAB <span class="hljs-attribute">CS</span>=2000 <span class="hljs-attribute">IP</span>=0012 OV UP EI PL NZ NA PE CY<br>2000:0012 BB2600            MOV     BX,0026<br>-t<br><span class="hljs-attribute">AX</span>=001A <span class="hljs-attribute">BX</span>=0026 <span class="hljs-attribute">CX</span>=0000 <span class="hljs-attribute">DX</span>=0000 <span class="hljs-attribute">SP</span>=FFFE <span class="hljs-attribute">BP</span>=0000 <span class="hljs-attribute">SI</span>=0000 <span class="hljs-attribute">DI</span>=0000<br><span class="hljs-attribute">DS</span>=0DAB <span class="hljs-attribute">ES</span>=0DAB <span class="hljs-attribute">SS</span>=0DAB <span class="hljs-attribute">CS</span>=2000 <span class="hljs-attribute">IP</span>=0015 OV UP EI PL NZ NA PE CY<br>2000:0015 04B1              <span class="hljs-built_in">ADD</span>     AL,B1<br>-t<br><span class="hljs-attribute">AX</span>=00CB <span class="hljs-attribute">BX</span>=0026 <span class="hljs-attribute">CX</span>=0000 <span class="hljs-attribute">DX</span>=0000 <span class="hljs-attribute">SP</span>=FFFE <span class="hljs-attribute">BP</span>=0000 <span class="hljs-attribute">SI</span>=0000 <span class="hljs-attribute">DI</span>=0000<br><span class="hljs-attribute">DS</span>=0DAB <span class="hljs-attribute">ES</span>=0DAB <span class="hljs-attribute">SS</span>=0DAB <span class="hljs-attribute">CS</span>=2000 <span class="hljs-attribute">IP</span>=0017 NV UP EI NG NZ NA PO NC<br>2000:0017 80C4B1            <span class="hljs-built_in">ADD</span>     AH,B1<br>-<br></code></pre></td></tr></table></figure>
+
+
+
+
+
 <h4 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h4><h5 id="DS和address"><a href="#DS和address" class="headerlink" title="DS和address"></a>DS和address</h5><p>debug中，内存单元从左到右是地址从低到高顺序排列的。</p>
 <p>8086CPU自动取ds中的数据为内存单元的段地址</p>
 <h5 id="move-add-sub"><a href="#move-add-sub" class="headerlink" title="move , add , sub"></a>move , add , sub</h5><p>[0] ， 0表示内存单元的偏移地址</p>
