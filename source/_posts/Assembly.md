@@ -10,7 +10,7 @@ categories:
 
 AX , BX , CX , DX , SI , DI , SP , BP, IP , CS , SS, DS ,ES ,PSW
 
-# 实验环境搭建
+# 环境搭建
 
 ubuntu
 
@@ -20,11 +20,37 @@ https://www.bilibili.com/s/video/BV1254y1B75r
 
 macos
 
+doxbox-x
+
 从下载masm 
 
 https://github.com/froginwell/assembly/tree/master/software
 
-![](Assembly/2021-05-20-19-06-09.png)
+# 实验
+
+命令将cs修改成2000
+
+命令将ip修改成1000
+
+验证
+
+```bash
+r cs 2000
+r ip 0000
+
+-a 2000:0
+2000:0000 mov ax ,0123
+2000:0003 mov bx, 3
+2000:0006 mov ax , bx
+2000:0008 add ax,bx
+2000:000A
+-u
+2000:0000 B82301            MOV     AX,0123
+2000:0003 BB0300            MOV     BX,0003
+2000:0006 89D8              MOV     AX,BX
+2000:0008 01D8              ADD     AX,BX
+
+```
 
 CS:IP  他们指示了CPU当前要读取指令的地址。
 
@@ -34,7 +60,75 @@ IP 指令指针寄存器
 
 jmp ax ,含义上类似 ： mov IP , ax
 
-![](Assembly/2021-05-21-17-22-59.png)
+
+
+```bash
+mov ax, 4E20
+add ax, 1416 
+mov bx, 2000 
+add ax, bx
+mov bx,ax
+add ax,bx
+mov ax, 001A
+mov bx, 0026
+add al,bl
+add ah, bl
+add bh, al
+mov ah,0
+add al,bl
+add al,9C
+```
+
+
+
+copy 后 pdf的bl ，到这里后成了b1,导致计算问题
+
+
+
+ 我 们 用 到 的debug 功 能 。
+ 用Debug 的R 命令查看、改变CPU 寄存器的内容;
+ 用Debug 的D命令查看内存中的内容;
+ 用Debug 的E命令改写内存中的内容;
+ 用Debug 的U 命令将内存中的机器指令翻译成汇编指令;
+ 用Debug 的T工命令执行 一条机器指令;
+
+用 Debug的 A 命 令 以 汇 编 指 令 的 格 式 在 内 存 中 写 入一 条 机 器 指 令
+
+
+
+
+
+```
+-t
+AX=8236 BX=2000 CX=0000 DX=0000 SP=FFFE BP=0000 SI=0000 DI=0000
+DS=0DAB ES=0DAB SS=0DAB CS=2000 IP=000B OV UP EI NG NZ NA PE NC
+2000:000B 89C3              MOV     BX,AX
+-t
+AX=8236 BX=8236 CX=0000 DX=0000 SP=FFFE BP=0000 SI=0000 DI=0000
+DS=0DAB ES=0DAB SS=0DAB CS=2000 IP=000D OV UP EI NG NZ NA PE NC
+2000:000D 01D8              ADD     AX,BX
+-t
+AX=046C BX=8236 CX=0000 DX=0000 SP=FFFE BP=0000 SI=0000 DI=0000
+DS=0DAB ES=0DAB SS=0DAB CS=2000 IP=000F OV UP EI PL NZ NA PE CY
+2000:000F B81A00            MOV     AX,001A
+-t
+AX=001A BX=8236 CX=0000 DX=0000 SP=FFFE BP=0000 SI=0000 DI=0000
+DS=0DAB ES=0DAB SS=0DAB CS=2000 IP=0012 OV UP EI PL NZ NA PE CY
+2000:0012 BB2600            MOV     BX,0026
+-t
+AX=001A BX=0026 CX=0000 DX=0000 SP=FFFE BP=0000 SI=0000 DI=0000
+DS=0DAB ES=0DAB SS=0DAB CS=2000 IP=0015 OV UP EI PL NZ NA PE CY
+2000:0015 04B1              ADD     AL,B1
+-t
+AX=00CB BX=0026 CX=0000 DX=0000 SP=FFFE BP=0000 SI=0000 DI=0000
+DS=0DAB ES=0DAB SS=0DAB CS=2000 IP=0017 NV UP EI NG NZ NA PO NC
+2000:0017 80C4B1            ADD     AH,B1
+-
+```
+
+
+
+
 
 #### 第三章
 
@@ -46,13 +140,9 @@ debug中，内存单元从左到右是地址从低到高顺序排列的。
 
 ##### move , add , sub
 
-![](Assembly/2021-05-21-19-21-51.png)
-
 [0] ， 0表示内存单元的偏移地址
 
 SS:SP 指向栈顶元素，栈顶的段地址存放在栈顶，偏移地址存放在SP中。
-
-![t](Assembly/2021-05-22-16-18-16.png)
 
 ##### Loop
 
