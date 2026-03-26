@@ -331,6 +331,9 @@ dosbox
 mount c /Applications/dosbox-x.app/Contents/MacOS/masm
 c:
 masm demo1.asm
+
+link demo1
+debug DEMO1.exeå
 ```
 
 
