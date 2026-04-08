@@ -325,15 +325,9 @@ FFFFH - 0000H + 1 = 65536 个地址
 
 https://github.com/CuB3y0nd/assembly/tree/master/%E3%80%8A%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E3%80%8B%EF%BC%88%E7%AC%AC%204%20%E7%89%88%EF%BC%89/ch03#%E6%A3%80%E6%B5%8B%E7%82%B9-32
 
-
-
 （1）补全下面的程序，使其可以将 10000H~1000FH 中的 8 个字，逆序复制到 20000H~2000FH 中。逆序复制的含义如图 3.17 所示（图中内存里的数据均为假设）。
 
-
-
 mov sp, 0x0000 ,是因为pop指令需要从 低地址出栈，SP-SP+2。
-
-
 
 ### 实验三
 
@@ -375,3 +369,23 @@ https://blog.csdn.net/jackgo73/article/details/111866491
 video看到了3 [bx+idata]方式寻址,都是质量和计算器的介绍，后面打算跳着看，不懂的再查。
 
 [3 [bx+idata]方式寻址_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1Wu411B72F?spm_id_from=333.788.videopod.episodes&vd_source=d4c5260002405798a57476b318eccac9&p=33)
+
+
+
+
+
+
+
+# 第10章
+
+
+
+call dword ptr ds: [0]
+
+相当于
+
+push CS // push当前段的段地址,也就是 ds
+push IP //  push当前ip地址
+
+
+jmp dword ptr 内存单元地址
