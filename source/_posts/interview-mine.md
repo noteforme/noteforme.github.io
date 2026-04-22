@@ -12,9 +12,13 @@ categories:
 
 My Interview question
 
-
-
  new security guard 兼容问题方案
+
+
+
+sslpinning  获取服务端证书报错
+
+字节插桩 导致，connection不是httpsurlconenction,代理方法没重写getservercerticate()
 
 
 
@@ -97,7 +101,7 @@ Intent机制什么样的
 
 快速排序。
 
-# 澳润激
+# 澳
 
 MVC MVP MVVM区别
 
@@ -195,7 +199,7 @@ Https 服务端公钥客户端认可，如何做到的
 
 阻塞队列原理
 
-# 蚂蚁面试
+# 蚂
 
 红包项目通用组件是 怎么跨模块调用的， applink是怎么消费的，Activity透明弹窗的逻辑。  
 多语言和字体。  
