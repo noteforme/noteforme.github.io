@@ -343,6 +343,10 @@ link demo1
 debug DEMO1.exe
 ```
 
+
+
+
+
 ### 实验四
 
   向内存0:200H~0:23fH依次传送数据0~63（3FH）
@@ -381,3 +385,21 @@ push CS // push当前段的段地址,也就是 ds
 push IP //  push当前ip地址
 
 jmp dword ptr 内存单元地址
+
+
+
+
+
+实验12
+
+
+
+```bash
+do 
+debug
+-a 
+mov ax,8
+mov bh,0
+div bh
+-g
+```
