@@ -132,21 +132,16 @@ dd if=pmtest1.bin of=a.img bs=512 count=1 conv=notrunc
 ```bash
 nasm pmtest2.asm -o pmtest2.com
 
-sudo mkdir /mnt/floppy
-sudo mount -o loop pm.img /mnt/floppy
-sudo cp pmtest2.com /mnt/floppy
-sudo umount /mnt/floppy
+sudo mkdir /Users/m/Documents/floppy
+sudo mount -o loop pm.img /Users/m/Documents/floppy
+sudo cp pmtest2.com /Users/m/Documents/floppy
+sudo umount /Users/m/Documents/floppy
 
-
-sudo mkdir /Users/m/floppy
-sudo mount -o loop pm.img /Users/m/floppy
-sudo cp pmtest2.com /Users/m/floppy
-sudo umount /Users/m/floppy
 
 
 bochs
-
-//到b磁盘下
+c
+//运行模拟器后 到bochx 虚拟机，B磁盘下
 b:
 //运行
 pmtest2.com
