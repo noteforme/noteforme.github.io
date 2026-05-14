@@ -33,11 +33,24 @@ sudo make install
 
 https://blog.csdn.net/lhl_blog/article/details/76785193?app_version=6.2.9&code=app_1562916241&csdn_share_tail=%7B%22type%22%3A%22blog%22%2C%22rType%22%3A%22article%22%2C%22rId%22%3A%2276785193%22%2C%22source%22%3A%22m0_62832651%22%7D&uLinkId=usr1mkqgl919blen&utm_source=app
 
+#### 运行
+
+ mac也是
+
 ```bash
 nasm boot.asm -o boot.bin
 dd if=boot.bin of=a.img  bs=512 count=1
 
+//输入bochs
+bochs
+c
+```
 
+此时bochs已经开始运行了，但是还是黑屏，还需要在终端输入c，此时软盘里还没有东西，所以会提示一个选项，点击continue ，才会开始启动模拟，如下图所示：
+
+修改
+
+```bash
 xxd a.img > a.txt  
 
 //创建软盘,再执行上面两行命令
@@ -47,8 +60,6 @@ fd
 ```
 
 [organe&#39;s一个操作系统实现实验一实验步骤_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1zN4y1n7QB?spm_id_from=333.788.videopod.sections&vd_source=d4c5260002405798a57476b318eccac9)
-
-## 
 
 ```bash
 # filename of ROM images
@@ -122,10 +133,11 @@ dd if=pmtest1.bin of=a.img bs=512 count=1 conv=notrunc
 nasm pmtest2.asm -o pmtest2.com
 
 //macos
-sudo mkdir /Users/m/floppy
-sudo mount -o loop pm.img /Users/m/floppy
-sudo cp pmtest2.com /Users/m/floppy
-sudo umount /Users/m/floppy
+sudo mkdir /Users/m/Documents/floppy
+sudo mount -o loop pm.img /Users/m/Documents/floppy
+sudo cp pmtest2.com /Users/m/Documents/floppy
+sudo umount /Users/m/Documents/floppy
+
 
 sudo mkdir /home/j/Documents/floppy
 sudo mount -o loop pm.img /home/j/Documents/floppy
@@ -134,10 +146,9 @@ sudo umount /home/j/Documents/floppy
 
 
 
-
 bochs
-
-//到b磁盘下
+c
+//运行模拟器后 到bochx 虚拟机，B磁盘下
 b:
 //运行
 pmtest2.com
