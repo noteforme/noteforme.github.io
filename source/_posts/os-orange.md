@@ -51,7 +51,6 @@ fd
 ## 
 
 ```bash
-
 # filename of ROM images
 romimage: file=/usr/local/share/bochs/BIOS-bochs-latest
 vgaromimage: file=/usr/local/share/bochs/VGABIOS-lgpl-latest
@@ -62,8 +61,6 @@ keyboard:  keymap=/usr/local/share/bochs/keymaps/x11-pc-us.map
 for macos
 keyboard: keymap=/usr/local/share/bochs/keymaps/sdl2-pc-us.map
 ```
-
-
 
 ## macos
 
@@ -124,16 +121,18 @@ dd if=pmtest1.bin of=a.img bs=512 count=1 conv=notrunc
 ```bash
 nasm pmtest2.asm -o pmtest2.com
 
-sudo mkdir /mnt/floppy
-sudo mount -o loop pm.img /mnt/floppy
-sudo cp pmtest2.com /mnt/floppy
-sudo umount /mnt/floppy
-
-
+//macos
 sudo mkdir /Users/m/floppy
 sudo mount -o loop pm.img /Users/m/floppy
 sudo cp pmtest2.com /Users/m/floppy
 sudo umount /Users/m/floppy
+
+sudo mkdir /home/j/Documents/floppy
+sudo mount -o loop pm.img /home/j/Documents/floppy
+sudo cp pmtest2.com /home/j/Documents/floppy
+sudo umount /home/j/Documents/floppy
+
+
 
 
 bochs
