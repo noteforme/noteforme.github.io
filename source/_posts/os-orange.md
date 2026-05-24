@@ -134,15 +134,15 @@ dd if=pmtest1.bin of=a.img bs=512 count=1 conv=notrunc
 nasm pmtest2.asm -o pmtest2.com
 
 //macos
-sudo mkdir /Users/m/Documents/floppy
-sudo mount -o loop pm.img /Users/m/Documents/floppy
-sudo cp pmtest2.com /Users/m/Documents/floppy
-sudo umount /Users/m/Documents/floppy
+sudo mkdir /Users/m/Documents/floppy/
+sudo mount -o loop pm.img /Users/m/Documents/floppy/
+sudo cp pmtest2.com /Users/m/Documents/floppy/
+sudo umount /Users/m/Documents/floppy/
 
 
-sudo mkdir /home/j/Documents/floppy
-sudo mount -o loop pm.img /home/j/Documents/floppy
-sudo cp pmtest2.com /home/j/Documents/floppy
+sudo mkdir /home/j/Documents/floppy/
+sudo mount -o loop pm.img /home/j/Documents/floppy/
+sudo cp pmtest2.com /home/j/Documents/floppy/
 sudo umount /home/j/Documents/floppy
 
 
