@@ -154,3 +154,19 @@ b:
 //运行
 pmtest2.com
 ```
+
+
+
+
+
+第四章
+
+
+
+```bash
+
+dd if=/dev/zero of=a.img bs=512  count=2880
+dd if=boot.bin of=a.img bs=512 count=1 conv=notrunc
+
+dd if=loader.bin of=a.img bs=512 seek=1 conv=notrunc
+```
