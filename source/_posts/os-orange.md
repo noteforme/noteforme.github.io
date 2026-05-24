@@ -13,6 +13,18 @@ https://gitee.com/jiang000/oranges
 
 ## ubuntu
 
+
+
+先安装
+
+https://www.shuzhiduo.com/A/lk5a1VAN51/
+
+环境变量
+
+
+
+再安装下面的
+
 ```bash
 sudo apt-get install build-essential 
 sudo apt-get install xorg-dev 
@@ -22,6 +34,12 @@ sudo apt-get install g++
 make
 sudo make install
 ```
+
+
+
+bochs -version就可以了
+
+
 
 接下来按照这个文档跑
 
@@ -140,11 +158,27 @@ sudo cp pmtest2.com /Users/m/Documents/floppy/
 sudo umount /Users/m/Documents/floppy/
 
 
+//ubuntu
+
 sudo mkdir /home/j/Documents/floppy/
 sudo mount -o loop pm.img /home/j/Documents/floppy/
 sudo cp pmtest2.com /home/j/Documents/floppy/
 sudo umount /home/j/Documents/floppy
 
+
+
+sudo mkdir /home/m/Documents/floppy/
+sudo mount -o loop pm.img /home/m/Documents/floppy/
+sudo cp pmtest2.com /home/m/Documents/floppy/
+sudo umount /home/m/Documents/floppy
+
+
+sudo mkdir /mntfloppy
+ nasm loader.asm -o loader.bin
+ dd if=boot.bin of=a.img bs=512 count=1 conv=notrunc 
+ sudo mount -o loop a.img /mntfloppy/
+ sudo cp loader.bin /mntfloppy/
+ sudo umount /mntfloppy/
 
 
 bochs
@@ -153,20 +187,4 @@ c
 b:
 //运行
 pmtest2.com
-```
-
-
-
-
-
-第四章
-
-
-
-```bash
-
-dd if=/dev/zero of=a.img bs=512  count=2880
-dd if=boot.bin of=a.img bs=512 count=1 conv=notrunc
-
-dd if=loader.bin of=a.img bs=512 seek=1 conv=notrunc
 ```
