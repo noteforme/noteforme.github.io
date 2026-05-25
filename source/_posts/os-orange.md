@@ -188,12 +188,12 @@ pmtest2.com
 加载kernel
 
 ```bash
- sudo mkdir /mntfloppy
  nasm boot.asm -o boot.bin
  nasm loader.asm -o loader.bin
  nasm -f elf kernel.asm -o kernel.o
  ld -m elf_i386 -s  kernel.o -o kernel.bin 
  dd if=boot.bin of=a.img bs=512 count=1 conv=notrunc 
+ sudo mkdir /mntfloppy
  sudo mount -o loop a.img /mntfloppy/
  sudo cp loader.bin /mntfloppy/
  sudo cp kernel.bin /mntfloppy/
