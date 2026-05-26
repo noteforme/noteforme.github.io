@@ -175,15 +175,11 @@ b:
 pmtest2.com
 ```
 
-
-
 # 五内核
 
 ```bash
  ld -m elf_i386 -s -o hello  hello.o
 ```
-
-
 
 加载kernel
 
