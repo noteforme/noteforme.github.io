@@ -22,13 +22,17 @@ https://www.shuzhiduo.com/A/lk5a1VAN51/
 再安装下面的
 
 ```bash
-sudo apt-get install build-essential 
+sudo apt-get install g++
+
+sudo apt-get install build-essential
+
+sudo apt-get install libgtk2.0-dev
+
+sudo apt-get install bison
+
+sudo apt-get install libx11-dev libxrandr-dev libsdl1.2-dev vgabios
+
 sudo apt-get install xorg-dev 
-sudo apt-get install bison 
-sudo apt-get install g++ 
-./configure --enable-debugger --enable-disasm
-make
-sudo make install
 ```
 
 bochs -version就可以了
@@ -43,7 +47,66 @@ bochs -version就可以了
 
 https://blog.csdn.net/lhl_blog/article/details/76785193?app_version=6.2.9&code=app_1562916241&csdn_share_tail=%7B%22type%22%3A%22blog%22%2C%22rType%22%3A%22article%22%2C%22rId%22%3A%2276785193%22%2C%22source%22%3A%22m0_62832651%22%7D&uLinkId=usr1mkqgl919blen&utm_source=app
 
-#### 运行
+## virturlbox
+
+enable the **Shared Clipboard** and install the **VirtualBox Guest Additions**. [[1](https://dev.to/bala_audu_musa/copy-paste-not-working-between-windows-and-ubuntu-virtualbox-heres-the-fix-pa3), [2](https://askubuntu.com/questions/73059/how-to-copy-paste-from-ubuntu-virtualbox-guest-to-windows-host)]
+
+Follow these steps to get it set up:
+
+1. Enable Bidirectional Clipboard
+
+2. Open VirtualBox and make sure your Ubuntu Virtual Machine (VM) is powered off.
+
+3. Click on the VM and select **Settings**.
+
+4. Go to the **General** tab, then click on the **Advanced** tab.
+
+5. Set **Shared Clipboard** and **Drag'n'Drop** to **Bidirectional**.
+
+Install VirtualBox Guest Additions
+
+- Start your Ubuntu virtual machine.
+- Once booted, go to the top menu bar of the VirtualBox window and click **Devices** > **Insert Guest Additions CD Image**.
+- A prompt may appear asking you to run the software. If so, click **Run** and enter your password.
+- If a CD icon appears on your Ubuntu desktop, right-click it and select **Open in Terminal**.
+- Inside the terminal, run the installer by typing:  
+  `sudo sh ./VBoxLinuxAdditions.run`
+- Enter your password and press **Enter**.
+- Once the installation is complete, restart your Ubuntu VM. [[1](https://unix.stackexchange.com/questions/569993/copy-paste-not-working-on-virtual-box-6-1-running-ubuntu-18-04-on-windows-10-mac), [2](https://www.youtube.com/watch?v=q5rdX-2LJXg), [3](https://askubuntu.com/questions/992264/copying-text-from-terminal), [4](https://dev.to/bala_audu_musa/copy-paste-not-working-between-windows-and-ubuntu-virtualbox-heres-the-fix-pa3), [5](https://www.youtube.com/watch?v=xGB9jt-8OUs)]
+
+
+
+# share folder
+
+```
+ sudo adduser $USER vboxsf
+```
+
+https://www.youtube.com/watch?v=h_adwDledYM
+
+
+
+安装bochs
+
+
+
+```bash
+tar vxzf bochs-2.6.9.tar.gz
+
+cd bochs-2.6.9
+
+./configure --enable-debugger --with-sdl --enable-disasm  --enable-readline LIBS='-lX11'
+make
+sudo make install
+```
+
+
+
+
+
+
+
+运行
 
  mac也是
 
