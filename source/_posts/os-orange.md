@@ -74,8 +74,6 @@ Install VirtualBox Guest Additions
 - Enter your password and press **Enter**.
 - Once the installation is complete, restart your Ubuntu VM. [[1](https://unix.stackexchange.com/questions/569993/copy-paste-not-working-on-virtual-box-6-1-running-ubuntu-18-04-on-windows-10-mac), [2](https://www.youtube.com/watch?v=q5rdX-2LJXg), [3](https://askubuntu.com/questions/992264/copying-text-from-terminal), [4](https://dev.to/bala_audu_musa/copy-paste-not-working-between-windows-and-ubuntu-virtualbox-heres-the-fix-pa3), [5](https://www.youtube.com/watch?v=xGB9jt-8OUs)]
 
-
-
 # share folder
 
 ```
@@ -84,27 +82,17 @@ Install VirtualBox Guest Additions
 
 https://www.youtube.com/watch?v=h_adwDledYM
 
-
-
 安装bochs
-
-
 
 ```bash
 tar vxzf bochs-2.6.9.tar.gz
 
 cd bochs-2.6.9
 
-./configure --enable-debugger --with-sdl --enable-disasm  --enable-readline LIBS='-lX11'
+./configure --enable-debugger --enable-disasm
 make
 sudo make install
 ```
-
-
-
-
-
-
 
 运行
 
