@@ -63,9 +63,21 @@ REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'
 ```
 mkdir source
 cd source
-repo init -u https://mirrors.ustc.edu.cn/aosp/platform/manifest -b android-6.0.1_r40
-repo sync
+repo init -u https://mirrors.ustc.edu.cn/aosp/platform/manifest -b android-6.0.1_r40 --depth=1
+repo sync -c --no-tags --optimized-fetch --prune -j4
 ```
+
+
+
+--depth=1 : 只拉取最近一次提交
+
+-c 值同步分支相关
+
+--prune 清理远端已删除的引用
+
+
+
+
 
 [git-repo | 镜像站使用帮助 | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror](https://mirrors.tuna.tsinghua.edu.cn/help/git-repo/)
 
