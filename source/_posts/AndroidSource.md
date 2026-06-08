@@ -161,6 +161,23 @@ index 7d9d90e92a..419cccb80a 100644
 
 lunch sdk_phone_x86_64-eng
 
+
+
+## NO window mode
+
+```bash
+emulator -no-window -no-audio -wipe-data &
+adb wait-for-device
+adb shell getprop sys.boot_completed
+adb emu kill
+```
+
+
+
+
+
+
+
 ## Dokcer Build
 
 ```bash
