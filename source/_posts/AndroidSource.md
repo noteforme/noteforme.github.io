@@ -103,8 +103,8 @@ https://hub.docker.com/r/green369258/aosp
 ```bash
 docker pull green369258/aosp:android-m
 sudo docker run -itd --name android-m -v /home/m/source:/aosp  green369258/aosp:android-m
-
-
+sudo docker run -itd --name android-m6 -v /home/j/source:/aosp  green369258/aosp:android-m
+docker exec -it android-m6  /bin/bash
 docker exec -it android-m  /bin/bash
 ```
 
@@ -161,8 +161,6 @@ index 7d9d90e92a..419cccb80a 100644
 
 lunch sdk_phone_x86_64-eng
 
-
-
 ## NO window mode
 
 ```bash
@@ -172,18 +170,10 @@ adb shell getprop sys.boot_completed
 adb emu kill
 ```
 
-
-
-
-
-
-
 ## Dokcer Build
 
 ```bash
 docker run --rm -it -v /home/m/aosp8:/aosp sabdelkader/aosp
-
-
 
 docker container exec -it 4269513e4289 /aosp
 ```
