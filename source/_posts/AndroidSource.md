@@ -104,6 +104,7 @@ https://hub.docker.com/r/green369258/aosp
 docker pull green369258/aosp:android-m
 sudo docker run -itd --name android-m -v /home/m/source:/aosp  green369258/aosp:android-m
 sudo docker run -itd --name android-m6 -v /home/j/source:/aosp  green369258/aosp:android-m
+docker start android-m6 
 docker exec -it android-m6  /bin/bash
 docker exec -it android-m  /bin/bash
 ```
