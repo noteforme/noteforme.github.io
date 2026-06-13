@@ -67,17 +67,11 @@ repo init -u https://mirrors.ustc.edu.cn/aosp/platform/manifest -b android-6.0.1
 repo sync -c --no-tags --optimized-fetch --prune -j4
 ```
 
-
-
 --depth=1 : 只拉取最近一次提交
 
 -c 值同步分支相关
 
 --prune 清理远端已删除的引用
-
-
-
-
 
 [git-repo | 镜像站使用帮助 | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror](https://mirrors.tuna.tsinghua.edu.cn/help/git-repo/)
 
@@ -109,6 +103,10 @@ https://hub.docker.com/r/green369258/aosp
 ```bash
 docker pull green369258/aosp:android-m
 sudo docker run -itd --name android-m -v /home/m/source:/aosp  green369258/aosp:android-m
+
+// mac
+sudo docker run -itd --name android-m -v /Volumes/linux/aosp:/aosp  green369258/aosp:android-m
+
 docker exec -it android-m  /bin/bash
 ```
 
@@ -123,6 +121,40 @@ docker exec -it android-m  /bin/bash
 https://hub.docker.com/r/davesrl/aosp/tags
 
 https://hub.docker.com/r/inteldevcloudx77/aosp/tags
+
+# Mac issue
+
+out/host/linux-x86/bin/checkpolicy:  writing binary representation (version 30) to out/target/product/generic/obj/ETC/sepolicy_intermediates//sepolicy.dontaudit
+host Executable: dex2oatd (out/host/linux-x86/obj/EXECUTABLES/dex2oatd_intermediates/dex2oatd)
+out/host/linux-x86/bin/jack-admin: line 27: USER: unbound variable
+make: *** [out/host/linux-x86/framework/jack.jar] Error 1
+make: *** Deleting file `out/host/linux-x86/framework/jack.jar'
+make: *** Waiting for unfinished jobs....
+warning: [options] bootstrap class path not set in conjunction with -source 1.7
+
+```bash
+export USER=$(whoami)
+```
+
+https://juejin.cn/post/6856997599535333390
+
+https://groups.google.com/g/android-building/c/n0j--0PUy6A?pli=1
+
+https://blog.csdn.net/mtc1256/article/details/79158926
+
+
+
+
+
+```bash
+make update-api
+```
+
+
+
+
+
+
 
 ## SOURCE CODE BUILD
 
