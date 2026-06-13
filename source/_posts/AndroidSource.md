@@ -7,6 +7,22 @@ categories:  ANDROID
 
 ---
 
+
+
+# macos 安装ubuntu24.04
+
+磁盘分区不是用这个blog的
+
+https://blog.csdn.net/henglei1/article/details/134599204
+
+用下面video步骤，创建分区和boot引导
+
+https://www.youtube.com/watch?v=qyx_QrqhZuE
+
+
+
+
+
 Android docker
 
 [史上最简单Android源码编译环境搭建方法 | Weishu's Notes](https://weishu.me/2016/12/30/simple-way-to-compile-android-source/)
@@ -103,11 +119,10 @@ https://hub.docker.com/r/green369258/aosp
 ```bash
 docker pull green369258/aosp:android-m
 sudo docker run -itd --name android-m -v /home/m/source:/aosp  green369258/aosp:android-m
-
 // mac
-sudo docker run -itd --name android-m -v /Volumes/linux/aosp:/aosp  green369258/aosp:android-m
-
-docker exec -it android-m  /bin/bash
+sudo docker run -itd --name android-m6 -v /home/j/source:/aosp  green369258/aosp:android-m
+docker start android-m6 
+docker exec -it android-m6  /bin/bash
 ```
 
 代码下载在宿主机器上，和容器路径做映射。
@@ -142,19 +157,9 @@ https://groups.google.com/g/android-building/c/n0j--0PUy6A?pli=1
 
 https://blog.csdn.net/mtc1256/article/details/79158926
 
-
-
-
-
 ```bash
 make update-api
 ```
-
-
-
-
-
-
 
 ## SOURCE CODE BUILD
 
@@ -197,15 +202,16 @@ index 7d9d90e92a..419cccb80a 100644
 
 lunch sdk_phone_x86_64-eng
 
-## Dokcer Build
+## NO window mode
 
 ```bash
-docker run --rm -it -v /home/m/aosp8:/aosp sabdelkader/aosp
-
-
-
-docker container exec -it 4269513e4289 /aosp
+emulator -no-window -no-audio -wipe-data &
+adb wait-for-device
+adb shell getprop sys.boot_completed
+adb emu kill
 ```
+
+# 
 
 # build issue
 
