@@ -5,6 +5,20 @@ tags:
 categories:  OS
 ---
 
+
+
+## MIT6.828
+
+
+
+环境配置
+
+https://www.cnblogs.com/kinvy/p/15074844.html   
+
+
+
+
+
 MIT6.S081
 
 [GitHub - YukunJ/xv6-operating-system: XV6 - MIT 6.s081 operating system Fall 2020 version](https://github.com/YukunJ/xv6-operating-system)
