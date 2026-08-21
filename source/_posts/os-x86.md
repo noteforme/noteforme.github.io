@@ -22,6 +22,10 @@ test工程，选择 调试准备 后  -> 按 F5 ->F5 就可以到shell页面了
 
 
 
+# 一级页表
+
+C1108
+
 
 
 page_dir[0] = 0x00000000 | PDE_PS | PDE_P | PDE_W;
