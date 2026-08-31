@@ -126,3 +126,23 @@ PDE[1]物理基地址：0x00C00000
 虚拟地址：[虚拟块编号 1][偏移]
                     ↓ 查PDE[1]
 物理地址：[物理块编号 3][相同偏移]
+
+
+
+
+
+# 二级页表
+
+
+
+
+
+page_table[pte_index(vaddr)]
+
+其实两个一样：
+
+page_table + pte_index(vaddr)
+
+等价：
+
+&page_table[pte_index(vaddr)]
