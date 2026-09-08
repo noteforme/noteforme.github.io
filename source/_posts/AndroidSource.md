@@ -8,6 +8,13 @@ categories:  ANDROID
 ---
 
 
+source build/envsetup.sh
+lunch 
+5
+emulator
+
+
+
 
 # macos 安装ubuntu24.04
 
