@@ -1,0 +1,1016 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Activity创建 ​	生命周期方法调用 本篇文章将根据源码解剖Android的Activity的启动流程，需注意的是下列的分析均基于Android7.0, 7.0版本相较于之前几个版本做了许多改动和重构，但是整体的流程是变化不大。根据启动Activity时机的不同，可分为根Activity的启动流程和普通Activity启动流程，根Activity启动流程又可以称为应用程序启动流程，即在桌面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ActivityStart01">
+<meta property="og:url" content="https://noteforme.github.io/2020/01/18/ActivityStart01/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="Activity创建 ​	生命周期方法调用 本篇文章将根据源码解剖Android的Activity的启动流程，需注意的是下列的分析均基于Android7.0, 7.0版本相较于之前几个版本做了许多改动和重构，但是整体的流程是变化不大。根据启动Activity时机的不同，可分为根Activity的启动流程和普通Activity启动流程，根Activity启动流程又可以称为应用程序启动流程，即在桌面">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://noteforme.github.io/ActivityStart01/RootActivityStart01.png">
+<meta property="og:image" content="https://noteforme.github.io/ActivityStart01/RootActivityStart02.png">
+<meta property="og:image" content="https://noteforme.github.io/ActivityStart01/RootActivityStart02.png">
+<meta property="og:image" content="https://noteforme.github.io/ActivityStart01/RootActivityStart03.png">
+<meta property="article:published_time" content="2020-01-18T13:53:41.000Z">
+<meta property="article:modified_time" content="2026-10-11T11:08:45.386Z">
+<meta property="article:author" content="Jon">
+<meta property="article:tag" content="AOSP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://noteforme.github.io/ActivityStart01/RootActivityStart01.png">
+  
+  
+  
+  <title>ActivityStart01 - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>Home</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>Archives</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>Categories</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>Tags</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>About</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>Search</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="Light"
+               data-label-dark="Dark">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">Dark</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ActivityStart01"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-01-18 21:53" pubdate>
+          January 18, 2020 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          41k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          339 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ActivityStart01</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>　Activity创建</p>
+<p>​	生命周期方法调用</p>
+<p>本篇文章将根据源码解剖Android的Activity的启动流程，需注意的是下列的分析均基于Android7.0, 7.0版本相较于之前几个版本做了许多改动和重构，但是整体的流程是变化不大。根据启动Activity时机的不同，可分为根Activity的启动流程和普通Activity启动流程，根Activity启动流程又可以称为应用程序启动流程，即在桌面上点击一个应用图标到进入到应用第一个Activity的流程。而普通Activity的启动流程就是在一个应用里开启另外一个Activity的流程。由于两种启动流程是有重叠的，而根Activity的启动流程更加复杂，所以接下来我们重点分析根Activity的启动流程，而普通Activity的启动流程在涉及的地方会稍微提一下。由于考虑到篇幅较长，这里将分为两篇来介绍。</p>
+<p>这篇将分析启动流程中的应用进程的创建：</p>
+<ul>
+<li>Launcher进程请求AMS</li>
+<li>AMS发送创建应用进程请求</li>
+<li>Zygote进程接受请求并孵化应用进程</li>
+<li>应用进程启动ActivityThread</li>
+</ul>
+<p>MainActivity组件是由Launcher 组件来启动的，而Launcher组件又是通过Activity管理服务ActivityManagerServ ice来启动Main Activity组件的’。MainActivity组件、Launcher组件和 ActivityManagerService是分别运行在不同的进程中的，因此，MainActivity组件的启动过程就涉及到了三个进程。这三个进程是通过Binder进程间通信机制来完成MainActivity组件的启动过程的。 Launcher组件启动MainActivity组件的过程如下所示。</p>
+<p> (1)Launcher组件向ActivityManagerService发送一个启动MainActivity组件的进程间通信请求。</p>
+<p> ( 2 ) ActivityManagerService首先将要启动的MainActivity组件的信息保存下来，然后再向Launcher 组件发送一个进入中止状态的进程间通信请求。</p>
+<p> ( 3 ) Launcher组件进入到中止状态之后，就会向ActivityManagerService发送一个已进人中止状态 的进程间通信请求，以便ActivityManagerServ ice可以继续执行启动MainActivity组件的操作。</p>
+<p> (4) ActivityManagerService发现用来运行MairiActivity组件的应用程序进程不存在，因此，它就会 先启动一个新的应用程序进程。</p>
+<p> (5）新的应用程序进程启动完成之后，就会向ActivityManagerServi(e发送一个启动完成的进程间 通信请求，以便ActivityManagerService可以继续执行启动MainActivity组件的操作。</p>
+<p> (6) ActivityManagerService将第2步保存下来的MainActivity组件的信息发送给第4步创建的应用程序进程，以便它可以将MainActivity组件启动起来。 </p>
+<h1 id="一、Launcher进程请求AMS"><a href="#一、Launcher进程请求AMS" class="headerlink" title="一、Launcher进程请求AMS"></a>一、Launcher进程请求AMS</h1><p>上面我们提到根Activity的启动流程其实就是桌面上点击一个应用图标进入到应用的第一个Activity的流程，其实桌面也可以看成一个程序，即Launcher。当系统开机后，Launcher也随之被启动，然后将已经安装的应用程序图标显示到桌面上，所以当我们点击一个应用图标其实就是相当于点击Activity中的一个button,其相应事件就是Launcher进程请求AMS来启动该应用程序。</p>
+<h2 id="1-时序图"><a href="#1-时序图" class="headerlink" title="1. 时序图"></a>1. 时序图</h2><p><img src="/ActivityStart01/RootActivityStart01.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="2-详细过程"><a href="#2-详细过程" class="headerlink" title="2. 详细过程"></a>2. 详细过程</h2><p>请求的入口就是Launcher的startActivitySafe方法，如下：</p>
+<blockquote>
+<p>packages&#x2F;apps&#x2F;Launcher3&#x2F;src&#x2F;com&#x2F;android&#x2F;launcher3&#x2F;Launcher.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs dart">public boolean <span class="hljs-title function_">startActivitySafely</span>(<span class="hljs-title class_">View</span> v, <span class="hljs-title class_">Intent</span> intent, <span class="hljs-title class_">ItemInfo</span> item) &#123;<br>    ...<br>    <span class="hljs-comment">// 根Activity会在新的任务栈中启动</span><br>    intent.<span class="hljs-title function_">addFlags</span>(<span class="hljs-title class_">Intent</span>.FLAG_ACTIVITY_NEW_TASK);<br>    <br>    <span class="hljs-keyword">try</span> &#123;<br>        ...<br>        <span class="hljs-keyword">if</span> (isShortcut) &#123;<br>            <span class="hljs-comment">// Shortcuts need some special checks due to legacy reasons.</span><br>            <span class="hljs-title function_">startShortcutIntentSafely</span>(intent, optsBundle, item);<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (user == <span class="hljs-keyword">null</span> || user.<span class="hljs-title function_">equals</span>(<span class="hljs-title class_">Process</span>.<span class="hljs-title function_">myUserHandle</span>())) &#123;<br>            <span class="hljs-comment">// 调用startActivity</span><br>            <span class="hljs-title function_">startActivity</span>(intent, optsBundle);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-title class_">LauncherAppsCompat</span>.<span class="hljs-title function_">getInstance</span>(<span class="hljs-keyword">this</span>).<span class="hljs-title function_">startActivityForProfile</span>(<br>                    intent.<span class="hljs-title function_">getComponent</span>(), user, intent.<span class="hljs-title function_">getSourceBounds</span>(), optsBundle);<br>        &#125;<br>        ...<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">ActivityNotFoundException</span>|<span class="hljs-title class_">SecurityException</span> e) &#123;<br>        ...<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>可以发现该方法为根Activity设置了flag，即根Activity会在新的任务栈中启动。然后会调用我们熟悉的startActivity方法,而在Launcher并没有这个方法，所以我们自然想到了应该是父类的方法，然后让我们来看看Launcher继承了哪些类？</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs scala">public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Launcher</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseDraggingActivity</span> <span class="hljs-title">implements</span> <span class="hljs-title">LauncherExterns</span>,</span><br>        <span class="hljs-type">LauncherModel</span>.<span class="hljs-type">Callbacks</span>, <span class="hljs-type">LauncherProviderChangeListener</span>, <span class="hljs-type">UserEventDelegate</span>&#123;<br>            <br>        &#125;<br>public <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseDraggingActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseActivity</span></span><br>        implements <span class="hljs-type">WallpaperColorInfo</span>.<span class="hljs-type">OnChangeListener</span> &#123;<br>        <br>        &#125;<br>public <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span> <span class="hljs-title">implements</span> <span class="hljs-title">UserEventDelegate</span></span>&#123;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>其实一直追踪下去，你就会发现其实Launcher调用的startActivity其实就是Activity中的startActivity。从这里也可以证明Launcher其实也是个Activity。所以在Launcher启动一个app，和我们平时在startActivity基本是一样的（基本一样，不代表完全一样，通过后文分析你就会明白！），于是我们来看看我们熟悉的Activity中的startActivity的源码是如何的：</p>
+<blockquote>
+<p>源码：frameworks&#x2F;base&#x2F;core&#x2F;java&#x2F;android&#x2F;app&#x2F;Activity.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-meta">@Override</span><br>public <span class="hljs-keyword">void</span> <span class="hljs-title function_">startActivity</span>(<span class="hljs-title class_">Intent</span> intent, <span class="hljs-meta">@Nullable</span> <span class="hljs-title class_">Bundle</span> options) &#123;<br>    <span class="hljs-comment">//第二个参数为-1表示Launcher不需要知道根Activity的启动结果</span><br>    <span class="hljs-keyword">if</span> (options != <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-title function_">startActivityForResult</span>(intent, -<span class="hljs-number">1</span>, options);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// Note we want to go through this call for compatibility with</span><br>        <span class="hljs-comment">// applications that may have overridden the method.</span><br>        <span class="hljs-title function_">startActivityForResult</span>(intent, -<span class="hljs-number">1</span>);<br>    &#125;<br>&#125;<br>public <span class="hljs-keyword">void</span> <span class="hljs-title function_">startActivityForResult</span>(<span class="hljs-meta">@RequiresPermission</span> <span class="hljs-title class_">Intent</span> intent, <span class="hljs-built_in">int</span> requestCode) &#123;<br>    <span class="hljs-title function_">startActivityForResult</span>(intent, requestCode, <span class="hljs-keyword">null</span>);<br>&#125;<br><br><br>public <span class="hljs-keyword">void</span> <span class="hljs-title function_">startActivityForResult</span>(<span class="hljs-meta">@RequiresPermission</span> <span class="hljs-title class_">Intent</span> intent, <span class="hljs-built_in">int</span> requestCode,<br>        <span class="hljs-meta">@Nullable</span> <span class="hljs-title class_">Bundle</span> options) &#123;<br>    <span class="hljs-comment">//mParent表示当前Activity的父类，当根活动还没创建则mParent==null    </span><br>    <span class="hljs-keyword">if</span> (mParent == <span class="hljs-keyword">null</span>) &#123;<br>        options = <span class="hljs-title function_">transferSpringboardActivityOptions</span>(options);<br>        <span class="hljs-title class_">Instrumentation</span>.<span class="hljs-title class_">ActivityResult</span> ar =<br>            mInstrumentation.<span class="hljs-title function_">execStartActivity</span>(<br>                <span class="hljs-keyword">this</span>, mMainThread.<span class="hljs-title function_">getApplicationThread</span>(), mToken, <span class="hljs-keyword">this</span>,<br>                intent, requestCode, options);<br>       ... <br>    &#125; <br>    ...<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>从上面代码可以发现startActivity的最终实现是startActivityForResult，startActivity()第二个参数为-1表示Launcher不需要知道根Activity的启动结果,然后在startActivityForResult中由于此时根Activity还没有创建，故mParent&#x3D;null,所以我们只需要关注mParent&#x3D;null的情况。在这种情况中会调用Instrumentation的execStartActivity。这时候也许你就会问这个Instrumentation是什么？为什么要交给它处理？其实Instrumentation这个类很重要，重要体现在对Activity生命周期的调用。每个Activity都持有Instrumentation对象的一个引用，但是整个进程只会存在一个Instrumentation对象。看看Instrumentation的execStartActivity这个方法。</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;core&#x2F;java&#x2F;android&#x2F;app&#x2F;Instrumentation.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs dart">public <span class="hljs-title class_">ActivityResult</span> <span class="hljs-title function_">execStartActivity</span>(<br>        <span class="hljs-title class_">Context</span> who, <span class="hljs-title class_">IBinder</span> contextThread, <span class="hljs-title class_">IBinder</span> token, <span class="hljs-title class_">Activity</span> target,<br>        <span class="hljs-title class_">Intent</span> intent, <span class="hljs-built_in">int</span> requestCode, <span class="hljs-title class_">Bundle</span> options) &#123;<br>    ...<br>    <span class="hljs-keyword">try</span> &#123;<br> ...<br>  <span class="hljs-comment">//获取AMS的代理对象</span><br>        <span class="hljs-built_in">int</span> result = <span class="hljs-title class_">ActivityManager</span>.<span class="hljs-title function_">getService</span>()<br>            .<span class="hljs-title function_">startActivity</span>(whoThread, who.<span class="hljs-title function_">getBasePackageName</span>(), intent,<br>                    intent.<span class="hljs-title function_">resolveTypeIfNeeded</span>(who.<span class="hljs-title function_">getContentResolver</span>()),<br>                    token, target != <span class="hljs-keyword">null</span> ? target.mEmbeddedID : <span class="hljs-keyword">null</span>,<br>                    requestCode, <span class="hljs-number">0</span>, <span class="hljs-keyword">null</span>, options);<br>        <span class="hljs-title function_">checkStartActivityResult</span>(result, intent);<br>    &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">RemoteException</span> e) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;Failure from system&quot;</span>, e);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>在这个方法会调用ActivityManager的getService方法来得到AMS的代理对象，然后调用这个代理对象的</p>
+<p>startActivity方法，那么这个代理对象是谁呢？让我们一探究竟</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-meta">@UnsupportedAppUsage</span><br>public <span class="hljs-keyword">static</span> <span class="hljs-title class_">IActivityManager</span> <span class="hljs-title function_">getService</span>() &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title class_">IActivityManagerSingleton</span>.<span class="hljs-title function_">get</span>();<br>&#125;<br><br><span class="hljs-meta">@UnsupportedAppUsage</span><br>private <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-title class_">Singleton</span>&lt;<span class="hljs-title class_">IActivityManager</span>&gt; <span class="hljs-title class_">IActivityManagerSingleton</span> =<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Singleton</span>&lt;<span class="hljs-title class_">IActivityManager</span>&gt;() &#123;<br>            <span class="hljs-meta">@Override</span><br>            protected <span class="hljs-title class_">IActivityManager</span> <span class="hljs-title function_">create</span>() &#123;<br>                <span class="hljs-comment">//得到activity的service引用，即IBinder类型的AMS引用</span><br>                <span class="hljs-keyword">final</span> <span class="hljs-title class_">IBinder</span> b = <span class="hljs-title class_">ServiceManager</span>.<span class="hljs-title function_">getService</span>(<span class="hljs-title class_">Context</span>.ACTIVITY_SERVICE);<br>	<span class="hljs-comment">//转换成IActivityManager对象</span><br>                <span class="hljs-keyword">final</span> <span class="hljs-title class_">IActivityManager</span> am = <span class="hljs-title class_">IActivityManager</span>.<span class="hljs-title class_">Stub</span>.<span class="hljs-title function_">asInterface</span>(b);<br>                <span class="hljs-keyword">return</span> am;<br>            &#125;<br>        &#125;;<br><br></code></pre></td></tr></table></figure>
+
+<p>可以发现在Singleton中的create方法中由于b是AMS引用作为服务端处于SystemServer进程中，与当前Launcher进程作为客户端与服务端不在同一个进程，所以am返回的是IActivityManager.Stub的代理对象，此时如果要实现客户端与服务端进程间的通信，只需要在AMS继承了IActivityManager.Stub类并实现了相应的方法，而通过下面的代码可以发现AMS刚好是继承了IActivityManager.Stub类的，这样Launcher进程作为客户端就拥有了服务端AMS的代理对象，然后就可以调用AMS的方法来实现具体功能了，就这样Launcher的工作就交给AMS实现了。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scala">public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ActivityManagerService</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">IActivityManager</span>.<span class="hljs-title">Stub</span></span><br>        implements <span class="hljs-type">Watchdog</span>.<span class="hljs-type">Monitor</span>, <span class="hljs-type">BatteryStatsImpl</span>.<span class="hljs-type">BatteryCallback</span> &#123;<br>        <br>        &#125;<br>复制代码<br></code></pre></td></tr></table></figure>
+
+<h1 id="二、AMS发送创建应用进程请求"><a href="#二、AMS发送创建应用进程请求" class="headerlink" title="二、AMS发送创建应用进程请求"></a>二、AMS发送创建应用进程请求</h1><p>通过上面的分析，我们已经知道现在任务已经交给了AMS，入口是AMS的startActivity。</p>
+<h2 id="1-时序图-1"><a href="#1-时序图-1" class="headerlink" title="1. 时序图"></a>1. 时序图</h2><p><img src="/ActivityStart01/RootActivityStart02.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="2-详细过程-1"><a href="#2-详细过程-1" class="headerlink" title="2. 详细过程"></a>2. 详细过程</h2><h3 id="2-1-AMS将请求任务转移给Process"><a href="#2-1-AMS将请求任务转移给Process" class="headerlink" title="2.1 AMS将请求任务转移给Process"></a>2.1 AMS将请求任务转移给Process</h3><p>首先来看看在AMS中的startActivity方法：</p>
+<blockquote>
+<p>源码：frameworks&#x2F;base&#x2F;services&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;server&#x2F;am&#x2F;ActivityManagerService.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-meta">@Override</span><br>public <span class="hljs-keyword">final</span> <span class="hljs-built_in">int</span> <span class="hljs-title function_">startActivity</span>(<span class="hljs-title class_">IApplicationThread</span> caller, <span class="hljs-title class_">String</span> callingPackage,<br>        <span class="hljs-title class_">Intent</span> intent, <span class="hljs-title class_">String</span> resolvedType, <span class="hljs-title class_">IBinder</span> resultTo, <span class="hljs-title class_">String</span> resultWho, <span class="hljs-built_in">int</span> requestCode,<br>        <span class="hljs-built_in">int</span> startFlags, <span class="hljs-title class_">ProfilerInfo</span> profilerInfo, <span class="hljs-title class_">Bundle</span> bOptions) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_">startActivityAsUser</span>(caller, callingPackage, intent, resolvedType, resultTo,<br>            resultWho, requestCode, startFlags, profilerInfo, bOptions,<br>            <span class="hljs-title class_">UserHandle</span>.<span class="hljs-title function_">getCallingUserId</span>());<br>&#125;<br><br><span class="hljs-meta">@Override</span><br>public <span class="hljs-keyword">final</span> <span class="hljs-built_in">int</span> <span class="hljs-title function_">startActivityAsUser</span>(<span class="hljs-title class_">IApplicationThread</span> caller, <span class="hljs-title class_">String</span> callingPackage,<br>        <span class="hljs-title class_">Intent</span> intent, <span class="hljs-title class_">String</span> resolvedType, <span class="hljs-title class_">IBinder</span> resultTo, <span class="hljs-title class_">String</span> resultWho, <span class="hljs-built_in">int</span> requestCode,<br>        <span class="hljs-built_in">int</span> startFlags, <span class="hljs-title class_">ProfilerInfo</span> profilerInfo, <span class="hljs-title class_">Bundle</span> bOptions, <span class="hljs-built_in">int</span> userId) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_">startActivityAsUser</span>(caller, callingPackage, intent, resolvedType, resultTo,<br>            resultWho, requestCode, startFlags, profilerInfo, bOptions, userId,<br>            <span class="hljs-keyword">true</span> <span class="hljs-comment">/*validateIncomingUser*/</span>);<br>&#125;<br><br>public <span class="hljs-keyword">final</span> <span class="hljs-built_in">int</span> <span class="hljs-title function_">startActivityAsUser</span>(<span class="hljs-title class_">IApplicationThread</span> caller, <span class="hljs-title class_">String</span> callingPackage,<br>        <span class="hljs-title class_">Intent</span> intent, <span class="hljs-title class_">String</span> resolvedType, <span class="hljs-title class_">IBinder</span> resultTo, <span class="hljs-title class_">String</span> resultWho, <span class="hljs-built_in">int</span> requestCode,<br>        <span class="hljs-built_in">int</span> startFlags, <span class="hljs-title class_">ProfilerInfo</span> profilerInfo, <span class="hljs-title class_">Bundle</span> bOptions, <span class="hljs-built_in">int</span> userId,<br>        boolean validateIncomingUser) &#123;<br><br>			<br>    <span class="hljs-comment">//判断调用者的进程是否隔离</span><br>    <span class="hljs-title function_">enforceNotIsolatedCaller</span>(<span class="hljs-string">&quot;startActivity&quot;</span>);<br>    <span class="hljs-comment">//检查调用者权限</span><br>    userId = mActivityStartController.<span class="hljs-title function_">checkTargetUser</span>(userId, validateIncomingUser,<br>            <span class="hljs-title class_">Binder</span>.<span class="hljs-title function_">getCallingPid</span>(), <span class="hljs-title class_">Binder</span>.<span class="hljs-title function_">getCallingUid</span>(), <span class="hljs-string">&quot;startActivityAsUser&quot;</span>);<br><br>    <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Switch to user app stacks here.</span><br>    <span class="hljs-keyword">return</span> mActivityStartController.<span class="hljs-title function_">obtainStarter</span>(intent, <span class="hljs-string">&quot;startActivityAsUser&quot;</span>)<br>            .<span class="hljs-title function_">setCaller</span>(caller)<br>            .<span class="hljs-title function_">setCallingPackage</span>(callingPackage)<br>            .<span class="hljs-title function_">setResolvedType</span>(resolvedType)<br>            .<span class="hljs-title function_">setResultTo</span>(resultTo)<br>            .<span class="hljs-title function_">setResultWho</span>(resultWho)<br>            .<span class="hljs-title function_">setRequestCode</span>(requestCode)<br>            .<span class="hljs-title function_">setStartFlags</span>(startFlags)<br>            .<span class="hljs-title function_">setProfilerInfo</span>(profilerInfo)<br>            .<span class="hljs-title function_">setActivityOptions</span>(bOptions)<br>            .<span class="hljs-title function_">setMayWait</span>(userId)<br>            .<span class="hljs-title function_">execute</span>();<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>startActivity方法经过多个方法调用会去执行startActivityAsUser方法，在startActivityAsUser方法最后会返回mActivityStartController的一长串链式调用方法，如果AlertDialog的话，应该不难看出这链式方法肯定都是返回一个类型的对象的，我们只需要看看obtainStarter的返回类型就可以知道这个对象是什么类型了。</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;services&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;server&#x2F;am&#x2F;ActivityStartController.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-title class_">ActivityStarter</span> <span class="hljs-title function_">obtainStarter</span>(<span class="hljs-title class_">Intent</span> intent, <span class="hljs-title class_">String</span> reason) &#123;<br>    <span class="hljs-keyword">return</span> mFactory.<span class="hljs-title function_">obtain</span>().<span class="hljs-title function_">setIntent</span>(intent).<span class="hljs-title function_">setReason</span>(reason);<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>可以发现这个obtainStarter返回的是ActivityStarter类型的，所以链式方法就是对ActivityStarter对象设置了要启动的活动的相关信息，最后再调用ActivityStarter对象execute方法。所以我们下一步所需要看的就是这个execute方法。</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;services&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;server&#x2F;am&#x2F;ActivityStarter.java</p>
+</blockquote>
+<figure class="highlight roboconf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs roboconf">int execute() &#123;<br>    <span class="hljs-attribute">try &#123;</span><br><span class="hljs-attribute">        // TODO(b/64750076)</span>: Look into passing request directly to these methods to allow<br>        // for transactional diffs and preprocessing.<br>        if (mRequest<span class="hljs-variable">.mayWait</span>) &#123;<br>            return startActivityMayWait(mRequest<span class="hljs-variable">.caller</span>, mRequest<span class="hljs-variable">.callingUid</span>,<br>                    mRequest<span class="hljs-variable">.callingPackage</span>, mRequest<span class="hljs-variable">.intent</span>, mRequest<span class="hljs-variable">.resolvedType</span>,<br>                    mRequest<span class="hljs-variable">.voiceSession</span>, mRequest<span class="hljs-variable">.voiceInteractor</span>, mRequest<span class="hljs-variable">.resultTo</span>,<br>                    mRequest<span class="hljs-variable">.resultWho</span>, mRequest<span class="hljs-variable">.requestCode</span>, mRequest<span class="hljs-variable">.startFlags</span>,<br>                    mRequest<span class="hljs-variable">.profilerInfo</span>, mRequest<span class="hljs-variable">.waitResult</span>, mRequest<span class="hljs-variable">.globalConfig</span>,<br>                    mRequest<span class="hljs-variable">.activityOptions</span>, mRequest<span class="hljs-variable">.ignoreTargetSecurity</span>, mRequest<span class="hljs-variable">.userId</span>,<br>                    mRequest<span class="hljs-variable">.inTask</span>, mRequest<span class="hljs-variable">.reason</span>,<br>                    mRequest<span class="hljs-variable">.allowPendingRemoteAnimationRegistryLookup</span>,<br>                    mRequest<span class="hljs-variable">.originatingPendingIntent</span>);<br>        &#125; else &#123;<br>            return startActivity(mRequest.caller, mRequest.intent, mRequest.ephemeralIntent,<br>                    mRequest.resolvedType, mRequest.activityInfo, mRequest.resolveInfo,<br>                    mRequest.voiceSession, mRequest.voiceInteractor, mRequest.resultTo,<br>                    mRequest.resultWho, mRequest.requestCode, mRequest.callingPid,<br>                    mRequest.callingUid, mRequest.callingPackage, mRequest.realCallingPid,<br>                    mRequest.realCallingUid, mRequest.startFlags, mRequest.activityOptions,<br>                    mRequest.ignoreTargetSecurity, mRequest.componentSpecified,<br>                    mRequest.outActivity, mRequest.inTask, mRequest.reason,<br>                    mRequest.allowPendingRemoteAnimationRegistryLookup,<br>                    mRequest.originatingPendingIntent);<br>        &#125;<br>    &#125; finally &#123;<br>        onExecutionComplete();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>因为在startActivityAsUser的链式方法中我们调用了setMayWait这个方法，所以这里的mRequest.mayWait为true，故会继续调用startActivityMayWait方法。</p>
+<blockquote>
+<p>ActivityStarter#startActivityMayWait</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs dart">  private <span class="hljs-built_in">int</span> <span class="hljs-title function_">startActivityMayWait</span>(<span class="hljs-title class_">IApplicationThread</span> caller, <span class="hljs-built_in">int</span> callingUid,<br>          <span class="hljs-title class_">String</span> callingPackage, <span class="hljs-title class_">Intent</span> intent, <span class="hljs-title class_">String</span> resolvedType,<br>          <span class="hljs-title class_">IVoiceInteractionSession</span> voiceSession, <span class="hljs-title class_">IVoiceInteractor</span> voiceInteractor,<br>          <span class="hljs-title class_">IBinder</span> resultTo, <span class="hljs-title class_">String</span> resultWho, <span class="hljs-built_in">int</span> requestCode, <span class="hljs-built_in">int</span> startFlags,<br>          <span class="hljs-title class_">ProfilerInfo</span> profilerInfo, <span class="hljs-title class_">WaitResult</span> outResult,<br>          <span class="hljs-title class_">Configuration</span> globalConfig, <span class="hljs-title class_">SafeActivityOptions</span> options, boolean ignoreTargetSecurity,<br>          <span class="hljs-built_in">int</span> userId, <span class="hljs-title class_">TaskRecord</span> inTask, <span class="hljs-title class_">String</span> reason,<br>          boolean allowPendingRemoteAnimationRegistryLookup,<br>          <span class="hljs-title class_">PendingIntentRecord</span> originatingPendingIntent) &#123;<br>      .....<br>      <span class="hljs-comment">//根据intent在系统中找到合适的应用的activity，如果有多个activity可选择，</span><br><span class="hljs-comment">//则会弹出ResolverActivity让用户选择合适的应用。</span><br>      <span class="hljs-title class_">ActivityInfo</span> aInfo = mSupervisor.<span class="hljs-title function_">resolveActivity</span>(intent, rInfo, startFlags, profilerInfo);<br><br><br>      <span class="hljs-built_in">int</span> res = <span class="hljs-title function_">startActivity</span>(caller, intent, ephemeralIntent, resolvedType, aInfo, rInfo,<br>                  voiceSession, voiceInteractor, resultTo, resultWho, requestCode, callingPid,<br>                  callingUid, callingPackage, realCallingPid, realCallingUid, startFlags, options,<br>                  ignoreTargetSecurity, componentSpecified, outRecord, inTask, reason,<br>                  allowPendingRemoteAnimationRegistryLookup, originatingPendingIntent);<br>      ....<br><br>  &#125;<br><br>  private <span class="hljs-built_in">int</span> <span class="hljs-title function_">startActivity</span>(<span class="hljs-title class_">IApplicationThread</span> caller, <span class="hljs-title class_">Intent</span> intent, <span class="hljs-title class_">Intent</span> ephemeralIntent,<br>          <span class="hljs-title class_">String</span> resolvedType, <span class="hljs-title class_">ActivityInfo</span> aInfo, <span class="hljs-title class_">ResolveInfo</span> rInfo,<br>          <span class="hljs-title class_">IVoiceInteractionSession</span> voiceSession, <span class="hljs-title class_">IVoiceInteractor</span> voiceInteractor,<br>          <span class="hljs-title class_">IBinder</span> resultTo, <span class="hljs-title class_">String</span> resultWho, <span class="hljs-built_in">int</span> requestCode, <span class="hljs-built_in">int</span> callingPid, <span class="hljs-built_in">int</span> callingUid,<br>          <span class="hljs-title class_">String</span> callingPackage, <span class="hljs-built_in">int</span> realCallingPid, <span class="hljs-built_in">int</span> realCallingUid, <span class="hljs-built_in">int</span> startFlags,<br>          <span class="hljs-title class_">SafeActivityOptions</span> options, boolean ignoreTargetSecurity, boolean componentSpecified,<br>          <span class="hljs-title class_">ActivityRecord</span>[] outActivity, <span class="hljs-title class_">TaskRecord</span> inTask, <span class="hljs-title class_">String</span> reason,<br>          boolean allowPendingRemoteAnimationRegistryLookup) &#123;<br>      ...<br>      mLastStartActivityResult = <span class="hljs-title function_">startActivity</span>(caller, intent, ephemeralIntent, resolvedType,<br>              aInfo, rInfo, voiceSession, voiceInteractor, resultTo, resultWho, requestCode,<br>              callingPid, callingUid, callingPackage, realCallingPid, realCallingUid, startFlags,<br>              options, ignoreTargetSecurity, componentSpecified, mLastStartActivityRecord,<br>              inTask, allowPendingRemoteAnimationRegistryLookup);<br>      ...<br>      <span class="hljs-keyword">return</span> <span class="hljs-title function_">getExternalResult</span>(mLastStartActivityResult);<br>  &#125;<br><br>  private <span class="hljs-built_in">int</span> <span class="hljs-title function_">startActivity</span>(<span class="hljs-title class_">IApplicationThread</span> caller, <span class="hljs-title class_">Intent</span> intent, <span class="hljs-title class_">Intent</span> ephemeralIntent,<br>          <span class="hljs-title class_">String</span> resolvedType, <span class="hljs-title class_">ActivityInfo</span> aInfo, <span class="hljs-title class_">ResolveInfo</span> rInfo,<br>          <span class="hljs-title class_">IVoiceInteractionSession</span> voiceSession, <span class="hljs-title class_">IVoiceInteractor</span> voiceInteractor,<br>          <span class="hljs-title class_">IBinder</span> resultTo, <span class="hljs-title class_">String</span> resultWho, <span class="hljs-built_in">int</span> requestCode, <span class="hljs-built_in">int</span> callingPid, <span class="hljs-built_in">int</span> callingUid,<br>          <span class="hljs-title class_">String</span> callingPackage, <span class="hljs-built_in">int</span> realCallingPid, <span class="hljs-built_in">int</span> realCallingUid, <span class="hljs-built_in">int</span> startFlags,<br>          <span class="hljs-title class_">SafeActivityOptions</span> options,<br>          boolean ignoreTargetSecurity, boolean componentSpecified, <span class="hljs-title class_">ActivityRecord</span>[] outActivity,<br>          <span class="hljs-title class_">TaskRecord</span> inTask, boolean allowPendingRemoteAnimationRegistryLookup) &#123;<br>      ...<br>      <span class="hljs-keyword">return</span> <span class="hljs-title function_">startActivity</span>(r, sourceRecord, voiceSession, voiceInteractor, startFlags,<br>              <span class="hljs-keyword">true</span> <span class="hljs-comment">/* doResume */</span>, checkedOptions, inTask, outActivity);<br>  &#125;<br><br>  private <span class="hljs-built_in">int</span> <span class="hljs-title function_">startActivity</span>(<span class="hljs-keyword">final</span> <span class="hljs-title class_">ActivityRecord</span> r, <span class="hljs-title class_">ActivityRecord</span> sourceRecord,<br>              <span class="hljs-title class_">IVoiceInteractionSession</span> voiceSession, <span class="hljs-title class_">IVoiceInteractor</span> voiceInteractor,<br>              <span class="hljs-built_in">int</span> startFlags, boolean doResume, <span class="hljs-title class_">ActivityOptions</span> options, <span class="hljs-title class_">TaskRecord</span> inTask,<br>              <span class="hljs-title class_">ActivityRecord</span>[] outActivity) &#123;<br>      ...<br>          result = <span class="hljs-title function_">startActivityUnchecked</span>(r, sourceRecord, voiceSession, voiceInteractor,<br>                  startFlags, doResume, options, inTask, outActivity);<br>      ...<br><br>      <span class="hljs-title function_">postStartActivityProcessing</span>(r, result, mTargetStack);<br><br>      <span class="hljs-keyword">return</span> result;<br>  &#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>startActivityMayWait方法经过调用多次的startActivity方法后会调用到startActivityUnchecked这个方法，那这个方法是干啥的呢？这个方法会根据启动标志位和Activity启动模式来决定如何启动一个Activity以及是否要调用deliverNewIntent方法通知Activity有一个Intent试图重新启动它。比如我们在一开始将活动设置了FLAG_ACTIVITY_NEW_TASK后将创建一个任务栈，其它的就自行看代码。</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs dns">  private int startActivityUnchecked<span class="hljs-punctuation">(</span>final ActivityRecord r, ActivityRecord sourceRecord,<br>            IVoiceInteractionSession voiceSession, IVoiceInteractor voiceInteractor,<br>            int startFlags, boolean doResume, ActivityOptions options, TaskRecord inTask,<br>            ActivityRecord[] outActivity<span class="hljs-punctuation">)</span> &#123;<br>...<br> if <span class="hljs-punctuation">(</span>mStartActivity.resultTo == null &amp;&amp; mInTask == null &amp;&amp; !mAddingToTask<br>                &amp;&amp; <span class="hljs-punctuation">(</span>mLaunchFlags &amp; FLAG_ACTIVITY_NEW_TASK<span class="hljs-punctuation">)</span> != <span class="hljs-number">0</span><span class="hljs-punctuation">)</span> &#123;<br>            newTask = true<span class="hljs-comment">;</span><br>            //创建新的TaskRecord<br>            result = setTaskFromReuseOrCreateNewTask<span class="hljs-punctuation">(</span><br>                    taskToAffiliate, preferredLaunchStackId, topStack<span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>        &#125; else if <span class="hljs-punctuation">(</span>mSourceRecord != null<span class="hljs-punctuation">)</span> &#123;<br>            result = setTaskFromSourceRecord<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>        &#125; else if <span class="hljs-punctuation">(</span>mInTask != null<span class="hljs-punctuation">)</span> &#123;<br>            result = setTaskFromInTask<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>        &#125; else &#123;<br>            setTaskToCurrentTopOrCreateNewTask<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>        &#125;<br>       ...<br> if <span class="hljs-punctuation">(</span>mDoResume<span class="hljs-punctuation">)</span> &#123;<br>            final ActivityRecord topTaskActivity =<br>                    mStartActivity.getTask<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span>.topRunningActivityLocked<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>            if <span class="hljs-punctuation">(</span>!mTargetStack.isFocusable<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br>                    || <span class="hljs-punctuation">(</span>topTaskActivity != null &amp;&amp; topTaskActivity.mTaskOverlay<br>                    &amp;&amp; mStartActivity != topTaskActivity<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> &#123;<br>               ...<br>            &#125; else &#123;<br>                if <span class="hljs-punctuation">(</span>mTargetStack.isFocusable<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> &amp;&amp; !mSupervisor.isFocusedStack<span class="hljs-punctuation">(</span>mTargetStack<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> &#123;<br>                    mTargetStack.moveToFront<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;startActivityUnchecked&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>                &#125;<br>                mSupervisor.resumeFocusedStackTopActivityLocked<span class="hljs-punctuation">(</span>mTargetStack, mStartActivity,<br>                        mOptions<span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>            &#125;<br>        &#125; else &#123;<br>            mTargetStack.addRecentActivityLocked<span class="hljs-punctuation">(</span>mStartActivity<span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>        &#125;<br>        ...<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>然后无论以何种模式启动最终都会调用ActivityStackSupervisor.resumeFocusedStackTopActivityLocked方法。</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;services&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;server&#x2F;am&#x2F;ActivityStackSupervisor.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs dart">boolean <span class="hljs-title function_">resumeFocusedStackTopActivityLocked</span>(<br>        <span class="hljs-title class_">ActivityStack</span> targetStack, <span class="hljs-title class_">ActivityRecord</span> target, <span class="hljs-title class_">ActivityOptions</span> targetOptions) &#123;<br>    ....<br>    <span class="hljs-keyword">if</span> (targetStack != <span class="hljs-keyword">null</span> &amp;&amp; <span class="hljs-title function_">isFocusedStack</span>(targetStack)) &#123;<br>        <span class="hljs-keyword">return</span> targetStack.<span class="hljs-title function_">resumeTopActivityUncheckedLocked</span>(target, targetOptions);<br>    &#125;<br>    ....<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>于是又调用了ActivityStack的resumeTopActivityUncheckedLocked</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;services&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;server&#x2F;am&#x2F;ActivityStack.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs dart">    <span class="hljs-meta">@GuardedBy</span>(<span class="hljs-string">&quot;mService&quot;</span>)<br>    boolean <span class="hljs-title function_">resumeTopActivityUncheckedLocked</span>(<span class="hljs-title class_">ActivityRecord</span> prev, <span class="hljs-title class_">ActivityOptions</span> options) &#123;<br>       ...<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">// Protect against recursion.</span><br>            mStackSupervisor.inResumeTopActivity = <span class="hljs-keyword">true</span>;<br>            result = <span class="hljs-title function_">resumeTopActivityInnerLocked</span>(prev, options);<br>        &#125;<br>       ...<br><br>    &#125;<br><br>private boolean <span class="hljs-title function_">resumeTopActivityInnerLocked</span>(<span class="hljs-title class_">ActivityRecord</span> prev, <span class="hljs-title class_">ActivityOptions</span> options) &#123;<br>      ...<br>           mStackSupervisor.<span class="hljs-title function_">startSpecificActivityLocked</span>(next, <span class="hljs-keyword">true</span>, <span class="hljs-keyword">true</span>);<br>       &#125;<br>        <span class="hljs-keyword">if</span> (DEBUG_STACK) mStackSupervisor.<span class="hljs-title function_">validateTopActivitiesLocked</span>();<br>       <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>emmmm…..，看到这估计都懵逼了，几个类跳来跳去也不知道干了些什么，不慌，让我们坚持看下ActivityStackSupervisor.startSpecificActivityLocked,因为这个方法很重要。这个方法将是普通Activity和根Activity启动流程的分岔路口。</p>
+<blockquote>
+<p>ActivityStackSupervisor#startSpecificActivityLocked</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs dart">  <span class="hljs-keyword">void</span> <span class="hljs-title function_">startSpecificActivityLocked</span>(<span class="hljs-title class_">ActivityRecord</span> r,<br>          boolean andResume, boolean checkConfig) &#123;<br>      <span class="hljs-comment">//获取即将要启动的Activity的所在的应用程序进程</span><br>      <span class="hljs-title class_">ProcessRecord</span> app = mService.<span class="hljs-title function_">getProcessRecordLocked</span>(r.processName,<br>              r.info.applicationInfo.uid, <span class="hljs-keyword">true</span>);<br>      <span class="hljs-comment">//如果应用进程已经存在</span><br>      <span class="hljs-keyword">if</span> (app != <span class="hljs-keyword">null</span> &amp;&amp; app.thread != <span class="hljs-keyword">null</span>) &#123;<br>          <span class="hljs-keyword">try</span> &#123;<br>              <span class="hljs-keyword">if</span> ((r.info.flags&amp;<span class="hljs-title class_">ActivityInfo</span>.FLAG_MULTIPROCESS) == <span class="hljs-number">0</span><br>                      || !<span class="hljs-string">&quot;android&quot;</span>.<span class="hljs-title function_">equals</span>(r.info.packageName)) &#123;<br>                  <span class="hljs-comment">// Don&#x27;t add this if it is a platform component that is marked</span><br>                  <span class="hljs-comment">// to run in multiple processes, because this is actually</span><br>                  <span class="hljs-comment">// part of the framework so doesn&#x27;t make sense to track as a</span><br>                  <span class="hljs-comment">// separate apk in the process.</span><br>                  app.<span class="hljs-title function_">addPackage</span>(r.info.packageName, r.info.applicationInfo.longVersionCode,<br>                          mService.mProcessStats);<br>              &#125;<br>              <span class="hljs-title function_">realStartActivityLocked</span>(r, app, andResume, checkConfig);<br>              <span class="hljs-keyword">return</span>;<br>          &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">RemoteException</span> e) &#123;<br>              <span class="hljs-title class_">Slog</span>.<span class="hljs-title function_">w</span>(TAG, <span class="hljs-string">&quot;Exception when starting activity &quot;</span><br>                      + r.intent.<span class="hljs-title function_">getComponent</span>().<span class="hljs-title function_">flattenToShortString</span>(), e);<br>          &#125;<br><br>          <span class="hljs-comment">// If a dead object exception was thrown -- fall through to</span><br>          <span class="hljs-comment">// restart the application.</span><br>      &#125;<br><span class="hljs-comment">//应用进程还未创建，则通过AMS调用startProcessLocked向Zygote进程发送请求</span><br>      mService.<span class="hljs-title function_">startProcessLocked</span>(r.processName, r.info.applicationInfo, <span class="hljs-keyword">true</span>, <span class="hljs-number">0</span>,<br>              <span class="hljs-string">&quot;activity&quot;</span>, r.intent.<span class="hljs-title function_">getComponent</span>(), <span class="hljs-keyword">false</span>, <span class="hljs-keyword">false</span>, <span class="hljs-keyword">true</span>);<br>  &#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>阅读上面的代码我们可以知道在方法中首先获取到了即将要启动的Activity所在的应用进程，假如是普通的Activity的启动流程的活，这个进程肯定是存在的，所以将执行realStartActivityLocked的方法。但是我们现在讨论的是根Activity的启动流程，由于应用都还未启动，意味着根Activity所在的应用进程还未创建，而mService其实就是AMS，所以这里将调用AMS的startProcessLocked。于是我们又回到了最初的起点AMS。</p>
+<blockquote>
+<p>ActivityManagerService.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">final</span> <span class="hljs-title class_">ProcessRecord</span> <span class="hljs-title function_">startProcessLocked</span>(<span class="hljs-title class_">String</span> processName,<br>        <span class="hljs-title class_">ApplicationInfo</span> info, boolean knownToBeDead, <span class="hljs-built_in">int</span> intentFlags,<br>        <span class="hljs-title class_">String</span> hostingType, <span class="hljs-title class_">ComponentName</span> hostingName, boolean allowWhileBooting,<br>        boolean isolated, boolean keepIfLarge) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_">startProcessLocked</span>(processName, info, knownToBeDead, intentFlags, hostingType,<br>            hostingName, allowWhileBooting, isolated, <span class="hljs-number">0</span> <span class="hljs-comment">/* isolatedUid */</span>, keepIfLarge,<br>            <span class="hljs-keyword">null</span> <span class="hljs-comment">/* ABI override */</span>, <span class="hljs-keyword">null</span> <span class="hljs-comment">/* entryPoint */</span>, <span class="hljs-keyword">null</span> <span class="hljs-comment">/* entryPointArgs */</span>,<br>            <span class="hljs-keyword">null</span> <span class="hljs-comment">/* crashHandler */</span>);<br>&#125;<br><br><span class="hljs-keyword">final</span> <span class="hljs-title class_">ProcessRecord</span> <span class="hljs-title function_">startProcessLocked</span>(<span class="hljs-title class_">String</span> processName, <span class="hljs-title class_">ApplicationInfo</span> info,<br>        boolean knownToBeDead, <span class="hljs-built_in">int</span> intentFlags, <span class="hljs-title class_">String</span> hostingType, <span class="hljs-title class_">ComponentName</span> hostingName,<br>        boolean allowWhileBooting, boolean isolated, <span class="hljs-built_in">int</span> isolatedUid, boolean keepIfLarge,<br>        <span class="hljs-title class_">String</span> abiOverride, <span class="hljs-title class_">String</span> entryPoint, <span class="hljs-title class_">String</span>[] entryPointArgs, <span class="hljs-title class_">Runnable</span> crashHandler) &#123;<br>    ...<br>    <span class="hljs-keyword">final</span> boolean success = <span class="hljs-title function_">startProcessLocked</span>(app, hostingType, hostingNameStr, abiOverride);<br>    ...<br>&#125;<br><br><span class="hljs-meta">@GuardedBy</span>(<span class="hljs-string">&quot;this&quot;</span>)<br>private <span class="hljs-keyword">final</span> boolean <span class="hljs-title function_">startProcessLocked</span>(<span class="hljs-title class_">ProcessRecord</span> app,<br>        <span class="hljs-title class_">String</span> hostingType, <span class="hljs-title class_">String</span> hostingNameStr, <span class="hljs-title class_">String</span> abiOverride) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_">startProcessLocked</span>(app, hostingType, hostingNameStr,<br>            <span class="hljs-keyword">false</span> <span class="hljs-comment">/* disableHiddenApiChecks */</span>, abiOverride);<br>&#125;<br><br>private <span class="hljs-keyword">final</span> boolean <span class="hljs-title function_">startProcessLocked</span>(<span class="hljs-title class_">ProcessRecord</span> app, <span class="hljs-title class_">String</span> hostingType,<br>        <span class="hljs-title class_">String</span> hostingNameStr, boolean disableHiddenApiChecks, <span class="hljs-title class_">String</span> abiOverride) &#123;<br>   ...<br><br>        <span class="hljs-built_in">int</span> uid = app.uid; <span class="hljs-comment">//创建应用进程的用户ID</span><br>        <span class="hljs-built_in">int</span>[] gids = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-built_in">int</span> mountExternal = <span class="hljs-title class_">Zygote</span>.MOUNT_EXTERNAL_NONE;<br>        <span class="hljs-keyword">if</span> (!app.isolated) &#123;<br>            <span class="hljs-built_in">int</span>[] permGids = <span class="hljs-keyword">null</span>;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-title function_">checkTime</span>(startTime, <span class="hljs-string">&quot;startProcess: getting gids from package manager&quot;</span>);<br>                <span class="hljs-keyword">final</span> <span class="hljs-title class_">IPackageManager</span> pm = <span class="hljs-title class_">AppGlobals</span>.<span class="hljs-title function_">getPackageManager</span>();<br>                permGids = pm.<span class="hljs-title function_">getPackageGids</span>(app.info.packageName,<br>                        MATCH_DEBUG_TRIAGED_MISSING, app.userId);<br>                <span class="hljs-title class_">StorageManagerInternal</span> storageManagerInternal = <span class="hljs-title class_">LocalServices</span>.<span class="hljs-title function_">getService</span>(<br>                        <span class="hljs-title class_">StorageManagerInternal</span>.<span class="hljs-keyword">class</span>);<br>                mountExternal = storageManagerInternal.<span class="hljs-title function_">getExternalStorageMountMode</span>(uid,<br>                        app.info.packageName);<br>            &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">RemoteException</span> e) &#123;<br>                <span class="hljs-keyword">throw</span> e.<span class="hljs-title function_">rethrowAsRuntimeException</span>();<br>            &#125;<br><br>            <span class="hljs-comment">/*</span><br><span class="hljs-comment">             * 对用户组进行创建和赋值</span><br><span class="hljs-comment">             */</span><br>            <span class="hljs-keyword">if</span> (<span class="hljs-title class_">ArrayUtils</span>.<span class="hljs-title function_">isEmpty</span>(permGids)) &#123;<br>                gids = <span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>[<span class="hljs-number">3</span>];<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                gids = <span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>[permGids.length + <span class="hljs-number">3</span>];<br>                <span class="hljs-title class_">System</span>.<span class="hljs-title function_">arraycopy</span>(permGids, <span class="hljs-number">0</span>, gids, <span class="hljs-number">3</span>, permGids.length);<br>            &#125;<br>            gids[<span class="hljs-number">0</span>] = <span class="hljs-title class_">UserHandle</span>.<span class="hljs-title function_">getSharedAppGid</span>(<span class="hljs-title class_">UserHandle</span>.<span class="hljs-title function_">getAppId</span>(uid));<br>            gids[<span class="hljs-number">1</span>] = <span class="hljs-title class_">UserHandle</span>.<span class="hljs-title function_">getCacheAppGid</span>(<span class="hljs-title class_">UserHandle</span>.<span class="hljs-title function_">getAppId</span>(uid));<br>            gids[<span class="hljs-number">2</span>] = <span class="hljs-title class_">UserHandle</span>.<span class="hljs-title function_">getUserGid</span>(<span class="hljs-title class_">UserHandle</span>.<span class="hljs-title function_">getUserId</span>(uid));<br><br>            <span class="hljs-comment">// Replace any invalid GIDs</span><br>            <span class="hljs-keyword">if</span> (gids[<span class="hljs-number">0</span>] == <span class="hljs-title class_">UserHandle</span>.ERR_GID) gids[<span class="hljs-number">0</span>] = gids[<span class="hljs-number">2</span>];<br>            <span class="hljs-keyword">if</span> (gids[<span class="hljs-number">1</span>] == <span class="hljs-title class_">UserHandle</span>.ERR_GID) gids[<span class="hljs-number">1</span>] = gids[<span class="hljs-number">2</span>];<br>        &#125;<br>        ...<br>        <span class="hljs-comment">//这个参数后文会提到</span><br>        <span class="hljs-keyword">final</span> <span class="hljs-title class_">String</span> entryPoint = <span class="hljs-string">&quot;android.app.ActivityThread&quot;</span>;    <br><br>        <span class="hljs-keyword">return</span> <span class="hljs-title function_">startProcessLocked</span>(hostingType, hostingNameStr, entryPoint, app, uid, gids,<br>                runtimeFlags, mountExternal, seInfo, requiredAbi, instructionSet, invokeWith,<br>                startTime);        <br>&#125;<br>private boolean <span class="hljs-title function_">startProcessLocked</span>(<span class="hljs-title class_">String</span> hostingType, <span class="hljs-title class_">String</span> hostingNameStr, <span class="hljs-title class_">String</span> entryPoint,<br>        <span class="hljs-title class_">ProcessRecord</span> app, <span class="hljs-built_in">int</span> uid, <span class="hljs-built_in">int</span>[] gids, <span class="hljs-built_in">int</span> runtimeFlags, <span class="hljs-built_in">int</span> mountExternal,<br>        <span class="hljs-title class_">String</span> seInfo, <span class="hljs-title class_">String</span> requiredAbi, <span class="hljs-title class_">String</span> instructionSet, <span class="hljs-title class_">String</span> invokeWith,<br>        long startTime) &#123;<br>    ....<br>	<span class="hljs-comment">//重点关注</span><br>                <span class="hljs-keyword">final</span> <span class="hljs-title class_">ProcessStartResult</span> startResult = <span class="hljs-title function_">startProcess</span>(app.hostingType, entryPoint,<br>                        app, app.startUid, gids, runtimeFlags, mountExternal, app.seInfo,<br>                        requiredAbi, instructionSet, invokeWith, app.startTime);<br>          <br>    ...<br>&#125;<br><br>private <span class="hljs-title class_">ProcessStartResult</span> <span class="hljs-title function_">startProcess</span>(<span class="hljs-title class_">String</span> hostingType, <span class="hljs-title class_">String</span> entryPoint,<br>        <span class="hljs-title class_">ProcessRecord</span> app, <span class="hljs-built_in">int</span> uid, <span class="hljs-built_in">int</span>[] gids, <span class="hljs-built_in">int</span> runtimeFlags, <span class="hljs-built_in">int</span> mountExternal,<br>        <span class="hljs-title class_">String</span> seInfo, <span class="hljs-title class_">String</span> requiredAbi, <span class="hljs-title class_">String</span> instructionSet, <span class="hljs-title class_">String</span> invokeWith,<br>        long startTime) &#123;<br>        ....<br>        <span class="hljs-keyword">if</span> (hostingType.<span class="hljs-title function_">equals</span>(<span class="hljs-string">&quot;webview_service&quot;</span>)) &#123;<br>            startResult = <span class="hljs-title function_">startWebView</span>(entryPoint,<br>                    app.processName, uid, uid, gids, runtimeFlags, mountExternal,<br>                    app.info.targetSdkVersion, seInfo, requiredAbi, instructionSet,<br>                    app.info.dataDir, <span class="hljs-keyword">null</span>,<br>                    <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[] &#123;PROC_START_SEQ_IDENT + app.startSeq&#125;);<br><br>        &#125; <span class="hljs-keyword">else</span> &#123;<br><br>			<br><span class="hljs-comment">//通过Process.start方法来为应用创建进程</span><br>            startResult = <span class="hljs-title class_">Process</span>.<span class="hljs-title function_">start</span>(entryPoint,<br>                    app.processName, uid, uid, gids, runtimeFlags, mountExternal,<br>                    app.info.targetSdkVersion, seInfo, requiredAbi, instructionSet,<br>                    app.info.dataDir, invokeWith,<br>                    <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[] &#123;PROC_START_SEQ_IDENT + app.startSeq&#125;);<br>        &#125;<br>        <span class="hljs-title function_">checkTime</span>(startTime, <span class="hljs-string">&quot;startProcess: returned from zygote!&quot;</span>);<br>        <span class="hljs-keyword">return</span> startResult;<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        <span class="hljs-title class_">Trace</span>.<span class="hljs-title function_">traceEnd</span>(<span class="hljs-title class_">Trace</span>.TRACE_TAG_ACTIVITY_MANAGER);<br>    &#125;<br>&#125;<br><br><br></code></pre></td></tr></table></figure>
+
+<p>通过调用多个startProcessLocked方法后最终将调用startProcess方法，不过需要重点看一下上面的第四个startProcessLocked，在该方法中有个entryPoint参数为 “android.app.ActivityThread”，这个参数将在后文讲到创建应用进程后启动ActivityThread会用到。然后在startProcess方法里将调用Process.start来发送应用创建进程的请求。这样AMS就将发送请求的事交给了Process</p>
+<h3 id="2-2-Process向Zygote进程发送创建应用进程请求"><a href="#2-2-Process向Zygote进程发送创建应用进程请求" class="headerlink" title="2.2 Process向Zygote进程发送创建应用进程请求"></a>2.2 Process向Zygote进程发送创建应用进程请求</h3><blockquote>
+<p>frameworks&#x2F;base&#x2F;core&#x2F;java&#x2F;android&#x2F;os&#x2F;Process.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs dart">public <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-title class_">ProcessStartResult</span> <span class="hljs-title function_">start</span>(<span class="hljs-keyword">final</span> <span class="hljs-title class_">String</span> processClass,<br>                              <span class="hljs-keyword">final</span> <span class="hljs-title class_">String</span> niceName,<br>                              <span class="hljs-built_in">int</span> uid, <span class="hljs-built_in">int</span> gid, <span class="hljs-built_in">int</span>[] gids,<br>                              <span class="hljs-built_in">int</span> runtimeFlags, <span class="hljs-built_in">int</span> mountExternal,<br>                              <span class="hljs-built_in">int</span> targetSdkVersion,<br>                              <span class="hljs-title class_">String</span> seInfo,<br>                              <span class="hljs-title class_">String</span> abi,<br>                              <span class="hljs-title class_">String</span> instructionSet,<br>                              <span class="hljs-title class_">String</span> appDataDir,<br>                              <span class="hljs-title class_">String</span> invokeWith,<br>                              <span class="hljs-title class_">String</span>[] zygoteArgs) &#123;<br>    <span class="hljs-keyword">return</span> ZYGOTE_PROCESS.<span class="hljs-title function_">start</span>(processClass, niceName, uid, gid, gids,<br>                runtimeFlags, mountExternal, targetSdkVersion, seInfo,<br>                abi, instructionSet, appDataDir, invokeWith,<br>                <span class="hljs-comment">/*useBlastulaPool=*/</span> <span class="hljs-keyword">true</span>, zygoteArgs);<br>&#125;<br><br><br>public <span class="hljs-keyword">final</span> <span class="hljs-title class_">Process</span>.<span class="hljs-title class_">ProcessStartResult</span> <span class="hljs-title function_">start</span>(<span class="hljs-keyword">final</span> <span class="hljs-title class_">String</span> processClass,<br>                                              <span class="hljs-keyword">final</span> <span class="hljs-title class_">String</span> niceName,<br>                                              <span class="hljs-built_in">int</span> uid, <span class="hljs-built_in">int</span> gid, <span class="hljs-built_in">int</span>[] gids,<br>                                              <span class="hljs-built_in">int</span> runtimeFlags, <span class="hljs-built_in">int</span> mountExternal,<br>                                              <span class="hljs-built_in">int</span> targetSdkVersion,<br>                                              <span class="hljs-title class_">String</span> seInfo,<br>                                              <span class="hljs-title class_">String</span> abi,<br>                                              <span class="hljs-title class_">String</span> instructionSet,<br>                                              <span class="hljs-title class_">String</span> appDataDir,<br>                                              <span class="hljs-title class_">String</span> invokeWith,<br>                                              boolean useBlastulaPool,<br>                                              <span class="hljs-title class_">String</span>[] zygoteArgs) &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br><br>  <span class="hljs-comment">//重点关注</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-title function_">startViaZygote</span>(processClass, niceName, uid, gid, gids,<br>                runtimeFlags, mountExternal, targetSdkVersion, seInfo,<br>                abi, instructionSet, appDataDir, invokeWith,<br>                <span class="hljs-comment">/*startChildZygote=*/</span><span class="hljs-keyword">false</span>,<br>                useBlastulaPool, zygoteArgs);<br>    &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">ZygoteStartFailedEx</span> ex) &#123;<br>        <span class="hljs-title class_">Log</span>.<span class="hljs-title function_">e</span>(LOG_TAG,<br>                <span class="hljs-string">&quot;Starting VM process through Zygote failed&quot;</span>);<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<br>                <span class="hljs-string">&quot;Starting VM process through Zygote failed&quot;</span>, ex);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>从上面可以发现，Process中的start方法的实现是startViaZygote方法，所以我们重点观察下这个方法。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs dart">private <span class="hljs-title class_">Process</span>.<span class="hljs-title class_">ProcessStartResult</span> <span class="hljs-title function_">startViaZygote</span>(<span class="hljs-keyword">final</span> <span class="hljs-title class_">String</span> processClass,<br>                                                  <span class="hljs-keyword">final</span> <span class="hljs-title class_">String</span> niceName,<br>                                                  <span class="hljs-keyword">final</span> <span class="hljs-built_in">int</span> uid, <span class="hljs-keyword">final</span> <span class="hljs-built_in">int</span> gid,<br>                                                  <span class="hljs-keyword">final</span> <span class="hljs-built_in">int</span>[] gids,<br>                                                  <span class="hljs-built_in">int</span> runtimeFlags, <span class="hljs-built_in">int</span> mountExternal,<br>                                                  <span class="hljs-built_in">int</span> targetSdkVersion,<br>                                                  <span class="hljs-title class_">String</span> seInfo,<br>                                                  <span class="hljs-title class_">String</span> abi,<br>                                                  <span class="hljs-title class_">String</span> instructionSet,<br>                                                  <span class="hljs-title class_">String</span> appDataDir,<br>                                                  <span class="hljs-title class_">String</span> invokeWith,<br>                                                  boolean startChildZygote,<br>                                                  boolean useBlastulaPool,<br>                                                  <span class="hljs-title class_">String</span>[] extraArgs)<br>                                                  throws <span class="hljs-title class_">ZygoteStartFailedEx</span> &#123;<br>    <span class="hljs-title class_">ArrayList</span>&lt;<span class="hljs-title class_">String</span>&gt; argsForZygote = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;<span class="hljs-title class_">String</span>&gt;();<br><br>    <span class="hljs-comment">// --runtime-args, --setuid=, --setgid=,</span><br>    <span class="hljs-comment">//创建字符串列表argsForZygote，并将启动应用进程的启动参数保存在这个列表中</span><br>    argsForZygote.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;--runtime-args&quot;</span>);<br>    argsForZygote.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;--setuid=&quot;</span> + uid);<br>    argsForZygote.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;--setgid=&quot;</span> + gid);<br>    argsForZygote.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;--runtime-flags=&quot;</span> + runtimeFlags);<br>    <span class="hljs-keyword">if</span> (mountExternal == <span class="hljs-title class_">Zygote</span>.MOUNT_EXTERNAL_DEFAULT) &#123;<br>        argsForZygote.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;--mount-external-default&quot;</span>);<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (mountExternal == <span class="hljs-title class_">Zygote</span>.MOUNT_EXTERNAL_READ) &#123;<br>        argsForZygote.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;--mount-external-read&quot;</span>);<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (mountExternal == <span class="hljs-title class_">Zygote</span>.MOUNT_EXTERNAL_WRITE) &#123;<br>        argsForZygote.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;--mount-external-write&quot;</span>);<br>    &#125;<br>    argsForZygote.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;--target-sdk-version=&quot;</span> + targetSdkVersion);<br><br>    ...<br>    <span class="hljs-title function_">synchronized</span>(mLock) &#123;<br><br><br>  <span class="hljs-comment">//重点关注</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-title function_">zygoteSendArgsAndGetResult</span>(<span class="hljs-title function_">openZygoteSocketIfNeeded</span>(abi),<br>                                          useBlastulaPool,<br>                                          argsForZygote);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>在startViaZygote中会创建字符串列表argsForZygote来保存将要创建的应用进程的启动参数，然后最后会调用zygoteSendArgsAndGetResult方法，而在这个方法中第一个参数会调用openZygoteSocketIfNeeded方法，第三个参数就是启动参数列表。所以我们先看看openZygoteSocketIfNeeded这个方法的实现。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs dart">  private <span class="hljs-title class_">ZygoteState</span> <span class="hljs-title function_">openZygoteSocketIfNeeded</span>(<span class="hljs-title class_">String</span> abi)<br>          throws <span class="hljs-title class_">ZygoteStartFailedEx</span> &#123;<br><br>      <span class="hljs-title class_">Preconditions</span>.<span class="hljs-title function_">checkState</span>(<span class="hljs-title class_">Thread</span>.<span class="hljs-title function_">holdsLock</span>(mLock), <span class="hljs-string">&quot;ZygoteProcess lock not held&quot;</span>);<br><span class="hljs-comment">//64位进程中的</span><br>      <span class="hljs-keyword">if</span> (primaryZygoteState == <span class="hljs-keyword">null</span> || primaryZygoteState.<span class="hljs-title function_">isClosed</span>()) &#123;<br>          <span class="hljs-keyword">try</span> &#123;<br><br><br>	    <span class="hljs-comment">//调用ZygoteState的connect函数与mZygoteSocketAddress建立连接，</span><br>              <span class="hljs-comment">//这里mZygoteSocketAddress的值为“zygote”</span><br>              primaryZygoteState =<br>                  <span class="hljs-title class_">ZygoteState</span>.<span class="hljs-title function_">connect</span>(mZygoteSocketAddress, mBlastulaPoolSocketAddress);<br>          &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">IOException</span> ioe) &#123;<br>              <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ZygoteStartFailedEx</span>(<span class="hljs-string">&quot;Error connecting to primary zygote&quot;</span>, ioe);<br>          &#125;<br><br>          <span class="hljs-title function_">maybeSetApiBlacklistExemptions</span>(primaryZygoteState, <span class="hljs-keyword">false</span>);<br>          <span class="hljs-title function_">maybeSetHiddenApiAccessLogSampleRate</span>(primaryZygoteState);<br>      &#125;<br><br>      <span class="hljs-keyword">if</span> (primaryZygoteState.<span class="hljs-title function_">matches</span>(abi)) &#123;<br><br>    <span class="hljs-comment">//Socket进行连接成功并匹配abi后会返回ZygoteState类型对象</span><br>          <span class="hljs-keyword">return</span> primaryZygoteState;<br>      &#125;<br><br><br>      <span class="hljs-comment">// 32位Zygote进程中</span><br>      <span class="hljs-keyword">if</span> (secondaryZygoteState == <span class="hljs-keyword">null</span> || secondaryZygoteState.<span class="hljs-title function_">isClosed</span>()) &#123;<br>          <span class="hljs-keyword">try</span> &#123;<br>              secondaryZygoteState =<br>                  <span class="hljs-title class_">ZygoteState</span>.<span class="hljs-title function_">connect</span>(mZygoteSecondarySocketAddress,<br>                                      mBlastulaPoolSecondarySocketAddress);<br>          &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">IOException</span> ioe) &#123;<br>              <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ZygoteStartFailedEx</span>(<span class="hljs-string">&quot;Error connecting to secondary zygote&quot;</span>, ioe);<br>          &#125;<br><br>          <span class="hljs-title function_">maybeSetApiBlacklistExemptions</span>(secondaryZygoteState, <span class="hljs-keyword">false</span>);<br>          <span class="hljs-title function_">maybeSetHiddenApiAccessLogSampleRate</span>(secondaryZygoteState);<br>      &#125;<br><br>      <span class="hljs-keyword">if</span> (secondaryZygoteState.<span class="hljs-title function_">matches</span>(abi)) &#123;<br>          <span class="hljs-keyword">return</span> secondaryZygoteState;<br>      &#125;<br><br>      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ZygoteStartFailedEx</span>(<span class="hljs-string">&quot;Unsupported zygote ABI: &quot;</span> + abi);<br>  &#125; <br><br></code></pre></td></tr></table></figure>
+
+<p>openZygoteSocketIfNeeded这个方法从方法名就可以推测出这个方法的作用，大概就是与Zygote建立Socket连接。而从代码中也证实了这一点，在代码中会根据Zygote进程的位数来建立相应的Socket连接，然后返回ZygoteState类型的对象。既然与Zygote建立好Socket连接后，接下来当然是发送请求！我们来看看zygoteSendArgsAndGetResult这个方法中是如何发送请求的！</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//将传入的应用进程的启动参数argsForZygote写入到ZygoteState</span><br>   <span class="hljs-meta">@GuardedBy</span>(<span class="hljs-string">&quot;mLock&quot;</span>)<br>   private <span class="hljs-keyword">static</span> <span class="hljs-title class_">Process</span>.<span class="hljs-title class_">ProcessStartResult</span> <span class="hljs-title function_">zygoteSendArgsAndGetResult</span>(<br>           <span class="hljs-title class_">ZygoteState</span> zygoteState, boolean useBlastulaPool, <span class="hljs-title class_">ArrayList</span>&lt;<span class="hljs-title class_">String</span>&gt; args)<br>           throws <span class="hljs-title class_">ZygoteStartFailedEx</span> &#123;<br>       <span class="hljs-title class_">String</span> msgStr = <span class="hljs-title class_">Integer</span>.<span class="hljs-title function_">toString</span>(args.<span class="hljs-title function_">size</span>()) + <span class="hljs-string">&quot;\n&quot;</span><br>                       + <span class="hljs-title class_">String</span>.<span class="hljs-title function_">join</span>(<span class="hljs-string">&quot;\n&quot;</span>, args) + <span class="hljs-string">&quot;\n&quot;</span>;<br><br>       <span class="hljs-comment">// Should there be a timeout on this?</span><br>       <span class="hljs-title class_">Process</span>.<span class="hljs-title class_">ProcessStartResult</span> result = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Process</span>.<span class="hljs-title class_">ProcessStartResult</span>();<br><br>       <span class="hljs-comment">// TODO (chriswailes): Move branch body into separate function.</span><br>       <span class="hljs-keyword">if</span> (useBlastulaPool &amp;&amp; <span class="hljs-title class_">Zygote</span>.BLASTULA_POOL_ENABLED &amp;&amp; <span class="hljs-title function_">isValidBlastulaCommand</span>(args)) &#123;<br>           <span class="hljs-title class_">LocalSocket</span> blastulaSessionSocket = <span class="hljs-keyword">null</span>;<br><br>           <span class="hljs-keyword">try</span> &#123;<br>               blastulaSessionSocket = zygoteState.<span class="hljs-title function_">getBlastulaSessionSocket</span>();<br><br>               <span class="hljs-keyword">final</span> <span class="hljs-title class_">BufferedWriter</span> blastulaWriter =<br>                       <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedWriter</span>(<br>                               <span class="hljs-keyword">new</span> <span class="hljs-title class_">OutputStreamWriter</span>(blastulaSessionSocket.<span class="hljs-title function_">getOutputStream</span>()),<br>                               <span class="hljs-title class_">Zygote</span>.SOCKET_BUFFER_SIZE);<br>               <span class="hljs-keyword">final</span> <span class="hljs-title class_">DataInputStream</span> blastulaReader =<br>                       <span class="hljs-keyword">new</span> <span class="hljs-title class_">DataInputStream</span>(blastulaSessionSocket.<span class="hljs-title function_">getInputStream</span>());<br><br>               blastulaWriter.<span class="hljs-title function_">write</span>(msgStr);<br>               blastulaWriter.<span class="hljs-title function_">flush</span>();<br><br>               result.pid = blastulaReader.<span class="hljs-title function_">readInt</span>();<br>               <span class="hljs-comment">// Blastulas can&#x27;t be used to spawn processes that need wrappers.</span><br>               result.usingWrapper = <span class="hljs-keyword">false</span>;<br><br>               <span class="hljs-keyword">if</span> (result.pid &lt; <span class="hljs-number">0</span>) &#123;<br>                   <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ZygoteStartFailedEx</span>(<span class="hljs-string">&quot;Blastula specialization failed&quot;</span>);<br>               &#125;<br><br>               <span class="hljs-keyword">return</span> result;<br>           &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">IOException</span> ex) &#123;<br>               <span class="hljs-comment">// If there was an IOException using the blastula pool we will log the error and</span><br>               <span class="hljs-comment">// attempt to start the process through the Zygote.</span><br>               <span class="hljs-title class_">Log</span>.<span class="hljs-title function_">e</span>(LOG_TAG, <span class="hljs-string">&quot;IO Exception while communicating with blastula pool - &quot;</span><br>                              + ex.<span class="hljs-title function_">toString</span>());<br>           &#125; <span class="hljs-keyword">finally</span> &#123;<br>               <span class="hljs-keyword">try</span> &#123;<br>                   blastulaSessionSocket.<span class="hljs-title function_">close</span>();<br>               &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">IOException</span> ex) &#123;<br>                   <span class="hljs-title class_">Log</span>.<span class="hljs-title function_">e</span>(LOG_TAG, <span class="hljs-string">&quot;Failed to close blastula session socket: &quot;</span> + ex.<span class="hljs-title function_">getMessage</span>());<br>               &#125;<br>           &#125;<br>       &#125;<br><br>       <span class="hljs-keyword">try</span> &#123;<br>           <span class="hljs-keyword">final</span> <span class="hljs-title class_">BufferedWriter</span> zygoteWriter = zygoteState.mZygoteOutputWriter;<br>           <span class="hljs-keyword">final</span> <span class="hljs-title class_">DataInputStream</span> zygoteInputStream = zygoteState.mZygoteInputStream;<br><br>           zygoteWriter.<span class="hljs-title function_">write</span>(msgStr);<br>           zygoteWriter.<span class="hljs-title function_">flush</span>();<br><br>           <span class="hljs-comment">// Always read the entire result from the input stream to avoid leaving</span><br>           <span class="hljs-comment">// bytes in the stream for future process starts to accidentally stumble</span><br>           <span class="hljs-comment">// upon.</span><br>           result.pid = zygoteInputStream.<span class="hljs-title function_">readInt</span>();<br>           result.usingWrapper = zygoteInputStream.<span class="hljs-title function_">readBoolean</span>();<br>       &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">IOException</span> ex) &#123;<br>           zygoteState.<span class="hljs-title function_">close</span>();<br>           <span class="hljs-title class_">Log</span>.<span class="hljs-title function_">e</span>(LOG_TAG, <span class="hljs-string">&quot;IO Exception while communicating with Zygote - &quot;</span><br>                   + ex.<span class="hljs-title function_">toString</span>());<br>           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ZygoteStartFailedEx</span>(ex);<br>       &#125;<br><br>       <span class="hljs-keyword">if</span> (result.pid &lt; <span class="hljs-number">0</span>) &#123;<br>           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ZygoteStartFailedEx</span>(<span class="hljs-string">&quot;fork() failed&quot;</span>);<br>       &#125;<br><br>       <span class="hljs-keyword">return</span> result;<br>   &#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>因为在openZygoteSocketIfNeeded中我们已经与Zygote进程建立了Socket连接，所以在这个方法中将传入的应用进程的启动参数argsForZygote写入到ZygoteState。这样AMS就完成了向Zygote进程发送创建应用进程的请求的任务。</p>
+<h1 id="三、Zygote进程接受请求并孵化应用进程"><a href="#三、Zygote进程接受请求并孵化应用进程" class="headerlink" title="三、Zygote进程接受请求并孵化应用进程"></a>三、Zygote进程接受请求并孵化应用进程</h1><p>从上面我们知道，AMS已经与Zygote进程建立Socket连接并发送了创建应用进程的请求，那么Zygote进程是在哪里收到请求，收到请求后又是怎么处理的呢？通过阅读后我们知道Zygote进程是在ZygoteInit的main方法中接受请求的。所以现在的入口就是ZygoteInit的main方法。</p>
+<h2 id="1-时序图-2"><a href="#1-时序图-2" class="headerlink" title="1. 时序图"></a>1. 时序图</h2><p><img src="/ActivityStart01/RootActivityStart02.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="2-详细过程-2"><a href="#2-详细过程-2" class="headerlink" title="2. 详细过程"></a>2. 详细过程</h2><p>从时序图与上面的分析我们知道现在Zygote进程接受请求是在main方法，就让我们来看看这个main方法</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;internal&#x2F;os&#x2F;ZygoteInit.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs dart">    <span class="hljs-meta">@UnsupportedAppUsage</span><br>    public <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-title class_">String</span> argv[]) &#123;<br>        <span class="hljs-title class_">ZygoteServer</span> zygoteServer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ZygoteServer</span>();<br>        <span class="hljs-title class_">Runnable</span> caller;<br>        <span class="hljs-keyword">try</span> &#123;<br>            ...<br>			<span class="hljs-comment">//创建名为zygote的Socket</span><br>            zygoteServer.<span class="hljs-title function_">createZygoteSocket</span>(socketName);<br>            ....<br>			<span class="hljs-comment">//由于在init.rc中设置了start-system-server参数,因此</span><br>			<span class="hljs-comment">//这里将启动SystemServer,可见SystemServer由Zygote创建的第一个进程</span><br>            <span class="hljs-keyword">if</span> (startSystemServer) &#123;<br>                <span class="hljs-title class_">Runnable</span> r = <span class="hljs-title function_">forkSystemServer</span>(abiList, socketName, zygoteServer);<br>                <span class="hljs-keyword">if</span> (r != <span class="hljs-keyword">null</span>) &#123;<br>                    r.<span class="hljs-title function_">run</span>();<br>                    <span class="hljs-keyword">return</span>;<br>                &#125;<br>            &#125;<br>           <br>            caller = <span class="hljs-title class_">Zygote</span>.<span class="hljs-title function_">initBlastulaPool</span>();<br>            <span class="hljs-keyword">if</span> (caller == <span class="hljs-keyword">null</span>) &#123;<br>                <span class="hljs-title class_">Log</span>.<span class="hljs-title function_">i</span>(TAG, <span class="hljs-string">&quot;Accepting command socket connections&quot;</span>);<br>                <span class="hljs-comment">//等待AMS的请求</span><br>                <span class="hljs-title function_">runSelectLoop</span>(abiList);<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">Throwable</span> ex) &#123;<br>            <span class="hljs-title class_">Log</span>.<span class="hljs-title function_">e</span>(TAG, <span class="hljs-string">&quot;System zygote died with exception&quot;</span>, ex);<br>            <span class="hljs-keyword">throw</span> ex;<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            zygoteServer.<span class="hljs-title function_">closeServerSocket</span>();<br>        &#125;<br><br>        <span class="hljs-comment">// We&#x27;re in the child process and have exited the select loop. Proceed to execute the</span><br>        <span class="hljs-comment">// command.</span><br>        <span class="hljs-keyword">if</span> (caller != <span class="hljs-keyword">null</span>) &#123;<br>            caller.<span class="hljs-title function_">run</span>();<br>        &#125;<br>    &#125;<br><br>复制代码<br></code></pre></td></tr></table></figure>
+
+<p>通过main方法，我们可以知道在这个main方法首先要创建一个Server端的Socket，这个name为”zygote”的Socket用来等待ActivityManagerService来请求Zygote来创建新的应用程序进程,在上面AMS请求的分析中我们也知道客户端将根据这个name来与Zygote的Socket建立连接。接下去会启动SystemServer进程，这个进程会启动各种系统服务，比如与Activity启动息息相关的AMS。最后会调用ZygoteServer.runSelectLoop(abiList)来使创建的Socket进入无限循环，等待AMS请求。让我们来看看这个runSelectLoop</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;internal&#x2F;os&#x2F;ZygoteServer.java</p>
+</blockquote>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs dns">    Runnable runSelectLoop<span class="hljs-punctuation">(</span>String abiList<span class="hljs-punctuation">)</span> &#123;<br>   <br>        ArrayList&lt;ZygoteConnection&gt; peers = new ArrayList&lt;ZygoteConnection&gt;<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>        peers.add<span class="hljs-punctuation">(</span>null<span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>        while <span class="hljs-punctuation">(</span>true<span class="hljs-punctuation">)</span> &#123;<br><br>            while <span class="hljs-punctuation">(</span>--pollIndex &gt;= <span class="hljs-number">0</span><span class="hljs-punctuation">)</span> &#123;<br>                if <span class="hljs-punctuation">(</span><span class="hljs-punctuation">(</span>pollFDs[pollIndex].revents &amp; POLLIN<span class="hljs-punctuation">)</span> == <span class="hljs-number">0</span><span class="hljs-punctuation">)</span> &#123;<br>                    continue<span class="hljs-comment">;</span><br>                &#125;<br><br>                if <span class="hljs-punctuation">(</span>pollIndex == <span class="hljs-number">0</span><span class="hljs-punctuation">)</span> &#123;<br>				  //监听Socket连接，充当服务端Socket<br>                    ZygoteConnection newPeer = acceptCommandPeer<span class="hljs-punctuation">(</span>abiList<span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>                    peers.add<span class="hljs-punctuation">(</span>newPeer<span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>                    socketFDs.add<span class="hljs-punctuation">(</span>newPeer.getFileDescriptor<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>                &#125; else if <span class="hljs-punctuation">(</span>pollIndex &lt; blastulaPoolEventFDIndex<span class="hljs-punctuation">)</span> &#123; <br>                    try &#123;<br>						//不断处理客户端的AMS的请求，然后交给processOneCommand<br>                        ZygoteConnection connection = peers.get<span class="hljs-punctuation">(</span>pollIndex<span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>                        final Runnable command = connection.processOneCommand<span class="hljs-punctuation">(</span>this<span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>                    &#125; <br>                    ....<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>复制代码<br></code></pre></td></tr></table></figure>
+
+<p>可以发现这个方法是死循环表示不停的监听着Socket连接。acceptCommandPeer方法就是监听是否收到了请求，如果收到了请求就交给processOneCommand来实现</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;internal&#x2F;os&#x2F;ZygoteConnection.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs dart">    <span class="hljs-title class_">Runnable</span> <span class="hljs-title function_">processOneCommand</span>(<span class="hljs-title class_">ZygoteServer</span> zygoteServer) &#123;<br>        <span class="hljs-title class_">String</span> args[];<br>        <span class="hljs-title class_">ZygoteArguments</span> parsedArgs = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-title class_">FileDescriptor</span>[] descriptors;<br>        <span class="hljs-keyword">try</span> &#123;<br>		    <span class="hljs-comment">//获取应用程序进程的启动参数</span><br>            args = <span class="hljs-title class_">Zygote</span>.<span class="hljs-title function_">readArgumentList</span>(mSocketReader);<br>            <span class="hljs-comment">// TODO (chriswailes): Remove this and add an assert.</span><br>            descriptors = mSocket.<span class="hljs-title function_">getAncillaryFileDescriptors</span>();<br>        &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">IOException</span> ex) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalStateException</span>(<span class="hljs-string">&quot;IOException on command socket&quot;</span>, ex);<br>        &#125;<br>        ....<br>        parsedArgs = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ZygoteArguments</span>(args);<br>        ....<br>		<span class="hljs-comment">//fork当前进程创建一个子进程</span><br>        pid = <span class="hljs-title class_">Zygote</span>.<span class="hljs-title function_">forkAndSpecialize</span>(parsedArgs.mUid, parsedArgs.mGid, parsedArgs.mGids,<br>                parsedArgs.mRuntimeFlags, rlimits, parsedArgs.mMountExternal, parsedArgs.mSeInfo,<br>                parsedArgs.mNiceName, fdsToClose, fdsToIgnore, parsedArgs.mStartChildZygote,<br>                parsedArgs.mInstructionSet, parsedArgs.mAppDataDir, parsedArgs.mTargetSdkVersion);<br><br>        <span class="hljs-keyword">try</span> &#123;<br><br>		    <span class="hljs-comment">//pid为0则代表这个进程为子进程，即新创建的应用程序进程</span><br>            <span class="hljs-keyword">if</span> (pid == <span class="hljs-number">0</span>) &#123;<br>                zygoteServer.<span class="hljs-title function_">setForkChild</span>();<br>                zygoteServer.<span class="hljs-title function_">closeServerSocket</span>();<br>                <span class="hljs-title class_">IoUtils</span>.<span class="hljs-title function_">closeQuietly</span>(serverPipeFd);<br>                serverPipeFd = <span class="hljs-keyword">null</span>;<br><br>                <span class="hljs-keyword">return</span> <span class="hljs-title function_">handleChildProc</span>(parsedArgs, descriptors, childPipeFd,<br>                        parsedArgs.mStartChildZygote);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-comment">// In the parent. A pid &lt; 0 indicates a failure and will be handled in</span><br>                <span class="hljs-comment">// handleParentProc.</span><br>                <span class="hljs-title class_">IoUtils</span>.<span class="hljs-title function_">closeQuietly</span>(childPipeFd);<br>                childPipeFd = <span class="hljs-keyword">null</span>;<br>                <span class="hljs-title function_">handleParentProc</span>(pid, descriptors, serverPipeFd);<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>            &#125;<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            <span class="hljs-title class_">IoUtils</span>.<span class="hljs-title function_">closeQuietly</span>(childPipeFd);<br>            <span class="hljs-title class_">IoUtils</span>.<span class="hljs-title function_">closeQuietly</span>(serverPipeFd);<br>        &#125;<br>    &#125;<br><br>复制代码<br></code></pre></td></tr></table></figure>
+
+<p>在这个方法中将对请求进行处理，首先获取到将要启动的应用进程的启动参数，然后调用forkAndSpecialize来创建应用进程。</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;internal&#x2F;os&#x2F;Zygote.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs dart">    public <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> <span class="hljs-title function_">forkAndSpecialize</span>(<span class="hljs-built_in">int</span> uid, <span class="hljs-built_in">int</span> gid, <span class="hljs-built_in">int</span>[] gids, <span class="hljs-built_in">int</span> runtimeFlags,<br>            <span class="hljs-built_in">int</span>[][] rlimits, <span class="hljs-built_in">int</span> mountExternal, <span class="hljs-title class_">String</span> seInfo, <span class="hljs-title class_">String</span> niceName, <span class="hljs-built_in">int</span>[] fdsToClose,<br>            <span class="hljs-built_in">int</span>[] fdsToIgnore, boolean startChildZygote, <span class="hljs-title class_">String</span> instructionSet, <span class="hljs-title class_">String</span> appDataDir,<br>            <span class="hljs-built_in">int</span> targetSdkVersion) &#123;<br>        <span class="hljs-title class_">ZygoteHooks</span>.<span class="hljs-title function_">preFork</span>();<br>        <span class="hljs-comment">// Resets nice priority for zygote process.</span><br>        <span class="hljs-title function_">resetNicePriority</span>();<br>        <span class="hljs-built_in">int</span> pid = <span class="hljs-title function_">nativeForkAndSpecialize</span>(<br>                uid, gid, gids, runtimeFlags, rlimits, mountExternal, seInfo, niceName, fdsToClose,<br>                fdsToIgnore, startChildZygote, instructionSet, appDataDir);<br>        <span class="hljs-comment">// Enable tracing as soon as possible for the child process.</span><br>        <span class="hljs-keyword">if</span> (pid == <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-title class_">Zygote</span>.<span class="hljs-title function_">disableExecuteOnly</span>(targetSdkVersion);<br>            <span class="hljs-title class_">Trace</span>.<span class="hljs-title function_">setTracingEnabled</span>(<span class="hljs-keyword">true</span>, runtimeFlags);<br><br>            <span class="hljs-comment">// Note that this event ends at the end of handleChildProc,</span><br>            <span class="hljs-title class_">Trace</span>.<span class="hljs-title function_">traceBegin</span>(<span class="hljs-title class_">Trace</span>.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;PostFork&quot;</span>);<br>        &#125;<br>        <span class="hljs-title class_">ZygoteHooks</span>.<span class="hljs-title function_">postForkCommon</span>();<br>        <span class="hljs-keyword">return</span> pid;<br>    &#125;<br>复制代码<br></code></pre></td></tr></table></figure>
+
+<p>在forkAndSpecialize中，最终将创建应用进程的任务交给nativeForkAndSpecialize，而这个方法可以看出来应该是本地方法，所以具体如何创建的我们就不深究了，在这里我们这需要知道nativeForkAndSpecialize最终是通过fork当前线程来创建一个子线程，而fork后会有返回值给pid:</p>
+<ul>
+<li>父进程中，fork返回新创建的子进程pid;</li>
+<li>子进程中，fork返回0；</li>
+<li>出现错误时，fork返回负数。</li>
+</ul>
+<p>于是到这里子线程也就是应用进程就被孵化出来了。你以为这样就结束了？其实还早呢！别忘了我们的最终使命是根Activity的启动，而现在只是有了根Activity所需要的应用进程，革命尚未成功，仍需要努力！</p>
+<h1 id="四、应用进程启动ActivityThread"><a href="#四、应用进程启动ActivityThread" class="headerlink" title="四、应用进程启动ActivityThread"></a>四、应用进程启动ActivityThread</h1><h2 id="1-时序图-3"><a href="#1-时序图-3" class="headerlink" title="1. 时序图"></a>1. 时序图</h2><p><img src="/ActivityStart01/RootActivityStart03.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="2-详细过程-3"><a href="#2-详细过程-3" class="headerlink" title="2. 详细过程"></a>2. 详细过程</h2><p>从上面我们知道应用进程已经被创建，那创建后呢？这就需要我们回头看上面的processOneCommand方法，细心的你肯定会发现再孵化出应用进程后，还是有返回值的。</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;internal&#x2F;os&#x2F;ZygoteConnection.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs dart">  <span class="hljs-title class_">Runnable</span> <span class="hljs-title function_">processOneCommand</span>(<span class="hljs-title class_">ZygoteServer</span> zygoteServer) &#123;<br>      ....<br><span class="hljs-comment">//fork当前进程创建一个子进程</span><br>      pid = <span class="hljs-title class_">Zygote</span>.<span class="hljs-title function_">forkAndSpecialize</span>(parsedArgs.mUid, parsedArgs.mGid, parsedArgs.mGids,<br>              parsedArgs.mRuntimeFlags, rlimits, parsedArgs.mMountExternal, parsedArgs.mSeInfo,<br>              parsedArgs.mNiceName, fdsToClose, fdsToIgnore, parsedArgs.mStartChildZygote,<br>              parsedArgs.mInstructionSet, parsedArgs.mAppDataDir, parsedArgs.mTargetSdkVersion);<br><br>      <span class="hljs-keyword">try</span> &#123;<br><br>    <span class="hljs-comment">//pid为0则代表这个进程为子进程，即新创建的应用程序进程</span><br>          <span class="hljs-keyword">if</span> (pid == <span class="hljs-number">0</span>) &#123;<br>              ....<br>              <span class="hljs-keyword">return</span> <span class="hljs-title function_">handleChildProc</span>(parsedArgs, descriptors, childPipeFd,<br>                      parsedArgs.mStartChildZygote);<br>          &#125; <span class="hljs-keyword">else</span> &#123;<br>              ...<br>          &#125;<br>      &#125;<br>      ....<br>  &#125;<br><br><br></code></pre></td></tr></table></figure>
+
+<p>在上面我们分析了当pid&#x3D;0的时候，则代表了当前进程已经是子进程了，即应用进程。所以下一步将执行handleChildProc方法。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs dart">private <span class="hljs-title class_">Runnable</span> <span class="hljs-title function_">handleChildProc</span>(<span class="hljs-title class_">ZygoteArguments</span> parsedArgs, <span class="hljs-title class_">FileDescriptor</span>[] descriptors,<br>        <span class="hljs-title class_">FileDescriptor</span> pipeFd, boolean isZygote) &#123;<br>        .....<br>        <span class="hljs-keyword">if</span> (!isZygote) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-title class_">ZygoteInit</span>.<span class="hljs-title function_">zygoteInit</span>(parsedArgs.mTargetSdkVersion,<br>                    parsedArgs.mRemainingArgs, <span class="hljs-keyword">null</span> <span class="hljs-comment">/* classLoader */</span>);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>           ....<br>        &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>而handleChildProc最终又会调用ZygoteInit.zygoteInit方法。如下</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;internal&#x2F;os&#x2F;ZygoteInit.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs dart">  public <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-title class_">Runnable</span> <span class="hljs-title function_">zygoteInit</span>(<span class="hljs-built_in">int</span> targetSdkVersion, <span class="hljs-title class_">String</span>[] argv,<br>          <span class="hljs-title class_">ClassLoader</span> classLoader) &#123;<br>      <span class="hljs-keyword">if</span> (<span class="hljs-title class_">RuntimeInit</span>.DEBUG) &#123;<br>          <span class="hljs-title class_">Slog</span>.<span class="hljs-title function_">d</span>(<span class="hljs-title class_">RuntimeInit</span>.TAG, <span class="hljs-string">&quot;RuntimeInit: Starting application from zygote&quot;</span>);<br>      &#125;<br><br>      <span class="hljs-title class_">Trace</span>.<span class="hljs-title function_">traceBegin</span>(<span class="hljs-title class_">Trace</span>.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;ZygoteInit&quot;</span>);<br>      <span class="hljs-title class_">RuntimeInit</span>.<span class="hljs-title function_">redirectLogStreams</span>();<br><span class="hljs-comment">//为当前的VM设置未捕获异常器</span><br>      <span class="hljs-title class_">RuntimeInit</span>.<span class="hljs-title function_">commonInit</span>();<br><span class="hljs-comment">//Binder驱动初始化，该方法完成后，可通过Binder进行进程通信</span><br>      <span class="hljs-title class_">ZygoteInit</span>.<span class="hljs-title function_">nativeZygoteInit</span>();<br><span class="hljs-comment">//主要调用SystemServer的main方法</span><br>      <span class="hljs-keyword">return</span> <span class="hljs-title class_">RuntimeInit</span>.<span class="hljs-title function_">applicationInit</span>(targetSdkVersion, argv, classLoader);<br>  &#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>在这个方法里会创建当前进程的Binder线程池，便于后续与其它进程通信，然后调用了RuntimeInit的applicationInit方法，如下：</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;internal&#x2F;os&#x2F;RuntimeInit.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs dart">protected <span class="hljs-keyword">static</span> <span class="hljs-title class_">Runnable</span> <span class="hljs-title function_">applicationInit</span>(<span class="hljs-built_in">int</span> targetSdkVersion, <span class="hljs-title class_">String</span>[] argv,<br>         <span class="hljs-title class_">ClassLoader</span> classLoader) &#123;<br>     ...<br>     <span class="hljs-keyword">final</span> <span class="hljs-title class_">Arguments</span> args = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Arguments</span>(argv);<br>     <span class="hljs-comment">// Remaining arguments are passed to the start class&#x27;s static main</span><br>     <span class="hljs-keyword">return</span> <span class="hljs-title function_">findStaticMain</span>(args.startClass, args.startArgs, classLoader);<br> &#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>这个方法最终会调用findStaticMain方法，不过需注意的是方法的第一个参数args.startClass其实就是我们上文AMS将请求任务转移给Process中在最后强调的那个参数：android.app.ActivityThread。然后我们看看findStaticMain的实现</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs dart">protected <span class="hljs-keyword">static</span> <span class="hljs-title class_">Runnable</span> <span class="hljs-title function_">findStaticMain</span>(<span class="hljs-title class_">String</span> className, <span class="hljs-title class_">String</span>[] argv,<br>        <span class="hljs-title class_">ClassLoader</span> classLoader) &#123;<br>    <span class="hljs-title class_">Class</span>&lt;?&gt; cl;<br>    <span class="hljs-keyword">try</span> &#123;<br>        cl = <span class="hljs-title class_">Class</span>.<span class="hljs-title function_">forName</span>(className, <span class="hljs-keyword">true</span>, classLoader);<span class="hljs-comment">//1</span><br>    &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">ClassNotFoundException</span> ex) &#123;<br>       ....<br>    &#125;<br>    <span class="hljs-title class_">Method</span> m;<br>    <span class="hljs-keyword">try</span> &#123;<br>        m = cl.<span class="hljs-title function_">getMethod</span>(<span class="hljs-string">&quot;main&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[] &#123; <span class="hljs-title class_">String</span>[].<span class="hljs-keyword">class</span> &#125;);<span class="hljs-comment">//2</span><br>    &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">NoSuchMethodException</span> ex) &#123;<br>        ...<br>    &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">SecurityException</span> ex) &#123;<br>        ...<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MethodAndArgsCaller</span>(m, argv);<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>在这个方法中首先在注释1通过反射获取到android.app.ActivityThread类，然后在注释2获取到ActivityThread的main方法，最后通过main方法来构造MethodAndArgsCaller。而这个MethodAndArgsCaller是什么呢？如下：</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;internal&#x2F;os&#x2F;RuntimeInit.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MethodAndArgsCaller</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>&#123;<br>        <span class="hljs-comment"><span class="language-markdown">/<span class="hljs-strong">**</span></span> method to call <span class="language-markdown"><span class="hljs-strong"><span class="hljs-emphasis">*/</span></span></span></span><br>        private <span class="hljs-keyword">final</span> <span class="hljs-title class_">Method</span> mMethod;<br><br>        <span class="hljs-comment"><span class="language-markdown"><span class="hljs-strong"><span class="hljs-emphasis">/*</span>* argument array <span class="hljs-emphasis">*/</span></span></span></span><br>        private <span class="hljs-keyword">final</span> <span class="hljs-title class_">String</span>[] mArgs;<br><br>        public <span class="hljs-title class_">MethodAndArgsCaller</span>(<span class="hljs-title class_">Method</span> method, <span class="hljs-title class_">String</span>[] args) &#123;<br>            mMethod = method;<br>            mArgs = args;<br>        &#125;<br><br>        public <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span>() &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                mMethod.<span class="hljs-title function_">invoke</span>(<span class="hljs-keyword">null</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[] &#123; mArgs &#125;);<br>            &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">IllegalAccessException</span> ex) &#123;<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(ex);<br>            &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">InvocationTargetException</span> ex) &#123;<br>                <span class="hljs-title class_">Throwable</span> cause = ex.<span class="hljs-title function_">getCause</span>();<br>                <span class="hljs-keyword">if</span> (cause instanceof <span class="hljs-title class_">RuntimeException</span>) &#123;<br>                    <span class="hljs-keyword">throw</span> (<span class="hljs-title class_">RuntimeException</span>) cause;<br>                &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cause instanceof <span class="hljs-title class_">Error</span>) &#123;<br>                    <span class="hljs-keyword">throw</span> (<span class="hljs-title class_">Error</span>) cause;<br>                &#125;<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(ex);<br>            &#125;<br>        &#125;<br>    &#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>追踪下去，MethodAndArgsCaller其实是RuntimeInit的一个内部类并且继承了Runnable,然后在run方法中会通过反射调用了mMethod方法，此时mMethod是ActivityThread的main方法，即run方法中将会执行ActivityThread的main方法，在这里你可能会有疑问了，那这个run方法什么时候执行呢？让我们来看看最开始的ZygoteInit的main方法。</p>
+<blockquote>
+<p>frameworks&#x2F;base&#x2F;core&#x2F;java&#x2F;com&#x2F;android&#x2F;internal&#x2F;os&#x2F;ZygoteInit.java</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-meta">@UnsupportedAppUsage</span><br>public <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-title class_">String</span> argv[]) &#123;<br>    <span class="hljs-title class_">Runnable</span> caller;<br>    <span class="hljs-keyword">try</span> &#123;<br>       ....<br>        caller = <span class="hljs-title class_">Zygote</span>.<span class="hljs-title function_">initBlastulaPool</span>();<br>        <span class="hljs-keyword">if</span> (caller == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-title class_">Log</span>.<span class="hljs-title function_">i</span>(TAG, <span class="hljs-string">&quot;Accepting command socket connections&quot;</span>);<br>            <span class="hljs-comment">//等待AMS的请求</span><br>            caller = zygoteServer.<span class="hljs-title function_">runSelectLoop</span>(abiList);<br>        &#125;<br>    &#125; <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">Throwable</span> ex) &#123;<br>        <span class="hljs-title class_">Log</span>.<span class="hljs-title function_">e</span>(TAG, <span class="hljs-string">&quot;System zygote died with exception&quot;</span>, ex);<br>        <span class="hljs-keyword">throw</span> ex;<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        zygoteServer.<span class="hljs-title function_">closeServerSocket</span>();<br>    &#125;<br>    <span class="hljs-keyword">if</span> (caller != <span class="hljs-keyword">null</span>) &#123;<br>        caller.<span class="hljs-title function_">run</span>();<br>    &#125;<br>&#125;<br><br><br></code></pre></td></tr></table></figure>
+
+<p>从分析Zygote进程接受请求并孵化应用进程的一开始，我们就是分析runSelectLoop(abiList)这个方法，而分析到最后findStaticMain方法将返回MethodAndArgsCaller对象（继承Runnable）,所以这时候在ZygoteInit的main方法caller会等于这个MethodAndArgsCaller对象，显然caller不等于null，故最后会执行caller.run方法，即执行ActivityThread的main方法。于是应用进程成功启动ActivityThread。</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5d9d948de51d45782c23fabc">https://juejin.im/post/5d9d948de51d45782c23fabc</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5a936c5a6fb9a0633229ca74">https://juejin.im/post/5a936c5a6fb9a0633229ca74</a></p>
+<p><a target="_blank" rel="noopener" href="http://codemx.cn/2018/01/26/AndroidOS008-Activity/">http://codemx.cn/2018/01/26/AndroidOS008-Activity/</a></p>
+<p><a target="_blank" rel="noopener" href="http://liuwangshu.cn/framework/booting/2-zygote.html">Android系统启动流程（二）解析Zygote进程启动过程</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6867744083809419277">https://juejin.im/post/6867744083809419277</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6887431834041483271">https://juejin.im/post/6887431834041483271</a></p>
+<p>启动流程目的</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6897892195483779080">https://juejin.cn/post/6897892195483779080</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ANDROID/" class="category-chain-item">ANDROID</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AOSP/" class="print-no-link">#AOSP</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ActivityStart01</div>
+      <div>https://noteforme.github.io/2020/01/18/ActivityStart01/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 18, 2020</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/03/22/ActivityRender01/" title="ActivityRender01">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ActivityRender01</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/13/ActivityStart02/" title="ActivityStart02">
+                        <span class="hidden-mobile">ActivityStart02</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

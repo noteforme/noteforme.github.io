@@ -1,0 +1,888 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="layout expression of the language https:&#x2F;&#x2F;codelabs.developers.google.com&#x2F;codelabs&#x2F;android-databinding&#x2F;#0 https:&#x2F;&#x2F;developer.android.com&#x2F;topic&#x2F;libraries&#x2F;data-binding Create first layout expression when">
+<meta property="og:type" content="article">
+<meta property="og:title" content="databinding">
+<meta property="og:url" content="https://noteforme.github.io/2020/04/01/databinding/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="layout expression of the language https:&#x2F;&#x2F;codelabs.developers.google.com&#x2F;codelabs&#x2F;android-databinding&#x2F;#0 https:&#x2F;&#x2F;developer.android.com&#x2F;topic&#x2F;libraries&#x2F;data-binding Create first layout expression when">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-31T21:52:42.000Z">
+<meta property="article:modified_time" content="2026-10-11T11:08:45.909Z">
+<meta property="article:author" content="Jon">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>databinding - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>Home</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>Archives</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>Categories</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>Tags</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>About</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>Search</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="Light"
+               data-label-dark="Dark">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">Dark</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="databinding"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-04-01 05:52" pubdate>
+          April 1, 2020 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          48 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">databinding</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>layout expression of the language</p>
+<p><a target="_blank" rel="noopener" href="https://codelabs.developers.google.com/codelabs/android-databinding/#0">https://codelabs.developers.google.com/codelabs/android-databinding/#0</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/data-binding">https://developer.android.com/topic/libraries/data-binding</a></p>
+<h4 id="Create-first-layout-expression"><a href="#Create-first-layout-expression" class="headerlink" title="Create first layout expression"></a>Create first layout expression</h4><ol>
+<li>when you want to use it in your own projects the first step is to enable the library in the modules that will use it:</li>
+</ol>
+   <figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs fsharp"><span class="hljs-keyword">android</span> &#123;<br><span class="hljs-operator">...</span><br>    <span class="hljs-keyword">dataBinding</span> &#123;<br>       enabled <span class="hljs-literal">true</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>Convert to data binding layout</p>
+<p>打开布局文件，选中根布局的 <strong>ViewGroup</strong>，按住 <strong>option + 回车键</strong>，点击 “<strong>Convert to data binding layout</strong>”，就可以生成 DataBinding 需要的布局规则</p>
+</li>
+</ol>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">layout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">        <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">        <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">&quot;http://schemas.android.com/tools&quot;</span>&gt;</span></span><br><span class="language-xml"></span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">data</span>&gt;</span></span><br><span class="language-xml"></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">variable</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;name&quot;</span>  //<span class="hljs-attr">不能用下划线</span> &quot;<span class="hljs-attr">_</span>&quot;</span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;String&quot;</span>/&gt;</span></span><br><span class="language-xml"></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">variable</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;lastName&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;String&quot;</span>/&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">data</span>&gt;</span></span><br><span class="language-xml"></span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">androidx.constraintlayout.widget.ConstraintLayout</span></span></span><br><span class="hljs-tag"><span class="language-xml">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span>&gt;</span></span><br><span class="language-xml"></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/plain_name&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;0dp&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;wrap_content&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:layout_marginStart</span>=<span class="hljs-string">&quot;16dp&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:layout_marginTop</span>=<span class="hljs-string">&quot;8dp&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:layout_marginEnd</span>=<span class="hljs-string">&quot;128dp&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:text</span>=<span class="hljs-string">&quot;@</span></span></span><span class="hljs-template-variable">&#123;name&#125;</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>			</span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:textAppearance</span>=<span class="hljs-string">&quot;@style/TextAppearance.AppCompat.Large&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">app:layout_constraintEnd_toEndOf</span>=<span class="hljs-string">&quot;parent&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">app:layout_constraintStart_toStartOf</span>=<span class="hljs-string">&quot;parent&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">app:layout_constraintTop_toBottomOf</span>=<span class="hljs-string">&quot;@+id/name_label&quot;</span>/&gt;</span></span><br><span class="language-xml"></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/plain_lastname&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;0dp&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;wrap_content&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:layout_marginStart</span>=<span class="hljs-string">&quot;16dp&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:layout_marginTop</span>=<span class="hljs-string">&quot;8dp&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:layout_marginEnd</span>=<span class="hljs-string">&quot;128dp&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:text</span>=<span class="hljs-string">&quot;@</span></span></span><span class="hljs-template-variable">&#123;lastName&#125;</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">android:textAppearance</span>=<span class="hljs-string">&quot;@style/TextAppearance.AppCompat.Large&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">app:layout_constraintEnd_toEndOf</span>=<span class="hljs-string">&quot;parent&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">app:layout_constraintStart_toStartOf</span>=<span class="hljs-string">&quot;parent&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">            <span class="hljs-attr">app:layout_constraintTop_toBottomOf</span>=<span class="hljs-string">&quot;@+id/lastname_label&quot;</span>/&gt;</span></span><br><span class="language-xml">            </span><br><span class="language-xml">       <span class="hljs-tag">&lt;/<span class="hljs-name">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</span>    </span><br><span class="language-xml">   <span class="hljs-tag">&lt;/<span class="hljs-name">layout</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+
+
+<ol start="3">
+<li>Bind TextView</li>
+</ol>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PlainOldActivitySolution2</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br><br>    <span class="hljs-comment">// Obtain ViewModel from ViewModelProviders</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> viewModel <span class="hljs-keyword">by</span> lazy &#123; ViewModelProviders.of(<span class="hljs-keyword">this</span>).<span class="hljs-keyword">get</span>(SimpleViewModel::<span class="hljs-keyword">class</span>.java) &#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br><br>        <span class="hljs-keyword">val</span> binding: PlainActivitySolution2Binding =<br>            DataBindingUtil.setContentView(<span class="hljs-keyword">this</span>, R.layout.plain_activity_solution_2)<br><br>        binding.name = <span class="hljs-string">&quot;John&quot;</span><br>        binding.lastName = <span class="hljs-string">&quot;lice&quot;</span><br><br>        <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Explicitly setting initial values is a bad pattern. We&#x27;ll fix that later on.</span><br>        updateLikes()<br>    &#125;<br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="Dealing-with-user-events-Observering-data"><a href="#Dealing-with-user-events-Observering-data" class="headerlink" title="Dealing with user events  Observering data"></a>Dealing with user events  Observering data</h4><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs haskell">&lt;<span class="hljs-class"><span class="hljs-keyword">data</span>&gt;</span><br>     &lt;variable<br>             name=<span class="hljs-string">&quot;viewmodel&quot;</span><br>             <span class="hljs-class"><span class="hljs-keyword">type</span>=&quot;com.example.android.databinding.basicsample.<span class="hljs-keyword">data</span>.<span class="hljs-type">SimpleViewModel</span>&quot;/&gt;</span><br> &lt;/<span class="hljs-class"><span class="hljs-keyword">data</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">android:</span>onClick=<span class="hljs-string">&quot;@&#123;() -&gt; viewmodel.onLike()&#125;&quot;</span><br>   <br>binding.viewmodel = viewModel<br><br><br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> _likes =  MutableLiveData(<span class="hljs-number">0</span>)<br> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onLike</span><span class="hljs-params">()</span></span> &#123;<br>       _likes.value = (_likes.value ?: <span class="hljs-number">0</span>) + <span class="hljs-number">1</span><br> &#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs applescript">&lt;TextView<br>            android:<span class="hljs-built_in">id</span>=<span class="hljs-string">&quot;@+id/likes&quot;</span><br>            android:<span class="hljs-built_in">text</span>=<span class="hljs-string">&quot;@&#123;Integer.toString(viewmodel.likes)&#125;&quot;</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="Using-Binding-Adapters"><a href="#Using-Binding-Adapters" class="headerlink" title="Using Binding Adapters"></a>Using Binding Adapters</h4><ol>
+<li>One parameter</li>
+</ol>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-meta">@BindingAdapter</span>(<span class="hljs-string">&quot;android:text&quot;</span>)<br>  public <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setText</span>(<span class="hljs-title class_">TextView</span> view, <span class="hljs-title class_">CharSequence</span> text) &#123;<br>      <span class="hljs-comment">// Some checks removed for clarity</span><br><br>      view.<span class="hljs-title function_">setText</span>(text);<br>  &#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@BindingAdapter(<span class="hljs-string">&quot;app:hideIfZero&quot;</span>)</span><br> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">hideIfZero</span><span class="hljs-params">(view: <span class="hljs-type">View</span>, number: <span class="hljs-type">Int</span>)</span></span> &#123;<br>     view.visibility = <span class="hljs-keyword">if</span> (number == <span class="hljs-number">0</span>) View.GONE <span class="hljs-keyword">else</span> View.VISIBLE<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;ProgressBar<br>            android:<span class="hljs-attribute">id</span>=<span class="hljs-string">&quot;@+id/progressBar&quot;</span><br>            app:<span class="hljs-attribute">hideIfZero</span>=<span class="hljs-string">&quot;@&#123;viewmodel.likes&#125;&quot;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<ol start="2">
+<li><p>Create a Binding Adapter with multiple parameters   </p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;ProgressBar<br>               android:<span class="hljs-attribute">id</span>=<span class="hljs-string">&quot;@+id/progressBar&quot;</span><br>               app:<span class="hljs-attribute">hideIfZero</span>=<span class="hljs-string">&quot;@&#123;viewmodel.likes&#125;&quot;</span><br>               app:<span class="hljs-attribute">progressScaled</span>=<span class="hljs-string">&quot;@&#123;viewmodel.likes&#125;&quot;</span><br>               android:<span class="hljs-attribute">max</span>=<span class="hljs-string">&quot;@&#123;100&#125;&quot;</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="oberver-class-field"><a href="#oberver-class-field" class="headerlink" title="oberver class field"></a>oberver class field</h4><p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/data-binding/observability#observable_fields">https://developer.android.com/topic/libraries/data-binding/observability#observable_fields</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/data-binding/observability#observable_objects">https://developer.android.com/topic/libraries/data-binding/observability#observable_objects</a></p>
+<h5 id="Using-Binding-Adapters-to-create-custom-attributes"><a href="#Using-Binding-Adapters-to-create-custom-attributes" class="headerlink" title="Using Binding Adapters to create custom attributes"></a>Using Binding Adapters to create custom attributes</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@BindingAdapter(value=[<span class="hljs-string">&quot;app:setSleepData&quot;</span>])</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">setSleepData</span><span class="hljs-params">(viewBodySleep: <span class="hljs-type">ViewBodySleep</span>, sleepData: <span class="hljs-type">String</span>)</span></span> &#123;<br>    viewBodySleep.setSleepData(sleepData)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;com.android.util.view.ViewBodySleep<br>    android:<span class="hljs-attribute">id</span>=<span class="hljs-string">&quot;@+id/view_body_sleep&quot;</span><br>    android:<span class="hljs-attribute">layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span><br>    android:<span class="hljs-attribute">layout_height</span>=<span class="hljs-string">&quot;wrap_content&quot;</span><br>    android:<span class="hljs-attribute">paddingLeft</span>=<span class="hljs-string">&quot;55dp&quot;</span><br>    android:<span class="hljs-attribute">paddingRight</span>=<span class="hljs-string">&quot;48dp&quot;</span><br>    app:<span class="hljs-attribute">setSleepData</span>=<span class="hljs-string">&quot;@&#123;vmBodyFragment.spData&#125;&quot;</span><br>    app:<span class="hljs-attribute">layout_constraintTop_toTopOf</span>=<span class="hljs-string">&quot;parent&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/data-binding/expressions#expression_language">https://developer.android.com/topic/libraries/data-binding/expressions#expression_language</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/data-binding/observability">Work with observable data objects</a></p>
+<ul>
+<li><p>isNull</p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-symbol">android:</span><span class="hljs-keyword">text</span>=<span class="hljs-comment">&#x27;@&#123;viewModel.patientInfo.remoteCheckReceiveName??&quot;&quot;&#125;&#x27;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>visible</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@BindingAdapter(<span class="hljs-string">&quot;app:goneUnless&quot;</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">goneUnless</span><span class="hljs-params">(view: <span class="hljs-type">View</span>, visible: <span class="hljs-type">Boolean</span>)</span></span> &#123;<br>    view.visibility = <span class="hljs-keyword">if</span> (visible) View.VISIBLE <span class="hljs-keyword">else</span> View.GONE<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/googlecodelabs/android-databinding">android-databinding</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg==&mid=2652046992&idx=1&sn=b8b4c47537be1227eecd01c1eaee2550&chksm=808ca6d5b7fb2fc32d9ec361c91a2958e51a2db1c6b20370e7ef6493bb5cb20314cda6ab059c&scene=38#wechat_redirect">https://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg==&amp;mid=2652046992&amp;idx=1&amp;sn=b8b4c47537be1227eecd01c1eaee2550&amp;chksm=808ca6d5b7fb2fc32d9ec361c91a2958e51a2db1c6b20370e7ef6493bb5cb20314cda6ab059c&amp;scene=38#wechat_redirect</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5d2be05ff265da1bd605d49a">https://juejin.im/post/5d2be05ff265da1bd605d49a</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/4UP-pDs0FK66g1QUQvRN6A">https://mp.weixin.qq.com/s/4UP-pDs0FK66g1QUQvRN6A</a></p>
+<p>定义xml背景</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5b95c6a0e51d450e664b0aa0">https://juejin.im/post/5b95c6a0e51d450e664b0aa0</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/741103ba2ff1">https://www.jianshu.com/p/741103ba2ff1</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cs.usfca.edu/~galles/visualization/RedBlack.html">https://www.cs.usfca.edu/~galles/visualization/RedBlack.html</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Jetpack/" class="category-chain-item">Jetpack</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>databinding</div>
+      <div>https://noteforme.github.io/2020/04/01/databinding/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 1, 2020</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/04/05/Corouties/" title="Corouties">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Corouties</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/03/23/Java-Queue/" title="Android_itnerview2">
+                        <span class="hidden-mobile">Android_itnerview2</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

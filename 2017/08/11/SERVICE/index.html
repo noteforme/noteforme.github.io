@@ -1,0 +1,957 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Servicehttps:&#x2F;&#x2F;developer.android.com&#x2F;guide&#x2F;components&#x2F;services https:&#x2F;&#x2F;developer.android.com&#x2F;reference&#x2F;android&#x2F;app&#x2F;Service Service启动服务两种方式 startService  bindService  startService一个Service被startService">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SERVICE">
+<meta property="og:url" content="https://noteforme.github.io/2017/08/11/SERVICE/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="Servicehttps:&#x2F;&#x2F;developer.android.com&#x2F;guide&#x2F;components&#x2F;services https:&#x2F;&#x2F;developer.android.com&#x2F;reference&#x2F;android&#x2F;app&#x2F;Service Service启动服务两种方式 startService  bindService  startService一个Service被startService">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://developer.android.google.cn/images/service_lifecycle.png">
+<meta property="og:image" content="https://noteforme.github.io/SERVICE/service_binding_tree_lifecycle.png">
+<meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj5srfjqyWJixvhyztBQBfyfJfxejxj6bZlR9WnEyZfLs4qmtwv1WDu1zvR-WV7aOgmjWDv7x3S9ykYhduSWem05mzqHY_fVRj3hDo0_sCi4lOD9bbHt-BVFk2I9dVL4Vue5hLL2E7UOEY/s1600/image1.png">
+<meta property="article:published_time" content="2017-08-11T10:21:06.000Z">
+<meta property="article:modified_time" content="2026-10-11T11:08:45.819Z">
+<meta property="article:author" content="Jon">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://developer.android.google.cn/images/service_lifecycle.png">
+  
+  
+  
+  <title>SERVICE - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>Home</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>Archives</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>Categories</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>Tags</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>About</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>Search</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="Light"
+               data-label-dark="Dark">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">Dark</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SERVICE"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2017-08-11 18:21" pubdate>
+          August 11, 2017 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          94 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SERVICE</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h1><p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/components/services">https://developer.android.com/guide/components/services</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/app/Service">https://developer.android.com/reference/android/app/Service</a></p>
+<h5 id="Service启动服务两种方式"><a href="#Service启动服务两种方式" class="headerlink" title="Service启动服务两种方式"></a>Service启动服务两种方式</h5><ul>
+<li>startService </li>
+<li>bindService</li>
+</ul>
+<h5 id="startService"><a href="#startService" class="headerlink" title="startService"></a>startService</h5><p>一个Service被startService多次启动,那么onCreate只会调用一次,onstart()会被调用多次, StartServcie:一旦启动，服务即可在后台无限期运行，即使启动服务的Ａctivity已被销毁也不受影响,直到调用stipService，或自身的stopSelf方法。内存不足系统也会结束服务。</p>
+<p> <img src="https://developer.android.google.cn/images/service_lifecycle.png" srcset="/img/loading.gif" lazyload alt="Servcie lifeccle"></p>
+<h5 id="bindService"><a href="#bindService" class="headerlink" title="bindService"></a>bindService</h5><p>客户端通过IBinder接口于服务进行通信,客户端可以调用unbindServie关闭连接,当所有客户端关闭连接后系统会销毁服务.<br>启动Log日志<br>I&#x2F;LearnService:  – onCreate() –<br>I&#x2F;LearnService:  – onBind() –<br>　一个Service被某个Activity调用Context.bindService绑定启动，不管bindService调用几次，onCreate方法只会调用一次,onStart不会调用.</p>
+<ol>
+<li><p>service</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BluetoothService</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Service</span> &#123;<br></code></pre></td></tr></table></figure>
+
+<pre><code class="hljs">@Override
+public void onCreate() {
+    super.onCreate();
+    Timber.i(&quot; onCreate()&quot;);
+}
+
+@Override
+public int onStartCommand(Intent intent, int flags, int startId) {
+    Timber.i(&quot; onStartCommand()&quot;);
+    String param = intent.getStringExtra(PARRAM);
+    Timber.i(&quot;接受    &quot; + param);
+    return super.onStartCommand(intent, flags, startId);
+}
+
+@Override
+public void onDestroy() {
+    super.onDestroy();
+    Timber.i(&quot; onDestroy()&quot;);
+}
+
+@Override
+public void onLowMemory() {
+    super.onLowMemory();
+    Timber.i(&quot;onLowMemory()&quot;);
+}
+
+@Override
+public boolean onUnbind(Intent intent) {
+    Timber.i(&quot;onUnbind(intent)()&quot;);
+    return super.onUnbind(intent);
+}
+
+@Override
+public void onRebind(Intent intent) {
+    super.onRebind(intent);
+    Timber.i(&quot;onRebind(intent)()&quot;);
+}
+
+
+public class LocalBinder extends Binder {
+    public BluetoothService getService() {
+        return BluetoothService.this;
+    }
+}
+
+private final IBinder mBinder = new LocalBinder();
+
+@Nullable
+@Override
+public IBinder onBind(Intent intent) {
+    Timber.i(&quot;onBind(intent)()&quot;);
+
+    return mBinder;
+}
+</code></pre>
+<p>}</p>
+</li>
+</ol>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-number">2</span>. 启动<br><br><span class="hljs-number">3</span>. `<span class="hljs-title function_">bindService</span>(intent,mServiceConnection,BIND_AUTO_CREATE);`<br><br><span class="hljs-number">3</span>. 回调<br><br>```java<br>  <span class="hljs-title class_">ServiceConnection</span> mServiceConnection = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServiceConnection</span>() &#123;<br>      <span class="hljs-meta">@Override</span><br>      public <span class="hljs-keyword">void</span> <span class="hljs-title function_">onServiceConnected</span>(<span class="hljs-title class_">ComponentName</span> name, <span class="hljs-title class_">IBinder</span> service) &#123;<br>          mBlueService =  ((<span class="hljs-title class_">BluetoothService</span>.<span class="hljs-title class_">LocalBinder</span>)service).<span class="hljs-title function_">getService</span>();<br>          <span class="hljs-title class_">Timber</span>.<span class="hljs-title function_">i</span>(<span class="hljs-string">&quot;onServiceConnected(ComponentName name, IBinder service)&quot;</span>);<br>      &#125;<br><br>      <span class="hljs-meta">@Override</span><br>      public <span class="hljs-keyword">void</span> <span class="hljs-title function_">onServiceDisconnected</span>(<span class="hljs-title class_">ComponentName</span> name) &#123;<br>         <span class="hljs-title class_">Timber</span>.<span class="hljs-title function_">i</span>(<span class="hljs-string">&quot;onServiceDisconnected(ComponentName name)&quot;</span>);<br>      &#125;<br>  &#125;;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>先startService创建服务，然后bindService绑定，这时候调用stopService或stopSelf(),不会停止，只能使unbindService()停止服务</li>
+</ul>
+<h6 id="IntentService"><a href="#IntentService" class="headerlink" title="IntentService"></a>IntentService</h6><p>   通过HandlerThread单独开启一个线程一次处理所有的任务<br>   不需要调用stopSelft()关闭服务，任务结束后自动关闭</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">08</span>-<span class="hljs-number">12</span> <span class="hljs-number">13</span>:<span class="hljs-number">38</span>:<span class="hljs-number">26</span>.<span class="hljs-number">601</span> <span class="hljs-number">30532</span>-<span class="hljs-number">30532</span>/com.hyhy.lern I/MyIntentService: -- onCreate() --<br><span class="hljs-attribute">08</span>-<span class="hljs-number">12</span> <span class="hljs-number">13</span>:<span class="hljs-number">38</span>:<span class="hljs-number">26</span>.<span class="hljs-number">601</span> <span class="hljs-number">30532</span>-<span class="hljs-number">30532</span>/com.hyhy.lern I/MyIntentService: -- onStartCommand() --<br><span class="hljs-attribute">08</span>-<span class="hljs-number">12</span> <span class="hljs-number">13</span>:<span class="hljs-number">38</span>:<span class="hljs-number">26</span>.<span class="hljs-number">601</span> <span class="hljs-number">30532</span>-<span class="hljs-number">30532</span>/com.hyhy.lern I/MyIntentService: -- onStartCommand() --<br><span class="hljs-attribute">08</span>-<span class="hljs-number">12</span> <span class="hljs-number">13</span>:<span class="hljs-number">38</span>:<span class="hljs-number">26</span>.<span class="hljs-number">601</span> <span class="hljs-number">30532</span>-<span class="hljs-number">30532</span>/com.hyhy.lern I/MyIntentService: -- onStartCommand() --<br><span class="hljs-attribute">08</span>-<span class="hljs-number">12</span> <span class="hljs-number">13</span>:<span class="hljs-number">38</span>:<span class="hljs-number">26</span>.<span class="hljs-number">601</span> <span class="hljs-number">30532</span>-<span class="hljs-number">30655</span>/com.hyhy.lern I/MyIntentService: do task1<br><span class="hljs-attribute">08</span>-<span class="hljs-number">12</span> <span class="hljs-number">13</span>:<span class="hljs-number">38</span>:<span class="hljs-number">26</span>.<span class="hljs-number">601</span> <span class="hljs-number">30532</span>-<span class="hljs-number">30655</span>/com.hyhy.lern I/MyIntentService: do task2<br><span class="hljs-attribute">08</span>-<span class="hljs-number">12</span> <span class="hljs-number">13</span>:<span class="hljs-number">38</span>:<span class="hljs-number">26</span>.<span class="hljs-number">601</span> <span class="hljs-number">30532</span>-<span class="hljs-number">30655</span>/com.hyhy.lern I/MyIntentService: do task1<br><span class="hljs-attribute">08</span>-<span class="hljs-number">12</span> <span class="hljs-number">13</span>:<span class="hljs-number">38</span>:<span class="hljs-number">26</span>.<span class="hljs-number">617</span> <span class="hljs-number">30532</span>-<span class="hljs-number">30532</span>/com.hyhy.lern I/MyIntentService: -- onDestroy() --<br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/training/run-background-service/create-service.html">https://developer.android.com/training/run-background-service/create-service.html</a></p>
+<h5 id="onStartCommand"><a href="#onStartCommand" class="headerlink" title="onStartCommand()"></a>onStartCommand()</h5><p><strong>1. onStartCommand方式中，返回START_STICKY</strong></p>
+<p>首先我们来看看onStartCommand都可以返回哪些值：</p>
+<p>调用Context.startService方式启动Service时，如果Android面临内存匮乏，可能会销毁当前运行的Service，待内存充足时可以重建Service。而Service被Android系统强制销毁并再次重建的行为依赖于Service的onStartCommand()方法的返回值。</p>
+<p><strong>START_NOT_STICKY</strong><br> 如果返回START_NOT_STICKY，表示当Service运行的进程被Android系统强制杀掉之后，不会重新创建该Service。当然如果在其被杀掉之后一段时间又调用了startService，那么该Service又将被实例化。那什么情境下返回该值比较恰当呢？<br> 如果我们某个Service执行的工作被中断几次无关紧要或者对Android内存紧张的情况下需要被杀掉且不会立即重新创建这种行为也可接受，那么我们便可将 onStartCommand的返回值设置为START_NOT_STICKY。<br> 举个例子，某个Service需要定时从服务器获取最新数据：通过一个定时器每隔指定的N分钟让定时器启动Service去获取服务端的最新数据。当执行到Service的onStartCommand时，在该方法内再规划一个N分钟后的定时器用于再次启动该Service并开辟一个新的线程去执行网络操作。假设Service在从服务器获取最新数据的过程中被Android系统强制杀掉，Service不会再重新创建，这也没关系，因为再过N分钟定时器就会再次启动该Service并重新获取数据</p>
+<p><strong>START_STICKY</strong><br> 如果返回START_STICKY，表示Service运行的进程被Android系统强制杀掉之后，Android系统会将该Service依然设置为started状态（即运行状态），但是不再保存onStartCommand方法传入的intent对象，然后Android系统会尝试再次重新创建该Service，并执行onStartCommand回调方法，但是onStartCommand回调方法的Intent参数为null，也就是onStartCommand方法虽然会执行但是获取不到intent信息。如果你的Service可以在任意时刻运行或结束都没什么问题，而且不需要intent信息，那么就可以在onStartCommand方法中返回START_STICKY，比如一个用来播放背景音乐功能的Service就适合返回该值。</p>
+<p><strong>START_REDELIVER_INTENT</strong><br> 如果返回START_REDELIVER_INTENT，表示Service运行的进程被Android系统强制杀掉之后，与返回START_STICKY的情况类似，Android系统会将再次重新创建该Service，并执行onStartCommand回调方法，但是不同的是，Android系统会再次将Service在被杀掉之前最后一次传入onStartCommand方法中的Intent再次保留下来并再次传入到重新创建后的Service的onStartCommand方法中，这样我们就能读取到intent参数。只要返回START_REDELIVER_INTENT，那么onStartCommand重的intent一定不是null。如果我们的Service需要依赖具体的Intent才能运行（需要从Intent中读取相关数据信息等），并且在强制销毁后有必要重新创建运行，那么这样的Service就适合返回START_REDELIVER_INTENT。</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5b1747e5e51d45069a39ef45">https://juejin.im/post/5b1747e5e51d45069a39ef45</a></p>
+<p> <a target="_blank" rel="noopener" href="https://developer.android.com/guide/components/bound-services#kotlin">https://developer.android.com/guide/components/bound-services#kotlin</a> </p>
+<ul>
+<li><p>bindService callback</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">BindingActivity</span> : Activity() &#123;<br>    <span class="hljs-keyword">private</span> lateinit <span class="hljs-keyword">var</span> mService: LocalService<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> mBound: Boolean = <span class="hljs-literal">false</span><br><br>    <span class="hljs-comment">/** Defines callbacks for service binding, passed to bindService()  */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">val</span> <span class="hljs-variable">connection</span> <span class="hljs-operator">=</span> object : ServiceConnection &#123;<br><br>        override <span class="hljs-type">fun</span> <span class="hljs-title function_">onServiceConnected</span><span class="hljs-params">(className: ComponentName, service: IBinder)</span> &#123;<br>            <span class="hljs-comment">// We&#x27;ve bound to LocalService, cast the IBinder and get LocalService instance</span><br>            <span class="hljs-type">val</span> <span class="hljs-variable">binder</span> <span class="hljs-operator">=</span> service as LocalService.<span class="hljs-type">LocalBinder</span><br>            <span class="hljs-variable">mService</span> <span class="hljs-operator">=</span> binder.getService()<br>            mBound = <span class="hljs-literal">true</span><br>        &#125;<br><br>        override <span class="hljs-type">fun</span> <span class="hljs-title function_">onServiceDisconnected</span><span class="hljs-params">(arg0: ComponentName)</span> &#123;<br>            mBound = <span class="hljs-literal">false</span><br>        &#125;<br>    &#125;<br><br>    override <span class="hljs-type">fun</span> <span class="hljs-title function_">onCreate</span><span class="hljs-params">(savedInstanceState: Bundle?)</span> &#123;<br>        <span class="hljs-built_in">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.main)<br>    &#125;<br><br>    override <span class="hljs-type">fun</span> <span class="hljs-title function_">onStart</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-built_in">super</span>.onStart()<br>        <span class="hljs-comment">// Bind to LocalService</span><br>        Intent(<span class="hljs-built_in">this</span>, LocalService::class.java).also &#123; intent -&gt;<br>            bindService(intent, connection, Context.BIND_AUTO_CREATE)<br>        &#125;<br>    &#125;<br><br>    override <span class="hljs-type">fun</span> <span class="hljs-title function_">onStop</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-built_in">super</span>.onStop()<br>        unbindService(connection)<br>        mBound = <span class="hljs-literal">false</span><br>    &#125;<br><br>    <span class="hljs-comment">/** Called when a button is clicked (the button in the layout file attaches to</span><br><span class="hljs-comment">     * this method with the android:onClick attribute)  */</span><br>    <span class="hljs-type">fun</span> <span class="hljs-title function_">onButtonClick</span><span class="hljs-params">(v: View)</span> &#123;<br>        <span class="hljs-keyword">if</span> (mBound) &#123;<br>            <span class="hljs-comment">// Call a method from the LocalService.</span><br>            <span class="hljs-comment">// However, if this call were something that might hang, then this request should</span><br>            <span class="hljs-comment">// occur in a separate thread to avoid slowing down the activity performance.</span><br>            val num: Int = mService.randomNumber<br>            Toast.makeText(<span class="hljs-built_in">this</span>, <span class="hljs-string">&quot;number: $num&quot;</span>, Toast.LENGTH_SHORT).show()<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>get Service object in this place </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">val</span> <span class="hljs-variable">binder</span> <span class="hljs-operator">=</span> service as LocalService.<span class="hljs-type">LocalBinder</span><br><span class="hljs-variable">mService</span> <span class="hljs-operator">=</span> binder.getService()<br></code></pre></td></tr></table></figure>
+
+<h5 id="Using-a-Messenger"><a href="#Using-a-Messenger" class="headerlink" title="Using a Messenger"></a>Using a Messenger</h5><p> If you need your service to communicate with remote processes, then you can use a <code>Messenger</code> to provide the interface for your service.</p>
+</li>
+</ul>
+<h5 id="stopself"><a href="#stopself" class="headerlink" title="stopself()"></a>stopself()</h5><p>​    目前测试只有在onStartCommand()有效，多次点击startService(intent),startId持续递增.</p>
+<h5 id="onRebind-什么情况下执行"><a href="#onRebind-什么情况下执行" class="headerlink" title="onRebind()什么情况下执行"></a>onRebind()什么情况下执行</h5><p><img src="/SERVICE/service_binding_tree_lifecycle.png" srcset="/img/loading.gif" lazyload></p>
+<p>验证方法: startService(intent) 启动Service - bindService() 绑定Service - unBindService()解绑-  bindService() 继续绑定 就会执行onRebind()</p>
+<h5 id="多个acitivty与service通信"><a href="#多个acitivty与service通信" class="headerlink" title="多个acitivty与service通信"></a>多个acitivty与service通信</h5><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9885acf65405">https://www.jianshu.com/p/9885acf65405</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/pihailailou/article/details/78588496">https://blog.csdn.net/pihailailou/article/details/78588496</a></p>
+<h1 id="foreground-service"><a href="#foreground-service" class="headerlink" title="foreground service"></a>foreground service</h1><p><a target="_blank" rel="noopener" href="https://developer.android.com/develop/background-work/services/fgs">https://developer.android.com/develop/background-work/services/fgs</a></p>
+<p>A foreground service performs some operation that is noticeable to the user. For example, an audio app would use a foreground service to play an audio track. Foreground services must display a <a target="_blank" rel="noopener" href="https://developer.android.com/develop/ui/views/notifications">Notification</a>. Foreground services continue running even when the user isn’t interacting with the app.</p>
+<p>When you use a foreground service, you must display a notification so that users are actively aware that the service is running. This notification cannot be dismissed unless the service is either stopped or removed from the foreground.</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/develop/background-work/services#Types-of-services">https://developer.android.com/develop/background-work/services#Types-of-services</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5505390503fa">https://www.jianshu.com/p/5505390503fa</a></p>
+<h1 id="background-service"><a href="#background-service" class="headerlink" title="background service"></a>background service</h1><p>A background service performs an operation that isn’t directly noticed by the user. For example, if an app used a service to compact its storage, that would usually be a background service.</p>
+<p><strong>Note:</strong> If your app targets API level 26 or higher, the system imposes <a target="_blank" rel="noopener" href="https://developer.android.com/about/versions/oreo/background">restrictions on running background services</a> when the app itself isn’t in the foreground. In most situations, for example, you shouldn’t <a target="_blank" rel="noopener" href="https://developer.android.com/training/location/background">access location information from the background</a>. Instead, <a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/architecture/workmanager">schedule tasks using WorkManager</a>.</p>
+<p>codelab</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/android/codelab-android-workmanager/blob/master/app/src/main/java/com/example/background/BlurActivity.kt">https://github.com/android/codelab-android-workmanager/blob/master/app/src/main/java/com/example/background/BlurActivity.kt</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/codelabs/basic-android-kotlin-compose-workmanager#12">https://developer.android.com/codelabs/basic-android-kotlin-compose-workmanager#12</a></p>
+<h2 id="JobIntentService"><a href="#JobIntentService" class="headerlink" title="JobIntentService"></a>JobIntentService</h2><p>The Android framework also provides the <code>IntentService</code> subclass of <code>Service</code> that uses a worker thread to handle all of the start requests, one at a time. Using this class is <strong>not recommended</strong> for new apps as it will not work well starting with Android 8 Oreo, due to the introduction of <a target="_blank" rel="noopener" href="https://developer.android.com/about/versions/oreo/background#services">Background execution limits</a>. Moreover, it’s deprecated starting with Android 11. You can use <a target="_blank" rel="noopener" href="https://developer.android.com/reference/androidx/core/app/JobIntentService">JobIntentService</a> as a replacement for <code>IntentService</code> that is compatible with newer versions of Android.</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/develop/background-work/services#Types-of-services">https://developer.android.com/develop/background-work/services#Types-of-services</a></p>
+<p>In most cases, apps can work around these limitations by using <a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/app/job/JobScheduler"><code>JobScheduler</code></a> jobs. This approach lets an app arrange to perform work when the app isn’t actively running, but still gives the system the leeway to schedule these jobs in a way that doesn’t affect the user experience</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/develop/background-work/background-tasks">https://developer.android.com/develop/background-work/background-tasks</a></p>
+<h2 id="WorkManger"><a href="#WorkManger" class="headerlink" title="WorkManger"></a>WorkManger</h2><p>Use WorkManager for reliable work,WorkManager handles three types of persistent work:</p>
+<ul>
+<li><strong>Immediate</strong>: Tasks that must begin immediately and complete soon. May be expedited.</li>
+<li><strong>Long Running</strong>: Tasks which might run for longer, potentially longer than 10 minutes.</li>
+<li><strong>Deferrable</strong>: Scheduled tasks that start at a later time and can run periodically.</li>
+</ul>
+<p>Figure 1 outlines how the different types of persistent work relate to one another.</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/architecture/workmanager">https://developer.android.com/topic/libraries/architecture/workmanager</a></p>
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj5srfjqyWJixvhyztBQBfyfJfxejxj6bZlR9WnEyZfLs4qmtwv1WDu1zvR-WV7aOgmjWDv7x3S9ykYhduSWem05mzqHY_fVRj3hDo0_sCi4lOD9bbHt-BVFk2I9dVL4Vue5hLL2E7UOEY/s1600/image1.png" srcset="/img/loading.gif" lazyload></p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/androiddevelopers/introducing-workmanager-2083bcfc4712">https://medium.com/androiddevelopers/introducing-workmanager-2083bcfc4712</a></p>
+<p><a target="_blank" rel="noopener" href="https://android-developers.googleblog.com/2018/10/modern-background-execution-in-android.html">https://android-developers.googleblog.com/2018/10/modern-background-execution-in-android.html</a></p>
+<h3 id="OneTimeWork"><a href="#OneTimeWork" class="headerlink" title="OneTimeWork"></a>OneTimeWork</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// Create and enqueue the worker</span><br><span class="hljs-keyword">val</span> workRequest = OneTimeWorkRequestBuilder&lt;LogWorker&gt;().build()<br>workManager.enqueue(workRequest)<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">LogWorker</span>(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) &#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">doWork</span><span class="hljs-params">()</span></span>: Result &#123;<br>        Log.d(<span class="hljs-string">&quot;LogWorker&quot;</span>, <span class="hljs-string">&quot;Background task executed!&quot;</span>)<br>        <span class="hljs-keyword">return</span> Result.success()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/android/codelab-android-workmanager">https://github.com/android/codelab-android-workmanager</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/codelabs/basic-android-kotlin-compose-workmanager#12">https://developer.android.com/codelabs/basic-android-kotlin-compose-workmanager#12</a></p>
+<h2 id="Schedule-expedited-work"><a href="#Schedule-expedited-work" class="headerlink" title="Schedule expedited work"></a>Schedule expedited work</h2><p>Starting in WorkManager 2.7, your app can call <code>setExpedited()</code> to declare that a <code>WorkRequest</code> should run as quickly as possible using an expedited job. </p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">scheduleExpeditedWork</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> workRequest: WorkRequest = OneTimeWorkRequestBuilder&lt;LogWorker&gt;()<br>        .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)<br>        .build()<br>    WorkManager.getInstance(<span class="hljs-keyword">this</span>).enqueue(workRequest)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="PeriodicWork"><a href="#PeriodicWork" class="headerlink" title="PeriodicWork"></a>PeriodicWork</h3><p>Periodic work has a minimum interval of 15 minutes.</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/reference/androidx/work/PeriodicWorkRequest">https://developer.android.com/reference/androidx/work/PeriodicWorkRequest</a></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">schedulePeriodicWork</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> periodicWorkRequest =<br>        PeriodicWorkRequestBuilder&lt;LogWorker&gt;(<span class="hljs-number">15</span>, TimeUnit.MINUTES) <span class="hljs-comment">// every 15 minutes</span><br>            .build()<br>    <span class="hljs-comment">// Enqueue the work request</span><br>    WorkManager.getInstance(<span class="hljs-keyword">this</span>).enqueue(periodicWorkRequest)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>&#x2F;&#x2F; The code is not verified by the log.</p>
+<h2 id="migrate"><a href="#migrate" class="headerlink" title="migrate"></a>migrate</h2><p>Migrating from Firebase JobDispatcher to WorkManager </p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/develop/background-work/background-tasks/persistent/migrate-from-legacy/firebase">https://developer.android.com/develop/background-work/background-tasks/persistent/migrate-from-legacy/firebase</a></p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/androiddevelopers/introducing-workmanager-2083bcfc4712">https://medium.com/androiddevelopers/introducing-workmanager-2083bcfc4712</a></p>
+<h1 id="JobIntentService-1"><a href="#JobIntentService-1" class="headerlink" title="JobIntentService"></a>JobIntentService</h1><p><a target="_blank" rel="noopener" href="https://developer.android.com/about/versions/15/behavior-changes-15#datasync-timeout">Behavior changes: Apps targeting Android 15 or higher &nbsp;|&nbsp; Android Developers</a></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs vim">adb <span class="hljs-keyword">shell</span> <span class="hljs-keyword">am</span> compat enable FGS_INTRODUCE_TIME_LIMITS <span class="hljs-keyword">com</span>.example.myapplication<br><br>adb <span class="hljs-keyword">shell</span> device_config <span class="hljs-keyword">put</span> activity_manager data_sync_fgs_timeout_duration <span class="hljs-number">60000</span><br><br>adb logcat | <span class="hljs-keyword">grep</span> -E <span class="hljs-string">&quot;(DataSync|onTimeout|RemoteServiceException)&quot;</span>  <br><br><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ANDROID/" class="category-chain-item">ANDROID</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SERVICE</div>
+      <div>https://noteforme.github.io/2017/08/11/SERVICE/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 11, 2017</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2017/08/12/BroadcastReceiver/" title="BroadcastReceiver">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">BroadcastReceiver</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2017/08/09/Accessibility/" title="Accessibility">
+                        <span class="hidden-mobile">Accessibility</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

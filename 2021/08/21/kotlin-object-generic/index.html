@@ -1,0 +1,1046 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1wf4y1s7TG?p&#x3D;95 generic object目录下 对象相关继承类默认是封闭的，要让某个类开放继承，必须使用opem关键字修饰它 123456789101112open class Product(val name:String) &#123;    fun description() &#x3D; &quot;Product">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kotlin-object-generic">
+<meta property="og:url" content="https://noteforme.github.io/2021/08/21/kotlin-object-generic/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1wf4y1s7TG?p&#x3D;95 generic object目录下 对象相关继承类默认是封闭的，要让某个类开放继承，必须使用opem关键字修饰它 123456789101112open class Product(val name:String) &#123;    fun description() &#x3D; &quot;Product">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-21_9.11.39_convert.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-21_9.30.54_expression.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-21_9.40.03_companion.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-21_9.47.48_innerclass.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-21_9.52.32_data.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-21_11.01.56_data_condition.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-21_10.00_copy.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-21_10.13.25_component.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-21_10.24.07_overload.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-21_10.40.31_enum_data.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-21_10.42.08_closure_sealed.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-22_9.59.22_interface.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-22_10.13.48_abstract.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-22_10.25.51_generics.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-22_20.30.09_notice.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-22_11.08.36_out.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-22_11.37.32_why_inout.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-22_11.11.09_IN.png">
+<meta property="og:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-22_reified.png">
+<meta property="article:published_time" content="2021-08-21T13:02:57.000Z">
+<meta property="article:modified_time" content="2026-10-11T11:08:45.949Z">
+<meta property="article:author" content="Jon">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://noteforme.github.io/kotlin-object-generic/2021-08-21_9.11.39_convert.png">
+  
+  
+  
+  <title>kotlin-object-generic - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>Home</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>Archives</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>Categories</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>Tags</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>About</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>Search</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="Light"
+               data-label-dark="Dark">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">Dark</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="kotlin-object-generic"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-21 21:02" pubdate>
+          August 21, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          15k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          126 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">kotlin-object-generic</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1wf4y1s7TG?p=95">https://www.bilibili.com/video/BV1wf4y1s7TG?p=95</a></p>
+<p>generic</p>
+<p>object目录下</p>
+<h3 id="对象相关"><a href="#对象相关" class="headerlink" title="对象相关"></a>对象相关</h3><h5 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h5><p>类默认是封闭的，要让某个类开放继承，必须使用opem关键字修饰它</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Product</span>(<span class="hljs-keyword">val</span> name:String) &#123;<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">description</span><span class="hljs-params">()</span></span> = <span class="hljs-string">&quot;Product: <span class="hljs-variable">$name</span>&quot;</span><br>   <span class="hljs-keyword">open</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">load</span><span class="hljs-params">()</span></span> = <span class="hljs-string">&quot;Nothing..&quot;</span><br>&#125;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">LuxuryProduct</span> : <span class="hljs-type">Product</span>(<span class="hljs-string">&quot;Luxury&quot;</span>)&#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">load</span><span class="hljs-params">()</span></span> =<span class="hljs-string">&quot; LuxuryProduct loading&quot;</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> p : Product = LuxuryProduct()<br>    println(p.load())<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="类型检测-智能类型转换"><a href="#类型检测-智能类型转换" class="headerlink" title="类型检测 智能类型转换"></a>类型检测 智能类型转换</h5><p><img src="/kotlin-object-generic/2021-08-21_9.11.39_convert.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">println(p <span class="hljs-keyword">is</span> Product)<br>println(p <span class="hljs-keyword">is</span> LuxuryProduct)<br>println(p <span class="hljs-keyword">is</span> File)<br><br><span class="hljs-keyword">if</span> (p <span class="hljs-keyword">is</span> LuxuryProduct)&#123;<br>    println((p <span class="hljs-keyword">as</span> LuxuryProduct).special())<br>    println(p.special()) <span class="hljs-comment">//只要转换一次，后面就直接可以使用，不用转换</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="Kotlin层次"><a href="#Kotlin层次" class="headerlink" title="Kotlin层次"></a>Kotlin层次</h5><p>无须在代码里显示指定，每一个类都会继承一个共同的叫做Any的超类。</p>
+<h5 id="Object关键字"><a href="#Object关键字" class="headerlink" title="Object关键字"></a>Object关键字</h5><p>定义一个能产生一个实例的类- 单例</p>
+<p>Object关键字有三种方式</p>
+<ol>
+<li><p>对象声明</p>
+<p>有利于组织代码和管理状态，尤其是管理整个应用运行生命周期内的某些一致性状态</p>
+</li>
+<li><p>对象表达式</p>
+<p><img src="/kotlin-object-generic/2021-08-21_9.30.54_expression.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Player</span> &#123;<br>    <span class="hljs-keyword">open</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">load</span><span class="hljs-params">()</span></span> = <span class="hljs-string">&quot;loading nothing..&quot;</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-comment">//匿名内部类，实例p对象</span><br>    <span class="hljs-keyword">val</span> p = <span class="hljs-keyword">object</span> : Player()&#123;<br>        <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">load</span><span class="hljs-params">()</span></span>= <span class="hljs-string">&quot;anonymous nothing..&quot;</span><br>    &#125;<br>    println(p.load())<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>伴生对象</p>
+<p><img src="/kotlin-object-generic/2021-08-21_9.40.03_companion.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 只要调用load() 或者实例化ConfigMap, 这个companion object才会被实例化</span><br><span class="hljs-comment"> * 而且也是单例的</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ConfigMap</span> &#123;<br>    <span class="hljs-keyword">companion</span> <span class="hljs-keyword">object</span>&#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> PATH = <span class="hljs-string">&quot;xxxx&quot;</span><br>        <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">load</span><span class="hljs-params">()</span></span> = File(PATH).readBytes()<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-comment">//  类似于Java static</span><br>    ConfigMap.load()<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="类相关"><a href="#类相关" class="headerlink" title="类相关"></a>类相关</h3><h5 id="嵌套类"><a href="#嵌套类" class="headerlink" title="嵌套类"></a>嵌套类</h5><p><img src="/kotlin-object-generic/2021-08-21_9.47.48_innerclass.png" srcset="/img/loading.gif" lazyload></p>
+<p>在Java中，当你在另一个类中声明一个类时，它会默认变成<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%86%85%E9%83%A8%E7%B1%BB&spm=1001.2101.3001.7020">内部类</a>。而在Kotlin中，没有显式修饰符的嵌套类与Java中的static嵌套类是一样的。要把它变成一个内部类来持有一个外部类的引用的话需要使用inner修饰符。</p>
+<p>嵌套类和内部类在Java与Kotlin中的对应关系</p>
+<table>
+<thead>
+<tr>
+<th>类A在另一个类B中声明</th>
+<th>在Java中</th>
+<th>在Kotlin中</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>嵌套类（不存储外部类的引用）</td>
+<td>static class A</td>
+<td>class A</td>
+</tr>
+<tr>
+<td>内部类（存储外部类的引用）</td>
+<td>class A</td>
+<td>inner class A</td>
+</tr>
+</tbody></table>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41953808/article/details/112450204">https://blog.csdn.net/weixin_41953808/article/details/112450204</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903910084182030">https://juejin.cn/post/6844903910084182030</a></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">InnerClassTest</span> &#123;<br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">Equipment</span>(<span class="hljs-keyword">var</span> name:String)&#123;<br>        <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">show</span><span class="hljs-params">()</span></span> = println(<span class="hljs-string">&quot;equipment:<span class="hljs-variable">$name</span>&quot;</span>)<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">battle</span><span class="hljs-params">()</span></span>&#123;<br><br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    InnerClassTest.Equipment(<span class="hljs-string">&quot;shap knife&quot;</span>).show()<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>在Kotlin中引用<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%A4%96%E9%83%A8%E7%B1%BB&spm=1001.2101.3001.7020">外部类</a>实例的语法，需要使用this@Outer从Inner类去访问Outer类：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Outer</span> &#123;<br>    <span class="hljs-keyword">inner</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Inner</span>&#123;<br>        <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getOuterReference</span><span class="hljs-params">()</span></span>:Outer = <span class="hljs-keyword">this</span><span class="hljs-symbol">@Outer</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h5 id="数据类"><a href="#数据类" class="headerlink" title="数据类"></a>数据类</h5><p><img src="/kotlin-object-generic/2021-08-21_9.52.32_data.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="数据类使用条件"><a href="#数据类使用条件" class="headerlink" title="数据类使用条件"></a>数据类使用条件</h5><p><img src="/kotlin-object-generic/2021-08-21_11.01.56_data_condition.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Coordinate</span>(<span class="hljs-keyword">var</span> x:<span class="hljs-built_in">Int</span>,<span class="hljs-keyword">var</span> y:<span class="hljs-built_in">Int</span>) &#123;<br>    <span class="hljs-keyword">val</span> isInBounds = x &gt; <span class="hljs-number">0</span> &amp;&amp; y &gt; <span class="hljs-number">0</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    println(Coordinate(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>))<br>    println(Coordinate(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>)==Coordinate(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>)) <span class="hljs-comment">//data默认重写equals方法</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>结果</p>
+<blockquote>
+<p>Coordinate(x&#x3D;10, y&#x3D;20) &#x2F;&#x2F; 说明默认提供了toString方法</p>
+</blockquote>
+<p>重写了equals方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java">   <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">equals</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Object var1)</span> &#123;<br>      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span> != var1) &#123;<br>         <span class="hljs-keyword">if</span> (var1 <span class="hljs-keyword">instanceof</span> Coordinate) &#123;<br>            <span class="hljs-type">Coordinate</span> <span class="hljs-variable">var2</span> <span class="hljs-operator">=</span> (Coordinate)var1;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.x == var2.x &amp;&amp; <span class="hljs-built_in">this</span>.y == var2.y) &#123;<br>               <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125;<br>         &#125;<br><br>         <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>      &#125; <span class="hljs-keyword">else</span> &#123;<br>         <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>      &#125;<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="Copy"><a href="#Copy" class="headerlink" title="Copy"></a>Copy</h5><p><img src="/kotlin-object-generic/2021-08-21_10.00_copy.png" srcset="/img/loading.gif" lazyload></p>
+<p>注意:次构造函数数据不会copy过来</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span>  <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span>(<br>        <span class="hljs-keyword">var</span> name: String,<br>        <span class="hljs-keyword">val</span> age: <span class="hljs-built_in">Int</span>	 <span class="hljs-comment">//age 主构造函数里声明的属性</span><br>)&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> hobby = <span class="hljs-string">&quot;music&quot;</span><br>    <span class="hljs-keyword">val</span> subject:String<br>    <span class="hljs-keyword">var</span> score = <span class="hljs-number">0</span><br><br>    <span class="hljs-keyword">init</span> &#123;<br>        println(<span class="hljs-string">&quot;initializing student&quot;</span>)<br>        subject = <span class="hljs-string">&quot;english&quot;</span>			<span class="hljs-comment">//Init初始化块里的属性赋值和函数调用</span><br>    &#125;<br>    <span class="hljs-keyword">constructor</span>(_name: String):<span class="hljs-keyword">this</span>(_name,<span class="hljs-number">10</span>)&#123;<br>        score = <span class="hljs-number">10</span>; <span class="hljs-comment">//次构造函数数据不会copy过来</span><br>    &#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">toString</span><span class="hljs-params">()</span></span>: String &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Student(name=&#x27;<span class="hljs-variable">$name</span>&#x27;, age=<span class="hljs-variable">$age</span>, hobby=&#x27;<span class="hljs-variable">$hobby</span>&#x27;, subject=&#x27;<span class="hljs-variable">$subject</span>&#x27;, score=<span class="hljs-variable">$score</span>)&quot;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> s = Student(<span class="hljs-string">&quot;Jon&quot;</span>)<br>    <span class="hljs-keyword">val</span> copy = s.copy(<span class="hljs-string">&quot;girl&quot;</span>)<br>    <span class="hljs-keyword">var</span> s2 = s.copy(name = <span class="hljs-string">&quot;girl2&quot;</span>, age = <span class="hljs-number">18</span>)<br>    println(s)<br>    println(s2)<br>    println(copy)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="解构声明"><a href="#解构声明" class="headerlink" title="解构声明"></a>解构声明</h5><p><img src="/kotlin-object-generic/2021-08-21_10.13.25_component.png" srcset="/img/loading.gif" lazyload></p>
+<ol>
+<li><p>普通类</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PlayerScore</span>(<span class="hljs-keyword">val</span> experience:<span class="hljs-built_in">Int</span>,<span class="hljs-keyword">val</span> level:<span class="hljs-built_in">Int</span>) &#123;<br>    <span class="hljs-keyword">operator</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">component1</span><span class="hljs-params">()</span></span> = experience<br>    <span class="hljs-keyword">operator</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">component2</span><span class="hljs-params">()</span></span> = level<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> (x,y) = PlayerScore(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>)<br>    println(<span class="hljs-string">&quot;<span class="hljs-variable">$x</span>, <span class="hljs-variable">$y</span>&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>Data数据类</p>
+<p>数据类自动生成解构语法</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Coordinate</span>(<span class="hljs-keyword">var</span> x:<span class="hljs-built_in">Int</span>,<span class="hljs-keyword">var</span> y:<span class="hljs-built_in">Int</span>) &#123;<br>    <span class="hljs-keyword">val</span> isInBounds = x &gt; <span class="hljs-number">0</span> &amp;&amp; y &gt; <span class="hljs-number">0</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    println(Coordinate(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>))<br>    println(Coordinate(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>)==Coordinate(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>)) <br><br>    <span class="hljs-keyword">val</span>(x,y) = Coordinate(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>) <span class="hljs-comment">//数据类自动生成解构语法</span><br>    println(<span class="hljs-string">&quot;<span class="hljs-variable">$x</span> , <span class="hljs-variable">$y</span>&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h5><p>如果要将内置运算符应用在自定义类身上，你必须重写运算符函数，告诉编译器该如何操作自定义类</p>
+<p><img src="/kotlin-object-generic/2021-08-21_10.24.07_overload.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Coordinate2</span>(<span class="hljs-keyword">var</span> x:<span class="hljs-built_in">Int</span>,<span class="hljs-keyword">var</span> y:<span class="hljs-built_in">Int</span>) &#123;<br>    <span class="hljs-keyword">val</span> isInBounds = x &gt; <span class="hljs-number">0</span> &amp;&amp; y &gt; <span class="hljs-number">0</span><br><br>    <span class="hljs-keyword">operator</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">plus</span><span class="hljs-params">(other:<span class="hljs-type">Coordinate2</span>)</span></span> = Coordinate2(x + other.x,y+other.y)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>     <span class="hljs-keyword">val</span> c1=Coordinate2(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>)<br>     <span class="hljs-keyword">val</span> c2=Coordinate2(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>)<br>     println(c1 + c2)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="枚举类"><a href="#枚举类" class="headerlink" title="枚举类"></a>枚举类</h3><p>用来定义常量集合特殊的类</p>
+<p>枚举类是一个实例</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">enum</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Direction</span> &#123;<br>    EAST,<br>    WEST,<br>    SOUTH,<br>    NORTH<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    println(Direction.EAST)<br>    println(Direction.EAST <span class="hljs-keyword">is</span> Direction)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="枚举类定义函数"><a href="#枚举类定义函数" class="headerlink" title="枚举类定义函数"></a>枚举类定义函数</h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">enum</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Direction2</span>(<span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> coordinate: Coordinate) &#123; <span class="hljs-comment">// 枚举里可以有属性</span><br>    EAST(Coordinate(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>)), <span class="hljs-comment">//EAST()是Direction2的实例</span><br>    WEST(Coordinate(-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>)),<br>    SOUTH(Coordinate(-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>)),<br>    NORTH(Coordinate(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>));<br><br>    <span class="hljs-comment">//枚举里可以定义函数</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">updateCoordinate</span><span class="hljs-params">(playerCoordinate: <span class="hljs-type">Coordinate</span>)</span></span> =<br>            Coordinate(playerCoordinate.x + coordinate.x, playerCoordinate.y + coordinate.y)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    println(Direction2.EAST.updateCoordinate(Coordinate(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>)))<br>&#125;<br><span class="hljs-comment">//打印 11 20</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="代数数据类型"><a href="#代数数据类型" class="headerlink" title="代数数据类型"></a>代数数据类型</h5><p>可以用来表示一组子类型的闭集，枚举类就是一种简单的ADT</p>
+<p><img src="/kotlin-object-generic/2021-08-21_10.40.31_enum_data.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="密封类"><a href="#密封类" class="headerlink" title="密封类"></a>密封类</h5><p><img src="/kotlin-object-generic/2021-08-21_10.42.08_closure_sealed.png" srcset="/img/loading.gif" lazyload></p>
+<p>  class Qualified(val licenseId:String):LicenseStatus2() 保存数据，如果用emum类 会很麻烦</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">//密封类</span><br><span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LicenseStatus2</span> &#123;<br>  <span class="hljs-comment">//下面3个类都是 密封类的子类</span><br>    <span class="hljs-keyword">object</span> UnQualified:LicenseStatus2() <span class="hljs-comment">// 没有属性 用单例，否则每次够构建新的对象</span><br>    <span class="hljs-keyword">object</span> Learning:LicenseStatus2()<br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">Qualified</span>(<span class="hljs-keyword">val</span> licenseId:String):LicenseStatus2() <span class="hljs-comment">//密封类的特性 用来保存数据,可能licenseId不一样，所以用class</span><br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Driver2</span>(<span class="hljs-keyword">var</span> status: LicenseStatus2)&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">checkLicense</span><span class="hljs-params">()</span></span>:String&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">when</span>(status)&#123;<br>            <span class="hljs-keyword">is</span> LicenseStatus2.UnQualified -&gt; <span class="hljs-string">&quot;没资格&quot;</span><br>            <span class="hljs-keyword">is</span> LicenseStatus2.Learning -&gt; <span class="hljs-string">&quot;在学&quot;</span><br>            <span class="hljs-keyword">is</span> LicenseStatus2.Qualified -&gt; <span class="hljs-string">&quot;有资格，驾驶证编号: <span class="hljs-subst">$&#123;((this.status as LicenseStatus2.Qualified).licenseId)&#125;</span>&quot;</span><br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> status1 = LicenseStatus2.Learning<br>    <span class="hljs-keyword">val</span> status = LicenseStatus2.Qualified(<span class="hljs-string">&quot;2333003&quot;</span>) <span class="hljs-comment">// 可以直接传驾驶证编号</span><br>    <span class="hljs-keyword">val</span> driver = Driver2(status)<br>    println(driver.checkLicense())<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h5><p><img src="/kotlin-object-generic/2021-08-22_9.59.22_interface.png" srcset="/img/loading.gif" lazyload></p>
+<p>InterfaceTest.kt</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Movable</span>&#123;<br>    <span class="hljs-keyword">var</span> maxSpeed:<span class="hljs-built_in">Int</span><br>    <span class="hljs-keyword">var</span> wheels:<span class="hljs-built_in">Int</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">move</span><span class="hljs-params">(movable:<span class="hljs-type">Movable</span>)</span></span>:String<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Car</span>(_name:String,<span class="hljs-keyword">override</span>  <span class="hljs-keyword">var</span> wheels:<span class="hljs-built_in">Int</span>=<span class="hljs-number">4</span>):Movable&#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-keyword">var</span> maxSpeed: <span class="hljs-built_in">Int</span><br>        <span class="hljs-keyword">get</span>() = TODO(<span class="hljs-string">&quot;Not yet implemented&quot;</span>)<br>        <span class="hljs-keyword">set</span>(value) &#123;&#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">move</span><span class="hljs-params">(movable: <span class="hljs-type">Movable</span>)</span></span>: String &#123;<br>        TODO(<span class="hljs-string">&quot;Not yet implemented&quot;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="默认实现"><a href="#默认实现" class="headerlink" title="默认实现"></a>默认实现</h5><p>可以在接口里提供默认属性getter方法和函数实现</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Movable</span>&#123;<br>    <span class="hljs-keyword">val</span> maxSpeed:<span class="hljs-built_in">Int</span><br>        <span class="hljs-keyword">get</span>() = (<span class="hljs-number">1.</span><span class="hljs-number">.500</span>).shuffled().last()<br><br>    <span class="hljs-keyword">var</span> wheels:<span class="hljs-built_in">Int</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">move</span><span class="hljs-params">(movable:<span class="hljs-type">Movable</span>)</span></span>:String<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Car</span>(_name:String,<span class="hljs-keyword">override</span>  <span class="hljs-keyword">var</span> wheels:<span class="hljs-built_in">Int</span>=<span class="hljs-number">4</span>):Movable&#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-keyword">var</span> maxSpeed: <span class="hljs-built_in">Int</span><br>        <span class="hljs-keyword">get</span>() = <span class="hljs-keyword">super</span>.maxSpeed<br>        <span class="hljs-keyword">set</span>(value) &#123;&#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">move</span><span class="hljs-params">(movable: <span class="hljs-type">Movable</span>)</span></span>: String &#123;<br>        TODO(<span class="hljs-string">&quot;Not yet implemented&quot;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>抽象类</p>
+<p><img src="/kotlin-object-generic/2021-08-22_10.13.48_abstract.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Gun</span>(<span class="hljs-keyword">val</span> range: <span class="hljs-built_in">Int</span>) &#123;<br>    <span class="hljs-keyword">abstract</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">pullTrigger</span><span class="hljs-params">()</span></span>: String<br>    <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">doSomething</span><span class="hljs-params">()</span></span> &#123;<br>        println(<span class="hljs-string">&quot;doSomething&quot;</span>)<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AK47</span>(<span class="hljs-keyword">val</span> price: <span class="hljs-built_in">Int</span>) : Gun(range = <span class="hljs-number">500</span>)&#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">pullTrigger</span><span class="hljs-params">()</span></span>: String &#123;<br>        TODO()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><h5 id="定义泛型类"><a href="#定义泛型类" class="headerlink" title="定义泛型类"></a>定义泛型类</h5><p><img src="/kotlin-object-generic/2021-08-22_10.25.51_generics.png" srcset="/img/loading.gif" lazyload></p>
+<p>magicBox1.kt</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MagicBox</span>&lt;<span class="hljs-type">T</span>&gt;(item:T)&#123;<br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">var</span> subject:T = item<br>&#125;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Boy</span>(<span class="hljs-keyword">val</span> name:String,<span class="hljs-keyword">val</span> age:<span class="hljs-built_in">Int</span>)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span>(<span class="hljs-keyword">val</span> weight:<span class="hljs-built_in">Int</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> box1 = MagicBox(Boy(<span class="hljs-string">&quot;John&quot;</span>, <span class="hljs-number">20</span>))<br>    <span class="hljs-keyword">val</span> box2 = MagicBox(Dog( <span class="hljs-number">20</span>))<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/kotlin-object-generic/2021-08-22_20.30.09_notice.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="泛型函数"><a href="#泛型函数" class="headerlink" title="泛型函数"></a>泛型函数</h5><ol>
+<li><p>泛型参数也可以用于函数。</p>
+</li>
+<li><p>定义一个函数用于获取元素，当且仅当MagicBox可用时，才能获取元素。</p>
+<p>magicBox2.kt</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MagicBox</span>&lt;<span class="hljs-type">T</span>&gt;(item: T) &#123;<br>    <span class="hljs-keyword">var</span> available = <span class="hljs-literal">false</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">var</span> subject: T = item<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">fetch</span><span class="hljs-params">()</span></span>: T? &#123; <span class="hljs-comment">// 泛型函数</span><br>        <span class="hljs-keyword">return</span> subject.takeIf &#123; available &#125; <span class="hljs-comment">//当available =true，返回接收者对象</span><br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Boy</span>(<span class="hljs-keyword">val</span> name: String, <span class="hljs-keyword">val</span> age: <span class="hljs-built_in">Int</span>)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span>(<span class="hljs-keyword">val</span> weight: <span class="hljs-built_in">Int</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> box1 = MagicBox(Boy(<span class="hljs-string">&quot;John&quot;</span>, <span class="hljs-number">20</span>))<br>    <span class="hljs-keyword">val</span> box2 = MagicBox(Dog(<span class="hljs-number">20</span>))<br>    box1.available = <span class="hljs-literal">true</span><br>    box1.fetch()?.run &#123;<br>        println(<span class="hljs-string">&quot;you find <span class="hljs-variable">$name</span>&quot;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="多泛型参数"><a href="#多泛型参数" class="headerlink" title="多泛型参数"></a>多泛型参数</h5><p>magicBox3.kt</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MagicBox</span>&lt;<span class="hljs-type">T</span>&gt;(item: T) &#123;<br>    <span class="hljs-keyword">var</span> available = <span class="hljs-literal">false</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">var</span> subject: T = item<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">fetch</span><span class="hljs-params">()</span></span>: T? &#123;<br>        <span class="hljs-keyword">return</span> subject.takeIf &#123; available &#125; <span class="hljs-comment">//当available =true，返回接收者对象</span><br>    &#125;<br><br>    <span class="hljs-comment">// return R缩写</span><br>    <span class="hljs-comment">// 业务，把元素进行修改，魔盒里放的是男孩，取出来，变成男人</span><br>    <span class="hljs-comment">//传入subjectModfunction是匿名函数类型 (T)-&gt;(R), 这个匿名函数传入的是 T 返回的是R,fetch执行返回的是R类型</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-type">&lt;R&gt;</span> <span class="hljs-title">fetch</span><span class="hljs-params">(subjectModFunction: (<span class="hljs-type">T</span>) -&gt; <span class="hljs-type">R</span>)</span></span>: R? &#123;<br>        <span class="hljs-keyword">return</span> subjectModFunction(subject).takeIf &#123; available &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Boy</span>(<span class="hljs-keyword">val</span> name: String, <span class="hljs-keyword">val</span> age: <span class="hljs-built_in">Int</span>)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Man</span>(<span class="hljs-keyword">val</span> name: String, <span class="hljs-keyword">val</span> age: <span class="hljs-built_in">Int</span>)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span>(<span class="hljs-keyword">val</span> weight: <span class="hljs-built_in">Int</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> box1 = MagicBox(Boy(<span class="hljs-string">&quot;John&quot;</span>, <span class="hljs-number">20</span>))<br>    <span class="hljs-keyword">val</span> box2 = MagicBox(Dog(<span class="hljs-number">20</span>))<br>    box1.available = <span class="hljs-literal">true</span><br>    box1.fetch()?.run &#123;<br>        println(<span class="hljs-string">&quot;you find <span class="hljs-variable">$name</span>&quot;</span>)<br>    &#125;<br><br>    <span class="hljs-keyword">val</span> fetch = box1.fetch &#123;<br>        Man(it.name, it.age.plus(<span class="hljs-number">15</span>)) <span class="hljs-comment">// Boy 转成Man了</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="泛型类型约束"><a href="#泛型类型约束" class="headerlink" title="泛型类型约束"></a>泛型类型约束</h5><p>确保MagicBox只能装指定类型的物品， 如Human类型，咋弄?</p>
+<p>magicBox4.kt</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MagicBox4</span>&lt;<span class="hljs-type">T:Human</span>&gt;(item: T) &#123;      <span class="hljs-comment">//这里添加约束</span><br>    <span class="hljs-keyword">var</span> available = <span class="hljs-literal">false</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">var</span> subject: T = item<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">fetch</span><span class="hljs-params">()</span></span>: T? &#123;<br>        <span class="hljs-keyword">return</span> subject.takeIf &#123; available &#125; <span class="hljs-comment">//当available =true，返回接收者对象</span><br>    &#125;<br><br>    <span class="hljs-comment">// return R缩写</span><br>    <span class="hljs-comment">// 业务，把元素进行修改，魔盒里放的是男孩，取出来，变成男人</span><br>    <span class="hljs-comment">//传入subjectModfunction是匿名函数类型 (T)-&gt;(R), 这个匿名函数传入的是 T 返回的是R,fetch执行返回的是R类型</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-type">&lt;R&gt;</span> <span class="hljs-title">fetch</span><span class="hljs-params">(subjectModFunction: (<span class="hljs-type">T</span>) -&gt; <span class="hljs-type">R</span>)</span></span>: R? &#123;<br>        <span class="hljs-keyword">return</span> subjectModFunction(subject).takeIf &#123; available &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Human</span>(<span class="hljs-keyword">val</span> age: <span class="hljs-built_in">Int</span>)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Boy</span>(<span class="hljs-keyword">val</span> name: String, age: <span class="hljs-built_in">Int</span>) : Human(age)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Man</span>(<span class="hljs-keyword">val</span> name: String,  age: <span class="hljs-built_in">Int</span>):Human(age)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span>(<span class="hljs-keyword">val</span> weight: <span class="hljs-built_in">Int</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> box1 = MagicBox4(Boy(<span class="hljs-string">&quot;John&quot;</span>, <span class="hljs-number">20</span>))<br><span class="hljs-comment">//    val box2 = MagicBox4(Dog(20)) //因为约束类型，导致这里会报错</span><br>    box1.available = <span class="hljs-literal">true</span><br>    box1.fetch()?.run &#123;<br>        println(<span class="hljs-string">&quot;you find <span class="hljs-variable">$name</span>&quot;</span>)<br>    &#125;<br><br>    <span class="hljs-keyword">val</span> fetch = box1.fetch &#123;<br>        Man(it.name, it.age.plus(<span class="hljs-number">15</span>))<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="vararg关键字与get函数"><a href="#vararg关键字与get函数" class="headerlink" title="vararg关键字与get函数"></a>vararg关键字与get函数</h5><p>MagicBox能存放任何类型的Human实例，但一次只能放一个，如果要存放多个实例呢？</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MagicBox</span>&lt;<span class="hljs-type">T : Human</span>&gt;(<span class="hljs-keyword">vararg</span> item: T) &#123;<br>    <span class="hljs-keyword">var</span> available = <span class="hljs-literal">false</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">var</span> subject: Array&lt;<span class="hljs-keyword">out</span> T&gt; = item <span class="hljs-comment">//可变参数 必须写out</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">fetch</span><span class="hljs-params">(index: <span class="hljs-type">Int</span>)</span></span>: T? &#123;<br>        <span class="hljs-keyword">return</span> subject[index].takeIf &#123; available &#125; <span class="hljs-comment">//当available =true，返回接收者对象</span><br>    &#125;<br><br>    <span class="hljs-comment">// return R缩写</span><br>    <span class="hljs-comment">// 业务，把元素进行修改，魔盒里放的是男孩，取出来，变成男人</span><br>    <span class="hljs-comment">//传入subjectModfunction是匿名函数类型 (T)-&gt;(R), 这个匿名函数传入的是 T 返回的是R,fetch执行返回的是R类型</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-type">&lt;R&gt;</span> <span class="hljs-title">fetch</span><span class="hljs-params">(index: <span class="hljs-type">Int</span>, subjectModFunction: (<span class="hljs-type">T</span>) -&gt; <span class="hljs-type">R</span>)</span></span>: R? &#123;<br>        <span class="hljs-keyword">return</span> subjectModFunction(subject[index]).takeIf &#123; available &#125;<br>    &#125;<br><br>&#125;<br><br><span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Human</span>(<span class="hljs-keyword">val</span> age: <span class="hljs-built_in">Int</span>)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Boy</span>(<span class="hljs-keyword">val</span> name: String, age: <span class="hljs-built_in">Int</span>) : Human(age)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Man</span>(<span class="hljs-keyword">val</span> name: String, age: <span class="hljs-built_in">Int</span>) : Human(age)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span>(<span class="hljs-keyword">val</span> weight: <span class="hljs-built_in">Int</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> box1 = MagicBox(Boy(<span class="hljs-string">&quot;John&quot;</span>, <span class="hljs-number">20</span>), Boy(<span class="hljs-string">&quot;Jack&quot;</span>, <span class="hljs-number">20</span>), Boy(<span class="hljs-string">&quot;Jon&quot;</span>, <span class="hljs-number">20</span>))<br>    box1.available = <span class="hljs-literal">true</span><br>    box1.fetch(<span class="hljs-number">1</span>)?.run &#123;<br>        println(<span class="hljs-string">&quot;you find <span class="hljs-variable">$name</span>&quot;</span>)<br>    &#125;<br>    <span class="hljs-keyword">val</span> fetch = box1.fetch(<span class="hljs-number">2</span>) &#123;<br>        Man(it.name, it.age.plus(<span class="hljs-number">15</span>))<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="操作符"><a href="#操作符" class="headerlink" title="[]操作符"></a>[]操作符</h5><p>运算符重载</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MagicBox</span>&lt;<span class="hljs-type">T : Human</span>&gt;(<span class="hljs-keyword">vararg</span> item: T) &#123;<br>    <span class="hljs-keyword">var</span> available = <span class="hljs-literal">false</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">var</span> subject: Array&lt;<span class="hljs-keyword">out</span> T&gt; = item <span class="hljs-comment">//可变参数 必须写out</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">fetch</span><span class="hljs-params">(index: <span class="hljs-type">Int</span>)</span></span>: T? &#123;<br>        <span class="hljs-keyword">return</span> subject[index].takeIf &#123; available &#125; <span class="hljs-comment">//当available =true，返回接收者对象</span><br>    &#125;<br><br>    <span class="hljs-comment">// return R缩写</span><br>    <span class="hljs-comment">// 业务，把元素进行修改，魔盒里放的是男孩，取出来，变成男人</span><br>    <span class="hljs-comment">//传入subjectModfunction是匿名函数类型 (T)-&gt;(R), 这个匿名函数传入的是 T 返回的是R,fetch执行返回的是R类型</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-type">&lt;R&gt;</span> <span class="hljs-title">fetch</span><span class="hljs-params">(index: <span class="hljs-type">Int</span>, subjectModFunction: (<span class="hljs-type">T</span>) -&gt; <span class="hljs-type">R</span>)</span></span>: R? &#123;<br>        <span class="hljs-keyword">return</span> subjectModFunction(subject[index]).takeIf &#123; available &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">operator</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">get</span><span class="hljs-params">(index: <span class="hljs-type">Int</span>)</span></span>: T? = subject[index]?.takeIf &#123; available &#125; <span class="hljs-comment">//运算符重载</span><br><br>&#125;<br><br><span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Human</span>(<span class="hljs-keyword">val</span> age: <span class="hljs-built_in">Int</span>)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Boy</span>(<span class="hljs-keyword">val</span> name: String, age: <span class="hljs-built_in">Int</span>) : Human(age)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Man</span>(<span class="hljs-keyword">val</span> name: String, age: <span class="hljs-built_in">Int</span>) : Human(age)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span>(<span class="hljs-keyword">val</span> weight: <span class="hljs-built_in">Int</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> box1 = MagicBox(Boy(<span class="hljs-string">&quot;John&quot;</span>, <span class="hljs-number">20</span>), Boy(<span class="hljs-string">&quot;Jack&quot;</span>, <span class="hljs-number">20</span>), Boy(<span class="hljs-string">&quot;Jon&quot;</span>, <span class="hljs-number">20</span>))<br>    box1.available = <span class="hljs-literal">true</span><br>    box1.fetch(<span class="hljs-number">1</span>)?.run &#123;<br>        println(<span class="hljs-string">&quot;you find <span class="hljs-variable">$name</span>&quot;</span>)<br>    &#125;<br>    <span class="hljs-keyword">val</span> fetch = box1.fetch(<span class="hljs-number">2</span>) &#123;<br>        Man(it.name, it.age.plus(<span class="hljs-number">15</span>))<br>    &#125;<br>    box1[<span class="hljs-number">0</span>] <span class="hljs-comment">//运算符重载后 重写get，就能这样操作了</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="invariant-不变"><a href="#invariant-不变" class="headerlink" title="invariant 不变"></a>invariant 不变</h5><p>如果泛型类即将泛型类型作为函数参数，又将泛型类型作为函数的输出，那么即不用out也不用in.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">ProductionConsumer</span>&lt;<span class="hljs-type">T</span>&gt; &#123;<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">product</span><span class="hljs-params">()</span></span>: T<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">consume</span><span class="hljs-params">(item: <span class="hljs-type">T</span>)</span></span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// out</span><br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Production</span>&lt;<span class="hljs-type">out T</span>&gt; &#123;<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">product</span><span class="hljs-params">()</span></span>: T<br>&#125;<br><br><span class="hljs-comment">// in</span><br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Consumer</span>&lt;<span class="hljs-type">in T</span>&gt; &#123;<br>    <span class="hljs-comment">//    fun consume(item:T):T //Type parameter T is declared as &#x27;in&#x27; but occurs in &#x27;out&#x27; position in type T</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">consume</span><span class="hljs-params">(item: <span class="hljs-type">T</span>)</span></span><br>&#125;<br><br><span class="hljs-comment">//不变</span><br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">ProductionConsumer</span>&lt;<span class="hljs-type">T</span>&gt; &#123;<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">product</span><span class="hljs-params">()</span></span>: T<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">consume</span><span class="hljs-params">(item: <span class="hljs-type">T</span>)</span></span><br>&#125;<br><br><span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Food</span><br><span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FastFood</span>:<span class="hljs-type">Food</span>()<br><span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Burger</span> :<span class="hljs-type">FastFood</span>()<br><br><span class="hljs-comment">//生产者</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">FoodStore</span> : <span class="hljs-type">Production</span>&lt;<span class="hljs-type">Food</span>&gt;&#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">product</span><span class="hljs-params">()</span></span>: Food &#123;<br>        println(<span class="hljs-string">&quot;Product food&quot;</span>)<br>        <span class="hljs-keyword">return</span> Food()<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">FastFoodStore</span> : <span class="hljs-type">Production</span>&lt;<span class="hljs-type">FastFood</span>&gt;&#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">product</span><span class="hljs-params">()</span></span>: FastFood &#123;<br>        println(<span class="hljs-string">&quot;Product FastFood&quot;</span>)<br>        <span class="hljs-keyword">return</span> FastFood()<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BurgerFoodStore</span> : <span class="hljs-type">Production</span>&lt;<span class="hljs-type">Burger</span>&gt;&#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">product</span><span class="hljs-params">()</span></span>: Burger &#123;<br>        println(<span class="hljs-string">&quot;Product Burger&quot;</span>)<br>        <span class="hljs-keyword">return</span> Burger()<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//消费者</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">EveryBody</span> : <span class="hljs-type">Consumer</span>&lt;<span class="hljs-type">Food</span>&gt;&#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">consume</span><span class="hljs-params">(item: <span class="hljs-type">Food</span>)</span></span> &#123;<br>        println(<span class="hljs-string">&quot;Eat food.&quot;</span>)<br>    &#125;<br>&#125;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ModernPeople</span> : <span class="hljs-type">Consumer</span>&lt;<span class="hljs-type">FastFood</span>&gt;&#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">consume</span><span class="hljs-params">(item: <span class="hljs-type">FastFood</span>)</span></span> &#123;<br>        println(<span class="hljs-string">&quot;Eat fastFood&quot;</span>)<br>    &#125;<br>&#125;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AmericanPeople</span> : <span class="hljs-type">Consumer</span>&lt;<span class="hljs-type">Burger</span>&gt;&#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">consume</span><span class="hljs-params">(item: <span class="hljs-type">Burger</span>)</span></span> &#123;<br>        println(<span class="hljs-string">&quot;Eat Burger&quot;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="Out生产"><a href="#Out生产" class="headerlink" title="Out生产"></a>Out生产</h5><h5 id=""><a href="#" class="headerlink" title=""></a><img src="/kotlin-object-generic/2021-08-22_11.08.36_out.png" srcset="/img/loading.gif" lazyload></h5><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Production</span>&lt;<span class="hljs-type">out T</span>&gt; &#123;<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">product</span><span class="hljs-params">()</span></span>: T<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li><p>子类泛型对象可以赋值给父类泛型对象 如 下面production2</p>
+</li>
+<li><p>java. T extends Food  等于kotlin   T : Food</p>
+</li>
+<li><p>泛型有继承关系，可以直接赋值，java做不到,只能强转</p>
+</li>
+<li><p>ArrayList<CharSequence> list &#x3D; new ArrayList<String>(); &#x2F;&#x2F; java里面这种写法报错</p>
+</li>
+</ol>
+<p><strong>java只有 ? super Food 和 ? extends Food , 没有对泛型T , in out这种操作</strong> </p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> production1 : Production&lt;Food&gt; = FoodStore() <span class="hljs-comment">// 理解时，别看方法只看类就可以了，父子类关系</span><br><br>    <span class="hljs-comment">//子类泛型对象可以赋值给父类泛型对象，用out</span><br>    <span class="hljs-keyword">val</span> production2 : Production&lt;Food&gt; = FastFoodStore() <span class="hljs-comment">// 就是因为有 out，out删除就报错, java这种写法直接报错</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>为什么需要 out</p>
+<p>如果泛型有继承关系，可以直接赋值, Java只能用具体类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GenericTypeTest</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//String是CharSequence的子类</span><br><span class="hljs-comment">//        ArrayList&lt;CharSequence&gt; list = new ArrayList&lt;String&gt;(); // java里面这种写法报错</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/kotlin-object-generic/2021-08-22_11.37.32_why_inout.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="In-输入"><a href="#In-输入" class="headerlink" title="In 输入"></a>In 输入</h5><p><img src="/kotlin-object-generic/2021-08-22_11.11.09_IN.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Consumer</span>&lt;<span class="hljs-type">in T</span>&gt; &#123;<br>    <span class="hljs-comment">//    fun consume(item:T):T //Type parameter T is declared as &#x27;in&#x27; but occurs in &#x27;out&#x27; position in type T</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">consume</span><span class="hljs-params">(item: <span class="hljs-type">T</span>)</span></span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li>父类泛型对象可以赋值给子类泛型对象 ， 用in</li>
+</ol>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>	    <span class="hljs-comment">//父类泛型对象可以赋值给子类泛型对象 ， 用in</span><br>    <span class="hljs-keyword">val</span> consumer1:Consumer&lt;Burger&gt; = EveryBody()<br><span class="hljs-comment">//    val consumer2:Consumer&lt;Food&gt; = ModernPeople()//Required:Consumer&lt;Food&gt; Found : ModernPeople java里面必须要具体的类型,像上面的ArrayList</span><br>  <br>    <span class="hljs-keyword">val</span> consumer2:Consumer&lt;Burger&gt; = ModernPeople()<br>    consumer2.consume(Burger())<br><span class="hljs-comment">//    consumer2.consume(Food())</span><br>    <span class="hljs-keyword">val</span> consumer3:Consumer&lt;Burger&gt; = AmericanPeople()<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="Reified"><a href="#Reified" class="headerlink" title="Reified"></a>Reified</h5><p><img src="/kotlin-object-generic/2021-08-22_reified.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MagicBox</span>&lt;<span class="hljs-type">T : Human</span>&gt;() &#123; <span class="hljs-comment">// 这里的T类型没用</span><br>    <span class="hljs-comment">//随机产生一个对象，如果不是指定类型的对象，就通过backup函数生成一个指定类型的对象</span><br><span class="hljs-comment">//    fun &lt;T&gt; randomOrBackup(backup: () -&gt; T): T &#123;    // backup: ()-&gt;T 函数 和randomOrBackup返回的都是T类型</span><br><span class="hljs-comment">//          val items = listOf(Boy(&quot;jocnk&quot;, 20), Man(&quot;john&quot;, 20))</span><br><span class="hljs-comment">//          val random = items.shuffled().first()</span><br><span class="hljs-comment">//          return if (random is T) &#123;</span><br><span class="hljs-comment">//              random</span><br><span class="hljs-comment">//          &#125; else &#123;</span><br><span class="hljs-comment">//              backup()</span><br><span class="hljs-comment">//          &#125;</span><br><span class="hljs-comment">//      &#125;</span><br><br>    <span class="hljs-comment">//随机产生一个对象，如果不是指定类型T的对象，就通过backup函数生成一个指定类型T的对象</span><br>    <span class="hljs-comment">// 根据传进来的Man对象类型，推断T类型为Man</span><br>    <span class="hljs-comment">// backup: ()-&gt;T 函数 和randomOrBackup返回的都是T类型</span><br>    <span class="hljs-comment">//inline  reified一起使用</span><br>    <span class="hljs-keyword">inline</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-type">&lt;<span class="hljs-keyword">reified</span> T&gt;</span> <span class="hljs-title">randomOrBackup</span><span class="hljs-params">(backup: () -&gt; <span class="hljs-type">T</span>)</span></span>: T &#123;<br>        <span class="hljs-keyword">val</span> items = listOf(Boy(<span class="hljs-string">&quot;jocnk&quot;</span>, <span class="hljs-number">20</span>), Man(<span class="hljs-string">&quot;john&quot;</span>, <span class="hljs-number">20</span>))<br>        <span class="hljs-keyword">val</span> random = items.shuffled().first()<br>        println(random)<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">if</span> (random <span class="hljs-keyword">is</span> T) &#123;<br>            random<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            backup()<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> box1: MagicBox&lt;Man&gt; = MagicBox() <span class="hljs-comment">// 这里T类型不起作用</span><br>    <span class="hljs-comment">// 由backup函数推断出来T的类型</span><br>    <span class="hljs-keyword">val</span> subject = box1.randomOrBackup &#123; Man(<span class="hljs-string">&quot;Jimmy&quot;</span>, <span class="hljs-number">28</span>) &#125;  <span class="hljs-comment">//根据传进来的Man对象类型，推断T类型为Man</span><br>    println(subject)<br>&#125;<br><br><br><br><span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Human</span>(<span class="hljs-keyword">val</span> age: <span class="hljs-built_in">Int</span>)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Boy</span>(<span class="hljs-keyword">val</span> name: String, age: <span class="hljs-built_in">Int</span>) : Human(age)&#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">toString</span><span class="hljs-params">()</span></span>: String &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Boy(name=&#x27;<span class="hljs-variable">$name</span>&#x27;)&quot;</span><br>    &#125;<br>&#125;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Man</span>(<span class="hljs-keyword">val</span> name: String, age: <span class="hljs-built_in">Int</span>) : Human(age)&#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">toString</span><span class="hljs-params">()</span></span>: String &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Man(name=&#x27;<span class="hljs-variable">$name</span>&#x27;)&quot;</span><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Kotlin/" class="category-chain-item">Kotlin</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>kotlin-object-generic</div>
+      <div>https://noteforme.github.io/2021/08/21/kotlin-object-generic/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 21, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/22/kotlin-ext-func/" title="kotlin-ext-func">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">kotlin-ext-func</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/21/kotlin-collection-class/" title="kotlin-collection-class">
+                        <span class="hidden-mobile">kotlin-collection-class</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

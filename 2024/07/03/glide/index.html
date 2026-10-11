@@ -1,0 +1,1102 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="QuestionThis article has many flowcharts to introduce the principleshttps:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;ZjKkTJ5GpP8e2BnttiJEiAhttps:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;6882536990400020494 Glide使用什么缓存机制LRUcache底层实现 glide和OkHttp的任">
+<meta property="og:type" content="article">
+<meta property="og:title" content="glide">
+<meta property="og:url" content="https://noteforme.github.io/2024/07/03/glide/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="QuestionThis article has many flowcharts to introduce the principleshttps:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;ZjKkTJ5GpP8e2BnttiJEiAhttps:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;6882536990400020494 Glide使用什么缓存机制LRUcache底层实现 glide和OkHttp的任">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/Architecture/2021-08-09_4.51_glideflow.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/Architecture/2021-08-09_4.52_lifecycle.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/glide/Screenshot%202024-06-19%20at%2009.58.55.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/Architecture/2021-08-09_4.4_lrucache.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/Retrofit/20240618162126.jpg">
+<meta property="article:published_time" content="2024-07-03T05:51:25.000Z">
+<meta property="article:modified_time" content="2026-10-11T11:08:45.912Z">
+<meta property="article:author" content="Jon">
+<meta property="article:tag" content="Library">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/Architecture/2021-08-09_4.51_glideflow.png">
+  
+  
+  
+  <title>glide - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>Home</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>Archives</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>Categories</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>Tags</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>About</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>Search</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="Light"
+               data-label-dark="Dark">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">Dark</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="glide"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-03 13:51" pubdate>
+          July 3, 2024 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          19k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          158 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">glide</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h1><p>This article has many <strong>flowcharts</strong> to introduce the principles<br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ZjKkTJ5GpP8e2BnttiJEiA">https://mp.weixin.qq.com/s/ZjKkTJ5GpP8e2BnttiJEiA</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6882536990400020494">https://juejin.cn/post/6882536990400020494</a></p>
+<p>Glide使用什么缓存机制<br>LRUcache底层实现</p>
+<p>glide和OkHttp的任务调度是怎么实现的（比如同时发起很多请求）<br>自己去实现图片库，怎么做？<br>Glide内存缓存如何控制大小？</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6956090846470995975">https://juejin.cn/post/6956090846470995975</a></p>
+<p>bitmap decode<br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904161327185927">https://juejin.cn/post/6844904161327185927</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6994669144490639368#heading-4">https://juejin.cn/post/6994669144490639368#heading-4</a></p>
+<h1 id="Glide-Flow"><a href="#Glide-Flow" class="headerlink" title="Glide Flow"></a>Glide Flow</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/oSXDYhc_t4xhAVCfADxXfg">https://mp.weixin.qq.com/s/oSXDYhc_t4xhAVCfADxXfg</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/7083367492810686472">https://juejin.cn/post/7083367492810686472</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43298955/article/details/118661784">https://blog.csdn.net/weixin_43298955/article/details/118661784</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1gq4y1n7wq?p=4">https://www.bilibili.com/video/BV1gq4y1n7wq?p=4</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/48d9e4d5d75d">https://www.jianshu.com/p/48d9e4d5d75d</a></p>
+<p><img src="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/Architecture/2021-08-09_4.51_glideflow.png" srcset="/img/loading.gif" lazyload></p>
+<p>According to this picture, the image acquisition process is first from Active Resource, then from Memory cache, and then from Disk cache.</p>
+<h2 id="sequenceDiagram-Status-WAITING-FOR-SIZE"><a href="#sequenceDiagram-Status-WAITING-FOR-SIZE" class="headerlink" title="sequenceDiagram   Status.WAITING_FOR_SIZE"></a>sequenceDiagram   Status.WAITING_FOR_SIZE</h2><p>Loading an image flow for the first time from the network</p>
+<pre><code class=" mermaid">sequenceDiagram
+  RequestBuilder -&gt;&gt; RequestManager : track()
+  RequestBuilder -&gt;&gt; RequestTracker : runRequest()
+  RequestBuilder -&gt;&gt; SingleRequest : begin()
+alt status.WAITING_FOR_SIZE
+  SingleRequest -&gt;&gt; SingleRequest : onSizeReady()
+  SingleRequest -&gt;&gt; Engine : load()
+
+ alt  no memoryResource 
+  Engine -&gt;&gt; Engine : waitForExistingOrStartNewJob()
+  Engine -&gt;&gt; Engine : build()
+  Engine -&gt;&gt; DecodeJob : run()
+  DecodeJob -&gt;&gt; DecodeJob : runWrapped() INITIALIZE
+  DecodeJob -&gt;&gt; DecodeJob : getNextStage(INITIALIZE) 
+  DecodeJob -&gt;&gt; DecodeJob : getNextGenerator(),runGenerators()
+  DecodeJob -&gt;&gt; ResourceCacheGenerator : startNext()
+  loop stage == Stage.SOURCE
+  DecodeJob -&gt;&gt; DecodeJob :  reschedule(SWITCH_TO_SOURCE_SERVICE)
+  end
+  DecodeJob -&gt;&gt; DecodeJob : run()
+  DecodeJob -&gt;&gt; DecodeJob : runWrapped(),runGenerators()
+  DecodeJob -&gt;&gt; SourceGenerator : startNext()
+  SourceGenerator -&gt;&gt; SourceGenerator : startNextLoad(loadData)
+  SourceGenerator -&gt;&gt; MultiModelLoader : loadData(loadData)
+  MultiModelLoader -&gt;&gt; HttpUrlFetcher : loadData(loadData)
+  HttpUrlFetcher --&gt;&gt; MultiModelLoader :  callback.onDataReady(data)
+  MultiModelLoader --&gt;&gt; SourceGenerator :  callback.onDataReady(data)
+  SourceGenerator --&gt;&gt; SourceGenerator :  onDataReadyInternal()
+  SourceGenerator --&gt;&gt; DecodeJob :  reschedule(SWITCH_TO_SOURCE_SERVICE)
+  DecodeJob -&gt;&gt; DecodeJob : run()
+  DecodeJob -&gt;&gt; DecodeJob : runWrapped(),runGenerators()
+  DecodeJob -&gt;&gt; DecodeJob : startNext()
+  DecodeJob -&gt;&gt; SourceGenerator : startNext()
+  SourceGenerator -&gt;&gt; SourceGenerator : startNextLoad(loadData)
+
+  SourceGenerator -&gt;&gt; DataCacheGenerator : sourceCacheGenerator.startNext()
+  DataCacheGenerator -&gt;&gt; ByteBufferFileLoader : loadData(helper.getPriority(), this)
+  ByteBufferFileLoader --&gt;&gt; DataCacheGenerator : onDataReady(result)
+  DataCacheGenerator --&gt;&gt; SourceGenerator : onDataFetcherReady()
+  SourceGenerator --&gt;&gt; DecodeJob : onDataFetcherReady()
+  DecodeJob -&gt;&gt; DecodeJob : decodeFromRetrievedData()
+  DecodeJob -&gt;&gt; DecodeJob : decodeFromData(),notifyEncodeAndRelease()
+  DecodeJob -&gt;&gt; DecodeJob : notifyComplete()
+  DecodeJob -&gt;&gt; EngineJob : onResourceReady(),notifyCallbacksOfResult()
+  EngineJob -&gt;&gt; CallResourceReady : run(),notifyCallbacksOfResult(cb)
+  CallResourceReady --&gt;&gt; EngineJob : callCallbackOnResourceReady(cb)
+  EngineJob --&gt;&gt; SingleRequest : onResourceReady(cb)
+  SingleRequest -&gt;&gt; ImageViewTarget : target.onResourceReady(result)
+  ImageViewTarget -&gt;&gt; ImageViewTarget : setResourceInternal()
+  ImageViewTarget -&gt;&gt; DrawableImageViewTarget : setResource()
+ end
+end
+</code></pre>
+
+<p>What should be noted here is that I looked at the source code. After getting the image from the Internet, it will not go directly to the active resource, nor will it be displayed directly on the ImageView. Instead, <strong>it will be saved to the disk and then read from the disk</strong>. I saw this</p>
+<h1 id="Bind-lifecycle"><a href="#Bind-lifecycle" class="headerlink" title="Bind lifecycle"></a>Bind lifecycle</h1><h2 id="Old-lifecycle-architecture"><a href="#Old-lifecycle-architecture" class="headerlink" title="Old lifecycle architecture"></a>Old lifecycle architecture</h2><p><img src="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/Architecture/2021-08-09_4.52_lifecycle.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="new-lifecycle-architecture"><a href="#new-lifecycle-architecture" class="headerlink" title="new lifecycle architecture"></a>new lifecycle architecture</h2><p>The Glide library for Android indeed underwent significant changes in its architecture. As of Glide version 4.x, Glide has moved away from using <del>RequestManagerFragment</del> for lifecycle management. Instead, Glide now uses <strong>LifecycleListener</strong> interfaces and <strong>RequestManagerRetriever</strong> to more efficiently manage the lifecycle of requests.</p>
+<p>Here is a brief overview of the changes:</p>
+<p> Glide 4.x and Lifecycle Management</p>
+<ol>
+<li><p>Lifecycle Integration:<br>Glide now directly integrates with Android’s lifecycle components (Activity, Fragment, Application), which simplifies the lifecycle management of requests. Glide automatically pauses and resumes requests based on the lifecycle events.</p>
+</li>
+<li><p>LifecycleListeners:<br>Glide uses LifecycleListener interfaces to handle lifecycle events. These listeners are registered with the Android components (Activities and Fragments), and they notify Glide when to start, stop, or recycle requests.</p>
+</li>
+</ol>
+<h2 id="Advantages-of-the-New-Approach"><a href="#Advantages-of-the-New-Approach" class="headerlink" title="Advantages of the New Approach"></a>Advantages of the New Approach</h2><ul>
+<li>Improved Lifecycle Handling: Glide now more accurately handles the lifecycle of requests, reducing the chances of memory leaks or unnecessary work.</li>
+<li>Simplified API: The new API is more intuitive and easier to use, thanks to the integration with Android’s lifecycle components.</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Qy4y1s7Gh?p=15">https://www.bilibili.com/video/BV1Qy4y1s7Gh?p=15</a></p>
+<h2 id="LifeCycle-flow-UML"><a href="#LifeCycle-flow-UML" class="headerlink" title="LifeCycle flow UML"></a>LifeCycle flow UML</h2><pre><code class=" mermaid">sequenceDiagram
+autonumber
+Glide -&gt;&gt; RequestManagerRetriever : get(FragmentActivity)
+RequestManagerRetriever -&gt;&gt; LifecycleRequestManagerRetriever : getOrCreate(getLifecycle())
+
+LifecycleRequestManagerRetriever -&gt;&gt; LifecycleLifecycle:  constructor(lifecycle)
+LifecycleLifecycle -&gt;&gt; LifecycleRegistry : lifecycle.addObserver(this)
+
+LifecycleRequestManagerRetriever -&gt;&gt; RequestManager : build(getLifecycle)
+RequestManager -&gt;&gt; DefaultConnectivityMonitor : ConnectivityMonitor
+Note over RequestManager , DefaultConnectivityMonitor : network connection monitor
+
+LifecycleRegistry --&gt;&gt; LifecycleLifecycle : onStart()
+LifecycleRegistry --&gt;&gt; LifecycleLifecycle : onStop()
+LifecycleRegistry --&gt;&gt; LifecycleLifecycle : onDestroy()
+LifecycleLifecycle -&gt;&gt; RequestManager :  onStart()
+Note right of RequestManager : resumeRequests()
+LifecycleLifecycle -&gt;&gt; RequestManager :  onStop()
+Note right of RequestManager : pauseRequests()
+LifecycleLifecycle -&gt;&gt; RequestManager :  onDestroy()
+</code></pre>
+
+<h2 id="connective-lifecycle-UML"><a href="#connective-lifecycle-UML" class="headerlink" title="connective lifecycle UML"></a>connective lifecycle UML</h2><pre><code class=" mermaid">classDiagram
+%% Creator
+  class ConnectivityMonitorFactory &#123;
+    + someOperation()
+    + factoryMethod(): ConnectivityMonitor
+  &#125;
+
+
+%% concreate factory
+  class DefaultConnectivityMonitorFactory &#123;
+    +createProduct(): Product
+  &#125;
+
+  class ConnectivityMonitor &#123;
+     interface
+    +operation(): void
+  &#125;
+
+%% concreate product
+  class DefaultConnectivityMonitor 
+
+%% concreate product
+  class NullConnectivityMonitor 
+
+  ConnectivityMonitor &lt;|-- DefaultConnectivityMonitor : Inheritance
+  ConnectivityMonitor &lt;|-- NullConnectivityMonitor : Inheritance
+  ConnectivityMonitorFactory &lt;|.. DefaultConnectivityMonitorFactory : Realization
+  ConnectivityMonitorFactory ..&gt; ConnectivityMonitor
+</code></pre>
+
+<h1 id="Glide-caching-strategy"><a href="#Glide-caching-strategy" class="headerlink" title="Glide caching strategy"></a>Glide caching strategy</h1><p>Glide使用什么缓存机制<br>LRUcache底层实现</p>
+<p><img src="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/glide/Screenshot%202024-06-19%20at%2009.58.55.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Concept"><a href="#Concept" class="headerlink" title="Concept"></a>Concept</h2><h3 id="Cache-Levels"><a href="#Cache-Levels" class="headerlink" title="Cache Levels"></a>Cache Levels</h3><ul>
+<li><strong>Active Resources</strong>: These are images currently being displayed. They are kept in memory for immediate access.</li>
+<li><strong>Memory Cache</strong>: Once images are no longer in the active resources, they move to the memory cache if there is enough space.</li>
+<li><strong>Disk Cache</strong> :  If images are no longer in the memory cache, they are still stored in the disk cache. This allows for retrieval without needing to download the image again.</li>
+</ul>
+<h3 id="Caching-Keys"><a href="#Caching-Keys" class="headerlink" title="Caching Keys"></a>Caching Keys</h3><ul>
+<li>Glide generates unique keys for caching images. These keys are based on the image URL and any transformation or resizing options applied to the image.</li>
+<li>Custom keys can be provided by the developer to manage cache more effectively, especially when dealing with dynamic content.</li>
+</ul>
+<h3 id="Image-Requests"><a href="#Image-Requests" class="headerlink" title="Image Requests"></a>Image Requests</h3><ul>
+<li>When a request for an image is made, Glide first checks the active resources, then the memory cache, and finally the disk cache.</li>
+<li>If the image is not found in any of these caches, it is fetched from the network or local storage.</li>
+</ul>
+<h3 id="Cache-Invalidation"><a href="#Cache-Invalidation" class="headerlink" title="Cache Invalidation"></a>Cache Invalidation</h3><ul>
+<li>Cache invalidation is necessary to ensure outdated images are not served. Glide allows developers to clear specific entries or entire caches.</li>
+<li>It supports automatic cache invalidation based on configurable time intervals.</li>
+<li>If the image does not exist in the memory cache, it is read from the disk cache and then placed into the active resources.</li>
+<li>If the image does not exist in the memory cache, it will be requested from the network. and then what ???</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/dba296118f35">https://www.jianshu.com/p/dba296118f35</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mT4y1R7F4/?p=37">https://www.bilibili.com/video/BV1mT4y1R7F4/?p=37</a></p>
+<h2 id="Disk-Cache"><a href="#Disk-Cache" class="headerlink" title="Disk Cache"></a>Disk Cache</h2><pre><code class=" mermaid">sequenceDiagram
+  autonumber
+  RequestBuilder -&gt;&gt; RequestBuilder : into()
+  RequestBuilder -&gt;&gt; RequestManager : track()
+  RequestBuilder -&gt;&gt; RequestTracker : runRequest()
+  RequestTracker -&gt;&gt; SingleRequest : begin()
+  SingleRequest -&gt;&gt; SingleRequest : onSizeReady(overrideWidth, overrideHeight)
+  SingleRequest -&gt;&gt; Engine : load()
+  Engine -&gt;&gt; Engine : loadFromMemory()
+  Engine -&gt;&gt; Engine : loadFromActiveResources(key) 
+  Note right of Engine : Active Resource
+  Engine -&gt;&gt; Engine : loadFromCache(key)
+  Note right of Engine : Memory Cache
+  Engine -&gt;&gt; DecodeJob : runWrapped(),runGenerators()
+  Engine -&gt;&gt; DataCacheGenerator : currentGenerator.startNext()
+  DataCacheGenerator -&gt;&gt; ByteBufferFileLoader : loadData(helper.getPriority(), this)
+  ByteBufferFileLoader --&gt;&gt; DataCacheGenerator : onDataReady(result)
+  DataCacheGenerator --&gt;&gt; SourceGenerator : onDataFetcherReady()
+  SourceGenerator --&gt;&gt; DecodeJob : onDataFetcherReady()
+  DecodeJob -&gt;&gt; DecodeJob : decodeFromRetrievedData()
+  DecodeJob -&gt;&gt; DecodeJob : decodeFromData(),notifyEncodeAndRelease()
+  DecodeJob -&gt;&gt; DecodeJob : notifyComplete()
+  DecodeJob -&gt;&gt; EngineJob : onResourceReady(),notifyCallbacksOfResult()
+  EngineJob --&gt;&gt; Engine : onEngineJobComplete()
+  Note right of Engine : activeResources.activate()
+
+  EngineJob -&gt;&gt; CallResourceReady : run(),notifyCallbacksOfResult(cb)
+  CallResourceReady --&gt;&gt; EngineJob : callCallbackOnResourceReady(cb)
+  EngineJob --&gt;&gt; SingleRequest : onResourceReady(cb)
+  SingleRequest -&gt;&gt; ImageViewTarget : target.onResourceReady(result)
+  ImageViewTarget -&gt;&gt; ImageViewTarget : setResourceInternal()
+  ImageViewTarget -&gt;&gt; DrawableImageViewTarget : setResource()
+</code></pre>
+
+<p>step8 :  get Active Resources<br>step9 : get  Memery Cache<br>step20 : Read from disk cache and then put into active resources.</p>
+<h1 id="KEY"><a href="#KEY" class="headerlink" title="KEY"></a>KEY</h1><p>In Java, the equals and hashCode methods are used to compare objects and manage how objects are stored in certain collections like HashMap and HashSet.</p>
+<ul>
+<li><p>equals Method<br>The equals method determines whether two objects are equal. By default, the equals method in the Object class compares the memory addresses of the objects (i.e., whether they are the same instance). However, it is common to override this method to provide a meaningful equality check based on the object’s state (i.e., its fields).</p>
+</li>
+<li><p>hashCode Method<br>The hashCode method returns an integer hash code representation of the object. The contract between equals and hashCode is that if two objects are equal according to the equals method, they must have the same hash code. However, two objects with the same hash code do not necessarily have to be equal.</p>
+</li>
+</ul>
+<h2 id="Identifying-an-Object"><a href="#Identifying-an-Object" class="headerlink" title="Identifying an Object"></a>Identifying an Object</h2><p>When you override the equals and hashCode methods properly, they can be used to uniquely identify an object in certain collections. Here’s how:</p>
+<ol>
+<li>Equality Check: When you use collections like HashSet or keys in HashMap, the equals method is used to check if an object already exists in the collection.</li>
+<li>Hash Code: The hashCode method is used by hash-based collections (like HashMap and HashSet) to efficiently locate a bucket in which the object might be stored. Proper implementation of hashCode ensures that objects are distributed evenly across the buckets, reducing the number of collisions and improving performance.</li>
+</ol>
+<h2 id="Example-Implementation"><a href="#Example-Implementation" class="headerlink" title="Example Implementation"></a>Example Implementation</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> age;<br><br>    <span class="hljs-comment">// Constructor, getters, and setters</span><br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">equals</span><span class="hljs-params">(Object obj)</span> &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span> == obj) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">if</span> (obj == <span class="hljs-literal">null</span> || getClass() != obj.getClass()) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-type">Person</span> <span class="hljs-variable">person</span> <span class="hljs-operator">=</span> (Person) obj;<br>        <span class="hljs-keyword">return</span> age == person.age &amp;&amp; Objects.equals(name, person.name);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">hashCode</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> Objects.hash(name, age);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Key-Points"><a href="#Key-Points" class="headerlink" title="Key Points"></a>Key Points</h2><ol>
+<li>Consistency: Ensure that equals and hashCode are consistent. If equals returns true for two objects, hashCode must return the same value for both.</li>
+<li>Non-Equal Objects: It is acceptable for non-equal objects to have the same hash code, though this can degrade the performance of hash-based collections.</li>
+</ol>
+<h3 id="equal-objects-cannot-have-different-hash-codes"><a href="#equal-objects-cannot-have-different-hash-codes" class="headerlink" title="equal objects cannot have different hash codes"></a>equal objects cannot have different hash codes</h3><ol>
+<li><p>Consistent with equals: If two objects are equal according to the equals method, they must have the same hash code.</p>
+</li>
+<li><p>Self-Consistency: If an object is compared to itself, the equals method must return true, and the hashCode method must consistently return the same integer, provided no information used in equals comparisons on the object is modified.</p>
+</li>
+<li><p>Non-Equal Objects: If two objects are not equal according to the equals method, it is not required that they have different hash codes. However, different hash codes for non-equal objects can improve the performance of hash-based collections.</p>
+<p>if two Person objects have the same name and age, they are considered equal. Consequently, their hash codes will also be the same because the hashCode method uses these fields to compute the hash code.</p>
+</li>
+</ol>
+<h3 id="Key-Points-1"><a href="#Key-Points-1" class="headerlink" title="Key Points"></a>Key Points</h3><ul>
+<li>Consistency Requirement: Equal objects must have the same hash code to ensure that hash-based collections (like HashMap and HashSet) function correctly.</li>
+<li>Implementation: The hashCode method should use the same fields that are used in the equals method to ensure consistency.</li>
+<li>Efficiency: While it is not required for unequal objects to have different hash codes, it is beneficial for the performance of hash-based collections.</li>
+</ul>
+<p>Violating this contract by allowing equal objects to have different hash codes can lead to unexpected behavior in collections like HashMap and HashSet, resulting in problems such as missing entries or increased lookup times.</p>
+<h2 id="Active-recyle"><a href="#Active-recyle" class="headerlink" title="Active recyle"></a>Active recyle</h2><p>After onDestroy() or recycling the bitmap, the active resource is put into memory cache.</p>
+<p>ActiveResources.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java">  <span class="hljs-type">void</span> <span class="hljs-title function_">cleanupActiveReference</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> ResourceWeakReference ref)</span> &#123;<br>    <span class="hljs-keyword">synchronized</span> (<span class="hljs-built_in">this</span>) &#123;<br>      activeEngineResources.remove(ref.key);<br><br>      <span class="hljs-keyword">if</span> (!ref.isCacheable || ref.resource == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">return</span>;<br>      &#125;<br>    &#125;<br><br>    <span class="hljs-type">EngineResource</span>&lt;?&gt; <span class="hljs-variable">newResource</span> <span class="hljs-operator">=</span><br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">EngineResource</span>&lt;&gt;(<br>            ref.resource,<br>            <span class="hljs-comment">/* isMemoryCacheable= */</span> <span class="hljs-literal">true</span>,<br>            <span class="hljs-comment">/* isRecyclable= */</span> <span class="hljs-literal">false</span>,<br>            ref.key,<br>            listener);<br>    listener.onResourceReleased(ref.key, newResource); <span class="hljs-comment">// 这里存储进内存缓存</span><br>  &#125;<br><br>Engine.java<br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-type">void</span> <span class="hljs-title function_">onResourceReleased</span><span class="hljs-params">(Key cacheKey, EngineResource&lt;?&gt; resource)</span> &#123;<br>    activeResources.deactivate(cacheKey);<br>    <span class="hljs-keyword">if</span> (resource.isMemoryCacheable()) &#123;<br>      cache.put(cacheKey, resource);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      resourceRecycler.recycle(resource, <span class="hljs-comment">/* forceNextFrame= */</span> <span class="hljs-literal">false</span>);<br>    &#125;<br>  &#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="LruCache"><a href="#LruCache" class="headerlink" title="LruCache"></a>LruCache</h1><p><code>LruCache</code> stands for Least Recently Used Cache. It’s a cache mechanism that keeps track of the most recently used items and evicts the least recently used items when the cache reaches its maximum size. This helps in maintaining a balance between memory usage and access speed.</p>
+<h3 id="How-Glide-Uses-LruCache"><a href="#How-Glide-Uses-LruCache" class="headerlink" title="How Glide Uses LruCache"></a>How Glide Uses LruCache</h3><p>Glide uses <code>LruCache</code> to store decoded images (<code>Bitmap</code> objects) in memory. When an image is requested:</p>
+<ol>
+<li><strong>Check Cache</strong>: Glide first checks the memory cache for the image.</li>
+<li><strong>Load from Cache</strong>: If the image is found in the cache, it is loaded from there, making the process very fast.</li>
+<li><strong>Fetch and Decode</strong>: If the image is not in the cache, Glide fetches it from the source (e.g., network, disk), decodes it, and adds it to the cache.</li>
+<li></li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/Architecture/2021-08-09_4.4_lrucache.png" srcset="/img/loading.gif" lazyload></p>
+<p>LinkedHashMap参数含义</p>
+<p>initialCapacity : 最大容量</p>
+<p>loadFactor : 负载因子</p>
+<p>accessOrder : 排序方式, true 按照访问顺序排序， false 按照插入顺序排序</p>
+<p> 访问顺序排序</p>
+<p>accessOrder : true</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">LinkedHashMap</span>&lt;String, String&gt; <span class="hljs-variable">map</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedHashMap</span>&lt;&gt;(<span class="hljs-number">0</span>, <span class="hljs-number">0.75f</span>, <span class="hljs-literal">true</span>);<br>map.put(<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;A&quot;</span>);<br>map.put(<span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>);<br>map.put(<span class="hljs-string">&quot;c&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>);<br>map.put(<span class="hljs-string">&quot;d&quot;</span>, <span class="hljs-string">&quot;D&quot;</span>);<br>map.put(<span class="hljs-string">&quot;e&quot;</span>, <span class="hljs-string">&quot;E&quot;</span>);<br>map.put(<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;F&quot;</span>);<br><br>map.get(<span class="hljs-string">&quot;a&quot;</span>);<br>map.put(<span class="hljs-string">&quot;n&quot;</span>,<span class="hljs-string">&quot;N&quot;</span>);<br><br><span class="hljs-keyword">for</span> (Map.Entry&lt;String, String&gt; entry : map.entrySet()) &#123;<br>    Log.d(<span class="hljs-string">&quot;LruCacheTest&quot;</span>, <span class="hljs-string">&quot;testLinkedHashMap : &quot;</span>+ entry.getKey()+<span class="hljs-string">&quot; : &quot;</span> + entry.getValue());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>结果</p>
+<blockquote>
+<p>D LruCacheTest: testLinkedHashMap : b : B<br> D LruCacheTest: testLinkedHashMap : c : C<br> D LruCacheTest: testLinkedHashMap : d : D<br> D LruCacheTest: testLinkedHashMap : e : E<br> D LruCacheTest: testLinkedHashMap : f : F<br> D LruCacheTest: testLinkedHashMap : a : A<br> D LruCacheTest: testLinkedHashMap : n : N</p>
+</blockquote>
+<p>可以看到 先访问a ,在插入n,把最新最近使用和访问的 A N,放到链表后面</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">LinkedHashMap</span>&lt;String, String&gt; <span class="hljs-variable">map</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedHashMap</span>&lt;&gt;(<span class="hljs-number">100</span>, <span class="hljs-number">0.75f</span>, <span class="hljs-literal">true</span>);<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>D LruCacheTest: testLinkedHashMap : a : A<br>D LruCacheTest: testLinkedHashMap : b : B<br>D LruCacheTest: testLinkedHashMap : c : C<br>D LruCacheTest: testLinkedHashMap : d : D<br>D LruCacheTest: testLinkedHashMap : e : E<br>D LruCacheTest: testLinkedHashMap : f : F<br>D LruCacheTest: testLinkedHashMap : n : N</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/JakeWharton/DiskLruCache">https://github.com/JakeWharton/DiskLruCache</a></p>
+<h1 id="Bitmap-Reuse"><a href="#Bitmap-Reuse" class="headerlink" title="Bitmap Reuse"></a>Bitmap Reuse</h1><h2 id="botain-bitmap"><a href="#botain-bitmap" class="headerlink" title="botain bitmap"></a>botain bitmap</h2><pre><code class=" mermaid">sequenceDiagram
+LruBitmapPool -&gt;&gt; LruBitmapPool : get()
+LruBitmapPool -&gt;&gt; LruBitmapPool : getDirtyOrNull()
+LruBitmapPool -&gt;&gt; SizeStrategy : strategy.get()
+Note  right of SizeStrategy : possibleSize &lt;= size * MAX_SIZE_MULTIPLE(8)
+</code></pre>
+
+<p>LruBitmapPool</p>
+<p>此步骤用于查找 entries 中最合适用来复用的 bitmap<br> 先找到 sizes 中大于 size 且和 size 最接近的 key，如果 key 存在且其大小不超出 size 的四倍，则使用该 key，否则直接使用 size<br>即找到最接近 size 但又不超出 size 太多的 bitmap，否则如果拿来复用的 bitmap 太大的话也比较浪费</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6956090846470995975">https://juejin.cn/post/6956090846470995975</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7133243966052368392">肢解Glide：LruBitmapPool如何具体操作Bitmap复用？ - 掘金</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SizeStrategy</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">LruPoolStrategy</span> &#123;<br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">MAX_SIZE_MULTIPLE</span> <span class="hljs-operator">=</span> <span class="hljs-number">8</span>;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-type">Bitmap</span> <span class="hljs-title function_">get</span><span class="hljs-params">(<span class="hljs-type">int</span> width, <span class="hljs-type">int</span> height, Bitmap.Config config)</span> &#123;<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">size</span> <span class="hljs-operator">=</span> Util.getBitmapByteSize(width, height, config);<br>    <span class="hljs-type">Key</span> <span class="hljs-variable">key</span> <span class="hljs-operator">=</span> keyPool.get(size);<br><br>    <span class="hljs-type">Integer</span> <span class="hljs-variable">possibleSize</span> <span class="hljs-operator">=</span> sortedSizes.ceilingKey(size);<br>    <span class="hljs-keyword">if</span> (possibleSize != <span class="hljs-literal">null</span> &amp;&amp; possibleSize != size &amp;&amp; possibleSize &lt;= size * MAX_SIZE_MULTIPLE) &#123;<br>      keyPool.offer(key);<br>      key = keyPool.get(possibleSize);<br>    &#125;<br>    <span class="hljs-keyword">return</span> result;<br>  &#125;<br>  &#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="save-bitmap"><a href="#save-bitmap" class="headerlink" title="save bitmap"></a>save bitmap</h2><pre><code class=" mermaid">sequenceDiagram
+BitmapPool -&gt;&gt; LruBitmapPool : put(bitmap)
+LruBitmapPool -&gt;&gt; SizeConfigStrategy : strategy.put(bitmap)
+SizeConfigStrategy -&gt;&gt; KeyPool : get(size, bitmap.getConfig())
+Note  over SizeConfigStrategy, KeyPool : groupedMap.put(key, bitmap);
+</code></pre>
+
+<h3 id="bitmap-save-condition"><a href="#bitmap-save-condition" class="headerlink" title="bitmap save condition"></a>bitmap save condition</h3><ul>
+<li><p>is mutable</p>
+</li>
+<li><p>less than maxSize</p>
+</li>
+<li><p>allowedConfigs</p>
+</li>
+</ul>
+<p>LruBitmapPool.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-type">void</span> <span class="hljs-title function_">put</span><span class="hljs-params">(Bitmap bitmap)</span> &#123;<br>   <span class="hljs-keyword">if</span> (!bitmap.isMutable()<br>       || strategy.getSize(bitmap) &gt; maxSize<br>       || !allowedConfigs.contains(bitmap.getConfig())) &#123;<br>     bitmap.recycle();<br>     <span class="hljs-keyword">return</span>;<br>   &#125;<br><br>   <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">size</span> <span class="hljs-operator">=</span> strategy.getSize(bitmap);<br>   strategy.put(bitmap);<br>   tracker.add(bitmap);<br><br>   puts++;<br>   currentSize += size;<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<p>SizeConfigStrategy.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Key</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Poolable</span> &#123;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">equals</span><span class="hljs-params">(Object o)</span> &#123;<br>    <span class="hljs-keyword">if</span> (o <span class="hljs-keyword">instanceof</span> Key) &#123;<br>      <span class="hljs-type">Key</span> <span class="hljs-variable">other</span> <span class="hljs-operator">=</span> (Key) o;<br>      <span class="hljs-keyword">return</span> size == other.size &amp;&amp; Util.bothNullOrEqual(config, other.config);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>  &#125;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">hashCode</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> size;<br>    result = <span class="hljs-number">31</span> * result + (config != <span class="hljs-literal">null</span> ? config.hashCode() : <span class="hljs-number">0</span>);<br>    <span class="hljs-keyword">return</span> result;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>The key is judged based on bitmap size and Config format.</p>
+<h3 id="decoded-VS-without-decode"><a href="#decoded-VS-without-decode" class="headerlink" title="decoded VS without decode"></a>decoded VS without decode</h3><p>In the context of using the Glide library in Android for image loading, the terms “decoded cache” and “without decode” refer to different stages and aspects of the image loading process. Here’s a detailed explanation:</p>
+<h4 id="Decoded-Cache"><a href="#Decoded-Cache" class="headerlink" title="Decoded Cache"></a>Decoded Cache</h4><p><strong>Decoded Cache</strong> refers to the cache that stores images that have already been decoded into <code>Bitmap</code> objects. This means the images are stored in a format that can be directly used by the UI without needing further decoding. The benefits of using the decoded cache include:</p>
+<ol>
+<li><strong>Faster Loading:</strong> Since the images are already decoded, they can be quickly retrieved and displayed, reducing the load time and improving the user experience.</li>
+<li><strong>Reduced CPU Usage:</strong> Decoding an image is a CPU-intensive process. By caching decoded images, you avoid repeatedly decoding the same image, which saves CPU resources.</li>
+<li><strong>Efficient Memory Usage:</strong> Decoded images are stored in memory, which allows for quick access, but this also means that the memory usage can be higher, especially if you are caching many large images.</li>
+</ol>
+<h4 id="Without-Decode-Encoded-Cache"><a href="#Without-Decode-Encoded-Cache" class="headerlink" title="Without Decode (Encoded Cache)"></a>Without Decode (Encoded Cache)</h4><p><strong>Without Decode</strong> or <strong>Encoded Cache</strong> refers to the cache that stores the raw, compressed image files (such as JPEG, PNG, or WebP) without decoding them into <code>Bitmap</code> objects. This cache stores the images in their original, encoded format. The benefits of using the encoded cache include:</p>
+<h1 id="BUILD-PROJECT"><a href="#BUILD-PROJECT" class="headerlink" title="BUILD PROJECT"></a>BUILD PROJECT</h1><p><img src="https://raw.githubusercontent.com/BlogForMe/ImageServer/main/Retrofit/20240618162126.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>监控大图<br><a target="_blank" rel="noopener" href="https://juejin.im/post/6844904136266219534">https://juejin.im/post/6844904136266219534</a></p>
+<p><a target="_blank" rel="noopener" href="https://bumptech.github.io/glide/">https://bumptech.github.io/glide/</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/xfhy/Android-Notes/blob/master/Blogs/Android/%E4%B8%89%E6%96%B9%E5%BA%93%E5%8E%9F%E7%90%86/Glide%E4%B8%BB%E6%B5%81%E7%A8%8B%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90.md">https://github.com/xfhy/Android-Notes/blob/master/Blogs/Android/%E4%B8%89%E6%96%B9%E5%BA%93%E5%8E%9F%E7%90%86/Glide%E4%B8%BB%E6%B5%81%E7%A8%8B%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90.md</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/pAazRD9NaLPvBseG51ZOLw">https://mp.weixin.qq.com/s/pAazRD9NaLPvBseG51ZOLw</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Library/" class="print-no-link">#Library</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>glide</div>
+      <div>https://noteforme.github.io/2024/07/03/glide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>July 3, 2024</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/DesignPatterns-State/" title="DesignPatterns_State">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DesignPatterns_State</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/06/28/bitmap/" title="Bitmap">
+                        <span class="hidden-mobile">Bitmap</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

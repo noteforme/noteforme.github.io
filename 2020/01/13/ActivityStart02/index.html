@@ -1,0 +1,899 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Application OnCreate() 12345678910111213141516171819public static void main(String[] args) &#123;		   Looper.prepareMainLooper();		&#x2F;&#x2F;创建消息循环        ActivityThread thread &#x3D; new ActivityThread();">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ActivityStart02">
+<meta property="og:url" content="https://noteforme.github.io/2020/01/13/ActivityStart02/index.html">
+<meta property="og:site_name" content="Jon&#39;s Blog">
+<meta property="og:description" content="Application OnCreate() 12345678910111213141516171819public static void main(String[] args) &#123;		   Looper.prepareMainLooper();		&#x2F;&#x2F;创建消息循环        ActivityThread thread &#x3D; new ActivityThread();">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://noteforme.github.io/ActivityStart02/ActivityThradmain1.png">
+<meta property="og:image" content="https://noteforme.github.io/ActivityStart02/ActivityThradmain3.png">
+<meta property="og:image" content="https://noteforme.github.io/ActivityStart02/ActivityThradmain2.png">
+<meta property="article:published_time" content="2020-01-13T02:49:39.000Z">
+<meta property="article:modified_time" content="2026-10-11T11:08:45.387Z">
+<meta property="article:author" content="Jon">
+<meta property="article:tag" content="AOSP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://noteforme.github.io/ActivityStart02/ActivityThradmain1.png">
+  
+  
+  
+  <title>ActivityStart02 - Jon&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>Home</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>Archives</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>Categories</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>Tags</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>About</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>Search</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="Light"
+               data-label-dark="Dark">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">Dark</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ActivityStart02"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-01-13 10:49" pubdate>
+          January 13, 2020 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          100 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ActivityStart02</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h5 id="Application-OnCreate"><a href="#Application-OnCreate" class="headerlink" title="Application OnCreate()"></a>Application OnCreate()</h5><p><img src="/ActivityStart02/ActivityThradmain1.png" srcset="/img/loading.gif" lazyload alt="ActivityThradmain1"></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs dart">public <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-title class_">String</span>[] args) &#123;<br>		   <span class="hljs-title class_">Looper</span>.<span class="hljs-title function_">prepareMainLooper</span>();		<span class="hljs-comment">//创建消息循环</span><br><br>        <span class="hljs-title class_">ActivityThread</span> thread = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ActivityThread</span>();  <br>        thread.<span class="hljs-title function_">attach</span>(<span class="hljs-keyword">false</span>);<br><br>        <span class="hljs-keyword">if</span> (sMainThreadHandler == <span class="hljs-keyword">null</span>) &#123;<br>            sMainThreadHandler = thread.<span class="hljs-title function_">getHandler</span>();<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">false</span>) &#123;<br>            <span class="hljs-title class_">Looper</span>.<span class="hljs-title function_">myLooper</span>().<span class="hljs-title function_">setMessageLogging</span>(<span class="hljs-keyword">new</span><br>                    <span class="hljs-title class_">LogPrinter</span>(<span class="hljs-title class_">Log</span>.DEBUG, <span class="hljs-string">&quot;ActivityThread&quot;</span>));<br>        &#125;<br><br>        <span class="hljs-comment">// End of event ActivityThreadMain.</span><br>        <span class="hljs-title class_">Trace</span>.<span class="hljs-title function_">traceEnd</span>(<span class="hljs-title class_">Trace</span>.TRACE_TAG_ACTIVITY_MANAGER);<br>        <span class="hljs-title class_">Looper</span>.<span class="hljs-title function_">loop</span>();					<span class="hljs-comment">//使当前进程进入消息循环</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在这里我们就不再详细分析prepareMainLooper和loop方法，其主要功能就是准备好主线程的Looper以及消息队列，最后再开启主线程的消息循环。</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs dns">private void attach<span class="hljs-punctuation">(</span>boolean system<span class="hljs-punctuation">)</span> &#123;<br><br> IActivityManager mgr = ActivityManagerNative.getDefault<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">; //获得ApplicationThreadNative</span><br> 																									//代理类ActivityManagerProxy <br>            try &#123;<br>                mgr.attachApplication<span class="hljs-punctuation">(</span>mAppThread<span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>            &#125; catch <span class="hljs-punctuation">(</span>RemoteException ex<span class="hljs-punctuation">)</span> &#123;<br>                throw ex.rethrowFromSystemServer<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>            &#125;<br>            // Watch for getting close to heap limit.<br>            BinderInternal.addGcWatcher<span class="hljs-punctuation">(</span>new Runnable<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> &#123;<br>                @Override public void run<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> &#123;<br>                    if <span class="hljs-punctuation">(</span>!mSomeActivitiesChanged<span class="hljs-punctuation">)</span> &#123;<br>                        return<span class="hljs-comment">;</span><br>                    &#125;<br>                    Runtime runtime = Runtime.getRuntime<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>                    long dalvikMax = runtime.maxMemory<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>                    long dalvikUsed = runtime.totalMemory<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> - runtime.freeMemory<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>                    if <span class="hljs-punctuation">(</span>dalvikUsed &gt; <span class="hljs-punctuation">(</span><span class="hljs-punctuation">(</span><span class="hljs-number">3</span>*dalvikMax<span class="hljs-punctuation">)</span>/<span class="hljs-number">4</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> &#123;<br>                        if <span class="hljs-punctuation">(</span>DEBUG_MEMORY_TRIM<span class="hljs-punctuation">)</span> Slog.d<span class="hljs-punctuation">(</span>TAG, <span class="hljs-string">&quot;Dalvik max=&quot;</span> + <span class="hljs-punctuation">(</span>dalvikMax/<span class="hljs-number">1024</span><span class="hljs-punctuation">)</span><br>                                + <span class="hljs-string">&quot; total=&quot;</span> + <span class="hljs-punctuation">(</span>runtime.totalMemory<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span>/<span class="hljs-number">1024</span><span class="hljs-punctuation">)</span><br>                                + <span class="hljs-string">&quot; used=&quot;</span> + <span class="hljs-punctuation">(</span>dalvikUsed/<span class="hljs-number">1024</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>                        mSomeActivitiesChanged = false<span class="hljs-comment">;</span><br>                        try &#123;<br>                            mgr.releaseSomeActivities<span class="hljs-punctuation">(</span>mAppThread<span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>                        &#125; catch <span class="hljs-punctuation">(</span>RemoteException e<span class="hljs-punctuation">)</span> &#123;<br>                            throw e.rethrowFromSystemServer<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>                        &#125;<br>                    &#125;<br>                &#125;<br>            &#125;<span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到由于在ActivityThread的attach中我们传入的是false，故在attach方法中将执行!system里的代码，通过调用AMS的attachApplication来将ActivityThread中的内部类ApplicationThread对象绑定至AMS，这样AMS就可以通过这个代理对象 来控制应用进程。接着为这个进程添加垃圾回收观察者，每当系统触发垃圾回收的时候就在run方法中计算应用使用了多大的内存，如果超过总量的3&#x2F;4就尝试释放内存。</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs dns">public void attachApplication<span class="hljs-punctuation">(</span>IApplicationThread app<span class="hljs-punctuation">)</span> throws RemoteException<br>&#123;<br>    Parcel data = Parcel.obtain<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>    Parcel reply = Parcel.obtain<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>    data.writeInterfaceToken<span class="hljs-punctuation">(</span>IActivityManager.descriptor<span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>    data.writeStrongBinder<span class="hljs-punctuation">(</span>app.asBinder<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>    mRemote.transact<span class="hljs-punctuation">(</span>ATTACH_APPLICATION_TRANSACTION, data, reply, <span class="hljs-number">0</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>    reply.readException<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>    data.recycle<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>    reply.recycle<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-meta">@Override</span><br>public boolean <span class="hljs-title function_">onTransact</span>(<span class="hljs-built_in">int</span> code, <span class="hljs-title class_">Parcel</span> data, <span class="hljs-title class_">Parcel</span> reply, <span class="hljs-built_in">int</span> flags)<br>        throws <span class="hljs-title class_">RemoteException</span> &#123;<br>    <span class="hljs-keyword">switch</span> (code) &#123;<br>    	  <span class="hljs-keyword">case</span> ATTACH_APPLICATION_TRANSACTION: &#123;<br>            data.<span class="hljs-title function_">enforceInterface</span>(<span class="hljs-title class_">IActivityManager</span>.descriptor);<br>            <span class="hljs-title class_">IApplicationThread</span> app = <span class="hljs-title class_">ApplicationThreadNative</span>.<span class="hljs-title function_">asInterface</span>(<br>                    data.<span class="hljs-title function_">readStrongBinder</span>()); <span class="hljs-comment">//得到代理类ApplicationThreadProxy </span><br>            <span class="hljs-keyword">if</span> (app != <span class="hljs-keyword">null</span>) &#123;<br>                <span class="hljs-title function_">attachApplication</span>(app);<br>            &#125;<br>            reply.<span class="hljs-title function_">writeNoException</span>();<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-meta">@Override</span><br>public <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">attachApplication</span>(<span class="hljs-title class_">IApplicationThread</span> thread) &#123;<br>    synchronized (<span class="hljs-keyword">this</span>) &#123;<br>        <span class="hljs-built_in">int</span> callingPid = <span class="hljs-title class_">Binder</span>.<span class="hljs-title function_">getCallingPid</span>();<br>        <span class="hljs-keyword">final</span> long origId = <span class="hljs-title class_">Binder</span>.<span class="hljs-title function_">clearCallingIdentity</span>();<br>        <span class="hljs-title function_">attachApplicationLocked</span>(thread, callingPid);<br>        <span class="hljs-title class_">Binder</span>.<span class="hljs-title function_">restoreCallingIdentity</span>(origId);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>​	将应用进程的ApplicationThread对象绑定到AMS，即AMS获得ApplicationThread的代理对象 </p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs dns">private final boolean attachApplicationLocked<span class="hljs-punctuation">(</span>IApplicationThread thread,<br>        int pid<span class="hljs-punctuation">)</span> &#123;<br>        	//创建Application<br>          thread.bindApplication<span class="hljs-punctuation">(</span>processName, appInfo, providers, app.instrumentationClass,<br>                    profilerInfo, app.instrumentationArguments, app.instrumentationWatcher,<br>                    app.instrumentationUiAutomationConnection, testMode,<br>                    mBinderTransactionTrackingEnabled, enableTrackAllocation,<br>                    isRestrictedBackupMode || !normalMode, app.persistent,<br>                    new Configuration<span class="hljs-punctuation">(</span>mConfiguration<span class="hljs-punctuation">)</span>, app.compat,<br>                    getCommonServicesLocked<span class="hljs-punctuation">(</span>app.isolated<span class="hljs-punctuation">)</span>,<br>                                   mCoreSettingsObserver.getCoreSettingsLocked<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br>        <br>         //创建Activity<br>         if <span class="hljs-punctuation">(</span>mStackSupervisor.attachApplicationLocked<span class="hljs-punctuation">(</span>app<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> &#123;<br>                    didSomething = true<span class="hljs-comment">;</span><br>         &#125;<br>        <br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="create-Application"><a href="#create-Application" class="headerlink" title="create Application"></a>create Application</h5><p><img src="/ActivityStart02/ActivityThradmain3.png" srcset="/img/loading.gif" lazyload alt="ActivityThradmain3"></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-meta">@Override</span><br>public <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">bindApplication</span>(<span class="hljs-title class_">String</span> packageName, <span class="hljs-title class_">ApplicationInfo</span> info,<br>        <span class="hljs-title class_">List</span>&lt;<span class="hljs-title class_">ProviderInfo</span>&gt; providers, <span class="hljs-title class_">ComponentName</span> testName, <span class="hljs-title class_">ProfilerInfo</span> profilerInfo,<br>        <span class="hljs-title class_">Bundle</span> testArgs, <span class="hljs-title class_">IInstrumentationWatcher</span> testWatcher,<br>        <span class="hljs-title class_">IUiAutomationConnection</span> uiAutomationConnection, <span class="hljs-built_in">int</span> debugMode,<br>        boolean enableBinderTracking, boolean trackAllocation, boolean restrictedBackupMode,<br>        boolean persistent, <span class="hljs-title class_">Configuration</span> config, <span class="hljs-title class_">CompatibilityInfo</span> compatInfo,<br>        <span class="hljs-title class_">Map</span>&lt;<span class="hljs-title class_">String</span>, <span class="hljs-title class_">IBinder</span>&gt; services, <span class="hljs-title class_">Bundle</span> coreSettings) throws <span class="hljs-title class_">RemoteException</span> &#123;<br>   <br>    data.<span class="hljs-title function_">writeInt</span>(restrictedBackupMode ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span>);<br>    data.<span class="hljs-title function_">writeInt</span>(persistent ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span>);<br>    config.<span class="hljs-title function_">writeToParcel</span>(data, <span class="hljs-number">0</span>);<br>    compatInfo.<span class="hljs-title function_">writeToParcel</span>(data, <span class="hljs-number">0</span>);<br>    data.<span class="hljs-title function_">writeMap</span>(services);<br>    data.<span class="hljs-title function_">writeBundle</span>(coreSettings);<br>    mRemote.<span class="hljs-title function_">transact</span>(BIND_APPLICATION_TRANSACTION, data, <span class="hljs-keyword">null</span>,<br>            <span class="hljs-title class_">IBinder</span>.FLAG_ONEWAY);<br>    data.<span class="hljs-title function_">recycle</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs dart"> <span class="hljs-meta">@Override</span><br>    public boolean <span class="hljs-title function_">onTransact</span>(<span class="hljs-built_in">int</span> code, <span class="hljs-title class_">Parcel</span> data, <span class="hljs-title class_">Parcel</span> reply, <span class="hljs-built_in">int</span> flags)<br>            throws <span class="hljs-title class_">RemoteException</span> &#123;<br>        <span class="hljs-keyword">switch</span> (code) &#123;<br>					<span class="hljs-keyword">case</span> BIND_APPLICATION_TRANSACTION:<br><br>   					 boolean trackAllocation = data.<span class="hljs-title function_">readInt</span>() != <span class="hljs-number">0</span>;<br>    boolean restrictedBackupMode = (data.<span class="hljs-title function_">readInt</span>() != <span class="hljs-number">0</span>);<br>    boolean persistent = (data.<span class="hljs-title function_">readInt</span>() != <span class="hljs-number">0</span>);<br>    <span class="hljs-title class_">Configuration</span> config = <span class="hljs-title class_">Configuration</span>.CREATOR.<span class="hljs-title function_">createFromParcel</span>(data);<br>    <span class="hljs-title class_">CompatibilityInfo</span> compatInfo = <span class="hljs-title class_">CompatibilityInfo</span>.CREATOR.<span class="hljs-title function_">createFromParcel</span>(data);<br>    <span class="hljs-title class_">HashMap</span>&lt;<span class="hljs-title class_">String</span>, <span class="hljs-title class_">IBinder</span>&gt; services = data.<span class="hljs-title function_">readHashMap</span>(<span class="hljs-keyword">null</span>);<br>    <span class="hljs-title class_">Bundle</span> coreSettings = data.<span class="hljs-title function_">readBundle</span>();<br>    <span class="hljs-title function_">bindApplication</span>(packageName, info, providers, testName, profilerInfo, testArgs,<br>            testWatcher, uiAutomationConnection, testMode, enableBinderTracking,<br>            trackAllocation, restrictedBackupMode, persistent, config, compatInfo, services,<br>            coreSettings);<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>	<br>	      &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs dart">public <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">bindApplication</span>(<span class="hljs-title class_">String</span> processName, <span class="hljs-title class_">ApplicationInfo</span> appInfo,<br>        <span class="hljs-title class_">List</span>&lt;<span class="hljs-title class_">ProviderInfo</span>&gt; providers, <span class="hljs-title class_">ComponentName</span> instrumentationName,<br>        <span class="hljs-title class_">ProfilerInfo</span> profilerInfo, <span class="hljs-title class_">Bundle</span> instrumentationArgs,<br>        <span class="hljs-title class_">IInstrumentationWatcher</span> instrumentationWatcher,<br>        <span class="hljs-title class_">IUiAutomationConnection</span> instrumentationUiConnection, <span class="hljs-built_in">int</span> debugMode,<br>        boolean enableBinderTracking, boolean trackAllocation,<br>        boolean isRestrictedBackupMode, boolean persistent, <span class="hljs-title class_">Configuration</span> config,<br>        <span class="hljs-title class_">CompatibilityInfo</span> compatInfo, <span class="hljs-title class_">Map</span>&lt;<span class="hljs-title class_">String</span>, <span class="hljs-title class_">IBinder</span>&gt; services, <span class="hljs-title class_">Bundle</span> coreSettings) &#123;<br><br> <br>    data.restrictedBackupMode = isRestrictedBackupMode;<br>    data.persistent = persistent;<br>    data.config = config;<br>    data.compatInfo = compatInfo;<br>    data.initProfilerInfo = profilerInfo;<br>    <span class="hljs-title function_">sendMessage</span>(H.BIND_APPLICATION, data);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">case</span> BIND_APPLICATION:<br>    <span class="hljs-title class_">Trace</span>.<span class="hljs-title function_">traceBegin</span>(<span class="hljs-title class_">Trace</span>.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;bindApplication&quot;</span>);<br>    <span class="hljs-title class_">AppBindData</span> data = (<span class="hljs-title class_">AppBindData</span>)msg.obj;<br>    <span class="hljs-title function_">handleBindApplication</span>(data);<br>    <span class="hljs-title class_">Trace</span>.<span class="hljs-title function_">traceEnd</span>(<span class="hljs-title class_">Trace</span>.TRACE_TAG_ACTIVITY_MANAGER);<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs dart">private <span class="hljs-keyword">void</span> <span class="hljs-title function_">handleBindApplication</span>(<span class="hljs-title class_">AppBindData</span> data) &#123;<br>      <span class="hljs-comment">// If the app is being launched for full backup or restore, bring it up in</span><br>            <span class="hljs-comment">// a restricted environment with the base application class.</span><br>            <span class="hljs-title class_">Application</span> app = data.info.<span class="hljs-title function_">makeApplication</span>(data.restrictedBackupMode, <span class="hljs-keyword">null</span>);<br>            mInitialApplication = app;<br>	<br>					<br>					  mInstrumentation.<span class="hljs-title function_">callApplicationOnCreate</span>(app); <span class="hljs-comment">//调用Application的create方法</span><br><br>    <br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs dart">public <span class="hljs-title class_">Application</span> <span class="hljs-title function_">makeApplication</span>(boolean forceDefaultAppClass,<br>        <span class="hljs-title class_">Instrumentation</span> instrumentation) &#123;<br>    <span class="hljs-keyword">if</span> (mApplication != <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> mApplication;<br>    &#125;<br>    <br>        <span class="hljs-title class_">Application</span> app = <span class="hljs-keyword">null</span>;<br><br>        <span class="hljs-title class_">String</span> appClass = mApplicationInfo.className;<br>        <span class="hljs-keyword">if</span> (forceDefaultAppClass || (appClass == <span class="hljs-keyword">null</span>)) &#123;<br>            appClass = <span class="hljs-string">&quot;android.app.Application&quot;</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">try</span> &#123;<br>            java.lang.<span class="hljs-title class_">ClassLoader</span> cl = <span class="hljs-title function_">getClassLoader</span>();<br>            <span class="hljs-keyword">if</span> (!mPackageName.<span class="hljs-title function_">equals</span>(<span class="hljs-string">&quot;android&quot;</span>)) &#123;<br>                <span class="hljs-title class_">Trace</span>.<span class="hljs-title function_">traceBegin</span>(<span class="hljs-title class_">Trace</span>.TRACE_TAG_ACTIVITY_MANAGER,<br>                        <span class="hljs-string">&quot;initializeJavaContextClassLoader&quot;</span>);<br>                <span class="hljs-title function_">initializeJavaContextClassLoader</span>();<br>                <span class="hljs-title class_">Trace</span>.<span class="hljs-title function_">traceEnd</span>(<span class="hljs-title class_">Trace</span>.TRACE_TAG_ACTIVITY_MANAGER);<br>            &#125;<br>            <span class="hljs-title class_">ContextImpl</span> appContext = <span class="hljs-title class_">ContextImpl</span>.<span class="hljs-title function_">createAppContext</span>(mActivityThread, <span class="hljs-keyword">this</span>);<br>            app = mActivityThread.mInstrumentation.<span class="hljs-title function_">newApplication</span>(<br>                    cl, appClass, appContext);<br>            appContext.<span class="hljs-title function_">setOuterContext</span>(app);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><img src="/ActivityStart02/ActivityThradmain2.png" srcset="/img/loading.gif" lazyload alt="ActivityThradmain2"></p>
+<h5 id="LaunchActivity"><a href="#LaunchActivity" class="headerlink" title="LaunchActivity"></a>LaunchActivity</h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">// we use token to identify this activity without having to send the</span><br>        <span class="hljs-comment">// activity itself back to the activity manager. (matters more with ipc)</span><br>        <span class="hljs-meta">@Override</span><br>   public <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">scheduleLaunchActivity</span>(<span class="hljs-title class_">Intent</span> intent, <span class="hljs-title class_">IBinder</span> token, <span class="hljs-built_in">int</span> ident,<br>                <span class="hljs-title class_">ActivityInfo</span> info, <span class="hljs-title class_">Configuration</span> curConfig, <span class="hljs-title class_">Configuration</span> overrideConfig,<br>                <span class="hljs-title class_">CompatibilityInfo</span> compatInfo, <span class="hljs-title class_">String</span> referrer, <span class="hljs-title class_">IVoiceInteractor</span> voiceInteractor,<br>                <span class="hljs-built_in">int</span> procState, <span class="hljs-title class_">Bundle</span> state, <span class="hljs-title class_">PersistableBundle</span> persistentState,<br>                <span class="hljs-title class_">List</span>&lt;<span class="hljs-title class_">ResultInfo</span>&gt; pendingResults, <span class="hljs-title class_">List</span>&lt;<span class="hljs-title class_">ReferrerIntent</span>&gt; pendingNewIntents,<br>                boolean notResumed, boolean isForward, <span class="hljs-title class_">ProfilerInfo</span> profilerInfo) &#123;<br>                <br>            <span class="hljs-title class_">ActivityClientRecord</span> r = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ActivityClientRecord</span>();<br>            r.token = token;<br>            r.ident = ident;<br>            r.intent = intent;<br>            r.referrer = referrer;<br>            r.voiceInteractor = voiceInteractor;<br>            r.activityInfo = info;<br>            r.compatInfo = compatInfo;<br>            r.state = state;<br>            r.persistentState = persistentState;<br><br>            r.pendingResults = pendingResults;<br>            r.pendingIntents = pendingNewIntents;<br><br>            r.startsNotResumed = notResumed;<br>            r.isForward = isForward;<br><br>            r.profilerInfo = profilerInfo;<br><br>            r.overrideConfig = overrideConfig;<br>            <span class="hljs-title function_">updatePendingConfiguration</span>(curConfig);<br><br>            <span class="hljs-title function_">sendMessage</span>(H.LAUNCH_ACTIVITY, r);<br>                <br>    &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs dart">public <span class="hljs-keyword">void</span> <span class="hljs-title function_">handleMessage</span>(<span class="hljs-title class_">Message</span> msg) &#123;<br>    <span class="hljs-keyword">if</span> (DEBUG_MESSAGES) <span class="hljs-title class_">Slog</span>.<span class="hljs-title function_">v</span>(TAG, <span class="hljs-string">&quot;&gt;&gt;&gt; handling: &quot;</span> + <span class="hljs-title function_">codeToString</span>(msg.what));<br>    <span class="hljs-keyword">switch</span> (msg.what) &#123;<br>        <span class="hljs-keyword">case</span> LAUNCH_ACTIVITY: &#123;<br>            <span class="hljs-title class_">Trace</span>.<span class="hljs-title function_">traceBegin</span>(<span class="hljs-title class_">Trace</span>.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityStart&quot;</span>);<br>            <span class="hljs-keyword">final</span> <span class="hljs-title class_">ActivityClientRecord</span> r = (<span class="hljs-title class_">ActivityClientRecord</span>) msg.obj;<br><br>            r.packageInfo = <span class="hljs-title function_">getPackageInfoNoCheck</span>(<br>                    r.activityInfo.applicationInfo, r.compatInfo);<br>            <span class="hljs-title function_">handleLaunchActivity</span>(r, <span class="hljs-keyword">null</span>, <span class="hljs-string">&quot;LAUNCH_ACTIVITY&quot;</span>);<br>            <span class="hljs-title class_">Trace</span>.<span class="hljs-title function_">traceEnd</span>(<span class="hljs-title class_">Trace</span>.TRACE_TAG_ACTIVITY_MANAGER);<br>        &#125; <span class="hljs-keyword">break</span>;<br>  &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs dart">private <span class="hljs-keyword">void</span> <span class="hljs-title function_">handleLaunchActivity</span>(<span class="hljs-title class_">ActivityClientRecord</span> r, <span class="hljs-title class_">Intent</span> customIntent, <span class="hljs-title class_">String</span> reason) &#123;<br>  <span class="hljs-comment">//通过Activity所在的应用程序信息及该Activity对应的CompatibilityInfo信息从PMS服务中查询当前Activity的包信息  </span><br>    <span class="hljs-title class_">ActivityInfo</span> aInfo = r.activityInfo;<br>    <span class="hljs-keyword">if</span> (r.packageInfo == <span class="hljs-keyword">null</span>) &#123;<br>        r.packageInfo = <span class="hljs-title function_">getPackageInfo</span>(aInfo.applicationInfo, r.compatInfo,<br>                <span class="hljs-title class_">Context</span>.CONTEXT_INCLUDE_CODE);<br>    &#125;<br>    <span class="hljs-comment">//获取当前Activity的组件信息  </span><br>    <span class="hljs-title class_">ComponentName</span> component = r.intent.<span class="hljs-title function_">getComponent</span>();<br>    <span class="hljs-keyword">if</span> (component == <span class="hljs-keyword">null</span>) &#123;<br>        component = r.intent.<span class="hljs-title function_">resolveActivity</span>(<br>            mInitialApplication.<span class="hljs-title function_">getPackageManager</span>());<br>        r.intent.<span class="hljs-title function_">setComponent</span>(component);<br>    &#125;<br>    <span class="hljs-comment">//packageName为启动Activity的包名，targetActivity为Activity的类名  </span><br>    <span class="hljs-keyword">if</span> (r.activityInfo.targetActivity != <span class="hljs-keyword">null</span>) &#123;<br>        component = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ComponentName</span>(r.activityInfo.packageName,<br>                r.activityInfo.targetActivity);<br>    &#125;<br>    <span class="hljs-comment">//通过类反射方式加载即将启动的Activity</span><br>    <span class="hljs-title class_">Activity</span> activity = <span class="hljs-keyword">null</span>;<br>    <span class="hljs-keyword">try</span> &#123;<br>        java.lang.<span class="hljs-title class_">ClassLoader</span> cl = r.packageInfo.<span class="hljs-title function_">getClassLoader</span>();<br>        activity = mInstrumentation.<span class="hljs-title function_">newActivity</span>(<br>                cl, component.<span class="hljs-title function_">getClassName</span>(), r.intent);<br>        <span class="hljs-title class_">StrictMode</span>.<span class="hljs-title function_">incrementExpectedActivityCount</span>(activity.<span class="hljs-title function_">getClass</span>());<br>        r.intent.<span class="hljs-title function_">setExtrasClassLoader</span>(cl);<br>        r.intent.<span class="hljs-title function_">prepareToEnterProcess</span>();<br>        <span class="hljs-keyword">if</span> (r.state != <span class="hljs-keyword">null</span>) &#123;<br>            r.state.<span class="hljs-title function_">setClassLoader</span>(cl);<br>        &#125;<br>    &#125; ......<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-comment">//通过单例模式为应用程序进程创建Application对象  </span><br>        <span class="hljs-title class_">Application</span> app = r.packageInfo.<span class="hljs-title function_">makeApplication</span>(<span class="hljs-keyword">false</span>, mInstrumentation);<br><br>       ......<br>        <span class="hljs-keyword">if</span> (activity != <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-comment">//为当前Activity创建上下文对象ContextImpl  </span><br>            <span class="hljs-title class_">Context</span> appContext = <span class="hljs-title function_">createBaseContextForActivity</span>(r, activity);<br>            ......<br>            <span class="hljs-comment">//将当前启动的Activity和上下文ContextImpl、Application绑定</span><br>            activity.<span class="hljs-title function_">attach</span>(appContext, <span class="hljs-keyword">this</span>, <span class="hljs-title function_">getInstrumentation</span>(), r.token,<br>                    r.ident, app, r.intent, r.activityInfo, title, r.parent,<br>                    r.embeddedID, r.lastNonConfigurationInstances, config,<br>                    r.referrer, r.voiceInteractor, <span class="hljs-built_in">window</span>);<br><br>            ......<br>            <span class="hljs-comment">//将Activity保存到ActivityClientRecord中，ActivityClientRecord为Activity在应用程序进程中的描述符  </span><br>            r.activity = activity;<br>            activity.mCalled = <span class="hljs-keyword">false</span>;<br>            <span class="hljs-keyword">if</span> (r.<span class="hljs-title function_">isPersistable</span>()) &#123;<br>                mInstrumentation.<span class="hljs-title function_">callActivityOnCreate</span>(activity, r.state, r.persistentState);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                mInstrumentation.<span class="hljs-title function_">callActivityOnCreate</span>(activity, r.state);<br>            &#125;<br>            ......<br>            <span class="hljs-comment">//生命周期onStart、onresume</span><br>            <span class="hljs-keyword">if</span> (!r.activity.mFinished) &#123;<br>                activity.<span class="hljs-title function_">performStart</span>();<br>                r.stopped = <span class="hljs-keyword">false</span>;<br>            &#125;<br><br>            <span class="hljs-comment">//ActivityThread的成员变量mActivities保存了当前应用程序进程中的所有Activity的描述符</span><br>            mActivities.<span class="hljs-title function_">put</span>(r.token, r);<br>            ......<br>    <span class="hljs-keyword">return</span> activity;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>在上述方法中将调用performLaunchActivity来启动Activity，如下</p>
+<p>应用程序进程通过performLaunchActivity函数将即将要启动的Activity加载到当前进程空间来，同时为启动Activity做准备。 [ActivityThread.java #performLaunchActivity()]</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs dart">private <span class="hljs-title class_">Activity</span> <span class="hljs-title function_">performLaunchActivity</span>(<span class="hljs-title class_">ActivityClientRecord</span> r, <span class="hljs-title class_">Intent</span> customIntent) &#123;<br>		 	<span class="hljs-comment">//用类加载器来创建该Activity的实例</span><br>     activity = mInstrumentation.<span class="hljs-title function_">newActivity</span>(<br>                    cl, component.<span class="hljs-title function_">getClassName</span>(), r.intent);<br>&#125;<br><br> public <span class="hljs-title class_">Activity</span> <span class="hljs-title function_">newActivity</span>(<span class="hljs-title class_">ClassLoader</span> cl, <span class="hljs-title class_">String</span> className,<br>            <span class="hljs-title class_">Intent</span> intent)<br>            throws <span class="hljs-title class_">InstantiationException</span>, <span class="hljs-title class_">IllegalAccessException</span>,<br>            <span class="hljs-title class_">ClassNotFoundException</span> &#123;<br>        <span class="hljs-keyword">return</span> (<span class="hljs-title class_">Activity</span>)cl.<span class="hljs-title function_">loadClass</span>(className).<span class="hljs-title function_">newInstance</span>();<br> &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h5><p>Application Activity创建流程 </p>
+<p>Launch app启动问题 </p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5baf275f5188255c9a7740ba">https://juejin.im/post/5baf275f5188255c9a7740ba</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ANDROID/" class="category-chain-item">ANDROID</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AOSP/" class="print-no-link">#AOSP</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ActivityStart02</div>
+      <div>https://noteforme.github.io/2020/01/13/ActivityStart02/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 13, 2020</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/01/18/ActivityStart01/" title="ActivityStart01">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ActivityStart01</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/06/JVM-HEAP/" title="JVM_HEAP">
+                        <span class="hidden-mobile">JVM_HEAP</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
