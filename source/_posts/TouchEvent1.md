@@ -1,3 +1,12 @@
+---
+title: TouchEvent1
+comments: true
+date: 2018-01-08 21:18:55
+tags: TouchEvent
+categories: VIEW
+
+---
+
 今天学习Android的是事件分发机制的部分内容。
 
 Android事件分发机制是指在Android系统中，如何将触摸事件（TouchEvent）从系统分发到各个View组件。这个过程主要涉及三个方法：`dispatchTouchEvent`、`onInterceptTouchEvent`、`onTouchEvent`。下面是对这三个方法及其工作流程的详细介绍：
