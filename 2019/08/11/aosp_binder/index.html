@@ -19,26 +19,24 @@
   <meta name="author" content="Jon">
   <meta name="keywords" content="">
   
-    <meta name="description" content="IPC方式信号量 共享内存 : 容易导致同步问题。因为用户端没法解决。 Socket Binder: 服务端映射后， 官方解决了同步问题。  多进程作用 Binder流程 Binder机制mmap作用让一块虚拟内存 指向一块已知的物理内存。  这个物理内存是binder提供的。  传统进程通信  Binder进程通信   查看进程分配的内存大小123AppledeMacBook-Pro:MineU">
+    <meta name="description" content="IPC方式信号量 共享内存 : 容易导致同步问题。因为用户端没法解决。 Socket Binder: 服务端映射后， 官方解决了同步问题。 Binder 面试常见问题：  为什么面试要问 Binder？ Binder 有什么优势？（字节跳动） Binder 是如何做到一次拷贝的？（腾讯） MMAP 的原理讲解（腾讯） Binder 机制是如何跨进程的？（阿里） 描述 AIDL 生成的 Java 类">
 <meta property="og:type" content="article">
 <meta property="og:title" content="aosp_binder">
 <meta property="og:url" content="https://noteforme.github.io/2019/08/11/aosp_binder/index.html">
 <meta property="og:site_name" content="Jon&#39;s Blog">
-<meta property="og:description" content="IPC方式信号量 共享内存 : 容易导致同步问题。因为用户端没法解决。 Socket Binder: 服务端映射后， 官方解决了同步问题。  多进程作用 Binder流程 Binder机制mmap作用让一块虚拟内存 指向一块已知的物理内存。  这个物理内存是binder提供的。  传统进程通信  Binder进程通信   查看进程分配的内存大小123AppledeMacBook-Pro:MineU">
+<meta property="og:description" content="IPC方式信号量 共享内存 : 容易导致同步问题。因为用户端没法解决。 Socket Binder: 服务端映射后， 官方解决了同步问题。 Binder 面试常见问题：  为什么面试要问 Binder？ Binder 有什么优势？（字节跳动） Binder 是如何做到一次拷贝的？（腾讯） MMAP 的原理讲解（腾讯） Binder 机制是如何跨进程的？（阿里） 描述 AIDL 生成的 Java 类">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://noteforme.github.io/images/binder/2021-08-11_9.56_qustion1.png">
-<meta property="og:image" content="https://noteforme.github.io/images/binder/2021-08-11_8.40_function2.png">
 <meta property="og:image" content="https://noteforme.github.io/images/binder/2021-08-11_8.31_binder_over.png">
 <meta property="og:image" content="https://noteforme.github.io/images/binder/2021-08-11_9_binder_function.png">
 <meta property="og:image" content="https://noteforme.github.io/2019/08/11/images/binder/2021-08-11_9.12_process_old.png">
 <meta property="og:image" content="https://noteforme.github.io/2019/08/11/images/binder/2021-08-11_9.13_process_now.png">
 <meta property="og:image" content="https://noteforme.github.io/images/binder/2021-08-11_9.29.33_mmap.png">
 <meta property="article:published_time" content="2019-08-11T07:26:25.000Z">
-<meta property="article:modified_time" content="2026-10-11T11:50:44.222Z">
+<meta property="article:modified_time" content="2026-10-12T07:33:57.347Z">
 <meta property="article:author" content="Jon">
 <meta property="article:tag" content="binder">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://noteforme.github.io/images/binder/2021-08-11_9.56_qustion1.png">
+<meta name="twitter:image" content="https://noteforme.github.io/images/binder/2021-08-11_8.31_binder_over.png">
   
   
   
@@ -334,7 +332,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          549 words
+          1.7k words
         
       </span>
     
@@ -345,7 +343,7 @@
         
         
         
-          5 mins
+          15 mins
         
       </span>
     
@@ -393,9 +391,49 @@
 <p>共享内存 : 容易导致同步问题。因为用户端没法解决。</p>
 <p>Socket</p>
 <p>Binder: 服务端映射后， 官方解决了同步问题。</p>
-<p><img src="/../images/binder/2021-08-11_9.56_qustion1.png" srcset="/img/loading.gif" lazyload></p>
-<h4 id="多进程作用"><a href="#多进程作用" class="headerlink" title="多进程作用"></a>多进程作用</h4><p><img src="/../images/binder/2021-08-11_8.40_function2.png" srcset="/img/loading.gif" lazyload></p>
+<p>Binder 面试常见问题：</p>
+<ol>
+<li>为什么面试要问 Binder？</li>
+<li>Binder 有什么优势？（字节跳动）</li>
+<li>Binder 是如何做到一次拷贝的？（腾讯）</li>
+<li>MMAP 的原理讲解（腾讯）</li>
+<li>Binder 机制是如何跨进程的？（阿里）</li>
+<li>描述 AIDL 生成的 Java 类细节（字节跳动）</li>
+<li>四大组件底层的通信机制（字节跳动）</li>
+<li>为什么 Intent 不能传递大数据？（阿里）</li>
+</ol>
+<h4 id="多进程作用"><a href="#多进程作用" class="headerlink" title="多进程作用"></a>多进程作用</h4><p>虚拟机分配给各个进程的运行内存有限，LMK 也会优先回收占用系统资源较多的进程。使用独立进程有以下作用：</p>
+<ul>
+<li>突破进程内存限制，例如图库占用内存过多时。</li>
+<li>提高功能稳定性：独立的通信进程可以保持长连接的稳定性。</li>
+<li>规避系统内存泄漏：独立的 WebView 进程可以隔离内存泄漏带来的问题。</li>
+<li>隔离风险：将不稳定的功能放入独立进程，避免主进程因此崩溃。</li>
+</ul>
 <h4 id="Binder流程"><a href="#Binder流程" class="headerlink" title="Binder流程"></a>Binder流程</h4><p><img src="/../images/binder/2021-08-11_8.31_binder_over.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="sayhello-to-argv-2-调用时序"><a href="#sayhello-to-argv-2-调用时序" class="headerlink" title="sayhello_to(argv[2]) 调用时序"></a><code>sayhello_to(argv[2])</code> 调用时序</h5><p>下面从 <code>main()</code> 调用 <code>sayhello_to()</code> 开始。调用前，客户端已经通过 Service Manager 查询到 <code>hello</code> 服务，并保存了 <code>g_hello_handle</code>。</p>
+<pre><code class=" mermaid">sequenceDiagram
+    autonumber
+    participant C as test_client 客户端
+    participant K as Binder 驱动
+    participant S as test_server 服务端
+    participant H as hello_service_handler
+
+    Note over C: 已通过 Service Manager 查询 hello 服务，取得 g_hello_handle
+    C-&gt;&gt;C: main() 调用 sayhello_to(argv[2])
+    C-&gt;&gt;C: bio_init，编码接口名 IHelloService 和 name
+    C-&gt;&gt;K: ioctl(BINDER_WRITE_READ)：BC_TRANSACTION(handle, code=2, data)
+    Note right of C: code=HELLO_SVR_CMD_SAYHELLO_TO
+    K-&gt;&gt;S: BR_TRANSACTION(txn)
+    S-&gt;&gt;H: binder_loop → test_server_handler → handler(txn.target.ptr)
+    H-&gt;&gt;H: 检查 txn.code，解码 name，调用服务端 sayhello_to(name)
+    H--&gt;&gt;S: reply 写入 exception=0 和返回值 cnt
+    S-&gt;&gt;K: BC_FREE_BUFFER + BC_REPLY
+    K--&gt;&gt;C: BR_REPLY
+    C-&gt;&gt;C: binder_parse 解析 reply，读取 exception 和 ret
+    C-&gt;&gt;K: BC_FREE_BUFFER：释放 reply 缓冲区
+    C--&gt;&gt;C: sayhello_to 返回 ret，main 打印结果
+</code></pre>
+
 <h4 id="Binder机制"><a href="#Binder机制" class="headerlink" title="Binder机制"></a>Binder机制</h4><h5 id="mmap作用"><a href="#mmap作用" class="headerlink" title="mmap作用"></a>mmap作用</h5><p>让一块虚拟内存 指向一块已知的物理内存。  这个物理内存是binder提供的。</p>
 <p><img src="/../images/binder/2021-08-11_9_binder_function.png" srcset="/img/loading.gif" lazyload></p>
 <h4 id="传统进程通信"><a href="#传统进程通信" class="headerlink" title="传统进程通信"></a>传统进程通信</h4><img src="../images/binder/2021-08-11_9.12_process_old.png" srcset="/img/loading.gif" lazyload style="zoom: 33%;" />
