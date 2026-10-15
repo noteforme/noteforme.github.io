@@ -26,14 +26,14 @@
 <meta property="og:site_name" content="Jon&#39;s Blog">
 <meta property="og:description" content="堆内存细分现代垃圾收集器大部分都基于分代收集理论设计，堆空间细分为：  Java7 及之前堆内存逻辑上分为三部分：新生区+养老区+永久区 Young Generation Space    新生区      Young&#x2F;New 又被划分为Eden区和Survivor区   Old generation space    养老区           Old&#x2F;Tenure Perm">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://noteforme.github.io/2020/01/06/JVM-HEAP/JVM-HEAP/heap0003.png">
-<meta property="og:image" content="https://noteforme.github.io/JVM-HEAP/java80004.png">
+<meta property="og:image" content="https://noteforme.github.io/images/java/jvm-heap__heap0003.png">
+<meta property="og:image" content="https://noteforme.github.io/images/java/jvm-heap__java80004.png">
 <meta property="article:published_time" content="2020-01-06T09:37:17.000Z">
-<meta property="article:modified_time" content="2026-10-11T11:08:45.649Z">
+<meta property="article:modified_time" content="2026-10-13T03:37:59.602Z">
 <meta property="article:author" content="Jon">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://noteforme.github.io/2020/01/06/JVM-HEAP/JVM-HEAP/heap0003.png">
+<meta name="twitter:image" content="https://noteforme.github.io/images/java/jvm-heap__heap0003.png">
   
   
   
@@ -75,7 +75,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.9","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -306,7 +306,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="JVM_HEAP"></span>
+            <span id="subtitle">JVM_HEAP</span>
           
         </div>
 
@@ -403,12 +403,12 @@
 </li>
 </ol>
 <p>约定：新生区 &lt;–&gt; 新生代 &lt;–&gt; 年轻代 、 养老区 &lt;–&gt; 老年区 &lt;–&gt; 老年代、 永久区 &lt;–&gt; 永久代</p>
-<img src="JVM-HEAP/heap0003.png" srcset="/img/loading.gif" lazyload  />
+<img src="/images/java/jvm-heap__heap0003.png" srcset="/img/loading.gif" lazyload  />
 
 <ol>
 <li>堆空间内部结构，JDK1.8之前从永久代 替换成 元空间</li>
 </ol>
-<p><img src="/JVM-HEAP/java80004.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/images/java/jvm-heap__java80004.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="堆是分配对象的唯一选择么？"><a href="#堆是分配对象的唯一选择么？" class="headerlink" title="堆是分配对象的唯一选择么？"></a><a target="_blank" rel="noopener" href="https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC5%E7%AB%A0-%E5%A0%86?id=%E5%A0%86%E6%98%AF%E5%88%86%E9%85%8D%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%94%AF%E4%B8%80%E9%80%89%E6%8B%A9%E4%B9%88%EF%BC%9F">堆是分配对象的唯一选择么？</a></h2><p><strong>在《深入理解Java虚拟机》中关于Java堆内存有这样一段描述：</strong></p>
 <ol>
 <li>随着JIT编译期的发展与<strong>逃逸分析技术</strong>逐渐成熟，<strong>栈上分配、标量替换</strong>优化技术将会导致一些微妙的变化，所有的对象都分配到堆上也渐渐变得不那么“绝对”了。</li>
@@ -701,21 +701,6 @@
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 

@@ -26,14 +26,14 @@
 <meta property="og:site_name" content="Jon&#39;s Blog">
 <meta property="og:description" content="锁的7大类偏向锁&#x2F;轻量级锁&#x2F;重量级锁；  偏向锁 ​    如果自始至终，对于这把锁都不存在竞争，那么其实就没必要上锁，只需要打个标记就行了，这就是偏向锁的思想。  轻量级锁 ​    JVM 开发者发现在很多情况下，synchronized 中的代码是被多个线程交替执行的，而不是同时执行的，也就是说并不存在实际的    竞争，或者是只有短时间的锁竞争，用 CAS 就可以解决，">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://noteforme.github.io/Concurrency_Locking/2021-07-06_12-19-34.png">
+<meta property="og:image" content="https://noteforme.github.io/images/java/concurrency_locking__2021-07-06_12-19-34.png">
 <meta property="og:image" content="https://s0.lgstatic.com/i/image3/M01/58/E4/CgpOIF35yCGAGFBbAAAO9n9VgTQ034.png">
 <meta property="article:published_time" content="2018-05-24T14:31:57.000Z">
-<meta property="article:modified_time" content="2026-10-11T11:08:45.518Z">
+<meta property="article:modified_time" content="2026-10-13T03:37:59.632Z">
 <meta property="article:author" content="Jon">
 <meta property="article:tag" content="concurrency">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://noteforme.github.io/Concurrency_Locking/2021-07-06_12-19-34.png">
+<meta name="twitter:image" content="https://noteforme.github.io/images/java/concurrency_locking__2021-07-06_12-19-34.png">
   
   
   
@@ -75,7 +75,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"noteforme.github.io","root":"/","version":"1.9.9","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -306,7 +306,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Concurrency_Locking"></span>
+            <span id="subtitle">Concurrency_Locking</span>
           
         </div>
 
@@ -384,7 +384,7 @@
             
               <div class="markdown-body">
                 
-                <h4 id="锁的7大类"><a href="#锁的7大类" class="headerlink" title="锁的7大类"></a>锁的7大类</h4><h5 id="偏向锁-轻量级锁-重量级锁；"><a href="#偏向锁-轻量级锁-重量级锁；" class="headerlink" title="偏向锁&#x2F;轻量级锁&#x2F;重量级锁；"></a>偏向锁&#x2F;轻量级锁&#x2F;重量级锁；</h5><p><img src="/Concurrency_Locking/2021-07-06_12-19-34.png" srcset="/img/loading.gif" lazyload></p>
+                <h4 id="锁的7大类"><a href="#锁的7大类" class="headerlink" title="锁的7大类"></a>锁的7大类</h4><h5 id="偏向锁-轻量级锁-重量级锁；"><a href="#偏向锁-轻量级锁-重量级锁；" class="headerlink" title="偏向锁&#x2F;轻量级锁&#x2F;重量级锁；"></a>偏向锁&#x2F;轻量级锁&#x2F;重量级锁；</h5><p><img src="/images/java/concurrency_locking__2021-07-06_12-19-34.png" srcset="/img/loading.gif" lazyload></p>
 <ul>
 <li><p>偏向锁</p>
 <p>​    如果自始至终，对于这把锁都不存在竞争，那么其实就没必要上锁，只需要打个标记就行了，这就是偏向锁的思想。</p>
@@ -886,21 +886,6 @@ public synchronized void drop() {
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 
