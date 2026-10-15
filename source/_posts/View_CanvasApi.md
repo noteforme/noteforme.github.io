@@ -43,7 +43,7 @@ categories: VIEW
         canvas.drawPath(path, mPaint);
 ```
 
-<img src="View_CanvasApi/custoview_02.jpg" alt="customview" style="zoom: 25%;" />
+<img src="/images/view/view_canvasapi__custoview_02.jpg" alt="customview" style="zoom: 25%;" />
 
 从字面意思 lineto,顾名思义肯定就有from的坐标点，再看这个借的图，第一条线是从原点开始的，第二条线是从A开始的，
 
@@ -230,13 +230,13 @@ SaveRestoreView
 
 运行效果：
 
-<img src="View_CanvasApi/Screen_Shot_2020-02-25_0.44.15.png" style="zoom: 50%;" />
+<img src="/images/view/view_canvasapi__Screen_Shot_2020-02-25_0.44.15.png" style="zoom: 50%;" />
 
 
 
 打开注释后的运行效果，这样运行后相当于 没有发生选择画布这件事。
 
-<img src="View_CanvasApi/Screen_Shot_2020-02-25_10.46.05.png" alt="Screen_Shot_2020-02-25_10.46.05" style="zoom:50%;" />
+<img src="/images/view/view_canvasapi__Screen_Shot_2020-02-25_10.46.05.png" alt="Screen_Shot_2020-02-25_10.46.05" style="zoom:50%;" />
 
 
 

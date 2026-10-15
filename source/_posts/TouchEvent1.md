@@ -100,7 +100,7 @@ ShouldDelayChildPressedState
 
 这个你也看一下是否要加 系统级别的延迟,别看了 你继承的class 不会延迟
 
-<img src="TouchEvent1/ShouldDelayChildPressedState.png" alt="ShouldDelayChildPressedState" style="zoom: 50%;" />
+<img src="/images/view/touchevent1__ShouldDelayChildPressedState.png" alt="ShouldDelayChildPressedState" style="zoom: 50%;" />
 
 #### Question
 
@@ -116,15 +116,15 @@ Android provide NestedScrollView for us now,how does it work?
 
 ##### Image  clear
 
-<img title="" src="TouchEvent1/e212186f23a1ff62130f8cc625ebd5fdfd9a848f.png" alt="touch" style="zoom: 67%;">
+<img title="" src="/images/view/touchevent1__e212186f23a1ff62130f8cc625ebd5fdfd9a848f.png" alt="touch" style="zoom: 67%;">
 
 I found it very useful when i looked it.it make me have global view.and then I read Activity ViewGroup and View source code from framework. But I found some place could do better ,so I draw another Image.
 
-<img src="TouchEvent1/ACTION_DOWN No childView.png" alt="action down" style="zoom:67%;" />
+<img src="/images/view/touchevent1__ACTION_DOWN No childView.png" alt="action down" style="zoom:67%;" />
 
-<img src="TouchEvent1/ACTION_DOWN.png" alt="down" style="zoom:67%;" />
+<img src="/images/view/touchevent1__ACTION_DOWN.png" alt="down" style="zoom:67%;" />
 
-<img src="TouchEvent1/ACTION_MOVE UP.png" alt="move" style="zoom:67%;" />
+<img src="/images/view/touchevent1__ACTION_MOVE UP.png" alt="move" style="zoom:67%;" />
 
 开发中常用的事件分发
 

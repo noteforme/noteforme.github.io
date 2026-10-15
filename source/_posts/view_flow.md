@@ -8,7 +8,7 @@ categories: VIEW
 
 自定义View函数调用流程 
 
- ![](view_flow/2019-04-29-71649.jpg)
+ ![](/images/view/view_flow__2019-04-29-71649.jpg)
 
 
 

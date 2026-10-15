@@ -6,17 +6,17 @@ tags:
 categories: JAVA
 ---
 
-![Screen Shot 2020-09-12 at 5.20.14 PM](JavaIo/Screen Shot 2020-09-12 at 5.20.14 PM.png)
+![Screen Shot 2020-09-12 at 5.20.14 PM](/images/java/javaio__Screen Shot 2020-09-12 at 5.20.14 PM.png)
 
 
 
 
 
-![Screen Shot 2020-09-12 at 5.22.29 PM](JavaIo/Screen Shot 2020-09-12 at 5.22.29 PM.png)
+![Screen Shot 2020-09-12 at 5.22.29 PM](/images/java/javaio__Screen Shot 2020-09-12 at 5.22.29 PM.png)
 
 
 
-<img src="JavaIo/java7-1535863955.jpg" alt="java7-1535863955"  />
+<img src="/images/java/javaio__java7-1535863955.jpg" alt="java7-1535863955"  />
 
 
 

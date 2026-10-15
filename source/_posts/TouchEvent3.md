@@ -48,7 +48,7 @@ button clickable=true,所以 默认消费事件,TextView不会
 
 
 
-<img src="TouchEvent3/TouchEvent3.png" alt="TouchEvent3" style="zoom:50%;" />
+<img src="/images/view/touchevent3__TouchEvent3.png" alt="TouchEvent3" style="zoom:50%;" />
 
 
 
@@ -102,7 +102,7 @@ RootView
 
 
 
-<img src="TouchEvent3/Inner_ViewGroupA.png" alt="Inner_ViewGroupA" style="zoom:67%;" />
+<img src="/images/view/touchevent3__Inner_ViewGroupA.png" alt="Inner_ViewGroupA" style="zoom:67%;" />
 
 
 
@@ -147,7 +147,7 @@ Action_down都会被ViewGroupA消费,所以主要分析Action_Move事件流程,�
 
 
 
-<img src="TouchEvent3/inter_RootView.png" alt="inter_RootView" style="zoom:67%;" />
+<img src="/images/view/touchevent3__inter_RootView.png" alt="inter_RootView" style="zoom:67%;" />
 
 
 
@@ -200,5 +200,5 @@ https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&mid=2650237941&idx=1&sn=40bca6
 
 
 
-![Inner_ViewGroupA](TouchEvent3/Inner_ViewGroupA.png)
+![Inner_ViewGroupA](/images/view/touchevent3__Inner_ViewGroupA.png)
 

@@ -10,7 +10,7 @@ categories: JAVA
 
 
 
-![2020-08-19_at_3.54.13](Concurrency-SychronizedVolatile/2020-08-19_at_3.54.13.png)
+![2020-08-19_at_3.54.13](/images/java/concurrency-sychronizedvolatile__2020-08-19_at_3.54.13.png)
 
 ####  MESI
 
@@ -222,7 +222,7 @@ public class VisibilityThread {
 
 流程图
 
-![](Concurrency-SychronizedVolatile/2021-03-11_at_10.30.09.png)
+![](/images/java/concurrency-sychronizedvolatile__2021-03-11_at_10.30.09.png)
 
 
 

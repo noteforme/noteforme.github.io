@@ -41,7 +41,7 @@ some tool for mac
 
 tcp ip tool
 
-<img src="tool-mac/Screen Shot 2020-04-11 at 4.40.59 PM.png" alt="Screen Shot 2020-04-11 at 4.40.59 PM" style="zoom:67%;" />
+<img src="/images/tool/tool-mac__Screen Shot 2020-04-11 at 4.40.59 PM.png" alt="Screen Shot 2020-04-11 at 4.40.59 PM" style="zoom:67%;" />
 
 ##### HomeBrew安装
 

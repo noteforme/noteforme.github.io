@@ -14,7 +14,7 @@ https://blog.csdn.net/bn493235694/article/details/79600634
 
 
 
-<img src="Java-Queue/16d7ddc81e9f954f.jpg" alt="16d7ddc81e9f954f"  />
+<img src="/images/java/java-queue__16d7ddc81e9f954f.jpg" alt="16d7ddc81e9f954f"  />
 
 
 

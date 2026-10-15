@@ -40,7 +40,7 @@ checked是选中很多项，都选中。
 
 ##### 设置Button按钮背景 #####
 
-![登录背景](background_draw/bg_login.png)
+![登录背景](/images/view/background_draw__bg_login.png)
 
 ```
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
@@ -91,7 +91,7 @@ checked是选中很多项，都选中。
     </item>
     </layer-list>
 
-![图层显示](background_draw/bg_layer.png)
+![图层显示](/images/view/background_draw__bg_layer.png)
 
 LayerDrawable 是管理其他可绘制对象阵列的可绘制对象。列表中的每个可绘制对象按照列表的顺序绘制，列表中的最后一个可绘制对象绘于顶部。每个可绘制对象由单一 元素内的 元素表示。我们需要注意的是layer-list中有item的先后顺序会影响展示效果，不同顺序的效果可能大相径庭，因为，后面的item总是在之前的item之上并覆盖显示。
 

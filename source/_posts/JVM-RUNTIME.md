@@ -12,7 +12,7 @@ categories: JAVA
 
 本节主要讲的是运行时数据区，也就是下图这部分，它是在类加载完成后的阶段
 
-![](JVM-RUNTIME/0001.png)
+![](/images/java/jvm-runtime__0001.png)
 
 当我们通过前面的：类的加载 --> 验证 --> 准备 --> 解析 --> 初始化，这几个阶段完成后，就会用到执行引擎对我们的类进行使用，同时执行引擎将会使用到我们运行时数据区
 
@@ -23,7 +23,7 @@ categories: JAVA
 1. 内存是非常重要的系统资源，是硬盘和CPU的中间仓库及桥梁，承载着操作系统和应用程序的实时运行。JVM内存布局规定了Java在运行过程中内存申请、分配、管理的策略，保证了JVM的高效稳定运行。**不同的JVM对于内存的划分方式和管理机制存在着部分差异**。结合JVM虚拟机规范，来探讨一下经典的JVM内存布局。
 2. 我们通过磁盘或者网络IO得到的数据，都需要先加载到内存中，然后CPU从内存中获取数据进行读取，也就是说内存充当了CPU和磁盘之间的桥梁
 
-![](JVM-RUNTIME/0004.jpg)
+![](/images/java/jvm-runtime__0004.jpg)
 
 ### [线程的内存空间](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第3章-运行时数据区?id=线程的内存空间)
 
@@ -32,7 +32,7 @@ categories: JAVA
    - 线程独有：独立包括程序计数器、栈、本地方法栈
    - 线程间共享：堆、堆外内存（永久代或元空间、代码缓存）
 
-![](JVM-RUNTIME/0005.png)
+![](/images/java/jvm-runtime__0005.png)
 
 ### [Runtime类](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第3章-运行时数据区?id=runtime类)
 
@@ -65,7 +65,7 @@ categories: JAVA
 
 
 
-![](JVM-RUNTIME/0007.png)
+![](/images/java/jvm-runtime__0007.png)
 
 1. JVM中的程序计数寄存器（Program Counter Register）中，Register的命名源于CPU的寄存器，**寄存器存储指令相关的现场信息**。CPU只有把数据装载到寄存器才能够运行。
 2. 这里，并非是广义上所指的物理寄存器，或许将其翻译为PC计数器（或指令计数器）会更加贴切（也称为程序钩子），并且也不容易引起一些不必要的误会。**JVM中的PC寄存器是对物理PC寄存器的一种抽象模拟**。
@@ -80,7 +80,7 @@ categories: JAVA
 
 PC寄存器用来存储指向下一条指令的地址，也即将要执行的指令代码。由执行引擎读取下一条指令，并执行该指令。
 
-![](JVM-RUNTIME/0008.png)
+![](/images/java/jvm-runtime__0008.png)
 
 ```java
 public class PCRegisterTest {
@@ -207,7 +207,7 @@ SourceFile: "PCRegisterTest.java"
 
 - 左边的数字代表**指令地址（指令偏移）**，即 PC 寄存器中可能存储的值，然后执行引擎读取 PC 寄存器中的值，并执行该指令
 
-![](JVM-RUNTIME/0009.png)
+![](/images/java/jvm-runtime__0009.png)
 
 ## [两个面试题](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第3章-运行时数据区?id=两个面试题)
 
@@ -216,7 +216,7 @@ SourceFile: "PCRegisterTest.java"
 1. 因为CPU需要不停的切换各个线程，这时候切换回来以后，就得知道接着从哪开始继续执行
 2. JVM的字节码解释器就需要通过改变PC寄存器的值来明确下一条应该执行什么样的字节码指令
 
-![](JVM-RUNTIME/0010.png)
+![](/images/java/jvm-runtime__0010.png)
 
 **PC寄存器为什么被设定为私有的？**
 
@@ -236,4 +236,4 @@ SourceFile: "PCRegisterTest.java"
 
    
 
-![](JVM-RUNTIME/0011.png)
+![](/images/java/jvm-runtime__0011.png)

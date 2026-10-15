@@ -11,7 +11,7 @@ categories: TOOL
  　有时候需要看低版本的源码，就要修改compileSdkVersion版本
 
 1. 修改编译版本
-   ![](AndroidStudioTool/DeepinScrot_compile.png)
+   ![](/images/tool/androidstudiotool__DeepinScrot_compile.png)
 
 2. targetSdkVersion版本修改成　21   然后   compile 'com.android.support:appcompat-v7:21.+' 继承的AppCompatActivity改成Activity
 
@@ -151,7 +151,7 @@ https://www.jianshu.com/p/11e56991ff28
 
 显示
 
-![20220610144253](AndroidStudioTool/20220610144253.jpg)
+![20220610144253](/images/tool/androidstudiotool__20220610144253.jpg)
 
 # gradle panel tasks
 

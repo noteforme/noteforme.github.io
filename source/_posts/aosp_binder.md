@@ -1,5 +1,5 @@
 ---
-title: Android Binder 通信流程与模拟器调试
+title: aosp_binder
 permalink: /2019/08/11/aosp_binder/
 comments: true
 date: 2019-08-11 15:26:25
@@ -15,12 +15,12 @@ categories: aosp
 
 Android 应用和系统服务通常运行在不同进程中。进程间需要交换数据，也需要管理服务查找、对象引用和并发访问。
 
-| 方式 | 主要用途 | 需要留意的地方 |
-| --- | --- | --- |
-| 信号量 | 协调进程或线程的访问顺序 | 负责同步，不直接传递业务数据 |
-| 共享内存 | 让多个进程读写同一片映射区域 | 双方要自行约定数据格式、锁和生命周期 |
-| Socket | 通过字节流或数据报交换消息 | 需要自行处理连接、协议和数据编解码 |
-| Binder | 面向 Android 服务的对象调用和消息传递 | 使用 Binder 驱动、对象句柄和 Service Manager 管理服务 |
+| 方式     | 主要用途                              | 需要留意的地方                                        |
+| -------- | ------------------------------------- | ----------------------------------------------------- |
+| 信号量   | 协调进程或线程的访问顺序              | 负责同步，不直接传递业务数据                          |
+| 共享内存 | 让多个进程读写同一片映射区域          | 双方要自行约定数据格式、锁和生命周期                  |
+| Socket   | 通过字节流或数据报交换消息            | 需要自行处理连接、协议和数据编解码                    |
+| Binder   | 面向 Android 服务的对象调用和消息传递 | 使用 Binder 驱动、对象句柄和 Service Manager 管理服务 |
 
 多进程可以隔离崩溃和资源使用，也适合让独立进程维护持续运行的通信任务。进程之间需要调用服务时，Binder 提供了统一的请求和回复路径。
 
@@ -38,7 +38,9 @@ Android 模拟器已有系统 Service Manager，所以本例只运行 `test_serv
 
 ### 2.2 再调用 `sayhello_to("Alice")`
 
-下面的时序图从客户端已经取得 `hello` handle 后开始。点击图表或按钮可放大查看。
+下面的时序图从客户端已经取得 `g_hello_handle` 后开始，假设本次 handle 为 `2`。图中的 18 个步骤与下方文字说明一一对应。点击图表或按钮可放大查看。
+
+此时服务注册和查询已经完成：驱动中已有 hello 服务的 `binder_node`，以及客户端指向它的 `binder_ref`。客户端和服务端也已经通过 `binder_open()` 建立 Binder 接收缓冲区的 `mmap` 映射。`hello_service_handler` 是服务端进程中的函数，图中单独列出它是为了展示函数调用过程。
 
 <style>
 .markdown-body pre:has(> code.mermaid) {
@@ -98,20 +100,33 @@ sequenceDiagram
     participant S as test_server 服务端
     participant H as hello_service_handler
 
-    Note over C: 已通过 Service Manager 查询 hello 服务，取得 g_hello_handle
-    C->>C: main() 调用 sayhello_to(argv[2])
-    C->>C: bio_init，编码接口名 IHelloService 和 name
-    C->>K: ioctl(BINDER_WRITE_READ)：BC_TRANSACTION(handle, code=2, data)
-    Note right of C: code=HELLO_SVR_CMD_SAYHELLO_TO
-    K->>S: BR_TRANSACTION(txn)
-    S->>H: binder_loop → test_server_handler → handler(txn.target.ptr)
-    H->>H: 检查 txn.code，解码 name，调用服务端 sayhello_to(name)
-    H-->>S: reply 写入 exception=0 和返回值 cnt
+    Note over C: 已取得 g_hello_handle，假设为 2
+    Note over S: 服务线程在 binder_loop 中等待请求
+
+    C->>C: 调用 sayhello_to("Alice")
+    C->>C: 构造请求数据
+    C->>K: ioctl：BC_TRANSACTION(handle=2, code=2, data)
+
+    K->>K: 用客户端 handle 找到 binder_ref
+    K->>K: 通过 ref.node 找到 binder_node
+    K->>K: 通过 node.proc 找到服务端进程
+    K->>K: 分配接收缓冲区，复制请求数据
+    K->>K: 事务入队，唤醒服务线程
+
+    Note over C: binder_call 等待回复，调用线程阻塞
+    Note over K,S: 驱动设置 txn.target.ptr 为 node.ptr
+    K->>S: 返回 BR_TRANSACTION 和事务描述信息
+    S->>H: 根据 txn.target.ptr 调用处理函数
+    H->>H: 根据 txn.code 解码参数，执行 sayhello_to
+    H-->>S: 写好 reply，返回处理结果
+
     S->>K: BC_FREE_BUFFER + BC_REPLY
-    K-->>C: BR_REPLY
-    C->>C: binder_parse 解析 reply，读取 exception 和 ret
-    C->>K: BC_FREE_BUFFER：释放 reply 缓冲区
-    C-->>C: sayhello_to 返回 ret，main 打印结果
+    K->>K: 复制回复数据，入队并唤醒客户端
+    K-->>C: 返回 BR_REPLY 和回复描述信息
+
+    C->>C: 读取 exception 和返回值 ret
+    C->>K: BC_FREE_BUFFER，释放回复缓冲区
+    C->>C: sayhello_to 返回，main 打印结果
 ```
 
 <script>
@@ -204,14 +219,58 @@ sequenceDiagram
   window.addEventListener('resize', () => { if (dialog.open) fit(); });
 })();
 </script>
+
+#### 时序图逐步说明
+
+图中 `ref.node`、`node.proc`、`node.ptr` 分别对应 C 代码中的 `ref->node`、`node->proc`、`node->ptr`。编号表示一次成功同步调用的逻辑流程；线程实际运行和唤醒的时机由调度器决定。
+
+| 步骤 | 文字解释 |
+| --- | --- |
+| **1. 调用客户端函数** | `main()` 调用客户端的 `sayhello_to("Alice")`，开始准备一次跨进程请求。 |
+| **2. 构造请求数据** | 用 `bio_init()` 初始化数据容器，再写入严格模式头、接口名 `IHelloService` 和参数 `"Alice"`。 |
+| **3. 请求进入驱动** | `binder_call()` 设置 `target.handle=2`、`code=2` 和数据地址，通过 `ioctl(BINDER_WRITE_READ)` 提交 `BC_TRANSACTION`。handle 指定服务，code 指定操作；这里 `code=2` 对应 `HELLO_SVR_CMD_SAYHELLO_TO`。 |
+| **4. handle 找 ref** | 驱动在客户端自己的引用表 `refs_by_desc` 中查找 `desc=2` 的 `binder_ref`。相同 handle 数字在不同进程中可以指向不同服务。 |
+| **5. ref 找 node** | 通过 `ref->node` 找到 hello 服务的 `binder_node`。ServiceManager 和客户端各自的 ref，都可以指向这个 node。 |
+| **6. node 找服务端** | `node->proc` 指向 `test_server` 对应的内核进程记录 `binder_proc`，驱动由此确定接收请求的进程。 |
+| **7. 复制请求数据** | 驱动从服务端的 Binder 接收缓冲区中分配空间，用 `copy_from_user()` 将客户端请求数据复制进去。服务端通过已有的 mmap 映射读取这份数据。 |
+| **8. 排队并唤醒** | 驱动把事务放入目标进程或线程的待处理队列，唤醒等待请求的服务线程。客户端调用线程等待回复。 |
+| **9. 服务端收到事务** | 服务线程读取驱动时得到 `BR_TRANSACTION`。驱动设置 `txn.target.ptr = node->ptr`，并提供请求数据在服务端用户空间中的地址。 |
+| **10. 进入处理函数** | `binder_loop()` 经 `binder_parse()` 调用 `test_server_handler()`，后者把 `txn.target.ptr` 转成函数指针，进入 `hello_service_handler()`。 |
+| **11. 执行业务函数** | `hello_service_handler()` 根据 `txn.code=2` 选择操作，读取参数 `"Alice"`，调用服务端的 `sayhello_to("Alice")`，打印信息并返回计数值 `cnt`。 |
+| **12. 构造回复** | 处理函数向 `reply` 写入异常码 `0` 和返回值 `cnt`，然后返回到接收请求的处理流程。 |
+| **13. 提交回复** | 服务端发送 `BC_FREE_BUFFER` 释放已处理的请求缓冲区，并通过 `BC_REPLY` 提交回复数据；本工程把两个命令一起发送给驱动。 |
+| **14. 驱动传递回复** | 驱动根据已保存的事务关系找到等待回复的客户端线程，把回复数据复制到客户端的接收缓冲区，排队并唤醒它。 |
+| **15. 客户端收到回复** | 客户端从驱动读取到 `BR_REPLY`。`binder_parse()` 将回复数据的位置交给 `reply`，`binder_call()` 随后返回。 |
+| **16. 读取业务结果** | 客户端的 `sayhello_to()` 先读取异常码，成功时再读取计数值，保存为 `ret`。 |
+| **17. 释放回复缓冲区** | 客户端调用 `binder_done()`，发送 `BC_FREE_BUFFER`，通知驱动回收这次回复占用的缓冲区。 |
+| **18. 返回调用结果** | 客户端的 `sayhello_to()` 返回 `ret`，`main()` 打印结果，例如 `get ret of sayhello_to = 1`。 |
+
+#### binder_ref 和 binder_node 在哪里起作用
+
+**第 4～6 步完成服务定位，第 9～10 步使用服务端处理函数地址。** `binder_ref` 和 `binder_node` 都由驱动在内核中维护，用户态客户端使用的是整数 handle。
+
+```text
+客户端的 handle
+      ↓ 第 4 步：在客户端的引用表中查找
+客户端的 binder_ref
+      ↓ 第 5 步：ref->node
+hello 的 binder_node
+      ├─ node->proc → 第 6 步：确定服务端进程
+      └─ node->ptr  → 第 9～10 步：确定服务端处理函数
+```
+
+本工程注册 hello 服务时使用 `hello_service_handler` 的函数地址作为对象标识，所以 `node->ptr` 保存的是这个地址。服务端收到事务时，驱动将它放回 `txn.target.ptr`，供 `test_server_handler()` 分发调用。ServiceManager 参与前面的注册和查询；这张图中的业务调用通过驱动直接交给服务端。
+
+**第 7 步体现请求数据的一次复制，第 14 步是回复方向的数据复制。** 接收缓冲区的内核映射与接收进程的用户映射访问同一份物理内存，因此接收方可以直接读取数据主体。第 9、15 步仍需要把事务描述信息交给用户态；“一次复制”指单个传输方向的数据主体，不表示整个请求和回复过程总共只复制一次。
+
 ### 2.3 如何读调试日志
 
-| 日志 | 说明 |
-| --- | --- |
-| `BC_TRANSACTION` | 客户端提交一个事务给驱动 |
-| `BR_TRANSACTION` | 服务端从驱动收到事务 |
-| `BC_REPLY` | 服务端提交回复 |
-| `BR_REPLY` | 客户端收到回复 |
+| 日志                      | 说明                                 |
+| ------------------------- | ------------------------------------ |
+| `BC_TRANSACTION`          | 客户端提交一个事务给驱动             |
+| `BR_TRANSACTION`          | 服务端从驱动收到事务                 |
+| `BC_REPLY`                | 服务端提交回复                       |
+| `BR_REPLY`                | 客户端收到回复                       |
 | `BR_TRANSACTION_COMPLETE` | 事务已提交完成；它本身不是业务返回值 |
 
 客户端日志中的 `handle=0 code=2` 是查找服务。之后的 `handle=2 code=2` 才是发给 `hello` 的方法调用。事务数据包含接口名 `IHelloService` 和名字 `Alice`。

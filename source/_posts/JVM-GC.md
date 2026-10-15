@@ -12,7 +12,7 @@ categories: JAVA
 
 ​    从GC Roots向下追溯、搜索，会产生一个叫做Refrence Chain的链条。当一个对象不能和任何一个GC Root产生关系时，就会被回收。
 
-​    ![](JVM-GC/CgpOIF4heVuAPrWVAACK3qrA9-0011.png)
+​    ![](/images/java/jvm-gc__CgpOIF4heVuAPrWVAACK3qrA9-0011.png)
 
 如图所示，Obj5、Obj6、Obj7，由于不能和 GC Root 产生关联，发生 GC 时，就会被摧毁。
 
@@ -44,7 +44,7 @@ GC Roots 包括：
 
 - JNI 引用。
   
-  ​    ![](JVM-GC/Cgq2xl4hefWAWKFZAAMwndGjScg437.png)
+  ​    ![](/images/java/jvm-gc__Cgq2xl4hefWAWKFZAAMwndGjScg437.png)
   
   注意
   

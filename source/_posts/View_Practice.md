@@ -174,11 +174,11 @@ if mode is EXACTLY{
 
 
 
-![customview_2018-05-17_01.png](View_Practice/f94881f742add9ca703092a8aba82d16dd786297.png)
+![customview_2018-05-17_01.png](/images/view/view_practice__f94881f742add9ca703092a8aba82d16dd786297.png)
 
 
 
-![customview_2018-05-17_02.png](View_Practice/565ee0bff59b4579fa9da04fe90292b931d38f01.png)
+![customview_2018-05-17_02.png](/images/view/view_practice__565ee0bff59b4579fa9da04fe90292b931d38f01.png)
 
 
 

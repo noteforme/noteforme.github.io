@@ -41,13 +41,13 @@ CodeReview
 
 
 
-<img src="THINKING/codereview3.png" alt="codereview3" style="zoom:50%;" />
+<img src="/images/tool/thinking__codereview3.png" alt="codereview3" style="zoom:50%;" />
 
 
 
-![](THINKING/codereview4.jpg)
+![](/images/tool/thinking__codereview4.jpg)
 
-<img src="THINKING/codereview1.jpg" alt="CodeReview1" style="zoom: 50%;" />
+<img src="/images/tool/thinking__codereview1.jpg" alt="CodeReview1" style="zoom: 50%;" />
 
-<img src="THINKING/codereview2.jpg" alt="CodeReview1" style="zoom:50%;" />
+<img src="/images/tool/thinking__codereview2.jpg" alt="CodeReview1" style="zoom:50%;" />
 

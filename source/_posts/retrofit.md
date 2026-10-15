@@ -7,7 +7,7 @@ layout: post
 guid: 'https://jonblog.site/?p=45'
 permalink: /2024/05/14/retrofit/
 categories:
-    - Library
+    - ANDROID
 ---
 
 

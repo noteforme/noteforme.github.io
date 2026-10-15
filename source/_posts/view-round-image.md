@@ -175,7 +175,7 @@ class BitmapShaderView @JvmOverloads constructor(
 BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
 ```
 
-<img src="view-round-image/Screenshot_1660468780.png" alt="Screenshot_1660468780" style="zoom:20%;" />
+<img src="/images/view/view-round-image__Screenshot_1660468780.png" alt="Screenshot_1660468780" style="zoom:20%;" />
 
 REPEAT
 
@@ -183,7 +183,7 @@ REPEAT
 BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
 ```
 
-<img src="view-round-image/Screenshot_1660469449.png" alt="Screenshot_1660469449" style="zoom:20%;" />
+<img src="/images/view/view-round-image__Screenshot_1660469449.png" alt="Screenshot_1660469449" style="zoom:20%;" />
 
 ##### MIRROR
 
@@ -191,7 +191,7 @@ BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
 BitmapShader(bitmap, Shader.TileMode.MIRROR, Shader.TileMode.MIRROR)
 ```
 
-<img src="view-round-image/Screenshot_1660469253.png" alt="Screenshot_1660469253" style="zoom:20%;" />
+<img src="/images/view/view-round-image__Screenshot_1660469253.png" alt="Screenshot_1660469253" style="zoom:20%;" />
 
 可以看到， x y 镜像映射
 
@@ -199,7 +199,7 @@ BitmapShader(bitmap, Shader.TileMode.MIRROR, Shader.TileMode.MIRROR)
 
 最后这种就是正常显示的了
 
-<img src="view-round-image/Screenshot_1660469645.png" alt="Screenshot_1660469645" style="zoom:20%;" />
+<img src="/images/view/view-round-image__Screenshot_1660469645.png" alt="Screenshot_1660469645" style="zoom:20%;" />
 
 https://juejin.cn/post/6844903480809766920
 
@@ -309,7 +309,7 @@ class RoundImageShaderView @JvmOverloads constructor(
     app:layout_constraintTop_toBottomOf="@+id/iv_girl1" />
 ```
 
-![20220814224524](view-round-image/20220814224524.jpg)
+![20220814224524](/images/view/view-round-image__20220814224524.jpg)
 
 可以看到，高度部分截取了
 
@@ -321,11 +321,11 @@ https://segmentfault.com/a/1190000012253911
 
 ##### 部分圆角
 
-<img src="view-round-image/20220828111337.jpg" alt="20220828111337" style="zoom: 50%;" />
+<img src="/images/view/view-round-image__20220828111337.jpg" alt="20220828111337" style="zoom: 50%;" />
 
 第二张图就可以看到，这样做的原理
 
-<img src="view-round-image/20220828120522.jpg" alt="20220828120522" style="zoom:50%;" />
+<img src="/images/view/view-round-image__20220828120522.jpg" alt="20220828120522" style="zoom:50%;" />
 
 ```kotlin
 class RoundBottomBitmapShaderView @JvmOverloads constructor(
@@ -405,7 +405,7 @@ class RoundBottomBitmapShaderView @JvmOverloads constructor(
 
 前两步绘制的效果
 
-<img src="view-round-image/20220828183247.jpg" alt="20220828183247" style="zoom: 50%;" />
+<img src="/images/view/view-round-image__20220828183247.jpg" alt="20220828183247" style="zoom: 50%;" />
 
 ```kotlin
 class RoundSingleBitmapShaderView @JvmOverloads constructor(

@@ -44,7 +44,7 @@ class Account{
 
 图解内存布局
 
-![](JVM-METHOD/0003.png)
+![](/images/java/jvm-method__0003.png)
 
 
 
@@ -140,7 +140,7 @@ public class VisibilityProblem {
 
 CPU 有多级缓存，导致读的数据过期,由于 CPU 的处理速度很快，相比之下，内存的速度就显得很慢，所以为了提高 CPU 的整体运行效率，减少空闲时间，在 CPU 和内存之间会有 cache 层，也就是缓存层的存在。虽然缓存的容量比内存小，但是缓存的速度却比内存的速度要快得多，其中 L1 缓存的速度仅次于寄存器的速度
 
-![](JVM-METHOD/Cgq2xl54fTKALhevAAB_l3axT_o532.png)
+![](/images/java/jvm-method__Cgq2xl54fTKALhevAAB_l3axT_o532.png)
 
 越靠近核心，其容量就越小，但是速度也越快.
 

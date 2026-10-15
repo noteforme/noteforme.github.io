@@ -28,21 +28,21 @@ JVM整体结构
 
 
 
-![j_20220607223724](JVM-Overview/j_20220607223724.jpg)
+![j_20220607223724](/images/java/jvm-overview__j_20220607223724.jpg)
 
 
 
-![](JVM-Overview/j_image-20200704183436495.png)
+![](/images/java/jvm-overview__j_image-20200704183436495.png)
 
 Java代码执行流程
 
-![](JVM-Overview/j_image-20200704210429535.png)
+![](/images/java/jvm-overview__j_image-20200704210429535.png)
 
 
 
 ​	详细图
 
-![](JVM-Overview/j_jvm0002.jpg)
+![](/images/java/jvm-overview__j_jvm0002.jpg)
 
 ## JVM的架构模型
 
@@ -94,11 +94,11 @@ public class HelloLoader {
 - 加载成功，则进行链接、初始化等操作。完成后调用 HelloLoader 类中的静态方法 main
 - 加载失败则抛出异常
 
-![](JVM-Overview/j_jvm0006.png)
+![](/images/java/jvm-overview__j_jvm0006.png)
 
 完整的流程图如下所示：
 
-![](JVM-Overview/j_0007.png)
+![](/images/java/jvm-overview__j_0007.png)
 
 ### [加载阶段](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第2章-类加载子系统?id=加载阶段)
 
@@ -189,7 +189,7 @@ public class HelloApp {
 
 若该类具有父类，JVM会保证子类的`<clinit>()`执行前，父类的`<clinit>()`已经执行完毕
 
-![](JVM-Overview/j_0013.png)
+![](/images/java/jvm-overview__j_0013.png)
 
 如上代码，加载流程如下：
 
@@ -252,7 +252,7 @@ class DeadThread{
 2. 从概念上来讲，自定义类加载器一般指的是程序中由开发人员自定义的一类类加载器，但是Java虚拟机规范却没有这么定义，而是**将所有派生于抽象类ClassLoader的类加载器都划分为自定义类加载器**
 3. 无论类加载器的类型如何划分，在程序中我们最常见的类加载器始终只有3个，如下所示
 
-![](JVM-Overview/j_0014.png)
+![](/images/java/jvm-overview__j_0014.png)
 
 ```java
 public class ClassLoaderTest {
@@ -300,7 +300,7 @@ ava虚拟机对class文件采用的是**按需加载**的方式，也就是说�
 
 4. 父类加载器一层一层往下分配任务，如果子类加载器能加载，则加载此类，如果将加载任务分配至系统类加载器也无法加载此类，则抛出异常
 
-   ![](JVM-Overview/j_0020.png)
+   ![](/images/java/jvm-overview__j_0020.png)
 
 ### [双亲委派机制代码演示](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第2章-类加载子系统?id=双亲委派机制代码演示)
 
@@ -355,7 +355,7 @@ public class String {
 }
 ```
 
-![](JVM-Overview/j_0021.png)
+![](/images/java/jvm-overview__j_0021.png)
 
 由于双亲委派机制一直找父类，所以最后找到了Bootstrap ClassLoader，Bootstrap ClassLoader找到的是 JDK 自带的 String 类，在那个String类中并没有 main() 方法，所以就报了上面的错误。
 
@@ -403,7 +403,7 @@ Process finished with exit code 1
 4. 第三方的jar包中的类属于系统类加载器来加载
 5. 从这里面就可以看到SPI核心接口由引导类加载器来加载，SPI具体实现类由系统类加载器来加载
 
-![](JVM-Overview/j_0022.png)
+![](/images/java/jvm-overview__j_0022.png)
 
 ### [双亲委派机制优势](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第2章-类加载子系统?id=双亲委派机制优势)
 

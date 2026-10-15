@@ -3,7 +3,7 @@ title: LiveData
 comments: true
 date: 2020-06-15 11:20:42
 tags:
-categories: Jetpack
+categories: JETPACK
 ---
 
 
@@ -92,7 +92,7 @@ viewmodel中的数据发生变化时通知页面
 
 ##### livedata active状态e
 
-![lifecycle_state](LiveData/lifecycle_state.jpg)
+![lifecycle_state](/images/jetpack/livedata__lifecycle_state.jpg)
 
 
 

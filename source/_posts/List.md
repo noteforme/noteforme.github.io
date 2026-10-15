@@ -157,7 +157,7 @@ private static class Node<E> {
     }
 ```
 
-<img src="List/linkedlist.png" alt="linkedlist" style="zoom:50%;" />
+<img src="/images/java/list__linkedlist.png" alt="linkedlist" style="zoom:50%;" />
 
 
 

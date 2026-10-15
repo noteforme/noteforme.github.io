@@ -14,7 +14,7 @@ categories: VIEW
 
 ##### 表单输入
 
-![72076dc11d35edd0c89c43be62fab6cbd64f1d19.png](view_custom_practice/92df6204eef938d3cdad18829d6a3e5c898699e7.png)
+![72076dc11d35edd0c89c43be62fab6cbd64f1d19.png](/images/view/view_custom_practice__92df6204eef938d3cdad18829d6a3e5c898699e7.png)
 
 ```
 /**
@@ -150,9 +150,9 @@ if mode is EXACTLY{
 
   按照如图两名称一致，重启AndroidStudio
 
-![customview_2018-05-17_01.png](view_custom_practice/492facd51a9ebe5eca5bd06a04431508962a382f.png)
+![customview_2018-05-17_01.png](/images/view/view_custom_practice__492facd51a9ebe5eca5bd06a04431508962a382f.png)
 
-![customview_2018-05-17_02.png](view_custom_practice/26ef1cc4ec29147689386da4cb1937d36b75ae11.png)
+![customview_2018-05-17_02.png](/images/view/view_custom_practice__26ef1cc4ec29147689386da4cb1937d36b75ae11.png)
 
  https://blog.csdn.net/skysmile_/article/details/78833438
 

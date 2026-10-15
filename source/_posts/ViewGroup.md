@@ -10,7 +10,7 @@ categories: VIEW
 
 #### 生命周期
 
-![](ViewGroup/2021-08-10_view_lifecycle.png)
+![](/images/view/viewgroup__2021-08-10_view_lifecycle.png)
 
 
 
@@ -22,7 +22,7 @@ categories: VIEW
 
 #### 座标系 
 
-![2021-12-05_4.02.40_coordinate](ViewGroup/2021-12-05_4.02.40_coordinate.png)
+![2021-12-05_4.02.40_coordinate](/images/view/viewgroup__2021-12-05_4.02.40_coordinate.png)
 
 
 
@@ -102,7 +102,7 @@ switch (absoluteGravity & Gravity.HORIZONTAL_GRAVITY_MASK) {
 
 
 
-![](ViewGroup/2021-08-12_viewgroup_layout.png)
+![](/images/view/viewgroup__2021-08-12_viewgroup_layout.png)
 
 
 
@@ -116,7 +116,7 @@ switch (absoluteGravity & Gravity.HORIZONTAL_GRAVITY_MASK) {
 
 ​																
 
-![](ViewGroup/2021-08-13_6.21.59.png)
+![](/images/view/viewgroup__2021-08-13_6.21.59.png)
 
 
 
@@ -195,7 +195,7 @@ public static int getChildMeasureSpec(int spec, int padding, int childDimension)
 
 ##### MeasureSpec创建规则
 
-![](ViewGroup/2021-08-12_9.33_measure_spec_mode.png)
+![](/images/view/viewgroup__2021-08-12_9.33_measure_spec_mode.png)
 
 
 
@@ -240,7 +240,7 @@ https://juejin.cn/post/6844904094205739016
 
 
 
-![](ViewGroup/2021-08-12_9.29_measure_spec.png)
+![](/images/view/viewgroup__2021-08-12_9.29_measure_spec.png)
 
 
 

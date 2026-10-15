@@ -3,7 +3,7 @@ title: databinding
 comments: true
 date: 2020-04-01 05:52:42
 tags:
-categories: Jetpack
+categories: JETPACK
 ---
 
 

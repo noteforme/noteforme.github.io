@@ -27,7 +27,7 @@ categories: JAVA
 5. Timed Waiting（计时等待）
 6. Terminated（被终止）
 
-![](Concurrency-thread/thread_state.png)
+![](/images/java/concurrency-thread__thread_state.png)
 
 ##### 状态分析
 

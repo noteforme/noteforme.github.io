@@ -7,7 +7,7 @@ layout: post
 guid: 'https://jonblog.site/?p=383'
 permalink: /2024/06/07/gson/
 categories:
-    - Library
+    - ANDROID
 ---
 
 

@@ -10,7 +10,7 @@ categories: JAVA
 
 ##### 偏向锁/轻量级锁/重量级锁；
 
-![](Concurrency_Locking/2021-07-06_12-19-34.png)
+![](/images/java/concurrency_locking__2021-07-06_12-19-34.png)
 
 * 偏向锁
   

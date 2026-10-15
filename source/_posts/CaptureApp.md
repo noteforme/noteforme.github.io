@@ -26,23 +26,23 @@ https://www.jianshu.com/p/e8dd1091d6d7
 
 这样就可以修改了
 
-![20220923160111](CaptureApp/20220923160111.jpg)
+![20220923160111](/images/tool/captureapp__20220923160111.jpg)
 
-![20220923160126](CaptureApp/20220923160126.jpg)
+![20220923160126](/images/tool/captureapp__20220923160126.jpg)
 
 https://www.jianshu.com/p/0caaea590c8c
 
 1. Other -> keychain Access
 
-<img src="CaptureApp/2022-02-19_8.42.46.png" alt="2022-02-19_8.42.46" style="zoom:50%;" />
+<img src="/images/tool/captureapp__2022-02-19_8.42.46.png" alt="2022-02-19_8.42.46" style="zoom:50%;" />
 
-<img src="CaptureApp/2022-02-19_8.58.33.png" alt="2022-02-19_8.58.33" style="zoom:50%;" />
+<img src="/images/tool/captureapp__2022-02-19_8.58.33.png" alt="2022-02-19_8.58.33" style="zoom:50%;" />
 
 还有设置就解决了https乱码的问题
 
 https://www.jianshu.com/p/0caaea590c8c
 
-<img src="CaptureApp/2022-02-19_9.29.24.png" alt="2022-02-19_9.29.24" style="zoom:50%;" />
+<img src="/images/tool/captureapp__2022-02-19_9.29.24.png" alt="2022-02-19_9.29.24" style="zoom:50%;" />
 
 
 

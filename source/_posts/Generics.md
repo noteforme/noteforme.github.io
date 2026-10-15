@@ -186,7 +186,7 @@ kotlin
 
 
 
-![20220724113155](Generics/20220724113155.jpg)
+![20220724113155](/images/java/generics__20220724113155.jpg)
 
 
 
@@ -507,7 +507,7 @@ class Plate<T> {
 }
 ```
 
-<img src="Generics/2020-09-13_at_9.33.25.png" alt="Screen Shot 2020-09-13 at 9.33.25 PM" style="zoom:67%;" />
+<img src="/images/java/generics__2020-09-13_at_9.33.25.png" alt="Screen Shot 2020-09-13 at 9.33.25 PM" style="zoom:67%;" />
 
 ###### ? extends Fruit赋值 ，无法添加数据，不知道子类到底多小.
 
@@ -591,7 +591,7 @@ Java类型擦除只会擦除到Fruit类型,如果没有指明边界，那么类�
 
 
 
-![Screen Shot 2020-09-13 at 9.46.10 PM](Generics/2020-09-13_at_9.46.10.png)
+![Screen Shot 2020-09-13 at 9.46.10 PM](/images/java/generics__2020-09-13_at_9.46.10.png)
 
 ######  ? super Fruit赋值,只能添加数据 。
 

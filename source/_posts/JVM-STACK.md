@@ -55,7 +55,7 @@ public class StackTest {
 }
 ```
 
-![](JVM-STACK/0002.png)
+![](/images/java/jvm-stack__0002.png)
 
 * 虚拟机栈的生命周期
   
@@ -78,7 +78,7 @@ public class StackTest {
 - 对于栈来说不存在垃圾回收问题
   - 栈不需要GC，但是可能存在OOM
 
-![](JVM-STACK/0003.png)
+![](/images/java/jvm-stack__0003.png)
 
 ### [虚拟机栈的异常](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第4章-虚拟机栈?id=虚拟机栈的异常)
 
@@ -132,7 +132,7 @@ Exception in thread "main" java.lang.StackOverflowError
 
 说明栈在11406这个深度溢出了
 
-![](JVM-STACK/0004.png)
+![](/images/java/jvm-stack__0004.png)
 
 ```java
 2474
@@ -157,7 +157,7 @@ Exception in thread "main" java.lang.StackOverflowError
 3. 执行引擎运行的所有字节码指令只针对当前栈帧进行操作。
 4. 如果在该方法中调用了其他方法，对应的新的栈帧会被创建出来，放在栈的顶端，成为新的当前帧。
 
-![](JVM-STACK/0005.png)
+![](/images/java/jvm-stack__0005.png)
 
 1. **不同线程中所包含的栈帧是不允许存在相互引用的**，即不可能在一个栈帧之中引用另外一个线程的栈帧。
 2. 如果当前方法调用了其他方法，方法返回之际，当前栈帧会传回此方法的执行结果给前一个栈帧，接着，虚拟机会丢弃当前栈帧，使得前一个栈帧重新成为当前栈帧。
@@ -182,11 +182,11 @@ Exception in thread "main" java.lang.StackOverflowError
 
   
 
-![](JVM-STACK/0006.png)
+![](/images/java/jvm-stack__0006.png)
 
 并行每个线程下的栈都是私有的，因此每个线程都有自己各自的栈，并且每个栈里面都有很多栈帧，栈帧的大小主要由局部变量表 和 操作数栈决定的
 
-![](JVM-STACK/0007.png)
+![](/images/java/jvm-stack__0007.png)
 
 ## [局部变量表](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第4章-虚拟机栈?id=局部变量表)
 
@@ -257,7 +257,7 @@ public class LocalVariablesTest {
 }
 ```
 
-![](JVM-STACK/0008.png)
+![](/images/java/jvm-stack__0008.png)
 
 看完字节码后，可得结论：所以局部变量表所需的容量大小是在编译期确定下来的。
 
@@ -267,25 +267,25 @@ public class LocalVariablesTest {
 
 1、0-15  也就是有16行字节码
 
-![](JVM-STACK/0009.png)
+![](/images/java/jvm-stack__0009.png)
 
 2、方法异常信息表
 
-![](JVM-STACK/0010.png)
+![](/images/java/jvm-stack__0010.png)
 
 3、Misc
 
-![](JVM-STACK/0011.png)
+![](/images/java/jvm-stack__0011.png)
 
 4、行号表
 
 ​	Java代码的行号和字节码指令行号的对应关系
 
-![](JVM-STACK/0012.png)
+![](/images/java/jvm-stack__0012.png)
 
 5、注意：生效行数和剩余有效行数都是针对于字节码文件的行数
 
-![](JVM-STACK/0013.png)
+![](/images/java/jvm-stack__0013.png)
 
 1、图中圈的东西表示该局部变量的作用域
 
@@ -322,7 +322,7 @@ public class LocalVariablesTest {
 
 7. 如果当前帧是由构造方法或者实例方法创建的，那么**该对象引用this将会存放在index为0的slot处**，其余的参数按照参数表顺序继续排列。（this也相当于一个变量）
 
-![](JVM-STACK/0014.png)
+![](/images/java/jvm-stack__0014.png)
 
 ### [Slot代码示例](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第4章-虚拟机栈?id=slot代码示例)
 
@@ -336,7 +336,7 @@ public class LocalVariablesTest {
 
 局部变量表：this 存放在 index = 0 的位置
 
-![](JVM-STACK/0015.png)
+![](/images/java/jvm-stack__0015.png)
 
 **64位的类型（1ong和double）占用两个slot**
 
@@ -352,7 +352,7 @@ public class LocalVariablesTest {
 
 weight 为 double 类型，index 直接从 3 蹦到了 5
 
-![](JVM-STACK/0016.png)
+![](/images/java/jvm-stack__0016.png)
 
 **static 无法调用 this**
 
@@ -385,7 +385,7 @@ this 不存在与 static 方法的局部变量表中，所以无法调用
     }
 ```
 
-![](JVM-STACK/0017.png)
+![](/images/java/jvm-stack__0017.png)
 
 ### [静态变量与局部变量的对比](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第4章-虚拟机栈?id=静态变量与局部变量的对比)
 
@@ -418,7 +418,7 @@ this 不存在与 static 方法的局部变量表中，所以无法调用
    - 某些字节码指令将值压入操作数栈，其余的字节码指令将操作数取出栈。使用它们后再把结果压入栈，
    - 比如：执行复制、交换、求和等操作
 
-![](JVM-STACK/0018.png)
+![](/images/java/jvm-stack__0018.png)
 
 ### [操作数栈的作用](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第4章-虚拟机栈?id=操作数栈的作用)
 
@@ -433,7 +433,7 @@ this 不存在与 static 方法的局部变量表中，所以无法调用
 7. 操作数栈中元素的数据类型必须与字节码指令的序列严格匹配，这由编译器在编译器期间进行验证，同时在类加载过程中的类检验阶段的数据流分析阶段要再次验证。
 8. 另外，**我们说Java虚拟机的解释引擎是基于栈的执行引擎，其中的栈指的就是操作数栈**。
 
-![](JVM-STACK/0020.jpg)
+![](/images/java/jvm-stack__0020.jpg)
 
 局部变量表就相当于食材
 
@@ -467,39 +467,39 @@ this 不存在与 static 方法的局部变量表中，所以无法调用
 10 return
 ```
 
-![](JVM-STACK/0021.png)
+![](/images/java/jvm-stack__0021.png)
 
 ### [一步一步看流程](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第4章-虚拟机栈?id=一步一步看流程)
 
 1、首先执行第一条语句，PC寄存器指向的是0，也就是指令地址为0，然后使用bipush让操作数15入操作数栈.
 
-![](JVM-STACK/0022.png)
+![](/images/java/jvm-stack__0022.png)
 
 2、执行完后，PC寄存器往下移，指向下一行代码，下一行代码就是将操作数栈的元素存储到局部变量表1的位置（istore_1），我们可以看到局部变量表的已经增加了一个元素。并且操作数栈为空了.
 
 - 解释为什么局部变量表索引从 1 开始，因为该方法为实例方法，局部变量表索引为 0 的位置存放的是 this
 
-![](JVM-STACK/0023.png)
+![](/images/java/jvm-stack__0023.png)
 
 3、然后PC下移，指向的是下一行。让操作数8也入栈，同时执行store操作，存入局部变量表中
 
-![](JVM-STACK/0024.png)
+![](/images/java/jvm-stack__0024.png)
 
 4、然后从局部变量表中，依次将数据放在操作数栈中，等待执行 add 操作
 
 iload_1：取出局部变量表中索引为1的数据入操作数栈
 
-![](JVM-STACK/0025.png)
+![](/images/java/jvm-stack__0025.png)
 
 5、然后将操作数栈中的两个元素执行相加操作，并存储在局部变量表3的位置
 
-![](JVM-STACK/0026.png)
+![](/images/java/jvm-stack__0026.png)
 
 5、然后将操作数栈中的两个元素执行相加操作，并存储在局部变量表3的位置
 
 **关于类型转换的说明**
 
-![](JVM-STACK/0027.png)
+![](/images/java/jvm-stack__0027.png)
 
 - m改成800之后，byte存储不了，就成了short型，sipush 800
 
@@ -524,11 +524,11 @@ iload_1：取出局部变量表中索引为1的数据入操作数栈
 
 getSum() 方法字节码指令：最后带着个 ireturn
 
-![](JVM-STACK/0029.png)
+![](/images/java/jvm-stack__0029.png)
 
 testGetSum() 方法字节码指令：一上来就加载 getSum() 方法的返回值()
 
-![](JVM-STACK/0030.png)
+![](/images/java/jvm-stack__0030.png)
 
 ? testGetSum() 方法字节码指令：一上来就加载 getSum() 方法的返回值() 
 
@@ -706,7 +706,7 @@ SourceFile: "DynamicLinkingTest.java"
 
 4、在上面，其实还有很多符号引用，比如 Object、System、PrintStream 等等
 
-![](JVM-STACK/0031.png)
+![](/images/java/jvm-stack__0031.png)
 
 **为什么要用常量池呢？**
 
@@ -975,7 +975,7 @@ interface MethodInterface {
 
 Son 类中 show() 方法的字节码指令如下
 
-![](JVM-STACK/0032.png)
+![](/images/java/jvm-stack__0032.png)
 
 #### [关于 invokedynamic 指令](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第4章-虚拟机栈?id=关于-invokedynamic-指令)
 
@@ -1010,7 +1010,7 @@ public class Lambda {
 }
 ```
 
-![](JVM-STACK/0033.png)
+![](/images/java/jvm-stack__0033.png)
 
 ### [动态语言和静态语言](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第4章-虚拟机栈?id=动态语言和静态语言)
 
@@ -1049,7 +1049,7 @@ Python: info = 130.5 (运行时才检查)
 
 如图所示：如果类中重写了方法，那么调用的时候，就会直接在该类的虚方法表中查找
 
-![](JVM-STACK/0034.png)
+![](/images/java/jvm-stack__0034.png)
 
 1、比如说son在调用toString的时候，Son没有重写过，Son的父类Father也没有重写过，那就直接调用Object类的toString。那么就直接在虚方法表里指明toString直接指向Object类。
 
@@ -1057,7 +1057,7 @@ Python: info = 130.5 (运行时才检查)
 
 ## [方法返回地址](https://youthlql.gitee.io/javayouth/#/docs/Java/JVM/JVM系列-第4章-虚拟机栈?id=方法返回地址)
 
-![](JVM-STACK/0039.png)
+![](/images/java/jvm-stack__0039.png)
 
 > 在一些帖子里，方法返回地址、动态链接、一些附加信息  也叫做帧数据区
 

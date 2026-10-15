@@ -7,7 +7,7 @@ categories: JAVA
 
 ---
 
-<img src="ConcurrencyThreadPool/Screen Shot 2020-08-19 at 10.07.23 AM.png" alt="Screen Shot 2020-08-19 at 10.07.23 AM" style="zoom:50%;" />
+<img src="/images/java/concurrencythreadpool__Screen Shot 2020-08-19 at 10.07.23 AM.png" alt="Screen Shot 2020-08-19 at 10.07.23 AM" style="zoom:50%;" />
 
 
 
@@ -81,7 +81,7 @@ https://www.cnblogs.com/east7/p/14417977.html
 
 
 
-![](ConcurrencyThreadPool/queueThreadWork.png)
+![](/images/java/concurrencythreadpool__queueThreadWork.png)
 
 如上图所示，当提交任务后，线程池首先会检查当前线程数，如果此时线程数小于核心线程数，比如最开始线程数量为 0，则新建线程并执行任务，随着任务的不断增加，线程数会逐渐增加并达到核心线程数，此时如果仍有任务被不断提交，就会被放入 workQueue 任务队列中，等待核心线程执行完当前任务后重新从 workQueue 中提取正在等待被执行的任务。
 
@@ -183,7 +183,7 @@ https://kaiwu.lagou.com/course/courseInfo.htm?courseId=16#/detail/pc?id=254
 
 
 
-<img src="ConcurrencyThreadPool/blockQueue.png" alt="Screen Shot 2020-08-19 at 10.07.23 AM" style="zoom:50%;" />
+<img src="/images/java/concurrencythreadpool__blockQueue.png" alt="Screen Shot 2020-08-19 at 10.07.23 AM" style="zoom:50%;" />
 
 
 
