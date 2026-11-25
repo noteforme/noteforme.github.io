@@ -71,11 +71,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-<img src="Handler/2021-07-07_15-49-54_hanlder.png" />
+![Handler 工作原理图](/images/handler/2021-07-07_15-49-54_hanlder.png)
 
 
 
- ![](https://images.xiaozhuanlan.com/photo/2019/5dd99feb4297e4c3a5ad55dba0812a1a.png)
+![Looper 从 MessageQueue 取出消息并交给 Handler 处理](/images/handler/DeepinScrot_handlerMsg.png)
 
 
 
@@ -662,7 +662,7 @@ handler post和handleMesage区别
 
 
 
-![](handler/2021-07-31_4.42_hanlder_qustion.png)
+![Handler 相关问题](/images/handler/2021-07-31_4.42_hanlder_qustion.png)
 
 
 

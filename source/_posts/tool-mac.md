@@ -107,6 +107,15 @@ https://raw.githubusercontent.com/Homebrew/install/master/install.sh
 
 control 加上 ~ 快捷键
 
+##### macOS / Ubuntu 窗口大小
+
+如果窗口显示过大、过小，或内容超出屏幕，可以尝试修改屏幕分辨率：
+
+- **macOS**：打开「系统设置」→「显示器」，选择合适的分辨率。选择「更多空间」可让屏幕容纳更多窗口内容；选择「较大文字」可让内容显示得更大。
+- **Ubuntu**：打开「设置」→「显示器」，选择合适的「分辨率」或调整「缩放」，点击「应用」并确认保留更改。
+
+参考：[Apple 显示器分辨率设置](https://support.apple.com/en-gb/guide/mac-help/mchl86d72b76/27/mac/27)、[Ubuntu 显示器设置](https://help.ubuntu.com/stable/ubuntu-help/look-resolution.html)。
+
 ##### 屏幕录制
 
 https://blog.csdn.net/qq_43428139/article/details/109038098

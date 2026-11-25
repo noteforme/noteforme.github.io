@@ -38,7 +38,7 @@ Android 模拟器已有系统 Service Manager，所以本例只运行 `test_serv
 
 ### 2.2 再调用 `sayhello_to("Alice")`
 
-下面的时序图从客户端已经取得 `g_hello_handle` 后开始，假设本次 handle 为 `2`。图中的 18 个步骤与下方文字说明一一对应。点击图表或按钮可放大查看。
+下面的时序图从客户端已经取得 `g_hello_handle` 后开始，假设本次 handle 为 `2`。图中的 19 个步骤与下方文字说明一一对应。点击图表或按钮可放大查看。
 
 此时服务注册和查询已经完成：驱动中已有 hello 服务的 `binder_node`，以及客户端指向它的 `binder_ref`。客户端和服务端也已经通过 `binder_open()` 建立 Binder 接收缓冲区的 `mmap` 映射。`hello_service_handler` 是服务端进程中的函数，图中单独列出它是为了展示函数调用过程。
 
@@ -105,6 +105,7 @@ sequenceDiagram
 
     C->>C: 调用 sayhello_to("Alice")
     C->>C: 构造请求数据
+    C->>C: 设置 bwr.write_buffer = &writebuf（用户态命令缓冲区）
     C->>K: ioctl：BC_TRANSACTION(handle=2, code=2, data)
 
     K->>K: 用客户端 handle 找到 binder_ref
@@ -228,40 +229,41 @@ sequenceDiagram
 | --- | --- |
 | **1. 调用客户端函数** | `main()` 调用客户端的 `sayhello_to("Alice")`，开始准备一次跨进程请求。 |
 | **2. 构造请求数据** | 用 `bio_init()` 初始化数据容器，再写入严格模式头、接口名 `IHelloService` 和参数 `"Alice"`。 |
-| **3. 请求进入驱动** | `binder_call()` 设置 `target.handle=2`、`code=2` 和数据地址，通过 `ioctl(BINDER_WRITE_READ)` 提交 `BC_TRANSACTION`。handle 指定服务，code 指定操作；这里 `code=2` 对应 `HELLO_SVR_CMD_SAYHELLO_TO`。 |
-| **4. handle 找 ref** | 驱动在客户端自己的引用表 `refs_by_desc` 中查找 `desc=2` 的 `binder_ref`。相同 handle 数字在不同进程中可以指向不同服务。 |
-| **5. ref 找 node** | 通过 `ref->node` 找到 hello 服务的 `binder_node`。ServiceManager 和客户端各自的 ref，都可以指向这个 node。 |
-| **6. node 找服务端** | `node->proc` 指向 `test_server` 对应的内核进程记录 `binder_proc`，驱动由此确定接收请求的进程。 |
-| **7. 复制请求数据** | 驱动从服务端的 Binder 接收缓冲区中分配空间，用 `copy_from_user()` 将客户端请求数据复制进去。服务端通过已有的 mmap 映射读取这份数据。 |
-| **8. 排队并唤醒** | 驱动把事务放入目标进程或线程的待处理队列，唤醒等待请求的服务线程。客户端调用线程等待回复。 |
-| **9. 服务端收到事务** | 服务线程读取驱动时得到 `BR_TRANSACTION`。驱动设置 `txn.target.ptr = node->ptr`，并提供请求数据在服务端用户空间中的地址。 |
-| **10. 进入处理函数** | `binder_loop()` 经 `binder_parse()` 调用 `test_server_handler()`，后者把 `txn.target.ptr` 转成函数指针，进入 `hello_service_handler()`。 |
-| **11. 执行业务函数** | `hello_service_handler()` 根据 `txn.code=2` 选择操作，读取参数 `"Alice"`，调用服务端的 `sayhello_to("Alice")`，打印信息并返回计数值 `cnt`。 |
-| **12. 构造回复** | 处理函数向 `reply` 写入异常码 `0` 和返回值 `cnt`，然后返回到接收请求的处理流程。 |
-| **13. 提交回复** | 服务端发送 `BC_FREE_BUFFER` 释放已处理的请求缓冲区，并通过 `BC_REPLY` 提交回复数据；本工程把两个命令一起发送给驱动。 |
-| **14. 驱动传递回复** | 驱动根据已保存的事务关系找到等待回复的客户端线程，把回复数据复制到客户端的接收缓冲区，排队并唤醒它。 |
-| **15. 客户端收到回复** | 客户端从驱动读取到 `BR_REPLY`。`binder_parse()` 将回复数据的位置交给 `reply`，`binder_call()` 随后返回。 |
-| **16. 读取业务结果** | 客户端的 `sayhello_to()` 先读取异常码，成功时再读取计数值，保存为 `ret`。 |
-| **17. 释放回复缓冲区** | 客户端调用 `binder_done()`，发送 `BC_FREE_BUFFER`，通知驱动回收这次回复占用的缓冲区。 |
-| **18. 返回调用结果** | 客户端的 `sayhello_to()` 返回 `ret`，`main()` 打印结果，例如 `get ret of sayhello_to = 1`。 |
+| **3. 设置发送命令缓冲区地址** | `binder_call()` 先在 `writebuf` 中准备 `BC_TRANSACTION` 和事务信息，再执行 `bwr.write_buffer = (uintptr_t) &writebuf`。该字段指向客户端用户空间中的命令缓冲区，供驱动随后读取；此时还没有调用 `ioctl`。事务参数另由 `writebuf.txn.data.ptr.buffer` 指向。 |
+| **4. 请求进入驱动** | `binder_call()` 调用 `ioctl(bs->fd, BINDER_WRITE_READ, &bwr)`，驱动根据 `bwr.write_buffer` 读取 `BC_TRANSACTION` 和事务信息，其中包含 `target.handle=2`、`code=2` 和参数数据地址。handle 指定服务，code 指定操作；这里 `code=2` 对应 `HELLO_SVR_CMD_SAYHELLO_TO`。 |
+| **5. handle 找 ref** | 驱动在客户端自己的引用表 `refs_by_desc` 中查找 `desc=2` 的 `binder_ref`。相同 handle 数字在不同进程中可以指向不同服务。 |
+| **6. ref 找 node** | 通过 `ref->node` 找到 hello 服务的 `binder_node`。ServiceManager 和客户端各自的 ref，都可以指向这个 node。 |
+| **7. node 找服务端** | `node->proc` 指向 `test_server` 对应的内核进程记录 `binder_proc`，驱动由此确定接收请求的进程。 |
+| **8. 复制请求数据** | 驱动从服务端的 Binder 接收缓冲区中分配空间，用 `copy_from_user()` 将客户端请求数据复制进去。服务端通过已有的 mmap 映射读取这份数据。 |
+| **9. 排队并唤醒** | 驱动把事务放入目标进程或线程的待处理队列，唤醒等待请求的服务线程。客户端调用线程等待回复。 |
+| **10. 服务端收到事务** | 服务线程读取驱动时得到 `BR_TRANSACTION`。驱动设置 `txn.target.ptr = node->ptr`，并提供请求数据在服务端用户空间中的地址。 |
+| **11. 进入处理函数** | `binder_loop()` 经 `binder_parse()` 调用 `test_server_handler()`，后者把 `txn.target.ptr` 转成函数指针，进入 `hello_service_handler()`。 |
+| **12. 执行业务函数** | `hello_service_handler()` 根据 `txn.code=2` 选择操作，读取参数 `"Alice"`，调用服务端的 `sayhello_to("Alice")`，打印信息并返回计数值 `cnt`。 |
+| **13. 构造回复** | 处理函数向 `reply` 写入异常码 `0` 和返回值 `cnt`，然后返回到接收请求的处理流程。 |
+| **14. 提交回复** | 服务端发送 `BC_FREE_BUFFER` 释放已处理的请求缓冲区，并通过 `BC_REPLY` 提交回复数据；本工程把两个命令一起发送给驱动。 |
+| **15. 驱动传递回复** | 驱动根据已保存的事务关系找到等待回复的客户端线程，把回复数据复制到客户端的接收缓冲区，排队并唤醒它。 |
+| **16. 客户端收到回复** | 客户端从驱动读取到 `BR_REPLY`。`binder_parse()` 将回复数据的位置交给 `reply`，`binder_call()` 随后返回。 |
+| **17. 读取业务结果** | 客户端的 `sayhello_to()` 先读取异常码，成功时再读取计数值，保存为 `ret`。 |
+| **18. 释放回复缓冲区** | 客户端调用 `binder_done()`，发送 `BC_FREE_BUFFER`，通知驱动回收这次回复占用的缓冲区。 |
+| **19. 返回调用结果** | 客户端的 `sayhello_to()` 返回 `ret`，`main()` 打印结果，例如 `get ret of sayhello_to = 1`。 |
 
 #### binder_ref 和 binder_node 在哪里起作用
 
-**第 4～6 步完成服务定位，第 9～10 步使用服务端处理函数地址。** `binder_ref` 和 `binder_node` 都由驱动在内核中维护，用户态客户端使用的是整数 handle。
+**第 5～7 步完成服务定位，第 10～11 步使用服务端处理函数地址。** `binder_ref` 和 `binder_node` 都由驱动在内核中维护，用户态客户端使用的是整数 handle。
 
 ```text
 客户端的 handle
-      ↓ 第 4 步：在客户端的引用表中查找
+      ↓ 第 5 步：在客户端的引用表中查找
 客户端的 binder_ref
-      ↓ 第 5 步：ref->node
+      ↓ 第 6 步：ref->node
 hello 的 binder_node
-      ├─ node->proc → 第 6 步：确定服务端进程
-      └─ node->ptr  → 第 9～10 步：确定服务端处理函数
+      ├─ node->proc → 第 7 步：确定服务端进程
+      └─ node->ptr  → 第 10～11 步：确定服务端处理函数
 ```
 
 本工程注册 hello 服务时使用 `hello_service_handler` 的函数地址作为对象标识，所以 `node->ptr` 保存的是这个地址。服务端收到事务时，驱动将它放回 `txn.target.ptr`，供 `test_server_handler()` 分发调用。ServiceManager 参与前面的注册和查询；这张图中的业务调用通过驱动直接交给服务端。
 
-**第 7 步体现请求数据的一次复制，第 14 步是回复方向的数据复制。** 接收缓冲区的内核映射与接收进程的用户映射访问同一份物理内存，因此接收方可以直接读取数据主体。第 9、15 步仍需要把事务描述信息交给用户态；“一次复制”指单个传输方向的数据主体，不表示整个请求和回复过程总共只复制一次。
+**第 8 步体现请求数据的一次复制，第 15 步是回复方向的数据复制。** 接收缓冲区的内核映射与接收进程的用户映射访问同一份物理内存，因此接收方可以直接读取数据主体。第 10、16 步仍需要把事务描述信息交给用户态；“一次复制”指单个传输方向的数据主体，不表示整个请求和回复过程总共只复制一次。
 
 ### 2.3 如何读调试日志
 
