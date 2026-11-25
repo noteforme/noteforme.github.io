@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://noteforme.github.io/images/binder/2021-08-11_9.13_process_now.png">
 <meta property="og:image" content="https://noteforme.github.io/images/binder/2021-08-11_9.29.33_mmap.png">
 <meta property="article:published_time" content="2019-08-11T07:26:25.000Z">
-<meta property="article:modified_time" content="2026-10-13T09:36:58.805Z">
+<meta property="article:modified_time" content="2026-10-20T06:16:46.228Z">
 <meta property="article:author" content="Jon">
 <meta property="article:tag" content="binder">
 <meta name="twitter:card" content="summary_large_image">
@@ -343,7 +343,7 @@
         
         
         
-          97 mins
+          99 mins
         
       </span>
     
@@ -426,7 +426,7 @@
 <p><img src="/../images/binder/2021-08-11_8.31_binder_over.png" srcset="/img/loading.gif" lazyload alt="Binder 整体流程"></p>
 <h3 id="2-1-先查找服务"><a href="#2-1-先查找服务" class="headerlink" title="2.1 先查找服务"></a>2.1 先查找服务</h3><p>客户端先向 handle <code>0</code>（Service Manager）发起查询。查询成功后得到服务 handle，例如本次运行中的 <code>hello</code> 是 <code>2</code>。handle 是 Binder 驱动分配给当前进程使用的引用，不应假设它在每次启动或每个进程中都固定。</p>
 <p>Android 模拟器已有系统 Service Manager，所以本例只运行 <code>test_server</code> 和 <code>test_client</code>，不再启动工程自己的 <code>service_manager</code>。</p>
-<h3 id="2-2-再调用-sayhello-to-Alice"><a href="#2-2-再调用-sayhello-to-Alice" class="headerlink" title="2.2 再调用 sayhello_to(&quot;Alice&quot;)"></a>2.2 再调用 <code>sayhello_to(&quot;Alice&quot;)</code></h3><p>下面的时序图从客户端已经取得 <code>g_hello_handle</code> 后开始，假设本次 handle 为 <code>2</code>。图中的 18 个步骤与下方文字说明一一对应。点击图表或按钮可放大查看。</p>
+<h3 id="2-2-再调用-sayhello-to-Alice"><a href="#2-2-再调用-sayhello-to-Alice" class="headerlink" title="2.2 再调用 sayhello_to(&quot;Alice&quot;)"></a>2.2 再调用 <code>sayhello_to(&quot;Alice&quot;)</code></h3><p>下面的时序图从客户端已经取得 <code>g_hello_handle</code> 后开始，假设本次 handle 为 <code>2</code>。图中的 19 个步骤与下方文字说明一一对应。点击图表或按钮可放大查看。</p>
 <p>此时服务注册和查询已经完成：驱动中已有 hello 服务的 <code>binder_node</code>，以及客户端指向它的 <code>binder_ref</code>。客户端和服务端也已经通过 <code>binder_open()</code> 建立 Binder 接收缓冲区的 <code>mmap</code> 映射。<code>hello_service_handler</code> 是服务端进程中的函数，图中单独列出它是为了展示函数调用过程。</p>
 <style>
 .markdown-body pre:has(> code.mermaid) {
@@ -489,6 +489,7 @@
 
     C-&gt;&gt;C: 调用 sayhello_to(&quot;Alice&quot;)
     C-&gt;&gt;C: 构造请求数据
+    C-&gt;&gt;C: 设置 bwr.write_buffer = &amp;writebuf（用户态命令缓冲区）
     C-&gt;&gt;K: ioctl：BC_TRANSACTION(handle=2, code=2, data)
 
     K-&gt;&gt;K: 用客户端 handle 找到 binder_ref
@@ -621,75 +622,79 @@
 <td>用 <code>bio_init()</code> 初始化数据容器，再写入严格模式头、接口名 <code>IHelloService</code> 和参数 <code>&quot;Alice&quot;</code>。</td>
 </tr>
 <tr>
-<td><strong>3. 请求进入驱动</strong></td>
-<td><code>binder_call()</code> 设置 <code>target.handle=2</code>、<code>code=2</code> 和数据地址，通过 <code>ioctl(BINDER_WRITE_READ)</code> 提交 <code>BC_TRANSACTION</code>。handle 指定服务，code 指定操作；这里 <code>code=2</code> 对应 <code>HELLO_SVR_CMD_SAYHELLO_TO</code>。</td>
+<td><strong>3. 设置发送命令缓冲区地址</strong></td>
+<td><code>binder_call()</code> 先在 <code>writebuf</code> 中准备 <code>BC_TRANSACTION</code> 和事务信息，再执行 <code>bwr.write_buffer = (uintptr_t) &amp;writebuf</code>。该字段指向客户端用户空间中的命令缓冲区，供驱动随后读取；此时还没有调用 <code>ioctl</code>。事务参数另由 <code>writebuf.txn.data.ptr.buffer</code> 指向。</td>
 </tr>
 <tr>
-<td><strong>4. handle 找 ref</strong></td>
+<td><strong>4. 请求进入驱动</strong></td>
+<td><code>binder_call()</code> 调用 <code>ioctl(bs-&gt;fd, BINDER_WRITE_READ, &amp;bwr)</code>，驱动根据 <code>bwr.write_buffer</code> 读取 <code>BC_TRANSACTION</code> 和事务信息，其中包含 <code>target.handle=2</code>、<code>code=2</code> 和参数数据地址。handle 指定服务，code 指定操作；这里 <code>code=2</code> 对应 <code>HELLO_SVR_CMD_SAYHELLO_TO</code>。</td>
+</tr>
+<tr>
+<td><strong>5. handle 找 ref</strong></td>
 <td>驱动在客户端自己的引用表 <code>refs_by_desc</code> 中查找 <code>desc=2</code> 的 <code>binder_ref</code>。相同 handle 数字在不同进程中可以指向不同服务。</td>
 </tr>
 <tr>
-<td><strong>5. ref 找 node</strong></td>
+<td><strong>6. ref 找 node</strong></td>
 <td>通过 <code>ref-&gt;node</code> 找到 hello 服务的 <code>binder_node</code>。ServiceManager 和客户端各自的 ref，都可以指向这个 node。</td>
 </tr>
 <tr>
-<td><strong>6. node 找服务端</strong></td>
+<td><strong>7. node 找服务端</strong></td>
 <td><code>node-&gt;proc</code> 指向 <code>test_server</code> 对应的内核进程记录 <code>binder_proc</code>，驱动由此确定接收请求的进程。</td>
 </tr>
 <tr>
-<td><strong>7. 复制请求数据</strong></td>
+<td><strong>8. 复制请求数据</strong></td>
 <td>驱动从服务端的 Binder 接收缓冲区中分配空间，用 <code>copy_from_user()</code> 将客户端请求数据复制进去。服务端通过已有的 mmap 映射读取这份数据。</td>
 </tr>
 <tr>
-<td><strong>8. 排队并唤醒</strong></td>
+<td><strong>9. 排队并唤醒</strong></td>
 <td>驱动把事务放入目标进程或线程的待处理队列，唤醒等待请求的服务线程。客户端调用线程等待回复。</td>
 </tr>
 <tr>
-<td><strong>9. 服务端收到事务</strong></td>
+<td><strong>10. 服务端收到事务</strong></td>
 <td>服务线程读取驱动时得到 <code>BR_TRANSACTION</code>。驱动设置 <code>txn.target.ptr = node-&gt;ptr</code>，并提供请求数据在服务端用户空间中的地址。</td>
 </tr>
 <tr>
-<td><strong>10. 进入处理函数</strong></td>
+<td><strong>11. 进入处理函数</strong></td>
 <td><code>binder_loop()</code> 经 <code>binder_parse()</code> 调用 <code>test_server_handler()</code>，后者把 <code>txn.target.ptr</code> 转成函数指针，进入 <code>hello_service_handler()</code>。</td>
 </tr>
 <tr>
-<td><strong>11. 执行业务函数</strong></td>
+<td><strong>12. 执行业务函数</strong></td>
 <td><code>hello_service_handler()</code> 根据 <code>txn.code=2</code> 选择操作，读取参数 <code>&quot;Alice&quot;</code>，调用服务端的 <code>sayhello_to(&quot;Alice&quot;)</code>，打印信息并返回计数值 <code>cnt</code>。</td>
 </tr>
 <tr>
-<td><strong>12. 构造回复</strong></td>
+<td><strong>13. 构造回复</strong></td>
 <td>处理函数向 <code>reply</code> 写入异常码 <code>0</code> 和返回值 <code>cnt</code>，然后返回到接收请求的处理流程。</td>
 </tr>
 <tr>
-<td><strong>13. 提交回复</strong></td>
+<td><strong>14. 提交回复</strong></td>
 <td>服务端发送 <code>BC_FREE_BUFFER</code> 释放已处理的请求缓冲区，并通过 <code>BC_REPLY</code> 提交回复数据；本工程把两个命令一起发送给驱动。</td>
 </tr>
 <tr>
-<td><strong>14. 驱动传递回复</strong></td>
+<td><strong>15. 驱动传递回复</strong></td>
 <td>驱动根据已保存的事务关系找到等待回复的客户端线程，把回复数据复制到客户端的接收缓冲区，排队并唤醒它。</td>
 </tr>
 <tr>
-<td><strong>15. 客户端收到回复</strong></td>
+<td><strong>16. 客户端收到回复</strong></td>
 <td>客户端从驱动读取到 <code>BR_REPLY</code>。<code>binder_parse()</code> 将回复数据的位置交给 <code>reply</code>，<code>binder_call()</code> 随后返回。</td>
 </tr>
 <tr>
-<td><strong>16. 读取业务结果</strong></td>
+<td><strong>17. 读取业务结果</strong></td>
 <td>客户端的 <code>sayhello_to()</code> 先读取异常码，成功时再读取计数值，保存为 <code>ret</code>。</td>
 </tr>
 <tr>
-<td><strong>17. 释放回复缓冲区</strong></td>
+<td><strong>18. 释放回复缓冲区</strong></td>
 <td>客户端调用 <code>binder_done()</code>，发送 <code>BC_FREE_BUFFER</code>，通知驱动回收这次回复占用的缓冲区。</td>
 </tr>
 <tr>
-<td><strong>18. 返回调用结果</strong></td>
+<td><strong>19. 返回调用结果</strong></td>
 <td>客户端的 <code>sayhello_to()</code> 返回 <code>ret</code>，<code>main()</code> 打印结果，例如 <code>get ret of sayhello_to = 1</code>。</td>
 </tr>
 </tbody></table>
-<h4 id="binder-ref-和-binder-node-在哪里起作用"><a href="#binder-ref-和-binder-node-在哪里起作用" class="headerlink" title="binder_ref 和 binder_node 在哪里起作用"></a>binder_ref 和 binder_node 在哪里起作用</h4><p><strong>第 4～6 步完成服务定位，第 9～10 步使用服务端处理函数地址。</strong> <code>binder_ref</code> 和 <code>binder_node</code> 都由驱动在内核中维护，用户态客户端使用的是整数 handle。</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">客户端的 handle<br>      ↓ 第 4 步：在客户端的引用表中查找<br>客户端的 binder_ref<br>      ↓ 第 5 步：ref-&gt;node<br>hello 的 binder_node<br>      ├─ node-&gt;proc → 第 6 步：确定服务端进程<br>      └─ node-&gt;ptr  → 第 9～10 步：确定服务端处理函数<br></code></pre></td></tr></table></figure>
+<h4 id="binder-ref-和-binder-node-在哪里起作用"><a href="#binder-ref-和-binder-node-在哪里起作用" class="headerlink" title="binder_ref 和 binder_node 在哪里起作用"></a>binder_ref 和 binder_node 在哪里起作用</h4><p><strong>第 5～7 步完成服务定位，第 10～11 步使用服务端处理函数地址。</strong> <code>binder_ref</code> 和 <code>binder_node</code> 都由驱动在内核中维护，用户态客户端使用的是整数 handle。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">客户端的 handle<br>      ↓ 第 5 步：在客户端的引用表中查找<br>客户端的 binder_ref<br>      ↓ 第 6 步：ref-&gt;node<br>hello 的 binder_node<br>      ├─ node-&gt;proc → 第 7 步：确定服务端进程<br>      └─ node-&gt;ptr  → 第 10～11 步：确定服务端处理函数<br></code></pre></td></tr></table></figure>
 
 <p>本工程注册 hello 服务时使用 <code>hello_service_handler</code> 的函数地址作为对象标识，所以 <code>node-&gt;ptr</code> 保存的是这个地址。服务端收到事务时，驱动将它放回 <code>txn.target.ptr</code>，供 <code>test_server_handler()</code> 分发调用。ServiceManager 参与前面的注册和查询；这张图中的业务调用通过驱动直接交给服务端。</p>
-<p><strong>第 7 步体现请求数据的一次复制，第 14 步是回复方向的数据复制。</strong> 接收缓冲区的内核映射与接收进程的用户映射访问同一份物理内存，因此接收方可以直接读取数据主体。第 9、15 步仍需要把事务描述信息交给用户态；“一次复制”指单个传输方向的数据主体，不表示整个请求和回复过程总共只复制一次。</p>
+<p><strong>第 8 步体现请求数据的一次复制，第 15 步是回复方向的数据复制。</strong> 接收缓冲区的内核映射与接收进程的用户映射访问同一份物理内存，因此接收方可以直接读取数据主体。第 10、16 步仍需要把事务描述信息交给用户态；“一次复制”指单个传输方向的数据主体，不表示整个请求和回复过程总共只复制一次。</p>
 <h3 id="2-3-如何读调试日志"><a href="#2-3-如何读调试日志" class="headerlink" title="2.3 如何读调试日志"></a>2.3 如何读调试日志</h3><table>
 <thead>
 <tr>
